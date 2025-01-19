@@ -21,6 +21,7 @@ export const Challenge = ({
 	type,
 }: Props) => {
 	return (
+		// TODO only reverse if in hebrew
 		<div className={cn('flex flex-row-reverse gap-2 flex-wrap')}>
 			{options.map((option, i) => {
 				return (

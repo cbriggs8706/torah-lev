@@ -35,7 +35,7 @@ export const Sidebar = ({ className }: Props) => {
 					// href="/speak"
 					iconSrc="/speaking-head-in-silhouette.svg"
 				/> */}
-				<SidebarItem label="Play" href="/play" iconSrc="/video-game.svg" />
+				{/* <SidebarItem label="Play" href="/play" iconSrc="/video-game.svg" /> */}
 				{/* <SidebarItem
 					label="Memorize x"
 					href="#"

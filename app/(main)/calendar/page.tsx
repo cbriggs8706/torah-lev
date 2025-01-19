@@ -124,7 +124,7 @@ const QuestsPage = async () => {
 					<p className="text-muted-foreground text-center text-lg mb-6">
 						Upcoming Classes
 					</p>
-					<ul className="w-full space-y-4">
+					{/* <ul className="w-full space-y-4">
 						<li className="flex flex-row">
 							<Image
 								src="/is.svg"
@@ -164,7 +164,7 @@ const QuestsPage = async () => {
 								Noviembre @ Community Council of Idaho
 							</span>
 						</li>
-					</ul>
+					</ul> */}
 				</div>
 				{/* <div className="w-full flex flex-col items-center">
 					<Image src="/quests.svg" alt="Quests" height={90} width={90} />

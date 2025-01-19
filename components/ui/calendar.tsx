@@ -6,7 +6,7 @@ export const Calendar = () => {
 			<div className="flex items-center justify-between w-full space-y-2">
 				<h3 className="font-bold text-lg">Upcoming Classes</h3>
 			</div>
-			<ul className="w-full space-y-4">
+			{/* <ul className="w-full space-y-4">
 				<li className="flex flex-row">
 					<Image
 						src="/is.svg"
@@ -108,7 +108,7 @@ export const Calendar = () => {
 						@ Community Council of Idaho
 					</span>
 				</li>
-			</ul>
+			</ul> */}
 		</div>
 	)
 }
