@@ -4,7 +4,7 @@ import { toast } from 'sonner'
 import Image from 'next/image'
 import Confetti from 'react-confetti'
 import { useRouter } from 'next/navigation'
-import { useState, useTransition } from 'react'
+import { useEffect, useState, useTransition } from 'react'
 import { useAudio, useWindowSize, useMount } from 'react-use'
 import ReactPlayer from 'react-player/youtube'
 
@@ -80,6 +80,26 @@ export const Quiz = ({
 
 	const challenge = challenges[activeIndex]
 	const options = challenge?.challengeOptions ?? []
+
+	const [embedHtml, setEmbedHtml] = useState<string | null>(null)
+
+	useEffect(() => {
+		if (challenge?.type === 'PLAY' && challenge.play) {
+			const fetchEmbed = async () => {
+				try {
+					const apiUrl = `https://wordwall.net/api/oembed?url=${encodeURIComponent(
+						challenge.play ?? ''
+					)}&format=json`
+					const response = await fetch(apiUrl)
+					const data = await response.json()
+					setEmbedHtml(data.html)
+				} catch (error) {
+					console.error('Failed to fetch Wordwall game:', error)
+				}
+			}
+			fetchEmbed()
+		}
+	}, [challenge])
 
 	const onNext = () => {
 		setActiveIndex((current) => current + 1)
@@ -234,9 +254,64 @@ export const Quiz = ({
 							{challenge.type === 'ASSIST' && (
 								<QuestionBubble question={challenge.question} />
 							)}
+							{/* {challenge.type === 'PLAY' && challenge.play && (
+								<>
+									<p>
+										Tap the fullscreen button in the bottom right hand corner of
+										the game to enlarge.
+									</p>
+									<iframe
+										className="max-w-full"
+										src={`${challenge.play}`}
+										width="500"
+										height="380"
+										// frameBorder="0"
+										allowFullScreen
+									></iframe>
+								</>
+							)} */}
+
 							{challenge.type === 'PLAY' && challenge.play && (
 								<>
-									<p>Testing</p>
+									<p>
+										Tap the fullscreen button in the bottom right hand corner of
+										the game to enlarge.
+									</p>
+									<iframe
+										className="max-w-full"
+										src={challenge.play ?? ''}
+										width="500"
+										height="380"
+										allowFullScreen
+									></iframe>
+									<button
+										onClick={() => {
+											startTransition(() => {
+												upsertChallengeProgress(challenge.id)
+													.then(() => {
+														correctControls.play()
+														setSelectedOption(1)
+														setStatus('correct')
+														setPercentage(
+															(prev) => prev + 100 / challenges.length
+														)
+
+														// This is a practice
+														if (initialPercentage === 100) {
+															setHearts((prev) => Math.min(prev + 1, 5))
+														}
+													})
+													.catch(() =>
+														toast.error(
+															'Something went wrong. Please try again.'
+														)
+													)
+											})
+										}}
+										className="mt-4 px-4 py-2 bg-blue-500 text-white rounded disabled:bg-gray-300"
+									>
+										I&apos;ve finished the game
+									</button>
 								</>
 							)}
 							{challenge.type === 'WATCH' && challenge.video && (
