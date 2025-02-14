@@ -25,14 +25,19 @@ export const ChallengeList = () => {
 							name: 'ASSIST',
 						},
 						{
-							id: 'HEAR',
-							name: 'HEAR',
+							id: 'WATCH',
+							name: 'WATCH',
+						},
+						{
+							id: 'PLAY',
+							name: 'PLAY',
 						},
 					]}
 				/>
 				<ReferenceField source="lessonId" reference="lessons" />
 				<NumberField source="order" />
 				<TextField source="video" />
+				<TextField source="play" />
 			</Datagrid>
 		</List>
 	)

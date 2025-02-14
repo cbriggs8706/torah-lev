@@ -202,8 +202,10 @@ export const Quiz = ({
 		title = 'Select to correct meaning'
 	} else if (challenge.type === 'SELECT') {
 		title = challenge.question
-	} else if (challenge.type === 'HEAR') {
+	} else if (challenge.type === 'WATCH') {
 		title = 'Listen to this video'
+	} else if (challenge.type === 'PLAY') {
+		title = 'Play this game'
 	}
 
 	// PRIOR CODE
@@ -232,7 +234,12 @@ export const Quiz = ({
 							{challenge.type === 'ASSIST' && (
 								<QuestionBubble question={challenge.question} />
 							)}
-							{challenge.type === 'HEAR' && challenge.video && (
+							{challenge.type === 'PLAY' && challenge.play && (
+								<>
+									<p>Testing</p>
+								</>
+							)}
+							{challenge.type === 'WATCH' && challenge.video && (
 								<>
 									<div className="player-wrapper w-full mx-auto h-[400px] lg:h-[600px]">
 										<ReactPlayer
