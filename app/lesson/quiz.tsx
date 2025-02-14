@@ -357,6 +357,40 @@ export const Quiz = ({
 										&bull; To change the speed, click on the settings cog in the
 										bottom right hand corner of the video.
 									</p>
+									<p>
+										&bull; If the video is not loading{' '}
+										<a
+											href={`${challenge.video}`}
+											target="_blank"
+											className="underline"
+											onClick={() =>
+												startTransition(() => {
+													upsertChallengeProgress(challenge.id)
+														.then(() => {
+															correctControls.play()
+															setSelectedOption(1)
+															setStatus('correct')
+															setPercentage(
+																(prev) => prev + 100 / challenges.length
+															)
+
+															// This is a practice
+															if (initialPercentage === 100) {
+																setHearts((prev) => Math.min(prev + 1, 5))
+															}
+														})
+														.catch(() =>
+															toast.error(
+																'Something went wrong. Please try again.'
+															)
+														)
+												})
+											}
+										>
+											click here{' '}
+										</a>
+										to watch it on YouTube.
+									</p>
 								</>
 							)}
 							<Challenge
