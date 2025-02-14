@@ -55,7 +55,12 @@ export const lessonsRelations = relations(lessons, ({ one, many }) => ({
 	challenges: many(challenges),
 }))
 
-export const challengesEnum = pgEnum('type', ['SELECT', 'ASSIST', 'HEAR'])
+export const challengesEnum = pgEnum('type', [
+	'SELECT',
+	'ASSIST',
+	'WATCH',
+	'PLAY',
+])
 
 export const challenges = pgTable('challenges', {
 	id: serial('id').primaryKey(),
@@ -66,6 +71,7 @@ export const challenges = pgTable('challenges', {
 	question: text('question').notNull(),
 	order: integer('order').notNull(),
 	video: text('video'),
+	play: text('play'),
 })
 
 export const challengesRelations = relations(challenges, ({ one, many }) => ({
@@ -205,7 +211,7 @@ export const userSubscription = pgTable('user_subscription', {
 // 	challenges: many(challenges),
 // }))
 
-// export const challengesEnum = pgEnum('type', ['SELECT', 'ASSIST', 'HEAR'])
+// export const challengesEnum = pgEnum('type', ['SELECT', 'ASSIST', 'WATCH'])
 
 // export const challenges = pgTable('challenges', {
 // 	id: serial('id').primaryKey(),
@@ -456,7 +462,7 @@ export const userSubscription = pgTable('user_subscription', {
 // 	'20',
 // ])
 
-// export const typesEnum = pgEnum('type', ['SELECT', 'ASSIST', 'HEAR'])
+// export const typesEnum = pgEnum('type', ['SELECT', 'ASSIST', 'WATCH'])
 
 // export const activities = pgTable('activities', {
 // 	id: serial('id').primaryKey(),

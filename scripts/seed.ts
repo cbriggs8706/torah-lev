@@ -224,7 +224,7 @@ const main = async () => {
 			{
 				id: 75,
 				lessonId: 7,
-				type: 'HEAR',
+				type: 'WATCH',
 				order: 1,
 				question: 'AwB Lesson 1 Video',
 				video: 'https://youtu.be/y640-FIpxQs?si=hB3rDhgaloR4plIj',
