@@ -72,6 +72,22 @@ export const challenges = pgTable('challenges', {
 	order: integer('order').notNull(),
 	video: text('video'),
 	play: text('play'),
+	// option1Text: text('option1_text'),
+	// option1Audio: text('option1_audio'),
+	// option1Img: text('option1_img'),
+	// option1Default: boolean('option1_default'),
+	// option2Text: text('option2_text'),
+	// option2Audio: text('option2_audio'),
+	// option2Img: text('option2_img'),
+	// option2Default: boolean('option2_default'),
+	// option3Text: text('option3_text'),
+	// option3Audio: text('option3_audio'),
+	// option3Img: text('option3_img'),
+	// option3Default: boolean('option3_default'),
+	// option4Text: text('option4_text'),
+	// option4Audio: text('option4_audio'),
+	// option4Img: text('option4_img'),
+	// option4Default: boolean('option4_default'),
 })
 
 export const challengesRelations = relations(challenges, ({ one, many }) => ({
