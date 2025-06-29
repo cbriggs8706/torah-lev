@@ -60,6 +60,7 @@ export const Quiz = ({
 	const [incorrectAudio, _i, incorrectControls] = useAudio({
 		src: '/incorrect.wav',
 	})
+
 	const [pending, startTransition] = useTransition()
 
 	const [lessonId] = useState(initialLessonId)
@@ -252,7 +253,9 @@ export const Quiz = ({
 						</h1>
 						<div>
 							{challenge.type === 'ASSIST' && (
-								<QuestionBubble question={challenge.question} />
+								//TODO Cameron reverse this to display text in the challenge bubble
+								<QuestionBubble question={challenge.video} />
+								// <QuestionBubble question={challenge.question} />
 							)}
 							{/* {challenge.type === 'PLAY' && challenge.play && (
 								<>

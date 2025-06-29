@@ -44,7 +44,7 @@ const HebrewFlashcardPage = async () => {
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">
 					<Image
-						src="/spiral-calendar-pad.svg"
+						src="/card-file-box.svg"
 						alt="Calendar"
 						height={90}
 						width={90}
@@ -52,9 +52,9 @@ const HebrewFlashcardPage = async () => {
 					<h1 className="text-center font-bold text-neutral-800 text-2xl my-6">
 						Flashcards
 					</h1>
-					<p className="text-muted-foreground text-center text-lg mb-6">
+					{/* <p className="text-muted-foreground text-center text-lg mb-6">
 						Customize Your Deck
-					</p>
+					</p> */}
 					<FlashcardReview
 						data={vocab}
 						allFields={[
