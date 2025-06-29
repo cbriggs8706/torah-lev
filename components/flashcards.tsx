@@ -13,7 +13,7 @@ export interface Flashcard {
 	eng: string
 	engDefinition: string
 	genderPerson: string
-	partOfSpeech: string
+	partOfSpeech: string[]
 	ipa: string
 	engTransliteration: string
 	dictionaryUrl: string
@@ -26,6 +26,7 @@ export interface Flashcard {
 	scriptures: string[]
 	strongs: string
 	type: 'word' | 'phrase'
+	category: string
 }
 
 interface FlashcardReviewProps {
@@ -82,11 +83,14 @@ export default function FlashcardReview({
 	const [showBack, setShowBack] = useState(false)
 	const [showConfetti, setShowConfetti] = useState(false)
 	const [finishAudio] = useAudio({ src: '/finish.mp3', autoPlay: true })
+	const [filteredCards, setFilteredCards] = useState<Flashcard[]>([])
+	const [selectedCategory, setSelectedCategory] = useState<string>('all')
 
 	const [frontFont, setFrontFont] = useState('serif')
 	const [backFont, setBackFont] = useState('sans')
 	const [frontFontSize, setFrontFontSize] = useState<FontSizeKey>('threexl')
 	const [backFontSize, setBackFontSize] = useState<FontSizeKey>('xl')
+	const [showCustomization, setShowCustomization] = useState(false)
 
 	const { width, height } = useWindowSize()
 
@@ -111,17 +115,33 @@ export default function FlashcardReview({
 		})
 	}, [cardsForPrefix, lessonPrefix])
 
-	const filteredCards = useMemo(() => {
-		return cardsForPrefix.filter((card) => {
+	const categoryOptions = useMemo(() => {
+		const all = cardsForPrefix.map((card) => card.category).filter(Boolean)
+		const unique = Array.from(new Set(all))
+		return unique.sort()
+	}, [cardsForPrefix])
+
+	useEffect(() => {
+		const newFiltered = cardsForPrefix.filter((card) => {
 			const matchesSelectedLesson =
 				selectedLessons.length === 0 ||
 				card.lessons.some((l) => selectedLessons.includes(l))
 
 			const matchesType = selectedType === 'all' || card.type === selectedType
 
-			return matchesSelectedLesson && matchesType
+			const matchesCategory =
+				selectedCategory === 'all' || card.category === selectedCategory
+
+			return matchesSelectedLesson && matchesType && matchesCategory
 		})
-	}, [cardsForPrefix, selectedLessons, selectedType])
+
+		// Shuffle the filtered cards
+		const shuffled = [...newFiltered].sort(() => Math.random() - 0.5)
+
+		setFilteredCards(shuffled)
+		setCurrentIndex(0) // Reset progress to 1
+		setShowBack(false) // Reset card flip
+	}, [cardsForPrefix, selectedLessons, selectedType, selectedCategory])
 
 	const currentCard = filteredCards[currentIndex]
 
@@ -154,10 +174,10 @@ export default function FlashcardReview({
 	useEffect(() => {
 		const width = window.innerWidth
 		if (width < 400) {
-			setFrontFontSize('m')
+			setFrontFontSize('threexl')
 			setBackFontSize('m')
 		} else if (width < 768) {
-			setFrontFontSize('lg')
+			setFrontFontSize('threexl')
 			setBackFontSize('lg')
 		} else {
 			setFrontFontSize('threexl')
@@ -250,11 +270,15 @@ export default function FlashcardReview({
 			if (images && images.length > 0) {
 				const firstImage = images[0]
 				content = (
-					<Image
-						src={firstImage}
-						alt="Flashcard visual"
-						className="max-h-40 object-contain mx-auto"
-					/>
+					<div className="relative w-full h-48 sm:h-60 flex items-center justify-center">
+						<Image
+							src={firstImage}
+							alt="Flashcard visual"
+							fill
+							className="object-contain rounded"
+							sizes="(max-width: 768px) 100vw, 50vw"
+						/>
+					</div>
 				)
 			} else {
 				content = <p style={contentStyle}>{currentCard.hebNiqqud}</p>
@@ -295,6 +319,111 @@ export default function FlashcardReview({
 			)}
 			{showConfetti && finishAudio}
 
+			{/* Customize Section Toggle */}
+			<div className="mb-8">
+				<div className="flex items-center justify-center gap-2 cursor-pointer">
+					<h2 className="text-muted-foreground text-center text-lg">
+						Customize Your Deck
+					</h2>
+					<button
+						onClick={() => setShowCustomization((prev) => !prev)}
+						aria-label="Toggle customization"
+						className="text-xl transition-transform duration-300"
+					>
+						<span
+							className={`inline-block transform transition-transform duration-300 ${
+								showCustomization ? 'rotate-180' : ''
+							}`}
+						>
+							⚙️
+						</span>
+					</button>
+				</div>
+			</div>
+
+			{/* Front/Back Customization (Hidden Until Clicked) */}
+			{showCustomization && (
+				<div className="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+					<div>
+						<label className="block text-sm font-medium">Front of Card:</label>
+						<select
+							className="w-full p-2 border rounded"
+							value={frontField}
+							onChange={(e) => setFrontField(e.target.value as keyof Flashcard)}
+						>
+							{displayFields.map((field) => (
+								<option key={field} value={field}>
+									{FIELD_LABELS[field] || field}
+								</option>
+							))}
+						</select>
+
+						<label className="block mt-2 text-sm">Font:</label>
+						<select
+							className="w-full p-2 border rounded"
+							value={frontFont}
+							onChange={(e) => setFrontFont(e.target.value)}
+						>
+							<option value="sans">Sans Serif</option>
+							<option value="serif">Serif</option>
+							<option value="sans-serif">Cursive</option>
+						</select>
+
+						<label className="block mt-2 text-sm">Font Size:</label>
+						<select
+							className="w-full p-2 border rounded"
+							value={frontFontSize}
+							onChange={(e) => setFrontFontSize(e.target.value as FontSizeKey)}
+						>
+							{Object.keys(FONT_SIZE_MAP).map((size) => (
+								<option key={size} value={size}>
+									{FONT_SIZE_LABELS[size as FontSizeKey]}
+								</option>
+							))}
+						</select>
+					</div>
+
+					<div>
+						<label className="block text-sm font-medium">Back of Card:</label>
+						<select
+							className="w-full p-2 border rounded"
+							value={backField}
+							onChange={(e) => setBackField(e.target.value as keyof Flashcard)}
+						>
+							{displayFields.map((field) => (
+								<option key={field} value={field}>
+									{FIELD_LABELS[field] || field}
+								</option>
+							))}
+						</select>
+
+						<label className="block mt-2 text-sm">Font:</label>
+						<select
+							className="w-full p-2 border rounded"
+							value={backFont}
+							onChange={(e) => setBackFont(e.target.value)}
+						>
+							<option value="sans">Sans Serif</option>
+							<option value="serif">Serif</option>
+							<option value="sans-serif">Cursive</option>
+						</select>
+
+						<label className="block mt-2 text-sm">Font Size:</label>
+						<select
+							className="w-full p-2 border rounded"
+							value={backFontSize}
+							onChange={(e) => setBackFontSize(e.target.value as FontSizeKey)}
+						>
+							{Object.keys(FONT_SIZE_MAP).map((size) => (
+								<option key={size} value={size}>
+									{FONT_SIZE_LABELS[size as FontSizeKey]}
+								</option>
+							))}
+						</select>
+					</div>
+				</div>
+			)}
+
 			<div className="mb-4">
 				<h2 className="text-xl font-semibold">Select Type</h2>
 				<div className="flex flex-wrap justify-center gap-2">
@@ -311,6 +440,35 @@ export default function FlashcardReview({
 							}`}
 						>
 							{typeOption.charAt(0).toUpperCase() + typeOption.slice(1)}
+						</button>
+					))}
+				</div>
+			</div>
+
+			<div className="mb-4">
+				<h2 className="text-xl font-semibold">Select Category</h2>
+				<div className="flex flex-wrap justify-center gap-2">
+					<button
+						onClick={() => setSelectedCategory('all')}
+						className={`px-3 py-1 border rounded-full text-sm ${
+							selectedCategory === 'all'
+								? 'bg-blue-500 text-white'
+								: 'bg-gray-200'
+						}`}
+					>
+						All
+					</button>
+					{categoryOptions.map((pos) => (
+						<button
+							key={pos}
+							onClick={() => setSelectedCategory(pos)}
+							className={`px-3 py-1 border rounded-full text-sm ${
+								selectedCategory === pos
+									? 'bg-blue-500 text-white'
+									: 'bg-gray-200'
+							}`}
+						>
+							{pos}
 						</button>
 					))}
 				</div>
@@ -355,9 +513,9 @@ export default function FlashcardReview({
 				</div>
 			</div>
 
-			<div className="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+			{/* <div className="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
 				<div>
-					<label className="block text-sm font-medium">Front of Card:</label>
+					<label className="block text-xl font-bold">Front of Card:</label>
 					<select
 						className="w-full p-2 border rounded"
 						value={frontField}
@@ -378,7 +536,6 @@ export default function FlashcardReview({
 					>
 						<option value="sans">Sans Serif</option>
 						<option value="serif">Serif</option>
-						<option value="sans-serif">Cursive</option>
 					</select>
 
 					<label className="block mt-2 text-sm">Font Size:</label>
@@ -396,7 +553,7 @@ export default function FlashcardReview({
 				</div>
 
 				<div>
-					<label className="block text-sm font-medium">Back of Card:</label>
+					<label className="block text-xl font-bold">Back of Card:</label>
 					<select
 						className="w-full p-2 border rounded"
 						value={backField}
@@ -417,7 +574,6 @@ export default function FlashcardReview({
 					>
 						<option value="sans">Sans Serif</option>
 						<option value="serif">Serif</option>
-						<option value="sans-serif">Cursive</option>
 					</select>
 
 					<label className="block mt-2 text-sm">Font Size:</label>
@@ -433,27 +589,33 @@ export default function FlashcardReview({
 						))}
 					</select>
 				</div>
-			</div>
+			</div> */}
 
 			{filteredCards.length > 0 && (
 				<div
-					className="relative w-full h-60 mb-4 perspective"
+					className="relative w-full h-60 mb-4 perspective group cursor-pointer"
 					onClick={() => setShowBack((prev) => !prev)}
 				>
+					{/* Flip card content */}
 					<div
 						className={`transition-transform duration-700 transform-style-preserve-3d w-full h-full rounded-xl shadow-md ${
 							showBack ? 'rotate-y-180' : ''
 						}`}
 					>
 						{/* Front of Card */}
-						<div className="absolute w-full h-full backface-hidden bg-white border rounded-xl p-6 flex items-center justify-center">
+						<div className="absolute w-full h-full backface-hidden bg-white border rounded-xl p-2 sm:p-6 flex items-center justify-center overflow-hidden">
 							{renderCardContent(frontField)}
 						</div>
 
 						{/* Back of Card */}
-						<div className="absolute w-full h-full backface-hidden rotate-y-180 bg-gray-100 border rounded-xl p-6 flex items-center justify-center">
+						<div className="absolute w-full h-full backface-hidden rotate-y-180 bg-blue-100 border rounded-xl p-2 sm:p-6 flex items-center justify-center overflow-hidden">
 							{renderCardContent(backField)}
 						</div>
+					</div>
+
+					{/* Hover Hint in Bottom Right */}
+					<div className="absolute bottom-2 right-3 z-10 text-sm text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+						Tap to flip
 					</div>
 				</div>
 			)}
@@ -480,13 +642,13 @@ export default function FlashcardReview({
 					onClick={handlePreviousCard}
 					className="px-4 py-2 bg-gray-500 text-white rounded shadow"
 				>
-					Back
+					Previous Card
 				</button>
 				<button
 					onClick={handleNextCard}
-					className="px-4 py-2 bg-green-500 text-white rounded shadow"
+					className="px-4 py-2 bg-blue-500 text-white rounded shadow"
 				>
-					Next
+					Next Card
 				</button>
 			</div>
 		</div>
