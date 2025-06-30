@@ -9,11 +9,11 @@ import dynamic from 'next/dynamic'
 
 import { vocab } from '@/lib/vocab'
 
-const SpellingPractice = dynamic(() => import('@/components/spelling'), {
+const PhraseReconstruction = dynamic(() => import('@/components/scramble'), {
 	ssr: false,
 })
 
-const HebrewSpellingPage = async () => {
+const HebrewScramblePage = async () => {
 	const userProgressData = getUserProgress()
 	const userSubscriptionData = getUserSubscription()
 
@@ -44,22 +44,22 @@ const HebrewSpellingPage = async () => {
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">
 					<Image
-						src="/ab-button-blood-type-svgrepo-com.svg"
-						alt="Calendar"
+						src="/cooking-svgrepo-com.svg"
+						alt="Scramble"
 						height={90}
 						width={90}
 					/>
 					<h1 className="text-center font-bold text-neutral-800 text-2xl my-6">
-						Spelling
+						Scramble
 					</h1>
 					{/* <p className="text-muted-foreground text-center text-lg mb-6">
             Customize Your Deck
           </p> */}
-					<SpellingPractice data={vocab} lessonPrefix="awb" />
+					<PhraseReconstruction data={vocab} lessonPrefix="awb" />
 				</div>
 			</FeedWrapper>
 		</div>
 	)
 }
 
-export default HebrewSpellingPage
+export default HebrewScramblePage
