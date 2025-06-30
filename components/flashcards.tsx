@@ -377,175 +377,181 @@ export default function FlashcardReview({
 
 			{/* Front/Back Customization (Hidden Until Clicked) */}
 			{showCustomization && (
-				<div className="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-					<div>
-						<label className="block text-sm font-medium">Front of Card:</label>
-						<select
-							className="w-full p-2 border rounded"
-							value={frontField}
-							onChange={(e) => setFrontField(e.target.value as keyof Flashcard)}
-						>
-							{displayFields.map((field) => (
-								<option key={field} value={field}>
-									{FIELD_LABELS[field] || field}
-								</option>
-							))}
-						</select>
+				<>
+					<div className="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+						<div>
+							<label className="block text-sm font-medium">
+								Front of Card:
+							</label>
+							<select
+								className="w-full p-2 border rounded"
+								value={frontField}
+								onChange={(e) =>
+									setFrontField(e.target.value as keyof Flashcard)
+								}
+							>
+								{displayFields.map((field) => (
+									<option key={field} value={field}>
+										{FIELD_LABELS[field] || field}
+									</option>
+								))}
+							</select>
 
-						<label className="block mt-2 text-sm">Font:</label>
-						<select
-							className="w-full p-2 border rounded"
-							value={frontFont}
-							onChange={(e) => setFrontFont(e.target.value)}
-						>
-							<option value="sans">Sans Serif</option>
-							<option value="serif">Serif</option>
-							<option value="sans-serif">Cursive</option>
-						</select>
+							<label className="block mt-2 text-sm">Font:</label>
+							<select
+								className="w-full p-2 border rounded"
+								value={frontFont}
+								onChange={(e) => setFrontFont(e.target.value)}
+							>
+								<option value="sans">Sans Serif</option>
+								<option value="serif">Serif</option>
+								<option value="sans-serif">Cursive</option>
+							</select>
 
-						<label className="block mt-2 text-sm">Font Size:</label>
-						<select
-							className="w-full p-2 border rounded"
-							value={frontFontSize}
-							onChange={(e) => setFrontFontSize(e.target.value as FontSizeKey)}
-						>
-							{Object.keys(FONT_SIZE_MAP).map((size) => (
-								<option key={size} value={size}>
-									{FONT_SIZE_LABELS[size as FontSizeKey]}
-								</option>
-							))}
-						</select>
+							<label className="block mt-2 text-sm">Font Size:</label>
+							<select
+								className="w-full p-2 border rounded"
+								value={frontFontSize}
+								onChange={(e) =>
+									setFrontFontSize(e.target.value as FontSizeKey)
+								}
+							>
+								{Object.keys(FONT_SIZE_MAP).map((size) => (
+									<option key={size} value={size}>
+										{FONT_SIZE_LABELS[size as FontSizeKey]}
+									</option>
+								))}
+							</select>
+						</div>
+
+						<div>
+							<label className="block text-sm font-medium">Back of Card:</label>
+							<select
+								className="w-full p-2 border rounded"
+								value={backField}
+								onChange={(e) =>
+									setBackField(e.target.value as keyof Flashcard)
+								}
+							>
+								{displayFields.map((field) => (
+									<option key={field} value={field}>
+										{FIELD_LABELS[field] || field}
+									</option>
+								))}
+							</select>
+
+							<label className="block mt-2 text-sm">Font:</label>
+							<select
+								className="w-full p-2 border rounded"
+								value={backFont}
+								onChange={(e) => setBackFont(e.target.value)}
+							>
+								<option value="sans">Sans Serif</option>
+								<option value="serif">Serif</option>
+								<option value="sans-serif">Cursive</option>
+							</select>
+
+							<label className="block mt-2 text-sm">Font Size:</label>
+							<select
+								className="w-full p-2 border rounded"
+								value={backFontSize}
+								onChange={(e) => setBackFontSize(e.target.value as FontSizeKey)}
+							>
+								{Object.keys(FONT_SIZE_MAP).map((size) => (
+									<option key={size} value={size}>
+										{FONT_SIZE_LABELS[size as FontSizeKey]}
+									</option>
+								))}
+							</select>
+						</div>
 					</div>
-
-					<div>
-						<label className="block text-sm font-medium">Back of Card:</label>
-						<select
-							className="w-full p-2 border rounded"
-							value={backField}
-							onChange={(e) => setBackField(e.target.value as keyof Flashcard)}
-						>
-							{displayFields.map((field) => (
-								<option key={field} value={field}>
-									{FIELD_LABELS[field] || field}
-								</option>
+					<div className="mb-4">
+						<h2 className="text-xl font-semibold">Select Type</h2>
+						<div className="flex flex-wrap justify-center gap-2">
+							{['all', 'word', 'phrase'].map((typeOption) => (
+								<button
+									key={typeOption}
+									onClick={() =>
+										setSelectedType(typeOption as 'all' | 'word' | 'phrase')
+									}
+									className={`px-3 py-1 border rounded-full text-sm ${
+										selectedType === typeOption
+											? 'bg-blue-500 text-white'
+											: 'bg-gray-200'
+									}`}
+								>
+									{typeOption.charAt(0).toUpperCase() + typeOption.slice(1)}
+								</button>
 							))}
-						</select>
-
-						<label className="block mt-2 text-sm">Font:</label>
-						<select
-							className="w-full p-2 border rounded"
-							value={backFont}
-							onChange={(e) => setBackFont(e.target.value)}
-						>
-							<option value="sans">Sans Serif</option>
-							<option value="serif">Serif</option>
-							<option value="sans-serif">Cursive</option>
-						</select>
-
-						<label className="block mt-2 text-sm">Font Size:</label>
-						<select
-							className="w-full p-2 border rounded"
-							value={backFontSize}
-							onChange={(e) => setBackFontSize(e.target.value as FontSizeKey)}
-						>
-							{Object.keys(FONT_SIZE_MAP).map((size) => (
-								<option key={size} value={size}>
-									{FONT_SIZE_LABELS[size as FontSizeKey]}
-								</option>
-							))}
-						</select>
+						</div>
 					</div>
-				</div>
-			)}
+					<div className="mb-4">
+						<h2 className="text-xl font-semibold">Select Category</h2>
+						<div className="flex flex-wrap justify-center gap-2">
+							<button
+								onClick={() => setSelectedCategory('all')}
+								className={`px-3 py-1 border rounded-full text-sm ${
+									selectedCategory === 'all'
+										? 'bg-blue-500 text-white'
+										: 'bg-gray-200'
+								}`}
+							>
+								All
+							</button>
+							{categoryOptions.map((pos) => (
+								<button
+									key={pos}
+									onClick={() => setSelectedCategory(pos)}
+									className={`px-3 py-1 border rounded-full text-sm ${
+										selectedCategory === pos
+											? 'bg-blue-500 text-white'
+											: 'bg-gray-200'
+									}`}
+								>
+									{pos}
+								</button>
+							))}
+						</div>
+					</div>
+					<div className="mb-4">
+						<h2 className="text-xl font-semibold mb-2">Select Lessons</h2>
 
-			<div className="mb-4">
-				<h2 className="text-xl font-semibold">Select Type</h2>
-				<div className="flex flex-wrap justify-center gap-2">
-					{['all', 'word', 'phrase'].map((typeOption) => (
-						<button
-							key={typeOption}
-							onClick={() =>
-								setSelectedType(typeOption as 'all' | 'word' | 'phrase')
-							}
-							className={`px-3 py-1 border rounded-full text-sm ${
-								selectedType === typeOption
-									? 'bg-blue-500 text-white'
-									: 'bg-gray-200'
-							}`}
-						>
-							{typeOption.charAt(0).toUpperCase() + typeOption.slice(1)}
-						</button>
-					))}
-				</div>
-			</div>
-
-			<div className="mb-4">
-				<h2 className="text-xl font-semibold">Select Category</h2>
-				<div className="flex flex-wrap justify-center gap-2">
-					<button
-						onClick={() => setSelectedCategory('all')}
-						className={`px-3 py-1 border rounded-full text-sm ${
-							selectedCategory === 'all'
-								? 'bg-blue-500 text-white'
-								: 'bg-gray-200'
-						}`}
-					>
-						All
-					</button>
-					{categoryOptions.map((pos) => (
-						<button
-							key={pos}
-							onClick={() => setSelectedCategory(pos)}
-							className={`px-3 py-1 border rounded-full text-sm ${
-								selectedCategory === pos
-									? 'bg-blue-500 text-white'
-									: 'bg-gray-200'
-							}`}
-						>
-							{pos}
-						</button>
-					))}
-				</div>
-			</div>
-
-			<div className="mb-4">
-				<h2 className="text-xl font-semibold mb-2">Select Lessons</h2>
-
-				{/* Select All / Clear All Buttons */}
-				<div className="flex justify-center gap-4 mb-3">
-					{/* <button
+						{/* Select All / Clear All Buttons */}
+						<div className="flex justify-center gap-4 mb-3">
+							{/* <button
 						onClick={() => setSelectedLessons([...lessonOptions])}
 						className="px-3 py-1 border rounded text-sm bg-green-100 hover:bg-green-200"
 					>
 						Select All
 					</button> */}
-					<button
-						onClick={() => setSelectedLessons([])}
-						className="px-3 py-1 border rounded text-sm bg-red-100 hover:bg-red-200"
-					>
-						Clear All
-					</button>
-				</div>
-
-				{/* Lesson Buttons */}
-				<div className="flex flex-wrap justify-center gap-2">
-					{lessonOptions.map((lesson) => {
-						const label = lesson.slice(lessonPrefix.length)
-						const isSelected = selectedLessons.includes(lesson)
-						return (
 							<button
-								key={lesson}
-								onClick={() => toggleLesson(lesson)}
-								className={`px-3 py-1 border rounded-full text-sm ${
-									isSelected ? 'bg-blue-500 text-white' : 'bg-gray-200'
-								}`}
+								onClick={() => setSelectedLessons([])}
+								className="px-3 py-1 border rounded text-sm bg-red-100 hover:bg-red-200"
 							>
-								{label}
+								Clear All
 							</button>
-						)
-					})}
-				</div>
-			</div>
+						</div>
+					</div>
+					{/* Lesson Buttons */}
+					<div className="flex flex-wrap justify-center gap-2">
+						{lessonOptions.map((lesson) => {
+							const label = lesson.slice(lessonPrefix.length)
+							const isSelected = selectedLessons.includes(lesson)
+							return (
+								<button
+									key={lesson}
+									onClick={() => toggleLesson(lesson)}
+									className={`px-3 py-1 border rounded-full text-sm ${
+										isSelected ? 'bg-blue-500 text-white' : 'bg-gray-200'
+									}`}
+								>
+									{label}
+								</button>
+							)
+						})}
+					</div>
+				</>
+			)}
 
 			{/* <div className="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
 				<div>
