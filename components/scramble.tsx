@@ -2,21 +2,23 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import type { Flashcard } from './flashcards'
+import ReactConfetti from 'react-confetti'
+import { useAudio, useWindowSize } from 'react-use'
 
-interface PhraseReconstructionProps {
+interface ScrambleProps {
 	data: Flashcard[]
 	lessonPrefix: string
 }
 
-export default function PhraseReconstruction({
-	data,
-	lessonPrefix,
-}: PhraseReconstructionProps) {
+export default function Scramble({ data, lessonPrefix }: ScrambleProps) {
 	const [selectedLessons, setSelectedLessons] = useState<string[]>([])
-	const [selectedCategory, setSelectedCategory] = useState('all')
 	const [currentIndex, setCurrentIndex] = useState(0)
 	const [selectedWords, setSelectedWords] = useState<string[]>([])
 	const [showFeedback, setShowFeedback] = useState<null | boolean>(null)
+	const [showConfetti, setShowConfetti] = useState(false)
+	const [finishAudio] = useAudio({ src: '/finish.mp3', autoPlay: true })
+
+	const { width, height } = useWindowSize()
 
 	const cardsForPrefix = useMemo(() => {
 		return data.filter(
@@ -50,20 +52,31 @@ export default function PhraseReconstruction({
 					selectedLessons.length === 0 ||
 					card.lessons.some((l) => selectedLessons.includes(l))
 			)
-			.filter(
-				(card) =>
-					selectedCategory === 'all' || card.category === selectedCategory
-			)
+			.filter((card) => {
+				const wordCount = card.heb.trim().split(/\s+/).length
+				return wordCount >= 2
+			})
 
 		return [...filtered].sort(() => Math.random() - 0.5)
-	}, [cardsForPrefix, selectedLessons, selectedCategory])
+	}, [cardsForPrefix, selectedLessons])
+
+	useEffect(() => {
+		setCurrentIndex(0)
+		setSelectedWords([])
+		setShowFeedback(null)
+	}, [filteredCards])
 
 	const currentCard = filteredCards[currentIndex]
 
 	const correctWords = useMemo(() => {
 		if (!currentCard) return []
-		return currentCard.heb.trim().split(' ')
+		return currentCard.hebNiqqud.trim().split(' ')
 	}, [currentCard])
+
+	const shuffledWords = useMemo(() => {
+		if (!currentCard) return []
+		return [...correctWords].sort(() => Math.random() - 0.5)
+	}, [correctWords, currentCard])
 
 	useEffect(() => {
 		setSelectedWords([])
@@ -81,11 +94,21 @@ export default function PhraseReconstruction({
 		const correct = correctWords.join(' ')
 		const isCorrect = normalize(joined) === normalize(correct)
 		setShowFeedback(isCorrect)
+
 		if (isCorrect) {
+			const isLastCard = currentIndex === filteredCards.length - 1
+
+			if (isLastCard) {
+				setShowConfetti(true)
+			}
+
 			setTimeout(() => {
 				setShowFeedback(null)
 				setSelectedWords([])
-				setCurrentIndex((i) => (i + 1) % filteredCards.length)
+
+				if (!isLastCard) {
+					setCurrentIndex((i) => (i + 1) % filteredCards.length)
+				}
 			}, 1000)
 		}
 	}
@@ -96,7 +119,17 @@ export default function PhraseReconstruction({
 
 	return (
 		<div className="p-4 max-w-3xl mx-auto text-center">
-			<h1 className="text-2xl font-bold mb-4">Phrase Reconstruction</h1>
+			{showConfetti && (
+				<ReactConfetti
+					width={width}
+					height={height}
+					recycle={false}
+					numberOfPieces={500}
+					tweenDuration={10000}
+				/>
+			)}
+			{showConfetti && finishAudio}
+			<h1 className="text-2xl font-bold mb-4">Scrambled Sentences</h1>
 
 			{/* Filters */}
 			<div className="space-y-4 mb-6">
@@ -124,51 +157,33 @@ export default function PhraseReconstruction({
 						))}
 					</div>
 				</div>
-
-				<div>
-					<label className="block text-sm font-medium">Category</label>
-					<div className="flex flex-wrap justify-center gap-2">
-						{['all', ...categoryOptions].map((cat) => (
-							<button
-								key={cat}
-								onClick={() => setSelectedCategory(cat)}
-								className={`px-2 py-1 border rounded-full text-sm ${
-									selectedCategory === cat
-										? 'bg-blue-500 text-white'
-										: 'bg-gray-200'
-								}`}
-							>
-								{cat}
-							</button>
-						))}
-					</div>
-				</div>
 			</div>
 
 			{/* Prompt */}
-			<div className="mb-4 text-xl font-bold">{currentCard?.eng}</div>
+			{/* <div className="mb-4 text-xl font-bold">{currentCard?.eng}</div> */}
 
 			{/* Word Choices */}
-			<div className="flex flex-wrap justify-center gap-2 mb-6">
-				{correctWords
-					.sort(() => Math.random() - 0.5)
-					.map((word, i) => (
-						<button
-							key={`${word}-${i}`}
-							onClick={() => toggleWord(word)}
-							className={`border px-3 py-1 rounded text-lg ${
-								selectedWords.includes(word)
-									? 'bg-green-200'
-									: 'bg-gray-100 hover:bg-gray-300'
-							}`}
-						>
-							{word}
-						</button>
-					))}
+			<div className="flex flex-wrap justify-center gap-2 mb-6" dir="rtl">
+				{shuffledWords.map((word, i) => (
+					<button
+						key={`${word}-${i}`}
+						onClick={() => toggleWord(word)}
+						className={`border px-3 py-1 rounded text-4xl font-serif ${
+							selectedWords.includes(word)
+								? 'bg-green-200'
+								: 'bg-gray-100 hover:bg-gray-300'
+						}`}
+					>
+						{word}
+					</button>
+				))}
 			</div>
 
 			{/* Selected Phrase */}
-			<div className="mb-4 text-2xl border p-4 rounded min-h-[60px] bg-gray-50">
+			<div
+				className="mb-4 text-4xl font-serif border p-4 rounded min-h-[60px] bg-gray-50"
+				dir="rtl"
+			>
 				{selectedWords.join(' ')}
 			</div>
 

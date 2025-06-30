@@ -2,10 +2,11 @@
 
 import { useState, useEffect, useMemo } from 'react'
 import Image from 'next/image'
-import { useAudio } from 'react-use'
+import { useAudio, useWindowSize } from 'react-use'
 
 import type { Flashcard } from './flashcards'
 import HebrewKeyboard from './hebrew-keyboard'
+import ReactConfetti from 'react-confetti'
 
 interface SpellingPracticeProps {
 	data: Flashcard[]
@@ -27,6 +28,10 @@ export default function SpellingPractice({
 	const [currentIndex, setCurrentIndex] = useState(0)
 	const [showFeedback, setShowFeedback] = useState<null | boolean>(null)
 	const [value, setValue] = useState('')
+	const [showConfetti, setShowConfetti] = useState(false)
+	const [finishAudio] = useAudio({ src: '/finish.mp3', autoPlay: true })
+
+	const { width, height } = useWindowSize()
 
 	function handleSubmit() {
 		console.log('Submitted:', value)
@@ -116,15 +121,22 @@ export default function SpellingPractice({
 
 		const cleanedInput = normalizeHebrewInput(inputEl.value.trim())
 		const cleanedAnswer = normalizeHebrewInput(currentCard.heb.trim())
-
 		const isCorrect = cleanedInput === cleanedAnswer
+
 		setShowFeedback(isCorrect)
 
 		if (isCorrect) {
+			const isLastCard = currentIndex === filteredCards.length - 1
+
 			setTimeout(() => {
 				setShowFeedback(null)
 				inputEl.value = ''
-				setCurrentIndex((i) => (i + 1) % filteredCards.length)
+
+				if (isLastCard) {
+					setShowConfetti(true)
+				} else {
+					setCurrentIndex((i) => (i + 1) % filteredCards.length)
+				}
 			}, 1000)
 		}
 	}
@@ -156,6 +168,16 @@ export default function SpellingPractice({
 
 	return (
 		<div className="p-4 max-w-3xl mx-auto text-center">
+			{showConfetti && (
+				<ReactConfetti
+					width={width}
+					height={height}
+					recycle={false}
+					numberOfPieces={500}
+					tweenDuration={10000}
+				/>
+			)}
+			{showConfetti && finishAudio}
 			<h1 className="text-2xl font-bold mb-4">Spelling Practice</h1>
 
 			{/* Prompt Type Selection */}
@@ -349,7 +371,45 @@ export default function SpellingPractice({
 				</p>
 			)}
 
-			<HebrewKeyboard onEnter={() => handleCheck()} />
+			<HebrewKeyboard
+				onEnter={() => handleCheck()}
+				onKeyPress={(key) => {
+					const inputEl = document.getElementById(
+						'spelling-input'
+					) as HTMLInputElement
+
+					if (inputEl) {
+						const start = inputEl.selectionStart || 0
+						const end = inputEl.selectionEnd || 0
+						let newValue = inputEl.value
+
+						if (key === '\b') {
+							// Handle backspace
+							if (start === end && start > 0) {
+								newValue =
+									inputEl.value.slice(0, start - 1) + inputEl.value.slice(end)
+								inputEl.value = newValue
+								inputEl.setSelectionRange(start - 1, start - 1)
+							} else {
+								newValue =
+									inputEl.value.slice(0, start) + inputEl.value.slice(end)
+								inputEl.value = newValue
+								inputEl.setSelectionRange(start, start)
+							}
+						} else {
+							// Handle insertion
+							newValue =
+								inputEl.value.slice(0, start) + key + inputEl.value.slice(end)
+							inputEl.value = newValue
+							inputEl.setSelectionRange(start + key.length, start + key.length)
+						}
+
+						inputEl.focus()
+						// Update state if needed
+						setValue(newValue)
+					}
+				}}
+			/>
 		</div>
 	)
 }

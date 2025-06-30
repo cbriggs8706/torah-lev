@@ -5,6 +5,7 @@ import { useEffect } from 'react'
 type Props = {
 	onEnter?: () => void
 	className?: string
+	onKeyPress: (key: string) => void
 }
 
 // Hebrew consonants (with final forms)
@@ -41,7 +42,11 @@ const HEBREW_CONSONANTS = [
 // Track the last focused input field globally
 let lastFocusedInput: HTMLInputElement | null = null
 
-export default function HebrewKeyboard({ onEnter, className = '' }: Props) {
+export default function HebrewKeyboard({
+	onEnter,
+	className = '',
+	onKeyPress,
+}: Props) {
 	useEffect(() => {
 		// Track focus on any input element
 		const handleFocus = (e: Event) => {
@@ -130,15 +135,15 @@ export default function HebrewKeyboard({ onEnter, className = '' }: Props) {
 						onClick={(e) => {
 							e.preventDefault()
 							e.stopPropagation()
-
-							if (
-								lastFocusedInput &&
-								lastFocusedInput.tagName === 'INPUT' &&
-								!lastFocusedInput.readOnly
-							) {
-								lastFocusedInput.focus()
-								insertAtCaret(lastFocusedInput, char)
-							}
+							onKeyPress(char)
+							// if (
+							// 	lastFocusedInput &&
+							// 	lastFocusedInput.tagName === 'INPUT' &&
+							// 	!lastFocusedInput.readOnly
+							// ) {
+							// 	lastFocusedInput.focus()
+							// 	insertAtCaret(lastFocusedInput, char)
+							// }
 						}}
 					>
 						{char}
@@ -154,20 +159,17 @@ export default function HebrewKeyboard({ onEnter, className = '' }: Props) {
 					onClick={(e) => {
 						e.preventDefault()
 						e.stopPropagation()
-
-						if (
-							lastFocusedInput &&
-							lastFocusedInput.tagName === 'INPUT' &&
-							!lastFocusedInput.readOnly
-						) {
-							lastFocusedInput.focus()
-							deleteLastChar(lastFocusedInput)
-						}
+						onKeyPress('\b') // backspace
 					}}
 				>
-					← מחיקה
+					→
 				</button>
-
+				<button
+					onClick={() => onKeyPress(' ')}
+					className="px-4 py-2 border rounded bg-gray-100 hover:bg-gray-200"
+				>
+					Space
+				</button>
 				<button
 					tabIndex={-1}
 					className="flex-1 py-3 bg-green-200 hover:bg-green-300 rounded shadow"
@@ -179,7 +181,7 @@ export default function HebrewKeyboard({ onEnter, className = '' }: Props) {
 						onEnter?.()
 					}}
 				>
-					✔️ שלח
+					✔️ Submit
 				</button>
 			</div>
 		</div>

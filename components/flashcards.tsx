@@ -3,7 +3,6 @@
 import Image from 'next/image'
 import { useState, useMemo, useEffect } from 'react'
 import ReactConfetti from 'react-confetti'
-import Confetti from 'react-confetti/dist/types/Confetti'
 import { useAudio, useWindowSize } from 'react-use'
 
 export interface Flashcard {
@@ -187,6 +186,24 @@ export default function FlashcardReview({
 
 	const displayFields = allFields.filter((field) => field !== 'dictionaryUrl')
 
+	function getAdaptiveFontSize(text: string, baseSize: FontSizeKey): number {
+		if (text.length > 40) return FONT_SIZE_MAP.s
+		if (text.length > 30) return FONT_SIZE_MAP.m
+		if (text.length > 20) return FONT_SIZE_MAP.lg
+		if (text.length > 15) return FONT_SIZE_MAP.xl
+		return FONT_SIZE_MAP[baseSize]
+	}
+
+	function fixHebrewPunctuation(text: string): string {
+		// Replace ? at the end of a line with RTL-friendly question mark
+		// Only if the text contains Hebrew characters
+		const hebrewRegex = /[\u0590-\u05FF]/ // matches Hebrew script
+		if (!hebrewRegex.test(text)) return text
+
+		// Replace ? at the end or before a line break
+		return text.replace(/\?/g, '؟') // Arabic-style RTL question mark
+	}
+
 	function renderCardContent(field: keyof Flashcard) {
 		if (!currentCard) return null
 
@@ -229,11 +246,21 @@ export default function FlashcardReview({
 								? 'Times New Roman, serif'
 								: 'sans-serif',
 							fontSize: showBack
-								? FONT_SIZE_MAP[backFontSize]
-								: FONT_SIZE_MAP[frontFontSize],
+								? getAdaptiveFontSize(
+										currentCard[backField] as string,
+										backFontSize
+								  )
+								: getAdaptiveFontSize(
+										currentCard[frontField] as string,
+										frontFontSize
+								  ),
+							lineHeight: 1.1,
+							direction: 'rtl',
+							unicodeBidi: 'isolate',
 						}}
+						// className="break-words text-center leading-tight"
 					>
-						{currentCard.hebNiqqud}
+						{fixHebrewPunctuation(currentCard[field] as string)}
 					</p>
 				)
 			}
@@ -284,7 +311,14 @@ export default function FlashcardReview({
 				content = <p style={contentStyle}>{currentCard.hebNiqqud}</p>
 			}
 		} else {
-			content = <p style={contentStyle}>{currentCard[field] as string}</p>
+			content = (
+				<p
+					style={contentStyle}
+					className="break-words text-center leading-tight whitespace-pre-wrap"
+				>
+					{fixHebrewPunctuation(currentCard[field] as string)}
+				</p>
+			)
 		}
 
 		return (

@@ -40,9 +40,14 @@ export const Sidebar = ({ className }: Props) => {
 					iconSrc="/ab-button-blood-type-svgrepo-com.svg"
 				/>
 				<SidebarItem
-					label="Jumble"
-					href="/hebrew-jumble"
-					iconSrc="/card-file-box.svg"
+					label="Scramble"
+					href="/hebrew-scramble"
+					iconSrc="/cooking-svgrepo-com.svg"
+				/>
+				<SidebarItem
+					label="Letter Quiz"
+					href="/hebrew-letter-quiz"
+					iconSrc="/a-button-blood-type-svgrepo-com.svg"
 				/>
 				{/* <SidebarItem
 					label="Speak x"
