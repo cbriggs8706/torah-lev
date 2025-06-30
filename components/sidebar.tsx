@@ -39,6 +39,11 @@ export const Sidebar = ({ className }: Props) => {
 					href="/hebrew-spelling"
 					iconSrc="/ab-button-blood-type-svgrepo-com.svg"
 				/>
+				<SidebarItem
+					label="Jumble"
+					href="/hebrew-jumble"
+					iconSrc="/card-file-box.svg"
+				/>
 				{/* <SidebarItem
 					label="Speak x"
 					href="#"
