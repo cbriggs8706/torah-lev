@@ -77,6 +77,12 @@ export default function SidebarClient({
 					iconSrc="/a-button-blood-type-svgrepo-com.svg"
 					onClick={onItemClick}
 				/>
+				<SidebarItem
+					label="Sentence Builder"
+					href="/hebrew-sentencebuilder"
+					iconSrc="/building-construction-svgrepo-com.svg"
+					onClick={onItemClick}
+				/>
 			</div>
 			<div className="p-4">
 				<ClerkLoading>
