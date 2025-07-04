@@ -5,6 +5,8 @@ import { useState, useMemo, useEffect } from 'react'
 import ReactConfetti from 'react-confetti'
 import { useAudio, useWindowSize } from 'react-use'
 
+type FontChoice = 'arial' | 'times' | 'sans' | 'frank' | 'nunito'
+
 export interface Flashcard {
 	id: number
 	hebNiqqud: string
@@ -67,6 +69,14 @@ const FIELD_LABELS: Partial<Record<keyof Flashcard, string>> = {
 	hebAudio: 'Audio',
 }
 
+const FONT_CLASS_MAP: Record<FontChoice, string> = {
+	arial: 'font-arial',
+	times: 'font-serif',
+	frank: 'font-frank',
+	sans: 'font-sans',
+	nunito: 'font-nunito',
+}
+
 export default function FlashcardReview({
 	data,
 	allFields,
@@ -85,8 +95,9 @@ export default function FlashcardReview({
 	const [filteredCards, setFilteredCards] = useState<Flashcard[]>([])
 	const [selectedCategory, setSelectedCategory] = useState<string>('all')
 
-	const [frontFont, setFrontFont] = useState('serif')
-	const [backFont, setBackFont] = useState('sans')
+	const [frontFont, setFrontFont] = useState<FontChoice>('times')
+	const [backFont, setBackFont] = useState<FontChoice>('nunito')
+
 	const [frontFontSize, setFrontFontSize] = useState<FontSizeKey>('threexl')
 	const [backFontSize, setBackFontSize] = useState<FontSizeKey>('xl')
 	const [showCustomization, setShowCustomization] = useState(false)
@@ -131,7 +142,27 @@ export default function FlashcardReview({
 			const matchesCategory =
 				selectedCategory === 'all' || card.category === selectedCategory
 
-			return matchesSelectedLesson && matchesType && matchesCategory
+			const hasValidFront =
+				(frontField === 'images' && card.images.length > 0) ||
+				(frontField === 'hebAudio' && !!card.hebAudio) ||
+				(frontField !== 'images' &&
+					frontField !== 'hebAudio' &&
+					!!card[frontField])
+
+			const hasValidBack =
+				(backField === 'images' && card.images.length > 0) ||
+				(backField === 'hebAudio' && !!card.hebAudio) ||
+				(backField !== 'images' &&
+					backField !== 'hebAudio' &&
+					!!card[backField])
+
+			return (
+				matchesSelectedLesson &&
+				matchesType &&
+				matchesCategory &&
+				hasValidFront &&
+				hasValidBack
+			)
 		})
 
 		// Shuffle the filtered cards
@@ -140,9 +171,41 @@ export default function FlashcardReview({
 		setFilteredCards(shuffled)
 		setCurrentIndex(0) // Reset progress to 1
 		setShowBack(false) // Reset card flip
-	}, [cardsForPrefix, selectedLessons, selectedType, selectedCategory])
+	}, [
+		cardsForPrefix,
+		selectedLessons,
+		selectedType,
+		selectedCategory,
+		frontField,
+		backField,
+	])
 
 	const currentCard = filteredCards[currentIndex]
+
+	// Refs for controlling playback programmatically
+	const frontAudioRef = useMemo(() => {
+		if (frontField === 'hebAudio' && currentCard?.hebAudio)
+			return new Audio(currentCard.hebAudio)
+		return null
+	}, [frontField, currentCard])
+
+	const backAudioRef = useMemo(() => {
+		if (backField === 'hebAudio' && currentCard?.hebAudio)
+			return new Audio(currentCard.hebAudio)
+		return null
+	}, [backField, currentCard])
+
+	useEffect(() => {
+		if (frontField === 'hebAudio' && frontAudioRef) {
+			frontAudioRef.play().catch(console.error)
+		}
+	}, [currentIndex, frontField, frontAudioRef])
+
+	useEffect(() => {
+		if (showBack && backField === 'hebAudio' && backAudioRef) {
+			backAudioRef.play().catch(console.error)
+		}
+	}, [showBack, backField, backAudioRef])
 
 	function handleNextCard() {
 		setShowBack(false)
@@ -224,7 +287,8 @@ export default function FlashcardReview({
 						<button
 							onClick={(e) => {
 								e.stopPropagation()
-								playAudio()
+								const audio = new Audio(currentCard.hebAudio)
+								audio.play().catch(console.error)
 							}}
 							className="text-6xl text-blue-600 hover:text-blue-800"
 							aria-label="Play Hebrew audio"
@@ -237,28 +301,14 @@ export default function FlashcardReview({
 				// fallback to hebNiqqud text
 				return (
 					<p
+						className={`break-words text-center leading-tight whitespace-pre-wrap ${
+							showBack ? FONT_CLASS_MAP[backFont] : FONT_CLASS_MAP[frontFont]
+						}`}
 						style={{
-							fontFamily: showBack
-								? backFont === 'serif'
-									? 'Times New Roman, serif'
-									: 'sans-serif'
-								: frontFont === 'serif'
-								? 'Times New Roman, serif'
-								: 'sans-serif',
 							fontSize: showBack
-								? getAdaptiveFontSize(
-										currentCard[backField] as string,
-										backFontSize
-								  )
-								: getAdaptiveFontSize(
-										currentCard[frontField] as string,
-										frontFontSize
-								  ),
-							lineHeight: 1.1,
-							direction: 'rtl',
-							unicodeBidi: 'isolate',
+								? FONT_SIZE_MAP[backFontSize]
+								: FONT_SIZE_MAP[frontFontSize],
 						}}
-						// className="break-words text-center leading-tight"
 					>
 						{fixHebrewPunctuation(currentCard[field] as string)}
 					</p>
@@ -275,19 +325,6 @@ export default function FlashcardReview({
 			if (!currentCard.hebAudio) return
 			const audio = new Audio(`/${currentCard.hebAudio}`)
 			audio.play().catch(console.error)
-		}
-
-		const contentStyle = {
-			fontFamily: showBack
-				? backFont === 'serif'
-					? 'Times New Roman, serif'
-					: 'sans-serif'
-				: frontFont === 'serif'
-				? 'Times New Roman, serif'
-				: 'sans-serif',
-			fontSize: showBack
-				? FONT_SIZE_MAP[backFontSize]
-				: FONT_SIZE_MAP[frontFontSize],
 		}
 
 		let content: React.ReactNode = null
@@ -308,13 +345,19 @@ export default function FlashcardReview({
 					</div>
 				)
 			} else {
-				content = <p style={contentStyle}>{currentCard.hebNiqqud}</p>
+				content = <p>{currentCard.hebNiqqud}</p>
 			}
 		} else {
 			content = (
 				<p
-					style={contentStyle}
-					className="break-words text-center leading-tight whitespace-pre-wrap"
+					className={`break-words text-center leading-tight whitespace-pre-wrap ${
+						showBack ? FONT_CLASS_MAP[backFont] : FONT_CLASS_MAP[frontFont]
+					}`}
+					style={{
+						fontSize: showBack
+							? FONT_SIZE_MAP[backFontSize]
+							: FONT_SIZE_MAP[frontFontSize],
+					}}
 				>
 					{fixHebrewPunctuation(currentCard[field] as string)}
 				</p>
@@ -398,15 +441,56 @@ export default function FlashcardReview({
 							</select>
 
 							<label className="block mt-2 text-sm">Font:</label>
-							<select
-								className="w-full p-2 border rounded"
-								value={frontFont}
-								onChange={(e) => setFrontFont(e.target.value)}
-							>
-								<option value="sans">Sans Serif</option>
-								<option value="serif">Serif</option>
-								<option value="sans-serif">Cursive</option>
-							</select>
+
+							{(() => {
+								const isHebrew =
+									frontField === 'heb' || frontField === 'hebNiqqud'
+								const fontPreviewText = isHebrew ? 'אבגד' : 'ABC'
+								const fontSizeClass = isHebrew ? 'text-2xl' : 'text-lg'
+
+								const fontOptions: {
+									value: FontChoice
+									label: string
+									className: string
+								}[] = [
+									{ value: 'arial', label: 'Arial', className: 'font-arial' },
+									{ value: 'times', label: 'Times', className: 'font-serif' },
+									{
+										value: 'sans',
+										label: 'Sans',
+										className: 'font-sans',
+									},
+									{
+										value: 'frank',
+										label: 'Frank',
+										className: 'font-frank',
+									},
+									{
+										value: 'nunito',
+										label: 'Nunito',
+										className: 'font-nunito',
+									},
+								]
+
+								return (
+									<div className="flex gap-2 flex-wrap justify-between mt-1">
+										{fontOptions.map(({ label, value, className }) => (
+											<button
+												key={value}
+												type="button"
+												onClick={() => setFrontFont(value)}
+												className={`px-4 py-1 border rounded-full text-sm ${
+													frontFont === value
+														? 'bg-blue-500 text-white'
+														: 'bg-gray-100'
+												} ${className}`}
+											>
+												{label}
+											</button>
+										))}
+									</div>
+								)
+							})()}
 
 							<label className="block mt-2 text-sm">Font Size:</label>
 							<select
@@ -441,15 +525,51 @@ export default function FlashcardReview({
 							</select>
 
 							<label className="block mt-2 text-sm">Font:</label>
-							<select
-								className="w-full p-2 border rounded"
-								value={backFont}
-								onChange={(e) => setBackFont(e.target.value)}
-							>
-								<option value="sans">Sans Serif</option>
-								<option value="serif">Serif</option>
-								<option value="sans-serif">Cursive</option>
-							</select>
+
+							{(() => {
+								const fontOptions: {
+									value: FontChoice
+									label: string
+									className: string
+								}[] = [
+									{ value: 'arial', label: 'Arial', className: 'font-arial' },
+									{ value: 'times', label: 'Times', className: 'font-serif' },
+									{
+										value: 'sans',
+										label: 'Sans',
+										className: 'font-sans',
+									},
+									{
+										value: 'frank',
+										label: 'Frank',
+										className: 'font-frank',
+									},
+									{
+										value: 'nunito',
+										label: 'Nunito',
+										className: 'font-nunito',
+									},
+								]
+
+								return (
+									<div className="flex gap-2 flex-wrap justify-between mt-1">
+										{fontOptions.map(({ label, value, className }) => (
+											<button
+												key={value}
+												type="button"
+												onClick={() => setBackFont(value)}
+												className={`px-4 py-1 border rounded-full text-sm ${
+													backFont === value
+														? 'bg-blue-500 text-white'
+														: 'bg-gray-100'
+												} ${className}`}
+											>
+												{label}
+											</button>
+										))}
+									</div>
+								)
+							})()}
 
 							<label className="block mt-2 text-sm">Font Size:</label>
 							<select
@@ -516,147 +636,81 @@ export default function FlashcardReview({
 					<div className="mb-4">
 						<h2 className="text-xl font-semibold mb-2">Select Lessons</h2>
 
-						{/* Select All / Clear All Buttons */}
-						<div className="flex justify-center gap-4 mb-3">
-							{/* <button
-						onClick={() => setSelectedLessons([...lessonOptions])}
-						className="px-3 py-1 border rounded text-sm bg-green-100 hover:bg-green-200"
-					>
-						Select All
-					</button> */}
+						{/* Lesson Buttons */}
+						<div className="flex flex-wrap justify-center gap-2">
+							{/* Clear All Button */}
 							<button
 								onClick={() => setSelectedLessons([])}
-								className="px-3 py-1 border rounded text-sm bg-red-100 hover:bg-red-200"
+								className="px-3 py-1 border rounded-full text-sm bg-red-100 hover:bg-red-200"
 							>
 								Clear All
 							</button>
+
+							{/* All Button */}
+							<button
+								onClick={() => setSelectedLessons([...lessonOptions])}
+								className={`px-3 py-1 border rounded-full text-sm ${
+									selectedLessons.length === lessonOptions.length
+										? 'bg-blue-500 text-white'
+										: 'bg-gray-200'
+								}`}
+							>
+								All
+							</button>
+
+							{/* Individual Lesson Buttons */}
+							{lessonOptions.map((lesson) => {
+								const label = lesson.slice(lessonPrefix.length)
+								const isSelected = selectedLessons.includes(lesson)
+								return (
+									<button
+										key={lesson}
+										onClick={() => toggleLesson(lesson)}
+										className={`px-3 py-1 border rounded-full text-sm ${
+											isSelected ? 'bg-blue-500 text-white' : 'bg-gray-200'
+										}`}
+									>
+										{label}
+									</button>
+								)
+							})}
 						</div>
-					</div>
-					{/* Lesson Buttons */}
-					<div className="flex flex-wrap justify-center gap-2">
-						{lessonOptions.map((lesson) => {
-							const label = lesson.slice(lessonPrefix.length)
-							const isSelected = selectedLessons.includes(lesson)
-							return (
-								<button
-									key={lesson}
-									onClick={() => toggleLesson(lesson)}
-									className={`px-3 py-1 border rounded-full text-sm ${
-										isSelected ? 'bg-blue-500 text-white' : 'bg-gray-200'
-									}`}
-								>
-									{label}
-								</button>
-							)
-						})}
 					</div>
 				</>
 			)}
 
-			{/* <div className="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-				<div>
-					<label className="block text-xl font-bold">Front of Card:</label>
-					<select
-						className="w-full p-2 border rounded"
-						value={frontField}
-						onChange={(e) => setFrontField(e.target.value as keyof Flashcard)}
-					>
-						{displayFields.map((field) => (
-							<option key={field} value={field}>
-								{FIELD_LABELS[field] || field}
-							</option>
-						))}
-					</select>
-
-					<label className="block mt-2 text-sm">Font:</label>
-					<select
-						className="w-full p-2 border rounded"
-						value={frontFont}
-						onChange={(e) => setFrontFont(e.target.value)}
-					>
-						<option value="sans">Sans Serif</option>
-						<option value="serif">Serif</option>
-					</select>
-
-					<label className="block mt-2 text-sm">Font Size:</label>
-					<select
-						className="w-full p-2 border rounded"
-						value={frontFontSize}
-						onChange={(e) => setFrontFontSize(e.target.value as FontSizeKey)}
-					>
-						{Object.keys(FONT_SIZE_MAP).map((size) => (
-							<option key={size} value={size}>
-								{FONT_SIZE_LABELS[size as FontSizeKey]}
-							</option>
-						))}
-					</select>
-				</div>
-
-				<div>
-					<label className="block text-xl font-bold">Back of Card:</label>
-					<select
-						className="w-full p-2 border rounded"
-						value={backField}
-						onChange={(e) => setBackField(e.target.value as keyof Flashcard)}
-					>
-						{displayFields.map((field) => (
-							<option key={field} value={field}>
-								{FIELD_LABELS[field] || field}
-							</option>
-						))}
-					</select>
-
-					<label className="block mt-2 text-sm">Font:</label>
-					<select
-						className="w-full p-2 border rounded"
-						value={backFont}
-						onChange={(e) => setBackFont(e.target.value)}
-					>
-						<option value="sans">Sans Serif</option>
-						<option value="serif">Serif</option>
-					</select>
-
-					<label className="block mt-2 text-sm">Font Size:</label>
-					<select
-						className="w-full p-2 border rounded"
-						value={backFontSize}
-						onChange={(e) => setBackFontSize(e.target.value as FontSizeKey)}
-					>
-						{Object.keys(FONT_SIZE_MAP).map((size) => (
-							<option key={size} value={size}>
-								{FONT_SIZE_LABELS[size as FontSizeKey]}
-							</option>
-						))}
-					</select>
-				</div>
-			</div> */}
-
-			{filteredCards.length > 0 && (
+			{filteredCards.length > 0 ? (
 				<div
 					className="relative w-full h-60 mb-4 perspective group cursor-pointer"
 					onClick={() => setShowBack((prev) => !prev)}
 				>
-					{/* Flip card content */}
+					{/* Flip Card */}
 					<div
 						className={`transition-transform duration-700 transform-style-preserve-3d w-full h-full rounded-xl shadow-md ${
 							showBack ? 'rotate-y-180' : ''
 						}`}
 					>
-						{/* Front of Card */}
+						{/* Front */}
 						<div className="absolute w-full h-full backface-hidden bg-white border rounded-xl p-2 sm:p-6 flex items-center justify-center overflow-hidden">
 							{renderCardContent(frontField)}
 						</div>
 
-						{/* Back of Card */}
+						{/* Back */}
 						<div className="absolute w-full h-full backface-hidden rotate-y-180 bg-blue-100 border rounded-xl p-2 sm:p-6 flex items-center justify-center overflow-hidden">
 							{renderCardContent(backField)}
 						</div>
 					</div>
 
-					{/* Hover Hint in Bottom Right */}
+					{/* Tap-to-flip hint */}
 					<div className="absolute bottom-2 right-3 z-10 text-sm text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
 						Tap to flip
 					</div>
+				</div>
+			) : (
+				<div className="text-center text-gray-500 text-base italic mb-6">
+					No cards available with these customizations.
+					<br />
+					Please select a different lesson or choose different card sides.
 				</div>
 			)}
 

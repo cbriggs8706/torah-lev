@@ -7,12 +7,15 @@ import { HeartsModal } from '@/components/modals/hearts-modal'
 import { PracticeModal } from '@/components/modals/practice-modal'
 import './globals.css'
 
-// const font = Frank_Ruhl_Libre({ subsets: ['hebrew'] })
-const font = Nunito({ subsets: ['latin'] })
+const frank = Frank_Ruhl_Libre({
+	subsets: ['hebrew'],
+	variable: '--font-frank',
+})
+const font = Nunito({ subsets: ['latin'], variable: '--font-nunito' })
 
 export const metadata: Metadata = {
 	title: 'Idiom Go',
-	description: 'Language Learn Made Fun With Comprehensible Input',
+	description: 'Free Language Learning Made Fun With Comprehensible Input',
 }
 
 export default function RootLayout({
@@ -49,7 +52,7 @@ export default function RootLayout({
 						href="/favicon-32x32.png"
 					/>
 				</head>
-				<body className={font.className}>
+				<body className={`${font.className} ${frank.className}`}>
 					<Toaster />
 					<ExitModal />
 					<HeartsModal />
