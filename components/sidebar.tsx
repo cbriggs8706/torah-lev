@@ -9,9 +9,10 @@ import { SidebarItem } from './sidebar-item'
 
 type Props = {
 	className?: string
+	onItemClick?: () => void
 }
 
-export const Sidebar = ({ className }: Props) => {
+export const Sidebar = ({ className, onItemClick }: Props) => {
 	return (
 		<div
 			className={cn(
@@ -19,7 +20,7 @@ export const Sidebar = ({ className }: Props) => {
 				className
 			)}
 		>
-			<Link href="/learn">
+			<Link href="/learn" onClick={onItemClick}>
 				<div className="pt-8 pl-4 pb-7 flex items-center gap-x-3">
 					<Image src="/mascot.svg" height={40} width={40} alt="Mascot" />
 					<h1 className="text-2xl font-extrabold text-sky-500 tracking-wide">
@@ -28,26 +29,35 @@ export const Sidebar = ({ className }: Props) => {
 				</div>
 			</Link>
 			<div className="flex flex-col gap-y-2 flex-1">
-				<SidebarItem label="Learn" href="/learn" iconSrc="/youtube.svg" />
+				<SidebarItem
+					label="Learn"
+					href="/learn"
+					iconSrc="/youtube.svg"
+					onClick={onItemClick}
+				/>
 				<SidebarItem
 					label="Flashcards"
 					href="/hebrew-flashcard"
 					iconSrc="/card-file-box.svg"
+					onClick={onItemClick}
 				/>
 				<SidebarItem
 					label="Spelling"
 					href="/hebrew-spelling"
 					iconSrc="/ab-button-blood-type-svgrepo-com.svg"
+					onClick={onItemClick}
 				/>
 				<SidebarItem
 					label="Scramble"
 					href="/hebrew-scramble"
 					iconSrc="/cooking-svgrepo-com.svg"
+					onClick={onItemClick}
 				/>
 				<SidebarItem
 					label="Letter Quiz"
 					href="/hebrew-letter-quiz"
 					iconSrc="/a-button-blood-type-svgrepo-com.svg"
+					onClick={onItemClick}
 				/>
 				{/* <SidebarItem
 					label="Speak x"

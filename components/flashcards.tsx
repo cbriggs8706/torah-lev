@@ -5,7 +5,16 @@ import { useState, useMemo, useEffect } from 'react'
 import ReactConfetti from 'react-confetti'
 import { useAudio, useWindowSize } from 'react-use'
 
-type FontChoice = 'arial' | 'times' | 'sans' | 'frank' | 'nunito'
+type FontChoice =
+	| 'arial'
+	| 'times'
+	| 'sans'
+	| 'frank'
+	| 'tinos'
+	| 'nunito'
+	| 'cardo'
+	| 'rashi'
+	| 'suez'
 
 export interface Flashcard {
 	id: number
@@ -74,7 +83,11 @@ const FONT_CLASS_MAP: Record<FontChoice, string> = {
 	times: 'font-serif',
 	frank: 'font-frank',
 	sans: 'font-sans',
+	tinos: 'font-tinos',
 	nunito: 'font-nunito',
+	cardo: 'font-cardo',
+	rashi: 'font-rashi',
+	suez: 'font-suez',
 }
 
 export default function FlashcardReview({
@@ -100,7 +113,8 @@ export default function FlashcardReview({
 
 	const [frontFontSize, setFrontFontSize] = useState<FontSizeKey>('threexl')
 	const [backFontSize, setBackFontSize] = useState<FontSizeKey>('xl')
-	const [showCustomization, setShowCustomization] = useState(false)
+	const [showCustomize, setShowCustomize] = useState(false)
+	const [showFilter, setShowFilter] = useState(false)
 
 	const { width, height } = useWindowSize()
 
@@ -397,29 +411,41 @@ export default function FlashcardReview({
 			{showConfetti && finishAudio}
 
 			{/* Customize Section Toggle */}
-			<div className="mb-8">
-				<div className="flex items-center justify-center gap-2 cursor-pointer">
-					<h2 className="text-muted-foreground text-center text-lg">
-						Customize Your Deck
-					</h2>
-					<button
-						onClick={() => setShowCustomization((prev) => !prev)}
-						aria-label="Toggle customization"
-						className="text-xl transition-transform duration-300"
-					>
-						<span
-							className={`inline-block transform transition-transform duration-300 ${
-								showCustomization ? 'rotate-180' : ''
-							}`}
-						>
-							⚙️
-						</span>
-					</button>
-				</div>
+			<div className="mb-6 flex justify-center gap-4">
+				<button
+					onClick={() => setShowCustomize((prev) => !prev)}
+					className={`px-4 py-2 rounded shadow flex items-center justify-center gap-4 ${
+						showCustomize ? 'bg-blue-600 text-white' : 'bg-gray-200'
+					}`}
+				>
+					<Image
+						src="/woman-artist-light-skin-tone-svgrepo-com.svg"
+						alt="Filter icon"
+						width={30}
+						height={30}
+						className=""
+					/>
+					Customize
+				</button>
+				<button
+					onClick={() => setShowFilter((prev) => !prev)}
+					className={`px-4 py-2 rounded shadow flex items-center justify-center gap-4 ${
+						showFilter ? 'bg-blue-600 text-white' : 'bg-gray-200'
+					}`}
+				>
+					<Image
+						src="/books-svgrepo-com.svg"
+						alt="Filter icon"
+						width={30}
+						height={30}
+						className=""
+					/>
+					Filter
+				</button>
 			</div>
 
 			{/* Front/Back Customization (Hidden Until Clicked) */}
-			{showCustomization && (
+			{showCustomize && (
 				<>
 					<div className="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
 						<div>
@@ -453,18 +479,39 @@ export default function FlashcardReview({
 									label: string
 									className: string
 								}[] = [
-									{ value: 'arial', label: 'Arial', className: 'font-arial' },
 									{ value: 'times', label: 'Times', className: 'font-serif' },
-									{
-										value: 'sans',
-										label: 'Sans',
-										className: 'font-sans',
-									},
 									{
 										value: 'frank',
 										label: 'Frank',
 										className: 'font-frank',
 									},
+									{
+										value: 'tinos',
+										label: 'Tinos',
+										className: 'font-tinos',
+									},
+									{
+										value: 'cardo',
+										label: 'Cardo',
+										className: 'font-cardo',
+									},
+									{
+										value: 'rashi',
+										label: 'Rashi',
+										className: 'font-rashi',
+									},
+									{
+										value: 'suez',
+										label: 'Suez',
+										className: 'font-suez',
+									},
+									{ value: 'arial', label: 'Arial', className: 'font-arial' },
+									{
+										value: 'sans',
+										label: 'Sans',
+										className: 'font-sans',
+									},
+
 									{
 										value: 'nunito',
 										label: 'Nunito',
@@ -532,18 +579,39 @@ export default function FlashcardReview({
 									label: string
 									className: string
 								}[] = [
-									{ value: 'arial', label: 'Arial', className: 'font-arial' },
 									{ value: 'times', label: 'Times', className: 'font-serif' },
-									{
-										value: 'sans',
-										label: 'Sans',
-										className: 'font-sans',
-									},
 									{
 										value: 'frank',
 										label: 'Frank',
 										className: 'font-frank',
 									},
+									{
+										value: 'tinos',
+										label: 'Tinos',
+										className: 'font-tinos',
+									},
+									{
+										value: 'cardo',
+										label: 'Cardo',
+										className: 'font-cardo',
+									},
+									{
+										value: 'rashi',
+										label: 'Rashi',
+										className: 'font-rashi',
+									},
+									{
+										value: 'suez',
+										label: 'Suez',
+										className: 'font-suez',
+									},
+									{ value: 'arial', label: 'Arial', className: 'font-arial' },
+									{
+										value: 'sans',
+										label: 'Sans',
+										className: 'font-sans',
+									},
+
 									{
 										value: 'nunito',
 										label: 'Nunito',
@@ -585,6 +653,11 @@ export default function FlashcardReview({
 							</select>
 						</div>
 					</div>
+				</>
+			)}
+
+			{showFilter && (
+				<>
 					<div className="mb-4">
 						<h2 className="text-xl font-semibold">Select Type</h2>
 						<div className="flex flex-wrap justify-center gap-2">

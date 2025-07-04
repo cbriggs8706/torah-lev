@@ -19,8 +19,12 @@ const config = {
 		},
 		extend: {
 			fontFamily: {
-				nunito: ['Nunito', 'sans-serif'],
-				frank: ['"Frank Ruhl Libre"', 'serif'],
+				frank: ['var(--font-frank)', 'serif'],
+				tinos: ['var(--font-tinos)', 'serif'],
+				cardo: ['var(--font-cardo)', 'serif'],
+				rashi: ['var(--font-rashi)', 'serif'],
+				suez: ['var(--font-suez)', 'serif'],
+				nunito: ['var(--font-nunito)', 'serif'],
 				arial: ['Arial', 'sans-serif'],
 				times: ['"Times New Roman"', 'serif'],
 			},

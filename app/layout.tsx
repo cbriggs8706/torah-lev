@@ -1,5 +1,14 @@
 import type { Metadata } from 'next'
-import { Nunito, Frank_Ruhl_Libre } from 'next/font/google'
+import {
+	Nunito,
+	Frank_Ruhl_Libre,
+	Tinos,
+	Cardo,
+	Playpen_Sans,
+	Solitreo,
+	Noto_Rashi_Hebrew,
+	Suez_One,
+} from 'next/font/google'
 import { ClerkProvider } from '@clerk/nextjs'
 import { Toaster } from '@/components/ui/sonner'
 import { ExitModal } from '@/components/modals/exit-modal'
@@ -10,8 +19,29 @@ import './globals.css'
 const frank = Frank_Ruhl_Libre({
 	subsets: ['hebrew'],
 	variable: '--font-frank',
+	display: 'swap',
+})
+const tinos = Tinos({
+	subsets: ['latin'],
+	variable: '--font-tinos',
+	weight: '400',
 })
 const font = Nunito({ subsets: ['latin'], variable: '--font-nunito' })
+const cardo = Cardo({
+	subsets: ['latin'],
+	variable: '--font-cardo',
+	weight: '400',
+})
+const rashi = Noto_Rashi_Hebrew({
+	subsets: ['hebrew'],
+	variable: '--font-rashi',
+	weight: '400',
+})
+const suez = Suez_One({
+	subsets: ['hebrew'],
+	variable: '--font-suez',
+	weight: '400',
+})
 
 export const metadata: Metadata = {
 	title: 'Idiom Go',
@@ -52,7 +82,9 @@ export default function RootLayout({
 						href="/favicon-32x32.png"
 					/>
 				</head>
-				<body className={`${font.className} ${frank.className}`}>
+				<body
+					className={`${font.className} ${frank.variable} ${tinos.variable} ${cardo.variable} ${rashi.variable} ${suez.variable}`}
+				>
 					<Toaster />
 					<ExitModal />
 					<HeartsModal />

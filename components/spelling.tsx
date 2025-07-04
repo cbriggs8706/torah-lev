@@ -333,6 +333,7 @@ export default function SpellingPractice({
 					style={{ fontFamily: 'Times New Roman, serif' }}
 					autoFocus
 					autoComplete="off"
+					readOnly
 				/>
 				<button
 					onClick={goToNext}

@@ -13,7 +13,16 @@ interface HebrewLetter {
 }
 
 type Mode = 'name' | 'sound' | 'niqqud'
-type FontChoice = 'serif' | 'sans'
+type FontChoice =
+	| 'arial'
+	| 'times'
+	| 'sans'
+	| 'frank'
+	| 'tinos'
+	| 'nunito'
+	| 'cardo'
+	| 'rashi'
+	| 'suez'
 
 interface LetterQuizProps {
 	letters: HebrewLetter[]
@@ -74,7 +83,7 @@ export default function LetterQuiz({ letters }: LetterQuizProps) {
 	const [gameStarted, setGameStarted] = useState(false)
 	const [selectedMode, setSelectedMode] = useState<Mode>('name')
 	const [timeLimit, setTimeLimit] = useState(3)
-	const [fontChoice, setFontChoice] = useState<FontChoice>('serif')
+	const [fontChoice, setFontChoice] = useState<FontChoice>('frank')
 	const [shuffledLetters, setShuffledLetters] = useState<HebrewLetter[]>([])
 	const [currentIndex, setCurrentIndex] = useState(0)
 	const [waiting, setWaiting] = useState(true)
@@ -91,9 +100,12 @@ export default function LetterQuiz({ letters }: LetterQuizProps) {
 	// Filter the dataset by mode selection
 	const filteredLetters = useMemo(() => {
 		if (selectedMode === 'name' || selectedMode === 'sound') {
-			return letters.filter((l) => l.category === 'base')
+			return letters.filter((l) => l.nameAudio.includes('base'))
 		} else if (selectedMode === 'niqqud') {
-			return letters.filter((l) => l.char.includes('ָ')) // kamatz vowel
+			return letters.filter(
+				(l) =>
+					l.nameAudio.includes('qamats.mp3') && !l.nameAudio.includes('chataf')
+			)
 		}
 		return []
 	}, [letters, selectedMode])
@@ -154,6 +166,7 @@ export default function LetterQuiz({ letters }: LetterQuizProps) {
 
 	const total = shuffledLetters.length
 	const passed = wrongCount <= 2 && timeLimit <= 3
+	const hebrewExample = 'אבּ'
 
 	return (
 		<div className="w-full mx-auto p-6 text-center border rounded-xl shadow">
@@ -187,27 +200,92 @@ export default function LetterQuiz({ letters }: LetterQuizProps) {
 									}`}
 								>
 									{mode === 'name'
-										? 'Letter Names'
+										? 'Names'
 										: mode === 'sound'
-										? 'Letter Sounds'
-										: 'Sounds + Niqqud'}
+										? 'Sounds'
+										: 'Syllables'}
 								</button>
 							))}
 						</div>
 					</div>
 					<div className="mb-6">
 						<p className="font-medium mb-2">Font</p>
-						<div className="flex justify-center gap-2">
-							{(['serif', 'sans'] as FontChoice[]).map((f) => (
-								<button
-									key={f}
-									onClick={() => setFontChoice(f)}
-									className={`px-4 py-2 border rounded-full ${
-										fontChoice === f ? 'bg-blue-500 text-white' : 'bg-gray-200'
-									}`}
-								>
-									{f === 'serif' ? 'Serif' : 'Sans Serif'}
-								</button>
+						<div className="flex justify-center gap-2 flex-wrap">
+							{(
+								[
+									{
+										label: 'Times',
+										value: 'times' as FontChoice,
+										className: 'font-times',
+									},
+
+									{
+										label: 'Frank',
+										value: 'frank' as FontChoice,
+										className: 'font-frank',
+									},
+									{
+										label: 'Tinos',
+										value: 'tinos' as FontChoice,
+										className: 'font-tinos',
+									},
+
+									{
+										label: 'Cardo',
+										value: 'cardo' as FontChoice,
+										className: 'font-cardo',
+									},
+									{
+										label: 'Rashi',
+										value: 'rashi' as FontChoice,
+										className: 'font-rashi',
+									},
+									{
+										label: 'Suez',
+										value: 'suez' as FontChoice,
+										className: 'font-suez',
+									},
+									{
+										label: 'Nunito',
+										value: 'nunito' as FontChoice,
+										className: 'font-nunito',
+									},
+									{
+										label: 'Sans',
+										value: 'sans' as FontChoice,
+										className: 'font-sans',
+									},
+									{
+										label: 'Arial',
+										value: 'arial' as FontChoice,
+										className: 'font-arial',
+									},
+								] as {
+									label: string
+									value: FontChoice
+									className: string
+								}[]
+							).map(({ label, value, className }) => (
+								<div key={value} className="flex flex-col items-center gap-1">
+									<button
+										onClick={() => setFontChoice(value)}
+										className={`px-3 py-1 border rounded-full ${className} ${
+											fontChoice === value
+												? 'bg-blue-600 text-white'
+												: 'bg-gray-200'
+										}`}
+									>
+										{label}
+									</button>
+									<div
+										className={`text-5xl mt-1 text-center ${className} ${
+											fontChoice === value ? 'text-blue-600' : 'text-gray-700'
+										}`}
+										dir="rtl"
+									>
+										{hebrewExample}
+									</div>
+								</div>
 							))}
 						</div>
 					</div>
@@ -273,7 +351,25 @@ export default function LetterQuiz({ letters }: LetterQuizProps) {
 				<>
 					<div
 						className={`min-h-[180px] text-[8rem] mb-4 ${
-							fontChoice === 'serif' ? 'font-serif' : 'font-sans'
+							fontChoice === 'arial'
+								? 'font-arial'
+								: fontChoice === 'times'
+								? 'font-times'
+								: fontChoice === 'sans'
+								? 'font-sans'
+								: fontChoice === 'frank'
+								? 'font-frank'
+								: fontChoice === 'tinos'
+								? 'font-tinos'
+								: fontChoice === 'nunito'
+								? 'font-nunito'
+								: fontChoice === 'cardo'
+								? 'font-cardo'
+								: fontChoice === 'rashi'
+								? 'font-rashi'
+								: fontChoice === 'suez'
+								? 'font-suez'
+								: ''
 						}`}
 					>
 						{currentLetter?.char ?? ''}
@@ -326,6 +422,18 @@ export default function LetterQuiz({ letters }: LetterQuizProps) {
 								style={{ width: `${((currentIndex + 1) / total) * 100}%` }}
 							></div>
 						</div>
+					</div>
+					<div className="mt-6">
+						<button
+							onClick={() => {
+								setGameStarted(false)
+								setShowConfetti(false)
+								setFinished(false)
+							}}
+							className="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded-lg text-gray-800"
+						>
+							Restart
+						</button>
 					</div>
 				</>
 			)}

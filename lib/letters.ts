@@ -1,7 +1,8 @@
+// TODO delete double dagesh and other non necessary characters
+
 export const letters = [
 	{
 		char: 'א',
-		// TODO delete double dagesh and other non necessary characters
 		nameAudio: '/audio/name-alef-base.mp3',
 		soundAudio: '/audio/sound-alef-base.mp3',
 	},
