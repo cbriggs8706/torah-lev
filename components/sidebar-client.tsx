@@ -1,18 +1,30 @@
+'use client'
+
 import Link from 'next/link'
 import Image from 'next/image'
 import { ClerkLoading, ClerkLoaded, UserButton } from '@clerk/nextjs'
 import { Loader } from 'lucide-react'
-
 import { cn } from '@/lib/utils'
-
 import { SidebarItem } from './sidebar-item'
+import { UserProgress } from './user-progress'
 
 type Props = {
 	className?: string
 	onItemClick?: () => void
+	userProgress: {
+		activeCourse: any
+		hearts: number
+		points: number
+	}
+	isPro: boolean
 }
 
-export const Sidebar = ({ className, onItemClick }: Props) => {
+export default function SidebarClient({
+	className,
+	onItemClick,
+	userProgress,
+	isPro,
+}: Props) {
 	return (
 		<div
 			className={cn(
@@ -28,6 +40,12 @@ export const Sidebar = ({ className, onItemClick }: Props) => {
 					</h1>
 				</div>
 			</Link>
+			<UserProgress
+				activeCourse={userProgress.activeCourse}
+				hearts={userProgress.hearts}
+				points={userProgress.points}
+				hasActiveSubscription={isPro}
+			/>
 			<div className="flex flex-col gap-y-2 flex-1">
 				<SidebarItem
 					label="Learn"
@@ -59,52 +77,6 @@ export const Sidebar = ({ className, onItemClick }: Props) => {
 					iconSrc="/a-button-blood-type-svgrepo-com.svg"
 					onClick={onItemClick}
 				/>
-				{/* <SidebarItem
-					label="Speak x"
-					href="#"
-					// href="/speak"
-					iconSrc="/speaking-head-in-silhouette.svg"
-				/> */}
-				{/* <SidebarItem label="Play" href="/play" iconSrc="/video-game.svg" /> */}
-				{/* <SidebarItem
-					label="Memorize x"
-					href="#"
-					// href="/memorize"
-					iconSrc="/card-file-box.svg"
-				/> */}
-				{/* <SidebarItem
-					label="Read x"
-					href="#"
-					// href="/read"
-					iconSrc="/open-book.svg"
-				/> */}
-				{/* <SidebarItem
-					label="Print x"
-					href="#"
-					// href="/print"
-					iconSrc="/printer.svg"
-				/> */}
-				{/* <SidebarItem
-					label="Calendar"
-					href="/calendar"
-					iconSrc="/spiral-calendar-pad.svg"
-				/> */}
-				{/* <SidebarItem
-					label="Help"
-					href="/help"
-					iconSrc="/information-source.svg"
-				/> */}
-				{/* <SidebarItem
-					label="Leaderboard"
-					href="/leaderboard"
-					iconSrc="/leaderboard.svg"
-				/>
-				<SidebarItem label="quests" href="/quests" iconSrc="/quests.svg" />
-				<SidebarItem label="certs" href="/certificates" iconSrc="/shop.svg" />
-				<SidebarItem label="blog" href="/blog" iconSrc="/zombie.svg" />
-				<SidebarItem label="podcast" href="/podcast" iconSrc="/man.svg" />
-				<SidebarItem label="polls" href="/polls" iconSrc="/woman.svg" /> */}
-				{/* <SidebarItem label="donate" href="/donate" iconSrc="/shop.svg" /> */}
 			</div>
 			<div className="p-4">
 				<ClerkLoading>

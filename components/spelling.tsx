@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo, useCallback } from 'react'
 import Image from 'next/image'
 import { useAudio, useWindowSize } from 'react-use'
 
@@ -23,6 +23,9 @@ export default function SpellingPractice({
 	const [selectedType, setSelectedType] = useState<'all' | 'word' | 'phrase'>(
 		'all'
 	)
+	const [showFilter, setShowFilter] = useState(false)
+	const [isMobile, setIsMobile] = useState(false)
+
 	const [selectedCategory, setSelectedCategory] = useState('all')
 	const [promptType, setPromptType] = useState<PromptType>('translation')
 	const [currentIndex, setCurrentIndex] = useState(0)
@@ -30,12 +33,41 @@ export default function SpellingPractice({
 	const [value, setValue] = useState('')
 	const [showConfetti, setShowConfetti] = useState(false)
 	const [finishAudio] = useAudio({ src: '/finish.mp3', autoPlay: true })
+	const [audioVolume, setAudioVolume] = useState(1) // default: 100%
+	const [audioSpeed, setAudioSpeed] = useState(1) // default: normal speed
 
 	const { width, height } = useWindowSize()
 
 	function handleSubmit() {
 		console.log('Submitted:', value)
 	}
+
+	function playConfiguredAudio(
+		src: string,
+		volume: number,
+		speed: number,
+		onEnd?: () => void
+	) {
+		if (!src) return
+
+		const audio = new Audio(src)
+		audio.volume = volume
+		audio.playbackRate = speed
+		if (onEnd) {
+			audio.addEventListener('ended', onEnd)
+		}
+		audio.play().catch(console.error)
+	}
+
+	useEffect(() => {
+		const checkMobile = () => {
+			setIsMobile(window.innerWidth < 768) // You can adjust this breakpoint
+		}
+
+		checkMobile()
+		window.addEventListener('resize', checkMobile)
+		return () => window.removeEventListener('resize', checkMobile)
+	}, [])
 
 	const cardsForPrefix = useMemo(() => {
 		return data.filter((card) =>
@@ -95,12 +127,37 @@ export default function SpellingPractice({
 
 	const currentCard = filteredCards[currentIndex]
 
+	const shouldSkipCard = useCallback(
+		(card: Flashcard | undefined): boolean => {
+			if (!card) return true
+
+			if (
+				promptType === 'image' &&
+				(!card.images || card.images.length === 0)
+			) {
+				return true
+			}
+			if (promptType === 'audio' && !card.hebAudio) {
+				return true
+			}
+
+			return false
+		},
+		[promptType]
+	)
+
 	useEffect(() => {
 		if (shouldSkipCard(currentCard)) {
 			const nextIndex = (currentIndex + 1) % filteredCards.length
 			setCurrentIndex(nextIndex)
 		}
-	}, [currentCard, promptType])
+	}, [
+		currentCard,
+		promptType,
+		currentIndex,
+		filteredCards.length,
+		shouldSkipCard,
+	])
 
 	const [audioElement, __, controls] = useAudio({
 		src: currentCard?.hebAudio ? `/${currentCard.hebAudio}` : '',
@@ -141,29 +198,44 @@ export default function SpellingPractice({
 		}
 	}
 
-	function shouldSkipCard(card: Flashcard | undefined): boolean {
-		if (!card) return true
-
-		if (promptType === 'image' && (!card.images || card.images.length === 0)) {
-			return true
-		}
-		if (promptType === 'audio' && !card.hebAudio) {
-			return true
-		}
-
-		return false
-	}
-
 	function goToNext() {
-		setCurrentIndex((i) => (i + 1) % filteredCards.length)
-		setShowFeedback(null)
+		setCurrentIndex((i) => {
+			const nextIndex = (i + 1) % filteredCards.length
+			setShowFeedback(null)
+
+			// Auto-play audio if promptType is audio and next card has audio
+			if (promptType === 'audio' && filteredCards[nextIndex]?.hebAudio) {
+				setTimeout(() => {
+					playConfiguredAudio(
+						filteredCards[nextIndex].hebAudio,
+						audioVolume,
+						audioSpeed
+					)
+				}, 100) // slight delay ensures audio element is mounted
+			}
+
+			return nextIndex
+		})
 	}
 
 	function goToPrevious() {
-		setCurrentIndex(
-			(i) => (i - 1 + filteredCards.length) % filteredCards.length
-		)
-		setShowFeedback(null)
+		setCurrentIndex((i) => {
+			const prevIndex = (i - 1 + filteredCards.length) % filteredCards.length
+			setShowFeedback(null)
+
+			// Auto-play audio if promptType is audio and prev card has audio
+			if (promptType === 'audio' && filteredCards[prevIndex]?.hebAudio) {
+				setTimeout(() => {
+					playConfiguredAudio(
+						filteredCards[prevIndex].hebAudio,
+						audioVolume,
+						audioSpeed
+					)
+				}, 100)
+			}
+
+			return prevIndex
+		})
 	}
 
 	return (
@@ -178,102 +250,153 @@ export default function SpellingPractice({
 				/>
 			)}
 			{showConfetti && finishAudio}
-			<h1 className="text-2xl font-bold mb-4">Spelling Practice</h1>
-
-			{/* Prompt Type Selection */}
-			<div className="mb-4">
-				<label className="block font-medium mb-2">Prompt Type</label>
-				<div className="flex justify-center gap-2">
-					{(['translation', 'image', 'audio'] as PromptType[]).map((type) => (
-						<button
-							key={type}
-							onClick={() => setPromptType(type)}
-							className={`px-3 py-1 border rounded-full ${
-								promptType === type ? 'bg-blue-600 text-white' : 'bg-gray-200'
-							}`}
-						>
-							{type.charAt(0).toUpperCase() + type.slice(1)}
-						</button>
-					))}
-				</div>
+			<div className="mb-6 flex justify-center gap-4">
+				<button
+					onClick={() => setShowFilter((prev) => !prev)}
+					className={`px-4 py-2 rounded shadow flex items-center justify-center gap-4 ${
+						showFilter ? 'bg-blue-600 text-white' : 'bg-gray-200'
+					}`}
+				>
+					<Image
+						src="/books-svgrepo-com.svg"
+						alt="Filter icon"
+						width={30}
+						height={30}
+						className=""
+					/>
+					Filter
+				</button>
 			</div>
 
 			{/* Lesson + Category + Type Filters */}
-			<div className="mb-4 space-y-2">
-				<div>
-					<label className="block text-sm font-medium">Lessons</label>
-					<div className="flex justify-center gap-4 mb-3">
-						<button
-							onClick={() => setSelectedLessons([])}
-							className="px-3 py-1 border rounded text-sm bg-red-100 hover:bg-red-200"
-						>
-							Clear All
-						</button>
+			{showFilter && (
+				<>
+					<div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-6">
+						<div className="text-sm text-center">
+							<label className="block mb-1 font-medium">Volume</label>
+							<input
+								type="range"
+								min="0"
+								max="1"
+								step="0.05"
+								value={audioVolume}
+								onChange={(e) => setAudioVolume(parseFloat(e.target.value))}
+							/>
+							<div className="text-center">
+								{Math.round(audioVolume * 100)}%
+							</div>
+						</div>
+						<div className="text-sm text-center">
+							<label className="block mb-1 font-medium">Speed</label>
+							<input
+								type="range"
+								min="0.5"
+								max="1"
+								step="0.05"
+								value={audioSpeed}
+								onChange={(e) => setAudioSpeed(parseFloat(e.target.value))}
+							/>
+							<div className="text-center">{audioSpeed.toFixed(2)}x</div>
+						</div>
 					</div>
-					<div className="flex flex-wrap justify-center gap-1">
-						{lessonOptions.map((lesson) => (
-							<button
-								key={lesson}
-								onClick={() =>
-									setSelectedLessons((prev) =>
-										prev.includes(lesson)
-											? prev.filter((l) => l !== lesson)
-											: [...prev, lesson]
-									)
-								}
-								className={`px-2 py-1 border rounded-full text-sm ${
-									selectedLessons.includes(lesson)
-										? 'bg-blue-500 text-white'
-										: 'bg-gray-200'
-								}`}
-							>
-								{lesson.slice(lessonPrefix.length)}
-							</button>
-						))}
-					</div>
-				</div>
 
-				<div>
-					<label className="block text-sm font-medium">Type</label>
-					<div className="flex justify-center gap-2">
-						{['all', 'word', 'phrase'].map((type) => (
-							<button
-								key={type}
-								onClick={() =>
-									setSelectedType(type as 'all' | 'word' | 'phrase')
-								}
-								className={`px-3 py-1 border rounded-full text-sm ${
-									selectedType === type
-										? 'bg-blue-500 text-white'
-										: 'bg-gray-200'
-								}`}
-							>
-								{type}
-							</button>
-						))}
+					{/* Prompt Type Selection */}
+					<div className="mb-4">
+						<label className="block font-medium mb-2">Prompt Type</label>
+						<div className="flex justify-center gap-2">
+							{(['translation', 'image', 'audio'] as PromptType[]).map(
+								(type) => (
+									<button
+										key={type}
+										onClick={() => setPromptType(type)}
+										className={`px-3 py-1 border rounded-full ${
+											promptType === type
+												? 'bg-blue-600 text-white'
+												: 'bg-gray-200'
+										}`}
+									>
+										{type.charAt(0).toUpperCase() + type.slice(1)}
+									</button>
+								)
+							)}
+						</div>
 					</div>
-				</div>
+					<div className="mb-4 space-y-2">
+						<div>
+							<label className="block text-sm font-medium">Lessons</label>
+							<div className="flex justify-center gap-4 mb-3">
+								<button
+									onClick={() => setSelectedLessons([])}
+									className="px-3 py-1 border rounded text-sm bg-red-100 hover:bg-red-200"
+								>
+									Clear All
+								</button>
+							</div>
+							<div className="flex flex-wrap justify-center gap-1">
+								{lessonOptions.map((lesson) => (
+									<button
+										key={lesson}
+										onClick={() =>
+											setSelectedLessons((prev) =>
+												prev.includes(lesson)
+													? prev.filter((l) => l !== lesson)
+													: [...prev, lesson]
+											)
+										}
+										className={`px-2 py-1 border rounded-full text-sm ${
+											selectedLessons.includes(lesson)
+												? 'bg-blue-500 text-white'
+												: 'bg-gray-200'
+										}`}
+									>
+										{lesson.slice(lessonPrefix.length)}
+									</button>
+								))}
+							</div>
+						</div>
 
-				<div>
-					<label className="block text-sm font-medium">Category</label>
-					<div className="flex flex-wrap justify-center gap-1">
-						{['all', ...categoryOptions].map((cat) => (
-							<button
-								key={cat}
-								onClick={() => setSelectedCategory(cat)}
-								className={`px-2 py-1 border rounded-full text-sm ${
-									selectedCategory === cat
-										? 'bg-blue-500 text-white'
-										: 'bg-gray-200'
-								}`}
-							>
-								{cat}
-							</button>
-						))}
+						<div>
+							<label className="block text-sm font-medium">Type</label>
+							<div className="flex justify-center gap-2">
+								{['all', 'word', 'phrase'].map((type) => (
+									<button
+										key={type}
+										onClick={() =>
+											setSelectedType(type as 'all' | 'word' | 'phrase')
+										}
+										className={`px-3 py-1 border rounded-full text-sm ${
+											selectedType === type
+												? 'bg-blue-500 text-white'
+												: 'bg-gray-200'
+										}`}
+									>
+										{type}
+									</button>
+								))}
+							</div>
+						</div>
+
+						<div>
+							<label className="block text-sm font-medium">Category</label>
+							<div className="flex flex-wrap justify-center gap-1">
+								{['all', ...categoryOptions].map((cat) => (
+									<button
+										key={cat}
+										onClick={() => setSelectedCategory(cat)}
+										className={`px-2 py-1 border rounded-full text-sm ${
+											selectedCategory === cat
+												? 'bg-blue-500 text-white'
+												: 'bg-gray-200'
+										}`}
+									>
+										{cat}
+									</button>
+								))}
+							</div>
+						</div>
 					</div>
-				</div>
-			</div>
-			<hr className="my-10" />
+				</>
+			)}
 
 			{/* Prompt Display */}
 			{currentCard && (
@@ -305,7 +428,11 @@ export default function SpellingPractice({
 								className="text-4xl mt-2 hover:text-blue-700"
 								onClick={(e) => {
 									e.preventDefault()
-									controls.play()
+									playConfiguredAudio(
+										currentCard.hebAudio,
+										audioVolume,
+										audioSpeed
+									)
 								}}
 							>
 								🔊
@@ -333,7 +460,7 @@ export default function SpellingPractice({
 					style={{ fontFamily: 'Times New Roman, serif' }}
 					autoFocus
 					autoComplete="off"
-					readOnly
+					readOnly={isMobile}
 				/>
 				<button
 					onClick={goToNext}
@@ -366,9 +493,24 @@ export default function SpellingPractice({
 						showFeedback ? 'text-green-600' : 'text-red-500'
 					}`}
 				>
-					{showFeedback
-						? 'Correct!'
-						: `Incorrect. Correct answer: ${currentCard?.heb}`}
+					{showFeedback !== null && (
+						<p
+							className={`text-xl mb-4 font-semibold ${
+								showFeedback ? 'text-green-600' : 'text-red-500'
+							}`}
+						>
+							{showFeedback ? (
+								'Correct!'
+							) : (
+								<>
+									Incorrect. Correct answer:{' '}
+									<span className="font-times font-medium text-4xl">
+										{currentCard?.heb}
+									</span>
+								</>
+							)}
+						</p>
+					)}
 				</p>
 			)}
 

@@ -1,11 +1,21 @@
+// MobileSidebar.tsx
 'use client'
-import { Menu } from 'lucide-react'
 
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
-import { Sidebar } from '@/components/sidebar'
 import { useState } from 'react'
+import { Menu } from 'lucide-react'
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
+import SidebarClient from './sidebar-client'
 
-export const MobileSidebar = () => {
+type Props = {
+	userProgress: {
+		activeCourse: any
+		hearts: number
+		points: number
+	}
+	isPro: boolean
+}
+
+export const MobileSidebar = ({ userProgress, isPro }: Props) => {
 	const [open, setOpen] = useState(false)
 
 	return (
@@ -14,7 +24,11 @@ export const MobileSidebar = () => {
 				<Menu className="text-white" />
 			</SheetTrigger>
 			<SheetContent className="p-0 z-[100]" side="left">
-				<Sidebar onItemClick={() => setOpen(false)} />
+				<SidebarClient
+					userProgress={userProgress}
+					isPro={isPro}
+					onItemClick={() => setOpen(false)}
+				/>
 			</SheetContent>
 		</Sheet>
 	)

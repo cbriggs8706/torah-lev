@@ -119,7 +119,7 @@ export default function LetterQuiz({ letters }: LetterQuizProps) {
 			setWrongCount(0)
 			setWrongAnswers([])
 		}
-	}, [gameStarted])
+	}, [gameStarted, filteredLetters])
 
 	const currentLetter = shuffledLetters[currentIndex]
 
@@ -144,6 +144,7 @@ export default function LetterQuiz({ letters }: LetterQuizProps) {
 			setHasPlayedAudio(true)
 		}, timeLimit * 1000)
 		return () => clearTimeout(timer)
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [currentIndex, gameStarted, timeLimit, finished])
 
 	function handleResponse(correct: boolean) {

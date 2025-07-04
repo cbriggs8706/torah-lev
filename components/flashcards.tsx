@@ -115,6 +115,8 @@ export default function FlashcardReview({
 	const [backFontSize, setBackFontSize] = useState<FontSizeKey>('xl')
 	const [showCustomize, setShowCustomize] = useState(false)
 	const [showFilter, setShowFilter] = useState(false)
+	const [audioVolume, setAudioVolume] = useState(1) // full volume
+	const [audioSpeed, setAudioSpeed] = useState(1) // normal speed
 
 	const { width, height } = useWindowSize()
 
@@ -210,10 +212,11 @@ export default function FlashcardReview({
 	}, [backField, currentCard])
 
 	useEffect(() => {
-		if (frontField === 'hebAudio' && frontAudioRef) {
-			frontAudioRef.play().catch(console.error)
+		if (frontField === 'hebAudio' && currentCard?.hebAudio) {
+			const audio = new Audio(currentCard.hebAudio)
+			audio.play().catch(console.error)
 		}
-	}, [currentIndex, frontField, frontAudioRef])
+	}, [currentCard, frontField])
 
 	useEffect(() => {
 		if (showBack && backField === 'hebAudio' && backAudioRef) {
@@ -222,20 +225,27 @@ export default function FlashcardReview({
 	}, [showBack, backField, backAudioRef])
 
 	function handleNextCard() {
-		setShowBack(false)
-		const nextIndex = currentIndex + 1
-		if (nextIndex >= filteredCards.length) {
-			setShowConfetti(true)
-			setTimeout(() => setShowConfetti(false), 12000)
-		}
-		setCurrentIndex(nextIndex % filteredCards.length)
+		setShowBack(false) // flip to front first
+
+		// Wait for flip animation to complete before changing the card
+		setTimeout(() => {
+			const nextIndex = currentIndex + 1
+			if (nextIndex >= filteredCards.length) {
+				setShowConfetti(true)
+				setTimeout(() => setShowConfetti(false), 12000)
+			}
+			setCurrentIndex(nextIndex % filteredCards.length)
+		}, 700) // ⏱ adjust this to match your card flip duration
 	}
 
 	function handlePreviousCard() {
 		setShowBack(false)
-		setCurrentIndex(
-			(prev) => (prev - 1 + filteredCards.length) % filteredCards.length
-		)
+
+		setTimeout(() => {
+			setCurrentIndex(
+				(prev) => (prev - 1 + filteredCards.length) % filteredCards.length
+			)
+		}, 700) // match the flip animation duration
 	}
 
 	function toggleLesson(lesson: string) {
@@ -290,9 +300,7 @@ export default function FlashcardReview({
 
 			const playAudio = () => {
 				if (!currentCard.hebAudio) return
-				const audio = new Audio(`/${currentCard.hebAudio}`)
-				console.log(audio)
-				audio.play().catch(console.error)
+				playConfiguredAudio(currentCard.hebAudio, audioVolume, audioSpeed)
 			}
 
 			if (hasAudio) {
@@ -301,8 +309,11 @@ export default function FlashcardReview({
 						<button
 							onClick={(e) => {
 								e.stopPropagation()
-								const audio = new Audio(currentCard.hebAudio)
-								audio.play().catch(console.error)
+								playConfiguredAudio(
+									currentCard.hebAudio,
+									audioVolume,
+									audioSpeed
+								)
 							}}
 							className="text-6xl text-blue-600 hover:text-blue-800"
 							aria-label="Play Hebrew audio"
@@ -334,12 +345,6 @@ export default function FlashcardReview({
 			typeof field === 'string' &&
 			(field.startsWith('heb') || field === 'images') &&
 			!!currentCard.hebAudio
-
-		const playAudio = () => {
-			if (!currentCard.hebAudio) return
-			const audio = new Audio(`/${currentCard.hebAudio}`)
-			audio.play().catch(console.error)
-		}
 
 		let content: React.ReactNode = null
 
@@ -376,6 +381,15 @@ export default function FlashcardReview({
 					{fixHebrewPunctuation(currentCard[field] as string)}
 				</p>
 			)
+		}
+
+		function playConfiguredAudio(src: string, volume: number, speed: number) {
+			if (!src) return
+
+			const audio = new Audio(src)
+			audio.volume = volume
+			audio.playbackRate = speed
+			audio.play().catch(console.error)
 		}
 
 		return (
@@ -442,6 +456,33 @@ export default function FlashcardReview({
 					/>
 					Filter
 				</button>
+			</div>
+
+			<div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-6">
+				<div className="text-sm">
+					<label className="block mb-1 font-medium">Volume</label>
+					<input
+						type="range"
+						min="0"
+						max="1"
+						step="0.05"
+						value={audioVolume}
+						onChange={(e) => setAudioVolume(parseFloat(e.target.value))}
+					/>
+					<div className="text-center">{Math.round(audioVolume * 100)}%</div>
+				</div>
+				<div className="text-sm">
+					<label className="block mb-1 font-medium">Audio Speed</label>
+					<input
+						type="range"
+						min="0.5"
+						max="1"
+						step="0.05"
+						value={audioSpeed}
+						onChange={(e) => setAudioSpeed(parseFloat(e.target.value))}
+					/>
+					<div className="text-center">{audioSpeed.toFixed(1)}x</div>
+				</div>
 			</div>
 
 			{/* Front/Back Customization (Hidden Until Clicked) */}

@@ -4,8 +4,6 @@ import {
 	Frank_Ruhl_Libre,
 	Tinos,
 	Cardo,
-	Playpen_Sans,
-	Solitreo,
 	Noto_Rashi_Hebrew,
 	Suez_One,
 } from 'next/font/google'

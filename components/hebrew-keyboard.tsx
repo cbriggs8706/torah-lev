@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 type Props = {
 	onEnter?: () => void
@@ -10,34 +10,254 @@ type Props = {
 
 // Hebrew consonants (with final forms)
 const HEBREW_CONSONANTS = [
-	'א',
-	'ב',
-	'ג',
-	'ד',
-	'ה',
-	'ו',
-	'ז',
-	'ח',
-	'ט',
-	'י',
-	'כ',
-	'ך',
-	'ל',
-	'מ',
-	'ם',
-	'נ',
-	'ן',
-	'ס',
-	'ע',
+	'־',
+	'0',
+	'9',
+	'8',
+	'7',
+	'6',
+	'5',
+	'4',
+	'3',
+	'2',
+	'1',
+	'[',
 	'פ',
-	'ף',
-	'צ',
-	'ץ',
-	'ק',
-	'ר',
-	'ש',
+	'ֹ',
+	'ִ',
+	'ע',
+	'י',
 	'ת',
+	'ר',
+	'ֶ',
+	'ו',
+	'ק',
+	"'",
+	'ְ',
+	'ל',
+	'כ',
+	'ח',
+	'ה',
+	'ג',
+	'ט',
+	'ד',
+	'ס',
+	'ַ',
+	'',
+	'/',
+	'.',
+	'א',
+	'מ',
+	'נ',
+	'ב',
+	'שׁ',
+	'שׂ',
+	'צ',
+	'ז',
 ]
+
+const HEBREW_SHIFT = [
+	'_',
+	'(',
+	')',
+	'֝',
+	'֬',
+	'֔',
+	'֞',
+	'֜',
+	'֨',
+	'֘',
+	'!',
+	'{',
+	'פּ',
+	'וֹ',
+	'}',
+	'ֻ',
+	'יּ',
+	'תּ',
+	'רּ',
+	'ֵ',
+	'וּ',
+	'קּ',
+	'"',
+	'״',
+	'לּ',
+	'כּ',
+	'וַיּ',
+	'הּ',
+	'גּ',
+	'טּ',
+	'דּ',
+	'סּ',
+	'ָ',
+	'|',
+	'?',
+	'ּ',
+	',',
+	'מּ',
+	'נּ',
+	'בּ',
+	'שּׁ',
+	'שּׂ',
+	'צּ',
+	'זּ',
+]
+
+const HEBREW_ALT = [
+	'ֿ',
+	'֯',
+	'֓',
+	'֕',
+	'֡',
+	'֟',
+	'֩',
+	'֠',
+	'֙',
+	'֮',
+	'֗',
+	'֔',
+	'ף',
+	'ֳ',
+	'ֽ',
+	'֒',
+	'',
+	'',
+	'',
+	'ֱ',
+	'',
+	'',
+	'ׄ',
+	'׃',
+	'',
+	'ך',
+	'',
+	'̊',
+	'•',
+	'',
+	'',
+	'',
+	'ֲ',
+	'',
+	'״',
+	'̈',
+	'֫',
+	'ם',
+	'ן',
+	'',
+	'ש',
+	'',
+	'ץ',
+	'',
+]
+
+const HEBREW_NAMES: Record<string, string> = {
+	א: 'Alef',
+	ב: 'Vet',
+	ג: 'Ghimel',
+	ד: 'Dhalet',
+	ה: 'Hey',
+	ו: 'Vav',
+	ז: 'Zayin',
+	ח: 'Chet',
+	ט: 'Tet',
+	י: 'Yod',
+	כ: 'Khaf',
+	ך: 'Khaf Sofit',
+	ל: 'Lamed',
+	מ: 'Mem',
+	ם: 'Mem Sofit',
+	נ: 'Nun',
+	ן: 'Nun Sofit',
+	ס: 'Samekh',
+	ע: 'Ayin',
+	פ: 'Fe',
+	ף: 'Fe Sofit',
+	צ: 'Tsadi',
+	ץ: 'Tsadi Sofit',
+	ק: 'Qof',
+	ר: 'Resh',
+	שׁ: 'Shin',
+	שׂ: 'Sin',
+	ש: 'Shin',
+	ת: 'Thav',
+	בּ: 'Bet',
+	גּ: 'Gimel',
+	דּ: 'Dalet',
+	הּ: 'Hey',
+	וּ: 'Shuruk',
+	וֹ: 'Holam Male',
+	זּ: 'Zayin',
+	וַיּ: 'Va-yee',
+	טּ: 'Tet',
+	יּ: 'Yod',
+	כּ: 'Kaf',
+	ךּ: 'Kaf Sofit',
+	לּ: 'Lamed',
+	מּ: 'Mem',
+	נּ: 'Nun',
+	סּ: 'Samekh',
+	פּ: 'Pe',
+	ףּ: 'Pe Sofit',
+	צּ: 'Tsadi',
+	קּ: 'Qof',
+	רּ: 'Resh',
+	שּׁ: 'Shin',
+	שּׂ: 'Sin',
+	תּ: 'Tav',
+	'ְ': 'Shva',
+	'ֱ': 'Hatef Segol',
+	'ֲ': 'Hatef Patach',
+	'ֳ': 'Hatef Kamatz',
+	'ַ': 'Patach',
+	'ָ': 'Kamatz',
+	'ֶ': 'Segol',
+	'ֵ': 'Tzere',
+	'ִ': 'Hiriq',
+	'ֹ': 'Holam',
+	'ֻ': 'Qubutz',
+	'ּ': 'Dagesh',
+	'ֿ': 'Rafe',
+	'ׄ': 'Masora Circle',
+	'׃': 'Sof Pasuq',
+	'״': 'Gershayim',
+	"'": 'Geresh',
+	'־': 'Maqaf',
+	'֑': 'Etnachta',
+	'֒': 'Segolta',
+	'֓': 'Shalshelet',
+	'֔': 'Zaqef Qaton',
+	'֕': 'Zaqef Gadol',
+	'֖': 'Tipecha',
+	'֗': 'Revia',
+	'֘': 'Zarqa',
+	'֙': 'Pashta',
+	'֚': 'Yetiv',
+	'֛': 'Tevir',
+	'֜': 'Geresh',
+	'֝': 'Geresh Muqdam',
+	'֞': 'Gershayim',
+	'֟': 'Qarney Farah',
+	'֠': 'Telisha Gedolah',
+	'֡': 'Pazer',
+	'֢': 'Atnach Hafukh', // Rare
+	'֣': 'Munach',
+	'֤': 'Mahpach',
+	'֥': 'Merkha',
+	'֦': 'Merkha Kefula',
+	'֧': 'Darga',
+	'֨': 'Qadma',
+	'֩': 'Telisha Qetana',
+	'֪': 'Yerach ben Yomo',
+	'֫': 'Galgal',
+	'֬': 'Ole',
+	'֭': 'Iluy', // Rare
+	'֮': 'Dechi',
+	'֯': 'Karne Parah (variant)',
+	'.': 'Period',
+	',': 'Comma',
+	'?': 'Question Mark',
+	'!': 'Exclamation Point',
+}
 
 // Track the last focused input field globally
 let lastFocusedInput: HTMLInputElement | null = null
@@ -47,6 +267,9 @@ export default function HebrewKeyboard({
 	className = '',
 	onKeyPress,
 }: Props) {
+	const [shiftActive, setShiftActive] = useState(false)
+	const [altActive, setAltActive] = useState(false)
+
 	useEffect(() => {
 		// Track focus on any input element
 		const handleFocus = (e: Event) => {
@@ -60,7 +283,6 @@ export default function HebrewKeyboard({
 		return () => window.removeEventListener('focusin', handleFocus)
 	}, [])
 
-	// Handle physical keyboard input (optional enhancement)
 	useEffect(() => {
 		const handleKey = (e: KeyboardEvent) => {
 			if (!lastFocusedInput || lastFocusedInput.readOnly) return
@@ -82,14 +304,13 @@ export default function HebrewKeyboard({
 		return () => window.removeEventListener('keydown', handleKey)
 	}, [onEnter])
 
-	// Insert Hebrew letter at caret position
 	function insertAtCaret(input: HTMLInputElement, char: string) {
 		const { selectionStart, selectionEnd, value } = input
 		const newValue =
 			value.slice(0, selectionStart ?? 0) +
 			char +
 			value.slice(selectionEnd ?? 0)
-		const newPos = (selectionStart ?? 0) + 1
+		const newPos = (selectionStart ?? 0) + char.length
 
 		input.value = newValue
 		input.setSelectionRange(newPos, newPos)
@@ -97,7 +318,6 @@ export default function HebrewKeyboard({
 		input.focus()
 	}
 
-	// Delete last character (backspace behavior)
 	function deleteLastChar(input: HTMLInputElement) {
 		const { selectionStart, selectionEnd, value } = input
 		if (selectionStart === null || selectionEnd === null) return
@@ -119,69 +339,120 @@ export default function HebrewKeyboard({
 		input.focus()
 	}
 
+	function toggleShift() {
+		setShiftActive((prev) => {
+			if (!prev) setAltActive(false)
+			return !prev
+		})
+	}
+
+	function toggleAlt() {
+		setAltActive((prev) => {
+			if (!prev) setShiftActive(false)
+			return !prev
+		})
+	}
+
+	const keySet = shiftActive
+		? HEBREW_SHIFT
+		: altActive
+		? HEBREW_ALT
+		: HEBREW_CONSONANTS
+
 	return (
 		<div
 			className={`flex flex-col gap-3 text-4xl p-4 bg-gray-100 rounded-lg shadow rtl ${className}`}
 			dir="rtl"
 			style={{ fontFamily: 'Times New Roman, serif' }}
 		>
-			{/* Hebrew Letter Buttons */}
-			<div className="grid grid-cols-7 gap-2">
-				{HEBREW_CONSONANTS.map((char) => (
+			{/* Key Grid */}
+			<div className="grid grid-cols-11 gap-2">
+				{keySet.map((char, index) => (
 					<button
-						key={char}
+						key={`${char}-${index}`}
 						tabIndex={-1}
-						className="p-3 bg-white rounded shadow hover:bg-blue-100 active:bg-blue-200"
+						disabled={!char}
+						title={char ? HEBREW_NAMES[char] || '' : ''}
+						className={`text-center leading-none transition rounded shadow
+    ${
+			char
+				? 'bg-white hover:bg-blue-100 active:bg-blue-200'
+				: 'bg-transparent cursor-default shadow-none opacity-0 select-none'
+		}
+    w-8 h-12 text-2xl p-1
+    sm:w-10 sm:h-14 sm:text-3xl sm:p-2
+    md:w-12 md:h-16 md:text-4xl md:p-3
+  `}
+						dir="rtl"
 						onClick={(e) => {
 							e.preventDefault()
 							e.stopPropagation()
-							onKeyPress(char)
-							// if (
-							// 	lastFocusedInput &&
-							// 	lastFocusedInput.tagName === 'INPUT' &&
-							// 	!lastFocusedInput.readOnly
-							// ) {
-							// 	lastFocusedInput.focus()
-							// 	insertAtCaret(lastFocusedInput, char)
-							// }
+							if (char) {
+								onKeyPress(char)
+								if (shiftActive) setShiftActive(false)
+								if (altActive) setAltActive(false)
+							}
 						}}
 					>
-						{char}
+						<span dir="rtl">{char || ''}</span>
 					</button>
 				))}
 			</div>
 
-			{/* Control Row: Backspace + Submit */}
-			<div className="flex gap-2 justify-center text-2xl">
+			{/* Modifier Row: Shift / Alt / Space */}
+			<div className="flex gap-2 justify-center text-lg md:text-2xl">
+				<button
+					onClick={toggleShift}
+					className={`w-1/4 py-3 border rounded shadow ${
+						shiftActive ? 'bg-blue-300' : 'bg-gray-100 hover:bg-gray-200'
+					}`}
+				>
+					Shift
+				</button>
+				<button
+					onClick={() => {
+						onKeyPress(' ')
+						if (shiftActive) setShiftActive(false)
+						if (altActive) setAltActive(false)
+					}}
+					className="w-1/2 py-3 border rounded shadow bg-gray-100 hover:bg-gray-200"
+				>
+					Space
+				</button>
+				<button
+					onClick={toggleAlt}
+					className={`w-1/4 py-3 border rounded shadow ${
+						altActive ? 'bg-blue-300' : 'bg-gray-100 hover:bg-gray-200'
+					}`}
+				>
+					Alt/Opt
+				</button>
+			</div>
+
+			{/* Bottom Row: Backspace / Submit */}
+			<div className="flex gap-2 justify-center text-lg md:text-2xl">
 				<button
 					tabIndex={-1}
-					className="flex-1 py-3 bg-red-100 hover:bg-red-200 rounded shadow"
+					className="w-1/2 py-3 bg-green-200 hover:bg-green-300 rounded shadow"
+					onClick={(e) => {
+						e.preventDefault()
+						e.stopPropagation()
+						lastFocusedInput?.focus()
+						onEnter?.()
+					}}
+				>
+					✔️ Submit
+				</button>
+				<button
+					tabIndex={-1}
+					className="w-1/2 py-3 bg-red-100 hover:bg-red-200 rounded shadow"
 					onClick={(e) => {
 						e.preventDefault()
 						e.stopPropagation()
 						onKeyPress('\b') // backspace
 					}}
 				>
-					→
-				</button>
-				<button
-					onClick={() => onKeyPress(' ')}
-					className="px-4 py-2 border rounded bg-gray-100 hover:bg-gray-200"
-				>
-					Space
-				</button>
-				<button
-					tabIndex={-1}
-					className="flex-1 py-3 bg-green-200 hover:bg-green-300 rounded shadow"
-					onClick={(e) => {
-						e.preventDefault()
-						e.stopPropagation()
-
-						if (lastFocusedInput) lastFocusedInput.focus()
-						onEnter?.()
-					}}
-				>
-					✔️ Submit
+					→ Backspace
 				</button>
 			</div>
 		</div>
