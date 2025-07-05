@@ -4,9 +4,9 @@ import { useState, useEffect, useMemo, useCallback } from 'react'
 import Image from 'next/image'
 import { useAudio, useWindowSize } from 'react-use'
 
-import type { Flashcard } from './flashcards'
 import HebrewKeyboard from './hebrew-keyboard'
 import ReactConfetti from 'react-confetti'
+import { Flashcard } from '@/lib/vocab'
 
 interface SpellingPracticeProps {
 	data: Flashcard[]
@@ -382,7 +382,7 @@ export default function SpellingPractice({
 								{['all', ...categoryOptions].map((cat) => (
 									<button
 										key={cat}
-										onClick={() => setSelectedCategory(cat)}
+										onClick={() => setSelectedCategory(cat as string)}
 										className={`px-2 py-1 border rounded-full text-sm ${
 											selectedCategory === cat
 												? 'bg-blue-500 text-white'

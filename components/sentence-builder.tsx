@@ -356,7 +356,18 @@ function SortableWord({
 }) {
 	const { attributes, setNodeRef, transform, transition, listeners } =
 		useSortable({ id })
-	const word = vocab.find((v) => v.id === id)?.word || ''
+
+	const wordData = vocab.find((v) => v.id === id)
+	const word = wordData?.word || ''
+
+	// Get the original color based on gender
+	const gender = wordData?.gender
+	const color =
+		gender === 'm'
+			? 'bg-blue-200'
+			: gender === 'f'
+			? 'bg-pink-200'
+			: 'bg-yellow-200'
 
 	let pointerDownTime = 0
 	let startX = 0
@@ -391,7 +402,7 @@ function SortableWord({
 		<div
 			ref={setNodeRef}
 			{...attributes}
-			className="px-3 py-1 bg-white border rounded shadow text-3xl hover:bg-red-100 cursor-pointer select-none"
+			className={`px-3 py-1 border rounded shadow text-3xl cursor-pointer select-none ${color}`}
 			style={{
 				transform: CSS.Transform.toString(transform),
 				transition,

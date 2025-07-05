@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useAudio, useWindowSize } from 'react-use'
 import ReactConfetti from 'react-confetti'
 
@@ -8,7 +8,6 @@ interface HebrewLetter {
 	char: string
 	nameAudio: string
 	soundAudio: string
-	niqqudAudio?: string
 	category?: string
 }
 
@@ -79,6 +78,28 @@ function CountdownCircle({ seconds }: { seconds: number }) {
 	)
 }
 
+const niqqudOptions = [
+	{ key: 'qamats', symbol: 'ָ' },
+	{ key: 'patach', symbol: 'ַ' },
+	{ key: 'chataf-patach', symbol: 'ֲ' },
+	{ key: 'tsere', symbol: 'ֵ' },
+	{ key: 'tsere-yod', symbol: 'י ֵ' },
+	{ key: 'segol', symbol: 'ֶ' },
+	{ key: 'segol-yod', symbol: 'י ֶ' },
+	{ key: 'chataf-segol', symbol: 'ֱ' },
+	{ key: 'hiriq', symbol: 'ִ' },
+	{ key: 'hiriq-yod', symbol: 'י ִ' },
+	{ key: 'holam', symbol: 'ֹ' },
+	{ key: 'holam-male', symbol: 'וֹ' },
+	{ key: 'chataf-qamats', symbol: 'ֳ' },
+	{ key: 'shuruk', symbol: 'וּ' },
+	{ key: 'qubutz', symbol: 'ֻ' },
+	{ key: 'patach-yod', symbol: 'י ַ' },
+	{ key: 'qamats-hey', symbol: 'ה ָ' },
+	{ key: 'shva', symbol: 'ְ' },
+	{ key: 'dagesh', symbol: 'ּ' },
+] as const
+
 export default function LetterQuiz({ letters }: LetterQuizProps) {
 	const [gameStarted, setGameStarted] = useState(false)
 	const [selectedMode, setSelectedMode] = useState<Mode>('name')
@@ -96,19 +117,28 @@ export default function LetterQuiz({ letters }: LetterQuizProps) {
 	const [wrongAnswers, setWrongAnswers] = useState<HebrewLetter[]>([])
 	const [finishAudio] = useAudio({ src: '/finish.mp3', autoPlay: true })
 	const { width, height } = useWindowSize()
+	const [selectedNiqqud, setSelectedNiqqud] = useState<string[]>([])
 
 	// Filter the dataset by mode selection
 	const filteredLetters = useMemo(() => {
 		if (selectedMode === 'name' || selectedMode === 'sound') {
 			return letters.filter((l) => l.nameAudio.includes('base'))
-		} else if (selectedMode === 'niqqud') {
-			return letters.filter(
-				(l) =>
-					l.nameAudio.includes('qamats.mp3') && !l.nameAudio.includes('chataf')
-			)
+		}
+		if (selectedMode === 'niqqud') {
+			if (selectedNiqqud.length === 0) return []
+
+			return letters.filter((l) => {
+				// Extract the part after 'name-alef-' or 'name-vet-'
+				const match = l.nameAudio.match(/name-[^-]+-(.+)\.mp3$/)
+				if (!match) return false
+				const niqqudKey = match[1] // e.g., "hiriq", "hiriq-yod"
+
+				// Only match exact niqqud selected
+				return selectedNiqqud.includes(niqqudKey)
+			})
 		}
 		return []
-	}, [letters, selectedMode])
+	}, [letters, selectedMode, selectedNiqqud])
 
 	useEffect(() => {
 		if (gameStarted) {
@@ -125,26 +155,49 @@ export default function LetterQuiz({ letters }: LetterQuizProps) {
 
 	const getAudioSrc = () => {
 		if (!currentLetter) return ''
-		if (selectedMode === 'name') return currentLetter.nameAudio
+		if (selectedMode === 'name') return `${currentLetter.nameAudio}`
 		if (selectedMode === 'sound' || selectedMode === 'niqqud')
-			return currentLetter.soundAudio
+			return `${currentLetter.soundAudio}`
 		return ''
 	}
 
-	const [_, __, controls] = useAudio({ src: getAudioSrc(), autoPlay: false })
+	const audioRef = useRef<HTMLAudioElement | null>(null)
+
+	useEffect(() => {
+		if (!currentLetter) return
+
+		const audio = new Audio(getAudioSrc())
+		audioRef.current = audio
+		setHasPlayedAudio(false)
+
+		return () => {
+			audio.pause()
+			audioRef.current = null
+		}
+	}, [currentIndex])
 
 	useEffect(() => {
 		if (!gameStarted || finished) return
+
 		setWaiting(true)
 		setHasPlayedAudio(false)
 		setFeedback(null)
+
 		const timer = setTimeout(() => {
 			setWaiting(false)
-			controls.play()
-			setHasPlayedAudio(true)
+			if (audioRef.current) {
+				audioRef.current.currentTime = 0
+				audioRef.current
+					.play()
+					.then(() => setHasPlayedAudio(true))
+					.catch((err) => {
+						console.warn('Audio failed to play. Proceeding anyway.')
+						setHasPlayedAudio(true)
+					})
+			}
 		}, timeLimit * 1000)
+
 		return () => clearTimeout(timer)
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [currentIndex, gameStarted, timeLimit, finished])
 
 	function handleResponse(correct: boolean) {
@@ -209,6 +262,33 @@ export default function LetterQuiz({ letters }: LetterQuizProps) {
 							))}
 						</div>
 					</div>
+					{selectedMode === 'niqqud' && (
+						<div className="mb-6">
+							<p className="font-medium mb-2">Select Niqqud(s)</p>
+							<div className="flex flex-wrap gap-2 justify-center">
+								{niqqudOptions.map(({ key, symbol }) => (
+									<button
+										key={key}
+										onClick={() =>
+											setSelectedNiqqud((prev) =>
+												prev.includes(key)
+													? prev.filter((v) => v !== key)
+													: [...prev, key]
+											)
+										}
+										className={`text-5xl font-times w-16 h-16 border rounded-full ${
+											selectedNiqqud.includes(key)
+												? 'bg-blue-600 text-white'
+												: 'bg-gray-200 text-black'
+										}`}
+									>
+										{symbol}
+									</button>
+								))}
+							</div>
+						</div>
+					)}
+
 					<div className="mb-6">
 						<p className="font-medium mb-2">Font</p>
 						<div className="flex justify-center gap-2 flex-wrap">
@@ -381,14 +461,14 @@ export default function LetterQuiz({ letters }: LetterQuizProps) {
 						</div>
 					) : (
 						<button
-							onClick={() => controls.play()}
+							onClick={() => audioRef.current?.play()}
 							className="text-5xl text-blue-600 hover:text-blue-800 mb-4"
 							aria-label="Replay Audio"
 						>
 							🔊
 						</button>
 					)}
-					{!waiting && hasPlayedAudio && (
+					{!waiting && (
 						<div className="flex justify-center gap-6 mt-4">
 							<button
 								onClick={() => handleResponse(true)}

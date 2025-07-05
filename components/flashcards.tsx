@@ -1,5 +1,6 @@
 'use client'
 
+import { Flashcard } from '@/lib/vocab'
 import Image from 'next/image'
 import { useState, useMemo, useEffect } from 'react'
 import ReactConfetti from 'react-confetti'
@@ -15,29 +16,6 @@ type FontChoice =
 	| 'cardo'
 	| 'rashi'
 	| 'suez'
-
-export interface Flashcard {
-	id: number
-	hebNiqqud: string
-	heb: string
-	eng: string
-	engDefinition: string
-	genderPerson: string
-	partOfSpeech: string[]
-	ipa: string
-	engTransliteration: string
-	dictionaryUrl: string
-	images: string[]
-	lessons: string[]
-	hebAudio: string
-	engAudio: string
-	synonyms: string[]
-	antonyms: string[]
-	scriptures: string[]
-	strongs: string
-	type: 'word' | 'phrase'
-	category: string
-}
 
 interface FlashcardReviewProps {
 	data: Flashcard[]
@@ -142,7 +120,9 @@ export default function FlashcardReview({
 	}, [cardsForPrefix, lessonPrefix])
 
 	const categoryOptions = useMemo(() => {
-		const all = cardsForPrefix.map((card) => card.category).filter(Boolean)
+		const all = cardsForPrefix
+			.map((card) => card.category)
+			.filter((c): c is string => typeof c === 'string')
 		const unique = Array.from(new Set(all))
 		return unique.sort()
 	}, [cardsForPrefix])

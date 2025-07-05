@@ -1,7 +1,7 @@
 'use client'
 
+import { Flashcard } from '@/lib/vocab'
 import { useEffect, useMemo, useState } from 'react'
-import type { Flashcard } from './flashcards'
 import ReactConfetti from 'react-confetti'
 import { useAudio, useWindowSize } from 'react-use'
 
