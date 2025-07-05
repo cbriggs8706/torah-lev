@@ -24,32 +24,22 @@ const main = async () => {
 		await db.insert(schema.courses).values([
 			{
 				id: 1,
-				title: 'Super Beginner Spanish',
-				imageSrc: '/mx.svg',
-			},
-			{
-				id: 2,
-				title: 'Intermediate Spanish',
+				title: 'Destinos',
 				imageSrc: '/mx.svg',
 			},
 			{
 				id: 3,
-				title: 'English Connect 1',
+				title: 'EnglishConnect 1',
 				imageSrc: '/us.svg',
 			},
 			{
 				id: 4,
-				title: 'English Connect 2',
+				title: 'EnglishConnect 2',
 				imageSrc: '/us.svg',
 			},
 			{
 				id: 5,
-				title: 'Intro Hebrew Alphabet',
-				imageSrc: '/is.svg',
-			},
-			{
-				id: 6,
-				title: 'Beginner Hebrew',
+				title: 'Aleph with Beth',
 				imageSrc: '/is.svg',
 			},
 		])
@@ -57,17 +47,129 @@ const main = async () => {
 		await db.insert(schema.units).values([
 			{
 				id: 1,
-				courseId: 2, // Intermediate Spanish
+				courseId: 1, // Destinos
 				title: 'Semana 1',
 				description: 'Sustantivos, Artículos y Adjetivos',
 				order: 1,
 			},
 			{
 				id: 2,
-				courseId: 6, // Beginner Hebrew
-				title: 'Awb Lesson 1',
-				description: 'Aleph with Beth Lesson 1',
+				courseId: 5, // Aleph with Beth
+				title: 'AwB Unit 1: Foundations',
+				description:
+					'First words, grammar basics, family, location, alphabet, and body vocabulary.',
 				order: 1,
+			},
+			{
+				id: 3,
+				courseId: 5, // Aleph with Beth
+				title: 'AwB Unit 2: Descriptions & Existence',
+				description:
+					'Construct forms, numbers, more alphabet, nature/existence, geography, possession, and relative clauses.',
+				order: 2,
+			},
+			{
+				id: 4,
+				courseId: 5, // Aleph with Beth
+				title: 'AwB Unit 3: Actions & Commands',
+				description:
+					'Common verbs (come, go, say), imperatives, possession suffixes, obedience, giving, marriage, and more prepositions.',
+				order: 3,
+			},
+			{
+				id: 5,
+				courseId: 5, // Aleph with Beth
+				title: 'AwB Unit 4: People & Objects',
+				description:
+					'Higher numbers, prophets, direct objects (אֶת־), truth and lies, fruits, body parts, life & death, wisdom, and Noah’s ark.',
+				order: 4,
+			},
+			{
+				id: 6,
+				courseId: 5, // Aleph with Beth
+				title: 'AwB Unit 5: Creation & Contrast',
+				description:
+					'Similarities, light/darkness, creation, movement, verb sequences, sending, food, time periods, and emotional contrasts.',
+				order: 5,
+			},
+			{
+				id: 7,
+				courseId: 5, // Aleph with Beth
+				title: 'AwB Unit 6: Journeys & Decisions',
+				description:
+					'Spies, motion verbs, King Josiah, dilemmas, and crossing over—narratives of choice, leadership, and transitions.',
+				order: 6,
+			},
+			{
+				id: 8,
+				courseId: 5, // Aleph with Beth
+				title: 'AwB Unit 7: Battles & Blessings',
+				description:
+					'Battles, leadership, and covenant, introducing feminine and second-person vayyiqtol forms.',
+				order: 7,
+			},
+			{
+				id: 9,
+				courseId: 5, // Aleph with Beth
+				title: 'AwB Unit 8: Hearts & Actions',
+				description:
+					'Emotion, loyalty, and movement through stories like Ruth and Jordan’s crossing, while deepening grammar with participles and verb form review.',
+				order: 8,
+			},
+			{
+				id: 10,
+				courseId: 5, // Aleph with Beth
+				title: 'AwB Unit 9: Life & Legacy',
+				description:
+					'Birth, knowledge, and discernment across generations, expanding vocabulary on time and family while refining participles, negation, and noun/verb distinctions.',
+				order: 9,
+			},
+			{
+				id: 11,
+				courseId: 5, // Aleph with Beth
+				title: 'AwB Unit 10: Callings & Kings',
+				description:
+					'Calling, service, and leadership transitions through figures like Samuel and Solomon, focusing on yiqtol verb forms and imperative variations.',
+				order: 10,
+			},
+			{
+				id: 12,
+				courseId: 5, // Aleph with Beth
+				title: 'AwB Unit 11: Tribes & Loliness',
+				description:
+					'Israel’s identity through tribal structure, inheritance, and holiness, while introducing binyanim (verb patterns), Pi’el verbs, and advanced vowel markings like meteg and silluq.',
+				order: 11,
+			},
+			{
+				id: 13,
+				courseId: 5, // Aleph with Beth
+				title: 'AwB Unit 12: Fear, Love & Sacrifice',
+				description:
+					'Emotion, obedience, and drawing near to God through stories of Jacob, Abraham, and Joseph, while introducing negative commands, Hiph’il causative verbs, and veqatal verb sequences.',
+				order: 12,
+			},
+			{
+				id: 14,
+				courseId: 5, // Aleph with Beth
+				title: 'AwB Unit 13: God Acts & People Respond',
+				description:
+					'Divine intervention and human choice through stories of Abraham, Rachel, and the prophets, while deepening grammar with veqatal forms, Hiph’il verbs, and conditional clauses.',
+				order: 13,
+			},
+			{
+				id: 15,
+				courseId: 5, // Aleph with Beth
+				title: 'AwB Unit 14: Revealing & Raising',
+				description:
+					'Divine revelation, resurrection, and decision-making through stories of Rebekah, Elijah, and Ezekiel, while continuing the Hiph’il causative verb series and exploring themes of vision, exile, and making known.',
+				order: 14,
+			},
+			{
+				id: 16,
+				courseId: 5, // Aleph with Beth
+				title: 'AwB Classroom',
+				description: 'Vocabulary for the modern classroom.',
+				order: 15,
 			},
 		])
 
@@ -229,7 +331,7 @@ const main = async () => {
 				question: 'AwB Lesson 1 Video',
 				video: 'https://youtu.be/y640-FIpxQs?si=hB3rDhgaloR4plIj',
 			},
-			{ id: 76, lessonId: 7, type: 'ASSIST', order: 2, question: 'eesh' },
+			// { id: 76, lessonId: 7, type: 'ASSIST', order: 2, question: 'eesh' },
 		])
 
 		await db.insert(schema.challengeOptions).values([
