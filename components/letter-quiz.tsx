@@ -97,7 +97,7 @@ const niqqudOptions = [
 	{ key: 'patach-yod', symbol: 'י ַ' },
 	{ key: 'qamats-hey', symbol: 'ה ָ' },
 	{ key: 'shva', symbol: 'ְ' },
-	{ key: 'dagesh', symbol: 'ּ' },
+	// { key: 'dagesh', symbol: 'ּ' },
 ] as const
 
 export default function LetterQuiz({ letters }: LetterQuizProps) {
@@ -118,6 +118,7 @@ export default function LetterQuiz({ letters }: LetterQuizProps) {
 	const [finishAudio] = useAudio({ src: '/finish.mp3', autoPlay: true })
 	const { width, height } = useWindowSize()
 	const [selectedNiqqud, setSelectedNiqqud] = useState<string[]>([])
+	const [disabledButtons, setDisabledButtons] = useState(false)
 
 	// Filter the dataset by mode selection
 	const filteredLetters = useMemo(() => {
@@ -164,20 +165,28 @@ export default function LetterQuiz({ letters }: LetterQuizProps) {
 	const audioRef = useRef<HTMLAudioElement | null>(null)
 
 	useEffect(() => {
-		if (!currentLetter) return
+		if (!gameStarted || finished || waiting || !currentLetter) return
 
 		const audio = new Audio(getAudioSrc())
 		audioRef.current = audio
-		setHasPlayedAudio(false)
+		audio.currentTime = 0
+
+		audio
+			.play()
+			.then(() => setHasPlayedAudio(true))
+			.catch(() => {
+				console.warn('Audio failed to play. Proceeding anyway.')
+				setHasPlayedAudio(true)
+			})
 
 		return () => {
 			audio.pause()
 			audioRef.current = null
 		}
-	}, [currentIndex])
+	}, [gameStarted, currentIndex, finished, waiting])
 
 	useEffect(() => {
-		if (!gameStarted || finished) return
+		if (!gameStarted || finished || !currentLetter) return
 
 		setWaiting(true)
 		setHasPlayedAudio(false)
@@ -185,28 +194,24 @@ export default function LetterQuiz({ letters }: LetterQuizProps) {
 
 		const timer = setTimeout(() => {
 			setWaiting(false)
-			if (audioRef.current) {
-				audioRef.current.currentTime = 0
-				audioRef.current
-					.play()
-					.then(() => setHasPlayedAudio(true))
-					.catch((err) => {
-						console.warn('Audio failed to play. Proceeding anyway.')
-						setHasPlayedAudio(true)
-					})
-			}
 		}, timeLimit * 1000)
 
 		return () => clearTimeout(timer)
 	}, [currentIndex, gameStarted, timeLimit, finished])
 
 	function handleResponse(correct: boolean) {
+		if (disabledButtons) return // Prevent double-click
+
+		setDisabledButtons(true)
 		setFeedback(correct)
-		if (correct) setCorrectCount((prev) => prev + 1)
-		else {
+
+		if (correct) {
+			setCorrectCount((prev) => prev + 1)
+		} else {
 			setWrongCount((prev) => prev + 1)
 			setWrongAnswers((prev) => [...prev, currentLetter])
 		}
+
 		setTimeout(() => {
 			const isLast = currentIndex === shuffledLetters.length - 1
 			if (isLast) {
@@ -214,6 +219,7 @@ export default function LetterQuiz({ letters }: LetterQuizProps) {
 				setFinished(true)
 			} else {
 				setCurrentIndex((i) => i + 1)
+				setDisabledButtons(false) // Re-enable after transition
 			}
 		}, 1500)
 	}
@@ -472,13 +478,19 @@ export default function LetterQuiz({ letters }: LetterQuizProps) {
 						<div className="flex justify-center gap-6 mt-4">
 							<button
 								onClick={() => handleResponse(true)}
-								className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
+								disabled={disabledButtons}
+								className={`px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 ${
+									disabledButtons ? 'opacity-50 cursor-not-allowed' : ''
+								}`}
 							>
 								I got it right 👍
 							</button>
 							<button
 								onClick={() => handleResponse(false)}
-								className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+								disabled={disabledButtons}
+								className={`px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 ${
+									disabledButtons ? 'opacity-50 cursor-not-allowed' : ''
+								}`}
 							>
 								I missed it 👎
 							</button>

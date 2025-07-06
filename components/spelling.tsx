@@ -7,13 +7,14 @@ import { useAudio, useWindowSize } from 'react-use'
 import HebrewKeyboard from './hebrew-keyboard'
 import ReactConfetti from 'react-confetti'
 import { Flashcard } from '@/lib/vocab'
+import { letters } from '@/lib/letters'
 
 interface SpellingPracticeProps {
 	data: Flashcard[]
 	lessonPrefix: string
 }
 
-type PromptType = 'image' | 'audio' | 'translation'
+type PromptType = 'image' | 'audio' | 'translation' | 'letter-by-letter'
 
 export default function SpellingPractice({
 	data,
@@ -203,7 +204,7 @@ export default function SpellingPractice({
 			const nextIndex = (i + 1) % filteredCards.length
 			setShowFeedback(null)
 
-			// Auto-play audio if promptType is audio and next card has audio
+			// Auto-play audio if promptType is audio or letter-by-letter
 			if (promptType === 'audio' && filteredCards[nextIndex]?.hebAudio) {
 				setTimeout(() => {
 					playConfiguredAudio(
@@ -211,7 +212,14 @@ export default function SpellingPractice({
 						audioVolume,
 						audioSpeed
 					)
-				}, 100) // slight delay ensures audio element is mounted
+				}, 100)
+			} else if (
+				promptType === 'letter-by-letter' &&
+				filteredCards[nextIndex]?.heb
+			) {
+				setTimeout(() => {
+					playLetterByLetter(filteredCards[nextIndex].heb)
+				}, 100)
 			}
 
 			return nextIndex
@@ -236,6 +244,48 @@ export default function SpellingPractice({
 
 			return prevIndex
 		})
+	}
+
+	function playLetterByLetter(word: string) {
+		const normalized = word
+			.normalize('NFKC')
+			.replace(/[\u0591-\u05BD\u05BF-\u05C7\u05C1\u05C2]/g, '') // remove niqqud + shin/sin dots
+			.replace(/[שׁשׂ]/g, 'ש') // normalize presentation forms
+
+		const chars = Array.from(normalized)
+		const audioPaths: string[] = []
+
+		for (const char of chars) {
+			const normalizedChar = char
+				.normalize('NFKC')
+				.replace(/[\u0591-\u05BD\u05BF-\u05C7\u05C1\u05C2]/g, '') // remove niqqud and shin/sin dots
+
+			let match = letters.find((l) => l.char === normalizedChar)
+
+			// Special case: plain shin (ש) without dot → use shin audio
+			if (!match && normalizedChar === 'ש') {
+				match = letters.find((l) => l.nameAudio?.includes('name-shin-base.mp3'))
+			}
+
+			if (match?.nameAudio) {
+				console.log(`✅ Matched ${char} → ${match.char} → ${match.nameAudio}`)
+				audioPaths.push(match.nameAudio)
+			} else {
+				console.warn(`❌ No match for: ${char} (normalized: ${normalizedChar})`)
+			}
+		}
+
+		function playSequentially(index = 0) {
+			if (index >= audioPaths.length) return
+
+			const audio = new Audio(audioPaths[index])
+			audio.volume = audioVolume
+			audio.playbackRate = audioSpeed
+			audio.addEventListener('ended', () => playSequentially(index + 1))
+			audio.play().catch(console.error)
+		}
+
+		playSequentially()
 	}
 
 	return (
@@ -304,21 +354,26 @@ export default function SpellingPractice({
 					<div className="mb-4">
 						<label className="block font-medium mb-2">Prompt Type</label>
 						<div className="flex justify-center gap-2">
-							{(['translation', 'image', 'audio'] as PromptType[]).map(
-								(type) => (
-									<button
-										key={type}
-										onClick={() => setPromptType(type)}
-										className={`px-3 py-1 border rounded-full ${
-											promptType === type
-												? 'bg-blue-600 text-white'
-												: 'bg-gray-200'
-										}`}
-									>
-										{type.charAt(0).toUpperCase() + type.slice(1)}
-									</button>
-								)
-							)}
+							{(
+								[
+									'translation',
+									'image',
+									'audio',
+									'letter-by-letter',
+								] as PromptType[]
+							).map((type) => (
+								<button
+									key={type}
+									onClick={() => setPromptType(type)}
+									className={`px-3 py-1 border rounded-full ${
+										promptType === type
+											? 'bg-blue-600 text-white'
+											: 'bg-gray-200'
+									}`}
+								>
+									{type.charAt(0).toUpperCase() + type.slice(1)}
+								</button>
+							))}
 						</div>
 					</div>
 					<div className="mb-4 space-y-2">
@@ -439,6 +494,17 @@ export default function SpellingPractice({
 							</button>
 							{audioElement}
 						</>
+					)}
+					{promptType === 'letter-by-letter' && currentCard.heb && (
+						<button
+							className="text-4xl mt-2 hover:text-blue-700"
+							onClick={(e) => {
+								e.preventDefault()
+								playLetterByLetter(currentCard.heb)
+							}}
+						>
+							🔊
+						</button>
 					)}
 				</div>
 			)}
