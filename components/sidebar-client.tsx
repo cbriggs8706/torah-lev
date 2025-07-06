@@ -7,6 +7,7 @@ import { Loader } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { SidebarItem } from './sidebar-item'
 import { UserProgress } from './user-progress'
+import { HebrewClock } from './hebrew-clock'
 
 type Props = {
 	className?: string
@@ -40,12 +41,14 @@ export default function SidebarClient({
 					</h1>
 				</div>
 			</Link>
+
 			<UserProgress
 				activeCourse={userProgress.activeCourse}
 				hearts={userProgress.hearts}
 				points={userProgress.points}
 				hasActiveSubscription={isPro}
 			/>
+			<HebrewClock />
 			<div className="flex flex-col gap-y-2 flex-1">
 				<SidebarItem
 					label="Learn"
@@ -53,36 +56,41 @@ export default function SidebarClient({
 					iconSrc="/youtube.svg"
 					onClick={onItemClick}
 				/>
-				<SidebarItem
-					label="Flashcards"
-					href="/hebrew-flashcard"
-					iconSrc="/card-file-box.svg"
-					onClick={onItemClick}
-				/>
-				<SidebarItem
-					label="Spelling"
-					href="/hebrew-spelling"
-					iconSrc="/ab-button-blood-type-svgrepo-com.svg"
-					onClick={onItemClick}
-				/>
-				<SidebarItem
-					label="Scramble"
-					href="/hebrew-scramble"
-					iconSrc="/cooking-svgrepo-com.svg"
-					onClick={onItemClick}
-				/>
-				<SidebarItem
-					label="Letter Quiz"
-					href="/hebrew-letter-quiz"
-					iconSrc="/a-button-blood-type-svgrepo-com.svg"
-					onClick={onItemClick}
-				/>
-				<SidebarItem
-					label="Sentence Builder"
-					href="/hebrew-sentencebuilder"
-					iconSrc="/building-construction-svgrepo-com.svg"
-					onClick={onItemClick}
-				/>
+				{userProgress.activeCourse.id === 6 && (
+					<>
+						<SidebarItem
+							label="Flashcards"
+							href="/hebrew-flashcard"
+							iconSrc="/card-file-box.svg"
+							onClick={onItemClick}
+						/>
+
+						<SidebarItem
+							label="Spelling"
+							href="/hebrew-spelling"
+							iconSrc="/ab-button-blood-type-svgrepo-com.svg"
+							onClick={onItemClick}
+						/>
+						<SidebarItem
+							label="Scramble"
+							href="/hebrew-scramble"
+							iconSrc="/cooking-svgrepo-com.svg"
+							onClick={onItemClick}
+						/>
+						<SidebarItem
+							label="Letter Quiz"
+							href="/hebrew-letter-quiz"
+							iconSrc="/a-button-blood-type-svgrepo-com.svg"
+							onClick={onItemClick}
+						/>
+						<SidebarItem
+							label="Sentence Builder"
+							href="/hebrew-sentencebuilder"
+							iconSrc="/building-construction-svgrepo-com.svg"
+							onClick={onItemClick}
+						/>
+					</>
+				)}
 			</div>
 			<div className="p-4">
 				<ClerkLoading>
