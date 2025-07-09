@@ -298,11 +298,34 @@ export default function FlashcardReview({
 	]
 
 	useEffect(() => {
-		if (frontField === 'hebAudio' && currentCard?.hebAudio) {
+		const isFrontAudio = [
+			frontTopLeft,
+			frontTopCenter,
+			frontTopRight,
+			frontMiddleCenter,
+			frontBottomLeft,
+			frontBottomCenter,
+			frontBottomRight,
+		].includes('hebAudio')
+
+		if (isFrontAudio && currentCard?.hebAudio) {
 			const audio = new Audio(currentCard.hebAudio)
+			audio.volume = audioVolume
+			audio.playbackRate = audioSpeed
 			audio.play().catch(console.error)
 		}
-	}, [currentCard, frontField])
+	}, [
+		currentCard,
+		frontTopLeft,
+		frontTopCenter,
+		frontTopRight,
+		frontMiddleCenter,
+		frontBottomLeft,
+		frontBottomCenter,
+		frontBottomRight,
+		audioVolume,
+		audioSpeed,
+	])
 
 	useEffect(() => {
 		if (showBack && backField === 'hebAudio' && backAudioRef) {
