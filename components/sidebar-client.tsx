@@ -49,7 +49,7 @@ export default function SidebarClient({
 				hasActiveSubscription={isPro}
 			/>
 			<HebrewClock />
-			<div className="flex flex-col gap-y-2 flex-1">
+			<div className="flex flex-col gap-y-2 flex-1 overflow-y-auto">
 				<SidebarItem
 					label="Learn"
 					href="/learn"
@@ -87,6 +87,12 @@ export default function SidebarClient({
 							label="Sentence Builder"
 							href="/hebrew-sentencebuilder"
 							iconSrc="/building-construction-svgrepo-com.svg"
+							onClick={onItemClick}
+						/>
+						<SidebarItem
+							label="Dictionary"
+							href="/hebrew-dictionary"
+							iconSrc="/ab-button-blood-type-svgrepo-com.svg"
 							onClick={onItemClick}
 						/>
 					</>

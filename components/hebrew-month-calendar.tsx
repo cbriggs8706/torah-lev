@@ -135,6 +135,10 @@ export default function HebrewMonthCalendar() {
 
 	useEffect(() => {
 		const today = new HDate()
+		const todayDay = today.getDate()
+		const todayMonth = today.getMonth()
+		const todayYear = today.getFullYear()
+
 		const month = today.getMonth()
 		const year = today.getFullYear()
 		const days: any[] = []
@@ -160,6 +164,7 @@ export default function HebrewMonthCalendar() {
 				weekday,
 				holiday: holiday?.desc,
 				color: holiday?.color,
+				isToday: d === todayDay && month === todayMonth && year === todayYear,
 			})
 		}
 
@@ -217,7 +222,8 @@ export default function HebrewMonthCalendar() {
 							key={`${wi}-${di}`}
 							className={clsx(
 								'border p-2 h-36 flex flex-col justify-between text-right',
-								!day && 'bg-gray-100'
+								!day && 'bg-gray-100',
+								day?.isToday && 'bg-blue-100 border-blue-500'
 							)}
 						>
 							{day && (
