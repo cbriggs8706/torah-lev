@@ -7,7 +7,7 @@ import { StickyWrapper } from '@/components/sticky-wrapper'
 import { getUserProgress, getUserSubscription } from '@/db/queries'
 import dynamic from 'next/dynamic'
 
-import { vocab } from '@/lib/vocab'
+import rawVocab from '@/lib/data/vocab/flashcards.json'
 
 const PhraseReconstruction = dynamic(() => import('@/components/scramble'), {
 	ssr: false,
@@ -55,7 +55,7 @@ const HebrewScramblePage = async () => {
 					{/* <p className="text-muted-foreground text-center text-lg mb-6">
             Customize Your Deck
           </p> */}
-					<PhraseReconstruction data={vocab} lessonPrefix="awb" />
+					<PhraseReconstruction data={rawVocab} lessonPrefix="awb" />
 				</div>
 			</FeedWrapper>
 		</div>

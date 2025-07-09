@@ -68,6 +68,8 @@ const FONT_CLASS_MAP: Record<FontChoice, string> = {
 	suez: 'font-suez',
 }
 
+type FlashcardField = keyof Flashcard | 'none'
+
 export default function FlashcardReview({
 	data,
 	allFields,
@@ -95,6 +97,48 @@ export default function FlashcardReview({
 	const [showFilter, setShowFilter] = useState(false)
 	const [audioVolume, setAudioVolume] = useState(1) // full volume
 	const [audioSpeed, setAudioSpeed] = useState(1) // normal speed
+	const [frontTopLeft, setFrontTopLeft] = useState<keyof Flashcard | 'none'>(
+		'none'
+	)
+	const [frontTopCenter, setFrontTopCenter] = useState<
+		keyof Flashcard | 'none'
+	>('none')
+	const [frontTopRight, setFrontTopRight] = useState<
+		keyof Flashcard | 'hebAudio'
+	>('hebAudio')
+	const [frontMiddleCenter, setFrontMiddleCenter] = useState<
+		keyof Flashcard | 'none'
+	>('heb')
+	const [frontBottomLeft, setFrontBottomLeft] = useState<
+		keyof Flashcard | 'none'
+	>('none')
+	const [frontBottomCenter, setFrontBottomCenter] = useState<
+		keyof Flashcard | 'genderPerson'
+	>('genderPerson')
+	const [frontBottomRight, setFrontBottomRight] = useState<
+		keyof Flashcard | 'none'
+	>('none')
+	const [backTopLeft, setBackTopLeft] = useState<keyof Flashcard | 'none'>(
+		'none'
+	)
+	const [backTopCenter, setBackTopCenter] = useState<keyof Flashcard | 'none'>(
+		'none'
+	)
+	const [backTopRight, setBackTopRight] = useState<
+		keyof Flashcard | 'hebAudio'
+	>('hebAudio')
+	const [backMiddleCenter, setBackMiddleCenter] = useState<
+		keyof Flashcard | 'eng'
+	>('eng')
+	const [backBottomLeft, setBackBottomLeft] = useState<
+		keyof Flashcard | 'none'
+	>('none')
+	const [backBottomCenter, setBackBottomCenter] = useState<
+		keyof Flashcard | 'ipa'
+	>('ipa')
+	const [backBottomRight, setBackBottomRight] = useState<
+		keyof Flashcard | 'engTransliteration'
+	>('engTransliteration')
 
 	const { width, height } = useWindowSize()
 
@@ -134,9 +178,20 @@ export default function FlashcardReview({
 				card.lessons.some((l) => selectedLessons.includes(l))
 
 			const matchesType = selectedType === 'all' || card.type === selectedType
-
 			const matchesCategory =
 				selectedCategory === 'all' || card.category === selectedCategory
+
+			// Ensure middle-center image/audio (front)
+			const hasMiddleFrontImage =
+				frontMiddleCenter !== 'images' || card.images.length > 0
+			const hasMiddleFrontAudio =
+				frontMiddleCenter !== 'hebAudio' || !!card.hebAudio
+
+			// Ensure middle-center image/audio (back)
+			const hasMiddleBackImage =
+				backMiddleCenter !== 'images' || card.images.length > 0
+			const hasMiddleBackAudio =
+				backMiddleCenter !== 'hebAudio' || !!card.hebAudio
 
 			const hasValidFront =
 				(frontField === 'images' && card.images.length > 0) ||
@@ -157,7 +212,11 @@ export default function FlashcardReview({
 				matchesType &&
 				matchesCategory &&
 				hasValidFront &&
-				hasValidBack
+				hasValidBack &&
+				hasMiddleFrontImage &&
+				hasMiddleBackImage &&
+				hasMiddleFrontAudio &&
+				hasMiddleBackAudio
 			)
 		})
 
@@ -165,8 +224,8 @@ export default function FlashcardReview({
 		const shuffled = [...newFiltered].sort(() => Math.random() - 0.5)
 
 		setFilteredCards(shuffled)
-		setCurrentIndex(0) // Reset progress to 1
-		setShowBack(false) // Reset card flip
+		setCurrentIndex(0)
+		setShowBack(false)
 	}, [
 		cardsForPrefix,
 		selectedLessons,
@@ -174,6 +233,8 @@ export default function FlashcardReview({
 		selectedCategory,
 		frontField,
 		backField,
+		frontMiddleCenter,
+		backMiddleCenter,
 	])
 
 	const currentCard = filteredCards[currentIndex]
@@ -190,6 +251,51 @@ export default function FlashcardReview({
 			return new Audio(currentCard.hebAudio)
 		return null
 	}, [backField, currentCard])
+
+	const fontOptions: {
+		value: FontChoice
+		label: string
+		className: string
+	}[] = [
+		{ value: 'times', label: 'Times', className: 'font-serif' },
+		{
+			value: 'frank',
+			label: 'Frank',
+			className: 'font-frank',
+		},
+		{
+			value: 'tinos',
+			label: 'Tinos',
+			className: 'font-tinos',
+		},
+		{
+			value: 'cardo',
+			label: 'Cardo',
+			className: 'font-cardo',
+		},
+		{
+			value: 'rashi',
+			label: 'Rashi',
+			className: 'font-rashi',
+		},
+		{
+			value: 'suez',
+			label: 'Suez',
+			className: 'font-suez',
+		},
+		{ value: 'arial', label: 'Arial', className: 'font-arial' },
+		{
+			value: 'sans',
+			label: 'Sans',
+			className: 'font-sans',
+		},
+
+		{
+			value: 'nunito',
+			label: 'Nunito',
+			className: 'font-nunito',
+		},
+	]
 
 	useEffect(() => {
 		if (frontField === 'hebAudio' && currentCard?.hebAudio) {
@@ -251,7 +357,16 @@ export default function FlashcardReview({
 		}
 	}, [])
 
-	const displayFields = allFields.filter((field) => field !== 'dictionaryUrl')
+	const allDisplayFields = allFields.filter((f) => f !== 'dictionaryUrl')
+	const miniPositionFields: (keyof Flashcard)[] = [
+		'heb',
+		'hebNiqqud',
+		'ipa',
+		'hebAudio',
+		'images',
+		'genderPerson',
+		'engTransliteration',
+	]
 
 	function getAdaptiveFontSize(text: string, baseSize: FontSizeKey): number {
 		if (text.length > 40) return FONT_SIZE_MAP.s
@@ -391,6 +506,52 @@ export default function FlashcardReview({
 		)
 	}
 
+	function renderMiniContent(field: keyof Flashcard | 'none') {
+		if (!currentCard || field === 'none') return null
+
+		const value = currentCard[field]
+
+		if (!value) return null
+
+		if (field === 'images' && Array.isArray(value) && value.length > 0) {
+			const imageUrl = value[0]
+			return (
+				<div className="w-full h-32 flex items-center justify-center">
+					<Image
+						src={imageUrl}
+						alt="Flashcard image"
+						width={128}
+						height={128}
+						className="object-contain rounded"
+					/>
+				</div>
+			)
+		}
+
+		if (field === 'hebAudio' && typeof value === 'string') {
+			return (
+				<button
+					className="text-3xl text-blue-600 hover:text-blue-800"
+					onClick={(e) => {
+						e.stopPropagation()
+						const audio = new Audio(value)
+						audio.volume = audioVolume
+						audio.playbackRate = audioSpeed
+						audio.play().catch(console.error)
+					}}
+				>
+					🔊
+				</button>
+			)
+		}
+
+		if (Array.isArray(value)) {
+			return value.join(', ')
+		}
+
+		return fixHebrewPunctuation(value as string)
+	}
+
 	return (
 		<div className="p-4 max-w-3xl mx-auto text-center w-full">
 			{showConfetti && (
@@ -469,209 +630,330 @@ export default function FlashcardReview({
 			{showCustomize && (
 				<>
 					<div className="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-						<div>
-							<label className="block text-sm font-medium">
-								Front of Card:
-							</label>
-							<select
-								className="w-full p-2 border rounded"
-								value={frontField}
-								onChange={(e) =>
-									setFrontField(e.target.value as keyof Flashcard)
-								}
-							>
-								{displayFields.map((field) => (
-									<option key={field} value={field}>
-										{FIELD_LABELS[field] || field}
-									</option>
+						<div className="grid grid-cols-3 gap-4 rounded-md p-4 border">
+							<div className="font-bold text-center col-span-3 text-xl">
+								Front of Card Customization
+							</div>
+							<div>
+								<label className="block text-sm font-medium">Top Left</label>
+								<select
+									className="w-full p-2 border rounded"
+									value={frontTopLeft}
+									onChange={(e) =>
+										setFrontTopLeft(e.target.value as keyof Flashcard)
+									}
+								>
+									<option value="none">None</option>
+
+									{miniPositionFields.map((field) => (
+										<option key={field} value={field}>
+											{FIELD_LABELS[field] || field}
+										</option>
+									))}
+								</select>
+							</div>
+							<div>
+								<label className="block text-sm font-medium">Top Center</label>
+								<select
+									className="w-full p-2 border rounded"
+									value={frontTopCenter}
+									onChange={(e) =>
+										setFrontTopCenter(e.target.value as keyof Flashcard)
+									}
+								>
+									<option value="none">None</option>
+									{miniPositionFields.map((field) => (
+										<option key={field} value={field}>
+											{FIELD_LABELS[field] || field}
+										</option>
+									))}
+								</select>
+							</div>
+							<div>
+								<label className="block text-sm font-medium">Top Right</label>
+								<select
+									className="w-full p-2 border rounded"
+									value={frontTopRight}
+									onChange={(e) =>
+										setFrontTopRight(e.target.value as keyof Flashcard)
+									}
+								>
+									<option value="none">None</option>
+									{miniPositionFields.map((field) => (
+										<option key={field} value={field}>
+											{FIELD_LABELS[field] || field}
+										</option>
+									))}
+								</select>
+							</div>
+							<div className="col-span-3">
+								<label className="block text-sm font-medium">
+									Middle Center
+								</label>
+								<select
+									className="w-full p-2 border rounded"
+									value={frontMiddleCenter}
+									onChange={(e) =>
+										setFrontMiddleCenter(e.target.value as keyof Flashcard)
+									}
+								>
+									<option value="none">None</option>
+									{allDisplayFields.map((field) => (
+										<option key={field} value={field}>
+											{FIELD_LABELS[field] || field}
+										</option>
+									))}
+								</select>
+							</div>
+							<div className="flex gap-2 flex-wrap justify-between mt-1 col-span-3">
+								{fontOptions.map(({ label, value, className }) => (
+									<button
+										key={value}
+										type="button"
+										onClick={() => setFrontFont(value)}
+										className={`px-4 py-1 border rounded-full text-sm ${
+											frontFont === value
+												? 'bg-blue-500 text-white'
+												: 'bg-gray-100'
+										} ${className}`}
+									>
+										{label}
+									</button>
 								))}
-							</select>
-
-							<label className="block mt-2 text-sm">Font:</label>
-
-							{(() => {
-								const isHebrew =
-									frontField === 'heb' || frontField === 'hebNiqqud'
-								const fontPreviewText = isHebrew ? 'אבגד' : 'ABC'
-								const fontSizeClass = isHebrew ? 'text-2xl' : 'text-lg'
-
-								const fontOptions: {
-									value: FontChoice
-									label: string
-									className: string
-								}[] = [
-									{ value: 'times', label: 'Times', className: 'font-serif' },
-									{
-										value: 'frank',
-										label: 'Frank',
-										className: 'font-frank',
-									},
-									{
-										value: 'tinos',
-										label: 'Tinos',
-										className: 'font-tinos',
-									},
-									{
-										value: 'cardo',
-										label: 'Cardo',
-										className: 'font-cardo',
-									},
-									{
-										value: 'rashi',
-										label: 'Rashi',
-										className: 'font-rashi',
-									},
-									{
-										value: 'suez',
-										label: 'Suez',
-										className: 'font-suez',
-									},
-									{ value: 'arial', label: 'Arial', className: 'font-arial' },
-									{
-										value: 'sans',
-										label: 'Sans',
-										className: 'font-sans',
-									},
-
-									{
-										value: 'nunito',
-										label: 'Nunito',
-										className: 'font-nunito',
-									},
-								]
-
-								return (
-									<div className="flex gap-2 flex-wrap justify-between mt-1">
-										{fontOptions.map(({ label, value, className }) => (
-											<button
-												key={value}
-												type="button"
-												onClick={() => setFrontFont(value)}
-												className={`px-4 py-1 border rounded-full text-sm ${
-													frontFont === value
-														? 'bg-blue-500 text-white'
-														: 'bg-gray-100'
-												} ${className}`}
-											>
-												{label}
-											</button>
-										))}
-									</div>
-								)
-							})()}
-
-							<label className="block mt-2 text-sm">Font Size:</label>
-							<select
-								className="w-full p-2 border rounded"
-								value={frontFontSize}
-								onChange={(e) =>
-									setFrontFontSize(e.target.value as FontSizeKey)
-								}
-							>
-								{Object.keys(FONT_SIZE_MAP).map((size) => (
-									<option key={size} value={size}>
-										{FONT_SIZE_LABELS[size as FontSizeKey]}
-									</option>
-								))}
-							</select>
+							</div>
+							<div className="col-span-3">
+								<label className="block text-sm font-medium">Size</label>
+								<select
+									className="w-full p-2 border rounded"
+									value={frontFontSize}
+									onChange={(e) =>
+										setFrontFontSize(e.target.value as FontSizeKey)
+									}
+								>
+									{Object.keys(FONT_SIZE_MAP).map((size) => (
+										<option key={size} value={size}>
+											{FONT_SIZE_LABELS[size as FontSizeKey]}
+										</option>
+									))}
+								</select>
+							</div>
+							<div>
+								<label className="block text-sm font-medium">Bottom Left</label>
+								<select
+									className="w-full p-2 border rounded"
+									value={frontBottomLeft}
+									onChange={(e) =>
+										setFrontBottomLeft(e.target.value as keyof Flashcard)
+									}
+								>
+									<option value="none">None</option>
+									{miniPositionFields.map((field) => (
+										<option key={field} value={field}>
+											{FIELD_LABELS[field] || field}
+										</option>
+									))}
+								</select>
+							</div>
+							<div>
+								<label className="block text-sm font-medium">
+									Bottom Center
+								</label>
+								<select
+									className="w-full p-2 border rounded"
+									value={frontBottomCenter}
+									onChange={(e) =>
+										setFrontBottomCenter(e.target.value as keyof Flashcard)
+									}
+								>
+									<option value="none">None</option>
+									{miniPositionFields.map((field) => (
+										<option key={field} value={field}>
+											{FIELD_LABELS[field] || field}
+										</option>
+									))}
+								</select>
+							</div>
+							<div>
+								<label className="block text-sm font-medium">
+									Bottom Right
+								</label>
+								<select
+									className="w-full p-2 border rounded"
+									value={frontBottomRight}
+									onChange={(e) =>
+										setFrontBottomRight(e.target.value as keyof Flashcard)
+									}
+								>
+									<option value="none">None</option>
+									{miniPositionFields.map((field) => (
+										<option key={field} value={field}>
+											{FIELD_LABELS[field] || field}
+										</option>
+									))}
+								</select>
+							</div>
 						</div>
-
-						<div>
-							<label className="block text-sm font-medium">Back of Card:</label>
-							<select
-								className="w-full p-2 border rounded"
-								value={backField}
-								onChange={(e) =>
-									setBackField(e.target.value as keyof Flashcard)
-								}
-							>
-								{displayFields.map((field) => (
-									<option key={field} value={field}>
-										{FIELD_LABELS[field] || field}
-									</option>
+						<div className="grid grid-cols-3 gap-4 bg-blue-100 p-4 rounded-md">
+							<div className="font-bold text-center col-span-3 text-xl">
+								Back of Card Customization
+							</div>
+							<div>
+								<label className="block text-sm font-medium">Top Left</label>
+								<select
+									className="w-full p-2 border rounded"
+									value={backTopLeft}
+									onChange={(e) =>
+										setBackTopLeft(e.target.value as keyof Flashcard)
+									}
+								>
+									<option value="none">None</option>
+									{miniPositionFields.map((field) => (
+										<option key={field} value={field}>
+											{FIELD_LABELS[field] || field}
+										</option>
+									))}
+								</select>
+							</div>
+							<div>
+								<label className="block text-sm font-medium">Top Center</label>
+								<select
+									className="w-full p-2 border rounded"
+									value={backTopCenter}
+									onChange={(e) =>
+										setBackTopCenter(e.target.value as keyof Flashcard)
+									}
+								>
+									<option value="none">None</option>
+									{miniPositionFields.map((field) => (
+										<option key={field} value={field}>
+											{FIELD_LABELS[field] || field}
+										</option>
+									))}
+								</select>
+							</div>
+							<div>
+								<label className="block text-sm font-medium">Top Right</label>
+								<select
+									className="w-full p-2 border rounded"
+									value={backTopRight}
+									onChange={(e) =>
+										setBackTopRight(e.target.value as keyof Flashcard)
+									}
+								>
+									<option value="none">None</option>
+									{miniPositionFields.map((field) => (
+										<option key={field} value={field}>
+											{FIELD_LABELS[field] || field}
+										</option>
+									))}
+								</select>
+							</div>
+							<div className="col-span-3">
+								<label className="block text-sm font-medium">
+									Middle Center
+								</label>
+								<select
+									className="w-full p-2 border rounded"
+									value={backMiddleCenter}
+									onChange={(e) =>
+										setBackMiddleCenter(e.target.value as keyof Flashcard)
+									}
+								>
+									<option value="none">None</option>
+									{allDisplayFields.map((field) => (
+										<option key={field} value={field}>
+											{FIELD_LABELS[field] || field}
+										</option>
+									))}
+								</select>
+							</div>
+							<div className="flex gap-2 flex-wrap justify-between mt-1 col-span-3">
+								{fontOptions.map(({ label, value, className }) => (
+									<button
+										key={value}
+										type="button"
+										onClick={() => setBackFont(value)}
+										className={`px-4 py-1 border rounded-full text-sm ${
+											backFont === value
+												? 'bg-blue-500 text-white'
+												: 'bg-gray-100'
+										} ${className}`}
+									>
+										{label}
+									</button>
 								))}
-							</select>
-
-							<label className="block mt-2 text-sm">Font:</label>
-
-							{(() => {
-								const fontOptions: {
-									value: FontChoice
-									label: string
-									className: string
-								}[] = [
-									{ value: 'times', label: 'Times', className: 'font-serif' },
-									{
-										value: 'frank',
-										label: 'Frank',
-										className: 'font-frank',
-									},
-									{
-										value: 'tinos',
-										label: 'Tinos',
-										className: 'font-tinos',
-									},
-									{
-										value: 'cardo',
-										label: 'Cardo',
-										className: 'font-cardo',
-									},
-									{
-										value: 'rashi',
-										label: 'Rashi',
-										className: 'font-rashi',
-									},
-									{
-										value: 'suez',
-										label: 'Suez',
-										className: 'font-suez',
-									},
-									{ value: 'arial', label: 'Arial', className: 'font-arial' },
-									{
-										value: 'sans',
-										label: 'Sans',
-										className: 'font-sans',
-									},
-
-									{
-										value: 'nunito',
-										label: 'Nunito',
-										className: 'font-nunito',
-									},
-								]
-
-								return (
-									<div className="flex gap-2 flex-wrap justify-between mt-1">
-										{fontOptions.map(({ label, value, className }) => (
-											<button
-												key={value}
-												type="button"
-												onClick={() => setBackFont(value)}
-												className={`px-4 py-1 border rounded-full text-sm ${
-													backFont === value
-														? 'bg-blue-500 text-white'
-														: 'bg-gray-100'
-												} ${className}`}
-											>
-												{label}
-											</button>
-										))}
-									</div>
-								)
-							})()}
-
-							<label className="block mt-2 text-sm">Font Size:</label>
-							<select
-								className="w-full p-2 border rounded"
-								value={backFontSize}
-								onChange={(e) => setBackFontSize(e.target.value as FontSizeKey)}
-							>
-								{Object.keys(FONT_SIZE_MAP).map((size) => (
-									<option key={size} value={size}>
-										{FONT_SIZE_LABELS[size as FontSizeKey]}
-									</option>
-								))}
-							</select>
+							</div>
+							<div className="col-span-3">
+								<label className="block text-sm font-medium">Size</label>
+								<select
+									className="w-full p-2 border rounded"
+									value={backFontSize}
+									onChange={(e) =>
+										setBackFontSize(e.target.value as FontSizeKey)
+									}
+								>
+									{Object.keys(FONT_SIZE_MAP).map((size) => (
+										<option key={size} value={size}>
+											{FONT_SIZE_LABELS[size as FontSizeKey]}
+										</option>
+									))}
+								</select>
+							</div>
+							<div>
+								<label className="block text-sm font-medium">Bottom Left</label>
+								<select
+									className="w-full p-2 border rounded"
+									value={backBottomLeft}
+									onChange={(e) =>
+										setBackBottomLeft(e.target.value as keyof Flashcard)
+									}
+								>
+									<option value="none">None</option>
+									{miniPositionFields.map((field) => (
+										<option key={field} value={field}>
+											{FIELD_LABELS[field] || field}
+										</option>
+									))}
+								</select>
+							</div>
+							<div>
+								<label className="block text-sm font-medium">
+									Bottom Center
+								</label>
+								<select
+									className="w-full p-2 border rounded"
+									value={backBottomCenter}
+									onChange={(e) =>
+										setBackBottomCenter(e.target.value as keyof Flashcard)
+									}
+								>
+									<option value="none">None</option>
+									{miniPositionFields.map((field) => (
+										<option key={field} value={field}>
+											{FIELD_LABELS[field] || field}
+										</option>
+									))}
+								</select>
+							</div>
+							<div>
+								<label className="block text-sm font-medium">
+									Bottom Right
+								</label>
+								<select
+									className="w-full p-2 border rounded"
+									value={backBottomRight}
+									onChange={(e) =>
+										setBackBottomRight(e.target.value as keyof Flashcard)
+									}
+								>
+									<option value="none">None</option>
+									{miniPositionFields.map((field) => (
+										<option key={field} value={field}>
+											{FIELD_LABELS[field] || field}
+										</option>
+									))}
+								</select>
+							</div>
 						</div>
 					</div>
 				</>
@@ -775,23 +1057,88 @@ export default function FlashcardReview({
 
 			{filteredCards.length > 0 ? (
 				<div
-					className="relative w-full h-60 mb-4 perspective group cursor-pointer"
+					className={`relative w-full mb-4 perspective cursor-pointer ${
+						frontMiddleCenter === 'images' ? 'h-96' : 'h-72'
+					}`}
 					onClick={() => setShowBack((prev) => !prev)}
 				>
-					{/* Flip Card */}
 					<div
-						className={`transition-transform duration-700 transform-style-preserve-3d w-full h-full rounded-xl shadow-md ${
+						className={`relative w-full h-full transition-transform duration-700 transform-style-preserve-3d ${
 							showBack ? 'rotate-y-180' : ''
 						}`}
 					>
 						{/* Front */}
-						<div className="absolute w-full h-full backface-hidden bg-white border rounded-xl p-2 sm:p-6 flex items-center justify-center overflow-hidden">
-							{renderCardContent(frontField)}
+						<div className="absolute w-full h-full backface-hidden bg-white border rounded-xl p-2 sm:p-6 flex flex-col">
+							{/* Top Row */}
+							<div className="flex justify-between text-sm font-nunito">
+								<div className="text-left w-1/3">
+									{renderMiniContent(frontTopLeft)}
+								</div>
+								<div className="text-center w-1/3">
+									{renderMiniContent(frontTopCenter)}
+								</div>
+								<div className="text-right w-1/3">
+									{renderMiniContent(frontTopRight)}
+								</div>
+							</div>
+
+							{/* Middle Row (flexes to fill) */}
+							<div className="flex-1 flex items-center justify-center text-center overflow-hidden">
+								<span
+									className={FONT_CLASS_MAP[frontFont]}
+									style={{ fontSize: FONT_SIZE_MAP[frontFontSize] }}
+								>
+									{renderMiniContent(frontMiddleCenter)}
+								</span>
+							</div>
+
+							{/* Bottom Row */}
+							<div className="flex justify-between text-sm font-nunito">
+								<div className="text-left w-1/3 self-end">
+									{renderMiniContent(frontBottomLeft)}
+								</div>
+								<div className="text-center w-1/3 self-end">
+									{renderMiniContent(frontBottomCenter)}
+								</div>
+								<div className="text-right w-1/3 self-end">
+									{renderMiniContent(frontBottomRight)}
+								</div>
+							</div>
 						</div>
 
 						{/* Back */}
-						<div className="absolute w-full h-full backface-hidden rotate-y-180 bg-blue-100 border rounded-xl p-2 sm:p-6 flex items-center justify-center overflow-hidden">
-							{renderCardContent(backField)}
+						<div className="absolute w-full h-full backface-hidden rotate-y-180 bg-blue-100 border rounded-xl p-2 sm:p-6 grid grid-rows-3 grid-cols-3 gap-1">
+							{/* Top Row */}
+							<div className="text-md font-nunito text-left">
+								{renderMiniContent(backTopLeft)}
+							</div>
+							<div className="text-md font-nunito text-center">
+								{renderMiniContent(backTopCenter)}
+							</div>
+							<div className="text-md font-nunito text-right">
+								{renderMiniContent(backTopRight)}
+							</div>
+
+							{/* Middle */}
+							<div
+								className="col-span-3 text-center"
+								style={{ fontSize: FONT_SIZE_MAP[backFontSize] }}
+							>
+								<span className={FONT_CLASS_MAP[backFont]}>
+									{renderMiniContent(backMiddleCenter)}
+								</span>
+							</div>
+
+							{/* Bottom Row */}
+							<div className="text-md font-nunito text-left self-end">
+								{renderMiniContent(backBottomLeft)}
+							</div>
+							<div className="text-md font-nunito text-center self-end">
+								{renderMiniContent(backBottomCenter)}
+							</div>
+							<div className="text-md font-nunito text-right self-end">
+								{renderMiniContent(backBottomRight)}
+							</div>
 						</div>
 					</div>
 

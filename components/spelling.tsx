@@ -110,6 +110,8 @@ export default function SpellingPractice({
 		const valid = filtered.filter((card) => {
 			if (promptType === 'image') return card.images[0]
 			if (promptType === 'audio') return card.hebAudio
+			if (promptType === 'translation') return !!card.eng
+			if (promptType === 'letter-by-letter') return !!card.heb
 			return true
 		})
 
@@ -352,7 +354,7 @@ export default function SpellingPractice({
 
 					{/* Prompt Type Selection */}
 					<div className="mb-4">
-						<label className="block font-medium mb-2">Prompt Type</label>
+						<h2 className="font-semibold text-xl mb-2">Prompt Type</h2>
 						<div className="flex justify-center gap-2">
 							{(
 								[
@@ -378,7 +380,7 @@ export default function SpellingPractice({
 					</div>
 					<div className="mb-4 space-y-2">
 						<div>
-							<label className="block text-sm font-medium">Lessons</label>
+							<label className="font-semibold text-xl mb-2">Lessons</label>
 							<div className="flex justify-center gap-4 mb-3">
 								<button
 									onClick={() => setSelectedLessons([])}
@@ -411,7 +413,7 @@ export default function SpellingPractice({
 						</div>
 
 						<div>
-							<label className="block text-sm font-medium">Type</label>
+							<label className="font-semibold text-xl mb-2">Type</label>
 							<div className="flex justify-center gap-2">
 								{['all', 'word', 'phrase'].map((type) => (
 									<button

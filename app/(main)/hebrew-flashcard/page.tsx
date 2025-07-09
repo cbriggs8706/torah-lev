@@ -7,7 +7,7 @@ import { StickyWrapper } from '@/components/sticky-wrapper'
 import { getUserProgress, getUserSubscription } from '@/db/queries'
 import dynamic from 'next/dynamic'
 
-import { vocab } from '@/lib/vocab'
+import rawVocab from '@/lib/data/vocab/flashcards.json'
 
 const FlashcardReview = dynamic(() => import('@/components/flashcards'), {
 	ssr: false,
@@ -56,7 +56,7 @@ const HebrewFlashcardPage = async () => {
 						Customize Your Deck
 					</p> */}
 					<FlashcardReview
-						data={vocab}
+						data={rawVocab}
 						allFields={[
 							'hebNiqqud',
 							'heb',

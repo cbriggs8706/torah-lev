@@ -134,7 +134,7 @@ export default function Scramble({ data, lessonPrefix }: ScrambleProps) {
 			{/* Filters */}
 			<div className="space-y-4 mb-6">
 				<div>
-					<label className="block text-sm font-medium">Lessons</label>
+					<label className="block text-xl font-semibold">Lessons</label>
 					<div className="flex flex-wrap justify-center gap-2">
 						{lessonOptions.map((lesson) => (
 							<button

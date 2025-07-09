@@ -8,7 +8,7 @@ import { StickyWrapper } from '@/components/sticky-wrapper'
 import { getUserProgress, getUserSubscription } from '@/db/queries'
 import dynamic from 'next/dynamic'
 
-import { vocab } from '@/lib/vocab'
+import rawVocab from '@/lib/data/vocab/flashcards.json'
 
 const SpellingPractice = dynamic(() => import('@/components/spelling'), {
 	ssr: false,
@@ -56,7 +56,7 @@ const HebrewSpellingPage = async () => {
 					{/* <p className="text-muted-foreground text-center text-lg mb-6">
             Customize Your Deck
           </p> */}
-					<SpellingPractice data={vocab} lessonPrefix="awb" />
+					<SpellingPractice data={rawVocab} lessonPrefix="awb" />
 				</div>
 			</FeedWrapper>
 		</div>

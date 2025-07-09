@@ -7,7 +7,6 @@ import { StickyWrapper } from '@/components/sticky-wrapper'
 import { getUserProgress, getUserSubscription } from '@/db/queries'
 import dynamic from 'next/dynamic'
 
-import { vocab } from '@/lib/vocab'
 import HebrewMonthCalendar from '@/components/hebrew-month-calendar'
 
 const FlashcardReview = dynamic(() => import('@/components/flashcards'), {
