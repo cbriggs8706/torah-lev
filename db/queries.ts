@@ -14,19 +14,43 @@ import {
 
 export const getUserProgress = cache(async () => {
 	const { userId } = await auth()
-
+	console.log(userId)
 	if (!userId) {
+		console.warn('⚠️ No userId found in getUserProgress')
+
 		return null
 	}
 
-	const data = await db.query.userProgress.findFirst({
+	// Try to get existing progress
+	let progress = await db.query.userProgress.findFirst({
 		where: eq(userProgress.userId, userId),
 		with: {
 			activeCourse: true,
 		},
 	})
 
-	return data
+	// If not found, seed default progress
+	if (!progress) {
+		const defaultCourse = await db.query.courses.findFirst()
+		if (!defaultCourse) {
+			console.error('⚠️ No default course found')
+			return null
+		}
+
+		await db.insert(userProgress).values({
+			userId,
+			activeCourseId: defaultCourse.id,
+		})
+
+		progress = await db.query.userProgress.findFirst({
+			where: eq(userProgress.userId, userId),
+			with: {
+				activeCourse: true,
+			},
+		})
+	}
+
+	return progress
 })
 
 export const getUnits = cache(async () => {

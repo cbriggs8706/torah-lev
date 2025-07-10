@@ -1,3 +1,4 @@
+import { headers } from 'next/headers'
 import SidebarServer from '@/components/sidebar-server'
 import MobileHeader from '@/components/mobile-header'
 
@@ -6,10 +7,12 @@ type Props = {
 }
 
 const MainLayout = ({ children }: Props) => {
+	const pathname = headers().get('x-pathname') || ''
+	const isCoursesPage = pathname.startsWith('/courses')
 	return (
 		<>
 			<MobileHeader />
-			<SidebarServer className="hidden lg:flex" />
+			{!isCoursesPage && <SidebarServer className="hidden lg:flex" />}
 			<main className="lg:pl-[256px] h-full pt-[50px] lg:pt-0">
 				<div className="max-w-[1056px] mx-auto pt-6 h-full">{children}</div>
 			</main>

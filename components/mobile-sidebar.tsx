@@ -5,6 +5,8 @@ import { useState } from 'react'
 import { Menu } from 'lucide-react'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import SidebarClient from './sidebar-client'
+// import { headers } from 'next/headers'
+// import { redirect } from 'next/navigation'
 
 type Props = {
 	userProgress: {
@@ -17,6 +19,14 @@ type Props = {
 
 export const MobileSidebar = ({ userProgress, isPro }: Props) => {
 	const [open, setOpen] = useState(false)
+	// const pathname = headers().get('x-pathname') || ''
+
+	// if (
+	// 	(!userProgress || !userProgress.activeCourse) &&
+	// 	!pathname.startsWith('/courses')
+	// ) {
+	// 	redirect('/courses')
+	// }
 
 	return (
 		<Sheet open={open} onOpenChange={setOpen}>

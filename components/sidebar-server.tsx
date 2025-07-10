@@ -2,6 +2,7 @@
 import { getUserProgress, getUserSubscription } from '@/db/queries'
 import { redirect } from 'next/navigation'
 import SidebarClient from './sidebar-client'
+import { headers } from 'next/headers'
 
 export default async function SidebarServer({
 	className,
@@ -15,7 +16,11 @@ export default async function SidebarServer({
 		getUserSubscription(),
 	])
 
-	if (!userProgress || !userProgress.activeCourse) {
+	const pathname = headers().get('x-pathname') || ''
+	if (
+		(!userProgress || !userProgress.activeCourse) &&
+		!pathname.startsWith('/courses')
+	) {
 		redirect('/courses')
 	}
 
@@ -28,7 +33,17 @@ export default async function SidebarServer({
 		<SidebarClient
 			className={className}
 			onItemClick={onItemClick}
-			userProgress={userProgress}
+			userProgress={
+				userProgress ?? {
+					userId: '',
+					userName: '',
+					userImageSrc: '',
+					activeCourseId: null,
+					activeCourse: null,
+					hearts: 0,
+					points: 0,
+				}
+			}
 			isPro={!!userSubscription?.isActive}
 		/>
 	)

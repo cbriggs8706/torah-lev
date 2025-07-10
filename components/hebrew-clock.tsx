@@ -270,6 +270,7 @@ export function HebrewClock({ onClick, isWidget }: HebrewClockProps) {
 	const [isExpanded, setIsExpanded] = useState(!isWidget)
 
 	useEffect(() => {
+		console.log('mount')
 		const now = new Date()
 		const hd = new HDate(now)
 		const monthNum = hd.getMonth()
@@ -303,7 +304,6 @@ export function HebrewClock({ onClick, isWidget }: HebrewClockProps) {
 	const englishPhrase = `The ${dayEng} day of the ${monthEng} month in the year ${hebrewDate.year} from the creation of the world `
 	const shortEnglishPhrase = `${dayEng} Day of the ${monthEng} Month`
 
-	console.log('hebrewDate', hebrewOrdinals[hebrewDate.day])
 	return (
 		<div className="border rounded-xl shadow-md overflow-hidden max-w-md w-full bg-white mb-2">
 			{/* Blue Header with Big Month Name */}

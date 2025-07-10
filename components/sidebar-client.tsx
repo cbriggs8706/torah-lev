@@ -42,12 +42,14 @@ export default function SidebarClient({
 				</div>
 			</Link>
 
-			<UserProgress
-				activeCourse={userProgress.activeCourse}
-				hearts={userProgress.hearts}
-				points={userProgress.points}
-				hasActiveSubscription={isPro}
-			/>
+			{userProgress && (
+				<UserProgress
+					activeCourse={userProgress.activeCourse}
+					hearts={userProgress.hearts}
+					points={userProgress.points}
+					hasActiveSubscription={isPro}
+				/>
+			)}
 			<HebrewClock onClick={onItemClick} isWidget={true} />
 			<div className="flex flex-col gap-y-2 flex-1 overflow-y-auto">
 				<SidebarItem
@@ -56,7 +58,7 @@ export default function SidebarClient({
 					iconSrc="/youtube.svg"
 					onClick={onItemClick}
 				/>
-				{userProgress.activeCourse.id === 6 && (
+				{userProgress?.activeCourse.id === 6 && (
 					<>
 						<SidebarItem
 							label="Flashcards"
