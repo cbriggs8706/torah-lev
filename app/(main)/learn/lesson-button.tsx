@@ -11,21 +11,26 @@ import 'react-circular-progressbar/dist/styles.css'
 
 type Props = {
 	id: number
+	title: string
 	index: number
 	totalCount: number
 	locked?: boolean
+	completed?: boolean
 	current?: boolean
 	percentage: number
 }
 
 export const LessonButton = ({
 	id,
+	title,
 	index,
 	totalCount,
 	locked,
+	completed,
 	current,
 	percentage,
 }: Props) => {
+	const lessonNumber = title.match(/AwB (\d+)/)?.[1] ?? '?'
 	const cycleLength = 8
 	const cycleIndex = index % cycleLength
 
@@ -45,7 +50,8 @@ export const LessonButton = ({
 
 	const isFirst = index === 0
 	const isLast = index === totalCount
-	const isCompleted = !current && !locked
+	const isCompleted = !current
+	// const isCompleted = !current && !locked
 
 	const Icon = isCompleted ? Check : isLast ? Crown : Star
 
@@ -101,10 +107,10 @@ export const LessonButton = ({
 				) : (
 					<Button
 						size="rounded"
-						variant={locked ? 'locked' : 'secondary'}
+						variant={completed ? 'secondary' : 'locked'}
 						className="h-[70px] w-[70px] border-b-8"
 					>
-						<Icon
+						{/* <Icon
 							className={cn(
 								'h-10 w-10',
 								locked
@@ -112,7 +118,15 @@ export const LessonButton = ({
 									: 'fill-primary-foreground text-primary-foreground',
 								isCompleted && 'fill-none stroke-[4]'
 							)}
-						/>
+						/> */}
+						<span
+							className={cn(
+								'text-2xl font-bold',
+								locked ? 'text-neutral-400' : 'text-primary-foreground'
+							)}
+						>
+							{lessonNumber}
+						</span>
 					</Button>
 				)}
 			</div>
