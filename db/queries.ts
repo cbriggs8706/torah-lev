@@ -1,6 +1,6 @@
 import { cache } from 'react'
 import { eq } from 'drizzle-orm'
-import { auth } from '@clerk/nextjs/server'
+import { auth, clerkClient } from '@clerk/nextjs/server'
 
 import db from '@/db/drizzle'
 import {
@@ -14,6 +14,7 @@ import {
 
 export const getUserProgress = cache(async () => {
 	const { userId } = await auth()
+
 	console.log(userId)
 	if (!userId) {
 		console.warn('⚠️ No userId found in getUserProgress')
@@ -31,15 +32,12 @@ export const getUserProgress = cache(async () => {
 
 	// If not found, seed default progress
 	if (!progress) {
-		const defaultCourse = await db.query.courses.findFirst()
-		if (!defaultCourse) {
-			console.error('⚠️ No default course found')
-			return null
-		}
-
+		const user = await clerkClient.users.getUser(userId)
+		console.log(user)
 		await db.insert(userProgress).values({
 			userId,
-			activeCourseId: defaultCourse.id,
+			userName: user?.username ?? 'Anonymous',
+			activeCourseId: 6,
 		})
 
 		progress = await db.query.userProgress.findFirst({
