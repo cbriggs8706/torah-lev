@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { HDate, Location } from '@hebcal/core'
 import SunCalc from 'suncalc'
 import Link from 'next/link'
+import { ChevronDown } from 'lucide-react'
 
 // Map for modern Hebrew month names (no niqqud)
 const hebrewMonthMap: Record<string, string> = {
@@ -129,6 +130,23 @@ const hebrewOrdinals: Record<number, string> = {
 	11: 'הָאַחַד־עָשָׂר',
 	12: 'הַשְּׁנֵים־עָשָׂר',
 	13: 'הַשְּׁלוֹשָׁה־עָשָׂר',
+	14: 'הָאַרְבָּעָה־עָשָׂר',
+	15: 'הַחֲמִשָּׁה־עָשָׂר',
+	16: 'הַשִּׁשָּׁה־עָשָׂר',
+	17: 'הַשִּׁבְעָה־עָשָׂר',
+	18: 'הַשְׁמוֹנָה־עָשָׂר',
+	19: 'הַתִּשְׁעָה־עָשָׂר',
+	20: 'הֶעֶשְׂרִים',
+	21: 'עֶשְׂרִים וְאֶחָד',
+	22: 'עֶשְׂרִים וּשְׁנַיִם',
+	23: 'עֶשְׂרִים וּשְׁלוֹשָׁה',
+	24: 'עֶשְׂרִים וְאַרְבָּעָה',
+	25: 'עֶשְׂרִים וַחֲמִשָּׁה',
+	26: 'עֶשְׂרִים וְשִׁשָּׁה',
+	27: 'עֶשְׂרִים וְשִׁבְעָה',
+	28: 'עֶשְׂרִים וּשְׁמוֹנָה',
+	29: 'עֶשְׂרִים וְתִשְׁעָה',
+	30: 'שְׁלוֹשִׁים',
 }
 
 const englishOrdinals: Record<number, string> = {
@@ -145,6 +163,24 @@ const englishOrdinals: Record<number, string> = {
 	11: '11th',
 	12: '12th',
 	13: '13th',
+	14: '14th',
+	15: '15th',
+	16: '16th',
+	17: '17th',
+	18: '18th',
+	19: '19th',
+	20: '20th',
+	21: '21st',
+	22: '22nd',
+	23: '23rd',
+	24: '24th',
+	25: '25th',
+	26: '26th',
+	27: '27th',
+	28: '28th',
+	29: '29th',
+	30: '30th',
+	31: '31st',
 }
 
 function getMoonIconByPhase(phaseFraction: number): string {
@@ -213,10 +249,15 @@ function hebrewYearGematria(year: number): string {
 		result += '׳'
 	}
 
-	return `בִּשְׁנַת ${result}`
+	return `בִּשְׁנַת ה׳${result}`
 }
 
-export function HebrewClock() {
+type HebrewClockProps = {
+	onClick?: () => void
+	isWidget: boolean
+}
+
+export function HebrewClock({ onClick, isWidget }: HebrewClockProps) {
 	const [hebrewDate, setHebrewDate] = useState<{
 		day: number
 		monthNum: number
@@ -226,6 +267,7 @@ export function HebrewClock() {
 	} | null>(null)
 
 	const [moonPhase, setMoonPhase] = useState<string>('')
+	const [isExpanded, setIsExpanded] = useState(!isWidget)
 
 	useEffect(() => {
 		const now = new Date()
@@ -254,68 +296,89 @@ export function HebrewClock() {
 	}`
 	const dayHebrew = hebrewOrdinals[hebrewDate.day] || ''
 	const monthHebrewOrdinal = hebrewOrdinals[hebrewDate.monthNum] || ''
-	const biblicalPhrase = `הַיּוֹם ${dayHebrew} לַחֹדֶשׁ ${monthHebrewOrdinal}`
 	const hebrewYearPhrase = hebrewYearGematria(hebrewDate.year)
+	const biblicalPhrase = `הַיּוֹם ${dayHebrew} לַחֹדֶשׁ ${monthHebrewOrdinal} ${hebrewYearPhrase} לְבְּרִיאָת הָעוֹלָם`
 	const dayEng = englishOrdinals[hebrewDate.day]
 	const monthEng = englishOrdinals[hebrewDate.monthNum]
-	const englishPhrase = `The ${dayEng} day of the ${monthEng} month in the year ${hebrewDate.year} `
+	const englishPhrase = `The ${dayEng} day of the ${monthEng} month in the year ${hebrewDate.year} from the creation of the world `
+	const shortEnglishPhrase = `${dayEng} Day of the ${monthEng} Month`
 
+	console.log('hebrewDate', hebrewOrdinals[hebrewDate.day])
 	return (
 		<div className="border rounded-xl shadow-md overflow-hidden max-w-md w-full bg-white mb-2">
 			{/* Blue Header with Big Month Name */}
-			<div className="bg-sky-500 text-white text-center py-3 px-4">
-				<h2 className="text-3xl tracking-wide font-serif">
-					{monthHebrewOrdinalTitle}
-				</h2>
+			<div
+				className={`bg-sky-500 text-white text-center py-3 px-4 font-semibold ${
+					isWidget
+						? 'cursor-pointer flex justify-between items-center'
+						: 'cursor-default'
+				}`}
+				onClick={isWidget ? () => setIsExpanded(!isExpanded) : undefined}
+			>
+				<h2 className="text-xl font-nunito">{shortEnglishPhrase}</h2>
+				{isWidget && (
+					<ChevronDown
+						className={`transition-transform duration-300 ${
+							isExpanded ? 'rotate-180' : 'rotate-0'
+						}`}
+					/>
+				)}
 			</div>
 
 			{/* Calendar Body */}
-			<div className="p-4 space-y-4 bg-sky-50">
-				{/* Hebrew and English Date */}
-				<div className="text-right font-frank text-3xl leading-tight">
-					<div>{biblicalPhrase}</div>
-					<div className="text-3xl">{hebrewYearPhrase}</div>
-				</div>
-
-				<div className="text-sm text-gray-700 italic">{englishPhrase}</div>
-
-				{/* Month Info & Moon Phase */}
-				<div className="flex justify-between items-center gap-4">
-					<div className="text-sm leading-relaxed space-y-1">
-						<div>
-							<span className="font-semibold">Pre-Exile: </span>
-							<span className="font-frank text-2xl">
-								{monthInfo.preExile || '—'}
-							</span>
-						</div>
-						<div>
-							<span className="font-semibold">Post-Exile: </span>
-							<span className="font-frank text-2xl">{monthInfo.postExile}</span>
-						</div>
-						<div>
-							<span className="font-semibold">Modern: </span>
-							<span>{monthInfo.modernHebrew}</span>
-						</div>
+			{isExpanded && (
+				<div className="p-4 space-y-4 bg-sky-50">
+					{/* Hebrew and English Date */}
+					<div className="text-right font-frank text-3xl leading-tight">
+						<div>{biblicalPhrase}</div>
 					</div>
-					{moonPhase && (
-						<div className="bg-sky-900 p-1 rounded-lg">
-							<Image
-								src={moonPhase}
-								alt="Moon phase"
-								width={48}
-								height={48}
-								className="shrink-0"
-							/>
+
+					<div className="text-sm text-gray-700 italic">{englishPhrase}</div>
+
+					{/* Month Info & Moon Phase */}
+					<div className="flex justify-between items-center gap-4">
+						<div className="text-sm leading-relaxed space-y-1">
+							<div>
+								<span className="font-semibold">Pre-Exile: </span>
+								<span className="font-frank text-2xl">
+									{monthInfo.preExile || '—'}
+								</span>
+							</div>
+							<div>
+								<span className="font-semibold">Post-Exile: </span>
+								<span className="font-frank text-2xl">
+									{monthInfo.postExile}
+								</span>
+							</div>
+							<div>
+								<span className="font-semibold">Modern: </span>
+								<span>{monthInfo.modernHebrew}</span>
+							</div>
 						</div>
+						{moonPhase && (
+							<div className="bg-sky-900 p-1 rounded-lg">
+								<Image
+									src={moonPhase}
+									alt="Moon phase"
+									width={48}
+									height={48}
+									className="shrink-0"
+								/>
+							</div>
+						)}
+					</div>
+
+					{isWidget && (
+						<Link
+							href="/hebrew-calendar"
+							className="flex justify-center text-center"
+							onClick={onClick}
+						>
+							View full calendar
+						</Link>
 					)}
 				</div>
-				<Link
-					href="/hebrew-calendar"
-					className="flex justify-center text-center"
-				>
-					View full calendar
-				</Link>
-			</div>
+			)}
 		</div>
 	)
 }

@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { HDate, HebrewCalendar, Location } from '@hebcal/core'
 import clsx from 'clsx'
+import { HebrewClock } from './hebrew-clock'
 
 const customEvents = [
 	{
@@ -11,13 +12,16 @@ const customEvents = [
 		month: 1,
 		desc: 'Pesach (Passover)',
 		color: 'bg-green-500',
+		countdown: false,
 	}, // 15–21 Nisan
 	{
 		startDay: 1,
 		endDay: 2,
 		month: 7,
 		desc: 'Rosh Hashanah',
+		hebDesc: 'רֹאשׁ הַשָּׁנָה',
 		color: 'bg-green-500',
+		countdown: true,
 	}, // 1–2 Tishrei
 	{
 		startDay: 10,
@@ -25,28 +29,32 @@ const customEvents = [
 		month: 7,
 		desc: 'Yom Kippur',
 		color: 'bg-green-500',
+		countdown: false,
 	},
-	{
-		startDay: 11,
-		endDay: 11,
-		month: 4,
-		desc: 'Lesson 4, 25, 35 ',
-		color: 'bg-green-300',
-	},
-	{
-		startDay: 18,
-		endDay: 18,
-		month: 4,
-		desc: 'Lesson 26 & 36',
-		color: 'bg-yellow-300',
-	},
-	{
-		startDay: 16,
-		endDay: 16,
-		month: 4,
-		desc: 'Shabbat',
-		color: 'bg-yellow-300',
-	},
+	// {
+	// 	startDay: 11,
+	// 	endDay: 11,
+	// 	month: 4,
+	// 	desc: 'Lesson 4, 25, 35 ',
+	// 	color: 'bg-green-300',
+	// 	countdown: false,
+	// },
+	// {
+	// 	startDay: 18,
+	// 	endDay: 18,
+	// 	month: 4,
+	// 	desc: 'Lesson 26 & 36',
+	// 	color: 'bg-yellow-300',
+	// 	countdown: false,
+	// },
+	// {
+	// 	startDay: 16,
+	// 	endDay: 16,
+	// 	month: 4,
+	// 	desc: 'Shabbat',
+	// 	color: 'bg-yellow-300',
+	// 	countdown: false,
+	// },
 ]
 
 const daysOfWeekHebrew = [
@@ -132,6 +140,13 @@ export default function HebrewMonthCalendar() {
 	const [monthData, setMonthData] = useState<any[]>([])
 	const [monthName, setMonthName] = useState('')
 	const [year, setYear] = useState(5785)
+	const [nextCountdownEvent, setNextCountdownEvent] = useState<any | null>(null)
+	const [countdownTime, setCountdownTime] = useState<{
+		days: number
+		hours: number
+		minutes: number
+		seconds: number
+	} | null>(null)
 
 	useEffect(() => {
 		const today = new HDate()
@@ -176,6 +191,58 @@ export default function HebrewMonthCalendar() {
 	const weeks: any[][] = []
 	let week: any[] = []
 
+	useEffect(() => {
+		const now = new Date()
+		const todayHebrew = new HDate()
+
+		const upcoming = customEvents
+			.map((ev) => {
+				let eventHebrewDate = new HDate(
+					ev.startDay,
+					ev.month,
+					todayHebrew.getFullYear()
+				)
+
+				// If the Hebrew date already passed, push it to the next year
+				if (eventHebrewDate.abs() <= todayHebrew.abs()) {
+					eventHebrewDate = new HDate(
+						ev.startDay,
+						ev.month,
+						todayHebrew.getFullYear() + 1
+					)
+				}
+
+				const gDate = eventHebrewDate.greg()
+				gDate.setHours(18, 0, 0, 0) // sundown
+
+				return { ...ev, gDate }
+			})
+			.filter((ev) => ev.countdown && ev.gDate > now)
+			.sort((a, b) => a.gDate.getTime() - b.gDate.getTime())
+
+		if (upcoming.length > 0) {
+			setNextCountdownEvent(upcoming[0])
+			const interval = setInterval(() => {
+				const diff = upcoming[0].gDate.getTime() - Date.now()
+
+				if (diff <= 0) {
+					setCountdownTime(null)
+					clearInterval(interval)
+					return
+				}
+
+				const days = Math.floor(diff / (1000 * 60 * 60 * 24))
+				const hours = Math.floor((diff / (1000 * 60 * 60)) % 24)
+				const minutes = Math.floor((diff / (1000 * 60)) % 60)
+				const seconds = Math.floor((diff / 1000) % 60)
+
+				setCountdownTime({ days, hours, minutes, seconds })
+			}, 1000)
+
+			return () => clearInterval(interval)
+		}
+	}, [])
+
 	monthData.forEach((day, idx) => {
 		// If this is the first day of the month, fill in empty days before it
 		if (idx === 0) {
@@ -201,63 +268,165 @@ export default function HebrewMonthCalendar() {
 	}
 
 	return (
-		<div className="p-4 bg-white rounded-xl shadow">
-			<div className="bg-red-600 text-white text-center py-3 rounded-t-xl">
-				<h2 className="text-5xl font-serif">הַחֹדֶשׁ {monthName}</h2>
-				<p className="text-sm italic">{year}</p>
-			</div>
-			<div dir="rtl" className="grid grid-cols-7 border-t">
-				{[...daysOfWeekHebrew].map((name, i) => (
-					<div
-						key={i}
-						className="text-center font-bold py-2 border-b bg-sky-50"
-					>
-						{name}
-					</div>
-				))}
-
-				{weeks.map((week, wi) =>
-					week.map((day, di) => (
+		<>
+			<div className="p-4 bg-white rounded-xl shadow">
+				<div className="bg-red-600 text-white text-center py-3 rounded-t-xl">
+					<h2 className="text-5xl font-serif">הַחֹדֶשׁ {monthName}</h2>
+					<p className="text-sm italic">{year}</p>
+				</div>
+				<div dir="rtl" className="grid grid-cols-7 border-t">
+					{[...daysOfWeekHebrew].map((name, i) => (
 						<div
-							key={`${wi}-${di}`}
-							className={clsx(
-								'border p-2 h-36 flex flex-col justify-between text-right',
-								!day && 'bg-gray-100',
-								day?.isToday && 'bg-blue-100 border-blue-500'
-							)}
+							key={i}
+							className="text-center font-bold py-2 border-b bg-sky-50"
 						>
-							{day && (
-								<>
-									<div className="flex flex-col h-full justify-between text-right">
-										<div className="text-xs md:text-lg leading-none font-serif">
-											{day.hebrewDate}
-										</div>
-										<div className="text-xs text-gray-700">
-											{day.englishDate}
-										</div>
-
-										{/* Spacer */}
-										<div className="flex-1 flex items-center">
-											{day.holiday && (
-												<div
-													className={`${day.color} text-[10px] px-1 rounded-sm truncate`}
-												>
-													{day.holiday}
-												</div>
-											)}
-										</div>
-
-										{/* Gregorian Date (always bottom) */}
-										<div className="text-[10px] italic text-gray-400">
-											{day.gregorian}
-										</div>
-									</div>
-								</>
-							)}
+							{name}
 						</div>
-					))
-				)}
+					))}
+
+					{weeks.map((week, wi) =>
+						week.map((day, di) => (
+							<div
+								key={`${wi}-${di}`}
+								className={clsx(
+									'border p-2 h-36 flex flex-col justify-between text-right',
+									!day && 'bg-gray-100',
+									day?.isToday && 'bg-sky-100 border-sky-500'
+								)}
+							>
+								{day && (
+									<>
+										<div className="flex flex-col h-full justify-between text-right">
+											<div className="text-xs md:text-lg leading-none font-serif">
+												{day.hebrewDate}
+											</div>
+											<div className="text-xs text-gray-700">
+												{day.englishDate}
+											</div>
+
+											{/* Spacer */}
+											<div className="flex-1 flex items-center">
+												{day.holiday && (
+													<div
+														className={`${day.color} text-[10px] px-1 rounded-sm truncate`}
+													>
+														{day.holiday}
+													</div>
+												)}
+											</div>
+
+											{/* Gregorian Date (always bottom) */}
+											<div className="text-[10px] italic text-gray-400">
+												{day.gregorian}
+											</div>
+										</div>
+									</>
+								)}
+							</div>
+						))
+					)}
+				</div>
 			</div>
-		</div>
+			<div className="flex flex-col md:flex-row justify-between gap-8 mt-8">
+				{nextCountdownEvent && countdownTime && (
+					<div className="border rounded-xl shadow-md overflow-hidden max-w-md w-full bg-yellow-50 mb-2 flex gap-4 flex-col">
+						<div className="p-4 bg-yellow-400 text-white py-3 px-4 rounded-t-xl shadow text-center space-y-2">
+							<h3 className="text-xl font-semibold">
+								Countdown to {nextCountdownEvent.desc}
+							</h3>
+						</div>
+						<div className="text-center flex flex-col gap-4">
+							<h3 className="font-serif text-3xl">
+								{nextCountdownEvent.hebDesc}
+							</h3>
+							<p className="text-lg">
+								{countdownTime.days}d {countdownTime.hours}h{' '}
+								{countdownTime.minutes}m {countdownTime.seconds}s
+							</p>
+							<div className="flex flex-col text-center justify-center mx-auto">
+								<p className="text-3xl font-serif">עוֹד</p>
+								<p className="text-right" dir="rtl">
+									<span className="font-nunito text-xl">
+										{countdownTime.days}
+									</span>{' '}
+									<span className="font-serif text-3xl">
+										יוֹם{countdownTime.days !== 1 ? 'ים' : ''}
+									</span>
+								</p>
+								<p className="text-right" dir="rtl">
+									<span className="font-nunito text-xl">
+										{countdownTime.hours}
+									</span>{' '}
+									<span className="font-serif text-3xl">
+										שָׁעָה{countdownTime.hours !== 1 ? 'וֹת' : ''}
+									</span>
+								</p>
+								<p className="text-right" dir="rtl">
+									<span className="font-nunito text-xl">
+										{countdownTime.minutes}
+									</span>{' '}
+									<span className="font-serif text-3xl">
+										דָּקָה{countdownTime.minutes !== 1 ? 'וֹת' : ''}
+									</span>
+								</p>
+								<p className="text-right" dir="rtl">
+									<span className="font-serif text-3xl">וְ-</span>
+									<span className="font-nunito text-xl">
+										{countdownTime.seconds}
+									</span>{' '}
+									<span className="font-serif text-3xl">
+										שְׁנִיָּה{countdownTime.seconds !== 1 ? 'וֹת' : ''}
+									</span>
+								</p>
+							</div>
+						</div>
+					</div>
+				)}
+				<HebrewClock isWidget={false} />
+			</div>
+			<div className="flex gap-8 flex-col mt-8">
+				<h2 className="font-semibold text-2xl">How do we write the year?</h2>
+				<p>
+					The gershayim (״) is placed before the final letter of the
+					number/abbreviation—as opposed to the beginning or end. It marks that
+					this group of letters is a number (or sometimes an acronym).
+				</p>
+				<ul>
+					<li>
+						400 = <span className="font-serif text-3xl">ת</span>
+					</li>
+					<li>
+						300 = <span className="font-serif text-3xl">ש</span>
+					</li>
+					<li>
+						80 = <span className="font-serif text-3xl">פ</span>
+					</li>
+					<li>
+						5 = <span className="font-serif text-3xl">ה</span>
+					</li>
+				</ul>
+				<p>
+					In modern Hebrew usage, the thousands digit (5000 in this case) is
+					understood and usually not written. The modern letter combination
+					<span className="font-serif text-3xl"> תשפ״ה </span>only represents
+					785, but it is understood in context to mean 5785. If we need to refer
+					to years before our current millenia we add a prefix with the
+					appropriate letter and a single :{' '}
+					<span className="font-serif text-3xl">ב׳ </span>For the current we
+					could use<span className="font-serif text-3xl"> ה׳</span>
+				</p>
+				<p>
+					The Hebrew calendar traditionally begins with the creation of the
+					world (Year 1 = Bereshit / Genesis 1). This is called Anno Mundi (AM),
+					meaning &quot;year of the world.&quot; So you could refer to the test
+					of Abraham as happening around: Year 2085{' '}
+					<span className="font-serif text-3xl">
+						ב׳תפ״ה לְבְּרִיאָת הָעוֹלָם{' '}
+					</span>
+					(from the creation of the world).
+				</p>
+				<p></p>
+			</div>
+		</>
 	)
 }

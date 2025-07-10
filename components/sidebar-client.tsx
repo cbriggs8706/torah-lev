@@ -48,7 +48,7 @@ export default function SidebarClient({
 				points={userProgress.points}
 				hasActiveSubscription={isPro}
 			/>
-			<HebrewClock />
+			<HebrewClock onClick={onItemClick} isWidget={true} />
 			<div className="flex flex-col gap-y-2 flex-1 overflow-y-auto">
 				<SidebarItem
 					label="Learn"
