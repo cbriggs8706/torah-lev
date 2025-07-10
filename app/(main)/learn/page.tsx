@@ -20,6 +20,7 @@ import { Calendar } from '@/components/ui/calendar'
 
 const LearnPage = async () => {
 	const userProgressData = getUserProgress()
+	const userChallengeData = await getCourseProgress()
 	const courseProgressData = getCourseProgress()
 	const lessonPercentageData = getLessonPercentage()
 	const unitsData = getUnits()
@@ -61,8 +62,11 @@ const LearnPage = async () => {
 				{/* {!isPro && (
           <Promo />
         )} */}
-				<Calendar />
-				{/* <Quests points={userProgress.points} /> */}
+				{/* <Calendar /> */}
+				<Quests
+					points={userProgress.points}
+					userChallengeData={userChallengeData}
+				/>
 			</StickyWrapper>
 			<FeedWrapper>
 				<Header title={userProgress.activeCourse.title} />

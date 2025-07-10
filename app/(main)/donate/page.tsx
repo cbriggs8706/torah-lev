@@ -35,7 +35,7 @@ const DonatePage = async () => {
 					hasActiveSubscription={isPro}
 				/>
 				{/* {!isPro && <Promo />} */}
-				<Quests points={userProgress.points} />
+				{/* <Quests points={userProgress.points} /> */}
 			</StickyWrapper>
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">

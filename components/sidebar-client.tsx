@@ -48,6 +48,7 @@ export default function SidebarClient({
 					hearts={userProgress.hearts}
 					points={userProgress.points}
 					hasActiveSubscription={isPro}
+					onClick={onItemClick}
 				/>
 			)}
 			<HebrewClock onClick={onItemClick} isWidget={true} />

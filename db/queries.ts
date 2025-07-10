@@ -15,7 +15,6 @@ import {
 export const getUserProgress = cache(async () => {
 	const { userId } = await auth()
 
-	console.log(userId)
 	if (!userId) {
 		console.warn('⚠️ No userId found in getUserProgress')
 
@@ -171,6 +170,7 @@ export const getCourseProgress = cache(async () => {
 	return {
 		activeLesson: firstUncompletedLesson,
 		activeLessonId: firstUncompletedLesson?.id,
+		unitsInActiveCourse,
 	}
 })
 

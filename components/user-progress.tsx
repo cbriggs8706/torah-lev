@@ -10,6 +10,7 @@ type Props = {
 	hearts: number
 	points: number
 	hasActiveSubscription: boolean
+	onClick?: () => void
 }
 
 export const UserProgress = ({
@@ -17,10 +18,11 @@ export const UserProgress = ({
 	points,
 	hearts,
 	hasActiveSubscription,
+	onClick,
 }: Props) => {
 	return (
 		<div className="flex items-center justify-between gap-x-2 w-full">
-			<Link href="/courses">
+			<Link href="/courses" onClick={onClick}>
 				<Button variant="ghost">
 					<Image
 						src={activeCourse.imageSrc}
@@ -31,19 +33,19 @@ export const UserProgress = ({
 					/>
 				</Button>
 			</Link>
-			{/* <Link href="/donate"> */}
-			<Button variant="ghost" className="text-orange-500">
-				<Image
-					src="/points.svg"
-					height={28}
-					width={28}
-					alt="Points"
-					className="mr-2"
-				/>
-				{points}
-			</Button>
-			{/* </Link> */}
-			{/* <Link href="/donate"> */}
+			<Link href="/quests" onClick={onClick}>
+				<Button variant="ghost" className="text-orange-500">
+					<Image
+						src="/points.svg"
+						height={28}
+						width={28}
+						alt="Points"
+						className="mr-2"
+					/>
+					{points}
+				</Button>
+			</Link>
+			{/* <Link href="/donate" onClick={onClick}> */}
 			<Button variant="ghost" className="text-rose-500">
 				<Image
 					src="/heart.svg"
