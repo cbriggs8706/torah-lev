@@ -98,6 +98,12 @@ export default function SidebarClient({
 							iconSrc="/ab-button-blood-type-svgrepo-com.svg"
 							onClick={onItemClick}
 						/>
+						<SidebarItem
+							label="Matchup"
+							href="/hebrew-matchup"
+							iconSrc="/couple-with-heart-man-man-light-skin-tone-svgrepo-com.svg"
+							onClick={onItemClick}
+						/>
 					</>
 				)}
 			</div>

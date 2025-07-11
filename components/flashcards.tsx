@@ -86,7 +86,9 @@ export default function FlashcardReview({
 	const [currentIndex, setCurrentIndex] = useState(0)
 	const [showBack, setShowBack] = useState(false)
 	const [showConfetti, setShowConfetti] = useState(false)
-	const [finishAudio] = useAudio({ src: '/finish.mp3', autoPlay: true })
+	const [finishAudioElement, _, finishControls] = useAudio({
+		src: '/finish.mp3',
+	})
 	const [filteredCards, setFilteredCards] = useState<Flashcard[]>([])
 	const [selectedCategory, setSelectedCategory] = useState<string>('all')
 
@@ -367,6 +369,7 @@ export default function FlashcardReview({
 			const nextIndex = currentIndex + 1
 			if (nextIndex >= filteredCards.length) {
 				setShowConfetti(true)
+				finishControls.play()
 				setTimeout(() => setShowConfetti(false), 12000)
 			}
 			setCurrentIndex(nextIndex % filteredCards.length)
@@ -494,6 +497,8 @@ export default function FlashcardReview({
 
 	return (
 		<div className="p-4 max-w-3xl mx-auto text-center w-full">
+			{finishAudioElement}
+
 			{showConfetti && (
 				<ReactConfetti
 					width={width}
@@ -503,7 +508,6 @@ export default function FlashcardReview({
 					tweenDuration={10000}
 				/>
 			)}
-			{showConfetti && finishAudio}
 
 			{/* Customize Section Toggle */}
 			<div className="mb-6 flex justify-center gap-4">
