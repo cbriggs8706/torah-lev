@@ -12,6 +12,7 @@ import { letters } from '@/lib/letters'
 interface SpellingPracticeProps {
 	data: Flashcard[]
 	lessonPrefix: string
+	currentLesson: number | undefined
 }
 
 type PromptType = 'image' | 'audio' | 'translation' | 'letter-by-letter'
@@ -19,10 +20,13 @@ type PromptType = 'image' | 'audio' | 'translation' | 'letter-by-letter'
 export default function SpellingPractice({
 	data,
 	lessonPrefix,
+	currentLesson,
 }: SpellingPracticeProps) {
-	const [selectedLessons, setSelectedLessons] = useState<string[]>([])
+	const [selectedLessons, setSelectedLessons] = useState<string[]>(
+		currentLesson !== undefined ? [`awb${currentLesson}`] : []
+	)
 	const [selectedType, setSelectedType] = useState<'all' | 'word' | 'phrase'>(
-		'all'
+		'word'
 	)
 	const [showFilter, setShowFilter] = useState(false)
 	const [isMobile, setIsMobile] = useState(false)
@@ -209,8 +213,8 @@ export default function SpellingPractice({
 			// Auto-play audio if promptType is audio or letter-by-letter
 			if (promptType === 'audio' && filteredCards[nextIndex]?.hebAudio) {
 				setTimeout(() => {
-					playConfiguredAudio(
-						filteredCards[nextIndex].hebAudio,
+					smartPlayAudio(
+						`/${filteredCards[nextIndex].hebAudio}`,
 						audioVolume,
 						audioSpeed
 					)
@@ -236,8 +240,8 @@ export default function SpellingPractice({
 			// Auto-play audio if promptType is audio and prev card has audio
 			if (promptType === 'audio' && filteredCards[prevIndex]?.hebAudio) {
 				setTimeout(() => {
-					playConfiguredAudio(
-						filteredCards[prevIndex].hebAudio,
+					smartPlayAudio(
+						`/${filteredCards[prevIndex].hebAudio}`,
 						audioVolume,
 						audioSpeed
 					)
@@ -280,14 +284,49 @@ export default function SpellingPractice({
 		function playSequentially(index = 0) {
 			if (index >= audioPaths.length) return
 
-			const audio = new Audio(audioPaths[index])
-			audio.volume = audioVolume
-			audio.playbackRate = audioSpeed
-			audio.addEventListener('ended', () => playSequentially(index + 1))
-			audio.play().catch(console.error)
+			if (audioVolume > 1.0) {
+				playWithBoostedVolume(audioPaths[index], audioVolume, audioSpeed)
+				setTimeout(() => playSequentially(index + 1), 600) // rough timing fudge
+			} else {
+				const audio = new Audio(audioPaths[index])
+				audio.volume = audioVolume
+				audio.playbackRate = audioSpeed
+				audio.addEventListener('ended', () => playSequentially(index + 1))
+				audio.play().catch(console.error)
+			}
 		}
 
 		playSequentially()
+	}
+
+	function playWithBoostedVolume(url: string, volume: number, speed: number) {
+		const audioContext = new (window.AudioContext ||
+			(window as any).webkitAudioContext)()
+		const audio = new Audio(url)
+		audio.crossOrigin = 'anonymous'
+		audio.playbackRate = speed
+
+		const source = audioContext.createMediaElementSource(audio)
+		const gainNode = audioContext.createGain()
+
+		// Allow volume up to 2.0 (200%)
+		gainNode.gain.value = Math.min(volume, 2.0)
+
+		source.connect(gainNode).connect(audioContext.destination)
+		audio.play().catch(console.error)
+	}
+
+	function smartPlayAudio(
+		src: string,
+		volume: number,
+		speed: number,
+		onEnd?: () => void
+	) {
+		if (volume > 1.0) {
+			playWithBoostedVolume(src, volume, speed)
+		} else {
+			playConfiguredAudio(src, volume, speed, onEnd)
+		}
 	}
 
 	return (
@@ -329,7 +368,7 @@ export default function SpellingPractice({
 							<input
 								type="range"
 								min="0"
-								max="1"
+								max="2"
 								step="0.05"
 								value={audioVolume}
 								onChange={(e) => setAudioVolume(parseFloat(e.target.value))}
@@ -485,8 +524,8 @@ export default function SpellingPractice({
 								className="text-4xl mt-2 hover:text-blue-700"
 								onClick={(e) => {
 									e.preventDefault()
-									playConfiguredAudio(
-										currentCard.hebAudio,
+									smartPlayAudio(
+										`/${currentCard.hebAudio}`,
 										audioVolume,
 										audioSpeed
 									)

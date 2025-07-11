@@ -4,7 +4,11 @@ import { redirect } from 'next/navigation'
 import { FeedWrapper } from '@/components/feed-wrapper'
 import { UserProgress } from '@/components/user-progress'
 import { StickyWrapper } from '@/components/sticky-wrapper'
-import { getUserProgress, getUserSubscription } from '@/db/queries'
+import {
+	getCourseProgress,
+	getUserProgress,
+	getUserSubscription,
+} from '@/db/queries'
 import dynamic from 'next/dynamic'
 
 import rawVocab from '@/lib/data/vocab/flashcards.json'
@@ -15,6 +19,7 @@ const FlashcardReview = dynamic(() => import('@/components/flashcards'), {
 
 const HebrewFlashcardPage = async () => {
 	const userProgressData = getUserProgress()
+	const userChallengeData = await getCourseProgress()
 	const userSubscriptionData = getUserSubscription()
 
 	const [userProgress, userSubscription] = await Promise.all([
@@ -27,6 +32,11 @@ const HebrewFlashcardPage = async () => {
 	}
 
 	const isPro = !!userSubscription?.isActive
+
+	const title = userChallengeData?.activeLesson?.title ?? ''
+	const match = title.match(/AwB (\d{1,3})/)
+
+	const currentLesson = match ? parseInt(match[1], 10) : undefined
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
@@ -69,6 +79,7 @@ const HebrewFlashcardPage = async () => {
 							'hebAudio',
 						]}
 						lessonPrefix="awb"
+						currentLesson={currentLesson}
 					/>
 				</div>
 			</FeedWrapper>

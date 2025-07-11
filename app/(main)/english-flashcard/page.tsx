@@ -55,7 +55,7 @@ const EnglishFlashcardPage = async () => {
 					<p className="text-muted-foreground text-center text-lg mb-6">
 						Customize Your Deck
 					</p>
-					<FlashcardReview
+					{/* <FlashcardReview
 						data={rawVocab}
 						allFields={[
 							'hebNiqqud',
@@ -69,7 +69,7 @@ const EnglishFlashcardPage = async () => {
 							'hebAudio',
 						]}
 						lessonPrefix="ec1"
-					/>
+					/> */}
 				</div>
 			</FeedWrapper>
 		</div>

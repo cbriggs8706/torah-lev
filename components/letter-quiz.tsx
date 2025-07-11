@@ -142,15 +142,17 @@ export default function LetterQuiz({ letters }: LetterQuizProps) {
 	}, [letters, selectedMode, selectedNiqqud])
 
 	useEffect(() => {
-		if (gameStarted) {
-			setShuffledLetters([...filteredLetters].sort(() => Math.random() - 0.5))
-			setCurrentIndex(0)
-			setFinished(false)
-			setCorrectCount(0)
-			setWrongCount(0)
-			setWrongAnswers([])
-		}
-	}, [gameStarted, filteredLetters])
+		if (!gameStarted) return
+		if (filteredLetters.length === 0) return
+
+		const shuffled = [...filteredLetters].sort(() => Math.random() - 0.5)
+		setShuffledLetters(shuffled)
+		setCurrentIndex(0)
+		setFinished(false)
+		setCorrectCount(0)
+		setWrongCount(0)
+		setWrongAnswers([])
+	}, [gameStarted])
 
 	const currentLetter = shuffledLetters[currentIndex]
 
@@ -227,6 +229,26 @@ export default function LetterQuiz({ letters }: LetterQuizProps) {
 	const total = shuffledLetters.length
 	const passed = wrongCount <= 2 && timeLimit <= 3
 	const hebrewExample = 'אבּ'
+
+	const isStartDisabled =
+		selectedMode === 'niqqud' && selectedNiqqud.length === 0
+			? true
+			: filteredLetters.length === 0
+
+	useEffect(() => {
+		if (!gameStarted || finished || !currentLetter) return
+
+		// Start the timer when a new currentLetter is available
+		setWaiting(true)
+		setHasPlayedAudio(false)
+		setFeedback(null)
+
+		const timer = setTimeout(() => {
+			setWaiting(false)
+		}, timeLimit * 1000)
+
+		return () => clearTimeout(timer)
+	}, [currentLetter?.char])
 
 	return (
 		<div className="w-full mx-auto p-6 text-center border rounded-xl shadow">
@@ -387,9 +409,28 @@ export default function LetterQuiz({ letters }: LetterQuizProps) {
 							className="w-24 p-2 border text-center rounded"
 						/>
 					</div>
+					{selectedMode === 'niqqud' && selectedNiqqud.length === 0 && (
+						<p className="text-red-600 font-medium mb-2">
+							Please select at least one niqqud to begin.
+						</p>
+					)}
+
 					<button
-						onClick={() => setGameStarted(true)}
-						className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+						onClick={() => {
+							console.log(
+								'Starting game with',
+								filteredLetters.length,
+								'letters'
+							)
+
+							if (!isStartDisabled) setGameStarted(true)
+						}}
+						disabled={isStartDisabled}
+						className={`px-6 py-2 rounded-lg text-white transition-colors ${
+							isStartDisabled
+								? 'bg-gray-400 cursor-not-allowed'
+								: 'bg-green-600 hover:bg-green-700'
+						}`}
 					>
 						Start Quiz
 					</button>

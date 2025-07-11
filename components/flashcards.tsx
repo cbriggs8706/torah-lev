@@ -21,6 +21,7 @@ interface FlashcardReviewProps {
 	data: Flashcard[]
 	allFields: (keyof Flashcard)[]
 	lessonPrefix: string
+	currentLesson: number | undefined
 }
 
 const FONT_SIZE_MAP = {
@@ -68,17 +69,18 @@ const FONT_CLASS_MAP: Record<FontChoice, string> = {
 	suez: 'font-suez',
 }
 
-type FlashcardField = keyof Flashcard | 'none'
-
 export default function FlashcardReview({
 	data,
 	allFields,
 	lessonPrefix,
+	currentLesson,
 }: FlashcardReviewProps) {
 	const [selectedType, setSelectedType] = useState<'all' | 'word' | 'phrase'>(
-		'all'
+		'word'
 	)
-	const [selectedLessons, setSelectedLessons] = useState<string[]>([])
+	const [selectedLessons, setSelectedLessons] = useState<string[]>(
+		currentLesson !== undefined ? [`awb${currentLesson}`] : []
+	)
 	const [frontField, setFrontField] = useState<keyof Flashcard>('hebNiqqud')
 	const [backField, setBackField] = useState<keyof Flashcard>('eng')
 	const [currentIndex, setCurrentIndex] = useState(0)
@@ -239,6 +241,23 @@ export default function FlashcardReview({
 
 	const currentCard = filteredCards[currentIndex]
 
+	function playWithBoostedVolume(url: string, volume: number, speed: number) {
+		const audioContext = new (window.AudioContext ||
+			(window as any).webkitAudioContext)()
+		const audio = new Audio(url)
+		audio.crossOrigin = 'anonymous'
+		audio.playbackRate = speed
+
+		const source = audioContext.createMediaElementSource(audio)
+		const gainNode = audioContext.createGain()
+
+		// Allow volume up to 2.0 (200%)
+		gainNode.gain.value = Math.min(volume, 2.0)
+
+		source.connect(gainNode).connect(audioContext.destination)
+		audio.play().catch(console.error)
+	}
+
 	// Refs for controlling playback programmatically
 	const frontAudioRef = useMemo(() => {
 		if (frontField === 'hebAudio' && currentCard?.hebAudio)
@@ -297,35 +316,42 @@ export default function FlashcardReview({
 		},
 	]
 
-	useEffect(() => {
-		const isFrontAudio = [
-			frontTopLeft,
-			frontTopCenter,
-			frontTopRight,
-			frontMiddleCenter,
-			frontBottomLeft,
-			frontBottomCenter,
-			frontBottomRight,
-		].includes('hebAudio')
+	//AUTO PLAY OF ALL CARDS
+	// useEffect(() => {
+	// 	const isFrontAudio = [
+	// 		frontTopLeft,
+	// 		frontTopCenter,
+	// 		frontTopRight,
+	// 		frontMiddleCenter,
+	// 		frontBottomLeft,
+	// 		frontBottomCenter,
+	// 		frontBottomRight,
+	// 	].includes('hebAudio')
 
-		if (isFrontAudio && currentCard?.hebAudio) {
-			const audio = new Audio(currentCard.hebAudio)
-			audio.volume = audioVolume
-			audio.playbackRate = audioSpeed
-			audio.play().catch(console.error)
+	// 	if (isFrontAudio && currentCard?.hebAudio) {
+	// 		const audio = new Audio(currentCard.hebAudio)
+	// 		audio.volume = audioVolume
+	// 		audio.playbackRate = audioSpeed
+	// 		audio.play().catch(console.error)
+	// 	}
+	// }, [
+	// 	currentCard,
+	// 	frontTopLeft,
+	// 	frontTopCenter,
+	// 	frontTopRight,
+	// 	frontMiddleCenter,
+	// 	frontBottomLeft,
+	// 	frontBottomCenter,
+	// 	frontBottomRight,
+	// 	audioVolume,
+	// 	audioSpeed,
+	// ])
+
+	useEffect(() => {
+		if (frontMiddleCenter === 'hebAudio' && currentCard?.hebAudio) {
+			playWithBoostedVolume(currentCard.hebAudio, audioVolume, audioSpeed)
 		}
-	}, [
-		currentCard,
-		frontTopLeft,
-		frontTopCenter,
-		frontTopRight,
-		frontMiddleCenter,
-		frontBottomLeft,
-		frontBottomCenter,
-		frontBottomRight,
-		audioVolume,
-		audioSpeed,
-	])
+	}, [currentCard, frontMiddleCenter, audioVolume, audioSpeed])
 
 	useEffect(() => {
 		if (showBack && backField === 'hebAudio' && backAudioRef) {
@@ -386,7 +412,6 @@ export default function FlashcardReview({
 		'hebNiqqud',
 		'ipa',
 		'hebAudio',
-		'images',
 		'genderPerson',
 		'engTransliteration',
 	]
@@ -409,127 +434,10 @@ export default function FlashcardReview({
 		return text.replace(/\?/g, '؟') // Arabic-style RTL question mark
 	}
 
-	function renderCardContent(field: keyof Flashcard) {
-		if (!currentCard) return null
-
-		// Special case: field is 'hebAudio'
-		if (field === 'hebAudio') {
-			const hasAudio = !!currentCard.hebAudio
-
-			const playAudio = () => {
-				if (!currentCard.hebAudio) return
-				playConfiguredAudio(currentCard.hebAudio, audioVolume, audioSpeed)
-			}
-
-			if (hasAudio) {
-				return (
-					<div className="flex items-center justify-center w-full h-full relative">
-						<button
-							onClick={(e) => {
-								e.stopPropagation()
-								playConfiguredAudio(
-									currentCard.hebAudio,
-									audioVolume,
-									audioSpeed
-								)
-							}}
-							className="text-6xl text-blue-600 hover:text-blue-800"
-							aria-label="Play Hebrew audio"
-						>
-							🔊
-						</button>
-					</div>
-				)
-			} else {
-				// fallback to hebNiqqud text
-				return (
-					<p
-						className={`break-words text-center leading-tight whitespace-pre-wrap ${
-							showBack ? FONT_CLASS_MAP[backFont] : FONT_CLASS_MAP[frontFont]
-						}`}
-						style={{
-							fontSize: showBack
-								? FONT_SIZE_MAP[backFontSize]
-								: FONT_SIZE_MAP[frontFontSize],
-						}}
-					>
-						{fixHebrewPunctuation(currentCard[field] as string)}
-					</p>
-				)
-			}
-		}
-
-		const showAudio: boolean =
-			typeof field === 'string' &&
-			(field.startsWith('heb') || field === 'images') &&
-			!!currentCard.hebAudio
-
-		let content: React.ReactNode = null
-
-		if (field === 'images') {
-			const images = currentCard.images
-			if (images && images.length > 0) {
-				const firstImage = images[0]
-				content = (
-					<div className="relative w-full h-48 sm:h-60 flex items-center justify-center">
-						<Image
-							src={firstImage}
-							alt="Flashcard visual"
-							fill
-							className="object-contain rounded"
-							sizes="(max-width: 768px) 100vw, 50vw"
-						/>
-					</div>
-				)
-			} else {
-				content = <p>{currentCard.hebNiqqud}</p>
-			}
-		} else {
-			content = (
-				<p
-					className={`break-words text-center leading-tight whitespace-pre-wrap ${
-						showBack ? FONT_CLASS_MAP[backFont] : FONT_CLASS_MAP[frontFont]
-					}`}
-					style={{
-						fontSize: showBack
-							? FONT_SIZE_MAP[backFontSize]
-							: FONT_SIZE_MAP[frontFontSize],
-					}}
-				>
-					{fixHebrewPunctuation(currentCard[field] as string)}
-				</p>
-			)
-		}
-
-		function playConfiguredAudio(src: string, volume: number, speed: number) {
-			if (!src) return
-
-			const audio = new Audio(src)
-			audio.volume = volume
-			audio.playbackRate = speed
-			audio.play().catch(console.error)
-		}
-
-		return (
-			<div className="relative w-full">
-				{/* {showAudio && (
-					<button
-						onClick={(e) => {
-							e.stopPropagation()
-							playAudio()
-						}}
-						className="absolute top-0 right-0 p-2 text-gray-600 hover:text-blue-600"
-						aria-label="Play audio"
-					>
-						🔊
-					</button>
-				)} */}
-				{content}
-			</div>
-		)
-	}
-
-	function renderMiniContent(field: keyof Flashcard | 'none') {
+	function renderMiniContent(
+		field: keyof Flashcard | 'none',
+		isMiddle = false
+	) {
 		if (!currentCard || field === 'none') return null
 
 		const value = currentCard[field]
@@ -539,13 +447,20 @@ export default function FlashcardReview({
 		if (field === 'images' && Array.isArray(value) && value.length > 0) {
 			const imageUrl = value[0]
 			return (
-				<div className="w-full h-32 flex items-center justify-center">
+				//TODO fix the console errors of position
+				<div
+					className={
+						isMiddle
+							? 'w-full h-full flex items-center justify-center'
+							: 'w-full h-32 flex items-center justify-center'
+					}
+				>
 					<Image
 						src={imageUrl}
 						alt="Flashcard image"
-						width={128}
-						height={128}
+						fill={isMiddle} // ✅ This enables full-size scaling
 						className="object-contain rounded"
+						sizes="(max-width: 768px) 100vw, 50vw"
 					/>
 				</div>
 			)
@@ -557,10 +472,7 @@ export default function FlashcardReview({
 					className="text-3xl text-blue-600 hover:text-blue-800"
 					onClick={(e) => {
 						e.stopPropagation()
-						const audio = new Audio(value)
-						audio.volume = audioVolume
-						audio.playbackRate = audioSpeed
-						audio.play().catch(console.error)
+						playWithBoostedVolume(currentCard.hebAudio, audioVolume, audioSpeed)
 					}}
 				>
 					🔊
@@ -572,7 +484,12 @@ export default function FlashcardReview({
 			return value.join(', ')
 		}
 
-		return fixHebrewPunctuation(value as string)
+		const isHebrewField = field === 'heb' || field === 'hebNiqqud'
+		const className = !isMiddle && isHebrewField ? 'font-serif text-4xl' : ''
+
+		return (
+			<span className={className}>{fixHebrewPunctuation(value as string)}</span>
+		)
 	}
 
 	return (
@@ -628,7 +545,7 @@ export default function FlashcardReview({
 					<input
 						type="range"
 						min="0"
-						max="1"
+						max="2"
 						step="0.05"
 						value={audioVolume}
 						onChange={(e) => setAudioVolume(parseFloat(e.target.value))}
@@ -1093,38 +1010,40 @@ export default function FlashcardReview({
 						{/* Front */}
 						<div className="absolute w-full h-full backface-hidden bg-white border rounded-xl p-2 sm:p-6 flex flex-col">
 							{/* Top Row */}
-							<div className="flex justify-between text-sm font-nunito">
+							<div className="flex justify-between text-lg font-nunito">
 								<div className="text-left w-1/3">
-									{renderMiniContent(frontTopLeft)}
+									{renderMiniContent(frontTopLeft, false)}
 								</div>
 								<div className="text-center w-1/3">
-									{renderMiniContent(frontTopCenter)}
+									{renderMiniContent(frontTopCenter, false)}
 								</div>
 								<div className="text-right w-1/3">
-									{renderMiniContent(frontTopRight)}
+									{renderMiniContent(frontTopRight, false)}
 								</div>
 							</div>
 
 							{/* Middle Row (flexes to fill) */}
-							<div className="flex-1 flex items-center justify-center text-center overflow-hidden">
+							{/* <div className="flex-1 flex items-center justify-center text-center overflow-hidden"> */}
+							<div className="flex-1 relative overflow-hidden flex items-center justify-center leading-none">
 								<span
 									className={FONT_CLASS_MAP[frontFont]}
 									style={{ fontSize: FONT_SIZE_MAP[frontFontSize] }}
 								>
-									{renderMiniContent(frontMiddleCenter)}
+									{renderMiniContent(frontMiddleCenter, true)}
 								</span>
 							</div>
+							{/* </div> */}
 
 							{/* Bottom Row */}
-							<div className="flex justify-between text-sm font-nunito">
+							<div className="flex justify-between text-lg font-nunito">
 								<div className="text-left w-1/3 self-end">
-									{renderMiniContent(frontBottomLeft)}
+									{renderMiniContent(frontBottomLeft, false)}
 								</div>
 								<div className="text-center w-1/3 self-end">
-									{renderMiniContent(frontBottomCenter)}
+									{renderMiniContent(frontBottomCenter, false)}
 								</div>
 								<div className="text-right w-1/3 self-end">
-									{renderMiniContent(frontBottomRight)}
+									{renderMiniContent(frontBottomRight, false)}
 								</div>
 							</div>
 						</div>
@@ -1133,34 +1052,34 @@ export default function FlashcardReview({
 						<div className="absolute w-full h-full backface-hidden rotate-y-180 bg-blue-100 border rounded-xl p-2 sm:p-6 grid grid-rows-3 grid-cols-3 gap-1">
 							{/* Top Row */}
 							<div className="text-md font-nunito text-left">
-								{renderMiniContent(backTopLeft)}
+								{renderMiniContent(backTopLeft, false)}
 							</div>
 							<div className="text-md font-nunito text-center">
-								{renderMiniContent(backTopCenter)}
+								{renderMiniContent(backTopCenter, false)}
 							</div>
 							<div className="text-md font-nunito text-right">
-								{renderMiniContent(backTopRight)}
+								{renderMiniContent(backTopRight, false)}
 							</div>
 
 							{/* Middle */}
 							<div
-								className="col-span-3 text-center"
+								className="flex-1 col-span-3 relative overflow-hidden flex items-center justify-center"
 								style={{ fontSize: FONT_SIZE_MAP[backFontSize] }}
 							>
 								<span className={FONT_CLASS_MAP[backFont]}>
-									{renderMiniContent(backMiddleCenter)}
+									{renderMiniContent(backMiddleCenter, true)}
 								</span>
 							</div>
 
 							{/* Bottom Row */}
 							<div className="text-md font-nunito text-left self-end">
-								{renderMiniContent(backBottomLeft)}
+								{renderMiniContent(backBottomLeft, false)}
 							</div>
 							<div className="text-md font-nunito text-center self-end">
-								{renderMiniContent(backBottomCenter)}
+								{renderMiniContent(backBottomCenter, false)}
 							</div>
 							<div className="text-md font-nunito text-right self-end">
-								{renderMiniContent(backBottomRight)}
+								{renderMiniContent(backBottomRight, false)}
 							</div>
 						</div>
 					</div>
