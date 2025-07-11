@@ -2,6 +2,7 @@ import { lessons, units } from '@/db/schema'
 
 import { UnitBanner } from './unit-banner'
 import { LessonButton } from './lesson-button'
+import { useEffect, useRef, useState } from 'react'
 
 type Props = {
 	id: number
@@ -28,9 +29,10 @@ export const Unit = ({
 	activeLesson,
 	activeLessonPercentage,
 }: Props) => {
-	const manuallyUnlockedIds = [
-		7, 39, 49, 59, 69, 79, 89, 99, 109, 119, 129, 139, 149, 159,
-	]
+	// const manuallyUnlockedIds = [
+	// 	7, 39, 49, 59, 69, 79, 89, 99, 109, 119, 129, 139, 149, 159,
+	// ]
+
 	return (
 		<>
 			<UnitBanner title={title} description={description} />

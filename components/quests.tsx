@@ -204,6 +204,13 @@ export const Quests = ({ points, userChallengeData }: Props) => {
 					)
 				})()}
 			</div>
+			<div className="mt-4">
+				<Link href="/leaderboard">
+					<Button size="sm" variant="primaryOutline">
+						View Leaderboard
+					</Button>
+				</Link>
+			</div>
 		</div>
 	)
 }

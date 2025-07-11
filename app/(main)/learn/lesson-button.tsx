@@ -30,7 +30,9 @@ export const LessonButton = ({
 	current,
 	percentage,
 }: Props) => {
-	const lessonNumber = title.match(/AwB (\d+)/)?.[1] ?? '?'
+	// const lessonNumber = title.match(/AwB (\d+)/)?.[1] ?? '?'
+	const match = title.match(/AwB(?: Classroom Lesson)? (\d+)/)
+	const lessonNumber = match ? match[1] : '?'
 	const cycleLength = 8
 	const cycleIndex = index % cycleLength
 

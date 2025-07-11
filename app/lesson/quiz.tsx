@@ -224,7 +224,7 @@ export const Quiz = ({
 	} else if (challenge.type === 'SELECT') {
 		title = challenge.question
 	} else if (challenge.type === 'WATCH') {
-		title = 'Listen to this video'
+		title = 'Watch this video'
 	} else if (challenge.type === 'PLAY') {
 		title = 'Play this game'
 	}
@@ -352,7 +352,7 @@ export const Quiz = ({
 										/>
 									</div>
 
-									<p>
+									{/* <p>
 										&bull; Must watch the video all the way through to mark as
 										complete.
 									</p>
@@ -393,7 +393,7 @@ export const Quiz = ({
 											click here{' '}
 										</a>
 										to watch it on YouTube.
-									</p>
+									</p> */}
 								</>
 							)}
 							<Challenge
