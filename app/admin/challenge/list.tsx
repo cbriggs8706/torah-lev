@@ -58,6 +58,8 @@ export const ChallengeList = () => {
 				<ReferenceField source="lessonId" reference="lessons" />
 				<NumberField source="order" />
 				<TextField source="video" />
+				<TextField source="image" />
+				<TextField source="audio" />
 			</Datagrid>
 		</List>
 	)

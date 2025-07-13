@@ -59,6 +59,8 @@ export const ChallengeEdit = () => {
 				<ReferenceInput source="lessonId" reference="lessons" />
 				<NumberInput source="order" validate={[required()]} label="Order" />
 				<TextInput source="video" label="Video Url" />
+				<TextInput source="image" label="image" />
+				<TextInput source="audio" label="audio" />
 			</SimpleForm>
 		</Edit>
 	)

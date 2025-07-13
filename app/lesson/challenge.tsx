@@ -23,26 +23,22 @@ export const Challenge = ({
 	return (
 		// TODO only reverse if in hebrew
 		// <div className={cn('flex flex-row gap-2 flex-wrap')}>
-		<div className={cn('flex flex-row-reverse gap-2 flex-wrap')}>
-			{options.map((option, i) => {
-				return (
-					<div key={option.id} className="grow w-1/3 md:w-1/4">
-						<Card
-							key={option.id}
-							id={option.id}
-							text={option.text}
-							imageSrc={option.imageSrc}
-							shortcut={`${i + 1}`}
-							selected={selectedOption === option.id}
-							onClick={() => onSelect(option.id)}
-							status={status}
-							audioSrc={option.audioSrc}
-							disabled={disabled}
-							type={type}
-						/>
-					</div>
-				)
-			})}
+		<div
+			className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+			dir="rtl"
+		>
+			{options.map((option, i) => (
+				<Card
+					key={option.id}
+					{...option}
+					shortcut={`${i + 1}`}
+					selected={selectedOption === option.id}
+					onClick={() => onSelect(option.id)}
+					status={status}
+					disabled={disabled}
+					type={type}
+				/>
+			))}
 		</div>
 	)
 }

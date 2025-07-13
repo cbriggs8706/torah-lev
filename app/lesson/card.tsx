@@ -59,13 +59,13 @@ export const Card = ({
 		>
 			{audio}
 			{imageSrc && (
-				<div className="relative mb-4 h-[80px] lg:h-[150px] w-full">
+				<div className="relative aspect-[4/3] mb-4 w-full">
 					<Image
 						src={imageSrc}
 						alt={text}
-						layout="fill"
-						objectFit="contain"
-						className="w-full h-full"
+						fill
+						sizes="(max-width: 768px) 100vw, 25vw"
+						className="object-contain"
 					/>
 				</div>
 			)}
@@ -81,16 +81,18 @@ export const Card = ({
 				)}
 			>
 				{type === 'ASSIST' && <div />}
-				<p
-					className={cn(
-						'text-neutral-600 text-sm lg:text-base',
-						selected && 'text-sky-500',
-						selected && status === 'correct' && 'text-green-500',
-						selected && status === 'wrong' && 'text-rose-500'
-					)}
-				>
-					{text}
-				</p>
+				{(type === 'AUDIO-TEXT' || type === 'VISUAL-TEXT') && (
+					<p
+						className={cn(
+							'text-neutral-600 text-sm lg:text-base',
+							selected && 'text-sky-500',
+							selected && status === 'correct' && 'text-green-500',
+							selected && status === 'wrong' && 'text-rose-500'
+						)}
+					>
+						{text}
+					</p>
+				)}
 				<div
 					className={cn(
 						'lg:w-[30px] lg:h-[30px] w-[20px] h-[20px] border-2 flex items-center justify-center rounded-lg text-neutral-400 lg:text-[15px] text-xs font-semibold',

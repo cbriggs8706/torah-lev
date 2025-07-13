@@ -76,6 +76,8 @@ export const challenges = pgTable('challenges', {
 	question: text('question').notNull(),
 	order: integer('order').notNull(),
 	video: text('video'),
+	image: text('image'),
+	audio: text('audio'),
 })
 
 export const challengesRelations = relations(challenges, ({ one, many }) => ({

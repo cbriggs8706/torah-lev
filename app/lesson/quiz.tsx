@@ -45,6 +45,28 @@ export const Quiz = ({
 	const { open: openHeartsModal } = useHeartsModal()
 	const { open: openPracticeModal } = usePracticeModal()
 
+	// console.log(
+	// 	'Rendering Quiz with',
+	// 	initialLessonChallenges.length,
+	// 	'challenges'
+	// )
+	// const seen = new Set()
+	// console.log(
+	// 	'Deduplicated challenges:',
+	// 	initialLessonChallenges.filter((c) => {
+	// 		if (seen.has(c.id)) return false
+	// 		seen.add(c.id)
+	// 		return true
+	// 	}).length
+	// )
+
+	// useEffect(() => {
+	// 	console.log(
+	// 		'Initial challenge IDs:',
+	// 		initialLessonChallenges.map((c) => c.id)
+	// 	)
+	// }, [])
+
 	useMount(() => {
 		if (initialPercentage === 100) {
 			openPracticeModal()
@@ -68,7 +90,16 @@ export const Quiz = ({
 	const [percentage, setPercentage] = useState(() => {
 		return initialPercentage === 100 ? 0 : initialPercentage
 	})
-	const [challenges] = useState(initialLessonChallenges)
+
+	const [challenges] = useState(() => {
+		const seen = new Set()
+		return initialLessonChallenges.filter((c) => {
+			if (seen.has(c.id)) return false
+			seen.add(c.id)
+			return true
+		})
+	})
+
 	const [activeIndex, setActiveIndex] = useState(() => {
 		const uncompletedIndex = challenges.findIndex(
 			(challenge) => !challenge.completed
@@ -230,6 +261,18 @@ export const Quiz = ({
 			? 'Watch this video'
 			: 'Select the correct answer'
 
+	let questionSource: string | null = null
+
+	if (['AUDIO-VISUAL', 'AUDIO-TEXT'].includes(challenge.type)) {
+		questionSource = challenge.audio
+	} else if (['VISUAL-AUDIO', 'VISUAL-TEXT'].includes(challenge.type)) {
+		questionSource = challenge.image
+	} else if (['TEXT-AUDIO', 'TEXT-VISUAL'].includes(challenge.type)) {
+		questionSource = challenge.question
+	} else if (challenge.type === 'ASSIST') {
+		questionSource = challenge.video
+	}
+
 	return (
 		<>
 			{incorrectAudio}
@@ -247,28 +290,13 @@ export const Quiz = ({
 							{title}
 						</h1>
 						<div>
-							{challenge.type === 'ASSIST' && (
+							{/* {challenge.type === 'ASSIST' && (
 								//TODO Cameron reverse this to display text in the challenge bubble
-								<QuestionBubble question={challenge.video} />
+								<QuestionBubble question={challenge.video} key={challenge.id} />
 								// <QuestionBubble question={challenge.question} />
-							)}
-							{challenge.type === 'AUDIO-VISUAL' && (
-								<QuestionBubble question={challenge.video} />
-							)}
-							{challenge.type === 'AUDIO-TEXT' && (
-								<QuestionBubble question={challenge.video} />
-							)}
-							{challenge.type === 'VISUAL-AUDIO' && (
-								<QuestionBubble question={challenge.video} />
-							)}
-							{challenge.type === 'VISUAL-TEXT' && (
-								<QuestionBubble question={challenge.video} />
-							)}
-							{challenge.type === 'TEXT-AUDIO' && (
-								<QuestionBubble question={challenge.video} />
-							)}
-							{challenge.type === 'TEXT-VISUAL' && (
-								<QuestionBubble question={challenge.video} />
+							)} */}
+							{questionSource && (
+								<QuestionBubble key={challenge.id} question={questionSource} />
 							)}
 
 							{challenge.type === 'WATCH' && challenge.video && (
@@ -305,49 +333,6 @@ export const Quiz = ({
 											}
 										/>
 									</div>
-
-									{/* <p>
-										&bull; Must watch the video all the way through to mark as
-										complete.
-									</p>
-									<p>
-										&bull; To change the speed, click on the settings cog in the
-										bottom right hand corner of the video.
-									</p>
-									<p>
-										&bull; If the video is not loading{' '}
-										<a
-											href={`${challenge.video}`}
-											target="_blank"
-											className="underline"
-											onClick={() =>
-												startTransition(() => {
-													upsertChallengeProgress(challenge.id)
-														.then(() => {
-															correctControls.play()
-															setSelectedOption(1)
-															setStatus('correct')
-															setPercentage(
-																(prev) => prev + 100 / challenges.length
-															)
-
-															// This is a practice
-															if (initialPercentage === 100) {
-																setHearts((prev) => Math.min(prev + 1, 5))
-															}
-														})
-														.catch(() =>
-															toast.error(
-																'Something went wrong. Please try again.'
-															)
-														)
-												})
-											}
-										>
-											click here{' '}
-										</a>
-										to watch it on YouTube.
-									</p> */}
 								</>
 							)}
 							<Challenge
