@@ -91,13 +91,33 @@ export const Quiz = ({
 		return initialPercentage === 100 ? 0 : initialPercentage
 	})
 
+	// const [challenges] = useState(() => {
+	// 	const seen = new Set()
+	// 	return initialLessonChallenges.filter((c) => {
+	// 		if (seen.has(c.id)) return false
+	// 		seen.add(c.id)
+	// 		return true
+	// 	})
+	// })
+
 	const [challenges] = useState(() => {
-		const seen = new Set()
-		return initialLessonChallenges.filter((c) => {
+		const seen = new Set<number>()
+
+		const deduped = initialLessonChallenges.filter((c) => {
 			if (seen.has(c.id)) return false
 			seen.add(c.id)
 			return true
 		})
+
+		const watchChallenges = deduped
+			.filter((c) => c.type === 'WATCH')
+			.sort((a, b) => a.order - b.order)
+
+		const otherChallenges = deduped
+			.filter((c) => c.type !== 'WATCH')
+			.sort(() => Math.random() - 0.5)
+
+		return [...watchChallenges, ...otherChallenges]
 	})
 
 	const [activeIndex, setActiveIndex] = useState(() => {

@@ -24,12 +24,13 @@ import { ChallengeOptionList } from './challengeOption/list'
 import { ChallengeOptionEdit } from './challengeOption/edit'
 import { ChallengeOptionCreate } from './challengeOption/create'
 import GenerateChallengesPage from './generate-challenges/page'
+import { AdminMenu } from '@/components/admin-menu'
 
 const dataProvider = simpleRestProvider('/api')
 
 const App = () => {
 	return (
-		<Admin dataProvider={dataProvider}>
+		<Admin dataProvider={dataProvider} menu={AdminMenu}>
 			<Resource
 				name="courses"
 				list={CourseList}
