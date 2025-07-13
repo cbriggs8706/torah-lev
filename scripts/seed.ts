@@ -1,757 +1,4877 @@
 import 'dotenv/config'
 import { drizzle } from 'drizzle-orm/neon-http'
 import { neon } from '@neondatabase/serverless'
-
 import * as schema from '../db/schema'
 
-const sql = neon(process.env.DATABASE_URL!)
-// @ts-ignore
+const sql = neon(process.env.DATABASE_URL!) as any
 const db = drizzle(sql, { schema })
 
 const main = async () => {
-	try {
-		console.log('Seeding database')
+  try {
+    console.log('Seeding database')
 
-		await db.delete(schema.courses)
-		await db.delete(schema.userProgress)
-		await db.delete(schema.units)
-		await db.delete(schema.lessons)
-		await db.delete(schema.challenges)
-		await db.delete(schema.challengeOptions)
-		await db.delete(schema.challengeProgress)
-		await db.delete(schema.userSubscription)
+    await db.delete(schema.courses)
+    await db.delete(schema.units)
+    await db.delete(schema.lessons)
+    await db.delete(schema.challenges)
+    await db.delete(schema.challengeOptions)
 
-		await db.insert(schema.courses).values([
-			{
-				id: 1,
-				title: 'Destinos',
-				imageSrc: '/mx.svg',
-			},
-			{
-				id: 3,
-				title: 'EnglishConnect 1',
-				imageSrc: '/us.svg',
-			},
-			{
-				id: 4,
-				title: 'EnglishConnect 2',
-				imageSrc: '/us.svg',
-			},
-			{
-				id: 5,
-				title: 'Aleph with Beth',
-				imageSrc: '/is.svg',
-			},
-		])
+    await db.insert(schema.courses).values([
+  {
+    id: 3,
+    title: "EnglishConnect 1",
+    imageSrc: "/us.svg"
+  },
+  {
+    id: 4,
+    title: "EnglishConnect 2",
+    imageSrc: "/us.svg"
+  },
+  {
+    id: 6,
+    title: "Aleph With Beth",
+    imageSrc: "/is.svg"
+  },
+  {
+    id: 2,
+    title: "Destinos",
+    imageSrc: "/mx.svg"
+  }
+])
 
-		await db.insert(schema.units).values([
-			{
-				id: 1,
-				courseId: 1, // Destinos
-				title: 'Semana 1',
-				description: 'Sustantivos, Artículos y Adjetivos',
-				order: 1,
-			},
-			{
-				id: 2,
-				courseId: 5, // Aleph with Beth
-				title: 'AwB Unit 1: Foundations',
-				description:
-					'First words, grammar basics, family, location, alphabet, and body vocabulary.',
-				order: 1,
-			},
-			{
-				id: 3,
-				courseId: 5, // Aleph with Beth
-				title: 'AwB Unit 2: Descriptions & Existence',
-				description:
-					'Construct forms, numbers, more alphabet, nature/existence, geography, possession, and relative clauses.',
-				order: 2,
-			},
-			{
-				id: 4,
-				courseId: 5, // Aleph with Beth
-				title: 'AwB Unit 3: Actions & Commands',
-				description:
-					'Common verbs (come, go, say), imperatives, possession suffixes, obedience, giving, marriage, and more prepositions.',
-				order: 3,
-			},
-			{
-				id: 5,
-				courseId: 5, // Aleph with Beth
-				title: 'AwB Unit 4: People & Objects',
-				description:
-					'Higher numbers, prophets, direct objects (אֶת־), truth and lies, fruits, body parts, life & death, wisdom, and Noah’s ark.',
-				order: 4,
-			},
-			{
-				id: 6,
-				courseId: 5, // Aleph with Beth
-				title: 'AwB Unit 5: Creation & Contrast',
-				description:
-					'Similarities, light/darkness, creation, movement, verb sequences, sending, food, time periods, and emotional contrasts.',
-				order: 5,
-			},
-			{
-				id: 7,
-				courseId: 5, // Aleph with Beth
-				title: 'AwB Unit 6: Journeys & Decisions',
-				description:
-					'Spies, motion verbs, King Josiah, dilemmas, and crossing over—narratives of choice, leadership, and transitions.',
-				order: 6,
-			},
-			{
-				id: 8,
-				courseId: 5, // Aleph with Beth
-				title: 'AwB Unit 7: Battles & Blessings',
-				description:
-					'Battles, leadership, and covenant, introducing feminine and second-person vayyiqtol forms.',
-				order: 7,
-			},
-			{
-				id: 9,
-				courseId: 5, // Aleph with Beth
-				title: 'AwB Unit 8: Hearts & Actions',
-				description:
-					'Emotion, loyalty, and movement through stories like Ruth and Jordan’s crossing, while deepening grammar with participles and verb form review.',
-				order: 8,
-			},
-			{
-				id: 10,
-				courseId: 5, // Aleph with Beth
-				title: 'AwB Unit 9: Life & Legacy',
-				description:
-					'Birth, knowledge, and discernment across generations, expanding vocabulary on time and family while refining participles, negation, and noun/verb distinctions.',
-				order: 9,
-			},
-			{
-				id: 11,
-				courseId: 5, // Aleph with Beth
-				title: 'AwB Unit 10: Callings & Kings',
-				description:
-					'Calling, service, and leadership transitions through figures like Samuel and Solomon, focusing on yiqtol verb forms and imperative variations.',
-				order: 10,
-			},
-			{
-				id: 12,
-				courseId: 5, // Aleph with Beth
-				title: 'AwB Unit 11: Tribes & Loliness',
-				description:
-					'Israel’s identity through tribal structure, inheritance, and holiness, while introducing binyanim (verb patterns), Pi’el verbs, and advanced vowel markings like meteg and silluq.',
-				order: 11,
-			},
-			{
-				id: 13,
-				courseId: 5, // Aleph with Beth
-				title: 'AwB Unit 12: Fear, Love & Sacrifice',
-				description:
-					'Emotion, obedience, and drawing near to God through stories of Jacob, Abraham, and Joseph, while introducing negative commands, Hiph’il causative verbs, and veqatal verb sequences.',
-				order: 12,
-			},
-			{
-				id: 14,
-				courseId: 5, // Aleph with Beth
-				title: 'AwB Unit 13: God Acts & People Respond',
-				description:
-					'Divine intervention and human choice through stories of Abraham, Rachel, and the prophets, while deepening grammar with veqatal forms, Hiph’il verbs, and conditional clauses.',
-				order: 13,
-			},
-			{
-				id: 15,
-				courseId: 5, // Aleph with Beth
-				title: 'AwB Unit 14: Revealing & Raising',
-				description:
-					'Divine revelation, resurrection, and decision-making through stories of Rebekah, Elijah, and Ezekiel, while continuing the Hiph’il causative verb series and exploring themes of vision, exile, and making known.',
-				order: 14,
-			},
-			{
-				id: 16,
-				courseId: 5, // Aleph with Beth
-				title: 'AwB Classroom',
-				description: 'Vocabulary for the modern classroom.',
-				order: 15,
-			},
-		])
+    await db.insert(schema.units).values([
+  {
+    id: 1,
+    title: "Semana 1",
+    description: "Sustantivos, Artículos y Adjetivos",
+    courseId: 2,
+    order: 1
+  },
+  {
+    id: 2,
+    title: "AwB Unit 1: Foundations",
+    description: "First words, grammar basics, family, location, alphabet, and body vocabulary.",
+    courseId: 6,
+    order: 1
+  },
+  {
+    id: 10,
+    title: "AwB Unit 2: Descriptions & Existence",
+    description: "Construct forms, numbers, more alphabet, nature/existence, geography, possession, and relative clauses.",
+    courseId: 6,
+    order: 2
+  },
+  {
+    id: 11,
+    title: "AwB Unit 3: Actions & Commands",
+    description: "Common verbs (come, go, say), imperatives, possession suffixes, obedience, giving, marriage, and more prepositions.",
+    courseId: 6,
+    order: 3
+  },
+  {
+    id: 12,
+    title: "AwB Unit 4: People & Objects",
+    description: "Higher numbers, prophets, direct objects (אֶת־), truth and lies, fruits, body parts, life & death, wisdom, and Noah’s ark.",
+    courseId: 6,
+    order: 4
+  },
+  {
+    id: 13,
+    title: "AwB Unit 5: Creation & Contrast",
+    description: "Similarities, light/darkness, creation, movement, verb sequences, sending, food, time periods, and emotional contrasts.",
+    courseId: 6,
+    order: 5
+  },
+  {
+    id: 14,
+    title: "AwB Unit 6: Journeys & Decisions",
+    description: "Spies, motion verbs, King Josiah, dilemmas, and crossing over—narratives of choice, leadership, and transitions.",
+    courseId: 6,
+    order: 6
+  },
+  {
+    id: 15,
+    title: "AwB Unit 7: Battles & Blessings",
+    description: "Battles, leadership, and covenant, introducing feminine and second-person vayyiqtol forms.",
+    courseId: 6,
+    order: 7
+  },
+  {
+    id: 16,
+    title: "AwB Unit 8: Hearts & Actions",
+    description: "Emotion, loyalty, and movement through stories like Ruth and Jordan’s crossing, while deepening grammar with participles and verb form review.",
+    courseId: 6,
+    order: 8
+  },
+  {
+    id: 17,
+    title: "AwB Unit 9: Life & Legacy",
+    description: "Birth, knowledge, and discernment across generations, expanding vocabulary on time and family while refining participles, negation, and noun/verb distinctions.",
+    courseId: 6,
+    order: 9
+  },
+  {
+    id: 18,
+    title: "AwB Unit 10: Callings & Kings",
+    description: "Calling, service, and leadership transitions through figures like Samuel and Solomon, focusing on yiqtol verb forms and imperative variations.",
+    courseId: 6,
+    order: 10
+  },
+  {
+    id: 19,
+    title: "AwB Unit 11: Tribes & Holiness",
+    description: "Israel’s identity through tribal structure, inheritance, and holiness, while introducing binyanim (verb patterns), Pi’el verbs, and advanced vowel markings like meteg and silluq.",
+    courseId: 6,
+    order: 11
+  },
+  {
+    id: 20,
+    title: "AwB Unit 12: Fear, Love & Sacrifice",
+    description: "Emotion, obedience, and drawing near to God through stories of Jacob, Abraham, and Joseph, while introducing negative commands, Hiph’il causative verbs, and veqatal verb sequences.",
+    courseId: 6,
+    order: 12
+  },
+  {
+    id: 21,
+    title: "AwB Unit 13: God Acts & People Respond",
+    description: "Divine intervention and human choice through stories of Abraham, Rachel, and the prophets, while deepening grammar with veqatal forms, Hiph’il verbs, and conditional clauses.",
+    courseId: 6,
+    order: 13
+  },
+  {
+    id: 22,
+    title: "AwB Unit 14: Revealing & Raising",
+    description: "Divine revelation, resurrection, and decision-making through stories of Rebekah, Elijah, and Ezekiel, while continuing the Hiph’il causative verb series and exploring themes of vision, exile, and making known.",
+    courseId: 6,
+    order: 14
+  },
+  {
+    id: 23,
+    title: "AwB Classroom",
+    description: "Vocabulary for the modern classroom",
+    courseId: 6,
+    order: 100
+  }
+])
 
-		await db.insert(schema.lessons).values([
-			{
-				id: 1,
-				unitId: 1, // Semana 1 (Sustantivos, Artículos y Adjetivos...)
-				order: 1,
-				title: 'Sustantivos Singulares',
-			},
-			{
-				id: 2,
-				unitId: 1, // Semana 1 (Sustantivos, Artículos y Adjetivos...)
-				order: 2,
-				title: 'Sustantivos Plurales',
-			},
-			{
-				id: 3,
-				unitId: 1, // Semana 1 (Sustantivos, Artículos y Adjetivos...)
-				order: 3,
-				title: 'Artículos Singulares Indefinidos',
-			},
-			{
-				id: 4,
-				unitId: 1, // Semana 1 (Sustantivos, Artículos y Adjetivos...)
-				order: 4,
-				title: 'Artículos Plurales Indefinidos',
-			},
-			{
-				id: 5,
-				unitId: 1, // Semana 1 (Sustantivos, Artículos y Adjetivos...)
-				order: 5,
-				title: 'Forma singular de adjetivos',
-			},
-			{
-				id: 6,
-				unitId: 1, // Semana 1 (Sustantivos, Artículos y Adjetivos...)
-				order: 6,
-				title: 'Forma plural de adjetivos',
-			},
-			{
-				id: 7,
-				unitId: 2, // AwB Lesson 1
-				order: 1,
-				title: 'First Words',
-			},
-		])
+    await db.insert(schema.lessons).values([
+  {
+    id: 66,
+    title: "AwB 38: Israel asks for a king",
+    unitId: 12,
+    order: 88
+  },
+  {
+    id: 67,
+    title: "AwB 39: Strength & Wisdom: Comparisons",
+    unitId: 12,
+    order: 90
+  },
+  {
+    id: 68,
+    title: "AwB 40: Noah & the Ark: Categories of Creatures",
+    unitId: 12,
+    order: 92
+  },
+  {
+    id: 69,
+    title: "AwB 41: Kaf & Similarities",
+    unitId: 13,
+    order: 96
+  },
+  {
+    id: 70,
+    title: "AwB 42: Light & Darkness, Morning & Evening",
+    unitId: 13,
+    order: 98
+  },
+  {
+    id: 71,
+    title: "AwB 43: Creation",
+    unitId: 13,
+    order: 101
+  },
+  {
+    id: 72,
+    title: "AwB 44: Go out & lift up",
+    unitId: 13,
+    order: 102
+  },
+  {
+    id: 73,
+    title: "AwB 45: Verb Sequences: Vayyiqtol Forms 1",
+    unitId: 13,
+    order: 106
+  },
+  {
+    id: 74,
+    title: "AwB 46: Send, Messenger & Object Pronouns",
+    unitId: 13,
+    order: 108
+  },
+  {
+    id: 75,
+    title: "AwB 47: Food & Drink",
+    unitId: 13,
+    order: 111
+  },
+  {
+    id: 76,
+    title: "AwB 48: 40 Days & 40 Nights",
+    unitId: 13,
+    order: 112
+  },
+  {
+    id: 77,
+    title: "AwB 49: Return & Fear",
+    unitId: 13,
+    order: 115
+  },
+  {
+    id: 78,
+    title: "AwB 50: Places: Here & There",
+    unitId: 13,
+    order: 117
+  },
+  {
+    id: 79,
+    title: "AwB 51: The Twelve Spies",
+    unitId: 14,
+    order: 120
+  },
+  {
+    id: 80,
+    title: "AwB 52: Vayyiqtol forms 2: first person",
+    unitId: 14,
+    order: 121
+  },
+  {
+    id: 81,
+    title: "AwB 53: Going up & down",
+    unitId: 14,
+    order: 124
+  },
+  {
+    id: 82,
+    title: "AwB 54: David’s Dilemma",
+    unitId: 14,
+    order: 127
+  },
+  {
+    id: 83,
+    title: "AwB 55: Cross over to the other side",
+    unitId: 13,
+    order: 129
+  },
+  {
+    id: 84,
+    title: "AwB 56: Weapons & Warfare",
+    unitId: 14,
+    order: 130
+  },
+  {
+    id: 85,
+    title: "AwB 57: Strike & Fall",
+    unitId: 14,
+    order: 132
+  },
+  {
+    id: 1,
+    title: "Sustantivos Singulares",
+    unitId: 1,
+    order: 1
+  },
+  {
+    id: 2,
+    title: "Sustantivos Plurales",
+    unitId: 1,
+    order: 2
+  },
+  {
+    id: 3,
+    title: "Artículos Singulares Indefinidos",
+    unitId: 1,
+    order: 3
+  },
+  {
+    id: 4,
+    title: "Artículos Plurales Indefinidos",
+    unitId: 1,
+    order: 4
+  },
+  {
+    id: 5,
+    title: "Forma singular de adjetivos",
+    unitId: 1,
+    order: 5
+  },
+  {
+    id: 6,
+    title: "Forma plural de adjetivos",
+    unitId: 1,
+    order: 6
+  },
+  {
+    id: 7,
+    title: "AwB 1: First Words",
+    unitId: 2,
+    order: 1
+  },
+  {
+    id: 30,
+    title: "AwB 2: Plural Nouns & Adjectives",
+    unitId: 2,
+    order: 2
+  },
+  {
+    id: 31,
+    title: "AwB 3: Conjunction & Gender",
+    unitId: 2,
+    order: 3
+  },
+  {
+    id: 32,
+    title: "AwB 4: Subject Pronouns",
+    unitId: 2,
+    order: 4
+  },
+  {
+    id: 33,
+    title: "AwB 5: Family Terms",
+    unitId: 2,
+    order: 5
+  },
+  {
+    id: 34,
+    title: "AwB 6: Prepositions & Location",
+    unitId: 2,
+    order: 6
+  },
+  {
+    id: 35,
+    title: "AwB 7: Alphabet Part I",
+    unitId: 2,
+    order: 7
+  },
+  {
+    id: 36,
+    title: "AwB 8: Parts of the Body",
+    unitId: 2,
+    order: 8
+  },
+  {
+    id: 37,
+    title: "AwB 9: Good & Bad Things",
+    unitId: 2,
+    order: 9
+  },
+  {
+    id: 38,
+    title: "AwB 10: Alphabet Part II",
+    unitId: 2,
+    order: 10
+  },
+  {
+    id: 39,
+    title: "AwB 11: Construct Forms",
+    unitId: 10,
+    order: 1
+  },
+  {
+    id: 40,
+    title: "AwB 12: Numbers 1-5",
+    unitId: 10,
+    order: 2
+  },
+  {
+    id: 41,
+    title: "AwB 13: Alphabet Part III",
+    unitId: 10,
+    order: 3
+  },
+  {
+    id: 42,
+    title: "AwB 14: Nature & Existence Clauses",
+    unitId: 10,
+    order: 4
+  },
+  {
+    id: 43,
+    title: "AwB 15: Geography & More",
+    unitId: 10,
+    order: 15
+  },
+  {
+    id: 44,
+    title: "AwB 16: Alphabet Part IV",
+    unitId: 10,
+    order: 16
+  },
+  {
+    id: 45,
+    title: "AwB 17: Lamed & Possession",
+    unitId: 10,
+    order: 17
+  },
+  {
+    id: 46,
+    title: "AwB 18: Children & Elders",
+    unitId: 10,
+    order: 18
+  },
+  {
+    id: 47,
+    title: "AwB 19: Alphabet Part V",
+    unitId: 10,
+    order: 19
+  },
+  {
+    id: 48,
+    title: "AwB 20: Asher & Relative Clauses",
+    unitId: 10,
+    order: 20
+  },
+  {
+    id: 49,
+    title: "AwB 21: Verbs Come & Go Qatal Singular",
+    unitId: 11,
+    order: 47
+  },
+  {
+    id: 50,
+    title: "AwB 22: Say & Imperatives",
+    unitId: 11,
+    order: 48
+  },
+  {
+    id: 51,
+    title: "AwB 23: Possessive Suffixes I & Body Parts",
+    unitId: 11,
+    order: 60
+  },
+  {
+    id: 52,
+    title: "AwB 24: Possessive Suffixes II & Family Terms",
+    unitId: 11,
+    order: 61
+  },
+  {
+    id: 53,
+    title: "AwB 25: Hear & Obey",
+    unitId: 11,
+    order: 64
+  },
+  {
+    id: 54,
+    title: "AwB 26: Be & Beauty",
+    unitId: 11,
+    order: 65
+  },
+  {
+    id: 55,
+    title: "AwB 27: Give & Take, Silver & Gold",
+    unitId: 11,
+    order: 67
+  },
+  {
+    id: 56,
+    title: "AwB 28: Marriage",
+    unitId: 11,
+    order: 68
+  },
+  {
+    id: 57,
+    title: "AwB 29: More Prepositions",
+    unitId: 11,
+    order: 70
+  },
+  {
+    id: 58,
+    title: "AwB 30: Possessive Suffixes III",
+    unitId: 11,
+    order: 72
+  },
+  {
+    id: 59,
+    title: "AwB 31: Numbers 6-10",
+    unitId: 12,
+    order: 77
+  },
+  {
+    id: 60,
+    title: "AwB 32: Prophets & More Verbs",
+    unitId: 12,
+    order: 78
+  },
+  {
+    id: 61,
+    title: "AwB 33: Definite direct objects with אֶת־",
+    unitId: 12,
+    order: 80
+  },
+  {
+    id: 62,
+    title: "AwB 34: Truth, Lies & Imperative forms",
+    unitId: 12,
+    order: 81
+  },
+  {
+    id: 63,
+    title: "AwB 35: Fruit and Prepositions with Suffixes",
+    unitId: 12,
+    order: 83
+  },
+  {
+    id: 64,
+    title: "AwB 36: Flesh & Blood, Altars & Anointing",
+    unitId: 12,
+    order: 85
+  },
+  {
+    id: 65,
+    title: "AwB 37: Dead & Alive",
+    unitId: 12,
+    order: 87
+  },
+  {
+    id: 86,
+    title: "AwB 58: Directional Words",
+    unitId: 14,
+    order: 135
+  },
+  {
+    id: 87,
+    title: "AwB 59: Run to Meet & Bow Down",
+    unitId: 14,
+    order: 139
+  },
+  {
+    id: 88,
+    title: "AwB 60: A Tense Reunion",
+    unitId: 14,
+    order: 140
+  },
+  {
+    id: 89,
+    title: "AwB 61: Flee & Chase",
+    unitId: 15,
+    order: 143
+  },
+  {
+    id: 90,
+    title: "AwB 62: David & Goliath",
+    unitId: 15,
+    order: 145
+  },
+  {
+    id: 91,
+    title: "AwB 63: Vayyiqtol Forms 3: Second Person",
+    unitId: 15,
+    order: 148
+  },
+  {
+    id: 92,
+    title: "AwB 64: Chariots & Horsemen",
+    unitId: 15,
+    order: 150
+  },
+  {
+    id: 93,
+    title: "AwB 65: Thus says Yahweh - A Brief History of Israel",
+    unitId: 15,
+    order: 153
+  },
+  {
+    id: 94,
+    title: "AwB 66: Captains & Enemies",
+    unitId: 15,
+    order: 154
+  },
+  {
+    id: 95,
+    title: "AwB 67: Between Eglon & Zedekiah",
+    unitId: 15,
+    order: 156
+  },
+  {
+    id: 96,
+    title: "AwB 68: Killing in the Camp",
+    unitId: 15,
+    order: 158
+  },
+  {
+    id: 97,
+    title: "AwB 69: The Woman Who Killed Sisera",
+    unitId: 15,
+    order: 161
+  },
+  {
+    id: 98,
+    title: "AwB 70: Covenant & Seed",
+    unitId: 15,
+    order: 163
+  },
+  {
+    id: 99,
+    title: "AwB 71: Vayyiqtol Forms 4: Feminine Plural",
+    unitId: 16,
+    order: 168
+  },
+  {
+    id: 100,
+    title: "AwB 72: Naomi & Ruth",
+    unitId: 16,
+    order: 172
+  },
+  {
+    id: 101,
+    title: "AwB 73: More Parts of the Body",
+    unitId: 16,
+    order: 174
+  },
+  {
+    id: 102,
+    title: "AwB 74: Lev: Mind, Will, Emotions",
+    unitId: 16,
+    order: 177
+  },
+  {
+    id: 103,
+    title: "AwB 75: Participles 1: Singular",
+    unitId: 16,
+    order: 179
+  },
+  {
+    id: 104,
+    title: "AwB 76: Participles 2: In Context",
+    unitId: 16,
+    order: 180
+  },
+  {
+    id: 105,
+    title: "AwB 77: Participles 3: Plural",
+    unitId: 16,
+    order: 182
+  },
+  {
+    id: 106,
+    title: "AwB 78: Stand, Pillars & Gifts",
+    unitId: 16,
+    order: 183
+  },
+  {
+    id: 107,
+    title: "AwB 79: Participles 4: 3-h verbs & 2-v Verbs",
+    unitId: 16,
+    order: 187
+  },
+  {
+    id: 108,
+    title: "AwB 80: Avram & the Bread",
+    unitId: 16,
+    order: 189
+  },
+  {
+    id: 109,
+    title: "AwB 81: Saul & David in the Cave",
+    unitId: 17,
+    order: 192
+  },
+  {
+    id: 110,
+    title: "AwB 82: Units of Time and Age",
+    unitId: 17,
+    order: 193
+  },
+  {
+    id: 111,
+    title: "AwB 83: Numbers 11-99",
+    unitId: 17,
+    order: 196
+  },
+  {
+    id: 112,
+    title: "AwB 84: The Firstborn",
+    unitId: 17,
+    order: 198
+  },
+  {
+    id: 113,
+    title: "AwB 85: Life & Death",
+    unitId: 17,
+    order: 201
+  },
+  {
+    id: 114,
+    title: "AwB 86: Conceive & Give Birth",
+    unitId: 17,
+    order: 204
+  },
+  {
+    id: 115,
+    title: "AwB 87: Know & Knowledge",
+    unitId: 17,
+    order: 206
+  },
+  {
+    id: 116,
+    title: "AwB 88: Participles 5: 3-gutterals and Pi'el Verbs",
+    unitId: 17,
+    order: 209
+  },
+  {
+    id: 117,
+    title: "AwB 89: Participles 6: Negatives and \"Still\"",
+    unitId: 17,
+    order: 212
+  },
+  {
+    id: 118,
+    title: "AwB 90: Tell me!",
+    unitId: 17,
+    order: 214
+  },
+  {
+    id: 119,
+    title: "AwB 91: 1 Samuel 3 Story",
+    unitId: 18,
+    order: 217
+  },
+  {
+    id: 120,
+    title: "AwB 92: Clothing & Nakedness",
+    unitId: 18,
+    order: 219
+  },
+  {
+    id: 121,
+    title: "AwB 93: 3 Verbs: Sacrifice, Reign, Serve/Work",
+    unitId: 18,
+    order: 222
+  },
+  {
+    id: 122,
+    title: "AwB 94: Jacob Works in Exchange for Rachel and other passages",
+    unitId: 18,
+    order: 224
+  },
+  {
+    id: 123,
+    title: "AwB 95: Yiqtol 1: Talking About the Future",
+    unitId: 18,
+    order: 227
+  },
+  {
+    id: 124,
+    title: "AwB 96: Yiqtol 2: In Context",
+    unitId: 18,
+    order: 228
+  },
+  {
+    id: 125,
+    title: "AwB 97: Yiqtol 3: Weak Verbs",
+    unitId: 18,
+    order: 231
+  },
+  {
+    id: 126,
+    title: "AwB 98: Ask & Answer",
+    unitId: 18,
+    order: 232
+  },
+  {
+    id: 127,
+    title: "AwB 99: Swearing Oaths & Imperative Variations",
+    unitId: 18,
+    order: 236
+  },
+  {
+    id: 128,
+    title: "AwB 100: Who Will Reign After David? - 1 Kings 1",
+    unitId: 18,
+    order: 239
+  },
+  {
+    id: 129,
+    title: "AwB 101: One of the Flock",
+    unitId: 19,
+    order: 243
+  },
+  {
+    id: 130,
+    title: "AwB 102: Command",
+    unitId: 19,
+    order: 245
+  },
+  {
+    id: 132,
+    title: "AwB 104: Tribes & Clans",
+    unitId: 19,
+    order: 248
+  },
+  {
+    id: 131,
+    title: "AwB 103: Noah the Righteous Man",
+    unitId: 19,
+    order: 247
+  },
+  {
+    id: 133,
+    title: "AwB 105: Inheritance & Tribal Allotments",
+    unitId: 19,
+    order: 252
+  },
+  {
+    id: 137,
+    title: "AwB 109: Holy Things & His Holy Mountain",
+    unitId: 19,
+    order: 262
+  },
+  {
+    id: 134,
+    title: "AwB 106: Full & Fill",
+    unitId: 19,
+    order: 253
+  },
+  {
+    id: 135,
+    title: "AwB 107: Fill (Pi'el Verb) & Intro to Binyanim",
+    unitId: 19,
+    order: 257
+  },
+  {
+    id: 136,
+    title: "AwB 108: Making the Tabernacle",
+    unitId: 19,
+    order: 259
+  },
+  {
+    id: 138,
+    title: "AwB 110: Holy the Adjective, Meteg, Silluq & Hatef Qamets",
+    unitId: 19,
+    order: 264
+  },
+  {
+    id: 139,
+    title: "AwB 111: Don't do it! Negative Commands with ...",
+    unitId: 20,
+    order: 267
+  },
+  {
+    id: 140,
+    title: "AwB 112: Abraham and his Son part 1",
+    unitId: 20,
+    order: 271
+  },
+  {
+    id: 141,
+    title: "AwB 113: Love & Hate",
+    unitId: 20,
+    order: 273
+  },
+  {
+    id: 142,
+    title: "AwB 114: The Days of the Life of Jacob",
+    unitId: 20,
+    order: 274
+  },
+  {
+    id: 143,
+    title: "AwB 115: Alone & Together",
+    unitId: 20,
+    order: 276
+  },
+  {
+    id: 144,
+    title: "AwB 116: Near & Far",
+    unitId: 20,
+    order: 277
+  },
+  {
+    id: 145,
+    title: "AwB 117: Cause to Go Up and Down - Causative Hiph'il Verbs 1",
+    unitId: 20,
+    order: 279
+  },
+  {
+    id: 146,
+    title: "AwB 118: Abraham and His Son part 2",
+    unitId: 20,
+    order: 282
+  },
+  {
+    id: 147,
+    title: "AwB 119: Approach/Draw Near",
+    unitId: 20,
+    order: 285
+  },
+  {
+    id: 148,
+    title: "AwB 120: Veqatal 1: Future Sequences",
+    unitId: 20,
+    order: 287
+  },
+  {
+    id: 149,
+    title: "AwB 121: Veqatal 2: In Context",
+    unitId: 21,
+    order: 290
+  },
+  {
+    id: 150,
+    title: "AwB 122: The Messenger of God Appears",
+    unitId: 21,
+    order: 293
+  },
+  {
+    id: 151,
+    title: "AwB 123: Open the Door",
+    unitId: 21,
+    order: 295
+  },
+  {
+    id: 152,
+    title: "AwB 124: Bring/Cause to Come - Causative Hiph'il Verbs 2",
+    unitId: 21,
+    order: 296
+  },
+  {
+    id: 153,
+    title: "AwB 125: Jeremiah and the Rechabites",
+    unitId: 21,
+    order: 299
+  },
+  {
+    id: 154,
+    title: "AwB 126: God Opens Rachel's Womb",
+    unitId: 21,
+    order: 301
+  },
+  {
+    id: 155,
+    title: "AwB 127: Conditional 'if' clauses with...",
+    unitId: 21,
+    order: 304
+  },
+  {
+    id: 156,
+    title: "AwB 128: Loyal Covenant Love",
+    unitId: 21,
+    order: 307
+  },
+  {
+    id: 157,
+    title: "AwB 129: Above, Below & Outside",
+    unitId: 21,
+    order: 310
+  },
+  {
+    id: 158,
+    title: "AwB 130: Abraham's Servant & Rebekah Part 1",
+    unitId: 21,
+    order: 312
+  },
+  {
+    id: 159,
+    title: "AwB 131: Abraham's Servant & Rebekah Part 2",
+    unitId: 22,
+    order: 314
+  },
+  {
+    id: 160,
+    title: "AwB 132: Put to Death - Causative Hiph'il Verbs 3",
+    unitId: 22,
+    order: 316
+  },
+  {
+    id: 161,
+    title: "AwB 133: Making Kings - Causative Hiph'il Verbs 4",
+    unitId: 22,
+    order: 318
+  },
+  {
+    id: 162,
+    title: "AwB 134: Elijah and the Widow's Son",
+    unitId: 22,
+    order: 319
+  },
+  {
+    id: 163,
+    title: "AwB 135: Take Her Out! - Causative Hiph'il Verbs 5",
+    unitId: 22,
+    order: 322
+  },
+  {
+    id: 164,
+    title: "AwB 136: Make Known To Me - Causative Hiph'il Verbs 6",
+    unitId: 22,
+    order: 323
+  },
+  {
+    id: 165,
+    title: "AwB 137: The Descendants of Noah",
+    unitId: 22,
+    order: 325
+  },
+  {
+    id: 166,
+    title: "AwB 138: Exile & Ezekiel's Vision",
+    unitId: 22,
+    order: 327
+  },
+  {
+    id: 167,
+    title: "AwB 139: Put it back! - Causative Hiph'il Verbs 7",
+    unitId: 22,
+    order: 330
+  },
+  {
+    id: 168,
+    title: "AwB 140: Returning Evil for Evil",
+    unitId: 22,
+    order: 331
+  },
+  {
+    id: 169,
+    title: "AwB Classroom Lesson 1",
+    unitId: 23,
+    order: 1
+  },
+  {
+    id: 170,
+    title: "AwB Classroom Lesson 2",
+    unitId: 23,
+    order: 2
+  },
+  {
+    id: 171,
+    title: "AwB Classroom Lesson 3",
+    unitId: 23,
+    order: 3
+  },
+  {
+    id: 172,
+    title: "AwB Classroom Lesson 4",
+    unitId: 23,
+    order: 4
+  },
+  {
+    id: 173,
+    title: "AwB Classroom Lesson 5",
+    unitId: 23,
+    order: 5
+  },
+  {
+    id: 174,
+    title: "AwB Classroom Lesson 6",
+    unitId: 23,
+    order: 6
+  },
+  {
+    id: 175,
+    title: "AwB Classroom Lesson 7",
+    unitId: 23,
+    order: 7
+  },
+  {
+    id: 176,
+    title: "AwB Classroom Lesson 8",
+    unitId: 23,
+    order: 8
+  },
+  {
+    id: 177,
+    title: "AwB Classroom Lesson 9",
+    unitId: 23,
+    order: 9
+  },
+  {
+    id: 178,
+    title: "AwB Classroom Lesson 10",
+    unitId: 23,
+    order: 10
+  }
+])
 
-		await db.insert(schema.challenges).values([
-			{ id: 1, lessonId: 1, type: 'ASSIST', order: 1, question: 'actitud' },
-			{ id: 2, lessonId: 1, type: 'ASSIST', order: 2, question: 'problema' },
-			{ id: 3, lessonId: 1, type: 'ASSIST', order: 3, question: 'ventana' },
-			{ id: 4, lessonId: 1, type: 'ASSIST', order: 4, question: 'tomate' },
-			{ id: 5, lessonId: 1, type: 'ASSIST', order: 5, question: 'niño' },
-			{ id: 6, lessonId: 1, type: 'ASSIST', order: 6, question: 'luz' },
-			{ id: 7, lessonId: 1, type: 'ASSIST', order: 7, question: 'hospital' },
-			{ id: 8, lessonId: 1, type: 'ASSIST', order: 8, question: 'flor' },
-			{ id: 9, lessonId: 1, type: 'ASSIST', order: 9, question: 'gerente' },
-			{ id: 10, lessonId: 1, type: 'ASSIST', order: 10, question: 'banco' },
-			{ id: 11, lessonId: 1, type: 'ASSIST', order: 11, question: 'dentista' },
-			{ id: 12, lessonId: 1, type: 'ASSIST', order: 12, question: 'sistema' },
-			{ id: 13, lessonId: 1, type: 'ASSIST', order: 13, question: 'piel' },
-			{ id: 14, lessonId: 1, type: 'ASSIST', order: 14, question: 'hotel' },
-			{ id: 15, lessonId: 1, type: 'ASSIST', order: 15, question: 'persona' },
-			{ id: 16, lessonId: 1, type: 'ASSIST', order: 16, question: 'verdad' },
-			{ id: 17, lessonId: 1, type: 'ASSIST', order: 17, question: 'artista' },
-			{
-				id: 18,
-				lessonId: 1,
-				type: 'ASSIST',
-				order: 18,
-				question: 'televisión',
-			},
-			{
-				id: 19,
-				lessonId: 1,
-				type: 'ASSIST',
-				order: 19,
-				question: 'estudiante',
-			},
-			{ id: 20, lessonId: 1, type: 'ASSIST', order: 20, question: 'muchacho' },
-			{ id: 21, lessonId: 1, type: 'ASSIST', order: 21, question: 'foto' },
-			{ id: 22, lessonId: 1, type: 'ASSIST', order: 22, question: 'ciudad' },
-			{ id: 23, lessonId: 1, type: 'ASSIST', order: 23, question: 'animal' },
-			{ id: 24, lessonId: 1, type: 'ASSIST', order: 24, question: 'hermano' },
-			{ id: 25, lessonId: 1, type: 'ASSIST', order: 25, question: 'comida' },
-			{ id: 26, lessonId: 1, type: 'ASSIST', order: 26, question: 'mano' },
-			{ id: 27, lessonId: 1, type: 'ASSIST', order: 27, question: 'gato' },
-			{ id: 28, lessonId: 1, type: 'ASSIST', order: 28, question: 'hermana' },
-			{ id: 29, lessonId: 1, type: 'ASSIST', order: 29, question: 'mujer' },
-			{ id: 30, lessonId: 1, type: 'ASSIST', order: 30, question: 'vino' },
-			{ id: 31, lessonId: 1, type: 'ASSIST', order: 31, question: 'teléfono' },
-			{ id: 32, lessonId: 1, type: 'ASSIST', order: 32, question: 'muchacha' },
-			{ id: 33, lessonId: 1, type: 'ASSIST', order: 33, question: 'iglesia' },
-			{ id: 34, lessonId: 1, type: 'ASSIST', order: 34, question: 'mesa' },
-			{ id: 35, lessonId: 1, type: 'ASSIST', order: 35, question: 'casa' },
-			{ id: 36, lessonId: 1, type: 'ASSIST', order: 36, question: 'baño' },
-			{ id: 37, lessonId: 1, type: 'ASSIST', order: 37, question: 'bolsa' },
-			{ id: 38, lessonId: 1, type: 'ASSIST', order: 38, question: 'planta' },
-			{ id: 39, lessonId: 1, type: 'ASSIST', order: 39, question: 'clase' },
-			{ id: 40, lessonId: 1, type: 'ASSIST', order: 40, question: 'doctor' },
-			{ id: 41, lessonId: 1, type: 'ASSIST', order: 41, question: 'perro' },
-			{ id: 42, lessonId: 1, type: 'ASSIST', order: 42, question: 'hombre' },
-			{ id: 43, lessonId: 1, type: 'ASSIST', order: 43, question: 'poema' },
-			{ id: 44, lessonId: 1, type: 'ASSIST', order: 44, question: 'cama' },
-			{ id: 45, lessonId: 1, type: 'ASSIST', order: 45, question: 'mapa' },
-			{ id: 46, lessonId: 1, type: 'ASSIST', order: 46, question: 'ilusión' },
-			{ id: 47, lessonId: 1, type: 'ASSIST', order: 47, question: 'programa' },
-			{
-				id: 48,
-				lessonId: 1,
-				type: 'ASSIST',
-				order: 48,
-				question: 'invitación',
-			},
-			{ id: 49, lessonId: 1, type: 'ASSIST', order: 49, question: 'lámpara' },
-			{ id: 50, lessonId: 1, type: 'ASSIST', order: 50, question: 'amigo' },
-			{ id: 51, lessonId: 1, type: 'ASSIST', order: 51, question: 'clima' },
-			{ id: 52, lessonId: 1, type: 'ASSIST', order: 52, question: 'niña' },
-			{ id: 53, lessonId: 1, type: 'ASSIST', order: 53, question: 'tren' },
-			{ id: 54, lessonId: 1, type: 'ASSIST', order: 54, question: 'carro' },
-			{ id: 55, lessonId: 1, type: 'ASSIST', order: 55, question: 'lección' },
-			{ id: 56, lessonId: 1, type: 'ASSIST', order: 56, question: 'radio' },
-			{ id: 57, lessonId: 1, type: 'ASSIST', order: 57, question: 'canción' },
-			{ id: 58, lessonId: 1, type: 'ASSIST', order: 58, question: 'idioma' },
-			{ id: 59, lessonId: 1, type: 'ASSIST', order: 59, question: 'amiga' },
-			{ id: 60, lessonId: 1, type: 'ASSIST', order: 60, question: 'silla' },
-			{ id: 61, lessonId: 1, type: 'ASSIST', order: 61, question: 'libro' },
-			{ id: 62, lessonId: 1, type: 'ASSIST', order: 62, question: 'café' },
-			{ id: 63, lessonId: 1, type: 'ASSIST', order: 63, question: 'drama' },
-			{ id: 64, lessonId: 1, type: 'ASSIST', order: 64, question: 'suerte' },
-			{ id: 65, lessonId: 1, type: 'ASSIST', order: 65, question: 'taxista' },
-			{
-				id: 66,
-				lessonId: 1,
-				type: 'ASSIST',
-				order: 66,
-				question: 'conversación',
-			},
-			{ id: 67, lessonId: 1, type: 'ASSIST', order: 67, question: 'planeta' },
-			{ id: 68, lessonId: 1, type: 'ASSIST', order: 68, question: 'día' },
-			{
-				id: 69,
-				lessonId: 1,
-				type: 'ASSIST',
-				order: 69,
-				question: 'presidente',
-			},
-			{ id: 70, lessonId: 1, type: 'ASSIST', order: 70, question: 'tienda' },
-			{ id: 71, lessonId: 1, type: 'ASSIST', order: 71, question: 'cantante' },
-			{ id: 72, lessonId: 1, type: 'ASSIST', order: 72, question: 'pianista' },
-			{ id: 73, lessonId: 1, type: 'ASSIST', order: 73, question: 'amistad' },
-			{ id: 74, lessonId: 1, type: 'ASSIST', order: 74, question: 'blusa' },
-			{
-				id: 75,
-				lessonId: 7,
-				type: 'WATCH',
-				order: 1,
-				question: 'AwB Lesson 1 Video',
-				video: 'https://youtu.be/y640-FIpxQs?si=hB3rDhgaloR4plIj',
-			},
-			// { id: 76, lessonId: 7, type: 'ASSIST', order: 2, question: 'eesh' },
-		])
+    await db.insert(schema.challenges).values([
+  {
+    id: 1,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "actitud",
+    order: 1,
+    video: null
+  },
+  {
+    id: 2,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "problema",
+    order: 2,
+    video: null
+  },
+  {
+    id: 3,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "ventana",
+    order: 3,
+    video: null
+  },
+  {
+    id: 4,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "tomate",
+    order: 4,
+    video: null
+  },
+  {
+    id: 5,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "niño",
+    order: 5,
+    video: null
+  },
+  {
+    id: 6,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "luz",
+    order: 6,
+    video: null
+  },
+  {
+    id: 7,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "hospital",
+    order: 7,
+    video: null
+  },
+  {
+    id: 8,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "flor",
+    order: 8,
+    video: null
+  },
+  {
+    id: 9,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "gerente",
+    order: 9,
+    video: null
+  },
+  {
+    id: 10,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "banco",
+    order: 10,
+    video: null
+  },
+  {
+    id: 11,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "dentista",
+    order: 11,
+    video: null
+  },
+  {
+    id: 12,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "sistema",
+    order: 12,
+    video: null
+  },
+  {
+    id: 13,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "piel",
+    order: 13,
+    video: null
+  },
+  {
+    id: 14,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "hotel",
+    order: 14,
+    video: null
+  },
+  {
+    id: 15,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "persona",
+    order: 15,
+    video: null
+  },
+  {
+    id: 16,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "verdad",
+    order: 16,
+    video: null
+  },
+  {
+    id: 17,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "artista",
+    order: 17,
+    video: null
+  },
+  {
+    id: 18,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "televisión",
+    order: 18,
+    video: null
+  },
+  {
+    id: 19,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "estudiante",
+    order: 19,
+    video: null
+  },
+  {
+    id: 20,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "muchacho",
+    order: 20,
+    video: null
+  },
+  {
+    id: 21,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "foto",
+    order: 21,
+    video: null
+  },
+  {
+    id: 22,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "ciudad",
+    order: 22,
+    video: null
+  },
+  {
+    id: 23,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "animal",
+    order: 23,
+    video: null
+  },
+  {
+    id: 24,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "hermano",
+    order: 24,
+    video: null
+  },
+  {
+    id: 25,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "comida",
+    order: 25,
+    video: null
+  },
+  {
+    id: 26,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "mano",
+    order: 26,
+    video: null
+  },
+  {
+    id: 27,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "gato",
+    order: 27,
+    video: null
+  },
+  {
+    id: 28,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "hermana",
+    order: 28,
+    video: null
+  },
+  {
+    id: 29,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "mujer",
+    order: 29,
+    video: null
+  },
+  {
+    id: 30,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "vino",
+    order: 30,
+    video: null
+  },
+  {
+    id: 31,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "teléfono",
+    order: 31,
+    video: null
+  },
+  {
+    id: 32,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "muchacha",
+    order: 32,
+    video: null
+  },
+  {
+    id: 33,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "iglesia",
+    order: 33,
+    video: null
+  },
+  {
+    id: 34,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "mesa",
+    order: 34,
+    video: null
+  },
+  {
+    id: 35,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "casa",
+    order: 35,
+    video: null
+  },
+  {
+    id: 36,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "baño",
+    order: 36,
+    video: null
+  },
+  {
+    id: 37,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "bolsa",
+    order: 37,
+    video: null
+  },
+  {
+    id: 38,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "planta",
+    order: 38,
+    video: null
+  },
+  {
+    id: 39,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "clase",
+    order: 39,
+    video: null
+  },
+  {
+    id: 40,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "doctor",
+    order: 40,
+    video: null
+  },
+  {
+    id: 41,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "perro",
+    order: 41,
+    video: null
+  },
+  {
+    id: 42,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "hombre",
+    order: 42,
+    video: null
+  },
+  {
+    id: 43,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "poema",
+    order: 43,
+    video: null
+  },
+  {
+    id: 44,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "cama",
+    order: 44,
+    video: null
+  },
+  {
+    id: 45,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "mapa",
+    order: 45,
+    video: null
+  },
+  {
+    id: 46,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "ilusión",
+    order: 46,
+    video: null
+  },
+  {
+    id: 47,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "programa",
+    order: 47,
+    video: null
+  },
+  {
+    id: 48,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "invitación",
+    order: 48,
+    video: null
+  },
+  {
+    id: 49,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "lámpara",
+    order: 49,
+    video: null
+  },
+  {
+    id: 50,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "amigo",
+    order: 50,
+    video: null
+  },
+  {
+    id: 51,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "clima",
+    order: 51,
+    video: null
+  },
+  {
+    id: 52,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "niña",
+    order: 52,
+    video: null
+  },
+  {
+    id: 53,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "tren",
+    order: 53,
+    video: null
+  },
+  {
+    id: 54,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "carro",
+    order: 54,
+    video: null
+  },
+  {
+    id: 55,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "lección",
+    order: 55,
+    video: null
+  },
+  {
+    id: 56,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "radio",
+    order: 56,
+    video: null
+  },
+  {
+    id: 57,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "canción",
+    order: 57,
+    video: null
+  },
+  {
+    id: 58,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "idioma",
+    order: 58,
+    video: null
+  },
+  {
+    id: 59,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "amiga",
+    order: 59,
+    video: null
+  },
+  {
+    id: 60,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "silla",
+    order: 60,
+    video: null
+  },
+  {
+    id: 61,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "libro",
+    order: 61,
+    video: null
+  },
+  {
+    id: 62,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "café",
+    order: 62,
+    video: null
+  },
+  {
+    id: 63,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "drama",
+    order: 63,
+    video: null
+  },
+  {
+    id: 64,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "suerte",
+    order: 64,
+    video: null
+  },
+  {
+    id: 65,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "taxista",
+    order: 65,
+    video: null
+  },
+  {
+    id: 66,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "conversación",
+    order: 66,
+    video: null
+  },
+  {
+    id: 67,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "planeta",
+    order: 67,
+    video: null
+  },
+  {
+    id: 68,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "día",
+    order: 68,
+    video: null
+  },
+  {
+    id: 69,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "presidente",
+    order: 69,
+    video: null
+  },
+  {
+    id: 70,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "tienda",
+    order: 70,
+    video: null
+  },
+  {
+    id: 71,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "cantante",
+    order: 71,
+    video: null
+  },
+  {
+    id: 72,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "pianista",
+    order: 72,
+    video: null
+  },
+  {
+    id: 73,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "amistad",
+    order: 73,
+    video: null
+  },
+  {
+    id: 74,
+    lessonId: 1,
+    type: "ASSIST",
+    question: "blusa",
+    order: 74,
+    video: null
+  },
+  {
+    id: 102,
+    lessonId: 47,
+    type: "WATCH",
+    question: "AwB Lesson 19 Video",
+    order: 1,
+    video: "https://www.youtube.com/watch?v=ciuWQdxg5VY"
+  },
+  {
+    id: 103,
+    lessonId: 46,
+    type: "WATCH",
+    question: "AwB Lesson 18 Video",
+    order: 1,
+    video: "https://www.youtube.com/watch?v=ah8P6o4O39Y"
+  },
+  {
+    id: 104,
+    lessonId: 48,
+    type: "WATCH",
+    question: "AwB Lesson 20 Video",
+    order: 1,
+    video: "https://www.youtube.com/watch?v=lb4Zd82hljY"
+  },
+  {
+    id: 75,
+    lessonId: 7,
+    type: "WATCH",
+    question: "AwB Lesson 1 Video",
+    order: 1,
+    video: "https://youtu.be/y640-FIpxQs?si=hB3rDhgaloR4plIj"
+  },
+  {
+    id: 105,
+    lessonId: 49,
+    type: "WATCH",
+    question: "AwB Lesson 21 Video",
+    order: 1,
+    video: "https://www.youtube.com/watch?v=bqSKJhP_6L0"
+  },
+  {
+    id: 106,
+    lessonId: 50,
+    type: "WATCH",
+    question: "AwB Lesson 22 Video",
+    order: 1,
+    video: "https://www.youtube.com/watch?v=KZzOmJW4E4o"
+  },
+  {
+    id: 107,
+    lessonId: 51,
+    type: "WATCH",
+    question: "AwB Lesson 23 Video",
+    order: 1,
+    video: "https://www.youtube.com/watch?v=BIX5TpunPM0"
+  },
+  {
+    id: 76,
+    lessonId: 7,
+    type: "ASSIST",
+    question: "AwB1.1 eesh",
+    order: 2,
+    video: "/eesh.mp3"
+  },
+  {
+    id: 86,
+    lessonId: 30,
+    type: "WATCH",
+    question: "AwB Lesson 2 Video",
+    order: 1,
+    video: "https://www.youtube.com/watch?v=l7G9xJ9dXXA"
+  },
+  {
+    id: 87,
+    lessonId: 31,
+    type: "WATCH",
+    question: "AwB Lesson 3 Video",
+    order: 1,
+    video: "https://www.youtube.com/watch?v=5aUMhBXZ8Zo"
+  },
+  {
+    id: 88,
+    lessonId: 32,
+    type: "WATCH",
+    question: "AwB Lesson 4 Video",
+    order: 1,
+    video: "https://www.youtube.com/watch?v=ukEgnNwrSDI"
+  },
+  {
+    id: 89,
+    lessonId: 33,
+    type: "WATCH",
+    question: "AwB Lesson 5 Video",
+    order: 1,
+    video: "https://www.youtube.com/watch?v=C6O7xCDh5r0"
+  },
+  {
+    id: 90,
+    lessonId: 34,
+    type: "WATCH",
+    question: "AwB Lesson 6 Video",
+    order: 1,
+    video: "https://www.youtube.com/watch?v=yRf9USE_lO4"
+  },
+  {
+    id: 91,
+    lessonId: 35,
+    type: "WATCH",
+    question: "AwB Lesson 7 Video",
+    order: 1,
+    video: "https://www.youtube.com/watch?v=8qRlZcY_jXc"
+  },
+  {
+    id: 92,
+    lessonId: 36,
+    type: "WATCH",
+    question: "AwB Lesson 8 Video",
+    order: 1,
+    video: "https://www.youtube.com/watch?v=cIZ-GaP7Ah8"
+  },
+  {
+    id: 93,
+    lessonId: 37,
+    type: "WATCH",
+    question: "AwB Lesson 9 Video",
+    order: 1,
+    video: "https://www.youtube.com/watch?v=nw5KHb2eHxshttps://www.youtube.com/watch?v=nw5KHb2eHxs"
+  },
+  {
+    id: 94,
+    lessonId: 38,
+    type: "WATCH",
+    question: "AwB Lesson 10 Video",
+    order: 1,
+    video: "https://www.youtube.com/watch?v=X7ly8n23SrY"
+  },
+  {
+    id: 95,
+    lessonId: 39,
+    type: "WATCH",
+    question: "AwB Lesson 11 Video",
+    order: 1,
+    video: "https://www.youtube.com/watch?v=2FgnxKn1vmE"
+  },
+  {
+    id: 96,
+    lessonId: 40,
+    type: "WATCH",
+    question: "AwB Lesson 12 Video",
+    order: 1,
+    video: "https://www.youtube.com/watch?v=fV3hE5BSlz8"
+  },
+  {
+    id: 97,
+    lessonId: 41,
+    type: "WATCH",
+    question: "AwB Lesson 13 Video",
+    order: 1,
+    video: "https://www.youtube.com/watch?v=RJP3Kg_mqRk"
+  },
+  {
+    id: 98,
+    lessonId: 42,
+    type: "WATCH",
+    question: "AwB Lesson 14 Video",
+    order: 1,
+    video: "https://www.youtube.com/watch?v=uwnwsQA5LkI"
+  },
+  {
+    id: 99,
+    lessonId: 43,
+    type: "WATCH",
+    question: "AwB Lesson 15 Video",
+    order: 1,
+    video: "https://www.youtube.com/watch?v=3k5QYkOWWyM"
+  },
+  {
+    id: 100,
+    lessonId: 44,
+    type: "WATCH",
+    question: "AwB Lesson 16 Video",
+    order: 1,
+    video: "https://www.youtube.com/watch?v=0K6UTCyp_9s"
+  },
+  {
+    id: 101,
+    lessonId: 45,
+    type: "WATCH",
+    question: "AwB Lesson 17 Video",
+    order: 1,
+    video: "https://www.youtube.com/watch?v=0zhhxgwONW4"
+  },
+  {
+    id: 108,
+    lessonId: 52,
+    type: "WATCH",
+    question: "AwB Lesson 24 Video",
+    order: 1,
+    video: "https://www.youtube.com/watch?v=WiConhM6izA"
+  },
+  {
+    id: 109,
+    lessonId: 53,
+    type: "WATCH",
+    question: "AwB Lesson 25 Video",
+    order: 1,
+    video: "https://www.youtube.com/watch?v=MpLzOnvUFu4"
+  },
+  {
+    id: 110,
+    lessonId: 54,
+    type: "WATCH",
+    question: "AwB Lesson 26 Video",
+    order: 1,
+    video: "https://www.youtube.com/watch?v=WBzn1O03XAk"
+  },
+  {
+    id: 111,
+    lessonId: 55,
+    type: "WATCH",
+    question: "AwB Lesson 27 Video",
+    order: 1,
+    video: "https://www.youtube.com/watch?v=vDvFL5MFPeI"
+  },
+  {
+    id: 112,
+    lessonId: 56,
+    type: "WATCH",
+    question: "AwB Lesson 28 Video",
+    order: 1,
+    video: "https://www.youtube.com/watch?v=Hcpv5dVSuuI"
+  },
+  {
+    id: 113,
+    lessonId: 57,
+    type: "WATCH",
+    question: "AwB Lesson 29 Video",
+    order: 1,
+    video: "https://www.youtube.com/watch?v=kHage90XCUM"
+  },
+  {
+    id: 114,
+    lessonId: 58,
+    type: "WATCH",
+    question: "AwB Lesson 30 Video",
+    order: 1,
+    video: "https://www.youtube.com/watch?v=bLQ9UkKORQo"
+  },
+  {
+    id: 115,
+    lessonId: 59,
+    type: "WATCH",
+    question: "AwB Lesson 31 Video",
+    order: 1,
+    video: "https://youtu.be/_0vdmjAAZxA?si=rga9wmkWPrp7IHNf"
+  },
+  {
+    id: 116,
+    lessonId: 60,
+    type: "WATCH",
+    question: "AwB Lesson 32 Video",
+    order: 1,
+    video: "https://www.youtube.com/watch?v=TcsBh3NKKAw"
+  },
+  {
+    id: 117,
+    lessonId: 61,
+    type: "WATCH",
+    question: "AwB Lesson 33 Video",
+    order: 1,
+    video: "https://www.youtube.com/watch?v=Svqi-DFsHzY"
+  },
+  {
+    id: 118,
+    lessonId: 62,
+    type: "WATCH",
+    question: "AwB Lesson 34 Video",
+    order: 1,
+    video: "https://www.youtube.com/watch?v=JlynkmsOQ2o"
+  },
+  {
+    id: 119,
+    lessonId: 63,
+    type: "WATCH",
+    question: "AwB Lesson 35 Video",
+    order: 1,
+    video: "https://www.youtube.com/watch?v=PjWXJDQ6Crw"
+  },
+  {
+    id: 120,
+    lessonId: 64,
+    type: "WATCH",
+    question: "AwB Lesson 36 Video",
+    order: 1,
+    video: "https://youtu.be/Qd1t9Qj489k?si=ZbJwmMZYbnUmyjr6"
+  },
+  {
+    id: 121,
+    lessonId: 65,
+    type: "WATCH",
+    question: "AwB Lesson 37 Video",
+    order: 1,
+    video: "https://www.youtube.com/watch?v=2RGwE6Jj8YA"
+  },
+  {
+    id: 122,
+    lessonId: 66,
+    type: "WATCH",
+    question: "AwB Lesson 38 Video",
+    order: 1,
+    video: "https://www.youtube.com/watch?v=VMVy_vsgedc"
+  },
+  {
+    id: 123,
+    lessonId: 67,
+    type: "WATCH",
+    question: "AwB Lesson 39 Video",
+    order: 1,
+    video: "https://www.youtube.com/watch?v=zv4jrTWtgsM"
+  },
+  {
+    id: 124,
+    lessonId: 68,
+    type: "WATCH",
+    question: "AwB Lesson 40 Video",
+    order: 1,
+    video: "https://www.youtube.com/watch?v=pDEJ6H2f7gc"
+  },
+  {
+    id: 125,
+    lessonId: 69,
+    type: "WATCH",
+    question: "AwB Lesson 41 Video",
+    order: 1,
+    video: "https://www.youtube.com/watch?v=n2DaZV_oJ-4"
+  },
+  {
+    id: 126,
+    lessonId: 70,
+    type: "WATCH",
+    question: "AwB Lesson 42 Video",
+    order: 1,
+    video: "https://www.youtube.com/watch?v=cunMCjHWaZQ"
+  },
+  {
+    id: 127,
+    lessonId: 71,
+    type: "WATCH",
+    question: "AwB Lesson 43 Video",
+    order: 1,
+    video: "https://www.youtube.com/watch?v=M_zbomH8mu0"
+  },
+  {
+    id: 128,
+    lessonId: 72,
+    type: "WATCH",
+    question: "AwB Lesson 44 Video",
+    order: 1,
+    video: "https://www.youtube.com/watch?v=ty4VhcbuOVc"
+  },
+  {
+    id: 129,
+    lessonId: 73,
+    type: "WATCH",
+    question: "AwB Lesson 45 Video",
+    order: 1,
+    video: "https://www.youtube.com/watch?v=TacpkWTPyzk"
+  },
+  {
+    id: 130,
+    lessonId: 74,
+    type: "WATCH",
+    question: "AwB Lesson 46 Video",
+    order: 1,
+    video: "https://www.youtube.com/watch?v=eGZ8prnZBxU"
+  },
+  {
+    id: 131,
+    lessonId: 75,
+    type: "WATCH",
+    question: "AwB Lesson 47 Video",
+    order: 1,
+    video: "https://www.youtube.com/watch?v=Jl6_aWTdzvo"
+  },
+  {
+    id: 132,
+    lessonId: 76,
+    type: "WATCH",
+    question: "AwB Lesson 48 Video",
+    order: 1,
+    video: "https://www.youtube.com/watch?v=5KNLFVP7yzA"
+  },
+  {
+    id: 133,
+    lessonId: 77,
+    type: "WATCH",
+    question: "AwB Lesson 49 Video",
+    order: 1,
+    video: "https://www.youtube.com/watch?v=Usjusbi3Di4"
+  },
+  {
+    id: 134,
+    lessonId: 78,
+    type: "WATCH",
+    question: "AwB Lesson 50 Video",
+    order: 1,
+    video: "https://www.youtube.com/watch?v=Akj0ue73QJM"
+  },
+  {
+    id: 135,
+    lessonId: 79,
+    type: "WATCH",
+    question: "AwB Lesson 51 Video",
+    order: 1,
+    video: "https://www.youtube.com/watch?v=JNg0EKgfMI0"
+  },
+  {
+    id: 136,
+    lessonId: 80,
+    type: "WATCH",
+    question: "AwB Lesson 52 Video",
+    order: 1,
+    video: "https://www.youtube.com/watch?v=cmeGeI9VnpQ"
+  },
+  {
+    id: 137,
+    lessonId: 81,
+    type: "WATCH",
+    question: "AwB Lesson 53 Video",
+    order: 1,
+    video: "https://www.youtube.com/watch?v=RniMJUn4ceY"
+  },
+  {
+    id: 138,
+    lessonId: 82,
+    type: "WATCH",
+    question: "AwB Lesson 54 Video",
+    order: 1,
+    video: "https://www.youtube.com/watch?v=wLFPqRb-iL4"
+  },
+  {
+    id: 139,
+    lessonId: 83,
+    type: "WATCH",
+    question: "AwB Lesson 55 Video",
+    order: 1,
+    video: "https://www.youtube.com/watch?v=5lmMp_0G3_A"
+  },
+  {
+    id: 140,
+    lessonId: 84,
+    type: "WATCH",
+    question: "AwB Lesson 56 Video",
+    order: 1,
+    video: "https://youtu.be/eU4oWipESdY?si=5kg6MHjRrtbVO0AF"
+  },
+  {
+    id: 141,
+    lessonId: 85,
+    type: "WATCH",
+    question: "AwB Lesson 57 Video",
+    order: 1,
+    video: "https://youtu.be/4_c1iX0TlRw?si=Oi-FuFb21BcPtpdR"
+  },
+  {
+    id: 142,
+    lessonId: 86,
+    type: "WATCH",
+    question: "AwB Lesson 58 Video",
+    order: 1,
+    video: "https://youtu.be/RyvoFYPrkHU?si=Vq9OV2sDIU1rS67g"
+  },
+  {
+    id: 143,
+    lessonId: 87,
+    type: "WATCH",
+    question: "AwB Lesson 59 Video",
+    order: 1,
+    video: "https://youtu.be/s0dQ-LOoHPI?si=9FJXqqMfDaC54Tlz"
+  },
+  {
+    id: 144,
+    lessonId: 88,
+    type: "WATCH",
+    question: "AwB Lesson 60 Video",
+    order: 1,
+    video: "https://youtu.be/xqJt2avGnt4?si=EQqg8iGnqSEtjAfk"
+  },
+  {
+    id: 145,
+    lessonId: 89,
+    type: "WATCH",
+    question: "AwB Lesson 61 Video",
+    order: 1,
+    video: "https://youtu.be/roGr-wu0pa8?si=-RIc9rUhhvQmc7zv"
+  },
+  {
+    id: 146,
+    lessonId: 90,
+    type: "WATCH",
+    question: "AwB Lesson 62 Video",
+    order: 1,
+    video: "https://youtu.be/KO5cS3U2dfU?si=pIW4vr784rbrL2sP"
+  },
+  {
+    id: 147,
+    lessonId: 91,
+    type: "WATCH",
+    question: "AwB Lesson 63 Video",
+    order: 1,
+    video: "https://youtu.be/5tGFaBrn2Tc?si=t8VztkXOqHgfqClZ"
+  },
+  {
+    id: 148,
+    lessonId: 92,
+    type: "WATCH",
+    question: "AwB Lesson 64 Video",
+    order: 1,
+    video: "https://youtu.be/wV6uC5_wzWY?si=B3fp2zFusq2ufqdn"
+  },
+  {
+    id: 149,
+    lessonId: 93,
+    type: "WATCH",
+    question: "AwB Lesson 65 Video",
+    order: 1,
+    video: "https://youtu.be/53iuuW396a8?si=2iRPjhKxc5GnZoL-"
+  },
+  {
+    id: 150,
+    lessonId: 94,
+    type: "WATCH",
+    question: "AwB Lesson 66 Video",
+    order: 1,
+    video: "https://youtu.be/pKs4f_YS62A?si=Aan2j_ezF6G_oOg7"
+  },
+  {
+    id: 151,
+    lessonId: 95,
+    type: "WATCH",
+    question: "AwB Lesson 67 Video",
+    order: 1,
+    video: "https://youtu.be/e-9-ULphDAA?si=7stg9NA8gZePaJTG"
+  },
+  {
+    id: 152,
+    lessonId: 96,
+    type: "WATCH",
+    question: "AwB Lesson 68 Video",
+    order: 1,
+    video: "https://youtu.be/wbIstDUOH7g?si=jf8OXl5Bg5HZg_Bc"
+  },
+  {
+    id: 153,
+    lessonId: 97,
+    type: "WATCH",
+    question: "AwB Lesson 69 Video",
+    order: 1,
+    video: "https://youtu.be/g6NSMN50LUg?si=2XQE5FexMhmXqXlZ"
+  },
+  {
+    id: 154,
+    lessonId: 98,
+    type: "WATCH",
+    question: "AwB Lesson 70 Video",
+    order: 1,
+    video: "https://youtu.be/hgdpi2G9QhQ?si=ZE01S8JtPWkm2G3b"
+  },
+  {
+    id: 155,
+    lessonId: 99,
+    type: "WATCH",
+    question: "AwB Lesson 71 Video",
+    order: 1,
+    video: "https://youtu.be/bq7d0kzJj-4?si=8cQYT8RhOmEnKDWi"
+  },
+  {
+    id: 156,
+    lessonId: 100,
+    type: "WATCH",
+    question: "AwB Lesson 72 Video",
+    order: 1,
+    video: "https://youtu.be/q2r-r_Wglw0?si=l7W4Zs5xO5RjB6_W"
+  },
+  {
+    id: 157,
+    lessonId: 101,
+    type: "WATCH",
+    question: "AwB Lesson 73 Video",
+    order: 1,
+    video: "https://youtu.be/5eT-nzoxk7E?si=kD2CYIc7tqgZHggo"
+  },
+  {
+    id: 158,
+    lessonId: 102,
+    type: "WATCH",
+    question: "AwB Lesson 74 Video",
+    order: 1,
+    video: "https://youtu.be/BOmqJepqWxs?si=FcGuu3129uR57OSV"
+  },
+  {
+    id: 159,
+    lessonId: 103,
+    type: "WATCH",
+    question: "AwB Lesson 75 Video",
+    order: 1,
+    video: "https://youtu.be/OpN4_k1QRNw?si=2hADKer_xsPA-LZA"
+  },
+  {
+    id: 160,
+    lessonId: 104,
+    type: "WATCH",
+    question: "AwB Lesson 76 Video",
+    order: 1,
+    video: "https://youtu.be/d84Et1wGxuI?si=uiCzggcmpWuHbTI9"
+  },
+  {
+    id: 161,
+    lessonId: 105,
+    type: "WATCH",
+    question: "AwB Lesson 77 Video",
+    order: 1,
+    video: "https://youtu.be/eSRn7bdDErY?si=C7_iXVFAs2E4XPR4"
+  },
+  {
+    id: 162,
+    lessonId: 106,
+    type: "WATCH",
+    question: "AwB Lesson 78 Video",
+    order: 1,
+    video: "https://youtu.be/0iFVMisL-1A?si=_xbGJzyYn1v98TpX"
+  },
+  {
+    id: 163,
+    lessonId: 107,
+    type: "WATCH",
+    question: "AwB Lesson 79 Video",
+    order: 1,
+    video: "https://youtu.be/8zXxJQkiVeE?si=Vwx3yeCFaj4QN3ad"
+  },
+  {
+    id: 164,
+    lessonId: 108,
+    type: "WATCH",
+    question: "AwB Lesson 80 Video",
+    order: 1,
+    video: "https://youtu.be/XNQVeI5zt30?si=4p09L4ZwzdA6j0xy"
+  },
+  {
+    id: 165,
+    lessonId: 109,
+    type: "WATCH",
+    question: "AwB Lesson 81 Video",
+    order: 1,
+    video: "https://youtu.be/HH7FeUqTXhw?si=t8g39vye1JvV9-iI"
+  },
+  {
+    id: 166,
+    lessonId: 110,
+    type: "WATCH",
+    question: "AwB Lesson 82 Video",
+    order: 1,
+    video: "https://youtu.be/NXLtpYJB4Dw?si=6Gpsdik0bDB0NC6h"
+  },
+  {
+    id: 167,
+    lessonId: 111,
+    type: "WATCH",
+    question: "AwB Lesson 83 Video",
+    order: 1,
+    video: "https://youtu.be/Fm6XcND5A54?si=6BIiJcpi-R97V-UW"
+  },
+  {
+    id: 168,
+    lessonId: 112,
+    type: "WATCH",
+    question: "AwB Lesson 84 Video",
+    order: 1,
+    video: "https://youtu.be/ga_JnuN6OXU?si=9IqVIWCN44XzPbeB"
+  },
+  {
+    id: 169,
+    lessonId: 113,
+    type: "WATCH",
+    question: "AwB Lesson 85 Video",
+    order: 1,
+    video: "https://youtu.be/_0sn-tQhbIg?si=xLCx6CnctfvzSQaf"
+  },
+  {
+    id: 170,
+    lessonId: 114,
+    type: "WATCH",
+    question: "AwB Lesson 86 Video",
+    order: 1,
+    video: "https://youtu.be/zQOHpmbp31s?si=Bl_KyXVMNw0P5g7D"
+  },
+  {
+    id: 171,
+    lessonId: 115,
+    type: "WATCH",
+    question: "AwB Lesson 87 Video",
+    order: 1,
+    video: "https://youtu.be/4m7TazqqgSs?si=3EadDOxnlMiaq3p8"
+  },
+  {
+    id: 172,
+    lessonId: 116,
+    type: "WATCH",
+    question: "AwB Lesson 88 Video",
+    order: 1,
+    video: "https://youtu.be/MnoGIoVwTic?si=3RW2iKKVpg3rN46C"
+  },
+  {
+    id: 173,
+    lessonId: 117,
+    type: "WATCH",
+    question: "AwB Lesson 89 Video",
+    order: 1,
+    video: "https://youtu.be/GCYZqo7d-Oc?si=0HMhnAvKGplx8f4W"
+  },
+  {
+    id: 174,
+    lessonId: 118,
+    type: "WATCH",
+    question: "AwB Lesson 90 Video",
+    order: 1,
+    video: "https://youtu.be/annY2OoWsHs?si=N_uEWifchzfZRA5Z"
+  },
+  {
+    id: 175,
+    lessonId: 119,
+    type: "WATCH",
+    question: "AwB Lesson 91 Video",
+    order: 1,
+    video: "https://youtu.be/P2A1a4Yt1Zw?si=hB5J2gyx84EBSrnX"
+  },
+  {
+    id: 176,
+    lessonId: 120,
+    type: "WATCH",
+    question: "AwB Lesson 92 Video",
+    order: 1,
+    video: "https://youtu.be/u9RxVs3CZT0?si=IIIEFpww0PR7tylO"
+  },
+  {
+    id: 177,
+    lessonId: 121,
+    type: "WATCH",
+    question: "AwB Lesson 93 Video",
+    order: 1,
+    video: "https://youtu.be/KPLOiTazqcI?si=smsl8SfpiS0sF56I"
+  },
+  {
+    id: 178,
+    lessonId: 122,
+    type: "WATCH",
+    question: "AwB Lesson 94 Video",
+    order: 1,
+    video: "https://youtu.be/uee4sUYTD10?si=VLO46bINAjBj0dnx"
+  },
+  {
+    id: 179,
+    lessonId: 123,
+    type: "WATCH",
+    question: "AwB Lesson 95 Video",
+    order: 1,
+    video: "https://youtu.be/ptCc4lQcBN4?si=BOY1Eh2gBMd3ESj_"
+  },
+  {
+    id: 180,
+    lessonId: 124,
+    type: "WATCH",
+    question: "AwB Lesson 96 Video",
+    order: 1,
+    video: "https://youtu.be/tO4e5lhqurA?si=0srbAOk25VbepXsL"
+  },
+  {
+    id: 181,
+    lessonId: 125,
+    type: "WATCH",
+    question: "AwB Lesson 97 Video",
+    order: 1,
+    video: "https://youtu.be/h-lZNXsXsrU?si=MIoOZZe-JlhLqTk2"
+  },
+  {
+    id: 182,
+    lessonId: 126,
+    type: "WATCH",
+    question: "AwB Lesson 98 Video",
+    order: 1,
+    video: "https://youtu.be/gIh1XMZmGxo?si=SDU0C6-nQPJoIaPb"
+  },
+  {
+    id: 183,
+    lessonId: 127,
+    type: "WATCH",
+    question: "AwB Lesson 99 Video",
+    order: 1,
+    video: "https://youtu.be/9zOja4vuKHo?si=I-lqR-HX-3zfCXam"
+  },
+  {
+    id: 184,
+    lessonId: 128,
+    type: "WATCH",
+    question: "AwB Lesson 100 Video",
+    order: 1,
+    video: "https://youtu.be/8fWEafoqgUE?si=m-MB4OVEeXd6O-n6"
+  },
+  {
+    id: 185,
+    lessonId: 129,
+    type: "WATCH",
+    question: "AwB Lesson 101 Video",
+    order: 1,
+    video: "https://youtu.be/pyA4Lo0FH-0?si=UAT0RKSMxj5d9pqC"
+  },
+  {
+    id: 186,
+    lessonId: 130,
+    type: "WATCH",
+    question: "AwB Lesson 102 Video",
+    order: 1,
+    video: "https://youtu.be/fJ82gRW5IfA?si=k4neOY5AtfnMp5xx"
+  },
+  {
+    id: 187,
+    lessonId: 131,
+    type: "WATCH",
+    question: "AwB Lesson 103 Video",
+    order: 1,
+    video: "https://youtu.be/-rG7lpGEoyM?si=DEd20YAYgVluUQzt"
+  },
+  {
+    id: 188,
+    lessonId: 132,
+    type: "WATCH",
+    question: "AwB Lesson 104 Video",
+    order: 1,
+    video: "https://youtu.be/h5pBfYWJJ50?si=xc20E9fCZyfsW6kT"
+  },
+  {
+    id: 189,
+    lessonId: 133,
+    type: "WATCH",
+    question: "AwB Lesson 105 Video",
+    order: 1,
+    video: "https://youtu.be/bmIvOonGM4w?si=wM6TymBuokLed_vc"
+  },
+  {
+    id: 190,
+    lessonId: 134,
+    type: "WATCH",
+    question: "AwB Lesson 106 Video",
+    order: 1,
+    video: "https://youtu.be/wf6Q2fWMiIA?si=RTyBdP_vJUr9-z7F"
+  },
+  {
+    id: 191,
+    lessonId: 135,
+    type: "WATCH",
+    question: "AwB Lesson 107 Video",
+    order: 1,
+    video: "https://youtu.be/PeJSo4j0wOo?si=a1JoV_xf4Cau8n49"
+  },
+  {
+    id: 192,
+    lessonId: 136,
+    type: "WATCH",
+    question: "AwB Lesson 108 Video",
+    order: 1,
+    video: "https://youtu.be/86SK2LYi-rI?si=eoPWGW6ZGmdUzQTQ"
+  },
+  {
+    id: 193,
+    lessonId: 137,
+    type: "WATCH",
+    question: "AwB Lesson 109 Video",
+    order: 1,
+    video: "https://youtu.be/OZ-DaRBByL4?si=zV5nPeY0ShQLoTMS"
+  },
+  {
+    id: 194,
+    lessonId: 138,
+    type: "WATCH",
+    question: "AwB Lesson 110 Video",
+    order: 1,
+    video: "https://youtu.be/P2Il3-_5VKM?si=Bd1E_m-26ULmYS7V"
+  },
+  {
+    id: 195,
+    lessonId: 139,
+    type: "WATCH",
+    question: "AwB Lesson 111 Video",
+    order: 1,
+    video: "https://youtu.be/EBXP7ioVmUI?si=qVAmgzk8wRY5RL3r"
+  },
+  {
+    id: 197,
+    lessonId: 141,
+    type: "WATCH",
+    question: "AwB Lesson 113 Video",
+    order: 1,
+    video: "https://youtu.be/sOn-0YpJS7E?si=9ObZv5kQshJN6UoI"
+  },
+  {
+    id: 198,
+    lessonId: 142,
+    type: "WATCH",
+    question: "AwB Lesson 114 Video",
+    order: 1,
+    video: "https://youtu.be/lB7tJMWxL0w?si=v5XSJWPEiEbDqzpG"
+  },
+  {
+    id: 196,
+    lessonId: 140,
+    type: "WATCH",
+    question: "AwB Lesson 112 Video",
+    order: 1,
+    video: "https://youtu.be/P4JB9OeZO_A?si=WIyWEvxzxVLrYoS1"
+  },
+  {
+    id: 199,
+    lessonId: 143,
+    type: "WATCH",
+    question: "AwB Lesson 115 Video",
+    order: 1,
+    video: "https://youtu.be/16tjhQGBiT0?si=HYm6QVY4v-2l5URt"
+  },
+  {
+    id: 200,
+    lessonId: 144,
+    type: "WATCH",
+    question: "AwB Lesson 116 Video",
+    order: 1,
+    video: "https://youtu.be/CmIugls3ACs?si=wp11TQieH-JGXJur"
+  },
+  {
+    id: 201,
+    lessonId: 145,
+    type: "WATCH",
+    question: "AwB Lesson 117 Video",
+    order: 1,
+    video: "https://youtu.be/A6xsExGyGLA?si=8w-lC1dB-QeySNSZ"
+  },
+  {
+    id: 202,
+    lessonId: 146,
+    type: "WATCH",
+    question: "AwB Lesson 118 Video",
+    order: 1,
+    video: "https://youtu.be/K63OfFu_lZM?si=bbTpizMaZjv9Z6pE"
+  },
+  {
+    id: 203,
+    lessonId: 147,
+    type: "WATCH",
+    question: "AwB Lesson 119 Video",
+    order: 1,
+    video: "https://youtu.be/nAcxouMQ3ro?si=K4mkzeFQ0wRX5c1G"
+  },
+  {
+    id: 204,
+    lessonId: 148,
+    type: "WATCH",
+    question: "AwB Lesson 120 Video",
+    order: 1,
+    video: "https://youtu.be/oQzq14ALrTs?si=EqJjj3enVGGnRFvb"
+  },
+  {
+    id: 205,
+    lessonId: 149,
+    type: "WATCH",
+    question: "AwB Lesson 121 Video",
+    order: 1,
+    video: "https://youtu.be/vnbZE8cpYJw?si=df2KV7DtL5OxCaYp"
+  },
+  {
+    id: 206,
+    lessonId: 150,
+    type: "WATCH",
+    question: "AwB Lesson 122 Video",
+    order: 1,
+    video: "https://youtu.be/tsSvsD3aAAQ?si=Y8w1zmSj9ynXakcY"
+  },
+  {
+    id: 207,
+    lessonId: 151,
+    type: "WATCH",
+    question: "AwB Lesson 123 Video",
+    order: 1,
+    video: "https://youtu.be/r5zG_8mmKU0?si=uCHazoiabuTZdwtr"
+  },
+  {
+    id: 208,
+    lessonId: 152,
+    type: "WATCH",
+    question: "AwB Lesson 124 Video",
+    order: 1,
+    video: "https://youtu.be/LyqUe_nruNc?si=yCPzsdwSjYVRNEE_"
+  },
+  {
+    id: 209,
+    lessonId: 153,
+    type: "WATCH",
+    question: "AwB Lesson 125 Video",
+    order: 1,
+    video: "https://youtu.be/h93PJMTwMBY?si=nAkBxhnz90lMQ3jt"
+  },
+  {
+    id: 210,
+    lessonId: 154,
+    type: "WATCH",
+    question: "AwB Lesson 126 Video",
+    order: 1,
+    video: "https://youtu.be/_-NUyh9KqPc?si=vBbWjfECSLxEr2k_"
+  },
+  {
+    id: 211,
+    lessonId: 155,
+    type: "WATCH",
+    question: "AwB Lesson 127 Video",
+    order: 1,
+    video: "https://youtu.be/HJrK59eQrwo?si=It1AV217qxpeQniK"
+  },
+  {
+    id: 212,
+    lessonId: 156,
+    type: "WATCH",
+    question: "AwB Lesson 128 Video",
+    order: 1,
+    video: "https://youtu.be/1T1lVHzVdwc?si=1hIoezSxt3KKqVV9"
+  },
+  {
+    id: 213,
+    lessonId: 157,
+    type: "WATCH",
+    question: "AwB Lesson 129 Video",
+    order: 1,
+    video: "https://youtu.be/Ppv_dYMdkzE?si=BkeY2yQN8QGmL-g3"
+  },
+  {
+    id: 214,
+    lessonId: 158,
+    type: "WATCH",
+    question: "AwB Lesson 1 Video",
+    order: 1,
+    video: "https://youtu.be/BwzTgcUmz_c?si=uhwDIDFI-AOzjhIT"
+  },
+  {
+    id: 215,
+    lessonId: 159,
+    type: "WATCH",
+    question: "AwB Lesson 131 Video",
+    order: 1,
+    video: "https://youtu.be/yvRnpqYrv_0?si=V7zx_8LwZPz90V86"
+  },
+  {
+    id: 216,
+    lessonId: 160,
+    type: "WATCH",
+    question: "AwB Lesson 132 Video",
+    order: 1,
+    video: "https://youtu.be/V2GCctdxxs8?si=iBIiuQTMypxduAcS"
+  },
+  {
+    id: 217,
+    lessonId: 161,
+    type: "WATCH",
+    question: "AwB Lesson 133 Video",
+    order: 1,
+    video: "https://youtu.be/b25l-CCAI4k?si=toei0UyVxA7GSjqe"
+  },
+  {
+    id: 218,
+    lessonId: 162,
+    type: "WATCH",
+    question: "AwB Lesson 134 Video",
+    order: 1,
+    video: "https://youtu.be/-oiLPkR05ZY?si=1rlTWOG2Nr13vnaE"
+  },
+  {
+    id: 219,
+    lessonId: 163,
+    type: "WATCH",
+    question: "AwB Lesson 135 Video",
+    order: 1,
+    video: "https://youtu.be/m4nlTU20yfg?si=Fg_DliM9aX78_idi"
+  },
+  {
+    id: 220,
+    lessonId: 164,
+    type: "WATCH",
+    question: "AwB Lesson 136 Video",
+    order: 1,
+    video: "https://youtu.be/TYRES7LxNKo?si=HEdh04UGJ2g5glbD"
+  },
+  {
+    id: 221,
+    lessonId: 165,
+    type: "WATCH",
+    question: "AwB Lesson 1 Video",
+    order: 1,
+    video: "https://youtu.be/aMta6Sfgk4M?si=c7Ox3vt0Mri4Hn7i"
+  },
+  {
+    id: 222,
+    lessonId: 166,
+    type: "WATCH",
+    question: "AwB Lesson 138 Video",
+    order: 1,
+    video: "https://youtu.be/GA_dxKld2tQ?si=f4QAQ5DLnTSE4hTb"
+  },
+  {
+    id: 223,
+    lessonId: 167,
+    type: "WATCH",
+    question: "AwB Lesson 139 Video",
+    order: 1,
+    video: "https://youtu.be/FQAi-kSPQQE?si=t247YoOGOZxuNd8w"
+  },
+  {
+    id: 224,
+    lessonId: 168,
+    type: "WATCH",
+    question: "AwB Lesson 140 Video",
+    order: 1,
+    video: "https://youtu.be/c8lTR5diWzQ?si=bVEQRpfqwidYBY4y"
+  },
+  {
+    id: 225,
+    lessonId: 169,
+    type: "WATCH",
+    question: "AwB Classroom 1 Video",
+    order: 1,
+    video: "https://youtu.be/hQgqILJBsIM?si=k-NpggSXCva36-k9"
+  },
+  {
+    id: 226,
+    lessonId: 170,
+    type: "WATCH",
+    question: "AwB Classroom 2 Video",
+    order: 1,
+    video: "https://youtu.be/G8EIanu0Q5o?si=kI8izI_PuFJI4nYM"
+  },
+  {
+    id: 227,
+    lessonId: 171,
+    type: "WATCH",
+    question: "AwB Classroom 3 Video",
+    order: 1,
+    video: "https://youtu.be/Jn5brPqTH-8?si=pXC1eN1vPuEgEiuk"
+  },
+  {
+    id: 228,
+    lessonId: 172,
+    type: "WATCH",
+    question: "AwB Classroom 4 Video",
+    order: 1,
+    video: "https://youtu.be/H9jzzCWR1Og?si=O7ICvUo1u-9UB5W4"
+  },
+  {
+    id: 229,
+    lessonId: 173,
+    type: "WATCH",
+    question: "AwB Classroom 5 Video",
+    order: 1,
+    video: "https://youtu.be/PwgTQ5hpfBY?si=CpL01Kfg-8t-8DyF"
+  },
+  {
+    id: 230,
+    lessonId: 174,
+    type: "WATCH",
+    question: "AwB Classroom 6 Video",
+    order: 1,
+    video: "https://youtu.be/qCP4RT5FKNg?si=jSmEfJpsXkwcYPwR"
+  },
+  {
+    id: 231,
+    lessonId: 175,
+    type: "WATCH",
+    question: "AwB Classroom 7 Video",
+    order: 1,
+    video: "https://youtu.be/WfGvXzWDxgA?si=KBb4eTeI6476Dz05"
+  },
+  {
+    id: 232,
+    lessonId: 176,
+    type: "WATCH",
+    question: "AwB Classroom 8 Video",
+    order: 1,
+    video: "https://youtu.be/HMX9CcCSacM?si=cqSaQNlvJ4Ra_MY9"
+  },
+  {
+    id: 233,
+    lessonId: 177,
+    type: "WATCH",
+    question: "AwB Classroom 9 Video",
+    order: 1,
+    video: "https://youtu.be/bfg6SXAykcE?si=8GHQ9Uj8R2bvtKdx"
+  },
+  {
+    id: 234,
+    lessonId: 178,
+    type: "WATCH",
+    question: "AwB Classroom 10 Video",
+    order: 1,
+    video: "https://youtu.be/wj_MztDc4VY?si=4hdAU_4oZs_Tp20e"
+  },
+  {
+    id: 238,
+    lessonId: 34,
+    type: "WATCH",
+    question: "AwB Lesson 6b Video",
+    order: 20,
+    video: "https://www.youtube.com/watch?v=UeCpI76A6PE"
+  },
+  {
+    id: 235,
+    lessonId: 31,
+    type: "WATCH",
+    question: "AwB Lesson 3b Video",
+    order: 20,
+    video: "https://www.youtube.com/watch?v=ZRucyjWURK0"
+  },
+  {
+    id: 236,
+    lessonId: 32,
+    type: "WATCH",
+    question: "AwB Lesson 4b Video",
+    order: 20,
+    video: "https://www.youtube.com/watch?v=Vw1EW7n4y-o"
+  },
+  {
+    id: 237,
+    lessonId: 33,
+    type: "WATCH",
+    question: "AwB Lesson 5b Video",
+    order: 20,
+    video: "https://www.youtube.com/watch?v=4ER7m5u-nWY"
+  },
+  {
+    id: 239,
+    lessonId: 36,
+    type: "WATCH",
+    question: "AwB Lesson 8b Video",
+    order: 20,
+    video: "https://www.youtube.com/watch?v=gtmVnBeZuuo"
+  },
+  {
+    id: 240,
+    lessonId: 39,
+    type: "WATCH",
+    question: "AwB Lesson 11b Video",
+    order: 20,
+    video: "https://www.youtube.com/watch?v=AYwjSQSMgrk"
+  },
+  {
+    id: 241,
+    lessonId: 40,
+    type: "WATCH",
+    question: "AwB Lesson 12b Video",
+    order: 20,
+    video: "https://youtu.be/jiX6c6eKFbQ?si=4iiBO0XB5Rnuqd7O"
+  },
+  {
+    id: 242,
+    lessonId: 42,
+    type: "WATCH",
+    question: "AwB Lesson 14b Video",
+    order: 20,
+    video: "https://youtu.be/dqFFoGDS-58?si=o_KLBdjvEGHsXVUz"
+  },
+  {
+    id: 243,
+    lessonId: 52,
+    type: "WATCH",
+    question: "AwB Lesson 24b Video",
+    order: 20,
+    video: "https://youtu.be/rBxezX9g5l4?si=qL82Mkv2JL8UJjGO"
+  },
+  {
+    id: 244,
+    lessonId: 58,
+    type: "WATCH",
+    question: "AwB Lesson 30b Video",
+    order: 20,
+    video: "https://youtu.be/t8X8Hla7GtY?si=pPKEtgy2YdRTffJb"
+  },
+  {
+    id: 245,
+    lessonId: 63,
+    type: "WATCH",
+    question: "AwB Lesson 35b Video",
+    order: 20,
+    video: "https://www.youtube.com/watch?v=n3xiATtfs9k"
+  },
+  {
+    id: 246,
+    lessonId: 67,
+    type: "WATCH",
+    question: "AwB Lesson 39b Video",
+    order: 20,
+    video: "https://www.youtube.com/watch?v=djxEE79CMNA"
+  },
+  {
+    id: 247,
+    lessonId: 69,
+    type: "WATCH",
+    question: "AwB Lesson 41b Video",
+    order: 20,
+    video: "https://www.youtube.com/watch?v=JY1iR55tnH0"
+  },
+  {
+    id: 248,
+    lessonId: 72,
+    type: "WATCH",
+    question: "AwB Lesson 44b Video",
+    order: 20,
+    video: "https://www.youtube.com/watch?v=VMLvcKvQJmY"
+  },
+  {
+    id: 249,
+    lessonId: 73,
+    type: "WATCH",
+    question: "AwB Lesson 45b Video",
+    order: 20,
+    video: "https://www.youtube.com/watch?v=Jwaf9Ojt-PA"
+  },
+  {
+    id: 250,
+    lessonId: 81,
+    type: "WATCH",
+    question: "AwB Lesson 53b Video",
+    order: 20,
+    video: "https://www.youtube.com/watch?v=INj0QxZ8Op4"
+  },
+  {
+    id: 251,
+    lessonId: 85,
+    type: "WATCH",
+    question: "AwB Lesson 57b Video",
+    order: 20,
+    video: "https://youtu.be/QRy01CcRi1E?si=Afe9bAjIbJFDmpRc"
+  },
+  {
+    id: 252,
+    lessonId: 86,
+    type: "WATCH",
+    question: "AwB Lesson 58b Video",
+    order: 20,
+    video: "https://youtu.be/HlZ272uoVjs?si=lOuLw29L3-25bqdx"
+  },
+  {
+    id: 253,
+    lessonId: 89,
+    type: "WATCH",
+    question: "AwB Lesson 61b Video",
+    order: 20,
+    video: "https://youtu.be/XRN7X_DRZZs?si=ebb_hdZ3iuHl8dCy"
+  },
+  {
+    id: 254,
+    lessonId: 91,
+    type: "WATCH",
+    question: "AwB Lesson 63b Video",
+    order: 20,
+    video: "https://youtu.be/1Vd5ge8zJ0c?si=huzvXUbcvM9Jlio5"
+  },
+  {
+    id: 255,
+    lessonId: 95,
+    type: "WATCH",
+    question: "AwB Lesson 67b Video",
+    order: 20,
+    video: "https://youtu.be/eUfIQvMOgPg?si=KNGdk7tNGuyRu2z0"
+  },
+  {
+    id: 256,
+    lessonId: 98,
+    type: "WATCH",
+    question: "AwB Lesson 70b Video",
+    order: 20,
+    video: "https://youtu.be/GGTGcnvluo8?si=iA0puGsgKZ3zhJC2"
+  },
+  {
+    id: 257,
+    lessonId: 99,
+    type: "WATCH",
+    question: "AwB Lesson 71b Video",
+    order: 20,
+    video: "https://youtu.be/fRohSObcqZI?si=ZXMJ3lW7mXyCmLvc"
+  },
+  {
+    id: 258,
+    lessonId: 101,
+    type: "WATCH",
+    question: "AwB Lesson 73b Video",
+    order: 20,
+    video: "https://youtu.be/1xQGhlYs9ig?si=LVowtYj2thCMCbqY"
+  },
+  {
+    id: 259,
+    lessonId: 110,
+    type: "WATCH",
+    question: "AwB Lesson 82b Video",
+    order: 20,
+    video: "https://youtu.be/_gQVB9r6NWk?si=T1H4mPL4clO_uo2x"
+  },
+  {
+    id: 260,
+    lessonId: 111,
+    type: "WATCH",
+    question: "AwB Lesson 83b Video",
+    order: 20,
+    video: "https://youtu.be/3XOZcxzNAfE?si=kNJmi1X_nRMKnmt1"
+  },
+  {
+    id: 261,
+    lessonId: 113,
+    type: "WATCH",
+    question: "AwB Lesson 85b Video",
+    order: 20,
+    video: "https://youtu.be/NRakE3i_Xp8?si=4yHGc96LMLM7wCE6"
+  },
+  {
+    id: 262,
+    lessonId: 115,
+    type: "WATCH",
+    question: "AwB Lesson 87b Video",
+    order: 20,
+    video: "https://youtu.be/SAllJMIQ34w?si=XIX9qOQ3iJs_Cb7R"
+  },
+  {
+    id: 263,
+    lessonId: 119,
+    type: "WATCH",
+    question: "AwB Lesson 91b Video",
+    order: 20,
+    video: "https://youtu.be/gzFofeAJ1YQ?si=um7ZVfNWP4nEihuj"
+  },
+  {
+    id: 264,
+    lessonId: 126,
+    type: "WATCH",
+    question: "AwB Lesson 98b Video",
+    order: 20,
+    video: "https://youtu.be/7vvc8A1XjWs?si=7Di6YUwkD5WnBa5i"
+  },
+  {
+    id: 265,
+    lessonId: 127,
+    type: "WATCH",
+    question: "AwB Lesson 99b Video",
+    order: 20,
+    video: "https://youtu.be/1unfgYNfnlg?si=_r-aFqdQ1CjKl7Ot"
+  },
+  {
+    id: 266,
+    lessonId: 132,
+    type: "WATCH",
+    question: "AwB Lesson 104b Video",
+    order: 20,
+    video: "https://youtu.be/dhodIwhF8Uw?si=lvP8K6boK3KVjUj2"
+  },
+  {
+    id: 267,
+    lessonId: 134,
+    type: "WATCH",
+    question: "AwB Lesson 106b Video",
+    order: 20,
+    video: "https://youtu.be/XByk4zMuXeg?si=shQflJdGjpQTNR8B"
+  },
+  {
+    id: 268,
+    lessonId: 139,
+    type: "WATCH",
+    question: "AwB Lesson 111b Video",
+    order: 20,
+    video: "https://youtu.be/PLljOoUQShU?si=MHvDExd8t6zRjSUt"
+  },
+  {
+    id: 269,
+    lessonId: 146,
+    type: "WATCH",
+    question: "AwB Lesson 118b Video",
+    order: 20,
+    video: "https://youtu.be/M8_ACBZoMSQ?si=_EudVxkp7LEt2YIo"
+  },
+  {
+    id: 270,
+    lessonId: 149,
+    type: "WATCH",
+    question: "AwB Lesson 121b Video",
+    order: 20,
+    video: "https://youtu.be/jDA9VtI3pCE?si=I68dKRIsTtDWFmS5"
+  },
+  {
+    id: 271,
+    lessonId: 155,
+    type: "WATCH",
+    question: "AwB Lesson 127b Video",
+    order: 20,
+    video: "https://youtu.be/_DQ0bpMH3lo?si=jC4YamNgRhleElG1"
+  },
+  {
+    id: 272,
+    lessonId: 156,
+    type: "WATCH",
+    question: "AwB Lesson 128b Video",
+    order: 20,
+    video: "https://youtu.be/fv2rReLA4jc?si=GzB8HcylVzwX-OMH"
+  },
+  {
+    id: 273,
+    lessonId: 166,
+    type: "WATCH",
+    question: "AwB Lesson 138b Video",
+    order: 20,
+    video: "https://youtu.be/LPlLmqeOUMg?si=1RjCRj56E9AU4HsV"
+  },
+  {
+    id: 274,
+    lessonId: 57,
+    type: "WATCH",
+    question: "Psalm 125:2 Video",
+    order: 300,
+    video: "https://youtu.be/1jbZlmGbRgU?si=R45oTEWEI3Ecw_Q3"
+  },
+  {
+    id: 275,
+    lessonId: 58,
+    type: "WATCH",
+    question: "Psalm 106:48 Video",
+    order: 300,
+    video: "https://youtu.be/rZqTI2Ok7JE?si=ZkS0eS4zJR9OeuH2"
+  },
+  {
+    id: 276,
+    lessonId: 72,
+    type: "WATCH",
+    question: "El Gadol Yahweh Video",
+    order: 300,
+    video: "https://youtu.be/f9weejgDN3Q?si=EXX1qh0GN0CqI6Tp"
+  },
+  {
+    id: 277,
+    lessonId: 107,
+    type: "WATCH",
+    question: "Psalm 118:26 Video",
+    order: 300,
+    video: "https://youtu.be/gzSkXGbRPlI?si=A7yuyNFpalzMBdg_"
+  },
+  {
+    id: 278,
+    lessonId: 68,
+    type: "WATCH",
+    question: "Story 1: The Small Boy Video",
+    order: 300,
+    video: "https://youtu.be/oY0n91hfSwI?si=IqwGaV9EySj3RZ-E"
+  },
+  {
+    id: 279,
+    lessonId: 70,
+    type: "WATCH",
+    question: "Story 2: Israel Asks for a King Video",
+    order: 300,
+    video: "https://youtu.be/indDOdcK4Aw?si=iws9zzGUATubLJx9"
+  },
+  {
+    id: 280,
+    lessonId: 74,
+    type: "WATCH",
+    question: "Story 3: The Creation Story Video",
+    order: 300,
+    video: "https://youtu.be/wjVzrsHOgUM?si=TvGpz0UuRmu0H6-L"
+  },
+  {
+    id: 281,
+    lessonId: 76,
+    type: "WATCH",
+    question: "Story 4: Avram, Beth & the Two Jars Video",
+    order: 300,
+    video: "https://youtu.be/t88kj5O1Gnc?si=5oNKBjFutxrGPbCu"
+  },
+  {
+    id: 282,
+    lessonId: 77,
+    type: "WATCH",
+    question: "Story 5: The Cook Who Had No Salt Video",
+    order: 300,
+    video: "https://youtu.be/Q5Sxt2L0A3w?si=P5bEO_EQrI-RllaH"
+  },
+  {
+    id: 283,
+    lessonId: 80,
+    type: "WATCH",
+    question: "Story 6: Moses in the Land of Midian Video",
+    order: 300,
+    video: "https://youtu.be/4deMzVZzN4E?si=lwWITQzrLS5gBA7x"
+  },
+  {
+    id: 284,
+    lessonId: 81,
+    type: "WATCH",
+    question: "Story 7: The Twelve Spies Video",
+    order: 300,
+    video: "https://youtu.be/cm4uRuW9fl4?si=f7QdNp0YsknVXvCu"
+  },
+  {
+    id: 285,
+    lessonId: 85,
+    type: "WATCH",
+    question: "Story 8: Just Like Eglon Did Video",
+    order: 300,
+    video: "https://youtu.be/EdT_zSlnylo?si=1TpPCbAvcuXAcdDI"
+  },
+  {
+    id: 286,
+    lessonId: 86,
+    type: "WATCH",
+    question: "Story 9: Yosef & His Wife & Their House Video",
+    order: 300,
+    video: "https://youtu.be/wcaoSZwiSkc?si=G9vzHB9urUxJW4Z1"
+  },
+  {
+    id: 287,
+    lessonId: 90,
+    type: "WATCH",
+    question: "Story 10: Esau Comes to Meet Jacob Video",
+    order: 300,
+    video: "https://youtu.be/HYYlo5gkQRY?si=4-I0dAz-16tWovQT"
+  },
+  {
+    id: 288,
+    lessonId: 92,
+    type: "WATCH",
+    question: "Story 11: David & Goliath Video",
+    order: 300,
+    video: "https://youtu.be/IBf4PWps9qk?si=H_1hQ-kdpEWfZNTR"
+  },
+  {
+    id: 289,
+    lessonId: 96,
+    type: "WATCH",
+    question: "Story 12: Gideon and the Camp of Midian Video",
+    order: 300,
+    video: "https://youtu.be/K3GkhxSxxnk?si=qBdxhDu1X18ZCu-R"
+  },
+  {
+    id: 290,
+    lessonId: 97,
+    type: "WATCH",
+    question: "Story 13: The Boy in the Ark Video",
+    order: 300,
+    video: "https://youtu.be/u9fno8Jr1yg?si=VUXvHi4FwnFviD2s"
+  },
+  {
+    id: 291,
+    lessonId: 98,
+    type: "WATCH",
+    question: "Story 14: The Woman Who Killed Sisera Video",
+    order: 300,
+    video: "https://youtu.be/9LTSFwz2aaQ?si=gBNejpSEqQBCMs3g"
+  },
+  {
+    id: 292,
+    lessonId: 99,
+    type: "WATCH",
+    question: "Story 15: Who Killed That Man? Video",
+    order: 300,
+    video: "https://youtu.be/T5HICKdOKuY?si=GdFrKplSpx9ptycr"
+  },
+  {
+    id: 293,
+    lessonId: 99,
+    type: "WATCH",
+    question: "Story 16: Where Is The Silver? Video",
+    order: 350,
+    video: "https://youtu.be/zcDWyOoYs-4?si=b7EPlhBoqnjANdEc"
+  },
+  {
+    id: 294,
+    lessonId: 101,
+    type: "WATCH",
+    question: "Story 17: Naomi & Ruth Video",
+    order: 300,
+    video: "https://youtu.be/dkHjpIaH0vM?si=YnJmcWEGa1PeBUcL"
+  },
+  {
+    id: 295,
+    lessonId: 106,
+    type: "WATCH",
+    question: "Story 18: Israel Crosses the Jordan Video",
+    order: 300,
+    video: "https://youtu.be/5qKUYdFvCA4?si=lME_ZksGWu0ItuUd"
+  },
+  {
+    id: 296,
+    lessonId: 106,
+    type: "WATCH",
+    question: "Story 19: The Covenant & the Lie Video",
+    order: 350,
+    video: "https://youtu.be/9NiqS_SCKMU?si=3OMlrIha6I3MG9wC"
+  },
+  {
+    id: 297,
+    lessonId: 112,
+    type: "WATCH",
+    question: "Story 20: Avram & the Bread Video",
+    order: 300,
+    video: "https://youtu.be/MidXOBL8EcU?si=KaTTuyssDC4LTH59"
+  },
+  {
+    id: 298,
+    lessonId: 113,
+    type: "WATCH",
+    question: "Story 21: Every Firstborn of Egypt Video",
+    order: 300,
+    video: "https://youtu.be/UP18q9WRcPE?si=7n9gdWrqU6R05kgq"
+  },
+  {
+    id: 299,
+    lessonId: 115,
+    type: "WATCH",
+    question: "Story 22: Two Spies to Jericho Video",
+    order: 300,
+    video: "https://youtu.be/9OHPY9KQlSg?si=3wIZO1l4DSMWhPHz"
+  },
+  {
+    id: 300,
+    lessonId: 116,
+    type: "WATCH",
+    question: "Story 23: Jacob's Wives Bear Him Children Video",
+    order: 300,
+    video: "https://youtu.be/_ltRsUR_vys?si=oHHDZzGDfw_-hiO-"
+  },
+  {
+    id: 301,
+    lessonId: 117,
+    type: "WATCH",
+    question: "Story 24: Jacob Flees from Esau Video",
+    order: 300,
+    video: "https://youtu.be/CxEDoPidyW0?si=iGtA_RWgH2j6hbmZ"
+  },
+  {
+    id: 302,
+    lessonId: 120,
+    type: "WATCH",
+    question: "Story 25: She's Still Crying Video",
+    order: 300,
+    video: "https://youtu.be/e3fZ3Ym5dJo?si=pNRaQ-h5ZZjIpqLx"
+  },
+  {
+    id: 303,
+    lessonId: 121,
+    type: "WATCH",
+    question: "Story 26: Samuel Heard Yahweh's Voice Video",
+    order: 300,
+    video: "https://youtu.be/twwaABoRwdo?si=yHxH1nEWADildEbX"
+  },
+  {
+    id: 304,
+    lessonId: 122,
+    type: "WATCH",
+    question: "Story 27: The Man and His Wife in Eden Video",
+    order: 300,
+    video: "https://youtu.be/4Gt_jL41vzQ?si=F9REV29u3XwupEhR"
+  },
+  {
+    id: 305,
+    lessonId: 124,
+    type: "WATCH",
+    question: "Story 28: Jacob Works in Exchange for Rachel Video",
+    order: 300,
+    video: "https://youtu.be/SBp7ABT3zfk?si=9myGfL5TgXhezstt"
+  },
+  {
+    id: 306,
+    lessonId: 126,
+    type: "WATCH",
+    question: "Story 29: Jacob Flees From Laban Video",
+    order: 300,
+    video: "https://youtu.be/GdU7LIWKQb0?si=bVrnuSZJmaaSy0U6"
+  },
+  {
+    id: 307,
+    lessonId: 127,
+    type: "WATCH",
+    question: "Story 30: Solomon Asks for Wisdom Video",
+    order: 300,
+    video: "https://youtu.be/VRXyhEAcU_0?si=Q3WksSTK0iObzstP"
+  },
+  {
+    id: 308,
+    lessonId: 128,
+    type: "WATCH",
+    question: "Story 31: Who Will Reign After David? Video",
+    order: 300,
+    video: "https://youtu.be/76oj5zS6iFA?si=dhnuPz-L16z_hCZa"
+  },
+  {
+    id: 309,
+    lessonId: 129,
+    type: "WATCH",
+    question: "Story 32: The Israelites Ask for a King (version 2) Video",
+    order: 300,
+    video: "https://youtu.be/EwhCDxmpIeg?si=R0vHI20IBJ8BwAxm"
+  },
+  {
+    id: 310,
+    lessonId: 132,
+    type: "WATCH",
+    question: "Story 33: Esau's Wives Video",
+    order: 300,
+    video: "https://youtu.be/MIwm_w2HZH4?si=xHMNugLpgtp4-OQa"
+  },
+  {
+    id: 311,
+    lessonId: 135,
+    type: "WATCH",
+    question: "Story 35: Samuel Anointed David Video",
+    order: 300,
+    video: "https://youtu.be/SzsPMBAuv0s?si=pJ1l1OM3AklYJgK2"
+  },
+  {
+    id: 312,
+    lessonId: 134,
+    type: "WATCH",
+    question: "Story 34: Noah the Righteous & the Floodwaters Video",
+    order: 300,
+    video: "https://youtu.be/CoR1Xg6CkoE?si=Ewxa01qv9uPam_19"
+  },
+  {
+    id: 313,
+    lessonId: 136,
+    type: "WATCH",
+    question: "Story 36: 12 Stones for 12 Tribes Video",
+    order: 300,
+    video: "https://youtu.be/Kml_xGR7uhg?si=VkxkBD7S0NRKbmpl"
+  },
+  {
+    id: 314,
+    lessonId: 137,
+    type: "WATCH",
+    question: "Story 37: The Inheritance of the Tribes of Israel Video",
+    order: 300,
+    video: "https://youtu.be/-Ax-4cz5mto?si=YahWgk1LHfznqFMs"
+  },
+  {
+    id: 315,
+    lessonId: 139,
+    type: "WATCH",
+    question: "Story 38: Gideon is Afraid Video",
+    order: 300,
+    video: "https://youtu.be/WGeLVcMGc-E?si=dwgv_KR1EW4BPuJg"
+  },
+  {
+    id: 316,
+    lessonId: 139,
+    type: "WATCH",
+    question: "Story 39: Bezalel Made the Tabernacle Video",
+    order: 350,
+    video: "https://youtu.be/2jiAInaGrLA?si=EKurB-ytdV38xZeT"
+  },
+  {
+    id: 317,
+    lessonId: 145,
+    type: "WATCH",
+    question: "Story 40: The Days of the Life of Jacob Video",
+    order: 300,
+    video: "https://youtu.be/CfI38FeAc2I?si=OsN37DZ72g7tm0HN"
+  },
+  {
+    id: 318,
+    lessonId: 145,
+    type: "WATCH",
+    question: "Story 41: Saul and the Medium Video",
+    order: 350,
+    video: "https://youtu.be/7JlFXsFj1_Q?si=W76pJnUNotY_iKJD"
+  },
+  {
+    id: 319,
+    lessonId: 147,
+    type: "WATCH",
+    question: "Story 42: Joseph and His Brothers Video",
+    order: 300,
+    video: "https://youtu.be/GwxvQlZz-3w?si=2a2jmK3iRxQRG7Iu"
+  },
+  {
+    id: 320,
+    lessonId: 149,
+    type: "WATCH",
+    question: "Story 43: Abraham and His Son Video",
+    order: 300,
+    video: "https://youtu.be/nXishmLJ5Ok?si=b8W4Z3l6wQ-iIrsZ"
+  },
+  {
+    id: 321,
+    lessonId: 152,
+    type: "WATCH",
+    question: "Story 43b: Moses on the Nile Video",
+    order: 300,
+    video: "https://youtu.be/MB7_m-yQqno?si=cb7hjAiRWXXp8Rdb"
+  },
+  {
+    id: 322,
+    lessonId: 153,
+    type: "WATCH",
+    question: "Story 44: The Messenger Appears to Manoah's Wife Video",
+    order: 300,
+    video: "https://youtu.be/Q3MRya9jGp0?si=E9u6U8MZQ4VBYQ_F"
+  },
+  {
+    id: 323,
+    lessonId: 154,
+    type: "WATCH",
+    question: "Story 45: Joseph Brings His Brothers to His House Video",
+    order: 300,
+    video: "https://youtu.be/W5_NVUoJX_o?si=r_cl30G4a2Ijpkvd"
+  },
+  {
+    id: 324,
+    lessonId: 155,
+    type: "WATCH",
+    question: "Story 46: Jeremiah and the Rechabites Video",
+    order: 300,
+    video: "https://youtu.be/y5djnlvtmyc?si=9q_IaQBh0nQs6W2W"
+  },
+  {
+    id: 325,
+    lessonId: 157,
+    type: "WATCH",
+    question: "Story 47: God Opens Rachel's Womb Video",
+    order: 300,
+    video: "https://youtu.be/Xz9vsbwDJgc?si=kAsRX4BQmYhvZFuz"
+  },
+  {
+    id: 326,
+    lessonId: 162,
+    type: "WATCH",
+    question: "Story 48: Rebekah and Abraham's Servant Video",
+    order: 300,
+    video: "https://youtu.be/3JG9OyZMwFU?si=4VczDmY5dyA7J3n2"
+  },
+  {
+    id: 327,
+    lessonId: 165,
+    type: "WATCH",
+    question: "Story 49: Elijah & the Widow's Son Video",
+    order: 300,
+    video: "https://youtu.be/EW3JhQ3w5C8?si=I5e5If6aYz5D4MLA"
+  }
+])
 
-		await db.insert(schema.challengeOptions).values([
-			{
-				challengeId: 76,
-				correct: true,
-				text: 'eesh',
-				imageSrc: '/eesh.jpeg',
-				audioSrc: '/eesh.mp3',
-			},
-			{
-				challengeId: 76,
-				correct: false,
-				text: 'eeshah',
-				imageSrc: '/eeshah.jpeg',
-				audioSrc: '/eeshah.mp3',
-			},
-			{
-				challengeId: 76,
-				correct: false,
-				text: 'ayez',
-				imageSrc: '/ayez.jpeg',
-				audioSrc: '/ayez.mp3',
-			},
-			{
-				challengeId: 76,
-				correct: false,
-				text: 'chamor',
-				imageSrc: '/chamor.jpeg',
-				audioSrc: '/chamor.mp3',
-			},
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 2, correct: true, text: 'el problema' },
-			{ challengeId: 2, correct: false, text: 'la problema' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 4, correct: true, text: 'el tomate' },
-			{ challengeId: 4, correct: false, text: 'la tomate' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 5, correct: true, text: 'el niño' },
-			{ challengeId: 5, correct: false, text: 'la niño' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 7, correct: true, text: 'el hospital' },
-			{ challengeId: 7, correct: false, text: 'la hospital' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 10, correct: true, text: 'el banco' },
-			{ challengeId: 10, correct: false, text: 'el/la banco' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 12, correct: true, text: 'el sistema' },
-			{ challengeId: 12, correct: false, text: 'la sistema' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 14, correct: true, text: 'el hotel' },
-			{ challengeId: 14, correct: false, text: 'la hotel' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 20, correct: true, text: 'el muchacho' },
-			{ challengeId: 20, correct: false, text: 'la muchacho' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 23, correct: true, text: 'el animal' },
-			{ challengeId: 23, correct: false, text: 'la animal' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 24, correct: true, text: 'el hermano' },
-			{ challengeId: 24, correct: false, text: 'la hermano' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 27, correct: true, text: 'el gato' },
-			{ challengeId: 27, correct: false, text: 'la gato' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 30, correct: true, text: 'el vino' },
-			{ challengeId: 30, correct: false, text: 'la vino' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 31, correct: true, text: 'el teléfono' },
-			{ challengeId: 31, correct: false, text: 'el/la teléfono' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 36, correct: true, text: 'el baño' },
-			{ challengeId: 36, correct: false, text: 'el/la baño' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 40, correct: true, text: 'el doctor' },
-			{ challengeId: 40, correct: false, text: 'la doctor' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 41, correct: true, text: 'el perro' },
-			{ challengeId: 41, correct: false, text: 'la perro' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 42, correct: true, text: 'el hombre' },
-			{ challengeId: 42, correct: false, text: 'la hombre' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 43, correct: true, text: 'el poema' },
-			{ challengeId: 43, correct: false, text: 'la poema' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 45, correct: true, text: 'el mapa' },
-			{ challengeId: 45, correct: false, text: 'la mapa' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 47, correct: true, text: 'el programa' },
-			{ challengeId: 47, correct: false, text: 'la programa' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 50, correct: true, text: 'el amigo' },
-			{ challengeId: 50, correct: false, text: 'la amigo' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 51, correct: true, text: 'el clima' },
-			{ challengeId: 51, correct: false, text: 'el/la clima' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 53, correct: true, text: 'el tren' },
-			{ challengeId: 53, correct: false, text: 'el/la tren' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 54, correct: true, text: 'el carro' },
-			{ challengeId: 54, correct: false, text: 'la carro' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 58, correct: true, text: 'el idioma' },
-			{ challengeId: 58, correct: false, text: 'la idioma' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 61, correct: true, text: 'el libro' },
-			{ challengeId: 61, correct: false, text: 'la libro' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 62, correct: true, text: 'el café' },
-			{ challengeId: 62, correct: false, text: 'la café' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 63, correct: true, text: 'el drama' },
-			{ challengeId: 63, correct: false, text: 'la drama' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 67, correct: true, text: 'el planeta' },
-			{ challengeId: 67, correct: false, text: 'la planeta' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 68, correct: true, text: 'el día' },
-			{ challengeId: 68, correct: false, text: 'la día' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 9, correct: true, text: 'el/la gerente' },
-			{ challengeId: 9, correct: false, text: 'el gerente' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 11, correct: false, text: 'la dentista' },
-			{ challengeId: 11, correct: true, text: 'el/la dentista' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 17, correct: false, text: 'la artista' },
-			{ challengeId: 17, correct: true, text: 'el/la artista' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 19, correct: false, text: 'el estudiante' },
-			{ challengeId: 19, correct: true, text: 'el/la estudiante' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 65, correct: false, text: 'la taxista' },
-			{ challengeId: 65, correct: true, text: 'el/la taxista' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 69, correct: false, text: 'el presidente' },
-			{ challengeId: 69, correct: true, text: 'el/la presidente' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 71, correct: false, text: 'el cantante' },
-			{ challengeId: 71, correct: true, text: 'el/la cantante' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 72, correct: false, text: 'la pianista' },
-			{ challengeId: 72, correct: true, text: 'el/la pianista' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 1, correct: false, text: 'el actitud' },
-			{ challengeId: 1, correct: true, text: 'la actitud' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 3, correct: false, text: 'el ventana' },
-			{ challengeId: 3, correct: true, text: 'la ventana' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 6, correct: false, text: 'el luz' },
-			{ challengeId: 6, correct: true, text: 'la luz' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 8, correct: false, text: 'el flor' },
-			{ challengeId: 8, correct: true, text: 'la flor' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 13, correct: false, text: 'el piel' },
-			{ challengeId: 13, correct: true, text: 'la piel' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 15, correct: false, text: 'el persona' },
-			{ challengeId: 15, correct: true, text: 'la persona' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 16, correct: false, text: 'el/la verdad' },
-			{ challengeId: 16, correct: true, text: 'la verdad' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 18, correct: false, text: 'el/la televisión' },
-			{ challengeId: 18, correct: true, text: 'la televisión' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 21, correct: false, text: 'el/la foto' },
-			{ challengeId: 21, correct: true, text: 'la foto' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 22, correct: false, text: 'el ciudad' },
-			{ challengeId: 22, correct: true, text: 'la ciudad' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 25, correct: false, text: 'el comida' },
-			{ challengeId: 25, correct: true, text: 'la comida' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 26, correct: false, text: 'el mano' },
-			{ challengeId: 26, correct: true, text: 'la mano' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 28, correct: false, text: 'el hermana' },
-			{ challengeId: 28, correct: true, text: 'la hermana' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 29, correct: false, text: 'el mujer' },
-			{ challengeId: 29, correct: true, text: 'la mujer' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 32, correct: false, text: 'el muchacha' },
-			{ challengeId: 32, correct: true, text: 'la muchacha' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 33, correct: false, text: 'el iglesia' },
-			{ challengeId: 33, correct: true, text: 'la iglesia' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 34, correct: false, text: 'el mesa' },
-			{ challengeId: 34, correct: true, text: 'la mesa' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 35, correct: false, text: 'el casa' },
-			{ challengeId: 35, correct: true, text: 'la casa' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 37, correct: false, text: 'el bolsa' },
-			{ challengeId: 37, correct: true, text: 'la bolsa' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 38, correct: false, text: 'el planta' },
-			{ challengeId: 38, correct: true, text: 'la planta' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 39, correct: false, text: 'el clase' },
-			{ challengeId: 39, correct: true, text: 'la clase' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 44, correct: false, text: 'el cama' },
-			{ challengeId: 44, correct: true, text: 'la cama' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 46, correct: false, text: 'el ilusión' },
-			{ challengeId: 46, correct: true, text: 'la ilusión' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 48, correct: false, text: 'el invitación' },
-			{ challengeId: 48, correct: true, text: 'la invitación' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 49, correct: false, text: 'el/la lámpara' },
-			{ challengeId: 49, correct: true, text: 'la lámpara' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 52, correct: false, text: 'el niña' },
-			{ challengeId: 52, correct: true, text: 'la niña' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 55, correct: false, text: 'el/la lección' },
-			{ challengeId: 55, correct: true, text: 'la lección' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 56, correct: false, text: 'el radio' },
-			{ challengeId: 56, correct: true, text: 'la radio' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 57, correct: false, text: 'el canción' },
-			{ challengeId: 57, correct: true, text: 'la canción' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 59, correct: false, text: 'el amiga' },
-			{ challengeId: 59, correct: true, text: 'la amiga' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 60, correct: false, text: 'el silla' },
-			{ challengeId: 60, correct: true, text: 'la silla' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 64, correct: false, text: 'el suerte' },
-			{ challengeId: 64, correct: true, text: 'la suerte' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 66, correct: false, text: 'el conversación' },
-			{ challengeId: 66, correct: true, text: 'la conversación' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 70, correct: false, text: 'el/la tienda' },
-			{ challengeId: 70, correct: true, text: 'la tienda' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 73, correct: false, text: 'el/la amistad' },
-			{ challengeId: 73, correct: true, text: 'la amistad' },
-		])
-		await db.insert(schema.challengeOptions).values([
-			{ challengeId: 74, correct: false, text: 'el blusa' },
-			{ challengeId: 74, correct: true, text: 'la blusa' },
-		])
+    await db.insert(schema.challengeOptions).values([
+  {
+    id: 325,
+    challengeId: 2,
+    text: "el problema",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 326,
+    challengeId: 2,
+    text: "la problema",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 327,
+    challengeId: 4,
+    text: "el tomate",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 328,
+    challengeId: 4,
+    text: "la tomate",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 329,
+    challengeId: 5,
+    text: "el niño",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 330,
+    challengeId: 5,
+    text: "la niño",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 331,
+    challengeId: 7,
+    text: "el hospital",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 332,
+    challengeId: 7,
+    text: "la hospital",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 333,
+    challengeId: 10,
+    text: "el banco",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 334,
+    challengeId: 10,
+    text: "el/la banco",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 335,
+    challengeId: 12,
+    text: "el sistema",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 336,
+    challengeId: 12,
+    text: "la sistema",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 337,
+    challengeId: 14,
+    text: "el hotel",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 338,
+    challengeId: 14,
+    text: "la hotel",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 339,
+    challengeId: 20,
+    text: "el muchacho",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 340,
+    challengeId: 20,
+    text: "la muchacho",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 341,
+    challengeId: 23,
+    text: "el animal",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 342,
+    challengeId: 23,
+    text: "la animal",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 343,
+    challengeId: 24,
+    text: "el hermano",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 344,
+    challengeId: 24,
+    text: "la hermano",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 345,
+    challengeId: 27,
+    text: "el gato",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 346,
+    challengeId: 27,
+    text: "la gato",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 347,
+    challengeId: 30,
+    text: "el vino",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 348,
+    challengeId: 30,
+    text: "la vino",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 349,
+    challengeId: 31,
+    text: "el teléfono",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 350,
+    challengeId: 31,
+    text: "el/la teléfono",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 351,
+    challengeId: 36,
+    text: "el baño",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 352,
+    challengeId: 36,
+    text: "el/la baño",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 353,
+    challengeId: 40,
+    text: "el doctor",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 354,
+    challengeId: 40,
+    text: "la doctor",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 355,
+    challengeId: 41,
+    text: "el perro",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 356,
+    challengeId: 41,
+    text: "la perro",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 357,
+    challengeId: 42,
+    text: "el hombre",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 358,
+    challengeId: 42,
+    text: "la hombre",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 359,
+    challengeId: 43,
+    text: "el poema",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 360,
+    challengeId: 43,
+    text: "la poema",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 361,
+    challengeId: 45,
+    text: "el mapa",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 362,
+    challengeId: 45,
+    text: "la mapa",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 363,
+    challengeId: 47,
+    text: "el programa",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 364,
+    challengeId: 47,
+    text: "la programa",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 365,
+    challengeId: 50,
+    text: "el amigo",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 366,
+    challengeId: 50,
+    text: "la amigo",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 367,
+    challengeId: 51,
+    text: "el clima",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 368,
+    challengeId: 51,
+    text: "el/la clima",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 369,
+    challengeId: 53,
+    text: "el tren",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 370,
+    challengeId: 53,
+    text: "el/la tren",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 371,
+    challengeId: 54,
+    text: "el carro",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 372,
+    challengeId: 54,
+    text: "la carro",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 373,
+    challengeId: 58,
+    text: "el idioma",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 374,
+    challengeId: 58,
+    text: "la idioma",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 375,
+    challengeId: 61,
+    text: "el libro",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 376,
+    challengeId: 61,
+    text: "la libro",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 377,
+    challengeId: 62,
+    text: "el café",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 378,
+    challengeId: 62,
+    text: "la café",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 379,
+    challengeId: 63,
+    text: "el drama",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 380,
+    challengeId: 63,
+    text: "la drama",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 381,
+    challengeId: 67,
+    text: "el planeta",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 382,
+    challengeId: 67,
+    text: "la planeta",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 383,
+    challengeId: 68,
+    text: "el día",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 384,
+    challengeId: 68,
+    text: "la día",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 385,
+    challengeId: 9,
+    text: "el/la gerente",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 386,
+    challengeId: 9,
+    text: "el gerente",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 387,
+    challengeId: 11,
+    text: "la dentista",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 388,
+    challengeId: 11,
+    text: "el/la dentista",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 389,
+    challengeId: 17,
+    text: "la artista",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 390,
+    challengeId: 17,
+    text: "el/la artista",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 391,
+    challengeId: 19,
+    text: "el estudiante",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 392,
+    challengeId: 19,
+    text: "el/la estudiante",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 393,
+    challengeId: 65,
+    text: "la taxista",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 394,
+    challengeId: 65,
+    text: "el/la taxista",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 395,
+    challengeId: 69,
+    text: "el presidente",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 396,
+    challengeId: 69,
+    text: "el/la presidente",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 397,
+    challengeId: 71,
+    text: "el cantante",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 398,
+    challengeId: 71,
+    text: "el/la cantante",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 399,
+    challengeId: 72,
+    text: "la pianista",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 400,
+    challengeId: 72,
+    text: "el/la pianista",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 401,
+    challengeId: 1,
+    text: "el actitud",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 402,
+    challengeId: 1,
+    text: "la actitud",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 403,
+    challengeId: 3,
+    text: "el ventana",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 404,
+    challengeId: 3,
+    text: "la ventana",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 405,
+    challengeId: 6,
+    text: "el luz",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 406,
+    challengeId: 6,
+    text: "la luz",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 407,
+    challengeId: 8,
+    text: "el flor",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 408,
+    challengeId: 8,
+    text: "la flor",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 409,
+    challengeId: 13,
+    text: "el piel",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 410,
+    challengeId: 13,
+    text: "la piel",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 411,
+    challengeId: 15,
+    text: "el persona",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 412,
+    challengeId: 15,
+    text: "la persona",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 413,
+    challengeId: 16,
+    text: "el/la verdad",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 414,
+    challengeId: 16,
+    text: "la verdad",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 415,
+    challengeId: 18,
+    text: "el/la televisión",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 416,
+    challengeId: 18,
+    text: "la televisión",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 417,
+    challengeId: 21,
+    text: "el/la foto",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 418,
+    challengeId: 21,
+    text: "la foto",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 419,
+    challengeId: 22,
+    text: "el ciudad",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 420,
+    challengeId: 22,
+    text: "la ciudad",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 421,
+    challengeId: 25,
+    text: "el comida",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 422,
+    challengeId: 25,
+    text: "la comida",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 423,
+    challengeId: 26,
+    text: "el mano",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 424,
+    challengeId: 26,
+    text: "la mano",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 425,
+    challengeId: 28,
+    text: "el hermana",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 426,
+    challengeId: 28,
+    text: "la hermana",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 427,
+    challengeId: 29,
+    text: "el mujer",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 428,
+    challengeId: 29,
+    text: "la mujer",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 429,
+    challengeId: 32,
+    text: "el muchacha",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 430,
+    challengeId: 32,
+    text: "la muchacha",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 431,
+    challengeId: 33,
+    text: "el iglesia",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 432,
+    challengeId: 33,
+    text: "la iglesia",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 433,
+    challengeId: 34,
+    text: "el mesa",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 434,
+    challengeId: 34,
+    text: "la mesa",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 435,
+    challengeId: 35,
+    text: "el casa",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 436,
+    challengeId: 35,
+    text: "la casa",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 437,
+    challengeId: 37,
+    text: "el bolsa",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 438,
+    challengeId: 37,
+    text: "la bolsa",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 439,
+    challengeId: 38,
+    text: "el planta",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 440,
+    challengeId: 38,
+    text: "la planta",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 441,
+    challengeId: 39,
+    text: "el clase",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 442,
+    challengeId: 39,
+    text: "la clase",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 443,
+    challengeId: 44,
+    text: "el cama",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 444,
+    challengeId: 44,
+    text: "la cama",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 445,
+    challengeId: 46,
+    text: "el ilusión",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 446,
+    challengeId: 46,
+    text: "la ilusión",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 447,
+    challengeId: 48,
+    text: "el invitación",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 448,
+    challengeId: 48,
+    text: "la invitación",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 449,
+    challengeId: 49,
+    text: "el/la lámpara",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 450,
+    challengeId: 49,
+    text: "la lámpara",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 451,
+    challengeId: 52,
+    text: "el niña",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 452,
+    challengeId: 52,
+    text: "la niña",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 453,
+    challengeId: 55,
+    text: "el/la lección",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 454,
+    challengeId: 55,
+    text: "la lección",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 455,
+    challengeId: 56,
+    text: "el radio",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 456,
+    challengeId: 56,
+    text: "la radio",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 457,
+    challengeId: 57,
+    text: "el canción",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 458,
+    challengeId: 57,
+    text: "la canción",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 459,
+    challengeId: 59,
+    text: "el amiga",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 460,
+    challengeId: 59,
+    text: "la amiga",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 461,
+    challengeId: 60,
+    text: "el silla",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 462,
+    challengeId: 60,
+    text: "la silla",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 463,
+    challengeId: 64,
+    text: "el suerte",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 464,
+    challengeId: 64,
+    text: "la suerte",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 465,
+    challengeId: 66,
+    text: "el conversación",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 466,
+    challengeId: 66,
+    text: "la conversación",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 467,
+    challengeId: 70,
+    text: "el/la tienda",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 468,
+    challengeId: 70,
+    text: "la tienda",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 469,
+    challengeId: 73,
+    text: "el/la amistad",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 470,
+    challengeId: 73,
+    text: "la amistad",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 471,
+    challengeId: 74,
+    text: "el blusa",
+    correct: false,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 472,
+    challengeId: 74,
+    text: "la blusa",
+    correct: true,
+    imageSrc: null,
+    audioSrc: null
+  },
+  {
+    id: 324,
+    challengeId: 76,
+    text: "chamor",
+    correct: false,
+    imageSrc: "/chamor.jpeg",
+    audioSrc: null
+  },
+  {
+    id: 323,
+    challengeId: 76,
+    text: "ayez",
+    correct: false,
+    imageSrc: "/ayez.jpeg",
+    audioSrc: null
+  },
+  {
+    id: 322,
+    challengeId: 76,
+    text: "eeshah",
+    correct: false,
+    imageSrc: "/eeshah.jpeg",
+    audioSrc: null
+  },
+  {
+    id: 321,
+    challengeId: 76,
+    text: "eesh",
+    correct: true,
+    imageSrc: "/eesh.jpeg",
+    audioSrc: null
+  },
+  {
+    id: 477,
+    challengeId: 76,
+    text: "par",
+    correct: false,
+    imageSrc: "/ayez.jpeg",
+    audioSrc: null
+  }
+])
 
-		// await db.insert(schema.challengeOptions).values([
-		// 	{
-		// 		challengeId: 1, // Which one of these is "the man"?
-		// 		imageSrc: '/man.svg',
-		// 		correct: true,
-		// 		text: 'el hombre',
-		// 		audioSrc: '/es_man.mp3',
-		// 	},
-		// 	{
-		// 		challengeId: 1,
-		// 		imageSrc: '/woman.svg',
-		// 		correct: false,
-		// 		text: 'la mujer',
-		// 		audioSrc: '/es_woman.mp3',
-		// 	},
-		// 	{
-		// 		challengeId: 1,
-		// 		imageSrc: '/robot.svg',
-		// 		correct: false,
-		// 		text: 'el robot',
-		// 		audioSrc: '/es_robot.mp3',
-		// 	},
-		// ])
-
-		// await db.insert(schema.challengeOptions).values([
-		// 	{
-		// 		challengeId: 2, // "the man"?
-		// 		correct: true,
-		// 		text: 'el hombre',
-		// 		audioSrc: '/es_man.mp3',
-		// 	},
-		// 	{
-		// 		challengeId: 2,
-		// 		correct: false,
-		// 		text: 'la mujer',
-		// 		audioSrc: '/es_woman.mp3',
-		// 	},
-		// ])
-
-		// await db.insert(schema.challengeOptions).values([
-		// 	{
-		// 		challengeId: 3, // Which one of these is the "the robot"?
-		// 		imageSrc: '/man.svg',
-		// 		correct: false,
-		// 		text: 'el hombre',
-		// 		audioSrc: '/es_man.mp3',
-		// 	},
-		// 	{
-		// 		challengeId: 3,
-		// 		imageSrc: '/woman.svg',
-		// 		correct: false,
-		// 		text: 'la mujer',
-		// 		audioSrc: '/es_woman.mp3',
-		// 	},
-		// 	{
-		// 		challengeId: 3,
-		// 		imageSrc: '/robot.svg',
-		// 		correct: true,
-		// 		text: 'el robot',
-		// 		audioSrc: '/es_robot.mp3',
-		// 	},
-		// ])
-
-		// await db.insert(schema.challenges).values([
-		// 	{
-		// 		id: 4,
-		// 		lessonId: 2, // Verbs
-		// 		type: 'SELECT',
-		// 		order: 1,
-		// 		question: 'Which one of these is the "the man"?',
-		// 	},
-		// 	{
-		// 		id: 5,
-		// 		lessonId: 2, // Verbs
-		// 		type: 'ASSIST',
-		// 		order: 2,
-		// 		question: '"the man"',
-		// 	},
-		// 	{
-		// 		id: 6,
-		// 		lessonId: 2, // Verbs
-		// 		type: 'SELECT',
-		// 		order: 3,
-		// 		question: 'Which one of these is the "the robot"?',
-		// 	},
-		// ])
-		console.log('Seeding finished')
-	} catch (error) {
-		console.error(error)
-		throw new Error('Failed to seed the database')
-	}
+    console.log('Seeding finished')
+  } catch (error) {
+    console.error(error)
+    throw new Error('Failed to seed the database')
+  }
 }
 
 main()

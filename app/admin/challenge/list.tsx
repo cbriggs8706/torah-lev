@@ -29,15 +29,35 @@ export const ChallengeList = () => {
 							name: 'WATCH',
 						},
 						{
-							id: 'PLAY',
-							name: 'PLAY',
+							id: 'AUDIO-VISUAL',
+							name: 'AUDIO-VISUAL',
+						},
+						{
+							id: 'AUDIO-TEXT',
+							name: 'AUDIO-TEXT',
+						},
+
+						{
+							id: 'VISUAL-AUDIO',
+							name: 'VISUAL-AUDIO',
+						},
+						{
+							id: 'VISUAL-TEXT',
+							name: 'VISUAL-TEXT',
+						},
+						{
+							id: 'TEXT-AUDIO',
+							name: 'TEXT-AUDIO',
+						},
+						{
+							id: 'TEXT-VISUAL',
+							name: 'TEXT-VISUAL',
 						},
 					]}
 				/>
 				<ReferenceField source="lessonId" reference="lessons" />
 				<NumberField source="order" />
 				<TextField source="video" />
-				<TextField source="play" />
 			</Datagrid>
 		</List>
 	)

@@ -29,8 +29,29 @@ export const ChallengeCreate = () => {
 							name: 'WATCH',
 						},
 						{
-							id: 'PLAY',
-							name: 'PLAY',
+							id: 'AUDIO-VISUAL',
+							name: 'AUDIO-VISUAL',
+						},
+						{
+							id: 'AUDIO-TEXT',
+							name: 'AUDIO-TEXT',
+						},
+
+						{
+							id: 'VISUAL-AUDIO',
+							name: 'VISUAL-AUDIO',
+						},
+						{
+							id: 'VISUAL-TEXT',
+							name: 'VISUAL-TEXT',
+						},
+						{
+							id: 'TEXT-AUDIO',
+							name: 'TEXT-AUDIO',
+						},
+						{
+							id: 'TEXT-VISUAL',
+							name: 'TEXT-VISUAL',
 						},
 					]}
 					validate={[required()]}
@@ -38,7 +59,6 @@ export const ChallengeCreate = () => {
 				<ReferenceInput source="lessonId" reference="lessons" />
 				<NumberInput source="order" validate={[required()]} label="Order" />
 				<TextInput source="video" label="Video Url" />
-				<TextInput source="play" label="Play Url" />
 			</SimpleForm>
 		</Create>
 	)

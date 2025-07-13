@@ -82,26 +82,6 @@ export const Quiz = ({
 	const challenge = challenges[activeIndex]
 	const options = challenge?.challengeOptions ?? []
 
-	const [embedHtml, setEmbedHtml] = useState<string | null>(null)
-
-	useEffect(() => {
-		if (challenge?.type === 'PLAY' && challenge.play) {
-			const fetchEmbed = async () => {
-				try {
-					const apiUrl = `https://wordwall.net/api/oembed?url=${encodeURIComponent(
-						challenge.play ?? ''
-					)}&format=json`
-					const response = await fetch(apiUrl)
-					const data = await response.json()
-					setEmbedHtml(data.html)
-				} catch (error) {
-					console.error('Failed to fetch Wordwall game:', error)
-				}
-			}
-			fetchEmbed()
-		}
-	}, [challenge])
-
 	const onNext = () => {
 		setActiveIndex((current) => current + 1)
 	}
@@ -218,22 +198,37 @@ export const Quiz = ({
 		)
 	}
 
-	let title
-	if (challenge.type === 'ASSIST') {
-		title = 'Select to correct meaning'
-	} else if (challenge.type === 'SELECT') {
-		title = challenge.question
-	} else if (challenge.type === 'WATCH') {
-		title = 'Watch this video'
-	} else if (challenge.type === 'PLAY') {
-		title = 'Play this game'
-	}
+	// let title
+	// if (challenge.type === 'ASSIST') {
+	// 	title = 'Select to correct meaning'
+	// } else if (challenge.type === 'SELECT') {
+	// 	title = challenge.question
+	// } else if (challenge.type === 'WATCH') {
+	// 	title = 'Watch this video'
+	// } else if (challenge.type === 'AUDIO-VISUAL') {
+	// 	title = 'Select the correct meaning'
+	// } else if (challenge.type === 'AUDIO-TEXT') {
+	// 	title = 'Select the correct meaning'
+	// } else if (challenge.type === 'VISUAL-AUDIO') {
+	// 	title = 'Select the correct meaning'
+	// } else if (challenge.type === 'VISUAL-TEXT') {
+	// 	title = 'Select the correct meaning'
+	// } else if (challenge.type === 'TEXT-AUDIO') {
+	// 	title = 'Select the correct meaning'
+	// } else if (challenge.type === 'TEXT-VISUAL') {
+	// 	title = 'Select the correct meaning'
+	// }
 
 	// PRIOR CODE
 	// const title =
 	// 	challenge.type === 'ASSIST'
 	// 		? 'Select the correct answer'
 	// 		: challenge.question
+
+	const title =
+		challenge.type === 'WATCH'
+			? 'Watch this video'
+			: 'Select the correct answer'
 
 	return (
 		<>
@@ -257,66 +252,25 @@ export const Quiz = ({
 								<QuestionBubble question={challenge.video} />
 								// <QuestionBubble question={challenge.question} />
 							)}
-							{/* {challenge.type === 'PLAY' && challenge.play && (
-								<>
-									<p>
-										Tap the fullscreen button in the bottom right hand corner of
-										the game to enlarge.
-									</p>
-									<iframe
-										className="max-w-full"
-										src={`${challenge.play}`}
-										width="500"
-										height="380"
-										// frameBorder="0"
-										allowFullScreen
-									></iframe>
-								</>
-							)} */}
-
-							{challenge.type === 'PLAY' && challenge.play && (
-								<>
-									<p>
-										Tap the fullscreen button in the bottom right hand corner of
-										the game to enlarge.
-									</p>
-									<iframe
-										className="max-w-full"
-										src={challenge.play ?? ''}
-										width="500"
-										height="380"
-										allowFullScreen
-									></iframe>
-									<button
-										onClick={() => {
-											startTransition(() => {
-												upsertChallengeProgress(challenge.id)
-													.then(() => {
-														correctControls.play()
-														setSelectedOption(1)
-														setStatus('correct')
-														setPercentage(
-															(prev) => prev + 100 / challenges.length
-														)
-
-														// This is a practice
-														if (initialPercentage === 100) {
-															setHearts((prev) => Math.min(prev + 1, 5))
-														}
-													})
-													.catch(() =>
-														toast.error(
-															'Something went wrong. Please try again.'
-														)
-													)
-											})
-										}}
-										className="mt-4 px-4 py-2 bg-blue-500 text-white rounded disabled:bg-gray-300"
-									>
-										I&apos;ve finished the game
-									</button>
-								</>
+							{challenge.type === 'AUDIO-VISUAL' && (
+								<QuestionBubble question={challenge.video} />
 							)}
+							{challenge.type === 'AUDIO-TEXT' && (
+								<QuestionBubble question={challenge.video} />
+							)}
+							{challenge.type === 'VISUAL-AUDIO' && (
+								<QuestionBubble question={challenge.video} />
+							)}
+							{challenge.type === 'VISUAL-TEXT' && (
+								<QuestionBubble question={challenge.video} />
+							)}
+							{challenge.type === 'TEXT-AUDIO' && (
+								<QuestionBubble question={challenge.video} />
+							)}
+							{challenge.type === 'TEXT-VISUAL' && (
+								<QuestionBubble question={challenge.video} />
+							)}
+
 							{challenge.type === 'WATCH' && challenge.video && (
 								<>
 									<div className="player-wrapper w-full mx-auto h-[400px] lg:h-[600px]">

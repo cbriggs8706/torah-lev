@@ -1,7 +1,8 @@
 'use client'
 
-import { Admin, Resource } from 'react-admin'
+import { Admin, CustomRoutes, Resource } from 'react-admin'
 import simpleRestProvider from 'ra-data-simple-rest'
+import { Route } from 'react-router-dom'
 
 import { CourseList } from './course/list'
 import { CourseEdit } from './course/edit'
@@ -22,29 +23,7 @@ import { ChallengeCreate } from './challenge/create'
 import { ChallengeOptionList } from './challengeOption/list'
 import { ChallengeOptionEdit } from './challengeOption/edit'
 import { ChallengeOptionCreate } from './challengeOption/create'
-// import { PlayLessonList } from './playLesson/list'
-// import { PlayLessonCreate } from './playLesson/create'
-// import { PlayLessonEdit } from './playLesson/edit'
-// import { GameList } from './game/list'
-// import { GameCreate } from './game/create'
-// import { GameEdit } from './game/edit'
-
-// import { ScheduleList } from './schedule/list'
-// import { ScheduleCreate } from './schedule/create'
-// import { ScheduleEdit } from './schedule/edit'
-// import { WeekList } from './week/list'
-// import { WeekCreate } from './week/create'
-// import { WeekEdit } from './week/edit'
-// import { DayList } from './day/list'
-// import { DayCreate } from './day/create'
-// import { DayEdit } from './day/edit'
-
-// import { CategoryList } from './category/list'
-// import { CategoryCreate } from './category/create'
-// import { CategoryEdit } from './category/edit'
-// import { ActivityList } from './activity/list'
-// import { ActivityCreate } from './activity/create'
-// import { ActivityEdit } from './activity/edit'
+import GenerateChallengesPage from './generate-challenges/page'
 
 const dataProvider = simpleRestProvider('/api')
 
@@ -87,57 +66,13 @@ const App = () => {
 				recordRepresentation="text"
 				options={{ label: 'Challenge Options' }}
 			/>
+			<CustomRoutes>
+				<Route
+					path="/generate-challenges"
+					element={<GenerateChallengesPage />}
+				/>
+			</CustomRoutes>
 			<hr />
-			{/* <Resource
-				name="playLessons"
-				list={PlayLessonList}
-				create={PlayLessonCreate}
-				edit={PlayLessonEdit}
-				recordRepresentation="text"
-				options={{ label: 'Play Lesson' }}
-			/>
-			<Resource
-				name="games"
-				list={GameList}
-				create={GameCreate}
-				edit={GameEdit}
-				recordRepresentation="text"
-			/>
-			<Resource
-				name="schedules"
-				list={ScheduleList}
-				create={ScheduleCreate}
-				edit={ScheduleEdit}
-				recordRepresentation="title"
-			/>
-			<Resource
-				name="weeks"
-				list={WeekList}
-				create={WeekCreate}
-				edit={WeekEdit}
-				recordRepresentation="title"
-			/>
-			<Resource
-				name="days"
-				list={DayList}
-				create={DayCreate}
-				edit={DayEdit}
-				recordRepresentation="title"
-			/>
-			<Resource
-				name="categories"
-				list={CategoryList}
-				create={CategoryCreate}
-				edit={CategoryEdit}
-				recordRepresentation="title"
-			/>
-			<Resource
-				name="activities"
-				list={ActivityList}
-				create={ActivityCreate}
-				edit={ActivityEdit}
-				recordRepresentation="title"
-			/> */}
 		</Admin>
 	)
 }
