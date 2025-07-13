@@ -60,6 +60,7 @@ export const ChallengeList = () => {
 				<TextField source="video" />
 				<TextField source="image" />
 				<TextField source="audio" />
+				<TextField source="hebNiqqud" />
 			</Datagrid>
 		</List>
 	)

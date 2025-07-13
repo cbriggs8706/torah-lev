@@ -1,3 +1,6 @@
+// challenge.options = challenge.options.filter(
+// 				(_: any, i: number) => i !== optionIndex
+// 			)
 'use client'
 
 import { Trash } from 'lucide-react'
@@ -20,16 +23,14 @@ const challengeTypes = [
 ] as const
 
 export default function GenerateChallengesPage() {
-	const [lessonId, setLessonId] = useState('')
 	const [type, setType] =
 		useState<(typeof challengeTypes)[number]>('AUDIO-VISUAL')
-	const [loading, setLoading] = useState(false)
-	const [message, setMessage] = useState('')
-	const router = useRouter()
 	const [lessons, setLessons] = useState<Lesson[]>([])
 	const [selectedLessonId, setSelectedLessonId] = useState<number | null>(null)
-	const notify = useNotify()
+	const [loading, setLoading] = useState(false)
+	const [message, setMessage] = useState('')
 	const [preview, setPreview] = useState<any[] | null>(null)
+	const notify = useNotify()
 
 	const handlePreview = async () => {
 		if (!selectedLessonId) return
@@ -50,15 +51,6 @@ export default function GenerateChallengesPage() {
 		}
 	}
 
-	useEffect(() => {
-		fetch('/api/lessons')
-			.then((res) => res.json())
-			.then((data) => setLessons(data))
-			.catch((err) =>
-				notify(`Error loading lessons: ${err.message}`, { type: 'error' })
-			)
-	}, [])
-
 	const handleGenerate = async () => {
 		if (!selectedLessonId || isNaN(Number(selectedLessonId))) {
 			setMessage('Please select a valid lesson.')
@@ -70,13 +62,8 @@ export default function GenerateChallengesPage() {
 		try {
 			const res = await fetch('/api/generate-challenges', {
 				method: 'POST',
-				body: JSON.stringify({
-					lessonId: selectedLessonId,
-					type,
-				}),
-				headers: {
-					'Content-Type': 'application/json',
-				},
+				body: JSON.stringify({ lessonId: selectedLessonId, type }),
+				headers: { 'Content-Type': 'application/json' },
 			})
 
 			const result = await res.json()
@@ -95,39 +82,42 @@ export default function GenerateChallengesPage() {
 	) => {
 		setPreview((prev) => {
 			if (!prev) return prev
-
 			const updated = [...prev]
 			const challenge = { ...updated[challengeIndex] }
-
 			challenge.options = challenge.options.filter(
 				(_: any, i: number) => i !== optionIndex
 			)
 			updated[challengeIndex] = challenge
-
 			return updated
 		})
 	}
+
+	useEffect(() => {
+		fetch('/api/lessons')
+			.then((res) => res.json())
+			.then((data) => setLessons(data))
+			.catch((err) =>
+				notify(`Error loading lessons: ${err.message}`, { type: 'error' })
+			)
+	}, [])
 
 	return (
 		<main className="max-w-xl mx-auto p-6">
 			<h1 className="text-2xl font-bold mb-4">Generate Challenges</h1>
 
-			<label className="block mb-2 font-medium">Lesson Number</label>
-			<div className="mt-4">
-				<label className="block mb-1 font-medium">Lesson</label>
-				<select
-					value={selectedLessonId ?? ''}
-					onChange={(e) => setSelectedLessonId(Number(e.target.value))}
-					className="border px-3 py-2 mb-4 w-full rounded"
-				>
-					<option value="">Select a lesson</option>
-					{lessons.map((lesson) => (
-						<option key={lesson.id} value={lesson.id}>
-							{lesson.title}
-						</option>
-					))}
-				</select>
-			</div>
+			<label className="block mb-2 font-medium">Lesson</label>
+			<select
+				value={selectedLessonId ?? ''}
+				onChange={(e) => setSelectedLessonId(Number(e.target.value))}
+				className="border px-3 py-2 mb-4 w-full rounded"
+			>
+				<option value="">Select a lesson</option>
+				{lessons.map((lesson) => (
+					<option key={lesson.id} value={lesson.id}>
+						{lesson.title}
+					</option>
+				))}
+			</select>
 
 			<label className="block mb-2 font-medium">Challenge Type</label>
 			<select
@@ -141,33 +131,39 @@ export default function GenerateChallengesPage() {
 					</option>
 				))}
 			</select>
-			<button
-				onClick={handlePreview}
-				className="bg-gray-500 text-white px-4 py-2 rounded ml-2"
-			>
-				Preview
-			</button>
 
-			<button
-				onClick={handleGenerate}
-				disabled={loading}
-				className="bg-blue-600 text-white px-4 py-2 rounded disabled:opacity-50"
-			>
-				{loading ? 'Generating...' : 'Generate'}
-			</button>
+			<div className="flex gap-2">
+				<button
+					onClick={handlePreview}
+					className="bg-gray-600 text-white px-4 py-2 rounded"
+				>
+					Preview
+				</button>
+				<button
+					onClick={handleGenerate}
+					disabled={loading}
+					className="bg-blue-600 text-white px-4 py-2 rounded disabled:opacity-50"
+				>
+					{loading ? 'Generating...' : 'Generate'}
+				</button>
+			</div>
 
 			{message && <p className="mt-4 text-sm text-gray-700">{message}</p>}
+
 			{preview && (
 				<div className="mt-6 border rounded p-4 bg-white shadow">
 					<h2 className="text-lg font-bold mb-2">Challenge Preview</h2>
 
 					{preview.map((ch, i) => (
 						<div key={i} className="mb-4 border-b pb-2">
-							<p>
-								<strong>{ch.question}</strong>
-							</p>
+							<p className="font-semibold">{ch.question}</p>
 
-							{ch.audio && <audio controls src={ch.audio} />}
+							{ch.hebNiqqud && (
+								<p className="text-xl text-right font-serif">{ch.hebNiqqud}</p>
+							)}
+
+							{ch.audio && <audio controls src={ch.audio} className="my-2" />}
+
 							{ch.image && (
 								<img src={ch.image} alt="Prompt" className="max-w-xs my-2" />
 							)}

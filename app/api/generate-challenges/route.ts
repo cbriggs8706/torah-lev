@@ -11,6 +11,15 @@ type ChallengeType =
 	| 'TEXT-AUDIO'
 	| 'TEXT-VISUAL'
 
+interface Word {
+	id: number
+	engTransliteration: string
+	hebNiqqud?: string
+	hebAudio?: string
+	images?: string[]
+	lessons: string[]
+}
+
 export const POST = async (req: Request) => {
 	const { lessonId, type } = (await req.json()) as {
 		lessonId: number
@@ -30,7 +39,10 @@ export const POST = async (req: Request) => {
 	const awbMatch = lesson.title.match(/AwB\s*(\d+)/i)
 	const awbNumber = awbMatch ? awbMatch[1] : '???' // fallback if it doesn't match
 
-	const hasRequiredFields = (word: any): boolean => {
+	const normalizeAudio = (audio?: string) =>
+		audio ? (audio.startsWith('/') ? audio : `/${audio}`) : undefined
+
+	const hasRequiredFields = (word: Word): boolean => {
 		switch (type) {
 			case 'AUDIO-VISUAL':
 				return !!word.hebAudio && !!word.images?.[0]
@@ -67,57 +79,91 @@ export const POST = async (req: Request) => {
 		)
 	}
 
-	const getPrompt = (word: any): { image?: string; audio?: string } => {
+	const getPrompt = (
+		word: Word
+	): { image?: string; audio?: string; hebNiqqud?: string } => {
 		switch (type) {
 			case 'AUDIO-VISUAL':
+				return {
+					audio: normalizeAudio(word.hebAudio),
+					// image: word.images?.[0],
+				}
 			case 'AUDIO-TEXT':
-				return { audio: word.hebAudio ? `/${word.hebAudio}` : undefined }
+				return {
+					audio: normalizeAudio(word.hebAudio),
+					// hebNiqqud: word.hebNiqqud,
+				}
 			case 'VISUAL-AUDIO':
+				return {
+					image: word.images?.[0],
+					// audio: normalizeAudio(word.hebAudio),
+				}
 			case 'VISUAL-TEXT':
-				return { image: word.images?.[0] }
+				return {
+					image: word.images?.[0],
+					// hebNiqqud: word.hebNiqqud
+				}
 			case 'TEXT-AUDIO':
-				return { audio: word.hebAudio ? `/${word.hebAudio}` : undefined }
+				return {
+					hebNiqqud: word.hebNiqqud,
+					// audio: normalizeAudio(word.hebAudio),
+				}
 			case 'TEXT-VISUAL':
-				return { image: word.images?.[0] }
+				return {
+					hebNiqqud: word.hebNiqqud,
+					// image: word.images?.[0],
+				}
 			default:
 				return {}
 		}
 	}
 
 	const getOptionValue = (
-		word: any
+		word: Word
 	): {
 		text: string // always required
 		imageSrc?: string
 		audioSrc?: string
+		hebNiqqud?: string
 	} => {
 		const fallbackText = word.engTransliteration ?? '[missing]'
 
 		switch (type) {
 			case 'AUDIO-VISUAL':
 				return {
-					text: fallbackText, // required for schema
+					text: fallbackText,
+					// audioSrc: normalizeAudio(word.hebAudio),
 					imageSrc: word.images?.[0],
 				}
 			case 'TEXT-VISUAL':
 				return {
 					text: fallbackText,
+					// hebNiqqud: word.hebNiqqud,
 					imageSrc: word.images?.[0],
 				}
 			case 'VISUAL-AUDIO':
 				return {
 					text: fallbackText,
-					audioSrc: word.hebAudio,
+					// imageSrc: word.images?.[0],
+					audioSrc: normalizeAudio(word.hebAudio),
 				}
 			case 'TEXT-AUDIO':
 				return {
 					text: fallbackText,
-					audioSrc: word.hebAudio,
+					// hebNiqqud: word.hebNiqqud,
+					audioSrc: normalizeAudio(word.hebAudio),
 				}
 			case 'AUDIO-TEXT':
+				return {
+					text: fallbackText,
+					// audioSrc: normalizeAudio(word.hebAudio),
+					hebNiqqud: word.hebNiqqud,
+				}
 			case 'VISUAL-TEXT':
 				return {
 					text: fallbackText,
+					// imageSrc: word.images?.[0],
+					hebNiqqud: word.hebNiqqud,
 				}
 			default:
 				return {
@@ -129,7 +175,7 @@ export const POST = async (req: Request) => {
 	for (let i = 0; i < lessonWords.length; i++) {
 		const word = lessonWords[i]
 		const challengeOrder = i + 3
-		const { audio, image } = getPrompt(word)
+		const { audio, image, hebNiqqud } = getPrompt(word)
 		const transliteration = word.engTransliteration ?? 'unknown'
 
 		// 🏷️ Correctly formatted title
@@ -144,26 +190,22 @@ export const POST = async (req: Request) => {
 				question,
 				audio: audio ?? null,
 				image: image ?? null,
+				hebNiqqud: hebNiqqud ?? null,
 			})
 			.returning()
 
 		const challengeId = challenge[0].id
 
-		const correctOption = {
-			challengeId,
-			correct: true,
-			...getOptionValue(word),
-		}
+		const baseOption = getOptionValue(word)
+		const distractorsRaw = lessonWords.filter((w) => w.id !== word.id)
 
-		const distractors = lessonWords
-			.filter((w) => w.id !== word.id)
+		const distractors = distractorsRaw
 			.sort(() => 0.5 - Math.random())
 			.slice(0, 5)
-			.map((d) => ({
-				challengeId,
-				correct: false,
-				...getOptionValue(d),
-			}))
+			.map(getOptionValue)
+			.map((opt) => ({ ...opt, challengeId, correct: false }))
+
+		const correctOption = { ...baseOption, challengeId, correct: true }
 
 		// ✅ Shuffle all options (correct + distractors)
 		const options = [correctOption, ...distractors].sort(

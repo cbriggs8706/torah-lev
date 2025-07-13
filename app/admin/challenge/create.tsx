@@ -61,6 +61,7 @@ export const ChallengeCreate = () => {
 				<TextInput source="video" label="Video Url" />
 				<TextInput source="image" label="image" />
 				<TextInput source="audio" label="audio" />
+				<TextInput source="hebNiqqud" label="hebNiqqud" />
 			</SimpleForm>
 		</Create>
 	)

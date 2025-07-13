@@ -261,17 +261,24 @@ export const Quiz = ({
 			? 'Watch this video'
 			: 'Select the correct answer'
 
-	let questionSource: string | null = null
+	// let questionSource: QuestionSource | null = null
 
-	if (['AUDIO-VISUAL', 'AUDIO-TEXT'].includes(challenge.type)) {
-		questionSource = challenge.audio
-	} else if (['VISUAL-AUDIO', 'VISUAL-TEXT'].includes(challenge.type)) {
-		questionSource = challenge.image
-	} else if (['TEXT-AUDIO', 'TEXT-VISUAL'].includes(challenge.type)) {
-		questionSource = challenge.question
-	} else if (challenge.type === 'ASSIST') {
-		questionSource = challenge.video
-	}
+	// if (
+	// 	['AUDIO-VISUAL', 'AUDIO-TEXT'].includes(challenge.type) &&
+	// 	challenge.audio
+	// ) {
+	// 	questionSource = { type: 'audio', src: challenge.audio }
+	// } else if (
+	// 	['VISUAL-AUDIO', 'VISUAL-TEXT'].includes(challenge.type) &&
+	// 	challenge.image
+	// ) {
+	// 	questionSource = { type: 'image', src: challenge.image }
+	// } else if (
+	// 	['TEXT-AUDIO', 'TEXT-VISUAL', 'ASSIST'].includes(challenge.type) &&
+	// 	challenge.question
+	// ) {
+	// 	questionSource = { type: 'hebNiqqud', content: challenge.question }
+	// }
 
 	return (
 		<>
@@ -295,9 +302,13 @@ export const Quiz = ({
 								<QuestionBubble question={challenge.video} key={challenge.id} />
 								// <QuestionBubble question={challenge.question} />
 							)} */}
-							{questionSource && (
-								<QuestionBubble key={challenge.id} question={questionSource} />
-							)}
+
+							<QuestionBubble
+								key={challenge.id}
+								audio={challenge.audio}
+								image={challenge.image}
+								hebNiqqud={challenge.hebNiqqud}
+							/>
 
 							{challenge.type === 'WATCH' && challenge.video && (
 								<>

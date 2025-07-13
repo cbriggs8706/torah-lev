@@ -10,6 +10,15 @@ type ChallengeType =
 	| 'TEXT-AUDIO'
 	| 'TEXT-VISUAL'
 
+interface Word {
+	id: number
+	engTransliteration: string
+	hebNiqqud?: string
+	hebAudio?: string
+	images?: string[]
+	lessons: string[]
+}
+
 export const POST = async (req: Request) => {
 	const { lessonId, type } = (await req.json()) as {
 		lessonId: number
@@ -19,6 +28,7 @@ export const POST = async (req: Request) => {
 	const lesson = await db.query.lessons.findFirst({
 		where: (l, { eq }) => eq(l.id, lessonId),
 	})
+
 	if (!lesson) {
 		return new NextResponse('Lesson not found', { status: 404 })
 	}
@@ -27,7 +37,10 @@ export const POST = async (req: Request) => {
 	const awbNumber = awbMatch ? awbMatch[1] : '???'
 	const lessonKey = `awb${awbNumber}`
 
-	const hasRequiredFields = (word: any): boolean => {
+	const normalizeAudio = (audio?: string) =>
+		audio ? (audio.startsWith('/') ? audio : `/${audio}`) : undefined
+
+	const hasRequiredFields = (word: Word): boolean => {
 		switch (type) {
 			case 'AUDIO-VISUAL':
 				return !!word.hebAudio && !!word.images?.[0]
@@ -46,47 +59,95 @@ export const POST = async (req: Request) => {
 		}
 	}
 
-	const getPrompt = (word: any): { audio?: string; image?: string } => {
+	const getPrompt = (
+		word: Word
+	): { audio?: string; image?: string; hebNiqqud?: string } => {
 		switch (type) {
 			case 'AUDIO-VISUAL':
+				return {
+					audio: normalizeAudio(word.hebAudio),
+					// image: word.images?.[0],
+				}
 			case 'AUDIO-TEXT':
-			case 'TEXT-AUDIO':
-				return { audio: word.hebAudio ? `/${word.hebAudio}` : undefined }
+				return {
+					audio: normalizeAudio(word.hebAudio),
+					// hebNiqqud: word.hebNiqqud,
+				}
 			case 'VISUAL-AUDIO':
+				return {
+					image: word.images?.[0],
+					// audio: normalizeAudio(word.hebAudio),
+				}
 			case 'VISUAL-TEXT':
+				return {
+					image: word.images?.[0],
+					// hebNiqqud: word.hebNiqqud,
+				}
+			case 'TEXT-AUDIO':
+				return {
+					hebNiqqud: word.hebNiqqud,
+					// audio: normalizeAudio(word.hebAudio),
+				}
 			case 'TEXT-VISUAL':
-				return { image: word.images?.[0] }
+				return {
+					hebNiqqud: word.hebNiqqud,
+					// image: word.images?.[0],
+				}
 			default:
 				return {}
 		}
 	}
 
 	const getOptionValue = (
-		word: any
+		word: Word
 	): {
-		text: string
+		text: string // always required
 		imageSrc?: string
 		audioSrc?: string
+		hebNiqqud?: string
 	} => {
-		// const fallbackText = word.engTransliteration ?? '[missing]'
+		const fallbackText = word.engTransliteration ?? '[missing]'
+
 		switch (type) {
 			case 'AUDIO-VISUAL':
+				return {
+					text: fallbackText,
+					// audioSrc: normalizeAudio(word.hebAudio),
+					imageSrc: word.images?.[0],
+				}
 			case 'TEXT-VISUAL':
 				return {
-					text: word.hebNiqqud,
+					text: fallbackText,
+					// hebNiqqud: word.hebNiqqud,
 					imageSrc: word.images?.[0],
 				}
 			case 'VISUAL-AUDIO':
+				return {
+					text: fallbackText,
+					// imageSrc: word.images?.[0],
+					audioSrc: normalizeAudio(word.hebAudio),
+				}
 			case 'TEXT-AUDIO':
 				return {
-					text: word.hebNiqqud,
-					audioSrc: word.hebAudio ? `/${word.hebAudio}` : undefined,
+					text: fallbackText,
+					// hebNiqqud: word.hebNiqqud,
+					audioSrc: normalizeAudio(word.hebAudio),
 				}
 			case 'AUDIO-TEXT':
+				return {
+					text: fallbackText,
+					// audioSrc: normalizeAudio(word.hebAudio),
+					hebNiqqud: word.hebNiqqud,
+				}
 			case 'VISUAL-TEXT':
+				return {
+					text: fallbackText,
+					// imageSrc: word.images?.[0],
+					hebNiqqud: word.hebNiqqud,
+				}
 			default:
 				return {
-					text: word.hebNiqqud,
+					text: fallbackText,
 				}
 		}
 	}
@@ -100,6 +161,7 @@ export const POST = async (req: Request) => {
 	if (!lessonWords.length) {
 		return new NextResponse('No words found for lesson', { status: 404 })
 	}
+
 	if (lessonWords.length < 6) {
 		return new NextResponse(
 			`Not enough valid words (${lessonWords.length}) for challenge type ${type}`,
@@ -111,7 +173,7 @@ export const POST = async (req: Request) => {
 		const order = i + 3
 		const translit = word.engTransliteration ?? 'unknown'
 		const question = `AwB${awbNumber}.${order} ${translit}`
-		const { audio, image } = getPrompt(word)
+		const { audio, image, hebNiqqud } = getPrompt(word)
 
 		const correct = { ...getOptionValue(word), correct: true }
 
@@ -127,6 +189,7 @@ export const POST = async (req: Request) => {
 			type,
 			audio: audio ?? null,
 			image: image ?? null,
+			hebNiqqud: hebNiqqud ?? null,
 			options: [correct, ...distractors].sort(() => 0.5 - Math.random()),
 		}
 	})
