@@ -8,11 +8,13 @@ import { cn } from '@/lib/utils'
 import { SidebarItem } from './sidebar-item'
 import { UserProgress } from './user-progress'
 import { HebrewClock } from './hebrew-clock'
+import { friendIds } from '@/lib/friends'
 
 type Props = {
 	className?: string
 	onItemClick?: () => void
 	userProgress: {
+		userId: string
 		activeCourse: any
 		hearts: number
 		points: number
@@ -26,6 +28,9 @@ export default function SidebarClient({
 	userProgress,
 	isPro,
 }: Props) {
+	const isFriend =
+		userProgress.userId && friendIds.includes(userProgress.userId)
+
 	return (
 		<div
 			className={cn(
@@ -112,7 +117,24 @@ export default function SidebarClient({
 					<Loader className="h-5 w-5 text-muted-foreground animate-spin" />
 				</ClerkLoading>
 				<ClerkLoaded>
-					<UserButton afterSignOutUrl="/" />
+					<div className="flex flex-row gap-4">
+						<UserButton afterSignOutUrl="/" />
+						{isFriend && (
+							<Link
+								href="/camerons-groups"
+								className="mr-3 inline-flex items-center align-middle gap-2 border border-solid border-green-500 rounded-md px-2 py-1"
+								title="Cameron's Groups"
+							>
+								<Image
+									src="/boy.svg"
+									alt="Cameron's Groups"
+									width={24}
+									height={24}
+								/>
+								<span className="flex text-green-500 font-bold">Schedule</span>
+							</Link>
+						)}
+					</div>
 				</ClerkLoaded>
 			</div>
 		</div>

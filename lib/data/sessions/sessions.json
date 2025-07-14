@@ -1,0 +1,86 @@
+[
+	{
+		"date": "14th July 2025",
+		"sessions": [
+			{
+				"time": "12:30",
+				"title": "Lesson 36",
+				"recording": "https://www.youtube.com/watch?v=1U58519kM2w&authuser=0"
+			},
+			{ "time": "4pm", "title": "Lesson 8" },
+			{ "time": "5pm", "title": "Kamats Part 3" },
+			{ "time": "6pm", "title": "Lesson 24" },
+			{ "time": "7pm", "title": "ToZ Chapter 7" }
+		]
+	},
+	{
+		"date": "21st July 2025",
+		"sessions": [
+			{ "time": "12:30", "title": "Lesson 37" },
+			{ "time": "4pm", "title": "Lesson 8" },
+			{ "time": "5pm", "title": "Kamats Part 4" },
+			{ "time": "6pm", "title": "Lesson 25" },
+			{ "time": "7pm", "title": "ToZ Chapter 8" }
+		]
+	},
+	{
+		"date": "28th July 2025",
+		"sessions": [
+			{ "time": "12:30", "title": "Lesson 38" },
+			{ "time": "4pm", "title": "SKIP - Minidoka Fair" },
+			{ "time": "5pm", "title": "SKIP - Minidoka Fair" },
+			{ "time": "6pm", "title": "SKIP - Minidoka Fair" },
+			{ "time": "7pm", "title": "SKIP - Minidoka Fair" }
+		]
+	},
+	{
+		"date": "4th August 2025",
+		"sessions": [
+			{ "time": "12:30", "title": "Lesson 39" },
+			{ "time": "4pm", "title": "Lesson 9" },
+			{ "time": "5pm", "title": "Kamats Part 5" },
+			{ "time": "6pm", "title": "Lesson 26" },
+			{ "time": "7pm", "title": "ToZ Chapter 9" }
+		]
+	},
+	{
+		"date": "11th August 2025",
+		"sessions": [
+			{ "time": "12:30", "title": "SKIP - Summer Break" },
+			{ "time": "4pm", "title": "SKIP - Cassia Fair" },
+			{ "time": "5pm", "title": "SKIP - Cassia Fair" },
+			{ "time": "6pm", "title": "SKIP - Cassia Fair" },
+			{ "time": "7pm", "title": "SKIP - Cassia Fair" }
+		]
+	},
+	{
+		"date": "18th August 2025",
+		"sessions": [
+			{ "time": "12:30", "title": "SKIP - Summer Break" },
+			{ "time": "4pm", "title": "SKIP - Ed Week" },
+			{ "time": "5pm", "title": "SKIP - Ed Week" },
+			{ "time": "6pm", "title": "SKIP - Ed Week" },
+			{ "time": "7pm", "title": "SKIP - Ed Week" }
+		]
+	},
+	{
+		"date": "25th August 2025",
+		"sessions": [
+			{ "time": "12:30", "title": "SKIP - Summer Break" },
+			{ "time": "4pm", "title": "Lesson 10" },
+			{ "time": "5pm", "title": "Patach Part 1" },
+			{ "time": "6pm", "title": "Lesson 27" },
+			{ "time": "7pm", "title": "ToZ Chapter 10.1" }
+		]
+	},
+	{
+		"date": "1st September 2025",
+		"sessions": [
+			{ "time": "12:30", "title": "SKIP - Summer Break" },
+			{ "time": "4pm", "title": "Lesson 11" },
+			{ "time": "5pm", "title": "Patach Part 2" },
+			{ "time": "6pm", "title": "Lesson 28" },
+			{ "time": "7pm", "title": "ToZ Chapter 10.2" }
+		]
+	}
+]

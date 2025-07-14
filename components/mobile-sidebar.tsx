@@ -10,6 +10,7 @@ import SidebarClient from './sidebar-client'
 
 type Props = {
 	userProgress: {
+		userId: string
 		activeCourse: any
 		hearts: number
 		points: number
