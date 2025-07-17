@@ -165,44 +165,77 @@ export const Quiz = ({
 			return
 		}
 
+		// if (correctOption.id === selectedOption) {
+		// 	startTransition(() => {
+		// 		upsertChallengeProgress(challenge.id)
+		// 			.then((response) => {
+		// 				if (response?.error === 'hearts') {
+		// 					openHeartsModal()
+		// 					return
+		// 				}
+
+		// 				correctControls.play()
+		// 				setStatus('correct')
+		// 				setPercentage((prev) => prev + 100 / challenges.length)
+
+		// 				// This is a practice
+		// 				if (initialPercentage === 100) {
+		// 					setHearts((prev) => Math.min(prev + 1, 5))
+		// 				}
+		// 			})
+		// 			.catch(() => toast.error('Something went wrong. Please try again.'))
+		// 	})
+		// } else {
+		// 	startTransition(() => {
+		// 		reduceHearts(challenge.id)
+		// 			.then((response) => {
+		// 				if (response?.error === 'hearts') {
+		// 					openHeartsModal()
+		// 					return
+		// 				}
+
+		// 				incorrectControls.play()
+		// 				setStatus('wrong')
+
+		// 				if (!response?.error) {
+		// 					setHearts((prev) => Math.max(prev - 1, 0))
+		// 				}
+		// 			})
+		// 			.catch(() => toast.error('Something went wrong. Please try again.'))
+		// 	})
+		// }
+
+		//Redid this to be faster
 		if (correctOption.id === selectedOption) {
-			startTransition(() => {
-				upsertChallengeProgress(challenge.id)
-					.then((response) => {
-						if (response?.error === 'hearts') {
-							openHeartsModal()
-							return
-						}
+			// ✅ Immediate visual feedback
+			setStatus('correct')
+			setPercentage((prev) => prev + 100 / challenges.length)
+			correctControls.play()
 
-						correctControls.play()
-						setStatus('correct')
-						setPercentage((prev) => prev + 100 / challenges.length)
+			// Optional: practice heart bonus immediately
+			if (initialPercentage === 100) {
+				setHearts((prev) => Math.min(prev + 1, 5))
+			}
 
-						// This is a practice
-						if (initialPercentage === 100) {
-							setHearts((prev) => Math.min(prev + 1, 5))
-						}
-					})
-					.catch(() => toast.error('Something went wrong. Please try again.'))
-			})
+			// 🕗 Run async call in the background (no delay for UI)
+			upsertChallengeProgress(challenge.id).catch(() =>
+				toast.error('Something went wrong. Please try again.')
+			)
 		} else {
-			startTransition(() => {
-				reduceHearts(challenge.id)
-					.then((response) => {
-						if (response?.error === 'hearts') {
-							openHeartsModal()
-							return
-						}
+			setStatus('wrong')
+			incorrectControls.play()
 
-						incorrectControls.play()
-						setStatus('wrong')
-
-						if (!response?.error) {
-							setHearts((prev) => Math.max(prev - 1, 0))
-						}
-					})
-					.catch(() => toast.error('Something went wrong. Please try again.'))
-			})
+			reduceHearts(challenge.id)
+				.then((response) => {
+					if (response?.error === 'hearts') {
+						openHeartsModal()
+						return
+					}
+					if (!response?.error) {
+						setHearts((prev) => Math.max(prev - 1, 0))
+					}
+				})
+				.catch(() => toast.error('Something went wrong. Please try again.'))
 		}
 	}
 
@@ -236,7 +269,13 @@ export const Quiz = ({
 						Great job! <br /> You&apos;ve completed the lesson.
 					</h1>
 					<div className="flex items-center gap-x-4 w-full">
-						<ResultCard variant="points" value={challenges.length * 10} />
+						<ResultCard
+							variant="points"
+							value={challenges.reduce(
+								(total, c) => total + (c.type === 'WATCH' ? 10 : 1),
+								0
+							)}
+						/>
 						<ResultCard variant="hearts" value={hearts} />
 					</div>
 				</div>
