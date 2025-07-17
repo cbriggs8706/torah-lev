@@ -110,7 +110,7 @@ export const reduceHearts = async (challengeId: number) => {
 		})
 		.where(eq(userProgress.userId, userId))
 
-	revalidatePath('/donate')
+	revalidatePath('/market')
 	revalidatePath('/learn')
 	revalidatePath('/quests')
 	revalidatePath('/leaderboard')
@@ -140,7 +140,7 @@ export const refillHearts = async () => {
 		})
 		.where(eq(userProgress.userId, currentUserProgress.userId))
 
-	revalidatePath('/donate')
+	revalidatePath('/market')
 	revalidatePath('/learn')
 	revalidatePath('/quests')
 	revalidatePath('/leaderboard')

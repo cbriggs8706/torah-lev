@@ -7,6 +7,7 @@ import { StickyWrapper } from '@/components/sticky-wrapper'
 import { getUserProgress, getUserSubscription } from '@/db/queries'
 import Link from 'next/link'
 import sessions from '@/lib/data/sessions/sessions.json'
+// import { Promo } from '@/components/promo'
 
 const CameronsGroupsPage = async () => {
 	const userProgressData = getUserProgress()
@@ -32,9 +33,7 @@ const CameronsGroupsPage = async () => {
 					points={userProgress.points}
 					hasActiveSubscription={isPro}
 				/>
-				{/* {!isPro && (
-          <Promo />
-        )} */}
+				{/* {!isPro && <Promo />} */}
 			</StickyWrapper>
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">

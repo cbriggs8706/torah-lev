@@ -45,22 +45,22 @@ export const UserProgress = ({
 					{points}
 				</Button>
 			</Link>
-			{/* <Link href="/donate" onClick={onClick}> */}
-			<Button variant="ghost" className="text-rose-500">
-				<Image
-					src="/heart.svg"
-					height={22}
-					width={22}
-					alt="Hearts"
-					className="mr-2"
-				/>
-				{hasActiveSubscription ? (
-					<InfinityIcon className="h-4 w-4 stroke-[3]" />
-				) : (
-					hearts
-				)}
-			</Button>
-			{/* </Link> */}
+			<Link href="/market" onClick={onClick}>
+				<Button variant="ghost" className="text-rose-500">
+					<Image
+						src="/heart.svg"
+						height={22}
+						width={22}
+						alt="Hearts"
+						className="mr-2"
+					/>
+					{hasActiveSubscription ? (
+						<InfinityIcon className="h-4 w-4 stroke-[3]" />
+					) : (
+						hearts
+					)}
+				</Button>
+			</Link>
 		</div>
 	)
 }

@@ -25,7 +25,7 @@ export const HeartsModal = () => {
 	const onClick = () => {
 		close()
 		router.push('/learn')
-		// router.push('/donate')
+		router.push('/market')
 	}
 
 	if (!isClient) {

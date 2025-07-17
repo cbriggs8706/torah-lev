@@ -10,7 +10,7 @@ import { Progress } from '@/components/ui/progress'
 // import { Promo } from '@/components/promo'
 import { quests } from '@/constants'
 
-const QuestsPage = async () => {
+const CalendarPage = async () => {
 	const userProgressData = getUserProgress()
 	const userSubscriptionData = getUserSubscription()
 
@@ -34,9 +34,7 @@ const QuestsPage = async () => {
 					points={userProgress.points}
 					hasActiveSubscription={isPro}
 				/>
-				{/* {!isPro && (
-          <Promo />
-        )} */}
+				{/* {!isPro && <Promo />} */}
 			</StickyWrapper>
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">
@@ -206,4 +204,4 @@ const QuestsPage = async () => {
 	)
 }
 
-export default QuestsPage
+export default CalendarPage

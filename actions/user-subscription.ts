@@ -6,7 +6,7 @@ import { stripe } from '@/lib/stripe'
 import { absoluteUrl } from '@/lib/utils'
 import { getUserSubscription } from '@/db/queries'
 
-const returnUrl = absoluteUrl('/donate')
+const returnUrl = absoluteUrl('/market')
 
 export const createStripeUrl = async () => {
 	const { userId } = await auth()

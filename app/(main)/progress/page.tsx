@@ -12,7 +12,7 @@ import {
 } from '@/db/queries'
 
 import { Quests } from '@/components/quests'
-import { Items } from '../donate/items'
+import { Items } from '../market/items'
 
 const ProgressPage = async () => {
 	const userProgressData = getUserProgress()

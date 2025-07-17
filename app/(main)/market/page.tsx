@@ -9,8 +9,9 @@ import { getUserProgress, getUserSubscription } from '@/db/queries'
 
 // import { Items } from './items'
 import { Quests } from '@/components/quests'
+import { Items } from './items'
 
-const DonatePage = async () => {
+const MarketPage = async () => {
 	const userProgressData = getUserProgress()
 	const userSubscriptionData = getUserSubscription()
 
@@ -39,22 +40,22 @@ const DonatePage = async () => {
 			</StickyWrapper>
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">
-					<Image src="/shop.svg" alt="Donate" height={90} width={90} />
+					<Image src="/shop.svg" alt="Market" height={90} width={90} />
 					<h1 className="text-center font-bold text-neutral-800 text-2xl my-6">
-						Donate
+						Market
 					</h1>
 					<p className="text-muted-foreground text-center text-lg mb-6">
 						Spend your points on cool stuff.
 					</p>
-					{/* <Items
+					<Items
 						hearts={userProgress.hearts}
 						points={userProgress.points}
 						hasActiveSubscription={isPro}
-					/> */}
+					/>
 				</div>
 			</FeedWrapper>
 		</div>
 	)
 }
 
-export default DonatePage
+export default MarketPage
