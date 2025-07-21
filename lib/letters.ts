@@ -3,6 +3,7 @@ export const letters = [
 		char: 'א',
 		nameAudio: '/audio/name-alef-base.mp3',
 		soundAudio: '/audio/sound-alef-base.mp3',
+		imageKey: 'alef',
 	},
 	{
 		char: 'אְ',
@@ -198,6 +199,7 @@ export const letters = [
 		char: 'בּ',
 		nameAudio: '/audio/name-bet-base.mp3',
 		soundAudio: '/audio/sound-bet-base.mp3',
+		imageKey: 'bet',
 	},
 	{
 		char: 'בְּ',
@@ -388,6 +390,7 @@ export const letters = [
 		char: 'גּ',
 		nameAudio: '/audio/name-gimel-base.mp3',
 		soundAudio: '/audio/sound-gimel-base.mp3',
+		imageKey: 'gimel',
 	},
 	{
 		char: 'גְּ',
@@ -578,6 +581,7 @@ export const letters = [
 		char: 'דּ',
 		nameAudio: '/audio/name-dalet-base.mp3',
 		soundAudio: '/audio/sound-dalet-base.mp3',
+		imageKey: 'dalet',
 	},
 	{
 		char: 'דְּ',
@@ -673,6 +677,7 @@ export const letters = [
 		char: 'ה',
 		nameAudio: '/audio/name-he-base.mp3',
 		soundAudio: '/audio/sound-he-base.mp3',
+		imageKey: 'he',
 	},
 	{
 		char: 'הְ',
@@ -773,6 +778,7 @@ export const letters = [
 		char: 'ו',
 		nameAudio: '/audio/name-vav-base.mp3',
 		soundAudio: '/audio/sound-vet-base.mp3',
+		imageKey: 'vav',
 	},
 	{
 		char: 'וְ',
@@ -873,6 +879,7 @@ export const letters = [
 		char: 'ז',
 		nameAudio: '/audio/name-zayin-base.mp3',
 		soundAudio: '/audio/sound-zayin-base.mp3',
+		imageKey: 'zayin',
 	},
 	{
 		char: 'זְ',
@@ -973,6 +980,7 @@ export const letters = [
 		char: 'ח',
 		nameAudio: '/audio/name-chet-base.mp3',
 		soundAudio: '/audio/sound-chet-base.mp3',
+		imageKey: 'chet',
 	},
 	{
 		char: 'חְ',
@@ -1073,6 +1081,7 @@ export const letters = [
 		char: 'ט',
 		nameAudio: '/audio/name-tet-base.mp3',
 		soundAudio: '/audio/sound-tav-base.mp3',
+		imageKey: 'tet',
 	},
 	{
 		char: 'טְ',
@@ -1173,6 +1182,7 @@ export const letters = [
 		char: 'י',
 		nameAudio: '/audio/name-yod-base.mp3',
 		soundAudio: '/audio/sound-yod-base.mp3',
+		imageKey: 'yod',
 	},
 	{
 		char: 'יְ',
@@ -1383,6 +1393,7 @@ export const letters = [
 		char: 'כּ',
 		nameAudio: '/audio/name-kaf-base.mp3',
 		soundAudio: '/audio/sound-kaf-base.mp3',
+		imageKey: 'kaf',
 	},
 	{
 		char: 'כְּ',
@@ -1493,6 +1504,7 @@ export const letters = [
 		char: 'ל',
 		nameAudio: '/audio/name-lamed-base.mp3',
 		soundAudio: '/audio/sound-lamed-base.mp3',
+		imageKey: 'lamed',
 	},
 	{
 		char: 'לְ',
@@ -1593,6 +1605,7 @@ export const letters = [
 		char: 'מ',
 		nameAudio: '/audio/name-mem-base.mp3',
 		soundAudio: '/audio/sound-mem-base.mp3',
+		imageKey: 'mem',
 	},
 	{
 		char: 'מְ',
@@ -1693,11 +1706,13 @@ export const letters = [
 		char: 'ם',
 		nameAudio: '/audio/name-mem sofit-base.mp3',
 		soundAudio: '/audio/sound-mem-base.mp3',
+		imageKey: 'mem-sofit',
 	},
 	{
 		char: 'נ',
 		nameAudio: '/audio/name-nun-base.mp3',
 		soundAudio: '/audio/sound-nun-base.mp3',
+		imageKey: 'nun',
 	},
 	{
 		char: 'נְ',
@@ -1798,11 +1813,13 @@ export const letters = [
 		char: 'ן',
 		nameAudio: '/audio/name-nun sofit-base.mp3',
 		soundAudio: '/audio/sound-nun-base.mp3',
+		imageKey: 'nun-sofit',
 	},
 	{
 		char: 'ס',
 		nameAudio: '/audio/name-samekh-base.mp3',
 		soundAudio: '/audio/sound-sin-base.mp3',
+		imageKey: 'samekh',
 	},
 	{
 		char: 'סְ',
@@ -1903,6 +1920,7 @@ export const letters = [
 		char: 'ע',
 		nameAudio: '/audio/name-ayin-base.mp3',
 		soundAudio: '/audio/sound-ayin-base.mp3',
+		imageKey: 'ayin',
 	},
 	{
 		char: 'עְ',
@@ -2103,6 +2121,7 @@ export const letters = [
 		char: 'פּ',
 		nameAudio: '/audio/name-pe-base.mp3',
 		soundAudio: '/audio/sound-pe-base.mp3',
+		imageKey: 'pe',
 	},
 	{
 		char: 'פְּ',
@@ -2198,11 +2217,13 @@ export const letters = [
 		char: 'ףּ',
 		nameAudio: '/audio/name-pe sofit-base.mp3',
 		soundAudio: '/audio/sound-pe-base.mp3',
+		imageKey: 'pe-sofit',
 	},
 	{
 		char: 'צ',
 		nameAudio: '/audio/name-tsadi-base.mp3',
 		soundAudio: '/audio/sound-tsadi-base.mp3',
+		imageKey: 'tsadi',
 	},
 	{
 		char: 'צְ',
@@ -2303,11 +2324,13 @@ export const letters = [
 		char: 'ץ',
 		nameAudio: '/audio/name-tsadi sofit-base.mp3',
 		soundAudio: '/audio/sound-tsadi-base.mp3',
+		imageKey: 'tsadi-sofit',
 	},
 	{
 		char: 'ק',
 		nameAudio: '/audio/name-qof-base.mp3',
 		soundAudio: '/audio/sound-kaf-base.mp3',
+		imageKey: 'qof',
 	},
 	{
 		char: 'קְ',
@@ -2408,6 +2431,7 @@ export const letters = [
 		char: 'ר',
 		nameAudio: '/audio/name-resh-base.mp3',
 		soundAudio: '/audio/sound-resh-base.mp3',
+		imageKey: 'resh',
 	},
 	{
 		char: 'רְ',
@@ -2508,6 +2532,7 @@ export const letters = [
 		char: 'שׁ',
 		nameAudio: '/audio/name-shin-base.mp3',
 		soundAudio: '/audio/sound-shin-base.mp3',
+		imageKey: 'shin',
 	},
 	{
 		char: 'שְׁ',
@@ -2803,6 +2828,7 @@ export const letters = [
 		char: 'תּ',
 		nameAudio: '/audio/name-tav-base.mp3',
 		soundAudio: '/audio/sound-tav-base.mp3',
+		imageKey: 'tav',
 	},
 	{
 		char: 'תְּ',

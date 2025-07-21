@@ -3,12 +3,14 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useAudio, useWindowSize } from 'react-use'
 import ReactConfetti from 'react-confetti'
+import Image from 'next/image'
 
 interface HebrewLetter {
 	char: string
 	nameAudio: string
 	soundAudio: string
 	category?: string
+	imageKey?: string
 }
 
 type Mode = 'name' | 'sound' | 'niqqud'
@@ -22,6 +24,10 @@ type FontChoice =
 	| 'cardo'
 	| 'rashi'
 	| 'suez'
+	| 'modern-fancy'
+	| 'modern-round'
+	| 'proto'
+	| 'torah'
 
 interface LetterQuizProps {
 	letters: HebrewLetter[]
@@ -122,30 +128,40 @@ export default function LetterQuiz({ letters }: LetterQuizProps) {
 
 	// Filter the dataset by mode selection
 	const filteredLetters = useMemo(() => {
-		if (selectedMode === 'name' || selectedMode === 'sound') {
-			return letters.filter((l) => l.nameAudio.includes('base'))
-		}
-		if (selectedMode === 'niqqud') {
-			if (selectedNiqqud.length === 0) return []
+		let base: HebrewLetter[] = []
 
-			return letters.filter((l) => {
-				// Extract the part after 'name-alef-' or 'name-vet-'
+		if (selectedMode === 'name' || selectedMode === 'sound') {
+			base = letters.filter((l) => l.nameAudio.includes('base'))
+		} else if (selectedMode === 'niqqud') {
+			if (selectedNiqqud.length === 0) return []
+			base = letters.filter((l) => {
 				const match = l.nameAudio.match(/name-[^-]+-(.+)\.mp3$/)
 				if (!match) return false
-				const niqqudKey = match[1] // e.g., "hiriq", "hiriq-yod"
-
-				// Only match exact niqqud selected
+				const niqqudKey = match[1]
 				return selectedNiqqud.includes(niqqudKey)
 			})
 		}
-		return []
-	}, [letters, selectedMode, selectedNiqqud])
+
+		return base.filter((l) => {
+			// Exclude letters without an imageKey for image-based fonts
+			if (isImageFont(fontChoice)) {
+				if (!l.imageKey) return false
+
+				// Exclude final forms for proto
+				if (fontChoice === 'proto' && l.imageKey?.includes('sofit'))
+					return false
+			}
+
+			return true
+		})
+	}, [letters, selectedMode, selectedNiqqud, fontChoice])
 
 	useEffect(() => {
 		if (!gameStarted) return
 		if (filteredLetters.length === 0) return
 
 		const shuffled = [...filteredLetters].sort(() => Math.random() - 0.5)
+
 		setShuffledLetters(shuffled)
 		setCurrentIndex(0)
 		setFinished(false)
@@ -193,6 +209,7 @@ export default function LetterQuiz({ letters }: LetterQuizProps) {
 		setWaiting(true)
 		setHasPlayedAudio(false)
 		setFeedback(null)
+		setDisabledButtons(false)
 
 		const timer = setTimeout(() => {
 			setWaiting(false)
@@ -228,7 +245,7 @@ export default function LetterQuiz({ letters }: LetterQuizProps) {
 
 	const total = shuffledLetters.length
 	const passed = wrongCount <= 2 && timeLimit <= 3
-	const hebrewExample = 'אבּ'
+	const hebrewExample = 'א'
 
 	const isStartDisabled =
 		selectedMode === 'niqqud' && selectedNiqqud.length === 0
@@ -249,6 +266,29 @@ export default function LetterQuiz({ letters }: LetterQuizProps) {
 
 		return () => clearTimeout(timer)
 	}, [currentLetter?.char])
+
+	function fontClassNameFor(font: FontChoice): string {
+		const classes: Record<FontChoice, string> = {
+			arial: 'font-arial',
+			times: 'font-times',
+			sans: 'font-sans',
+			frank: 'font-frank',
+			tinos: 'font-tinos',
+			nunito: 'font-nunito',
+			cardo: 'font-cardo',
+			rashi: 'font-rashi',
+			suez: 'font-suez',
+			'modern-fancy': '',
+			'modern-round': '',
+			proto: '',
+			torah: '',
+		}
+		return classes[font] || ''
+	}
+
+	function isImageFont(font: FontChoice): boolean {
+		return font.startsWith('modern-') || font === 'proto' || font === 'torah'
+	}
 
 	return (
 		<div className="w-full mx-auto p-6 text-center border rounded-xl shadow">
@@ -294,6 +334,24 @@ export default function LetterQuiz({ letters }: LetterQuizProps) {
 						<div className="mb-6">
 							<p className="font-medium mb-2">Select Niqqud(s)</p>
 							<div className="flex flex-wrap gap-2 justify-center">
+								<button
+									onClick={() => {
+										if (selectedNiqqud.length === niqqudOptions.length) {
+											setSelectedNiqqud([]) // Deselect all
+										} else {
+											setSelectedNiqqud(niqqudOptions.map((n) => n.key)) // Select all
+										}
+									}}
+									className={`px-4 py-2 border rounded-full font-semibold ${
+										selectedNiqqud.length === niqqudOptions.length
+											? 'bg-red-500 text-white'
+											: 'bg-green-600 text-white'
+									}`}
+								>
+									{selectedNiqqud.length === niqqudOptions.length
+										? 'Clear All'
+										: 'Select All'}
+								</button>
 								{niqqudOptions.map(({ key, symbol }) => (
 									<button
 										key={key}
@@ -369,6 +427,26 @@ export default function LetterQuiz({ letters }: LetterQuizProps) {
 										value: 'arial' as FontChoice,
 										className: 'font-arial',
 									},
+									{
+										label: 'Modern Fancy',
+										value: 'modern-fancy',
+										className: '', // no font class needed
+									},
+									{
+										label: 'Modern Round',
+										value: 'modern-round',
+										className: '',
+									},
+									{
+										label: 'Proto',
+										value: 'proto',
+										className: '',
+									},
+									{
+										label: 'Torah',
+										value: 'torah',
+										className: '',
+									},
 								] as {
 									label: string
 									value: FontChoice
@@ -378,7 +456,7 @@ export default function LetterQuiz({ letters }: LetterQuizProps) {
 								<div key={value} className="flex flex-col items-center gap-1">
 									<button
 										onClick={() => setFontChoice(value)}
-										className={`px-3 py-1 border rounded-full ${className} ${
+										className={`px-3 py-1 border rounded-full ${
 											fontChoice === value
 												? 'bg-blue-600 text-white'
 												: 'bg-gray-200'
@@ -386,14 +464,24 @@ export default function LetterQuiz({ letters }: LetterQuizProps) {
 									>
 										{label}
 									</button>
-									<div
-										className={`text-5xl mt-1 text-center ${className} ${
-											fontChoice === value ? 'text-blue-600' : 'text-gray-700'
-										}`}
-										dir="rtl"
-									>
-										{hebrewExample}
-									</div>
+									{isImageFont(value) ? (
+										<Image
+											src={`/letters/${value}-alef.png`}
+											alt={`${label} preview`}
+											width={30}
+											height={30}
+											className="h-10 mt-1"
+										/>
+									) : (
+										<div
+											className={`text-5xl mt-1 text-center ${className} ${
+												fontChoice === value ? 'text-blue-600' : 'text-gray-700'
+											}`}
+											dir="rtl"
+										>
+											{hebrewExample}
+										</div>
+									)}
 								</div>
 							))}
 						</div>
@@ -447,23 +535,60 @@ export default function LetterQuiz({ letters }: LetterQuizProps) {
 					>
 						{passed
 							? '🎉 You Passed!'
-							: "😞 You Did Not Pass.  In order to pass, you'll need to not miss more that 2 using 3 seconds or less."}
+							: "😞 In order to pass, you'll need to not miss more that 2 using 3 seconds or less. Let's try again!"}
 					</p>
 					{wrongAnswers.length > 0 && (
-						<div className="mt-4">
+						<div className="mt-6">
 							<h3 className="font-medium text-lg mb-2">You missed:</h3>
-							<div className="flex flex-wrap justify-center gap-2">
+							<div className="flex flex-wrap justify-center gap-6">
 								{wrongAnswers.map((l, i) => (
 									<div
 										key={i}
-										className="p-2 border rounded font-serif text-6xl"
+										className="p-4 border rounded-lg flex flex-col items-center justify-center"
 									>
-										{l.char}
+										{/* Letter visual: image or font */}
+										{(fontChoice === 'modern-fancy' ||
+											fontChoice === 'modern-round' ||
+											fontChoice === 'torah' ||
+											fontChoice === 'proto') &&
+										l.imageKey ? (
+											<Image
+												src={`/letters/${fontChoice}-${l.imageKey}.png`}
+												alt={l.char}
+												width={30}
+												height={30}
+												className="h-auto w-auto object-contain mb-2"
+											/>
+										) : (
+											<div
+												className={`text-6xl mb-2 ${fontClassNameFor(
+													fontChoice
+												)}`}
+												dir="rtl"
+											>
+												{l.char}
+											</div>
+										)}
+
+										{/* Audio replay button */}
+										<button
+											onClick={() => {
+												const audio = new Audio(
+													selectedMode === 'name' ? l.nameAudio : l.soundAudio
+												)
+												audio.play()
+											}}
+											className="text-xl text-blue-600 hover:text-blue-800"
+											aria-label="Replay Audio"
+										>
+											🔊
+										</button>
 									</div>
 								))}
 							</div>
 						</div>
 					)}
+
 					<button
 						onClick={() => {
 							setGameStarted(false)
@@ -477,31 +602,26 @@ export default function LetterQuiz({ letters }: LetterQuizProps) {
 				</div>
 			) : (
 				<>
-					<div
-						className={`min-h-[180px] text-[8rem] mb-4 ${
-							fontChoice === 'arial'
-								? 'font-arial'
-								: fontChoice === 'times'
-								? 'font-times'
-								: fontChoice === 'sans'
-								? 'font-sans'
-								: fontChoice === 'frank'
-								? 'font-frank'
-								: fontChoice === 'tinos'
-								? 'font-tinos'
-								: fontChoice === 'nunito'
-								? 'font-nunito'
-								: fontChoice === 'cardo'
-								? 'font-cardo'
-								: fontChoice === 'rashi'
-								? 'font-rashi'
-								: fontChoice === 'suez'
-								? 'font-suez'
-								: ''
-						}`}
-					>
-						{currentLetter?.char ?? ''}
+					<div className="min-h-[180px] mb-4 flex justify-center items-center">
+						{(fontChoice === 'modern-fancy' ||
+							fontChoice === 'modern-round' ||
+							fontChoice === 'torah' ||
+							fontChoice === 'proto') &&
+						currentLetter?.imageKey ? (
+							<Image
+								src={`/letters/${fontChoice}-${currentLetter.imageKey}.png`}
+								alt={currentLetter.char}
+								width={72}
+								height={72}
+								className="h-auto w-auto max-w-[72px] max-h-[72px] object-contain"
+							/>
+						) : (
+							<div className={`text-[8rem] ${fontClassNameFor(fontChoice)}`}>
+								{currentLetter?.char ?? ''}
+							</div>
+						)}
 					</div>
+
 					{waiting ? (
 						<div className="mb-6 flex justify-center">
 							<CountdownCircle seconds={timeLimit} />
