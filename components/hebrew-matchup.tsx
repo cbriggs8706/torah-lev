@@ -45,7 +45,8 @@ export default function WordMatchGame({
 		src: '/finish.mp3',
 		autoPlay: false,
 	})
-	const [shuffled, setShuffled] = useState<Flashcard[]>([])
+	const [shuffledDraggables, setShuffledDraggables] = useState<Flashcard[]>([])
+	const [shuffledTargets, setShuffledTargets] = useState<Flashcard[]>([])
 	const [hasFinished, setHasFinished] = useState(false)
 
 	const { width, height } = useWindowSize()
@@ -81,24 +82,39 @@ export default function WordMatchGame({
 
 	useEffect(() => {
 		if (filteredCards.length === 0) {
-			setShuffled([])
+			setShuffledDraggables([])
+			setShuffledTargets([])
 			return
 		}
-		const pairs = [...filteredCards]
-		for (let i = pairs.length - 1; i > 0; i--) {
+
+		const limited = filteredCards.slice(0, 12)
+
+		const shuffled1 = [...limited]
+		const shuffled2 = [...limited]
+
+		for (let i = shuffled1.length - 1; i > 0; i--) {
 			const j = Math.floor(Math.random() * (i + 1))
-			;[pairs[i], pairs[j]] = [pairs[j], pairs[i]]
+			;[shuffled1[i], shuffled1[j]] = [shuffled1[j], shuffled1[i]]
 		}
-		setShuffled(pairs.slice(0, 12)) // limit to 12
+
+		for (let i = shuffled2.length - 1; i > 0; i--) {
+			const j = Math.floor(Math.random() * (i + 1))
+			;[shuffled2[i], shuffled2[j]] = [shuffled2[j], shuffled2[i]]
+		}
+
+		setShuffledDraggables(shuffled1)
+		setShuffledTargets(shuffled2)
+		setMatches({})
+		setHasFinished(false)
 	}, [filteredCards])
 
 	function handleDragEnd(event: DragEndEvent) {
 		const { active, over } = event
-		console.log('🟡 DRAG END', {
-			activeId: active.id,
-			overId: over?.id,
-			isMatch: active.id === over?.id,
-		})
+		// console.log('🟡 DRAG END', {
+		// 	activeId: active.id,
+		// 	overId: over?.id,
+		// 	isMatch: active.id === over?.id,
+		// })
 
 		if (over && active.id === over.id) {
 			setMatches((prev) => ({
@@ -110,8 +126,8 @@ export default function WordMatchGame({
 
 	useEffect(() => {
 		const isComplete =
-			shuffled.length > 0 &&
-			shuffled.every((card) => {
+			shuffledTargets.length > 0 &&
+			shuffledTargets.every((card) => {
 				const id = getCardId(card)
 				return matches[id] === id
 			})
@@ -123,9 +139,32 @@ export default function WordMatchGame({
 			const maybePromise = controls.play()
 			if (maybePromise instanceof Promise) maybePromise.catch(() => {})
 
-			setTimeout(() => setShowConfetti(false), 8000)
+			// Confetti display duration
+			setTimeout(() => {
+				setShowConfetti(false)
+
+				// Auto-reset the round with same filters
+				const limited = filteredCards.slice(0, 12)
+
+				const shuffled1 = [...limited]
+				const shuffled2 = [...limited]
+
+				for (let i = shuffled1.length - 1; i > 0; i--) {
+					const j = Math.floor(Math.random() * (i + 1))
+					;[shuffled1[i], shuffled1[j]] = [shuffled1[j], shuffled1[i]]
+				}
+				for (let i = shuffled2.length - 1; i > 0; i--) {
+					const j = Math.floor(Math.random() * (i + 1))
+					;[shuffled2[i], shuffled2[j]] = [shuffled2[j], shuffled2[i]]
+				}
+
+				setShuffledDraggables(shuffled1)
+				setShuffledTargets(shuffled2)
+				setMatches({})
+				setHasFinished(false)
+			}, 8000)
 		}
-	}, [matches, shuffled, hasFinished, controls])
+	}, [matches, shuffledTargets, hasFinished, controls, filteredCards])
 
 	function toggleLesson(lesson: string) {
 		setSelectedLessons((prev) =>
@@ -282,7 +321,7 @@ export default function WordMatchGame({
 				) : (
 					<>
 						<div className="flex flex-wrap justify-center gap-3 mb-6">
-							{shuffled.map((card) => {
+							{shuffledDraggables.map((card) => {
 								const cardId = getCardId(card)
 								if (matches[cardId] === cardId) return null // already matched
 
@@ -297,7 +336,7 @@ export default function WordMatchGame({
 						</div>
 
 						<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-							{shuffled.map((card) => {
+							{shuffledTargets.map((card) => {
 								const cardId = getCardId(card)
 								const matched = matches[cardId] === cardId
 

@@ -405,7 +405,7 @@ export default function HebrewDictionary({ data }: DictionaryProps) {
 			</div>
 
 			{/* Sidebar Navigation */}
-			<div className="w-[70px] sticky top-20 max-h-[80vh] overflow-y-auto text-sm text-center flex flex-col gap-1 flex-shrink-0 scrollbar-thin scrollbar-thumb-sky-400">
+			<div className="w-[70px] sticky top-20 max-h-[80vh] overflow-y-auto text-lg text-center flex flex-col gap-1 flex-shrink-0 scrollbar-thin scrollbar-thumb-sky-400">
 				{sortMode === 'alphabetical'
 					? hebrewAlphabet.map((letter) => (
 							<a
@@ -435,7 +435,7 @@ export default function HebrewDictionary({ data }: DictionaryProps) {
 			</div>
 			<button
 				onClick={scrollToTop}
-				className="fixed bottom-4 left-4 z-50 bg-sky-500 hover:bg-sky-600 text-white px-3 py-2 rounded-full shadow-lg transition"
+				className="fixed bottom-4 right-4 z-50 bg-sky-500 hover:bg-sky-600 text-white px-3 py-2 rounded-full shadow-lg transition"
 				aria-label="Scroll to top"
 			>
 				↑ Top

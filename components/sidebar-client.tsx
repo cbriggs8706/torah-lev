@@ -124,6 +124,7 @@ export default function SidebarClient({
 								href="/camerons-groups"
 								className="mr-3 inline-flex items-center align-middle gap-2 border border-solid border-green-500 rounded-md px-2 py-1"
 								title="Cameron's Groups"
+								onClick={onItemClick}
 							>
 								<Image
 									src="/boy.svg"
