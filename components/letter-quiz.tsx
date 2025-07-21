@@ -125,6 +125,7 @@ export default function LetterQuiz({ letters }: LetterQuizProps) {
 	const { width, height } = useWindowSize()
 	const [selectedNiqqud, setSelectedNiqqud] = useState<string[]>([])
 	const [disabledButtons, setDisabledButtons] = useState(false)
+	const [studyMode, setStudyMode] = useState(false)
 
 	// Filter the dataset by mode selection
 	const filteredLetters = useMemo(() => {
@@ -184,6 +185,8 @@ export default function LetterQuiz({ letters }: LetterQuizProps) {
 
 	useEffect(() => {
 		if (!gameStarted || finished || waiting || !currentLetter) return
+
+		if (studyMode) return
 
 		const audio = new Audio(getAudioSrc())
 		audioRef.current = audio
@@ -288,6 +291,17 @@ export default function LetterQuiz({ letters }: LetterQuizProps) {
 
 	function isImageFont(font: FontChoice): boolean {
 		return font.startsWith('modern-') || font === 'proto' || font === 'torah'
+	}
+
+	function resetToStart() {
+		setGameStarted(false)
+		setStudyMode(false)
+		setShowConfetti(false)
+		setFinished(false)
+		setCurrentIndex(0)
+		setWrongAnswers([])
+		setCorrectCount(0)
+		setWrongCount(0)
 	}
 
 	return (
@@ -502,6 +516,22 @@ export default function LetterQuiz({ letters }: LetterQuizProps) {
 							Please select at least one niqqud to begin.
 						</p>
 					)}
+					<button
+						onClick={() => {
+							if (!isStartDisabled) {
+								setGameStarted(true) // <- make sure quiz mode is entered
+								setStudyMode(true) // <- then set study mode active
+							}
+						}}
+						disabled={isStartDisabled}
+						className={`px-6 py-2 rounded-lg text-white transition-colors ${
+							isStartDisabled
+								? 'bg-gray-400 cursor-not-allowed'
+								: 'bg-purple-600 hover:bg-purple-700'
+						} mr-4`}
+					>
+						Study Alphabet
+					</button>
 
 					<button
 						onClick={() => {
@@ -521,6 +551,54 @@ export default function LetterQuiz({ letters }: LetterQuizProps) {
 						}`}
 					>
 						Start Quiz
+					</button>
+				</div>
+			) : studyMode ? (
+				<div className="space-y-4">
+					<h2 className="text-2xl font-bold mb-4">Study the Alphabet</h2>
+					<div className="flex flex-wrap justify-center gap-6" dir="rtl">
+						{filteredLetters.map((l, i) => (
+							<div
+								key={i}
+								className="p-4 border rounded-lg flex flex-col items-center w-24"
+							>
+								{isImageFont(fontChoice) && l.imageKey ? (
+									<Image
+										src={`/letters/${fontChoice}-${l.imageKey}.png`}
+										alt={l.char}
+										width={50}
+										height={50}
+										className="h-auto w-auto object-contain mb-2"
+									/>
+								) : (
+									<div
+										className={`text-5xl mb-2 ${fontClassNameFor(fontChoice)}`}
+										dir="rtl"
+									>
+										{l.char}
+									</div>
+								)}
+
+								<button
+									onClick={() => {
+										const audio = new Audio(
+											selectedMode === 'name' ? l.nameAudio : l.soundAudio
+										)
+										audio.play()
+									}}
+									className="text-xl text-blue-600 hover:text-blue-800"
+									aria-label="Replay Audio"
+								>
+									🔊
+								</button>
+							</div>
+						))}
+					</div>
+					<button
+						onClick={() => resetToStart()}
+						className="mt-6 px-6 py-2 bg-gray-300 hover:bg-gray-400 rounded-lg text-gray-800"
+					>
+						Back
 					</button>
 				</div>
 			) : finished ? (
@@ -680,7 +758,7 @@ export default function LetterQuiz({ letters }: LetterQuizProps) {
 					<div className="mt-6">
 						<button
 							onClick={() => {
-								setGameStarted(false)
+								resetToStart()
 								setShowConfetti(false)
 								setFinished(false)
 							}}
