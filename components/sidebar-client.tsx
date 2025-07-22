@@ -8,7 +8,7 @@ import { cn } from '@/lib/utils'
 import { SidebarItem } from './sidebar-item'
 import { UserProgress } from './user-progress'
 import { HebrewClock } from './hebrew-clock'
-import { friendIds } from '@/lib/friends'
+import { hebrewFriendIds } from '@/lib/friends'
 
 type Props = {
 	className?: string
@@ -29,7 +29,7 @@ export default function SidebarClient({
 	isPro,
 }: Props) {
 	const isFriend =
-		userProgress.userId && friendIds.includes(userProgress.userId)
+		userProgress.userId && hebrewFriendIds.includes(userProgress.userId)
 
 	return (
 		<div
