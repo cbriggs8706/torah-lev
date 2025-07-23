@@ -6,6 +6,7 @@ interface Lesson {
 	id: number
 	content: string | null
 	contentPlain: string | null
+	audioSrc: string | null
 }
 
 interface LessonScriptViewerProps {
@@ -118,16 +119,31 @@ export default function LessonScriptViewer({
 			</div>
 
 			{selected && (
-				<div
-					dir="rtl"
-					className={`whitespace-pre-wrap bg-gray-50 p-4 border rounded shadow leading-loose ${fontClass} ${sizeClass}`}
-				>
+				<>
+					{selected.audioSrc && (
+						<iframe
+							data-testid="embed-iframe"
+							style={{ borderRadius: 12 }}
+							src={selected.audioSrc}
+							width="100%"
+							height="152"
+							frameBorder="0"
+							allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+							loading="lazy"
+						></iframe>
+					)}
+
 					<div
-						dangerouslySetInnerHTML={{
-							__html: selected.content ?? 'No content for this lesson.',
-						}}
-					/>
-				</div>
+						dir="rtl"
+						className={`whitespace-pre-wrap bg-gray-50 p-4 border rounded shadow leading-loose ${fontClass} ${sizeClass}`}
+					>
+						<div
+							dangerouslySetInnerHTML={{
+								__html: selected.content ?? 'No content for this lesson.',
+							}}
+						/>
+					</div>
+				</>
 			)}
 		</div>
 	)

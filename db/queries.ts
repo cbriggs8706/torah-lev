@@ -227,6 +227,7 @@ export const getLessonScripts = async () => {
 			id: lessonScripts.id,
 			content: lessonScripts.content,
 			contentPlain: lessonScripts.contentPlain,
+			audioSrc: lessonScripts.audioSrc,
 		})
 		.from(lessonScripts)
 		.orderBy(lessonScripts.lessonId)

@@ -16,6 +16,7 @@ export const LessonScriptEdit = () => {
 				<div dir="rtl">
 					<RichTextInput source="contentPlain" label="contentPlain" />
 				</div>
+				<TextInput source="audioSrc" label="audioSrc" />
 			</SimpleForm>
 		</Edit>
 	)

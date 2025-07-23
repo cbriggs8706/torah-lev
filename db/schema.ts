@@ -62,6 +62,7 @@ export const lessonScripts = pgTable('lesson_scripts', {
 	// .references(() => lessons.lessonKey),
 	content: text('content'),
 	contentPlain: text('content_plain'),
+	audioSrc: text('audio_src'),
 })
 
 export const challengesEnum = pgEnum('type', [
