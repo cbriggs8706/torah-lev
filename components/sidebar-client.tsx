@@ -109,6 +109,12 @@ export default function SidebarClient({
 							iconSrc="/couple-with-heart-man-man-light-skin-tone-svgrepo-com.svg"
 							onClick={onItemClick}
 						/>
+						<SidebarItem
+							label="Lesson Scripts"
+							href="/hebrew-lesson-scripts"
+							iconSrc="/spiral-notepad-svgrepo-com.svg"
+							onClick={onItemClick}
+						/>
 					</>
 				)}
 			</div>

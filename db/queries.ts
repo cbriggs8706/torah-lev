@@ -1,5 +1,5 @@
 import { cache } from 'react'
-import { eq } from 'drizzle-orm'
+import { eq, like } from 'drizzle-orm'
 import { auth, clerkClient } from '@clerk/nextjs/server'
 
 import db from '@/db/drizzle'
@@ -219,6 +219,22 @@ export const getLesson = cache(async (id?: number) => {
 
 	return { ...data, challenges: normalizedChallenges }
 })
+
+export const getLessonsByPrefix = async (prefix: string) => {
+	const results = await db
+		.select()
+		.from(lessons)
+		.where(like(lessons.title, `${prefix}%`))
+		.orderBy(lessons.order)
+
+	return results
+}
+
+export const getLessonById = async (id: number) => {
+	return await db.query.lessons.findFirst({
+		where: eq(lessons.id, id),
+	})
+}
 
 export const getLessonPercentage = cache(async () => {
 	const courseProgress = await getCourseProgress()
