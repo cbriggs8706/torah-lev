@@ -112,7 +112,7 @@ export default function FlashcardReview({
 	>('hebAudio')
 	const [frontMiddleCenter, setFrontMiddleCenter] = useState<
 		keyof Flashcard | 'none'
-	>('heb')
+	>('hebNiqqud')
 	const [frontBottomLeft, setFrontBottomLeft] = useState<
 		keyof Flashcard | 'none'
 	>('none')
