@@ -2,6 +2,11 @@
 import { getCourses, getUserProgress } from '@/db/queries'
 
 import { List } from './list'
+import {
+	hebrewFriendIds,
+	spanishFriendIds,
+	englishFriendIds,
+} from '@/lib/friends'
 
 const CoursesPage = async () => {
 	const coursesData = getCourses()
@@ -12,13 +17,23 @@ const CoursesPage = async () => {
 		userProgressData,
 	])
 
+	const isHebrewFriend =
+		userProgress?.userId && hebrewFriendIds.includes(userProgress.userId)
+
+	const visibleCourses = courses.filter(
+		(course) => course.id !== 11 || isHebrewFriend
+	)
+
 	return (
 		<div className="h-full max-w-[912px] px-3 mx-auto">
 			<h1 className="text-2xl font-bold text-neutral-700">Language Courses</h1>
 			<p className="text-xl text-neutral-700">
 				Select a course in order to access the flashcards for that language.
 			</p>
-			<List courses={courses} activeCourseId={userProgress?.activeCourseId} />
+			<List
+				courses={visibleCourses}
+				activeCourseId={userProgress?.activeCourseId}
+			/>
 
 			<h1 className="text-2xl font-bold text-neutral-700 mt-8">
 				Language Proficiency Levels
