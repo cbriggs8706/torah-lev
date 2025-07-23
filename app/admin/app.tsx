@@ -23,8 +23,14 @@ import { ChallengeCreate } from './challenge/create'
 import { ChallengeOptionList } from './challengeOption/list'
 import { ChallengeOptionEdit } from './challengeOption/edit'
 import { ChallengeOptionCreate } from './challengeOption/create'
+
 import GenerateChallengesPage from './generate-challenges/page'
+
 import { AdminMenu } from '@/components/admin-menu'
+
+import { LessonScriptList } from './lesson-scripts/list'
+import { LessonScriptCreate } from './lesson-scripts/create'
+import { LessonScriptEdit } from './lesson-scripts/edit'
 
 const dataProvider = simpleRestProvider('/api')
 
@@ -66,6 +72,14 @@ const App = () => {
 				edit={ChallengeOptionEdit}
 				recordRepresentation="text"
 				options={{ label: 'Challenge Options' }}
+			/>
+			<Resource
+				name="lessonScripts"
+				list={LessonScriptList}
+				create={LessonScriptCreate}
+				edit={LessonScriptEdit}
+				recordRepresentation="text"
+				options={{ label: 'Lesson Scripts' }}
 			/>
 			<CustomRoutes>
 				<Route
