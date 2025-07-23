@@ -59,7 +59,7 @@ export default function LessonScriptViewer({
 }: LessonScriptViewerProps) {
 	const [selectedId, setSelectedId] = useState<number | null>(null)
 	const [fontClass, setFontClass] = useState('font-times')
-	const [sizeClass, setSizeClass] = useState('text-2xl')
+	const [sizeClass, setSizeClass] = useState('text-4xl')
 
 	const selected = lessons.find((l) => l.id === selectedId)
 
@@ -122,7 +122,11 @@ export default function LessonScriptViewer({
 					dir="rtl"
 					className={`whitespace-pre-wrap bg-gray-50 p-4 border rounded shadow leading-loose ${fontClass} ${sizeClass}`}
 				>
-					{selected.content ?? 'No content for this lesson.'}
+					<div
+						dangerouslySetInnerHTML={{
+							__html: selected.content ?? 'No content for this lesson.',
+						}}
+					/>
 				</div>
 			)}
 		</div>

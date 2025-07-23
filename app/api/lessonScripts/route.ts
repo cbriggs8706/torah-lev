@@ -3,13 +3,16 @@ import { NextResponse } from 'next/server'
 import db from '@/db/drizzle'
 import { isAdmin } from '@/lib/admin'
 import { lessonScripts } from '@/db/schema'
+import { asc } from 'drizzle-orm'
 
 export const GET = async () => {
 	if (!isAdmin()) {
 		return new NextResponse('Unauthorized', { status: 401 })
 	}
 
-	const data = await db.query.lessonScripts.findMany()
+	const data = await db.query.lessonScripts.findMany({
+		orderBy: (lessonScripts) => [asc(lessonScripts.lessonId)],
+	})
 
 	return NextResponse.json(data)
 }

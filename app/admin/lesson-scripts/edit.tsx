@@ -1,4 +1,5 @@
 import { SimpleForm, Edit, TextInput, required } from 'react-admin'
+import { RichTextInput } from 'ra-input-rich-text'
 
 export const LessonScriptEdit = () => {
 	return (
@@ -9,8 +10,12 @@ export const LessonScriptEdit = () => {
 					validate={[required()]}
 					label="Lesson ID"
 				/>
-				<TextInput source="content" label="content" />
-				<TextInput source="contentPlain" label="contentPlain" />
+				<div dir="rtl">
+					<RichTextInput source="content" label="content" />
+				</div>
+				<div dir="rtl">
+					<RichTextInput source="contentPlain" label="contentPlain" />
+				</div>
 			</SimpleForm>
 		</Edit>
 	)
