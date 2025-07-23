@@ -10,7 +10,6 @@ export const hebrewFriendIds = [
 	// my hdm user
 	// 'user_2zhVPti1l3FhMvMXS4pSm5tw4PP',
 ]
-
 export const spanishFriendIds = ['user_2zhVPti1l3FhMvMXS4pSm5tw4PP']
 
 export const englishFriendIds = ['user_2zhVPti1l3FhMvMXS4pSm5tw4PP']

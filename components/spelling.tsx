@@ -190,6 +190,14 @@ export default function SpellingPractice({
 		setShowFeedback(isCorrect)
 
 		if (isCorrect) {
+			if (
+				isCorrect &&
+				promptType === 'letter-by-letter' &&
+				currentCard?.hebAudio
+			) {
+				smartPlayAudio(`/${currentCard.hebAudio}`, audioVolume, audioSpeed)
+			}
+
 			const isLastCard = currentIndex === filteredCards.length - 1
 
 			setTimeout(() => {
