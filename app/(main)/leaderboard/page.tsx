@@ -6,7 +6,7 @@ import { UserProgress } from '@/components/user-progress'
 import { StickyWrapper } from '@/components/sticky-wrapper'
 import {
 	getCourseProgress,
-	getTopTenUsers,
+	getTopTwentyUsers,
 	getUserProgress,
 	getUserSubscription,
 } from '@/db/queries'
@@ -19,7 +19,7 @@ const LearderboardPage = async () => {
 	const userProgressData = getUserProgress()
 	const userChallengeData = await getCourseProgress()
 	const userSubscriptionData = getUserSubscription()
-	const leaderboardData = getTopTenUsers()
+	const leaderboardData = getTopTwentyUsers()
 
 	const [userProgress, userSubscription, leaderboard] = await Promise.all([
 		userProgressData,
