@@ -5,15 +5,14 @@ import { FeedWrapper } from '@/components/feed-wrapper'
 import { UserProgress } from '@/components/user-progress'
 import { StickyWrapper } from '@/components/sticky-wrapper'
 import {
-	getLesson,
-	getLessonsByPrefix,
+	getLessonScripts,
 	getUserProgress,
 	getUserSubscription,
 } from '@/db/queries'
 import LessonScriptViewer from '@/components/hebrew-lesson-scripts'
 
 const HebrewLessonScriptsPage = async () => {
-	const lessons = await getLessonsByPrefix('AwB')
+	const lessons = await getLessonScripts()
 	const userProgressData = getUserProgress()
 	const userSubscriptionData = getUserSubscription()
 
@@ -52,10 +51,7 @@ const HebrewLessonScriptsPage = async () => {
 					<h1 className="text-center font-bold text-neutral-800 text-2xl my-6">
 						Lesson Scripts
 					</h1>
-					{/* <p className="text-muted-foreground text-center text-lg mb-6">
-            Customize Your Deck
-          </p> */}
-					<LessonScriptViewer lessonPrefix="AwB" lessons={lessons} />
+					<LessonScriptViewer lessons={lessons} />
 				</div>
 			</FeedWrapper>
 		</div>

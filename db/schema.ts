@@ -45,7 +45,7 @@ export const lessons = pgTable('lessons', {
 		.references(() => units.id, { onDelete: 'cascade' })
 		.notNull(),
 	order: integer('order').notNull(),
-	content: text('content'),
+	// content: text('content'),
 })
 
 export const lessonsRelations = relations(lessons, ({ one, many }) => ({
@@ -55,6 +55,14 @@ export const lessonsRelations = relations(lessons, ({ one, many }) => ({
 	}),
 	challenges: many(challenges),
 }))
+
+export const lessonScripts = pgTable('lesson_scripts', {
+	id: serial('id').primaryKey(),
+	lessonId: text('lesson_id').notNull(),
+	// .references(() => lessons.lessonKey),
+	content: text('content'),
+	contentPlain: text('content_plain'),
+})
 
 export const challengesEnum = pgEnum('type', [
 	'SELECT',
