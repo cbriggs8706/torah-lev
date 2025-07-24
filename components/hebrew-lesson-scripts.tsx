@@ -7,6 +7,7 @@ interface Lesson {
 	content: string | null
 	contentPlain: string | null
 	audioSrc: string | null
+	lessonId: string
 }
 
 interface LessonScriptViewerProps {
@@ -80,7 +81,7 @@ export default function LessonScriptViewer({
 						.sort((a, b) => a.id - b.id) // ✅ numeric sort
 						.map((lesson) => (
 							<option key={lesson.id} value={lesson.id}>
-								Lesson {lesson.id}
+								Lesson {lesson.lessonId}
 							</option>
 						))}
 				</select>

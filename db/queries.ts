@@ -225,6 +225,7 @@ export const getLessonScripts = async () => {
 	const results = await db
 		.select({
 			id: lessonScripts.id,
+			lessonId: lessonScripts.lessonId,
 			content: lessonScripts.content,
 			contentPlain: lessonScripts.contentPlain,
 			audioSrc: lessonScripts.audioSrc,
