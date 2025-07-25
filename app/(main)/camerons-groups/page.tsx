@@ -58,8 +58,7 @@ const CameronsGroupsPage = async () => {
 										<li key={i} className="flex items-center flex-wrap">
 											<span className="inline-flex items-center">
 												{session.time}
-												{(session.time.includes('12:30') ||
-													session.time.includes('7pm')) && (
+												{session.time.includes('12:30') && (
 													<Link
 														href="https://us02web.zoom.us/j/3174376398?pwd=cndPWmt0ZkRYeXdrVm5adnlZaElZQT09&authuser=0"
 														className="inline-block ml-1"

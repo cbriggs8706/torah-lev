@@ -13,6 +13,7 @@ import dynamic from 'next/dynamic'
 import HebrewMatchup from '@/components/hebrew-matchup'
 
 import rawVocab from '@/lib/data/vocab/flashcards.json'
+import { DismissibleAlert } from '@/components/dismissible-alert'
 
 const LetterQuiz = dynamic(() => import('@/components/letter-quiz'), {
 	ssr: false,
@@ -61,11 +62,13 @@ const HebrewLetterQuizPage = async () => {
 					<h1 className="text-center font-bold text-neutral-800 text-2xl my-6">
 						Matchup
 					</h1>
-					<p className="text-muted-foreground text-center text-lg mb-6">
+					<DismissibleAlert className="mb-4">
+						{' '}
 						It will load up to 12 words from your current lesson by default. You
 						can change between text, images and audio in the filters. Known bug:
 						drag and drop doesn&apos;t work on android devices.
-					</p>
+					</DismissibleAlert>
+
 					<HebrewMatchup
 						data={rawVocab}
 						lessonPrefix="awb"

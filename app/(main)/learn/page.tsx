@@ -17,6 +17,8 @@ import {
 import { Unit } from './unit'
 import { Header } from './header'
 import { Calendar } from '@/components/ui/calendar'
+import { GoalWrapper } from '@/components/goal-wrapper'
+import { DismissibleAlert } from '@/components/dismissible-alert'
 
 const LearnPage = async () => {
 	const userProgressData = getUserProgress()
@@ -50,6 +52,29 @@ const LearnPage = async () => {
 
 	const isPro = !!userSubscription?.isActive
 
+	function getLessonSchedule(
+		lessons: { id: number }[],
+		goalLesson: number,
+		goalDate: Date
+	) {
+		const goalIndex = lessons.findIndex((l) => l.id === goalLesson)
+		if (goalIndex === -1) return {}
+
+		const totalDays = Math.max(
+			1,
+			Math.floor((goalDate.getTime() - Date.now()) / (1000 * 60 * 60 * 24))
+		)
+
+		const daysPerLesson = totalDays / (goalIndex + 1)
+
+		return lessons.reduce((acc, lesson, index) => {
+			const date = new Date()
+			date.setDate(date.getDate() + Math.round(daysPerLesson * (index + 1)))
+			acc[lesson.id] = date
+			return acc
+		}, {} as Record<number, Date>)
+	}
+
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
 			{/* <StickyWrapper>
@@ -70,20 +95,22 @@ const LearnPage = async () => {
 			</StickyWrapper> */}
 			<FeedWrapper>
 				<Header title={userProgress.activeCourse.title} />
-				<p className="text-muted-foreground text-center text-md mb-6">
+				<DismissibleAlert className="mb-4">
 					This is the main section of the app. You could stay here and never do
-					the rest of the activites if you&apos;d like. There may be occasional
+					the rest of the activities if you&apos;d like. There may be occasional
 					resets to lesson progress/points. Don&apos;t worry about marking off
 					all the lessons right now.
-				</p>
-				<p className="text-muted-foreground text-center text-md mb-6">
+				</DismissibleAlert>
+
+				<DismissibleAlert className="mb-4">
 					Each lesson will have 1-3 videos and some quiz questions to check
 					comprehension of new vocabulary and principles. For additional
 					practice tap the menu button in the upper left corner to view other
 					activities.
-				</p>
+				</DismissibleAlert>
+				<GoalWrapper units={units} />
 
-				{units.map((unit) => (
+				{/* {units.map((unit) => (
 					<div key={unit.id} className="mb-10">
 						<Unit
 							id={unit.id}
@@ -101,7 +128,7 @@ const LearnPage = async () => {
 							activeLessonPercentage={lessonPercentage}
 						/>
 					</div>
-				))}
+				))} */}
 			</FeedWrapper>
 		</div>
 	)

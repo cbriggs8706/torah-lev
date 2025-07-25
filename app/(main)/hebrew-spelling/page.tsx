@@ -13,6 +13,7 @@ import {
 import dynamic from 'next/dynamic'
 
 import rawVocab from '@/lib/data/vocab/flashcards.json'
+import { DismissibleAlert } from '@/components/dismissible-alert'
 
 const SpellingPractice = dynamic(() => import('@/components/spelling'), {
 	ssr: false,
@@ -61,12 +62,13 @@ const HebrewSpellingPage = async () => {
 					<h1 className="text-center font-bold text-neutral-800 text-2xl my-6">
 						Spelling
 					</h1>
-					<p className="text-muted-foreground text-center text-lg mb-6">
+					<DismissibleAlert className="mb-4">
 						Customize your prompt type. My favorite is letter-by-letter. For
 						sofit ending letters tap the Alt/Opt button. For additional vowels
 						and dagesh, tap the shift button. For the backspace to work properly
 						you need to have your cursor at the end/left of the word.
-					</p>
+					</DismissibleAlert>
+
 					<SpellingPractice
 						data={rawVocab}
 						lessonPrefix="awb"

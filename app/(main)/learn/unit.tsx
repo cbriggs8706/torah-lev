@@ -18,6 +18,7 @@ type Props = {
 		  })
 		| undefined
 	activeLessonPercentage: number
+	schedule?: Record<number, Date>
 }
 
 export const Unit = ({
@@ -28,6 +29,7 @@ export const Unit = ({
 	lessons,
 	activeLesson,
 	activeLessonPercentage,
+	schedule,
 }: Props) => {
 	// const manuallyUnlockedIds = [
 	// 	7, 39, 49, 59, 69, 79, 89, 99, 109, 119, 129, 139, 149, 159,
@@ -36,7 +38,7 @@ export const Unit = ({
 	return (
 		<>
 			<UnitBanner title={title} description={description} />
-			<div className="flex items-center flex-col relative">
+			<div className="flex items-center flex-col relative mb-12">
 				{lessons.map((lesson, index) => {
 					const isCurrent = lesson.id === activeLesson?.id
 					// const isUnlockedManually = manuallyUnlockedIds.includes(lesson.id)
@@ -54,6 +56,7 @@ export const Unit = ({
 							current={isCurrent}
 							locked={false}
 							percentage={activeLessonPercentage}
+							targetDate={schedule?.[lesson.id] ?? null}
 						/>
 					)
 				})}

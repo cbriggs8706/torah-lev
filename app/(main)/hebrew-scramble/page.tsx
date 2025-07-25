@@ -8,6 +8,7 @@ import { getUserProgress, getUserSubscription } from '@/db/queries'
 import dynamic from 'next/dynamic'
 
 import rawVocab from '@/lib/data/vocab/flashcards.json'
+import { DismissibleAlert } from '@/components/dismissible-alert'
 
 const PhraseReconstruction = dynamic(() => import('@/components/scramble'), {
 	ssr: false,
@@ -50,9 +51,11 @@ const HebrewScramblePage = async () => {
 					<h1 className="text-center font-bold text-neutral-800 text-2xl my-6">
 						Scramble
 					</h1>
-					<p className="text-muted-foreground text-center text-lg mb-6">
+					<DismissibleAlert className="mb-4">
+						{' '}
 						Much more coming soon to this activity!
-					</p>
+					</DismissibleAlert>
+
 					<PhraseReconstruction data={rawVocab} lessonPrefix="awb" />
 				</div>
 			</FeedWrapper>

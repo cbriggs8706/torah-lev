@@ -8,6 +8,7 @@ import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 
 import 'react-circular-progressbar/dist/styles.css'
+import { format } from 'date-fns'
 
 type Props = {
 	id: number
@@ -18,6 +19,7 @@ type Props = {
 	completed?: boolean
 	current?: boolean
 	percentage: number
+	targetDate?: Date | null
 }
 
 export const LessonButton = ({
@@ -29,6 +31,7 @@ export const LessonButton = ({
 	completed,
 	current,
 	percentage,
+	targetDate,
 }: Props) => {
 	// const lessonNumber = title.match(/AwB (\d+)/)?.[1] ?? '?'
 	const match = title.match(/AwB(?: Classroom Lesson)? (\d+)/)
@@ -130,6 +133,12 @@ export const LessonButton = ({
 							{lessonNumber}
 						</span>
 					</Button>
+				)}
+				{/* ✅ Display target date */}
+				{targetDate && (
+					<span className="text-lg text-muted-foreground mt-1 ml-2">
+						{format(targetDate, 'MMM d')}
+					</span>
 				)}
 			</div>
 		</Link>

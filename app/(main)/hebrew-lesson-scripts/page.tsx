@@ -10,6 +10,7 @@ import {
 	getUserSubscription,
 } from '@/db/queries'
 import LessonScriptViewer from '@/components/hebrew-lesson-scripts'
+import { DismissibleAlert } from '@/components/dismissible-alert'
 
 const HebrewLessonScriptsPage = async () => {
 	const lessons = await getLessonScripts()
@@ -49,9 +50,10 @@ const HebrewLessonScriptsPage = async () => {
 					<h1 className="text-center font-bold text-neutral-800 text-2xl my-6">
 						Lesson Scripts
 					</h1>
-					<p className="text-muted-foreground text-center text-lg mb-6">
+					<DismissibleAlert className="mb-4">
 						Lessons 1-20 are loaded properly, more coming soon.
-					</p>
+					</DismissibleAlert>
+
 					<LessonScriptViewer lessons={lessons} />
 				</div>
 			</FeedWrapper>

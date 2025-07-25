@@ -12,6 +12,7 @@ import {
 import dynamic from 'next/dynamic'
 
 import rawVocab from '@/lib/data/vocab/flashcards.json'
+import { DismissibleAlert } from '@/components/dismissible-alert'
 
 const FlashcardReview = dynamic(() => import('@/components/flashcards'), {
 	ssr: false,
@@ -60,11 +61,11 @@ const HebrewFlashcardPage = async () => {
 					<h1 className="text-center font-bold text-neutral-800 text-2xl my-6">
 						Flashcards
 					</h1>
-					<p className="text-muted-foreground text-center text-lg mb-6">
+					<DismissibleAlert className="mb-4">
 						These will default to your current lesson in the Learn section. You
 						can customize the cards to your hearts desire. There are 7 spots on
 						front and back where you can place whatever you would like.
-					</p>
+					</DismissibleAlert>
 					<FlashcardReview
 						data={rawVocab}
 						allFields={[

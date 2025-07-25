@@ -9,6 +9,7 @@ import dynamic from 'next/dynamic'
 
 import rawVocab from '@/lib/data/vocab/flashcards.json'
 import HebrewDictionary from '@/components/hebrew-dictionary'
+import { DismissibleAlert } from '@/components/dismissible-alert'
 
 const FlashcardReview = dynamic(() => import('@/components/flashcards'), {
 	ssr: false,
@@ -54,11 +55,11 @@ const HebrewFlashcardPage = async () => {
 					<h1 className="text-center font-bold text-neutral-800 text-2xl my-6">
 						Dictionary
 					</h1>
-					<p className="text-muted-foreground text-center text-lg mb-6">
+					<DismissibleAlert className="mb-4">
 						Make sure to look up words that you don&apos;t recognize in any
 						lesson. Filter alphabetically or by Lesson #. Click on any entry to
 						view more info.
-					</p>
+					</DismissibleAlert>
 					<HebrewDictionary data={filteredWords} />
 				</div>
 			</FeedWrapper>
