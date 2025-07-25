@@ -30,17 +30,15 @@ const HebrewFlashcardPage = async () => {
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
-			<StickyWrapper>
+			{/* <StickyWrapper>
 				<UserProgress
 					activeCourse={userProgress.activeCourse}
 					hearts={userProgress.hearts}
 					points={userProgress.points}
 					hasActiveSubscription={isPro}
 				/>
-				{/* {!isPro && (
-          <Promo />
-        )} */}
-			</StickyWrapper>
+				{!isPro && <Promo />}
+			</StickyWrapper> */}
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">
 					<Image

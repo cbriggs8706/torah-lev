@@ -35,25 +35,19 @@ const LearderboardPage = async () => {
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
-			<StickyWrapper>
+			{/* <StickyWrapper>
 				<UserProgress
 					activeCourse={userProgress.activeCourse}
 					hearts={userProgress.hearts}
 					points={userProgress.points}
 					hasActiveSubscription={isPro}
 				/>
-				{/* {!isPro && (
-          <Promo />
-        )} */}
-				<Quests
-					points={userProgress.points}
-					userChallengeData={userChallengeData}
-				/>
-			</StickyWrapper>
+				{!isPro && <Promo />}
+			</StickyWrapper> */}
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">
 					<Image
-						src="/leaderboard.svg"
+						src="/bar-chart-svgrepo-com.svg"
 						alt="Leaderboard"
 						height={90}
 						width={90}
@@ -62,7 +56,8 @@ const LearderboardPage = async () => {
 						Leaderboard
 					</h1>
 					<p className="text-muted-foreground text-center text-lg mb-6">
-						See where you stand among other learners in the community.
+						This page is used for Cam&apos;s study groups. It will disappear
+						once the app is released.
 					</p>
 					<Separator className="mb-4 h-0.5 rounded-full" />
 					{leaderboard.map((userProgress, index) => (

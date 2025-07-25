@@ -29,17 +29,15 @@ const HebrewLetterQuizPage = async () => {
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
-			<StickyWrapper>
+			{/* <StickyWrapper>
 				<UserProgress
 					activeCourse={userProgress.activeCourse}
 					hearts={userProgress.hearts}
 					points={userProgress.points}
 					hasActiveSubscription={isPro}
 				/>
-				{/* {!isPro && (
-          <Promo />
-        )} */}
-			</StickyWrapper>
+				{!isPro && <Promo />}
+			</StickyWrapper> */}
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">
 					<Image
@@ -51,9 +49,15 @@ const HebrewLetterQuizPage = async () => {
 					<h1 className="text-center font-bold text-neutral-800 text-2xl my-6">
 						Letter Quiz
 					</h1>
-					{/* <p className="text-muted-foreground text-center text-lg mb-6">
-            Customize Your Deck
-          </p> */}
+					<p className="text-muted-foreground text-center text-lg mb-6">
+						Quiz yourself on letter names, letter sounds or syllable sounds.
+						Play around with different fonts. New Study Alphabet button! More
+						fonts coming soon.
+					</p>
+					<p className="text-muted-foreground text-center text-lg mb-6">
+						The goal is to say the correct answer in under 3 seconds with no
+						more than 2 mistakes per round in order to pass it off in class.
+					</p>
 					<LetterQuiz letters={letters} />
 				</div>
 			</FeedWrapper>

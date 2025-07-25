@@ -72,17 +72,22 @@ export default function SidebarClient({
 							iconSrc="/card-file-box.svg"
 							onClick={onItemClick}
 						/>
-
 						<SidebarItem
-							label="Spelling"
-							href="/hebrew-spelling"
-							iconSrc="/ab-button-blood-type-svgrepo-com.svg"
+							label="Dictionary"
+							href="/hebrew-dictionary"
+							iconSrc="/open-book-svgrepo-com.svg"
 							onClick={onItemClick}
 						/>
 						<SidebarItem
-							label="Scramble"
-							href="/hebrew-scramble"
-							iconSrc="/cooking-svgrepo-com.svg"
+							label="Lesson Scripts"
+							href="/hebrew-lesson-scripts"
+							iconSrc="/spiral-notepad-svgrepo-com.svg"
+							onClick={onItemClick}
+						/>
+						<SidebarItem
+							label="Spelling"
+							href="/hebrew-spelling"
+							iconSrc="/pencil-svgrepo-com.svg"
 							onClick={onItemClick}
 						/>
 						<SidebarItem
@@ -92,29 +97,48 @@ export default function SidebarClient({
 							onClick={onItemClick}
 						/>
 						<SidebarItem
-							label="Sentence Builder"
+							label="Scramble"
+							href="/hebrew-scramble"
+							iconSrc="/cooking-svgrepo-com.svg"
+							onClick={onItemClick}
+						/>
+
+						<SidebarItem
+							label="Sentences"
 							href="/hebrew-sentencebuilder"
 							iconSrc="/building-construction-svgrepo-com.svg"
 							onClick={onItemClick}
 						/>
-						<SidebarItem
-							label="Dictionary"
-							href="/hebrew-dictionary"
-							iconSrc="/ab-button-blood-type-svgrepo-com.svg"
-							onClick={onItemClick}
-						/>
+
 						<SidebarItem
 							label="Matchup"
 							href="/hebrew-matchup"
 							iconSrc="/couple-with-heart-man-man-light-skin-tone-svgrepo-com.svg"
 							onClick={onItemClick}
 						/>
+
 						<SidebarItem
-							label="Lesson Scripts"
-							href="/hebrew-lesson-scripts"
-							iconSrc="/spiral-notepad-svgrepo-com.svg"
+							label="Dev Roadmap"
+							href="/dev-roadmap"
+							iconSrc="/world-map-svgrepo-com.svg"
 							onClick={onItemClick}
 						/>
+						{isFriend && (
+							<>
+								<SidebarItem
+									label="Schedule"
+									href="/camerons-groups"
+									iconSrc="/boy.svg"
+									onClick={onItemClick}
+								/>
+								<SidebarItem
+									label="Leaderboard"
+									href="/leaderboard"
+									iconSrc="/bar-chart-svgrepo-com.svg"
+									onClick={onItemClick}
+								/>
+							</>
+						)}
 					</>
 				)}
 			</div>
@@ -125,7 +149,7 @@ export default function SidebarClient({
 				<ClerkLoaded>
 					<div className="flex flex-row gap-4">
 						<UserButton afterSignOutUrl="/" />
-						{isFriend && (
+						{/* {isFriend && (
 							<Link
 								href="/camerons-groups"
 								className="mr-3 inline-flex items-center align-middle gap-2 border border-solid border-green-500 rounded-md px-2 py-1"
@@ -134,13 +158,13 @@ export default function SidebarClient({
 							>
 								<Image
 									src="/boy.svg"
-									alt="Cameron's Groups"
+									alt=""
 									width={24}
 									height={24}
 								/>
 								<span className="flex text-green-500 font-bold">Schedule</span>
 							</Link>
-						)}
+						)} */}
 					</div>
 				</ClerkLoaded>
 			</div>

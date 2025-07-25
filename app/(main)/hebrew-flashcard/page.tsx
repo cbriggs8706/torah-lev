@@ -40,17 +40,15 @@ const HebrewFlashcardPage = async () => {
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
-			<StickyWrapper>
+			{/* <StickyWrapper>
 				<UserProgress
 					activeCourse={userProgress.activeCourse}
 					hearts={userProgress.hearts}
 					points={userProgress.points}
 					hasActiveSubscription={isPro}
 				/>
-				{/* {!isPro && (
-          <Promo />
-        )} */}
-			</StickyWrapper>
+				{!isPro && <Promo />}
+			</StickyWrapper> */}
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">
 					<Image
@@ -62,9 +60,11 @@ const HebrewFlashcardPage = async () => {
 					<h1 className="text-center font-bold text-neutral-800 text-2xl my-6">
 						Flashcards
 					</h1>
-					{/* <p className="text-muted-foreground text-center text-lg mb-6">
-						Customize Your Deck
-					</p> */}
+					<p className="text-muted-foreground text-center text-lg mb-6">
+						These will default to your current lesson in the Learn section. You
+						can customize the cards to your hearts desire. There are 7 spots on
+						front and back where you can place whatever you would like.
+					</p>
 					<FlashcardReview
 						data={rawVocab}
 						allFields={[

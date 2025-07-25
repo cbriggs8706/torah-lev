@@ -41,17 +41,15 @@ const HebrewLetterQuizPage = async () => {
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
-			<StickyWrapper>
+			{/* <StickyWrapper>
 				<UserProgress
 					activeCourse={userProgress.activeCourse}
 					hearts={userProgress.hearts}
 					points={userProgress.points}
 					hasActiveSubscription={isPro}
 				/>
-				{/* {!isPro && (
-          <Promo />
-        )} */}
-			</StickyWrapper>
+				{!isPro && <Promo />}
+			</StickyWrapper> */}
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">
 					<Image
@@ -63,9 +61,11 @@ const HebrewLetterQuizPage = async () => {
 					<h1 className="text-center font-bold text-neutral-800 text-2xl my-6">
 						Matchup
 					</h1>
-					{/* <p className="text-muted-foreground text-center text-lg mb-6">
-            Customize Your Deck
-          </p> */}
+					<p className="text-muted-foreground text-center text-lg mb-6">
+						It will load up to 12 words from your current lesson by default. You
+						can change between text, images and audio in the filters. Known bug:
+						drag and drop doesn&apos;t work on android devices.
+					</p>
 					<HebrewMatchup
 						data={rawVocab}
 						lessonPrefix="awb"

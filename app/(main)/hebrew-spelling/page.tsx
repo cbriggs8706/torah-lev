@@ -41,21 +41,19 @@ const HebrewSpellingPage = async () => {
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
-			<StickyWrapper>
+			{/* <StickyWrapper>
 				<UserProgress
 					activeCourse={userProgress.activeCourse}
 					hearts={userProgress.hearts}
 					points={userProgress.points}
 					hasActiveSubscription={isPro}
 				/>
-				{/* {!isPro && (
-          <Promo />
-        )} */}
-			</StickyWrapper>
+				{!isPro && <Promo />}
+			</StickyWrapper> */}
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">
 					<Image
-						src="/ab-button-blood-type-svgrepo-com.svg"
+						src="/pencil-svgrepo-com.svg"
 						alt="Calendar"
 						height={90}
 						width={90}
@@ -63,9 +61,12 @@ const HebrewSpellingPage = async () => {
 					<h1 className="text-center font-bold text-neutral-800 text-2xl my-6">
 						Spelling
 					</h1>
-					{/* <p className="text-muted-foreground text-center text-lg mb-6">
-            Customize Your Deck
-          </p> */}
+					<p className="text-muted-foreground text-center text-lg mb-6">
+						Customize your prompt type. My favorite is letter-by-letter. For
+						sofit ending letters tap the Alt/Opt button. For additional vowels
+						and dagesh, tap the shift button. For the backspace to work properly
+						you need to have your cursor at the end/left of the word.
+					</p>
 					<SpellingPractice
 						data={rawVocab}
 						lessonPrefix="awb"

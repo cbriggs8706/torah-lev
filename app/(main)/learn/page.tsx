@@ -52,24 +52,37 @@ const LearnPage = async () => {
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
-			<StickyWrapper>
+			{/* <StickyWrapper>
 				<UserProgress
 					activeCourse={userProgress.activeCourse}
 					hearts={userProgress.hearts}
 					points={userProgress.points}
 					hasActiveSubscription={isPro}
 				/>
-				{/* {!isPro && (
+				{!isPro && (
           <Promo />
-        )} */}
-				{/* <Calendar /> */}
+        )}
+				<Calendar />
 				<Quests
 					points={userProgress.points}
 					userChallengeData={userChallengeData}
 				/>
-			</StickyWrapper>
+			</StickyWrapper> */}
 			<FeedWrapper>
 				<Header title={userProgress.activeCourse.title} />
+				<p className="text-muted-foreground text-center text-md mb-6">
+					This is the main section of the app. You could stay here and never do
+					the rest of the activites if you&apos;d like. There may be occasional
+					resets to lesson progress/points. Don&apos;t worry about marking off
+					all the lessons right now.
+				</p>
+				<p className="text-muted-foreground text-center text-md mb-6">
+					Each lesson will have 1-3 videos and some quiz questions to check
+					comprehension of new vocabulary and principles. For additional
+					practice tap the menu button in the upper left corner to view other
+					activities.
+				</p>
+
 				{units.map((unit) => (
 					<div key={unit.id} className="mb-10">
 						<Unit
