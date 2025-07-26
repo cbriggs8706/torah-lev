@@ -109,15 +109,7 @@ export const Quiz = ({
 			return true
 		})
 
-		const watchChallenges = deduped
-			.filter((c) => c.type === 'WATCH')
-			.sort((a, b) => a.order - b.order)
-
-		const otherChallenges = deduped
-			.filter((c) => c.type !== 'WATCH')
-			.sort(() => Math.random() - 0.5)
-
-		return [...watchChallenges, ...otherChallenges]
+		return deduped.sort((a, b) => a.order - b.order)
 	})
 
 	const [activeIndex, setActiveIndex] = useState(() => {

@@ -43,7 +43,20 @@ export default function GenerateChallengesPage() {
 				headers: { 'Content-Type': 'application/json' },
 			})
 			const data = await res.json()
-			setPreview(data)
+			const filteredData = data.map((challenge: any) => {
+				// If challenge.type is "word", keep only word options
+				if (challenge.type === 'word') {
+					return {
+						...challenge,
+						options: challenge.options.filter(
+							(opt: any) => opt.type === 'word'
+						),
+					}
+				}
+				// If phrase, leave options unchanged
+				return challenge
+			})
+			setPreview(filteredData)
 		} catch (err) {
 			notify('Error generating preview', { type: 'error' })
 		} finally {

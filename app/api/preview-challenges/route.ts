@@ -17,6 +17,7 @@ interface Word {
 	hebAudio?: string
 	images?: string[]
 	lessons: string[]
+	type: string
 }
 
 export const POST = async (req: Request) => {
@@ -102,6 +103,7 @@ export const POST = async (req: Request) => {
 		word: Word
 	): {
 		text: string // always required
+		type: string
 		imageSrc?: string
 		audioSrc?: string
 		hebNiqqud?: string
@@ -112,42 +114,49 @@ export const POST = async (req: Request) => {
 			case 'AUDIO-VISUAL':
 				return {
 					text: fallbackText,
+					type: word.type,
 					// audioSrc: normalizeAudio(word.hebAudio),
 					imageSrc: word.images?.[0],
 				}
 			case 'TEXT-VISUAL':
 				return {
 					text: fallbackText,
+					type: word.type,
 					// hebNiqqud: word.hebNiqqud,
 					imageSrc: word.images?.[0],
 				}
 			case 'VISUAL-AUDIO':
 				return {
 					text: fallbackText,
+					type: word.type,
 					// imageSrc: word.images?.[0],
 					audioSrc: normalizeAudio(word.hebAudio),
 				}
 			case 'TEXT-AUDIO':
 				return {
 					text: fallbackText,
+					type: word.type,
 					// hebNiqqud: word.hebNiqqud,
 					audioSrc: normalizeAudio(word.hebAudio),
 				}
 			case 'AUDIO-TEXT':
 				return {
 					text: fallbackText,
+					type: word.type,
 					// audioSrc: normalizeAudio(word.hebAudio),
 					hebNiqqud: word.hebNiqqud,
 				}
 			case 'VISUAL-TEXT':
 				return {
 					text: fallbackText,
+					type: word.type,
 					// imageSrc: word.images?.[0],
 					hebNiqqud: word.hebNiqqud,
 				}
 			default:
 				return {
 					text: fallbackText,
+					type: word.type,
 				}
 		}
 	}
@@ -177,8 +186,14 @@ export const POST = async (req: Request) => {
 
 		const correct = { ...getOptionValue(word), correct: true }
 
-		const distractors = lessonWords
-			.filter((w) => w.id !== word.id)
+		let possibleDistractors = lessonWords.filter((w) => w.id !== word.id)
+
+		// ✅ If the correct answer is a word, only allow word distractors
+		if (word.type === 'word') {
+			possibleDistractors = possibleDistractors.filter((w) => w.type === 'word')
+		}
+
+		const distractors = possibleDistractors
 			.sort(() => 0.5 - Math.random())
 			.slice(0, 5)
 			.map((d) => ({ ...getOptionValue(d), correct: false }))
@@ -186,7 +201,7 @@ export const POST = async (req: Request) => {
 		return {
 			order,
 			question,
-			type,
+			type: word.type,
 			audio: audio ?? null,
 			image: image ?? null,
 			hebNiqqud: hebNiqqud ?? null,
