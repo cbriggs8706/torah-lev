@@ -60,7 +60,6 @@ const HebrewLessonScriptsPage = async () => {
 								Dictionary: add all prefixes and suffixes in so that any word
 								variation can be found by students unfamiliar with roots
 							</li>
-							<li>LessonScripts: load 21-current</li>
 							<li>LetterQuiz: add missing fonts</li>
 							<li>Data: scrape and add all AwB images/audio from Bibleling</li>
 							<li>Matchup: fix drag and drop on android mobile</li>
@@ -68,7 +67,6 @@ const HebrewLessonScriptsPage = async () => {
 						<h3 className="font-bold text-2xl">Aug 2025</h3>
 						<ul className="text-muted-foreground text-lg mb-6">
 							<li>Add conjugation charts and grammar sections</li>
-							<li>Add a goal scheduler</li>
 							<li>Flashcards: add anki type spaced repetition</li>
 							<li>Scramble: revamp adding in sentence builder etc</li>
 							<li>

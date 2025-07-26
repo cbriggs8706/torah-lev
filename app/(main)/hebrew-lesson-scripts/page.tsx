@@ -51,7 +51,9 @@ const HebrewLessonScriptsPage = async () => {
 						Lesson Scripts
 					</h1>
 					<DismissibleAlert className="mb-4">
-						Lessons 1-20 are loaded properly, more coming soon.
+						Lessons 1-100 are loaded. Most have audio where you can click the
+						play button to listen while you read. Some browsers are having
+						trouble displaying images nicely.
 					</DismissibleAlert>
 
 					<LessonScriptViewer lessons={lessons} />
