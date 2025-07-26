@@ -18,10 +18,16 @@ const FlashcardReview = dynamic(() => import('@/components/flashcards'), {
 const HebrewFlashcardPage = async () => {
 	const userProgressData = getUserProgress()
 	const userSubscriptionData = getUserSubscription()
+	// const filteredWords = rawVocab.filter(
+	// 	(word) => word.type?.toLowerCase() === 'word'
+	// )
 	const filteredWords = rawVocab.filter(
-		(word) => word.type?.toLowerCase() === 'word'
+		(word) =>
+			word.type?.toLowerCase() === 'word' &&
+			!word.lessons?.some((lesson) =>
+				lesson.toLowerCase().includes('classroom')
+			)
 	)
-
 	const [userProgress, userSubscription] = await Promise.all([
 		userProgressData,
 		userSubscriptionData,
