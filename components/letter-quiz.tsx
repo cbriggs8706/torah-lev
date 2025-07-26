@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useAudio, useWindowSize } from 'react-use'
 import ReactConfetti from 'react-confetti'
 import Image from 'next/image'
@@ -169,17 +169,17 @@ export default function LetterQuiz({ letters }: LetterQuizProps) {
 		setCorrectCount(0)
 		setWrongCount(0)
 		setWrongAnswers([])
-	}, [gameStarted])
+	}, [gameStarted, filteredLetters])
 
 	const currentLetter = shuffledLetters[currentIndex]
 
-	const getAudioSrc = () => {
+	const getAudioSrc = useCallback(() => {
 		if (!currentLetter) return ''
 		if (selectedMode === 'name') return `${currentLetter.nameAudio}`
 		if (selectedMode === 'sound' || selectedMode === 'niqqud')
 			return `${currentLetter.soundAudio}`
 		return ''
-	}
+	}, [currentLetter, selectedMode])
 
 	const audioRef = useRef<HTMLAudioElement | null>(null)
 
@@ -204,7 +204,15 @@ export default function LetterQuiz({ letters }: LetterQuizProps) {
 			audio.pause()
 			audioRef.current = null
 		}
-	}, [gameStarted, currentIndex, finished, waiting])
+	}, [
+		gameStarted,
+		currentIndex,
+		finished,
+		waiting,
+		currentLetter,
+		studyMode,
+		getAudioSrc,
+	])
 
 	useEffect(() => {
 		if (!gameStarted || finished || !currentLetter) return
@@ -219,7 +227,7 @@ export default function LetterQuiz({ letters }: LetterQuizProps) {
 		}, timeLimit * 1000)
 
 		return () => clearTimeout(timer)
-	}, [currentIndex, gameStarted, timeLimit, finished])
+	}, [currentIndex, gameStarted, timeLimit, finished, currentLetter])
 
 	function handleResponse(correct: boolean) {
 		if (disabledButtons) return // Prevent double-click
@@ -268,7 +276,7 @@ export default function LetterQuiz({ letters }: LetterQuizProps) {
 		}, timeLimit * 1000)
 
 		return () => clearTimeout(timer)
-	}, [currentLetter?.char])
+	}, [currentLetter?.char, currentLetter, finished, gameStarted, timeLimit])
 
 	function fontClassNameFor(font: FontChoice): string {
 		const classes: Record<FontChoice, string> = {

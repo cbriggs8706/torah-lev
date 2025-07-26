@@ -21,9 +21,14 @@ interface Word {
 }
 
 export const POST = async (req: Request) => {
-	const { lessonId, type } = (await req.json()) as {
+	const {
+		lessonId,
+		type,
+		challenges: providedChallenges,
+	} = (await req.json()) as {
 		lessonId: number
 		type: ChallengeType
+		challenges?: any[]
 	}
 
 	// 🔍 STEP 1: Get the lesson title
@@ -170,6 +175,38 @@ export const POST = async (req: Request) => {
 					text: fallbackText,
 				}
 		}
+	}
+
+	// ✅ If challenges were sent from the frontend (edited preview), just save those
+	if (providedChallenges && Array.isArray(providedChallenges)) {
+		for (const [index, ch] of providedChallenges.entries()) {
+			const challenge = await db
+				.insert(challenges)
+				.values({
+					lessonId,
+					type,
+					order: ch.order ?? index + 1, // ✅ use manual order if set
+					question: ch.question,
+					audio: ch.audio ?? null,
+					image: ch.image ?? null,
+					hebNiqqud: ch.hebNiqqud ?? null,
+				})
+				.returning()
+
+			const challengeId = challenge[0].id
+
+			// Save options exactly as modified
+			await Promise.all(
+				ch.options.map((opt: any) =>
+					db.insert(challengeOptions).values({
+						...opt,
+						challengeId,
+					})
+				)
+			)
+		}
+
+		return NextResponse.json({ message: 'Challenges created successfully!' })
 	}
 
 	for (let i = 0; i < lessonWords.length; i++) {

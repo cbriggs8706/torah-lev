@@ -1,20 +1,29 @@
 import {
-	Datagrid,
 	List,
+	Datagrid,
 	TextField,
 	ReferenceField,
 	NumberField,
+	TextInput,
+	Pagination,
 } from 'react-admin'
 
-export const LessonList = () => {
-	return (
-		<List>
-			<Datagrid rowClick="edit">
-				<TextField source="id" />
-				<TextField source="title" />
-				<ReferenceField source="unitId" reference="units" />
-				<NumberField source="order" />
-			</Datagrid>
-		</List>
-	)
-}
+const lessonFilters = [
+	<TextInput key="title" label="Search by Title" source="title" alwaysOn />,
+]
+
+export const LessonList = () => (
+	<List
+		filters={lessonFilters}
+		sort={{ field: 'order', order: 'ASC' }}
+		perPage={25}
+		pagination={<Pagination rowsPerPageOptions={[10, 25, 50, 100]} />} // ✅ Allow user to pick
+	>
+		<Datagrid rowClick="edit">
+			<TextField source="id" />
+			<TextField source="title" sortable />
+			<ReferenceField source="unitId" reference="units" />
+			<NumberField source="order" sortable />
+		</Datagrid>
+	</List>
+)

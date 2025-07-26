@@ -59,10 +59,15 @@ export default function GenerateChallengesPage() {
 
 		setLoading(true)
 		setMessage('')
+
 		try {
 			const res = await fetch('/api/generate-challenges', {
 				method: 'POST',
-				body: JSON.stringify({ lessonId: selectedLessonId, type }),
+				body: JSON.stringify({
+					lessonId: selectedLessonId,
+					type,
+					challenges: preview, // ✅ send modified preview
+				}),
 				headers: { 'Content-Type': 'application/json' },
 			})
 
@@ -93,12 +98,9 @@ export default function GenerateChallengesPage() {
 	}
 
 	useEffect(() => {
-		fetch('/api/lessons')
+		fetch('/api/lessons?sort=["order","ASC"]&range=[0,999]')
 			.then((res) => res.json())
 			.then((data) => setLessons(data))
-			.catch((err) =>
-				notify(`Error loading lessons: ${err.message}`, { type: 'error' })
-			)
 	}, [])
 
 	return (
@@ -156,7 +158,39 @@ export default function GenerateChallengesPage() {
 
 					{preview.map((ch, i) => (
 						<div key={i} className="mb-4 border-b pb-2">
-							<p className="font-semibold">{ch.question}</p>
+							<div className="flex items-center justify-between">
+								<p className="font-semibold">{ch.question}</p>
+
+								{/* 🗑 Remove Entire Question */}
+								<button
+									type="button"
+									onClick={() =>
+										setPreview(
+											(prev) => prev?.filter((_, idx) => idx !== i) || null
+										)
+									}
+									className="text-red-600 hover:text-red-800"
+								>
+									Remove Question ❌
+								</button>
+							</div>
+
+							{/* ✏️ Editable Order */}
+							<label className="block text-sm font-medium mt-2">Order</label>
+							<input
+								type="number"
+								value={ch.order ?? i + 1}
+								onChange={(e) => {
+									const value = Number(e.target.value)
+									setPreview((prev) => {
+										if (!prev) return prev
+										const updated = [...prev]
+										updated[i] = { ...updated[i], order: value }
+										return updated
+									})
+								}}
+								className="border rounded px-2 py-1 w-20 mb-2"
+							/>
 
 							{ch.hebNiqqud && (
 								<p className="text-xl text-right font-serif">{ch.hebNiqqud}</p>

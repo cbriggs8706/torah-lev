@@ -1,29 +1,64 @@
-import { NextResponse } from "next/server";
+import { NextResponse } from 'next/server'
+import db from '@/db/drizzle'
+import { isAdmin } from '@/lib/admin'
+import { challengeOptions } from '@/db/schema'
+import { asc, desc, sql, inArray } from 'drizzle-orm'
 
-import db from "@/db/drizzle";
-import { isAdmin } from "@/lib/admin";
-import { challengeOptions } from "@/db/schema";
+export const GET = async (req: Request) => {
+	if (!isAdmin()) return new NextResponse('Unauthorized', { status: 401 })
 
-export const GET = async () => {
-  if (!isAdmin()) {
-    return new NextResponse("Unauthorized", { status: 401 });
-  }
+	const { searchParams } = new URL(req.url)
 
-  const data = await db.query.challengeOptions.findMany();
+	const sort = JSON.parse(searchParams.get('sort') || `["id","ASC"]`)
+	const range = JSON.parse(searchParams.get('range') || '[0,9]')
+	const filter = JSON.parse(searchParams.get('filter') || '{}')
 
-  return NextResponse.json(data);
-};
+	const [sortField, sortOrder] = sort
+	const [start, end] = range
+	const perPage = end - start + 1
+	const offset = start
 
-export const POST = async (req: Request) => {
-  if (!isAdmin()) {
-    return new NextResponse("Unauthorized", { status: 401 });
-  }
+	const columnMap = {
+		id: challengeOptions.id,
+		text: challengeOptions.text,
+		correct: challengeOptions.correct,
+		challengeId: challengeOptions.challengeId,
+		imageSrc: challengeOptions.imageSrc,
+		audioSrc: challengeOptions.audioSrc,
+	} as const
 
-  const body = await req.json();
+	const sortColumn =
+		columnMap[sortField as keyof typeof columnMap] || challengeOptions.id
+	const sortDirection = sortOrder === 'DESC' ? desc : asc
 
-  const data = await db.insert(challengeOptions).values({
-    ...body,
-  }).returning();
+	// Filtering
+	const filters: any[] = []
+	if (filter.text)
+		filters.push(sql`${challengeOptions.text} ILIKE ${'%' + filter.text + '%'}`)
+	if (filter.challengeId)
+		filters.push(sql`${challengeOptions.challengeId} = ${filter.challengeId}`)
+	if (filter.correct !== undefined)
+		filters.push(sql`${challengeOptions.correct} = ${filter.correct}`)
 
-  return NextResponse.json(data[0]);
-};
+	const whereClause =
+		filters.length > 0 ? sql.join(filters, sql` AND `) : undefined
+
+	const rows = await db.query.challengeOptions.findMany({
+		where: whereClause,
+		orderBy: sortDirection(sortColumn),
+		limit: perPage,
+		offset,
+	})
+
+	const [{ count }] = await db
+		.select({ count: sql<number>`count(*)` })
+		.from(challengeOptions)
+		.where(whereClause ?? sql`TRUE`)
+
+	return new NextResponse(JSON.stringify(rows), {
+		headers: {
+			'X-Total-Count': count.toString(),
+			'Access-Control-Expose-Headers': 'X-Total-Count',
+		},
+	})
+}
