@@ -319,6 +319,24 @@ export default function HebrewDictionary({ data }: DictionaryProps) {
 		window.scrollTo({ top: 0, behavior: 'smooth' })
 	}
 
+	// Log broken images
+	useEffect(() => {
+		data.forEach((entry) => {
+			if (entry.images?.[0]) {
+				const img = document.createElement('img') // ✅ no TS error
+				img.src = entry.images[0]
+				img.onerror = () => {
+					console.warn(
+						'❌ Broken image URL:',
+						entry.images![0],
+						'for',
+						entry.heb
+					)
+				}
+			}
+		})
+	}, [data])
+
 	return (
 		<div className="flex w-full md:w-3/4">
 			{/* Word List and Sort Options */}
