@@ -132,7 +132,7 @@ export default function SidebarClient({
 						<SidebarItem
 							label="Matchup"
 							href="/hebrew-matchup"
-							iconSrc="/couple-with-heart-man-man-light-skin-tone-svgrepo-com.svg"
+							iconSrc="/socks-svgrepo-com.svg"
 							onClick={onItemClick}
 						/>
 						<SidebarItem
@@ -141,7 +141,9 @@ export default function SidebarClient({
 							iconSrc="/world-map-svgrepo-com.svg"
 							onClick={onItemClick}
 						/>
-						- Coming Soon -
+						<span className="text-lg text-red-700 font-semibold text-center">
+							-- Coming Soon --
+						</span>
 						<SidebarItem
 							label="Sorting"
 							href="#"
@@ -204,6 +206,9 @@ export default function SidebarClient({
 						/>
 						{isFriend && (
 							<>
+								<span className="text-lg text-red-700 font-semibold text-center">
+									-- Locals --
+								</span>
 								<SidebarItem
 									label="Schedule"
 									href="/camerons-groups"
@@ -215,6 +220,12 @@ export default function SidebarClient({
 									href="/leaderboard"
 									iconSrc="/trophy-svgrepo-com.svg"
 									onClick={onItemClick}
+								/>
+								<SidebarItem
+									label="Prayers"
+									href="#"
+									iconSrc="/folded-hands-medium-dark-skin-tone-svgrepo-com.svg"
+									// onClick={onItemClick}
 								/>
 							</>
 						)}
