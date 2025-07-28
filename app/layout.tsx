@@ -13,6 +13,7 @@ import { ExitModal } from '@/components/modals/exit-modal'
 import { HeartsModal } from '@/components/modals/hearts-modal'
 import { PracticeModal } from '@/components/modals/practice-modal'
 import './globals.css'
+import { Analytics } from '@vercel/analytics/next'
 
 const frank = Frank_Ruhl_Libre({
 	subsets: ['hebrew'],
@@ -55,6 +56,7 @@ export default function RootLayout({
 		<ClerkProvider>
 			<html lang="en">
 				<head>
+					<Analytics />
 					<link rel="icon" href="/favicon.ico" />
 					<link
 						rel="android-chrome"

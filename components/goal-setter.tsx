@@ -115,14 +115,30 @@ export function GoalSetter({
 						</p>
 					</>
 				)}
-				<Button
-					// variant="destructive"
-					size="sm"
-					className="mt-2"
-					onClick={clearGoal}
-				>
-					Clear Goal
-				</Button>
+				<div className="flex gap-3 mt-2">
+					<Button
+						variant="secondary"
+						size="sm"
+						onClick={() => {
+							if (goalLesson && goalDate) {
+								localStorage.setItem(
+									'goal',
+									JSON.stringify({
+										lesson: goalLesson,
+										date: goalDate.toISOString(),
+									})
+								)
+								window.dispatchEvent(new Event('storage'))
+							}
+						}}
+					>
+						Set Goal
+					</Button>
+
+					<Button variant="danger" size="sm" onClick={clearGoal}>
+						Clear Goal
+					</Button>
+				</div>
 			</div>
 
 			{/* Right Side - Calendar */}
