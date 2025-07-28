@@ -108,7 +108,7 @@ export default function SidebarClient({
 						<SidebarItem
 							label="Spelling"
 							href="/hebrew-spelling"
-							iconSrc="/pencil-svgrepo-com.svg"
+							iconSrc="/input-latin-letters-svgrepo-com.svg"
 							onClick={onItemClick}
 						/>
 						{/* <SidebarItem
@@ -123,39 +123,97 @@ export default function SidebarClient({
 							iconSrc="/cooking-svgrepo-com.svg"
 							onClick={onItemClick}
 						/>
-
 						<SidebarItem
 							label="Sentences"
 							href="/hebrew-sentencebuilder"
 							iconSrc="/building-construction-svgrepo-com.svg"
 							onClick={onItemClick}
 						/>
-
 						<SidebarItem
 							label="Matchup"
 							href="/hebrew-matchup"
 							iconSrc="/couple-with-heart-man-man-light-skin-tone-svgrepo-com.svg"
 							onClick={onItemClick}
 						/>
-
 						<SidebarItem
 							label="Dev Roadmap"
 							href="/dev-roadmap"
 							iconSrc="/world-map-svgrepo-com.svg"
 							onClick={onItemClick}
 						/>
+						- Coming Soon -
+						<SidebarItem
+							label="Sorting"
+							href="#"
+							iconSrc="/person-juggling-light-skin-tone-svgrepo-com.svg"
+							// onClick={onItemClick}
+						/>
+						<SidebarItem
+							label="Grammar"
+							href="#"
+							iconSrc="/bookmark-tabs-svgrepo-com (1).svg"
+							// onClick={onItemClick}
+						/>
+						<SidebarItem
+							label="Memorize"
+							href="#"
+							iconSrc="/brain-svgrepo-com.svg"
+							// onClick={onItemClick}
+						/>
+						<SidebarItem
+							label="Numbers"
+							href="#"
+							iconSrc="/input-numbers-svgrepo-com.svg"
+							// onClick={onItemClick}
+						/>
+						<SidebarItem
+							label="Music"
+							href="#"
+							iconSrc="/musical-note-svgrepo-com.svg"
+							// onClick={onItemClick}
+						/>
+						<SidebarItem
+							label="Speak"
+							href="#"
+							iconSrc="/speaking-head-svgrepo-com.svg"
+							// onClick={onItemClick}
+						/>
+						<SidebarItem
+							label="Conversation"
+							href="#"
+							iconSrc="/speech-balloon-svgrepo-com.svg"
+							// onClick={onItemClick}
+						/>
+						<SidebarItem
+							label="Go"
+							href="#"
+							iconSrc="/vertical-traffic-light-svgrepo-com.svg"
+							// onClick={onItemClick}
+						/>
+						<SidebarItem
+							label="MadGab"
+							href="#"
+							iconSrc="/winking-face-with-tongue-svgrepo-com.svg"
+							// onClick={onItemClick}
+						/>
+						<SidebarItem
+							label="Holy Days"
+							href="#"
+							iconSrc="/menorah-svgrepo-com.svg"
+							// onClick={onItemClick}
+						/>
 						{isFriend && (
 							<>
 								<SidebarItem
 									label="Schedule"
 									href="/camerons-groups"
-									iconSrc="/boy.svg"
+									iconSrc="/tear-off-calendar-svgrepo-com.svg"
 									onClick={onItemClick}
 								/>
 								<SidebarItem
 									label="Leaderboard"
 									href="/leaderboard"
-									iconSrc="/bar-chart-svgrepo-com.svg"
+									iconSrc="/trophy-svgrepo-com.svg"
 									onClick={onItemClick}
 								/>
 							</>

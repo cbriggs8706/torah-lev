@@ -3,6 +3,8 @@
 import { useState, useMemo, useRef, useEffect } from 'react'
 import { Flashcard } from '@/lib/vocab'
 import Image from 'next/image'
+import FemaleIcon from '@/public/female-sign-svgrepo-com.svg'
+import MaleIcon from '@/public/male-sign-svgrepo-com.svg'
 
 interface DictionaryProps {
 	data: Flashcard[]
@@ -66,17 +68,35 @@ function parseGenderPerson(code: string | undefined) {
 		)
 	if (code.includes('m'))
 		elements.push(
-			<span
-				key="m"
-				className="inline-block w-2 h-2 bg-sky-500 rounded-full"
-			></span>
+			// <span
+			// 	key="m"
+			// 	className="inline-block w-2 h-2 bg-sky-500 rounded-full"
+			// ></span>
+			<span key="m" title="male">
+				<Image
+					src={MaleIcon}
+					alt="male"
+					width={16}
+					height={16}
+					className="inline-block"
+				/>
+			</span>
 		)
 	if (code.includes('f'))
 		elements.push(
-			<span
-				key="f"
-				className="inline-block w-2 h-2 bg-pink-400 rounded-full"
-			></span>
+			// <span
+			// 	key="f"
+			// 	className="inline-block w-2 h-2 bg-pink-400 rounded-full"
+			// ></span>
+			<span key="f" title="female">
+				<Image
+					src={FemaleIcon}
+					alt="female"
+					width={16}
+					height={16}
+					className="inline-block"
+				/>
+			</span>
 		)
 	if (code.includes('s'))
 		elements.push(
