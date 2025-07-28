@@ -64,6 +64,27 @@ export default function SidebarClient({
 					iconSrc="/youtube.svg"
 					onClick={onItemClick}
 				/>
+				{userProgress?.activeCourse.id === 11 && (
+					<>
+						<SidebarItem
+							label="Flashcards"
+							href="/scouts-flashcard"
+							iconSrc="/card-file-box.svg"
+							onClick={onItemClick}
+						/>
+					</>
+				)}
+				{userProgress?.activeCourse.id === 6 ||
+					(userProgress?.activeCourse.id === 11 && (
+						<>
+							<SidebarItem
+								label="Letter Quiz"
+								href="/hebrew-letter-quiz"
+								iconSrc="/a-button-blood-type-svgrepo-com.svg"
+								onClick={onItemClick}
+							/>
+						</>
+					))}
 				{userProgress?.activeCourse.id === 6 && (
 					<>
 						<SidebarItem
@@ -90,12 +111,12 @@ export default function SidebarClient({
 							iconSrc="/pencil-svgrepo-com.svg"
 							onClick={onItemClick}
 						/>
-						<SidebarItem
+						{/* <SidebarItem
 							label="Letter Quiz"
 							href="/hebrew-letter-quiz"
 							iconSrc="/a-button-blood-type-svgrepo-com.svg"
 							onClick={onItemClick}
-						/>
+						/> */}
 						<SidebarItem
 							label="Scramble"
 							href="/hebrew-scramble"

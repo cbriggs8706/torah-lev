@@ -1,0 +1,632 @@
+[
+	{
+		"id": 5,
+		"hebNiqqud": "גָּדוֹל",
+		"heb": "גדול",
+		"eng": "big / great",
+		"engDefinition": "",
+		"genderPerson": "m",
+		"partOfSpeech": ["Adjective"],
+		"ipa": "[ɡaˈdol]",
+		"engTransliteration": "gadol",
+		"dictionaryUrl": "",
+		"images": [],
+		"hebAudio": "awb1/large big gadol.mp3",
+		"engAudio": "",
+		"synonyms": [],
+		"antonyms": ["19"],
+		"lessons": ["awb1"],
+		"scriptures": [],
+		"strongs": "",
+		"type": "word",
+		"category": "adj",
+		"prefixes": [
+			{
+				"heb": "וגדול",
+				"hebNiqqud": "וְגָּדוֹל",
+				"eng": "and big / great",
+				"hebAudio": "",
+				"lessons": [],
+				"scriptures": []
+			},
+			{
+				"heb": "הגדול",
+				"hebNiqqud": "הַגָּדוֹל",
+				"eng": "the big / great",
+				"hebAudio": "",
+				"lessons": [],
+				"scriptures": []
+			},
+			{
+				"heb": "בגדול",
+				"hebNiqqud": "בְּגָּדוֹל",
+				"eng": "in a big / great",
+				"hebAudio": "",
+				"lessons": [],
+				"scriptures": []
+			},
+			{
+				"heb": "לגדול",
+				"hebNiqqud": "לְגָּדוֹל",
+				"eng": "to / for a big / great",
+				"hebAudio": "",
+				"lessons": [],
+				"scriptures": []
+			},
+			{
+				"heb": "כגדול",
+				"hebNiqqud": "כְּגָּדוֹל",
+				"eng": "as / like a big / great",
+				"hebAudio": "",
+				"lessons": [],
+				"scriptures": []
+			},
+			{
+				"heb": "מגדול",
+				"hebNiqqud": "מִגָּדוֹל",
+				"eng": "from a big / great",
+				"hebAudio": "",
+				"lessons": [],
+				"scriptures": []
+			},
+			{
+				"heb": "בגדול",
+				"hebNiqqud": "בַּגָּדוֹל",
+				"eng": "in the big / great",
+				"hebAudio": "",
+				"lessons": [],
+				"scriptures": []
+			},
+			{
+				"heb": "לגדול",
+				"hebNiqqud": "לַגָּדוֹל",
+				"eng": "to / for the big / great",
+				"hebAudio": "",
+				"lessons": [],
+				"scriptures": []
+			},
+			{
+				"heb": "כגדול",
+				"hebNiqqud": "כַּגָּדוֹל",
+				"eng": "as / like the big / great",
+				"hebAudio": "",
+				"lessons": [],
+				"scriptures": []
+			},
+			{
+				"heb": "ובהגדול",
+				"hebNiqqud": "וּבַגָּדוֹל",
+				"eng": "and in the big / great",
+				"hebAudio": "",
+				"lessons": [],
+				"scriptures": []
+			},
+			{
+				"heb": "ולגדול",
+				"hebNiqqud": "וּלְגָּדוֹל",
+				"eng": "and to / for a big / great",
+				"hebAudio": "",
+				"lessons": [],
+				"scriptures": []
+			},
+			{
+				"heb": "ולגדול",
+				"hebNiqqud": "וְלַגָּדוֹל",
+				"eng": "and to / for the big / great",
+				"hebAudio": "",
+				"lessons": [],
+				"scriptures": []
+			},
+			{
+				"heb": "וכגדול",
+				"hebNiqqud": "וּכְגָּדוֹל",
+				"eng": "and as / like a big / great",
+				"hebAudio": "",
+				"lessons": [],
+				"scriptures": []
+			},
+			{
+				"heb": "וכגדול",
+				"hebNiqqud": "וְכַגָּדוֹל",
+				"eng": "and as / like the big / great",
+				"hebAudio": "",
+				"lessons": [],
+				"scriptures": []
+			},
+			{
+				"heb": "ומגדול",
+				"hebNiqqud": "וּמִגָּדוֹל",
+				"eng": "and from a big / great",
+				"hebAudio": "",
+				"lessons": [],
+				"scriptures": []
+			},
+			{
+				"heb": "והגדול",
+				"hebNiqqud": "וְהַגָּדוֹל",
+				"eng": "and the big / great",
+				"hebAudio": "",
+				"lessons": [],
+				"scriptures": []
+			}
+		]
+	},
+	{
+		"id": 277,
+		"hebNiqqud": "בָּא",
+		"heb": "בא",
+		"root": "א-ו-ב",
+		"eng": "he came",
+		"engDefinition": "",
+		"genderPerson": "ms",
+		"partOfSpeech": ["Verb"],
+		"ipa": "[ba]",
+		"engTransliteration": "ba",
+		"dictionaryUrl": "",
+		"images": ["/awb21/he came ba.webp"],
+		"hebAudio": "awb21/he came ba.mp3",
+		"engAudio": "",
+		"synonyms": [],
+		"antonyms": [],
+		"lessons": ["awb21"],
+		"scriptures": [],
+		"strongs": "",
+		"type": "word",
+		"category": "perfective",
+		"conjugations": {
+			"past": [
+				{
+					"genderPerson": "1cs",
+					"heb": "בָּאתִי",
+					"hebNiqqud": "בָּאתִי",
+					"eng": "I came",
+					"ipa": "[ˈbaːti]",
+					"hebAudio": "",
+					"lessons": [],
+					"scriptures": []
+				},
+				{
+					"genderPerson": "2ms",
+					"heb": "בָּאתָ",
+					"hebNiqqud": "בָּאתָ",
+					"eng": "You (m.s.) came",
+					"ipa": "[ˈbaːta]",
+					"hebAudio": "",
+					"lessons": [],
+					"scriptures": []
+				},
+				{
+					"genderPerson": "2fs",
+					"heb": "בָּאתְ",
+					"hebNiqqud": "בָּאתְ",
+					"eng": "You (f.s.) came",
+					"ipa": "[ˈbaːt]",
+					"hebAudio": "",
+					"lessons": [],
+					"scriptures": []
+				},
+				{
+					"genderPerson": "3ms",
+					"heb": "בָּא",
+					"hebNiqqud": "בָּא",
+					"eng": "He came",
+					"ipa": "[ba]",
+					"hebAudio": "",
+					"lessons": [],
+					"scriptures": []
+				},
+				{
+					"genderPerson": "3fs",
+					"heb": "בָּאָה",
+					"hebNiqqud": "בָּאָה",
+					"eng": "She came",
+					"ipa": "[ˈbaʔa]",
+					"hebAudio": "",
+					"lessons": [],
+					"scriptures": []
+				},
+				{
+					"genderPerson": "1cp",
+					"heb": "בָּאנוּ",
+					"hebNiqqud": "בָּאנוּ",
+					"eng": "We came",
+					"ipa": "[ˈbaːnu]",
+					"hebAudio": "",
+					"lessons": [],
+					"scriptures": []
+				},
+				{
+					"genderPerson": "2mp",
+					"heb": "בָּאתֶם",
+					"hebNiqqud": "בָּאתֶם",
+					"eng": "You (m.pl.) came",
+					"ipa": "[ˈbaːtem]",
+					"hebAudio": "",
+					"lessons": [],
+					"scriptures": []
+				},
+				{
+					"genderPerson": "2fp",
+					"heb": "בָּאתֶן",
+					"hebNiqqud": "בָּאתֶן",
+					"eng": "You (f.pl.) came",
+					"ipa": "[ˈbaːten]",
+					"hebAudio": "",
+					"lessons": [],
+					"scriptures": []
+				},
+				{
+					"genderPerson": "3mp",
+					"heb": "בָּאוּ",
+					"hebNiqqud": "בָּאוּ",
+					"eng": "They (m.) came",
+					"ipa": "[ˈbaʔu]",
+					"hebAudio": "",
+					"lessons": [],
+					"scriptures": []
+				},
+				{
+					"genderPerson": "3fp",
+					"heb": "בָּאוּ",
+					"hebNiqqud": "בָּאוּ",
+					"eng": "They (f.) came",
+					"ipa": "[ˈbaʔu]",
+					"hebAudio": "",
+					"lessons": [],
+					"scriptures": []
+				}
+			],
+			"present": [
+				{
+					"genderPerson": "ms",
+					"heb": "בָּא",
+					"hebNiqqud": "בָּא",
+					"eng": "He comes",
+					"ipa": "[ba]",
+					"hebAudio": "",
+					"lessons": [],
+					"scriptures": []
+				},
+				{
+					"genderPerson": "fs",
+					"heb": "בָּאָה",
+					"hebNiqqud": "בָּאָה",
+					"eng": "She comes",
+					"ipa": "[ˈbaʔa]",
+					"hebAudio": "",
+					"lessons": [],
+					"scriptures": []
+				},
+				{
+					"genderPerson": "mp",
+					"heb": "בָּאִים",
+					"hebNiqqud": "בָּאִים",
+					"eng": "They (m.) come",
+					"ipa": "[baˈʔim]",
+					"hebAudio": "",
+					"lessons": [],
+					"scriptures": []
+				},
+				{
+					"genderPerson": "fp",
+					"heb": "בָּאוֹת",
+					"hebNiqqud": "בָּאוֹת",
+					"eng": "They (f.) come",
+					"ipa": "[baˈʔot]",
+					"hebAudio": "",
+					"lessons": [],
+					"scriptures": []
+				}
+			],
+			"future": [
+				{
+					"genderPerson": "1cs",
+					"heb": "אָבוֹא",
+					"hebNiqqud": "אָבוֹא",
+					"eng": "I will come",
+					"ipa": "[ʔaˈvoʔ]",
+					"hebAudio": "",
+					"lessons": [],
+					"scriptures": []
+				},
+				{
+					"genderPerson": "2ms",
+					"heb": "תָּבוֹא",
+					"hebNiqqud": "תָּבוֹא",
+					"eng": "You (m.s.) will come",
+					"ipa": "[taˈvoʔ]",
+					"hebAudio": "",
+					"lessons": [],
+					"scriptures": []
+				},
+				{
+					"genderPerson": "2fs",
+					"heb": "תָּבוֹאִי",
+					"hebNiqqud": "תָּבוֹאִי",
+					"eng": "You (f.s.) will come",
+					"ipa": "[taˈvoʔi]",
+					"hebAudio": "",
+					"lessons": [],
+					"scriptures": []
+				},
+				{
+					"genderPerson": "3ms",
+					"heb": "יָבוֹא",
+					"hebNiqqud": "יָבוֹא",
+					"eng": "He will come",
+					"ipa": "[jaˈvoʔ]",
+					"hebAudio": "",
+					"lessons": [],
+					"scriptures": []
+				},
+				{
+					"genderPerson": "3fs",
+					"heb": "תָּבוֹא",
+					"hebNiqqud": "תָּבוֹא",
+					"eng": "She will come",
+					"ipa": "[taˈvoʔ]",
+					"hebAudio": "",
+					"lessons": [],
+					"scriptures": []
+				},
+				{
+					"genderPerson": "1cp",
+					"heb": "נָבוֹא",
+					"hebNiqqud": "נָבוֹא",
+					"eng": "We will come",
+					"ipa": "[naˈvoʔ]",
+					"hebAudio": "",
+					"lessons": [],
+					"scriptures": []
+				},
+				{
+					"genderPerson": "2mp",
+					"heb": "תָּבֹאוּ",
+					"hebNiqqud": "תָּבֹאוּ",
+					"eng": "You (m.pl.) will come",
+					"ipa": "[taˈvoʔu]",
+					"hebAudio": "",
+					"lessons": [],
+					"scriptures": []
+				},
+				{
+					"genderPerson": "2fp",
+					"heb": "תָּבֹאנָה",
+					"hebNiqqud": "תָּבֹאנָה",
+					"eng": "You (f.pl.) will come",
+					"ipa": "[taˈvoʔna]",
+					"hebAudio": "",
+					"lessons": [],
+					"scriptures": []
+				},
+				{
+					"genderPerson": "3mp",
+					"heb": "יָבֹאוּ",
+					"hebNiqqud": "יָבֹאוּ",
+					"eng": "They (m.) will come",
+					"ipa": "[jaˈvoʔu]",
+					"hebAudio": "",
+					"lessons": [],
+					"scriptures": []
+				},
+				{
+					"genderPerson": "3fp",
+					"heb": "תָּבֹאנָה",
+					"hebNiqqud": "תָּבֹאנָה",
+					"eng": "They (f.) will come",
+					"ipa": "[taˈvoʔna]",
+					"hebAudio": "",
+					"lessons": [],
+					"scriptures": []
+				}
+			],
+			"imperative": [
+				{
+					"genderPerson": "2ms",
+					"heb": "בּוֹא",
+					"hebNiqqud": "בּוֹא",
+					"eng": "Come! (m.s.)",
+					"ipa": "[boʔ]",
+					"hebAudio": "",
+					"lessons": [],
+					"scriptures": []
+				},
+				{
+					"genderPerson": "2fs",
+					"heb": "בּוֹאִי",
+					"hebNiqqud": "בּוֹאִי",
+					"eng": "Come! (f.s.)",
+					"ipa": "[boˈʔi]",
+					"hebAudio": "",
+					"lessons": [],
+					"scriptures": []
+				},
+				{
+					"genderPerson": "2mp",
+					"heb": "בֹּאוּ",
+					"hebNiqqud": "בֹּאוּ",
+					"eng": "Come! (m.pl.)",
+					"ipa": "[ˈboʔu]",
+					"hebAudio": "",
+					"lessons": [],
+					"scriptures": []
+				},
+				{
+					"genderPerson": "2fp",
+					"heb": "בֹּאנָה",
+					"hebNiqqud": "בֹּאנָה",
+					"eng": "Come! (f.pl.)",
+					"ipa": "[ˈboʔna]",
+					"hebAudio": "",
+					"lessons": [],
+					"scriptures": []
+				}
+			]
+		}
+	},
+	{
+		"id": 12,
+		"hebNiqqud": "כֶּבֶשׂ",
+		"heb": "כבש",
+		"eng": "lamb / sheep",
+		"engDefinition": "",
+		"genderPerson": "m",
+		"partOfSpeech": ["Noun"],
+		"ipa": "[ˈkeves]",
+		"engTransliteration": "keves",
+		"dictionaryUrl": "",
+		"images": ["/awb1/sheep lamb keves.jpg"],
+		"hebAudio": "awb1/sheep lamb keves.mp3",
+		"engAudio": "",
+		"synonyms": [],
+		"antonyms": [],
+		"lessons": ["awb1"],
+		"scriptures": [],
+		"strongs": "",
+		"type": "word",
+		"category": "noun",
+		"construct": {
+			"heb": "",
+			"hebNiqqud": "",
+			"eng": "sheep of",
+			"hebAudio": "",
+			"lessons": [],
+			"scriptures": []
+		},
+		"plural": {
+			"heb": "",
+			"hebNiqqud": "",
+			"eng": "sheep (plural)",
+			"hebAudio": "",
+			"lessons": [],
+			"scriptures": []
+		},
+		"pluralConstruct": {
+			"heb": "",
+			"hebNiqqud": "",
+			"eng": "sheep (plural) of",
+			"hebAudio": "",
+			"lessons": [],
+			"scriptures": []
+		},
+		"prefixes": [
+			{
+				"heb": "הכבש",
+				"hebNiqqud": "הַכֶּ֫בֶשׂ",
+				"eng": "the sheep",
+				"hebAudio": "",
+				"lessons": [],
+				"scriptures": []
+			},
+			{
+				"heb": "",
+				"hebNiqqud": "",
+				"eng": "to a sheep",
+				"hebAudio": "",
+				"lessons": [],
+				"scriptures": []
+			},
+			{
+				"heb": "וכבש",
+				"hebNiqqud": "וְכֶבֶשׂ",
+				"eng": "and a sheep",
+				"hebAudio": "",
+				"lessons": [],
+				"scriptures": []
+			}
+		]
+	},
+	{
+		"id": 128,
+		"hebNiqqud": "יָד",
+		"heb": "יד",
+		"eng": "hand",
+		"engDefinition": "",
+		"genderPerson": "f",
+		"partOfSpeech": ["Noun"],
+		"ipa": "[jad]",
+		"engTransliteration": "yad",
+		"dictionaryUrl": "",
+		"images": ["/awb8/hand arm yad.webp"],
+		"hebAudio": "awb8/hand arm yad.mp3",
+		"engAudio": "",
+		"synonyms": [],
+		"antonyms": [],
+		"lessons": ["awb8"],
+		"scriptures": [],
+		"strongs": "H3027",
+		"type": "word",
+		"category": "noun",
+		"construct": {
+			"heb": "יד",
+			"hebNiqqud": "יַד",
+			"eng": "hand of",
+			"hebAudio": "",
+			"lessons": [],
+			"scriptures": []
+		},
+		"plural": {
+			"heb": "ידים",
+			"hebNiqqud": "יָדַיִם",
+			"eng": "hands",
+			"hebAudio": "",
+			"lessons": [],
+			"scriptures": []
+		},
+		"pluralConstruct": {
+			"heb": "ידי",
+			"hebNiqqud": "יְדֵי",
+			"eng": "hands of",
+			"hebAudio": "",
+			"lessons": [],
+			"scriptures": []
+		},
+		"suffixes": [
+			{
+				"heb": "ידי",
+				"hebNiqqud": "יָדִי",
+				"eng": "my hand",
+				"genderPerson": "1cs",
+				"hebAudio": "",
+				"lessons": [],
+				"scriptures": []
+			},
+			{
+				"heb": "ידך",
+				"hebNiqqud": "יָדְךָ",
+				"eng": "your hand",
+				"genderPerson": "2ms",
+				"hebAudio": "",
+				"lessons": [],
+				"scriptures": []
+			},
+			{
+				"heb": "ידך",
+				"hebNiqqud": "יָדֵךְ",
+				"eng": "your hand",
+				"genderPerson": "2fs",
+				"hebAudio": "",
+				"lessons": [],
+				"scriptures": []
+			},
+			{
+				"heb": "ידו",
+				"hebNiqqud": "יָדוֹ",
+				"eng": "his hand",
+				"genderPerson": "3ms",
+				"hebAudio": "",
+				"lessons": [],
+				"scriptures": []
+			},
+			{
+				"heb": "ידה",
+				"hebNiqqud": "יָדָהּ",
+				"eng": "her hand",
+				"genderPerson": "3fs",
+				"hebAudio": "",
+				"lessons": [],
+				"scriptures": []
+			}
+		]
+	}
+]
