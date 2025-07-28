@@ -50,7 +50,7 @@ const HebrewLessonScriptsPage = async () => {
 					<h1 className="text-center font-bold text-neutral-800 text-2xl my-6">
 						Lesson Scripts
 					</h1>
-					<DismissibleAlert className="mb-4">
+					<DismissibleAlert storageKey="scripts" className="mb-4">
 						Lessons 1-100 are loaded. Most have audio where you can click the
 						play button to listen while you read. Some browsers are having
 						trouble displaying images nicely.

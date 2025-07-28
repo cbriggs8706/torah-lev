@@ -95,14 +95,16 @@ const LearnPage = async () => {
 			</StickyWrapper> */}
 			<FeedWrapper>
 				<Header title={userProgress.activeCourse.title} />
-				<DismissibleAlert className="mb-4">
+				<DismissibleAlert storageKey="learnpage-main-alert" className="mb-4">
 					This is the main section of the app. You could stay here and never do
 					the rest of the activities if you&apos;d like. There may be occasional
 					resets to lesson progress/points. Don&apos;t worry about marking off
-					all the lessons right now.
+					all the previous lessons right now. I&apos;ll let you know when it is
+					clear. Click on the x in the upper right hand corner to dismiss any of
+					these notices across the site.
 				</DismissibleAlert>
 
-				<DismissibleAlert className="mb-4">
+				<DismissibleAlert storageKey="learnpage-lessons-alert" className="mb-4">
 					Each lesson will have 1-3 videos and some quiz questions to check
 					comprehension of new vocabulary and principles. For additional
 					practice tap the menu button in the upper left corner to view other

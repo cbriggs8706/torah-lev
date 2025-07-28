@@ -51,7 +51,7 @@ const HebrewScramblePage = async () => {
 					<h1 className="text-center font-bold text-neutral-800 text-2xl my-6">
 						Scramble
 					</h1>
-					<DismissibleAlert className="mb-4">
+					<DismissibleAlert storageKey="scramble" className="mb-4">
 						{' '}
 						Much more coming soon to this activity!
 					</DismissibleAlert>

@@ -62,7 +62,7 @@ const HebrewLetterQuizPage = async () => {
 					<h1 className="text-center font-bold text-neutral-800 text-2xl my-6">
 						Matchup
 					</h1>
-					<DismissibleAlert className="mb-4">
+					<DismissibleAlert storageKey="matchup" className="mb-4">
 						{' '}
 						It will load up to 12 words from your current lesson by default. You
 						can change between text, images and audio in the filters. Known bug:

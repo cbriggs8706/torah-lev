@@ -49,7 +49,7 @@ const HebrewScramblePage = async () => {
 					<h1 className="text-center font-bold text-neutral-800 text-2xl my-6">
 						Sentence Builder
 					</h1>
-					<DismissibleAlert className="mb-4">
+					<DismissibleAlert storageKey="sentenceBuilder" className="mb-4">
 						Known issues. This activity will be merged into the Scramble
 						activity and enhanced. Coming soon! For now when you drag words into
 						the bar in a correct order, the english equivalent will appear.

@@ -50,7 +50,7 @@ const HebrewFlashcardPage = async () => {
 					<h1 className="text-center font-bold text-neutral-800 text-2xl my-6">
 						Calendar
 					</h1>
-					{/* <DismissibleAlert className="mb-4"></DismissibleAlert> */}
+					{/* <DismissibleAlert storageKey="calendar" className="mb-4"></DismissibleAlert> */}
 					<HebrewMonthCalendar />
 				</div>
 			</FeedWrapper>

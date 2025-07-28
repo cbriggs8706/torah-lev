@@ -61,7 +61,7 @@ const HebrewFlashcardPage = async () => {
 					<h1 className="text-center font-bold text-neutral-800 text-2xl my-6">
 						Flashcards
 					</h1>
-					<DismissibleAlert className="mb-4">
+					<DismissibleAlert storageKey="flashcard" className="mb-4">
 						These will default to your current lesson in the Learn section. You
 						can customize the cards to your hearts desire. There are 7 spots on
 						front and back where you can place whatever you would like.

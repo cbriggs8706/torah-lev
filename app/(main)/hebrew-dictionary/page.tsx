@@ -61,7 +61,7 @@ const HebrewFlashcardPage = async () => {
 					<h1 className="text-center font-bold text-neutral-800 text-2xl my-6">
 						Dictionary
 					</h1>
-					<DismissibleAlert className="mb-4">
+					<DismissibleAlert storageKey="dictionary" className="mb-4">
 						Make sure to look up words that you don&apos;t recognize in any
 						lesson. Filter alphabetically or by Lesson #. Click on any entry to
 						view more info.

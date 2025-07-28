@@ -62,7 +62,7 @@ const HebrewSpellingPage = async () => {
 					<h1 className="text-center font-bold text-neutral-800 text-2xl my-6">
 						Spelling
 					</h1>
-					<DismissibleAlert className="mb-4">
+					<DismissibleAlert storageKey="spelling" className="mb-4">
 						Customize your prompt type. My favorite is letter-by-letter. For
 						sofit ending letters tap the Alt/Opt button. For additional vowels
 						and dagesh, tap the shift button. For the backspace to work properly
