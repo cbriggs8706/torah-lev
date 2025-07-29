@@ -63,6 +63,7 @@ const HebrewLessonScriptsPage = async () => {
 							<li>LetterQuiz: add missing fonts</li>
 							<li>Data: scrape and add all AwB images/audio from Bibleling</li>
 							<li>Matchup: fix drag and drop on android mobile</li>
+							<li>Scripts: fix image sizing from import</li>
 						</ul>
 						<h3 className="font-bold text-2xl">Aug 2025</h3>
 						<ul className="text-muted-foreground text-lg mb-6">

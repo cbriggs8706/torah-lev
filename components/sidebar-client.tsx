@@ -77,12 +77,12 @@ export default function SidebarClient({
 				{userProgress?.activeCourse.id === 6 ||
 					(userProgress?.activeCourse.id === 11 && (
 						<>
-							<SidebarItem
+							{/* <SidebarItem
 								label="Letter Quiz"
 								href="/hebrew-letter-quiz"
 								iconSrc="/a-button-blood-type-svgrepo-com.svg"
 								onClick={onItemClick}
-							/>
+							/> */}
 						</>
 					))}
 				{userProgress?.activeCourse.id === 6 && (
@@ -111,12 +111,12 @@ export default function SidebarClient({
 							iconSrc="/input-latin-letters-svgrepo-com.svg"
 							onClick={onItemClick}
 						/>
-						{/* <SidebarItem
+						<SidebarItem
 							label="Letter Quiz"
 							href="/hebrew-letter-quiz"
 							iconSrc="/a-button-blood-type-svgrepo-com.svg"
 							onClick={onItemClick}
-						/> */}
+						/>
 						<SidebarItem
 							label="Scramble"
 							href="/hebrew-scramble"
