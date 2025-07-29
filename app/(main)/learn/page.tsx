@@ -110,7 +110,11 @@ const LearnPage = async () => {
 					practice tap the menu button in the upper left corner to view other
 					activities.
 				</DismissibleAlert>
-				<GoalWrapper units={units} />
+				<GoalWrapper
+					units={units}
+					courseProgress={userChallengeData}
+					lessonPercentage={lessonPercentage}
+				/>
 
 				{/* {units.map((unit) => (
 					<div key={unit.id} className="mb-10">

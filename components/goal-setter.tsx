@@ -18,8 +18,10 @@ function getLessonNumber(title: string): string {
 
 export function GoalSetter({
 	lessons,
+	onGoalSet,
 }: {
 	lessons: { id: number; title: string; completed?: boolean }[]
+	onGoalSet?: () => void
 }) {
 	const [goalDate, setGoalDate] = useState<Date | null>(null)
 	const [goalLesson, setGoalLesson] = useState<string>('')
@@ -129,6 +131,7 @@ export function GoalSetter({
 									})
 								)
 								window.dispatchEvent(new Event('storage'))
+								if (onGoalSet) onGoalSet()
 							}
 						}}
 					>

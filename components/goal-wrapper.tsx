@@ -10,6 +10,7 @@ import {
 } from '@/components/ui/collapsible'
 import { Button } from '@/components/ui/button'
 import { ChevronDown, ChevronUp } from 'lucide-react'
+import { lessons, units as unitsSchema } from '@/db/schema'
 
 function extractLessonNumber(title: string): number {
 	if (title.startsWith('AwB Classroom Lesson')) return NaN // ✅ ignore classroom lessons
@@ -50,7 +51,15 @@ function getLessonSchedule(
 	return acc
 }
 
-export function GoalWrapper({ units }: { units: any[] }) {
+export function GoalWrapper({
+	units,
+	courseProgress,
+	lessonPercentage,
+}: {
+	units: any[]
+	courseProgress: any
+	lessonPercentage: any
+}) {
 	const [schedule, setSchedule] = useState<Record<number, Date>>({})
 	const [open, setOpen] = useState(false)
 
@@ -101,23 +110,33 @@ export function GoalWrapper({ units }: { units: any[] }) {
 				</CollapsibleTrigger>
 
 				<CollapsibleContent className="mt-4">
-					<GoalSetter lessons={units.flatMap((u) => u.lessons)} />
+					<GoalSetter
+						lessons={units.flatMap((u) => u.lessons)}
+						onGoalSet={() => setOpen(false)}
+					/>
 				</CollapsibleContent>
 			</Collapsible>
 
-			{units.map((unit) => (
-				<Unit
-					key={unit.id}
-					id={unit.id}
-					order={unit.order}
-					description={unit.description}
-					title={unit.title}
-					lessons={unit.lessons}
-					activeLesson={unit.activeLesson}
-					activeLessonPercentage={unit.activeLessonPercentage}
-					schedule={schedule}
-				/>
-			))}
+			{courseProgress &&
+				units.map((unit) => (
+					<Unit
+						key={unit.id}
+						id={unit.id}
+						order={unit.order}
+						description={unit.description}
+						title={unit.title}
+						lessons={unit.lessons}
+						activeLesson={
+							courseProgress.activeLesson as
+								| (typeof lessons.$inferSelect & {
+										unit: typeof unitsSchema.$inferSelect
+								  })
+								| undefined
+						}
+						activeLessonPercentage={lessonPercentage}
+						schedule={schedule}
+					/>
+				))}
 		</>
 	)
 }
