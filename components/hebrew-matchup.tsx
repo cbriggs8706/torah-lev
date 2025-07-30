@@ -28,8 +28,6 @@ export default function WordMatchGame({
 	lessonPrefix,
 	currentLesson,
 }: WordMatchGameProps) {
-	const [selectedLessons, setSelectedLessons] = useState<string[]>([])
-
 	const [showFilter, setShowFilter] = useState(false)
 	const [matchField, setMatchField] = useState<keyof Flashcard>('images')
 	const [hebrewField, setHebrewField] = useState<'heb' | 'hebNiqqud'>(
@@ -65,15 +63,22 @@ export default function WordMatchGame({
 		})
 	}, [data, lessonPrefix])
 
-	useEffect(() => {
-		if (currentLesson !== undefined) {
-			const allLessonsUpToCurrent = lessonOptions.filter((lesson) => {
-				const num = parseInt(lesson.slice(lessonPrefix.length), 10)
-				return num <= currentLesson
-			})
-			setSelectedLessons(allLessonsUpToCurrent)
-		}
+	const allLessonsUpToCurrent = useMemo(() => {
+		if (currentLesson === undefined) return []
+		return lessonOptions.filter((lesson) => {
+			const num = parseInt(lesson.slice(lessonPrefix.length), 10)
+			return num <= currentLesson
+		})
 	}, [currentLesson, lessonOptions, lessonPrefix])
+
+	const [selectedLessons, setSelectedLessons] = useState<string[]>(
+		allLessonsUpToCurrent
+	)
+
+	// Ensure selectedLessons updates if currentLesson changes
+	useEffect(() => {
+		setSelectedLessons(allLessonsUpToCurrent)
+	}, [allLessonsUpToCurrent])
 
 	const filteredCards = useMemo(() => {
 		return data.filter((card) => {
@@ -96,20 +101,13 @@ export default function WordMatchGame({
 			return
 		}
 
-		const limited = filteredCards.slice(0, 12)
+		// pick 12 random cards (not just the first 12)
+		const shuffled = [...filteredCards]
+			.sort(() => Math.random() - 0.5)
+			.slice(0, 12)
 
-		const shuffled1 = [...limited]
-		const shuffled2 = [...limited]
-
-		for (let i = shuffled1.length - 1; i > 0; i--) {
-			const j = Math.floor(Math.random() * (i + 1))
-			;[shuffled1[i], shuffled1[j]] = [shuffled1[j], shuffled1[i]]
-		}
-
-		for (let i = shuffled2.length - 1; i > 0; i--) {
-			const j = Math.floor(Math.random() * (i + 1))
-			;[shuffled2[i], shuffled2[j]] = [shuffled2[j], shuffled2[i]]
-		}
+		const shuffled1 = [...shuffled].sort(() => Math.random() - 0.5)
+		const shuffled2 = [...shuffled].sort(() => Math.random() - 0.5)
 
 		setShuffledDraggables(shuffled1)
 		setShuffledTargets(shuffled2)
