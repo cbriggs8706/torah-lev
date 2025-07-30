@@ -19,6 +19,7 @@ import { Footer } from './footer'
 import { Challenge } from './challenge'
 import { ResultCard } from './result-card'
 import { QuestionBubble } from './question-bubble'
+import { updateActiveLesson } from '@/actions/lesson-update'
 
 type Props = {
 	initialPercentage: number
@@ -33,6 +34,7 @@ type Props = {
 				isActive: boolean
 		  })
 		| null
+	nextLessonId: number | null
 }
 
 export const Quiz = ({
@@ -41,6 +43,7 @@ export const Quiz = ({
 	initialLessonId,
 	initialLessonChallenges,
 	userSubscription,
+	nextLessonId,
 }: Props) => {
 	const { open: openHeartsModal } = useHeartsModal()
 	const { open: openPracticeModal } = usePracticeModal()
@@ -232,6 +235,9 @@ export const Quiz = ({
 	}
 
 	if (!challenge) {
+		if (nextLessonId) {
+			updateActiveLesson(nextLessonId)
+		}
 		return (
 			<>
 				{finishAudio}

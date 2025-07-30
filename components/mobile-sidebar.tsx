@@ -11,9 +11,12 @@ import SidebarClient from './sidebar-client'
 type Props = {
 	userProgress: {
 		userId: string
+		userName: string
+		userImageSrc: string
 		activeCourse: any
 		hearts: number
 		points: number
+		activeCourseId: number | null
 	}
 	isPro: boolean
 }

@@ -53,7 +53,10 @@ const HebrewScramblePage = async () => {
 					</h1>
 					<DismissibleAlert storageKey="scramble" className="mb-4">
 						{' '}
-						Much more coming soon to this activity!
+						Much more coming soon to this activity! Below is a scrambled up
+						sentence of 2-10 words. Click on them in order to unscramble. To
+						take a word out, tap on the corresponding green word again to
+						remove. Don&apos;t forget to go right to left!
 					</DismissibleAlert>
 
 					<PhraseReconstruction data={rawVocab} lessonPrefix="awb" />

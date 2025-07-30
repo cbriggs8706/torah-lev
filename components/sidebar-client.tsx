@@ -15,9 +15,12 @@ type Props = {
 	onItemClick?: () => void
 	userProgress: {
 		userId: string
+		userName: string
+		userImageSrc: string
 		activeCourse: any
 		hearts: number
 		points: number
+		activeCourseId: number | null
 	}
 	isPro: boolean
 }

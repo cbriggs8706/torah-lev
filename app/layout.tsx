@@ -14,6 +14,7 @@ import { HeartsModal } from '@/components/modals/hearts-modal'
 import { PracticeModal } from '@/components/modals/practice-modal'
 import './globals.css'
 import { Analytics } from '@vercel/analytics/next'
+import { updateLastSeen } from '@/actions/update-last-seen'
 
 const frank = Frank_Ruhl_Libre({
 	subsets: ['hebrew'],
@@ -47,11 +48,12 @@ export const metadata: Metadata = {
 	description: 'Free Language Learning Made Fun With Comprehensible Input',
 }
 
-export default function RootLayout({
+export default async function RootLayout({
 	children,
 }: Readonly<{
 	children: React.ReactNode
 }>) {
+	await updateLastSeen()
 	return (
 		<ClerkProvider>
 			<html lang="en">

@@ -1,5 +1,5 @@
 import { cache } from 'react'
-import { eq, like } from 'drizzle-orm'
+import { desc, eq, like } from 'drizzle-orm'
 import { auth, clerkClient } from '@clerk/nextjs/server'
 
 import db from '@/db/drizzle'
@@ -303,24 +303,19 @@ export const getTopTenUsers = cache(async () => {
 })
 
 export const getTopTwentyUsers = cache(async () => {
-	const { userId } = await auth()
-
-	if (!userId) {
-		return []
-	}
-
-	const data = await db.query.userProgress.findMany({
-		orderBy: (userProgress, { desc }) => [desc(userProgress.points)],
-		limit: 20,
-		columns: {
-			userId: true,
-			userName: true,
-			userImageSrc: true,
-			points: true,
-		},
-	})
-
-	return data
+	return await db
+		.select({
+			userId: userProgress.userId,
+			userName: userProgress.userName,
+			userImageSrc: userProgress.userImageSrc,
+			points: userProgress.points,
+			lastSeen: userProgress.lastSeen,
+			activeLessonTitle: lessons.title, // ✅ get the title
+		})
+		.from(userProgress)
+		.leftJoin(lessons, eq(userProgress.activeLessonId, lessons.id))
+		.orderBy(desc(userProgress.points))
+		.limit(20)
 })
 
 // import { cache } from 'react'

@@ -60,24 +60,42 @@ const LearderboardPage = async () => {
 						once the app is released.
 					</p>
 					<Separator className="mb-4 h-0.5 rounded-full" />
-					{leaderboard.map((userProgress, index) => (
-						<div
-							key={userProgress.userId}
-							className="flex items-center w-full p-2 px-4 rounded-xl hover:bg-gray-200/50"
-						>
-							<p className="font-bold text-lime-700 mr-4">{index + 1}</p>
-							<Avatar className="border bg-sky-500 h-12 w-12 ml-3 mr-6">
-								<AvatarImage
-									className="object-cover"
-									src={userProgress.userImageSrc}
-								/>
-							</Avatar>
-							<p className="font-bold text-neutral-800 flex-1">
-								{userProgress.userName}
-							</p>
-							<p className="text-muted-foreground">{userProgress.points} XP</p>
-						</div>
-					))}
+					{leaderboard.map((user, index) => {
+						const isOnline =
+							user.lastSeen &&
+							new Date(user.lastSeen).getTime() > Date.now() - 2 * 60 * 1000 // active in last 2 min
+
+						return (
+							<div
+								key={user.userId}
+								className="flex items-center w-full p-2 px-4 rounded-xl hover:bg-gray-200/50"
+							>
+								<p className="font-bold text-lime-700 mr-4">{index + 1}</p>
+
+								{/* Avatar with green dot if online */}
+								<div className="relative h-12 w-12 ml-3 mr-6">
+									<Avatar className="h-12 w-12 border bg-sky-500">
+										<AvatarImage
+											className="object-cover"
+											src={user.userImageSrc}
+										/>
+									</Avatar>
+
+									{isOnline && (
+										<span className="absolute -top-1 -right-1 block h-4 w-4 rounded-full bg-green-500 border-2 border-white" />
+									)}
+								</div>
+
+								<p className="font-bold text-neutral-800 flex-1">
+									{user.userName}
+								</p>
+								<p className="font-bold text-neutral-800 flex-1">
+									{user.activeLessonTitle ?? 'No lesson yet'}
+								</p>
+								<p className="text-muted-foreground">{user.points} XP</p>
+							</div>
+						)
+					})}
 				</div>
 			</FeedWrapper>
 		</div>

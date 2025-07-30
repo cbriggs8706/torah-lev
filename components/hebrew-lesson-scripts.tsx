@@ -54,6 +54,10 @@ const sizeOptions = [
 	{ label: 'Large', className: 'text-3xl' },
 	{ label: 'Extra Large', className: 'text-4xl' },
 	{ label: '2X Large', className: 'text-5xl' },
+	{ label: '3X Large', className: 'text-6xl' },
+	{ label: '4X Large', className: 'text-7xl' },
+	{ label: '5X Large', className: 'text-8xl' },
+	{ label: '6X Large', className: 'text-9xl' },
 ]
 
 export default function LessonScriptViewer({

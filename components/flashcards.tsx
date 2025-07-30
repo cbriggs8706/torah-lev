@@ -495,6 +495,26 @@ export default function FlashcardReview({
 		)
 	}
 
+	// Group lessons into ranges of 10
+	const lessonRanges = useMemo(() => {
+		const nums = lessonOptions.map(
+			(lesson) => parseInt(lesson.slice(lessonPrefix.length)) || 0
+		)
+		const max = Math.max(...nums, 0)
+		const ranges = []
+
+		for (let i = 1; i <= max; i += 10) {
+			const start = i
+			const end = i + 9
+			const lessonsInRange = lessonOptions.filter((l) => {
+				const num = parseInt(l.slice(lessonPrefix.length)) || 0
+				return num >= start && num <= end
+			})
+			ranges.push({ label: `${start}-${end}`, lessons: lessonsInRange })
+		}
+		return ranges
+	}, [lessonOptions, lessonPrefix])
+
 	return (
 		<div className="p-4 max-w-3xl mx-auto text-center w-full">
 			{finishAudioElement}
@@ -977,6 +997,36 @@ export default function FlashcardReview({
 							>
 								All
 							</button>
+
+							{/* Range Buttons */}
+							{lessonRanges.map((range) => (
+								<button
+									key={range.label}
+									onClick={() =>
+										setSelectedLessons((prev) => {
+											// Toggle all lessons in this range
+											const allSelected = range.lessons.every((l) =>
+												prev.includes(l)
+											)
+											if (allSelected) {
+												// Remove all lessons in this range
+												return prev.filter((l) => !range.lessons.includes(l))
+											} else {
+												// Add missing lessons
+												const newSet = new Set([...prev, ...range.lessons])
+												return Array.from(newSet)
+											}
+										})
+									}
+									className={`px-3 py-1 border rounded-full text-sm ${
+										range.lessons.every((l) => selectedLessons.includes(l))
+											? 'bg-blue-500 text-white'
+											: 'bg-gray-200'
+									}`}
+								>
+									{range.label}
+								</button>
+							))}
 
 							{/* Individual Lesson Buttons */}
 							{lessonOptions.map((lesson) => {

@@ -1,6 +1,11 @@
 import { redirect } from 'next/navigation'
 
-import { getLesson, getUserProgress, getUserSubscription } from '@/db/queries'
+import {
+	getCourseProgress,
+	getLesson,
+	getUserProgress,
+	getUserSubscription,
+} from '@/db/queries'
 
 import { Quiz } from '../quiz'
 
@@ -30,6 +35,12 @@ const LessonIdPage = async ({ params }: Props) => {
 			lesson.challenges.length) *
 		100
 
+	const courseProgress = await getCourseProgress()
+	const allLessons =
+		courseProgress?.unitsInActiveCourse.flatMap((u) => u.lessons) || []
+	const currentIndex = allLessons.findIndex((l) => l.id === lesson.id)
+	const nextLesson = allLessons[currentIndex + 1]
+
 	return (
 		<Quiz
 			initialLessonId={lesson.id}
@@ -37,6 +48,7 @@ const LessonIdPage = async ({ params }: Props) => {
 			initialHearts={userProgress.hearts}
 			initialPercentage={initialPercentage}
 			userSubscription={userSubscription}
+			nextLessonId={nextLesson?.id ?? null}
 		/>
 	)
 }

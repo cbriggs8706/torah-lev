@@ -449,7 +449,7 @@ export default function HebrewDictionary({ data }: DictionaryProps) {
 							<a
 								key={letter}
 								href={`#letter-${letter}`}
-								className={`px-2 py-1 rounded cursor-pointer font-bold border
+								className={`px-2 py-1 rounded cursor-pointer font-serif text-3xl border
 									${
 										activeLetter === letter
 											? 'bg-sky-500 text-white'
@@ -465,7 +465,7 @@ export default function HebrewDictionary({ data }: DictionaryProps) {
 								<a
 									key={range}
 									href={`#range-${range}`}
-									className="px-2 py-1 rounded border font-semibold text-sky-600 hover:bg-sky-100"
+									className="px-2 py-1 rounded border text-sm font-semibold text-sky-600 hover:bg-sky-100"
 								>
 									{range}
 								</a>

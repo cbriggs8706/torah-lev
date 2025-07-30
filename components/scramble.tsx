@@ -1,6 +1,7 @@
 'use client'
 
 import { Flashcard } from '@/lib/vocab'
+import Image from 'next/image'
 import { useEffect, useMemo, useState } from 'react'
 import ReactConfetti from 'react-confetti'
 import { useAudio, useWindowSize } from 'react-use'
@@ -17,6 +18,7 @@ export default function Scramble({ data, lessonPrefix }: ScrambleProps) {
 	const [showFeedback, setShowFeedback] = useState<null | boolean>(null)
 	const [showConfetti, setShowConfetti] = useState(false)
 	const [finishAudio] = useAudio({ src: '/finish.mp3', autoPlay: true })
+	const [showFilter, setShowFilter] = useState(false) // 🔹 NEW STATE
 
 	const { width, height } = useWindowSize()
 
@@ -131,9 +133,27 @@ export default function Scramble({ data, lessonPrefix }: ScrambleProps) {
 			{showConfetti && finishAudio}
 			<h1 className="text-2xl font-bold mb-4">Scrambled Sentences</h1>
 
-			{/* Filters */}
-			<div className="space-y-4 mb-6">
-				<div>
+			{/* 🔹 Filter Button */}
+			<div className="mb-6 flex justify-center">
+				<button
+					onClick={() => setShowFilter((prev) => !prev)}
+					className={`px-4 py-2 rounded shadow flex items-center justify-center gap-3 ${
+						showFilter ? 'bg-blue-600 text-white' : 'bg-gray-200'
+					}`}
+				>
+					<Image
+						src="/books-svgrepo-com.svg"
+						alt="Filter icon"
+						width={30}
+						height={30}
+					/>
+					Filter
+				</button>
+			</div>
+
+			{/* 🔹 Lesson Filter (collapsible) */}
+			{showFilter && (
+				<div className="space-y-4 mb-6">
 					<label className="block text-xl font-semibold">Lessons</label>
 					<div className="flex flex-wrap justify-center gap-2">
 						{lessonOptions.map((lesson) => (
@@ -157,7 +177,7 @@ export default function Scramble({ data, lessonPrefix }: ScrambleProps) {
 						))}
 					</div>
 				</div>
-			</div>
+			)}
 
 			{/* Prompt */}
 			{/* <div className="mb-4 text-xl font-bold">{currentCard?.eng}</div> */}
@@ -237,9 +257,16 @@ export default function Scramble({ data, lessonPrefix }: ScrambleProps) {
 						showFeedback ? 'text-green-600' : 'text-red-600'
 					}`}
 				>
-					{showFeedback
-						? 'Correct!'
-						: `Incorrect. Correct: ${correctWords.join(' ')}`}
+					{showFeedback ? (
+						'Correct!'
+					) : (
+						<>
+							Incorrect. Correct:{' '}
+							<span className="font-serif font-normal text-4xl">
+								{correctWords.join(' ')}
+							</span>
+						</>
+					)}
 				</div>
 			)}
 		</div>
