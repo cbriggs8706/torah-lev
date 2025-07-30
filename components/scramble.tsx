@@ -9,16 +9,21 @@ import { useAudio, useWindowSize } from 'react-use'
 interface ScrambleProps {
 	data: Flashcard[]
 	lessonPrefix: string
+	currentLesson?: number
 }
 
-export default function Scramble({ data, lessonPrefix }: ScrambleProps) {
+export default function Scramble({
+	data,
+	lessonPrefix,
+	currentLesson,
+}: ScrambleProps) {
 	const [selectedLessons, setSelectedLessons] = useState<string[]>([])
 	const [currentIndex, setCurrentIndex] = useState(0)
 	const [selectedWords, setSelectedWords] = useState<string[]>([])
 	const [showFeedback, setShowFeedback] = useState<null | boolean>(null)
 	const [showConfetti, setShowConfetti] = useState(false)
 	const [finishAudio] = useAudio({ src: '/finish.mp3', autoPlay: true })
-	const [showFilter, setShowFilter] = useState(false) // 🔹 NEW STATE
+	const [showFilter, setShowFilter] = useState(false)
 
 	const { width, height } = useWindowSize()
 
@@ -34,12 +39,28 @@ export default function Scramble({ data, lessonPrefix }: ScrambleProps) {
 		const all = cardsForPrefix.flatMap((card) =>
 			card.lessons.filter((l) => l.startsWith(lessonPrefix))
 		)
-		return Array.from(new Set(all)).sort(
-			(a, b) =>
-				parseFloat(a.slice(lessonPrefix.length)) -
-				parseFloat(b.slice(lessonPrefix.length))
-		)
+
+		return Array.from(new Set(all)).sort((a, b) => {
+			const matchA = a.slice(lessonPrefix.length).match(/(\d+)([a-zA-Z]*)?/)
+			const matchB = b.slice(lessonPrefix.length).match(/(\d+)([a-zA-Z]*)?/)
+
+			const numA = parseInt(matchA?.[1] || '0', 10)
+			const numB = parseInt(matchB?.[1] || '0', 10)
+
+			if (numA !== numB) return numA - numB
+			return (matchA?.[2] || '').localeCompare(matchB?.[2] || '')
+		})
 	}, [cardsForPrefix, lessonPrefix])
+
+	useEffect(() => {
+		if (currentLesson !== undefined) {
+			const availableLessons = lessonOptions.filter((lesson) => {
+				const num = parseInt(lesson.slice(lessonPrefix.length), 10)
+				return num <= currentLesson
+			})
+			setSelectedLessons(availableLessons)
+		}
+	}, [currentLesson, lessonOptions, lessonPrefix])
 
 	const categoryOptions = useMemo(() => {
 		return Array.from(

@@ -22,9 +22,8 @@ export default function SpellingPractice({
 	lessonPrefix,
 	currentLesson,
 }: SpellingPracticeProps) {
-	const [selectedLessons, setSelectedLessons] = useState<string[]>(
-		currentLesson !== undefined ? [`awb${currentLesson}`] : []
-	)
+	const [selectedLessons, setSelectedLessons] = useState<string[]>([])
+
 	const [selectedType, setSelectedType] = useState<'all' | 'word' | 'phrase'>(
 		'word'
 	)
@@ -32,7 +31,7 @@ export default function SpellingPractice({
 	const [isMobile, setIsMobile] = useState(false)
 
 	const [selectedCategory, setSelectedCategory] = useState('all')
-	const [promptType, setPromptType] = useState<PromptType>('translation')
+	const [promptType, setPromptType] = useState<PromptType>('image')
 	const [currentIndex, setCurrentIndex] = useState(0)
 	const [showFeedback, setShowFeedback] = useState<null | boolean>(null)
 	const [value, setValue] = useState('')
@@ -91,6 +90,16 @@ export default function SpellingPractice({
 				parseFloat(b.slice(lessonPrefix.length))
 		)
 	}, [cardsForPrefix, lessonPrefix])
+
+	useEffect(() => {
+		if (currentLesson !== undefined) {
+			const allLessonsUpToCurrent = lessonOptions.filter((lesson) => {
+				const num = parseInt(lesson.slice(lessonPrefix.length), 10)
+				return num <= currentLesson
+			})
+			setSelectedLessons(allLessonsUpToCurrent)
+		}
+	}, [currentLesson, lessonOptions, lessonPrefix])
 
 	const categoryOptions = useMemo(() => {
 		return Array.from(

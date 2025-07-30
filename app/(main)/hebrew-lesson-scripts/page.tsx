@@ -5,6 +5,7 @@ import { FeedWrapper } from '@/components/feed-wrapper'
 import { UserProgress } from '@/components/user-progress'
 import { StickyWrapper } from '@/components/sticky-wrapper'
 import {
+	getCourseProgress,
 	getLessonScripts,
 	getUserProgress,
 	getUserSubscription,
@@ -15,6 +16,7 @@ import { DismissibleAlert } from '@/components/dismissible-alert'
 const HebrewLessonScriptsPage = async () => {
 	const lessons = await getLessonScripts()
 	const userProgressData = getUserProgress()
+	const userChallengeData = await getCourseProgress()
 	const userSubscriptionData = getUserSubscription()
 
 	const [userProgress, userSubscription] = await Promise.all([
@@ -27,6 +29,11 @@ const HebrewLessonScriptsPage = async () => {
 	}
 
 	const isPro = !!userSubscription?.isActive
+
+	const title = userChallengeData?.activeLesson?.title ?? ''
+	const match = title.match(/AwB (\d{1,3})/)
+
+	const currentLesson = match ? parseInt(match[1], 10) : undefined
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
@@ -56,7 +63,7 @@ const HebrewLessonScriptsPage = async () => {
 						trouble displaying images nicely.
 					</DismissibleAlert>
 
-					<LessonScriptViewer lessons={lessons} />
+					<LessonScriptViewer lessons={lessons} currentLesson={currentLesson} />
 				</div>
 			</FeedWrapper>
 		</div>

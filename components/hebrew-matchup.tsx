@@ -28,11 +28,10 @@ export default function WordMatchGame({
 	lessonPrefix,
 	currentLesson,
 }: WordMatchGameProps) {
-	const [selectedLessons, setSelectedLessons] = useState<string[]>(
-		currentLesson !== undefined ? [`${lessonPrefix}${currentLesson}`] : []
-	)
+	const [selectedLessons, setSelectedLessons] = useState<string[]>([])
+
 	const [showFilter, setShowFilter] = useState(false)
-	const [matchField, setMatchField] = useState<keyof Flashcard>('eng')
+	const [matchField, setMatchField] = useState<keyof Flashcard>('images')
 	const [hebrewField, setHebrewField] = useState<'heb' | 'hebNiqqud'>(
 		'hebNiqqud'
 	)
@@ -65,6 +64,16 @@ export default function WordMatchGame({
 			return aNum - bNum
 		})
 	}, [data, lessonPrefix])
+
+	useEffect(() => {
+		if (currentLesson !== undefined) {
+			const allLessonsUpToCurrent = lessonOptions.filter((lesson) => {
+				const num = parseInt(lesson.slice(lessonPrefix.length), 10)
+				return num <= currentLesson
+			})
+			setSelectedLessons(allLessonsUpToCurrent)
+		}
+	}, [currentLesson, lessonOptions, lessonPrefix])
 
 	const filteredCards = useMemo(() => {
 		return data.filter((card) => {
@@ -197,7 +206,7 @@ export default function WordMatchGame({
 						showFilter ? 'bg-blue-600 text-white' : 'bg-gray-200'
 					}`}
 				>
-					<img
+					<Image
 						src="/books-svgrepo-com.svg"
 						alt="Filter icon"
 						width={30}

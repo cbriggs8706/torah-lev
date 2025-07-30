@@ -12,6 +12,7 @@ interface Lesson {
 
 interface LessonScriptViewerProps {
 	lessons: Lesson[]
+	currentLesson?: number
 }
 
 const fontOptions = [
@@ -62,8 +63,11 @@ const sizeOptions = [
 
 export default function LessonScriptViewer({
 	lessons,
+	currentLesson,
 }: LessonScriptViewerProps) {
-	const [selectedId, setSelectedId] = useState<number | null>(null)
+	const [selectedId, setSelectedId] = useState<number | null>(
+		currentLesson || null
+	)
 	const [fontClass, setFontClass] = useState('font-times')
 	const [sizeClass, setSizeClass] = useState('text-4xl')
 

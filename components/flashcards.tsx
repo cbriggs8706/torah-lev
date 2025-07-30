@@ -78,9 +78,8 @@ export default function FlashcardReview({
 	const [selectedType, setSelectedType] = useState<'all' | 'word' | 'phrase'>(
 		'word'
 	)
-	const [selectedLessons, setSelectedLessons] = useState<string[]>(
-		currentLesson !== undefined ? [`awb${currentLesson}`] : []
-	)
+	const [selectedLessons, setSelectedLessons] = useState<string[]>([])
+
 	const [frontField, setFrontField] = useState<keyof Flashcard>('hebNiqqud')
 	const [backField, setBackField] = useState<keyof Flashcard>('eng')
 	const [currentIndex, setCurrentIndex] = useState(0)
@@ -93,10 +92,10 @@ export default function FlashcardReview({
 	const [selectedCategory, setSelectedCategory] = useState<string>('all')
 
 	const [frontFont, setFrontFont] = useState<FontChoice>('times')
-	const [backFont, setBackFont] = useState<FontChoice>('nunito')
+	const [backFont, setBackFont] = useState<FontChoice>('times')
 
 	const [frontFontSize, setFrontFontSize] = useState<FontSizeKey>('threexl')
-	const [backFontSize, setBackFontSize] = useState<FontSizeKey>('xl')
+	const [backFontSize, setBackFontSize] = useState<FontSizeKey>('threexl')
 	const [showCustomize, setShowCustomize] = useState(false)
 	const [showFilter, setShowFilter] = useState(false)
 	const [audioVolume, setAudioVolume] = useState(1) // full volume
@@ -112,7 +111,7 @@ export default function FlashcardReview({
 	>('hebAudio')
 	const [frontMiddleCenter, setFrontMiddleCenter] = useState<
 		keyof Flashcard | 'none'
-	>('hebNiqqud')
+	>('images')
 	const [frontBottomLeft, setFrontBottomLeft] = useState<
 		keyof Flashcard | 'none'
 	>('none')
@@ -133,7 +132,7 @@ export default function FlashcardReview({
 	>('hebAudio')
 	const [backMiddleCenter, setBackMiddleCenter] = useState<
 		keyof Flashcard | 'eng'
-	>('eng')
+	>('hebNiqqud')
 	const [backBottomLeft, setBackBottomLeft] = useState<
 		keyof Flashcard | 'none'
 	>('none')
@@ -166,6 +165,16 @@ export default function FlashcardReview({
 			return aNum - bNum
 		})
 	}, [cardsForPrefix, lessonPrefix])
+
+	useEffect(() => {
+		if (currentLesson !== undefined) {
+			const allLessonsUpToCurrent = lessonOptions.filter((lesson) => {
+				const num = parseInt(lesson.slice(lessonPrefix.length), 10)
+				return num <= currentLesson
+			})
+			setSelectedLessons(allLessonsUpToCurrent)
+		}
+	}, [currentLesson, lessonOptions, lessonPrefix])
 
 	const categoryOptions = useMemo(() => {
 		const all = cardsForPrefix
@@ -399,13 +408,13 @@ export default function FlashcardReview({
 		const width = window.innerWidth
 		if (width < 400) {
 			setFrontFontSize('threexl')
-			setBackFontSize('m')
+			setBackFontSize('threexl')
 		} else if (width < 768) {
 			setFrontFontSize('threexl')
-			setBackFontSize('lg')
+			setBackFontSize('threexl')
 		} else {
 			setFrontFontSize('threexl')
-			setBackFontSize('xl')
+			setBackFontSize('threexl')
 		}
 	}, [])
 
