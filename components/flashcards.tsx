@@ -145,6 +145,55 @@ export default function FlashcardReview({
 
 	const { width, height } = useWindowSize()
 
+	const PRESETS = [
+		{
+			label: 'Picture → Word',
+			front: { middle: 'images', font: 'sans', size: 'xl' },
+			back: { middle: 'hebNiqqud', font: 'times', size: 'threexl' },
+		},
+		{
+			label: 'Audio → Picture',
+			front: { middle: 'hebAudio', font: 'sans', size: 'xl' },
+			back: { middle: 'images', font: 'times', size: 'threexl' },
+		},
+		{
+			label: 'Sightread',
+			front: { middle: 'heb', font: 'times', size: 'threexl' },
+			back: { middle: 'hebAudio', font: 'arial', size: 'lg' },
+		},
+		{
+			label: 'Translation',
+			front: { middle: 'hebNiqqud', font: 'times', size: 'threexl' },
+			back: { middle: 'eng', font: 'times', size: 'lg' },
+		},
+	] as const
+
+	function applyPreset(preset: (typeof PRESETS)[number]) {
+		setFrontMiddleCenter(preset.front.middle as keyof Flashcard)
+		setFrontFont(preset.front.font as FontChoice)
+		setFrontFontSize(preset.front.size as FontSizeKey)
+
+		setBackMiddleCenter(preset.back.middle as keyof Flashcard)
+		setBackFont(preset.back.font as FontChoice)
+		setBackFontSize(preset.back.size as FontSizeKey)
+
+		// Reset positions to default for simplicity
+		setFrontTopLeft('none')
+		setFrontTopCenter('none')
+		setFrontTopRight('hebAudio')
+		setFrontBottomLeft('none')
+		setFrontBottomCenter('genderPerson')
+		setFrontBottomRight('none')
+
+		setBackTopLeft('none')
+		setBackTopCenter('none')
+		setBackTopRight('hebAudio')
+		setBackBottomLeft('none')
+		setBackBottomCenter('ipa')
+		setBackBottomRight('engTransliteration')
+		setShowCustomize(false)
+	}
+
 	// Filter to this prefix
 	const cardsForPrefix = useMemo(() => {
 		return data.filter((card) =>
@@ -602,6 +651,18 @@ export default function FlashcardReview({
 			{/* Front/Back Customization (Hidden Until Clicked) */}
 			{showCustomize && (
 				<>
+					<div className="mb-4 flex flex-wrap justify-center gap-3">
+						<span className="my-auto font-semibold">Presets:</span>
+						{PRESETS.map((preset) => (
+							<button
+								key={preset.label}
+								onClick={() => applyPreset(preset)}
+								className="px-3 py-2 bg-purple-500 text-white rounded shadow hover:bg-purple-600"
+							>
+								{preset.label}
+							</button>
+						))}
+					</div>
 					<div className="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
 						<div className="grid grid-cols-3 gap-4 rounded-md p-4 border">
 							<div className="font-bold text-center col-span-3 text-xl">
