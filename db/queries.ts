@@ -310,7 +310,7 @@ export const getTopTwentyUsers = cache(async () => {
 			userImageSrc: userProgress.userImageSrc,
 			points: userProgress.points,
 			lastSeen: userProgress.lastSeen,
-			activeLessonTitle: lessons.title, // ✅ get the title
+			activeLessonNumber: lessons.lessonNumber, // ✅ get the number
 		})
 		.from(userProgress)
 		.leftJoin(lessons, eq(userProgress.activeLessonId, lessons.id))

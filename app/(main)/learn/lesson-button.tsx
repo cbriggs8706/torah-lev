@@ -20,6 +20,7 @@ type Props = {
 	current?: boolean
 	percentage: number
 	targetDate?: Date | null
+	lessonNumber: string
 }
 
 export const LessonButton = ({
@@ -32,10 +33,8 @@ export const LessonButton = ({
 	current,
 	percentage,
 	targetDate,
+	lessonNumber,
 }: Props) => {
-	// const lessonNumber = title.match(/AwB (\d+)/)?.[1] ?? '?'
-	const match = title.match(/AwB(?: Classroom Lesson)? (\d+)/)
-	const lessonNumber = match ? match[1] : '?'
 	const cycleLength = 8
 	const cycleIndex = index % cycleLength
 
@@ -126,7 +125,7 @@ export const LessonButton = ({
 						/> */}
 						<span
 							className={cn(
-								'text-2xl font-bold',
+								'text-2xl font-bold lowercase',
 								locked ? 'text-neutral-400' : 'text-primary-foreground'
 							)}
 						>

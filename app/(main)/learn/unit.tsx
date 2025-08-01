@@ -57,6 +57,7 @@ export const Unit = ({
 							locked={false}
 							percentage={activeLessonPercentage}
 							targetDate={schedule?.[lesson.id] ?? null}
+							lessonNumber={lesson.lessonNumber}
 						/>
 					)
 				})}

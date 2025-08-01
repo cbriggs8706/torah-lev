@@ -12,8 +12,7 @@ import {
 } from '@/db/queries'
 import { Separator } from '@/components/ui/separator'
 import { Avatar, AvatarImage } from '@/components/ui/avatar'
-// import { Promo } from '@/components/promo'
-import { Quests } from '@/components/quests'
+import { LessonRibbon } from '@/components/lesson-ribbon'
 
 const LearderboardPage = async () => {
 	const userProgressData = getUserProgress()
@@ -33,17 +32,19 @@ const LearderboardPage = async () => {
 
 	const isPro = !!userSubscription?.isActive
 
+	// ✅ Pre-calculate ranks (ties get same rank)
+	const ranks: number[] = []
+	leaderboard.forEach((user, i) => {
+		if (i === 0) ranks.push(1)
+		else if (user.points === leaderboard[i - 1].points) {
+			ranks.push(ranks[i - 1]) // same rank as previous
+		} else {
+			ranks.push(i + 1)
+		}
+	})
+
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
-			{/* <StickyWrapper>
-				<UserProgress
-					activeCourse={userProgress.activeCourse}
-					hearts={userProgress.hearts}
-					points={userProgress.points}
-					hasActiveSubscription={isPro}
-				/>
-				{!isPro && <Promo />}
-			</StickyWrapper> */}
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">
 					<Image
@@ -60,6 +61,7 @@ const LearderboardPage = async () => {
 						once the app is released.
 					</p>
 					<Separator className="mb-4 h-0.5 rounded-full" />
+
 					{leaderboard.map((user, index) => {
 						const isOnline =
 							user.lastSeen &&
@@ -70,9 +72,10 @@ const LearderboardPage = async () => {
 								key={user.userId}
 								className="flex items-center w-full p-2 px-4 rounded-xl hover:bg-gray-200/50"
 							>
+								{/* Rank Number */}
 								<p className="font-bold text-lime-700 mr-4">{index + 1}</p>
 
-								{/* Avatar with green dot if online */}
+								{/* Avatar */}
 								<div className="relative h-12 w-12 ml-3 mr-6">
 									<Avatar className="h-12 w-12 border bg-sky-500">
 										<AvatarImage
@@ -86,12 +89,20 @@ const LearderboardPage = async () => {
 									)}
 								</div>
 
+								{/* Username */}
 								<p className="font-bold text-neutral-800 flex-1">
 									{user.userName}
 								</p>
-								<p className="font-bold text-neutral-800 flex-1">
-									{user.activeLessonTitle ?? 'No lesson yet'}
-								</p>
+
+								{/* 🛡️ Shield Badge */}
+								<div className="flex-1 flex justify-center">
+									<LessonRibbon
+										rank={ranks[index]}
+										lessonNumber={user.activeLessonNumber}
+									/>{' '}
+								</div>
+
+								{/* XP */}
 								<p className="text-muted-foreground">{user.points} XP</p>
 							</div>
 						)
