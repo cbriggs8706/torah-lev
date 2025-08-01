@@ -54,7 +54,7 @@ const HebrewSpellingPage = async () => {
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">
 					<Image
-						src="/pencil-svgrepo-com.svg"
+						src="/input-latin-letters-svgrepo-com.svg"
 						alt="Calendar"
 						height={90}
 						width={90}

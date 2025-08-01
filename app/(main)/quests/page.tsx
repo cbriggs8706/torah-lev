@@ -13,7 +13,7 @@ import { Progress } from '@/components/ui/progress'
 // import { Promo } from '@/components/promo'
 import { quests } from '@/constants'
 import { challengeProgress, units } from '@/db/schema'
-import { auth } from '@clerk/nextjs'
+import { auth } from '@clerk/nextjs/server'
 import db from '@/db/drizzle'
 import { eq } from 'drizzle-orm'
 

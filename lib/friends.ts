@@ -1,4 +1,4 @@
-import { auth } from '@clerk/nextjs'
+import { auth } from '@clerk/nextjs/server'
 
 export const hebrewFriendIds = [
 	'user_2kaRJOK3LURBbcyO1pusrktbcqx', //cbriggs8706

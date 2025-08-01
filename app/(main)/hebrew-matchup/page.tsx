@@ -54,7 +54,7 @@ const HebrewLetterQuizPage = async () => {
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">
 					<Image
-						src="/couple-with-heart-man-man-light-skin-tone-svgrepo-com.svg"
+						src="/socks-svgrepo-com.svg"
 						alt="Matchup"
 						height={90}
 						width={90}

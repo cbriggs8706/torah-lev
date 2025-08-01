@@ -4,6 +4,7 @@
 'use client'
 
 import { Trash } from 'lucide-react'
+import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { useNotify } from 'react-admin'
@@ -212,7 +213,7 @@ export default function GenerateChallengesPage() {
 							{ch.audio && <audio controls src={ch.audio} className="my-2" />}
 
 							{ch.image && (
-								<img src={ch.image} alt="Prompt" className="max-w-xs my-2" />
+								<Image src={ch.image} alt="Prompt" className="max-w-xs my-2" />
 							)}
 
 							<ul className="list-none ml-0">
@@ -226,7 +227,11 @@ export default function GenerateChallengesPage() {
 												{opt.text} {opt.correct ? '✅' : ''}
 											</span>
 											{opt.imageSrc && (
-												<img src={opt.imageSrc} className="inline h-6" />
+												<Image
+													src={opt.imageSrc}
+													className="inline h-6"
+													alt="option"
+												/>
 											)}
 											{opt.audioSrc && (
 												<audio

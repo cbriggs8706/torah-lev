@@ -1,6 +1,6 @@
 'use server'
 
-import { auth, currentUser } from '@clerk/nextjs'
+import { auth, currentUser } from '@clerk/nextjs/server'
 
 import { stripe } from '@/lib/stripe'
 import { absoluteUrl } from '@/lib/utils'

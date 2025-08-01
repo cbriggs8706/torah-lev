@@ -47,7 +47,7 @@ const LearderboardPage = async () => {
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">
 					<Image
-						src="/bar-chart-svgrepo-com.svg"
+						src="/trophy-svgrepo-com.svg"
 						alt="Leaderboard"
 						height={90}
 						width={90}
