@@ -3,8 +3,12 @@
 import { HebrewVocab } from '@/lib/vocab'
 import Image from 'next/image'
 import { useState, useMemo, useEffect, useCallback } from 'react'
-import ReactConfetti from 'react-confetti'
-import { useAudio, useWindowSize } from 'react-use'
+import LessonFilter from './filter-lesson'
+import CategoryFilter from './filter-category'
+import TypeFilter from './filter-type'
+import { useCelebration } from '@/hooks/useCelebration'
+import ProgressBar from './progress-bar'
+import { useLessonCards } from '@/hooks/useLessonCards'
 
 type FontChoice =
 	| 'arial'
@@ -70,26 +74,26 @@ const FONT_CLASS_MAP: Record<FontChoice, string> = {
 	suez: 'font-suez',
 }
 
-export default function HebrewHebrewVocab({
+export default function HebrewFlashcards({
 	data,
 	allFields,
 	currentLesson,
 	layout,
 	userId,
 }: HebrewVocabProps) {
+	const {
+		selectedLessons,
+		setSelectedLessons,
+		currentIndex,
+		setCurrentIndex,
+		lessonOptions,
+	} = useLessonCards(data, currentLesson)
 	const [selectedType, setSelectedType] = useState<'all' | 'word' | 'phrase'>(
 		'word'
 	)
-	const [selectedLessons, setSelectedLessons] = useState<string[]>([])
-
 	const [frontField, setFrontField] = useState<keyof HebrewVocab>('hebNiqqud')
 	const [backField, setBackField] = useState<keyof HebrewVocab>('eng')
-	const [currentIndex, setCurrentIndex] = useState(0)
 	const [showBack, setShowBack] = useState(false)
-	const [showConfetti, setShowConfetti] = useState(false)
-	const [finishAudioElement, _, finishControls] = useAudio({
-		src: '/finish.mp3',
-	})
 	const [filteredCards, setFilteredCards] = useState<HebrewVocab[]>([])
 	const [selectedCategory, setSelectedCategory] = useState<string>('all')
 
@@ -146,8 +150,6 @@ export default function HebrewHebrewVocab({
 	>('engTransliteration')
 	const [cardsCompleted, setCardsCompleted] = useState(0)
 
-	const { width, height } = useWindowSize()
-
 	const PRESETS = [
 		{
 			label: 'Picture → Word',
@@ -170,6 +172,8 @@ export default function HebrewHebrewVocab({
 			back: { middle: 'eng', font: 'times', size: 'lg' },
 		},
 	] as const
+
+	const { Confetti, celebrate } = useCelebration()
 
 	function applyPreset(preset: (typeof PRESETS)[number]) {
 		setFrontMiddleCenter(preset.front.middle as keyof HebrewVocab)
@@ -199,77 +203,6 @@ export default function HebrewHebrewVocab({
 
 	// Filter to this prefix
 	const cardsForPrefix = useMemo(() => data, [data])
-
-	// Collect lesson keys like 'awb1' and sort numerically by suffix
-	function parseLessonKey(key: string) {
-		// Separate number and text parts
-		const match = key.match(/^(\d+)?([a-zA-Z]*)$/)
-		if (!match) return { num: NaN, text: key }
-		return {
-			num: match[1] ? parseInt(match[1], 10) : NaN,
-			text: match[2] || (match[1] ? '' : key), // text part if present
-		}
-	}
-
-	const lessonOptions = useMemo(() => {
-		const allLessons = cardsForPrefix.flatMap((card) => card.lessons)
-		const uniqueLessons = Array.from(new Set(allLessons))
-
-		return uniqueLessons.sort((a, b) => {
-			const A = parseLessonKey(a)
-			const B = parseLessonKey(b)
-
-			// Sort by number if both have numbers
-			if (!isNaN(A.num) && !isNaN(B.num)) {
-				if (A.num !== B.num) return A.num - B.num
-				return A.text.localeCompare(B.text)
-			}
-
-			// Numbers come before pure strings
-			if (!isNaN(A.num) && isNaN(B.num)) return -1
-			if (isNaN(A.num) && !isNaN(B.num)) return 1
-
-			// Both are pure strings → alphabetical
-			return a.localeCompare(b)
-		})
-	}, [cardsForPrefix])
-
-	useEffect(() => {
-		if (!currentLesson) return
-
-		const currentParsed = parseLessonKey(currentLesson)
-
-		const allLessonsUpToCurrent = lessonOptions.filter((lesson) => {
-			const lParsed = parseLessonKey(lesson)
-
-			// Both numeric
-			if (!isNaN(currentParsed.num) && !isNaN(lParsed.num)) {
-				if (lParsed.num < currentParsed.num) return true
-				if (lParsed.num > currentParsed.num) return false
-				return lParsed.text <= currentParsed.text
-			}
-
-			// If current is number and lesson is string → exclude
-			if (!isNaN(currentParsed.num) && isNaN(lParsed.num)) return false
-
-			// If current is string, include only strings <= current alphabetically
-			if (isNaN(currentParsed.num) && isNaN(lParsed.num)) {
-				return lesson.localeCompare(currentLesson) <= 0
-			}
-
-			return false
-		})
-
-		setSelectedLessons(allLessonsUpToCurrent)
-	}, [currentLesson, lessonOptions])
-
-	const categoryOptions = useMemo(() => {
-		const all = cardsForPrefix
-			.map((card) => card.category)
-			.filter((c): c is string => typeof c === 'string')
-		const unique = Array.from(new Set(all))
-		return unique.sort()
-	}, [cardsForPrefix])
 
 	useEffect(() => {
 		const newFiltered = cardsForPrefix.filter((card) => {
@@ -335,6 +268,7 @@ export default function HebrewHebrewVocab({
 		backField,
 		frontMiddleCenter,
 		backMiddleCenter,
+		setCurrentIndex,
 	])
 
 	const currentCard = filteredCards[currentIndex]
@@ -357,11 +291,11 @@ export default function HebrewHebrewVocab({
 	}
 
 	// Refs for controlling playback programmatically
-	const frontAudioRef = useMemo(() => {
-		if (frontField === 'hebAudio' && currentCard?.hebAudio)
-			return new Audio(currentCard.hebAudio)
-		return null
-	}, [frontField, currentCard])
+	// const frontAudioRef = useMemo(() => {
+	// 	if (frontField === 'hebAudio' && currentCard?.hebAudio)
+	// 		return new Audio(currentCard.hebAudio)
+	// 	return null
+	// }, [frontField, currentCard])
 
 	const backAudioRef = useMemo(() => {
 		if (backField === 'hebAudio' && currentCard?.hebAudio)
@@ -414,37 +348,6 @@ export default function HebrewHebrewVocab({
 		},
 	]
 
-	//AUTO PLAY OF ALL CARDS
-	// useEffect(() => {
-	// 	const isFrontAudio = [
-	// 		frontTopLeft,
-	// 		frontTopCenter,
-	// 		frontTopRight,
-	// 		frontMiddleCenter,
-	// 		frontBottomLeft,
-	// 		frontBottomCenter,
-	// 		frontBottomRight,
-	// 	].includes('hebAudio')
-
-	// 	if (isFrontAudio && currentCard?.hebAudio) {
-	// 		const audio = new Audio(currentCard.hebAudio)
-	// 		audio.volume = audioVolume
-	// 		audio.playbackRate = audioSpeed
-	// 		audio.play().catch(console.error)
-	// 	}
-	// }, [
-	// 	currentCard,
-	// 	frontTopLeft,
-	// 	frontTopCenter,
-	// 	frontTopRight,
-	// 	frontMiddleCenter,
-	// 	frontBottomLeft,
-	// 	frontBottomCenter,
-	// 	frontBottomRight,
-	// 	audioVolume,
-	// 	audioSpeed,
-	// ])
-
 	useEffect(() => {
 		if (frontMiddleCenter === 'hebAudio' && currentCard?.hebAudio) {
 			playWithBoostedVolume(currentCard.hebAudio, audioVolume, audioSpeed)
@@ -464,9 +367,7 @@ export default function HebrewHebrewVocab({
 		setTimeout(() => {
 			const nextIndex = currentIndex + 1
 			if (nextIndex >= filteredCards.length) {
-				setShowConfetti(true)
-				finishControls.play()
-				setTimeout(() => setShowConfetti(false), 12000)
+				celebrate()
 			}
 			setCardsCompleted((prev) => prev + 1)
 
@@ -506,14 +407,6 @@ export default function HebrewHebrewVocab({
 		}, 700) // match the flip animation duration
 	}
 
-	function toggleLesson(lesson: string) {
-		setSelectedLessons((prev) =>
-			prev.includes(lesson)
-				? prev.filter((l) => l !== lesson)
-				: [...prev, lesson]
-		)
-	}
-
 	// Auto set optimal font size on load
 	useEffect(() => {
 		const width = window.innerWidth
@@ -538,14 +431,6 @@ export default function HebrewHebrewVocab({
 		'genderPerson',
 		'engTransliteration',
 	]
-
-	function getAdaptiveFontSize(text: string, baseSize: FontSizeKey): number {
-		if (text.length > 40) return FONT_SIZE_MAP.s
-		if (text.length > 30) return FONT_SIZE_MAP.m
-		if (text.length > 20) return FONT_SIZE_MAP.lg
-		if (text.length > 15) return FONT_SIZE_MAP.xl
-		return FONT_SIZE_MAP[baseSize]
-	}
 
 	function fixHebrewPunctuation(text: string): string {
 		// Replace ? at the end of a line with RTL-friendly question mark
@@ -581,7 +466,7 @@ export default function HebrewHebrewVocab({
 					<Image
 						src={imageUrl}
 						alt="HebrewVocab image"
-						fill={isMiddle} // ✅ This enables full-size scaling
+						fill={isMiddle}
 						className="object-contain rounded"
 						sizes="(max-width: 768px) 100vw, 50vw"
 					/>
@@ -619,51 +504,9 @@ export default function HebrewHebrewVocab({
 		)
 	}
 
-	const stringLessons = useMemo(() => {
-		return lessonOptions.filter((lesson) => isNaN(parseLessonKey(lesson).num))
-	}, [lessonOptions])
-
-	// Group lessons into ranges of 10
-	const lessonRanges = useMemo(() => {
-		// Get only numeric lessons
-		const numericLessons = lessonOptions
-			.map((lesson) => ({ lesson, ...parseLessonKey(lesson) }))
-			.filter((l) => !isNaN(l.num))
-
-		if (numericLessons.length === 0) return [] // No ranges if all are strings
-
-		const maxNum = Math.max(...numericLessons.map((l) => l.num))
-		const ranges = []
-
-		for (let i = 1; i <= maxNum; i += 10) {
-			const start = i
-			const end = i + 9
-
-			const lessonsInRange = numericLessons
-				.filter((l) => l.num >= start && l.num <= end)
-				.map((l) => l.lesson)
-
-			if (lessonsInRange.length > 0) {
-				ranges.push({ label: `${start}-${end}`, lessons: lessonsInRange })
-			}
-		}
-
-		return ranges
-	}, [lessonOptions])
-
 	return (
 		<div className="p-4 max-w-3xl mx-auto text-center w-full">
-			{finishAudioElement}
-
-			{showConfetti && (
-				<ReactConfetti
-					width={width}
-					height={height}
-					recycle={false}
-					numberOfPieces={500}
-					tweenDuration={10000}
-				/>
-			)}
+			{Confetti}
 
 			{/* Customize Section Toggle */}
 			<div className="mb-6 flex justify-center gap-4">
@@ -1073,151 +916,21 @@ export default function HebrewHebrewVocab({
 
 			{showFilter && (
 				<>
-					<div className="mb-4">
-						<h2 className="text-xl font-semibold">Select Type</h2>
-						<div className="flex flex-wrap justify-center gap-2">
-							{['all', 'word', 'phrase'].map((typeOption) => (
-								<button
-									key={typeOption}
-									onClick={() =>
-										setSelectedType(typeOption as 'all' | 'word' | 'phrase')
-									}
-									className={`px-3 py-1 border rounded-full text-sm ${
-										selectedType === typeOption
-											? 'bg-blue-500 text-white'
-											: 'bg-gray-200'
-									}`}
-								>
-									{typeOption.charAt(0).toUpperCase() + typeOption.slice(1)}
-								</button>
-							))}
-						</div>
-					</div>
-					<div className="mb-4">
-						<h2 className="text-xl font-semibold">Select Category</h2>
-						<div className="flex flex-wrap justify-center gap-2">
-							<button
-								onClick={() => setSelectedCategory('all')}
-								className={`px-3 py-1 border rounded-full text-sm ${
-									selectedCategory === 'all'
-										? 'bg-blue-500 text-white'
-										: 'bg-gray-200'
-								}`}
-							>
-								All
-							</button>
-							{categoryOptions.map((pos) => (
-								<button
-									key={pos}
-									onClick={() => setSelectedCategory(pos)}
-									className={`px-3 py-1 border rounded-full text-sm ${
-										selectedCategory === pos
-											? 'bg-blue-500 text-white'
-											: 'bg-gray-200'
-									}`}
-								>
-									{pos}
-								</button>
-							))}
-						</div>
-					</div>
-					<div className="mb-4">
-						<h2 className="text-xl font-semibold mb-2">Select Lessons</h2>
-
-						{/* Lesson Buttons */}
-						<div className="flex flex-wrap justify-center gap-2">
-							{/* Clear All Button */}
-							<button
-								onClick={() => setSelectedLessons([])}
-								className="px-3 py-1 border rounded-full text-sm bg-red-100 hover:bg-red-200"
-							>
-								Clear All
-							</button>
-
-							{/* All Button */}
-							<button
-								onClick={() => setSelectedLessons([...lessonOptions])}
-								className={`px-3 py-1 border rounded-full text-sm ${
-									selectedLessons.length === lessonOptions.length
-										? 'bg-blue-500 text-white'
-										: 'bg-gray-200'
-								}`}
-							>
-								All
-							</button>
-
-							{/* Range Buttons */}
-							{lessonRanges.map((range) => (
-								<button
-									key={range.label}
-									onClick={() =>
-										setSelectedLessons((prev) => {
-											// Toggle all lessons in this range
-											const allSelected = range.lessons.every((l) =>
-												prev.includes(l)
-											)
-											if (allSelected) {
-												// Remove all lessons in this range
-												return prev.filter((l) => !range.lessons.includes(l))
-											} else {
-												// Add missing lessons
-												const newSet = new Set([...prev, ...range.lessons])
-												return Array.from(newSet)
-											}
-										})
-									}
-									className={`px-3 py-1 border rounded-full text-sm ${
-										range.lessons.every((l) => selectedLessons.includes(l))
-											? 'bg-blue-500 text-white'
-											: 'bg-gray-200'
-									}`}
-								>
-									{range.label}
-								</button>
-							))}
-
-							{/* Individual Lesson Buttons */}
-							{lessonOptions.map((lesson) => {
-								const label = lesson
-								const isSelected = selectedLessons.includes(lesson)
-								return (
-									<button
-										key={lesson}
-										onClick={() => toggleLesson(lesson)}
-										className={`px-3 py-1 border rounded-full text-sm ${
-											isSelected ? 'bg-blue-500 text-white' : 'bg-gray-200'
-										}`}
-									>
-										{label}
-									</button>
-								)
-							})}
-
-							{/* {stringLessons.length > 0 && (
-								<button
-									onClick={() =>
-										setSelectedLessons((prev) => {
-											const allSelected = stringLessons.every((l) =>
-												prev.includes(l)
-											)
-											if (allSelected) {
-												return prev.filter((l) => !stringLessons.includes(l))
-											} else {
-												return Array.from(new Set([...prev, ...stringLessons]))
-											}
-										})
-									}
-									className={`px-3 py-1 border rounded-full text-sm ${
-										stringLessons.every((l) => selectedLessons.includes(l))
-											? 'bg-blue-500 text-white'
-											: 'bg-gray-200'
-									}`}
-								>
-									Other Lessons
-								</button>
-							)} */}
-						</div>
-					</div>
+					<TypeFilter
+						selectedType={selectedType}
+						setSelectedType={setSelectedType}
+					/>
+					<CategoryFilter
+						data={data}
+						selectedCategory={selectedCategory}
+						setSelectedCategory={setSelectedCategory}
+					/>
+					<LessonFilter
+						data={data}
+						selectedLessons={selectedLessons}
+						setSelectedLessons={setSelectedLessons}
+						showRanges={true}
+					/>
 				</>
 			)}
 
@@ -1325,19 +1038,7 @@ export default function HebrewHebrewVocab({
 
 			{/* 🔵 Progress bar */}
 			{filteredCards.length > 0 && (
-				<>
-					<div className="text-sm font-medium text-gray-600 mb-1">
-						{currentIndex + 1} / {filteredCards.length}
-					</div>
-					<div className="h-2 bg-gray-200 rounded-full overflow-hidden mb-6">
-						<div
-							className="bg-blue-500 h-full transition-all duration-300"
-							style={{
-								width: `${((currentIndex + 1) / filteredCards.length) * 100}%`,
-							}}
-						></div>
-					</div>
-				</>
+				<ProgressBar currentIndex={currentIndex} total={filteredCards.length} />
 			)}
 
 			<div className="flex justify-center gap-4">

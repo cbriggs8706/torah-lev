@@ -12,6 +12,11 @@ import Image from 'next/image'
 import { HebrewVocab } from '@/lib/vocab'
 import { useAudio, useWindowSize } from 'react-use'
 import ReactConfetti from 'react-confetti'
+import LessonFilter from './filter-lesson'
+import CategoryFilter from './filter-category'
+import TypeFilter from './filter-type'
+import FormatFilter, { FormatType } from './filter-format'
+import NiqqudFilter from './filter-niqqud'
 
 interface WordMatchGameProps {
 	data: HebrewVocab[]
@@ -19,8 +24,7 @@ interface WordMatchGameProps {
 }
 
 type UniqueIdentifier = string | number
-
-const MATCH_FIELD_OPTIONS: (keyof HebrewVocab)[] = ['eng', 'images', 'hebAudio']
+const formatOptions: FormatType[] = ['image', 'audio', 'translation']
 
 function parseLessonKey(key: string) {
 	const match = key.match(/^(\d+)?([a-zA-Z]*)$/)
@@ -54,6 +58,8 @@ export default function WordMatchGame({
 	)
 	const [shuffledTargets, setShuffledTargets] = useState<HebrewVocab[]>([])
 	const [hasFinished, setHasFinished] = useState(false)
+	const [selectedCategory, setSelectedCategory] = useState<string>('all')
+	const [formatType, setFormatType] = useState<FormatType>('image')
 
 	const { width, height } = useWindowSize()
 	const audioRef = useRef<HTMLAudioElement | null>(null)
@@ -113,9 +119,22 @@ export default function WordMatchGame({
 					: !!card[matchField]
 			const matchesType = selectedType === 'all' || card.type === selectedType
 
-			return inLesson && hasHebrew && hasMatchField && matchesType
+			// ✅ New category check
+			const matchesCategory =
+				selectedCategory === 'all' || card.category === selectedCategory
+
+			return (
+				inLesson && hasHebrew && hasMatchField && matchesType && matchesCategory
+			)
 		})
-	}, [data, matchField, selectedLessons, hebrewField, selectedType])
+	}, [
+		data,
+		matchField,
+		selectedLessons,
+		hebrewField,
+		selectedType,
+		selectedCategory,
+	])
 
 	useEffect(() => {
 		if (filteredCards.length === 0) {
@@ -204,6 +223,16 @@ export default function WordMatchGame({
 		)
 	}
 
+	useEffect(() => {
+		if (formatType === 'image') {
+			setMatchField('images')
+		} else if (formatType === 'audio') {
+			setMatchField('hebAudio')
+		} else {
+			setMatchField('eng') // default for translation
+		}
+	}, [formatType])
+
 	return (
 		<div className="max-w-4xl mx-auto p-4">
 			{audioEl}
@@ -239,104 +268,34 @@ export default function WordMatchGame({
 
 			{showFilter && (
 				<>
-					<div className="mb-4 text-center">
-						<h2 className="text-xl font-semibold">
-							What do you want to match?
-						</h2>
-						<div className="flex flex-wrap justify-center gap-2 mt-2">
-							{MATCH_FIELD_OPTIONS.map((field) => (
-								<button
-									key={field}
-									onClick={() => setMatchField(field)}
-									className={`px-3 py-1 border rounded-full text-sm ${
-										matchField === field
-											? 'bg-blue-500 text-white'
-											: 'bg-gray-200'
-									}`}
-								>
-									{field === 'eng'
-										? 'Translation'
-										: field === 'images'
-										? 'Image'
-										: 'Audio'}
-								</button>
-							))}
-						</div>
+					<div className="text-center grid grid-cols-1 md:grid-cols-3">
+						<FormatFilter
+							formatType={formatType}
+							setFormatType={setFormatType}
+							options={formatOptions}
+						/>
+						<TypeFilter
+							selectedType={selectedType}
+							setSelectedType={setSelectedType}
+						/>
+						<NiqqudFilter
+							data={data}
+							hebrewField={hebrewField}
+							setHebrewField={setHebrewField}
+						/>
 					</div>
-
-					<div className="mb-4 text-center">
-						<h2 className="text-xl font-semibold">Which Hebrew format?</h2>
-						<div className="flex flex-wrap justify-center gap-2 mt-2">
-							{(['heb', 'hebNiqqud'] as const).map((field) => (
-								<button
-									key={field}
-									onClick={() => setHebrewField(field)}
-									className={`px-3 py-1 border rounded-full text-sm ${
-										hebrewField === field
-											? 'bg-blue-500 text-white'
-											: 'bg-gray-200'
-									}`}
-								>
-									{field === 'heb' ? 'Without Niqqud' : 'With Niqqud'}
-								</button>
-							))}
-						</div>
-					</div>
-
-					<div className="mb-4 text-center">
-						<h2 className="text-xl font-semibold">Select Type</h2>
-						<div className="flex flex-wrap justify-center gap-2 mt-2">
-							{(['all', 'word', 'phrase'] as const).map((type) => (
-								<button
-									key={type}
-									onClick={() => setSelectedType(type)}
-									className={`px-3 py-1 border rounded-full text-sm ${
-										selectedType === type
-											? 'bg-blue-500 text-white'
-											: 'bg-gray-200'
-									}`}
-								>
-									{type.charAt(0).toUpperCase() + type.slice(1)}
-								</button>
-							))}
-						</div>
-					</div>
-
-					<div className="mb-4 text-center">
-						<h2 className="text-xl font-semibold mb-2">Select Lessons</h2>
-						<div className="flex flex-wrap justify-center gap-2">
-							<button
-								onClick={() => setSelectedLessons([])}
-								className="px-3 py-1 border rounded-full text-sm bg-red-100 hover:bg-red-200"
-							>
-								Clear All
-							</button>
-							<button
-								onClick={() => setSelectedLessons([...lessonOptions])}
-								className={`px-3 py-1 border rounded-full text-sm ${
-									selectedLessons.length === lessonOptions.length
-										? 'bg-blue-500 text-white'
-										: 'bg-gray-200'
-								}`}
-							>
-								All
-							</button>
-							{lessonOptions.map((lesson) => {
-								const label = lesson
-								const isSelected = selectedLessons.includes(lesson)
-								return (
-									<button
-										key={lesson}
-										onClick={() => toggleLesson(lesson)}
-										className={`px-3 py-1 border rounded-full text-sm ${
-											isSelected ? 'bg-blue-500 text-white' : 'bg-gray-200'
-										}`}
-									>
-										{label}
-									</button>
-								)
-							})}
-						</div>
+					<div className="text-center">
+						<CategoryFilter
+							data={data}
+							selectedCategory={selectedCategory}
+							setSelectedCategory={setSelectedCategory}
+						/>
+						<LessonFilter
+							data={data}
+							selectedLessons={selectedLessons}
+							setSelectedLessons={setSelectedLessons}
+							showRanges={true}
+						/>
 					</div>
 				</>
 			)}

@@ -36,10 +36,7 @@ const HebrewSpellingPage = async () => {
 
 	const isPro = !!userSubscription?.isActive
 
-	const title = userChallengeData?.activeLesson?.title ?? ''
-	const match = title.match(/AwB (\d{1,3})/)
-
-	const currentLesson = match ? parseInt(match[1], 10) : undefined
+	const currentLesson = userChallengeData?.activeLesson?.lessonNumber
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
@@ -72,7 +69,7 @@ const HebrewSpellingPage = async () => {
 
 					<SpellingPractice
 						data={awbHebrewVocab}
-						currentLesson={currentLesson}
+						currentLesson={currentLesson ?? ''}
 					/>
 				</div>
 			</FeedWrapper>

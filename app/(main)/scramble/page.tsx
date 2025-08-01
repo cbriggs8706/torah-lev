@@ -15,12 +15,9 @@ import awbHebrewVocab from '@/lib/data/vocab/awbVocab.json'
 // import awaGreekVocab from '@/lib/data/vocab/greek-vocab.json'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 
-const PhraseReconstruction = dynamic(
-	() => import('@/components/hebrew-scramble'),
-	{
-		ssr: false,
-	}
-)
+const HebrewScramble = dynamic(() => import('@/components/hebrew-scramble'), {
+	ssr: false,
+})
 
 const HebrewScramblePage = async () => {
 	const userProgressData = getUserProgress()
@@ -36,12 +33,9 @@ const HebrewScramblePage = async () => {
 	if (!userProgress || !userProgress.activeCourse) {
 		redirect('/courses')
 	}
-
 	const isPro = !!userSubscription?.isActive
-	const title = userChallengeData?.activeLesson?.title ?? ''
-	const match = title.match(/AwB (\d{1,3})/)
+	const currentLesson = userChallengeData?.activeLesson?.lessonNumber
 
-	const currentLesson = match ? parseInt(match[1], 10) : undefined
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
 			{/* <StickyWrapper>
@@ -72,9 +66,9 @@ const HebrewScramblePage = async () => {
 						remove. Don&apos;t forget to go right to left!
 					</DismissibleAlert>
 
-					<PhraseReconstruction
+					<HebrewScramble
 						data={awbHebrewVocab}
-						currentLesson={currentLesson}
+						currentLesson={currentLesson ?? ''}
 					/>
 				</div>
 			</FeedWrapper>

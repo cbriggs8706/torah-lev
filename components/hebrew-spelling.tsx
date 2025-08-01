@@ -2,34 +2,41 @@
 
 import { useState, useEffect, useMemo, useCallback } from 'react'
 import Image from 'next/image'
-import { useAudio, useWindowSize } from 'react-use'
+import { useAudio } from 'react-use'
 
 import HebrewKeyboard from './hebrew-keyboard'
-import ReactConfetti from 'react-confetti'
 import { HebrewVocab } from '@/lib/vocab'
 import { letters } from '@/lib/letters'
+import LessonFilter from './filter-lesson'
+import CategoryFilter from './filter-category'
+import FormatFilter, { FormatType } from './filter-format'
+import { useCelebration } from '@/hooks/useCelebration'
+import ProgressBar from './progress-bar'
+import { parseLessonKey, useLessonCards } from '@/hooks/useLessonCards'
 
 interface HebrewSpellingProps {
 	data: HebrewVocab[]
-	currentLesson: number | undefined
+	currentLesson: string
 }
 
-type PromptType = 'image' | 'audio' | 'translation' | 'letter-by-letter'
-
-function parseLessonKey(key: string) {
-	const match = key.match(/^(\d+)?([a-zA-Z]*)$/)
-	if (!match) return { num: NaN, text: key }
-	return {
-		num: match[1] ? parseInt(match[1], 10) : NaN,
-		text: match[2] || (match[1] ? '' : key),
-	}
-}
+const formatOptions: FormatType[] = [
+	'image',
+	'audio',
+	'translation',
+	'letter-by-letter',
+]
 
 export default function HebrewSpelling({
 	data,
 	currentLesson,
 }: HebrewSpellingProps) {
-	const [selectedLessons, setSelectedLessons] = useState<string[]>([])
+	const {
+		selectedLessons,
+		setSelectedLessons,
+		currentIndex,
+		setCurrentIndex,
+		lessonOptions,
+	} = useLessonCards(data, currentLesson)
 
 	const [selectedType, setSelectedType] = useState<'all' | 'word' | 'phrase'>(
 		'word'
@@ -38,20 +45,12 @@ export default function HebrewSpelling({
 	const [isMobile, setIsMobile] = useState(false)
 
 	const [selectedCategory, setSelectedCategory] = useState('all')
-	const [promptType, setPromptType] = useState<PromptType>('image')
-	const [currentIndex, setCurrentIndex] = useState(0)
+	const [formatType, setFormatType] = useState<FormatType>('image')
 	const [showFeedback, setShowFeedback] = useState<null | boolean>(null)
 	const [value, setValue] = useState('')
-	const [showConfetti, setShowConfetti] = useState(false)
-	const [finishAudio] = useAudio({ src: '/finish.mp3', autoPlay: true })
 	const [audioVolume, setAudioVolume] = useState(1) // default: 100%
 	const [audioSpeed, setAudioSpeed] = useState(1) // default: normal speed
-
-	const { width, height } = useWindowSize()
-
-	function handleSubmit() {
-		console.log('Submitted:', value)
-	}
+	const { Confetti, celebrate } = useCelebration()
 
 	function playConfiguredAudio(
 		src: string,
@@ -82,39 +81,15 @@ export default function HebrewSpelling({
 
 	const cardsForPrefix = useMemo(() => data, [data])
 
-	const lessonOptions = useMemo(() => {
-		const allLessons = cardsForPrefix.flatMap((card) => card.lessons)
-		const uniqueLessons = Array.from(new Set(allLessons))
-
-		return uniqueLessons.sort((a, b) => {
-			const A = parseLessonKey(a)
-			const B = parseLessonKey(b)
-
-			if (!isNaN(A.num) && !isNaN(B.num)) {
-				if (A.num !== B.num) return A.num - B.num
-				return A.text.localeCompare(B.text)
-			}
-			if (!isNaN(A.num) && isNaN(B.num)) return -1
-			if (isNaN(A.num) && !isNaN(B.num)) return 1
-			return a.localeCompare(b)
-		})
-	}, [cardsForPrefix])
-
 	useEffect(() => {
 		if (currentLesson !== undefined) {
 			const allLessonsUpToCurrent = lessonOptions.filter((lesson) => {
 				const parsed = parseLessonKey(lesson)
-				return !isNaN(parsed.num) && parsed.num <= currentLesson
+				return !isNaN(parsed.num) && parsed.num <= Number(currentLesson)
 			})
 			setSelectedLessons(allLessonsUpToCurrent)
 		}
-	}, [currentLesson, lessonOptions])
-
-	const categoryOptions = useMemo(() => {
-		return Array.from(
-			new Set(cardsForPrefix.map((c) => c.category).filter(Boolean))
-		)
-	}, [cardsForPrefix])
+	}, [currentLesson, lessonOptions, setSelectedLessons])
 
 	const filteredCards = useMemo(() => {
 		const filtered = cardsForPrefix
@@ -130,10 +105,10 @@ export default function HebrewSpelling({
 			)
 
 		const valid = filtered.filter((card) => {
-			if (promptType === 'image') return card.images[0]
-			if (promptType === 'audio') return card.hebAudio
-			if (promptType === 'translation') return !!card.eng
-			if (promptType === 'letter-by-letter') return !!card.heb
+			if (formatType === 'image') return card.images[0]
+			if (formatType === 'audio') return card.hebAudio
+			if (formatType === 'translation') return !!card.eng
+			if (formatType === 'letter-by-letter') return !!card.heb
 			return true
 		})
 
@@ -143,12 +118,12 @@ export default function HebrewSpelling({
 		selectedLessons,
 		selectedType,
 		selectedCategory,
-		promptType,
+		formatType,
 	])
 
 	useEffect(() => {
 		setCurrentIndex(0)
-	}, [filteredCards])
+	}, [filteredCards, setCurrentIndex])
 
 	const currentCard = filteredCards[currentIndex]
 
@@ -157,18 +132,18 @@ export default function HebrewSpelling({
 			if (!card) return true
 
 			if (
-				promptType === 'image' &&
+				formatType === 'image' &&
 				(!card.images || card.images.length === 0)
 			) {
 				return true
 			}
-			if (promptType === 'audio' && !card.hebAudio) {
+			if (formatType === 'audio' && !card.hebAudio) {
 				return true
 			}
 
 			return false
 		},
-		[promptType]
+		[formatType]
 	)
 
 	useEffect(() => {
@@ -178,10 +153,11 @@ export default function HebrewSpelling({
 		}
 	}, [
 		currentCard,
-		promptType,
+		formatType,
 		currentIndex,
 		filteredCards.length,
 		shouldSkipCard,
+		setCurrentIndex,
 	])
 
 	const [audioElement, __, controls] = useAudio({
@@ -210,7 +186,7 @@ export default function HebrewSpelling({
 		if (isCorrect) {
 			if (
 				isCorrect &&
-				promptType === 'letter-by-letter' &&
+				formatType === 'letter-by-letter' &&
 				currentCard?.hebAudio
 			) {
 				smartPlayAudio(`/${currentCard.hebAudio}`, audioVolume, audioSpeed)
@@ -223,7 +199,7 @@ export default function HebrewSpelling({
 				inputEl.value = ''
 
 				if (isLastCard) {
-					setShowConfetti(true)
+					celebrate()
 				} else {
 					setCurrentIndex((i) => (i + 1) % filteredCards.length)
 				}
@@ -236,8 +212,8 @@ export default function HebrewSpelling({
 			const nextIndex = (i + 1) % filteredCards.length
 			setShowFeedback(null)
 
-			// Auto-play audio if promptType is audio or letter-by-letter
-			if (promptType === 'audio' && filteredCards[nextIndex]?.hebAudio) {
+			// Auto-play audio if formatType is audio or letter-by-letter
+			if (formatType === 'audio' && filteredCards[nextIndex]?.hebAudio) {
 				setTimeout(() => {
 					smartPlayAudio(
 						`/${filteredCards[nextIndex].hebAudio}`,
@@ -246,7 +222,7 @@ export default function HebrewSpelling({
 					)
 				}, 100)
 			} else if (
-				promptType === 'letter-by-letter' &&
+				formatType === 'letter-by-letter' &&
 				filteredCards[nextIndex]?.heb
 			) {
 				setTimeout(() => {
@@ -263,8 +239,8 @@ export default function HebrewSpelling({
 			const prevIndex = (i - 1 + filteredCards.length) % filteredCards.length
 			setShowFeedback(null)
 
-			// Auto-play audio if promptType is audio and prev card has audio
-			if (promptType === 'audio' && filteredCards[prevIndex]?.hebAudio) {
+			// Auto-play audio if formatType is audio and prev card has audio
+			if (formatType === 'audio' && filteredCards[prevIndex]?.hebAudio) {
 				setTimeout(() => {
 					smartPlayAudio(
 						`/${filteredCards[prevIndex].hebAudio}`,
@@ -357,16 +333,7 @@ export default function HebrewSpelling({
 
 	return (
 		<div className="p-4 max-w-3xl mx-auto text-center">
-			{showConfetti && (
-				<ReactConfetti
-					width={width}
-					height={height}
-					recycle={false}
-					numberOfPieces={500}
-					tweenDuration={10000}
-				/>
-			)}
-			{showConfetti && finishAudio}
+			{Confetti}
 			<div className="mb-6 flex justify-center gap-4">
 				<button
 					onClick={() => setShowFilter((prev) => !prev)}
@@ -417,113 +384,29 @@ export default function HebrewSpelling({
 						</div>
 					</div>
 
-					{/* Prompt Type Selection */}
-					<div className="mb-4">
-						<h2 className="font-semibold text-xl mb-2">Prompt Type</h2>
-						<div className="flex justify-center gap-2">
-							{(
-								[
-									'translation',
-									'image',
-									'audio',
-									'letter-by-letter',
-								] as PromptType[]
-							).map((type) => (
-								<button
-									key={type}
-									onClick={() => setPromptType(type)}
-									className={`px-3 py-1 border rounded-full ${
-										promptType === type
-											? 'bg-blue-600 text-white'
-											: 'bg-gray-200'
-									}`}
-								>
-									{type.charAt(0).toUpperCase() + type.slice(1)}
-								</button>
-							))}
-						</div>
-					</div>
-					<div className="mb-4 space-y-2">
-						<div>
-							<label className="font-semibold text-xl mb-2">Lessons</label>
-							<div className="flex justify-center gap-4 mb-3">
-								<button
-									onClick={() => setSelectedLessons([])}
-									className="px-3 py-1 border rounded text-sm bg-red-100 hover:bg-red-200"
-								>
-									Clear All
-								</button>
-							</div>
-							<div className="flex flex-wrap justify-center gap-1">
-								{lessonOptions.map((lesson) => (
-									<button
-										key={lesson}
-										onClick={() =>
-											setSelectedLessons((prev) =>
-												prev.includes(lesson)
-													? prev.filter((l) => l !== lesson)
-													: [...prev, lesson]
-											)
-										}
-										className={`px-2 py-1 border rounded-full text-sm ${
-											selectedLessons.includes(lesson)
-												? 'bg-blue-500 text-white'
-												: 'bg-gray-200'
-										}`}
-									>
-										{lesson}
-									</button>
-								))}
-							</div>
-						</div>
-
-						<div>
-							<label className="font-semibold text-xl mb-2">Type</label>
-							<div className="flex justify-center gap-2">
-								{['all', 'word', 'phrase'].map((type) => (
-									<button
-										key={type}
-										onClick={() =>
-											setSelectedType(type as 'all' | 'word' | 'phrase')
-										}
-										className={`px-3 py-1 border rounded-full text-sm ${
-											selectedType === type
-												? 'bg-blue-500 text-white'
-												: 'bg-gray-200'
-										}`}
-									>
-										{type}
-									</button>
-								))}
-							</div>
-						</div>
-
-						<div>
-							<label className="block text-sm font-medium">Category</label>
-							<div className="flex flex-wrap justify-center gap-1">
-								{['all', ...categoryOptions].map((cat) => (
-									<button
-										key={cat}
-										onClick={() => setSelectedCategory(cat as string)}
-										className={`px-2 py-1 border rounded-full text-sm ${
-											selectedCategory === cat
-												? 'bg-blue-500 text-white'
-												: 'bg-gray-200'
-										}`}
-									>
-										{cat}
-									</button>
-								))}
-							</div>
-						</div>
-					</div>
+					<FormatFilter
+						formatType={formatType}
+						setFormatType={setFormatType}
+						options={formatOptions}
+					/>
+					<CategoryFilter
+						data={data}
+						selectedCategory={selectedCategory}
+						setSelectedCategory={setSelectedCategory}
+					/>
+					<LessonFilter
+						data={data}
+						selectedLessons={selectedLessons}
+						setSelectedLessons={setSelectedLessons}
+						showRanges={true}
+					/>
 				</>
 			)}
 
 			{/* Prompt Display */}
 			{currentCard && (
 				<div className="mb-6">
-					{promptType === 'translation' && (
+					{formatType === 'translation' && (
 						<div className="mb-6 p-4 border-2 border-blue-300 bg-blue-50 rounded-xl shadow text-3xl font-bold">
 							{currentCard.eng}
 							{currentCard.genderPerson && (
@@ -535,7 +418,7 @@ export default function HebrewSpelling({
 						</div>
 					)}
 
-					{promptType === 'image' && currentCard.images[0] && (
+					{formatType === 'image' && currentCard.images[0] && (
 						<Image
 							src={currentCard.images[0]}
 							alt="Prompt Image"
@@ -544,7 +427,7 @@ export default function HebrewSpelling({
 							className="mx-auto rounded"
 						/>
 					)}
-					{promptType === 'audio' && currentCard.hebAudio && (
+					{formatType === 'audio' && currentCard.hebAudio && (
 						<>
 							<button
 								className="text-4xl mt-2 hover:text-blue-700"
@@ -562,7 +445,7 @@ export default function HebrewSpelling({
 							{audioElement}
 						</>
 					)}
-					{promptType === 'letter-by-letter' && currentCard.heb && (
+					{formatType === 'letter-by-letter' && currentCard.heb && (
 						<button
 							className="text-4xl mt-2 hover:text-blue-700"
 							onClick={(e) => {
@@ -604,19 +487,7 @@ export default function HebrewSpelling({
 			</div>
 			{/* Progress Bar */}
 			{filteredCards.length > 0 && (
-				<>
-					<div className="text-sm font-medium text-gray-600 mb-1">
-						{currentIndex + 1} / {filteredCards.length}
-					</div>
-					<div className="h-2 bg-gray-200 rounded-full overflow-hidden mb-6">
-						<div
-							className="bg-blue-500 h-full transition-all duration-300"
-							style={{
-								width: `${((currentIndex + 1) / filteredCards.length) * 100}%`,
-							}}
-						></div>
-					</div>
-				</>
+				<ProgressBar currentIndex={currentIndex} total={filteredCards.length} />
 			)}
 
 			{/* Feedback */}

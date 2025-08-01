@@ -3,95 +3,47 @@
 import { HebrewVocab } from '@/lib/vocab'
 import Image from 'next/image'
 import { useEffect, useMemo, useState } from 'react'
-import ReactConfetti from 'react-confetti'
-import { useAudio, useWindowSize } from 'react-use'
+import LessonFilter from './filter-lesson'
+import { useCelebration } from '@/hooks/useCelebration'
+import ProgressBar from './progress-bar'
+import { parseLessonKey, useLessonCards } from '@/hooks/useLessonCards'
 
 interface HebrewScrambleProps {
 	data: HebrewVocab[]
-	currentLesson?: number
+	currentLesson: string
 }
 
 export default function HebrewScramble({
 	data,
 	currentLesson,
 }: HebrewScrambleProps) {
-	const [selectedLessons, setSelectedLessons] = useState<string[]>([])
-	const [currentIndex, setCurrentIndex] = useState(0)
+	const { selectedLessons, setSelectedLessons, currentIndex, setCurrentIndex } =
+		useLessonCards(data, currentLesson)
 	const [selectedWords, setSelectedWords] = useState<string[]>([])
 	const [showFeedback, setShowFeedback] = useState<null | boolean>(null)
-	const [showConfetti, setShowConfetti] = useState(false)
-	const [finishAudio] = useAudio({ src: '/finish.mp3', autoPlay: true })
 	const [showFilter, setShowFilter] = useState(false)
-
-	const { width, height } = useWindowSize()
+	const { Confetti, celebrate } = useCelebration()
+	const [filteredCards, setFilteredCards] = useState<HebrewVocab[]>([])
 
 	const cardsForPrefix = useMemo(() => {
-		return data.filter((card) => card.type === 'phrase')
-	}, [data])
-
-	function parseLessonKey(key: string) {
-		const match = key.match(/^(\d+)?([a-zA-Z]*)$/)
-		if (!match) return { num: NaN, text: key }
-		return {
-			num: match[1] ? parseInt(match[1], 10) : NaN,
-			text: match[2] || (match[1] ? '' : key),
-		}
-	}
-
-	const lessonOptions = useMemo(() => {
-		const allLessons = cardsForPrefix.flatMap((card) => card.lessons)
-		const uniqueLessons = Array.from(new Set(allLessons))
-
-		return uniqueLessons.sort((a, b) => {
-			const A = parseLessonKey(a)
-			const B = parseLessonKey(b)
-
-			if (!isNaN(A.num) && !isNaN(B.num)) {
-				if (A.num !== B.num) return A.num - B.num
-				return A.text.localeCompare(B.text)
-			}
-			if (!isNaN(A.num) && isNaN(B.num)) return -1
-			if (isNaN(A.num) && !isNaN(B.num)) return 1
-			return a.localeCompare(b)
-		})
-	}, [cardsForPrefix])
-
-	useEffect(() => {
-		if (currentLesson !== undefined) {
-			const availableLessons = lessonOptions.filter((lesson) => {
-				const parsed = parseLessonKey(lesson)
-				return !isNaN(parsed.num) && parsed.num <= currentLesson
-			})
-			setSelectedLessons(availableLessons)
-		}
-	}, [currentLesson, lessonOptions])
-
-	const categoryOptions = useMemo(() => {
-		return Array.from(
-			new Set(cardsForPrefix.map((c) => c.category).filter(Boolean))
+		return data.filter(
+			(card) =>
+				card.type === 'phrase' &&
+				card.lessons.some((l) => selectedLessons.includes(String(l)))
 		)
-	}, [cardsForPrefix])
-
-	const filteredCards = useMemo(() => {
-		const filtered = cardsForPrefix
-			.filter(
-				(card) =>
-					selectedLessons.length === 0 ||
-					card.lessons.some((l) => selectedLessons.includes(l))
-			)
-			.filter((card) => {
-				const wordCount = card.heb.trim().split(/\s+/).length
-				return wordCount >= 2
-			})
-
-		return [...filtered].sort(() => Math.random() - 0.5)
-	}, [cardsForPrefix, selectedLessons])
+	}, [data, selectedLessons])
 
 	useEffect(() => {
+		const newFiltered = cardsForPrefix.filter((card) => {
+			const wordCount = card.heb.trim().split(/\s+/).length
+			return wordCount >= 2
+		})
+
+		setFilteredCards([...newFiltered].sort(() => Math.random() - 0.5))
 		setCurrentIndex(0)
 		setSelectedWords([])
 		setShowFeedback(null)
-	}, [filteredCards])
+	}, [cardsForPrefix, selectedLessons, setCurrentIndex])
 
 	const currentCard = filteredCards[currentIndex]
 
@@ -126,7 +78,7 @@ export default function HebrewScramble({
 			const isLastCard = currentIndex === filteredCards.length - 1
 
 			if (isLastCard) {
-				setShowConfetti(true)
+				celebrate()
 			}
 
 			setTimeout(() => {
@@ -146,16 +98,7 @@ export default function HebrewScramble({
 
 	return (
 		<div className="p-4 max-w-3xl mx-auto text-center">
-			{showConfetti && (
-				<ReactConfetti
-					width={width}
-					height={height}
-					recycle={false}
-					numberOfPieces={500}
-					tweenDuration={10000}
-				/>
-			)}
-			{showConfetti && finishAudio}
+			{Confetti}
 			<h1 className="text-2xl font-bold mb-4">Scrambled Sentences</h1>
 
 			{/* 🔹 Filter Button */}
@@ -176,32 +119,13 @@ export default function HebrewScramble({
 				</button>
 			</div>
 
-			{/* 🔹 Lesson Filter (collapsible) */}
 			{showFilter && (
-				<div className="space-y-4 mb-6">
-					<label className="block text-xl font-semibold">Lessons</label>
-					<div className="flex flex-wrap justify-center gap-2">
-						{lessonOptions.map((lesson) => (
-							<button
-								key={lesson}
-								onClick={() =>
-									setSelectedLessons((prev) =>
-										prev.includes(lesson)
-											? prev.filter((l) => l !== lesson)
-											: [...prev, lesson]
-									)
-								}
-								className={`px-2 py-1 border rounded-full text-sm ${
-									selectedLessons.includes(lesson)
-										? 'bg-blue-500 text-white'
-										: 'bg-gray-200'
-								}`}
-							>
-								{lesson}
-							</button>
-						))}
-					</div>
-				</div>
+				<LessonFilter
+					data={data}
+					selectedLessons={selectedLessons}
+					setSelectedLessons={setSelectedLessons}
+					showRanges={true}
+				/>
 			)}
 
 			{/* Prompt */}
@@ -260,19 +184,7 @@ export default function HebrewScramble({
 
 			{/* Progress */}
 			{filteredCards.length > 0 && (
-				<>
-					<div className="text-sm font-medium text-gray-600 mb-1">
-						{currentIndex + 1} / {filteredCards.length}
-					</div>
-					<div className="h-2 bg-gray-200 rounded-full overflow-hidden mb-4">
-						<div
-							className="bg-blue-500 h-full transition-all duration-300"
-							style={{
-								width: `${((currentIndex + 1) / filteredCards.length) * 100}%`,
-							}}
-						></div>
-					</div>
-				</>
+				<ProgressBar currentIndex={currentIndex} total={filteredCards.length} />
 			)}
 
 			{/* Feedback */}
