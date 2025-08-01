@@ -17,11 +17,11 @@ type FontChoice =
 	| 'rashi'
 	| 'suez'
 
-interface FlashcardReviewProps {
+interface HebrewFlashcardProps {
 	data: Flashcard[]
 	allFields: (keyof Flashcard)[]
-	lessonPrefix: string
-	currentLesson: number | undefined
+	currentLesson: string
+	layout: string
 }
 
 const FONT_SIZE_MAP = {
@@ -69,12 +69,12 @@ const FONT_CLASS_MAP: Record<FontChoice, string> = {
 	suez: 'font-suez',
 }
 
-export default function FlashcardReview({
+export default function HebrewFlashcard({
 	data,
 	allFields,
-	lessonPrefix,
 	currentLesson,
-}: FlashcardReviewProps) {
+	layout,
+}: HebrewFlashcardProps) {
 	const [selectedType, setSelectedType] = useState<'all' | 'word' | 'phrase'>(
 		'word'
 	)
@@ -195,35 +195,70 @@ export default function FlashcardReview({
 	}
 
 	// Filter to this prefix
-	const cardsForPrefix = useMemo(() => {
-		return data.filter((card) =>
-			card.lessons.some((lesson) => lesson.startsWith(lessonPrefix))
-		)
-	}, [data, lessonPrefix])
+	const cardsForPrefix = useMemo(() => data, [data])
 
 	// Collect lesson keys like 'awb1' and sort numerically by suffix
-	const lessonOptions = useMemo(() => {
-		const all = cardsForPrefix.flatMap((card) =>
-			card.lessons.filter((l) => l.startsWith(lessonPrefix))
-		)
-		const unique = Array.from(new Set(all))
+	function parseLessonKey(key: string) {
+		// Separate number and text parts
+		const match = key.match(/^(\d+)?([a-zA-Z]*)$/)
+		if (!match) return { num: NaN, text: key }
+		return {
+			num: match[1] ? parseInt(match[1], 10) : NaN,
+			text: match[2] || (match[1] ? '' : key), // text part if present
+		}
+	}
 
-		return unique.sort((a, b) => {
-			const aNum = parseFloat(a.slice(lessonPrefix.length)) || 0
-			const bNum = parseFloat(b.slice(lessonPrefix.length)) || 0
-			return aNum - bNum
+	const lessonOptions = useMemo(() => {
+		const allLessons = cardsForPrefix.flatMap((card) => card.lessons)
+		const uniqueLessons = Array.from(new Set(allLessons))
+
+		return uniqueLessons.sort((a, b) => {
+			const A = parseLessonKey(a)
+			const B = parseLessonKey(b)
+
+			// Sort by number if both have numbers
+			if (!isNaN(A.num) && !isNaN(B.num)) {
+				if (A.num !== B.num) return A.num - B.num
+				return A.text.localeCompare(B.text)
+			}
+
+			// Numbers come before pure strings
+			if (!isNaN(A.num) && isNaN(B.num)) return -1
+			if (isNaN(A.num) && !isNaN(B.num)) return 1
+
+			// Both are pure strings → alphabetical
+			return a.localeCompare(b)
 		})
-	}, [cardsForPrefix, lessonPrefix])
+	}, [cardsForPrefix])
 
 	useEffect(() => {
-		if (currentLesson !== undefined) {
-			const allLessonsUpToCurrent = lessonOptions.filter((lesson) => {
-				const num = parseInt(lesson.slice(lessonPrefix.length), 10)
-				return num <= currentLesson
-			})
-			setSelectedLessons(allLessonsUpToCurrent)
-		}
-	}, [currentLesson, lessonOptions, lessonPrefix])
+		if (!currentLesson) return
+
+		const currentParsed = parseLessonKey(currentLesson)
+
+		const allLessonsUpToCurrent = lessonOptions.filter((lesson) => {
+			const lParsed = parseLessonKey(lesson)
+
+			// Both numeric
+			if (!isNaN(currentParsed.num) && !isNaN(lParsed.num)) {
+				if (lParsed.num < currentParsed.num) return true
+				if (lParsed.num > currentParsed.num) return false
+				return lParsed.text <= currentParsed.text
+			}
+
+			// If current is number and lesson is string → exclude
+			if (!isNaN(currentParsed.num) && isNaN(lParsed.num)) return false
+
+			// If current is string, include only strings <= current alphabetically
+			if (isNaN(currentParsed.num) && isNaN(lParsed.num)) {
+				return lesson.localeCompare(currentLesson) <= 0
+			}
+
+			return false
+		})
+
+		setSelectedLessons(allLessonsUpToCurrent)
+	}, [currentLesson, lessonOptions])
 
 	const categoryOptions = useMemo(() => {
 		const all = cardsForPrefix
@@ -553,25 +588,37 @@ export default function FlashcardReview({
 		)
 	}
 
+	const stringLessons = useMemo(() => {
+		return lessonOptions.filter((lesson) => isNaN(parseLessonKey(lesson).num))
+	}, [lessonOptions])
+
 	// Group lessons into ranges of 10
 	const lessonRanges = useMemo(() => {
-		const nums = lessonOptions.map(
-			(lesson) => parseInt(lesson.slice(lessonPrefix.length)) || 0
-		)
-		const max = Math.max(...nums, 0)
+		// Get only numeric lessons
+		const numericLessons = lessonOptions
+			.map((lesson) => ({ lesson, ...parseLessonKey(lesson) }))
+			.filter((l) => !isNaN(l.num))
+
+		if (numericLessons.length === 0) return [] // No ranges if all are strings
+
+		const maxNum = Math.max(...numericLessons.map((l) => l.num))
 		const ranges = []
 
-		for (let i = 1; i <= max; i += 10) {
+		for (let i = 1; i <= maxNum; i += 10) {
 			const start = i
 			const end = i + 9
-			const lessonsInRange = lessonOptions.filter((l) => {
-				const num = parseInt(l.slice(lessonPrefix.length)) || 0
-				return num >= start && num <= end
-			})
-			ranges.push({ label: `${start}-${end}`, lessons: lessonsInRange })
+
+			const lessonsInRange = numericLessons
+				.filter((l) => l.num >= start && l.num <= end)
+				.map((l) => l.lesson)
+
+			if (lessonsInRange.length > 0) {
+				ranges.push({ label: `${start}-${end}`, lessons: lessonsInRange })
+			}
 		}
+
 		return ranges
-	}, [lessonOptions, lessonPrefix])
+	}, [lessonOptions])
 
 	return (
 		<div className="p-4 max-w-3xl mx-auto text-center w-full">
@@ -1100,7 +1147,7 @@ export default function FlashcardReview({
 
 							{/* Individual Lesson Buttons */}
 							{lessonOptions.map((lesson) => {
-								const label = lesson.slice(lessonPrefix.length)
+								const label = lesson
 								const isSelected = selectedLessons.includes(lesson)
 								return (
 									<button
@@ -1114,6 +1161,30 @@ export default function FlashcardReview({
 									</button>
 								)
 							})}
+
+							{/* {stringLessons.length > 0 && (
+								<button
+									onClick={() =>
+										setSelectedLessons((prev) => {
+											const allSelected = stringLessons.every((l) =>
+												prev.includes(l)
+											)
+											if (allSelected) {
+												return prev.filter((l) => !stringLessons.includes(l))
+											} else {
+												return Array.from(new Set([...prev, ...stringLessons]))
+											}
+										})
+									}
+									className={`px-3 py-1 border rounded-full text-sm ${
+										stringLessons.every((l) => selectedLessons.includes(l))
+											? 'bg-blue-500 text-white'
+											: 'bg-gray-200'
+									}`}
+								>
+									Other Lessons
+								</button>
+							)} */}
 						</div>
 					</div>
 				</>

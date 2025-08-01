@@ -10,15 +10,17 @@ import {
 	getUserSubscription,
 } from '@/db/queries'
 import dynamic from 'next/dynamic'
+import HebrewMatchup from '@/components/hebrew-matchup'
 
-import rawVocab from '@/lib/data/vocab/hebrewscouts.json'
+import awbHebrewVocab from '@/lib/data/vocab/awbVocab.json'
+// import awaGreekVocab from '@/lib/data/vocab/greek-vocab.json'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 
-const FlashcardReview = dynamic(() => import('@/components/flashcards'), {
+const LetterQuiz = dynamic(() => import('@/components/letter-quiz'), {
 	ssr: false,
 })
 
-const ScoutsFlashcardPage = async () => {
+const HebrewLetterQuizPage = async () => {
 	const userProgressData = getUserProgress()
 	const userChallengeData = await getCourseProgress()
 	const userSubscriptionData = getUserSubscription()
@@ -42,44 +44,35 @@ const ScoutsFlashcardPage = async () => {
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
 			{/* <StickyWrapper>
-        <UserProgress
-          activeCourse={userProgress.activeCourse}
-          hearts={userProgress.hearts}
-          points={userProgress.points}
-          hasActiveSubscription={isPro}
-        />
-        {!isPro && <Promo />}
-      </StickyWrapper> */}
+				<UserProgress
+					activeCourse={userProgress.activeCourse}
+					hearts={userProgress.hearts}
+					points={userProgress.points}
+					hasActiveSubscription={isPro}
+				/>
+				{!isPro && <Promo />}
+			</StickyWrapper> */}
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">
 					<Image
-						src="/card-file-box.svg"
-						alt="Calendar"
+						src="/socks-svgrepo-com.svg"
+						alt="Matchup"
 						height={90}
 						width={90}
 					/>
 					<h1 className="text-center font-bold text-neutral-800 text-2xl my-6">
-						Flashcards
+						Matchup
 					</h1>
-					<DismissibleAlert storageKey="scoutsFlashcard" className="mb-4">
-						These will default to your current lesson in the Learn section. You
-						can customize the cards to your hearts desire. There are 7 spots on
-						front and back where you can place whatever you would like.
+					<DismissibleAlert storageKey="matchup" className="mb-4">
+						{' '}
+						It will load up to 12 words from your current lesson by default. You
+						can change between text, images and audio in the filters. Known bug:
+						drag and drop doesn&apos;t work on android devices.
 					</DismissibleAlert>
-					<FlashcardReview
-						data={rawVocab}
-						allFields={[
-							'hebNiqqud',
-							'heb',
-							'eng',
-							'genderPerson',
-							'partOfSpeech',
-							'ipa',
-							'engTransliteration',
-							'images',
-							'hebAudio',
-						]}
-						lessonPrefix="kamatz"
+
+					<HebrewMatchup
+						data={awbHebrewVocab}
+						lessonPrefix="awb"
 						currentLesson={currentLesson}
 					/>
 				</div>
@@ -88,4 +81,4 @@ const ScoutsFlashcardPage = async () => {
 	)
 }
 
-export default ScoutsFlashcardPage
+export default HebrewLetterQuizPage

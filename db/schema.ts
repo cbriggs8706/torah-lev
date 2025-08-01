@@ -45,6 +45,7 @@ export const lessons = pgTable('lessons', {
 		.references(() => units.id, { onDelete: 'cascade' })
 		.notNull(),
 	order: integer('order').notNull(),
+	lessonNumber: text('lesson_number').notNull().default(''),
 	// content: text('content'),
 })
 

@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import db from '@/db/drizzle'
-import flashcards from '@/lib/data/vocab/flashcards.json'
+import awbHebrewVocab from '@/lib/data/vocab/awbVocab.json'
+// import awaGreekVocab from '@/lib/data/vocab/greek-vocab.json'
 
 type ChallengeType =
 	| 'AUDIO-VISUAL'
@@ -161,7 +162,7 @@ export const POST = async (req: Request) => {
 		}
 	}
 
-	const lessonWords = flashcards.filter(
+	const lessonWords = awbHebrewVocab.filter(
 		(w) =>
 			w.lessons.map((l) => l.toLowerCase()).includes(lessonKey.toLowerCase()) &&
 			hasRequiredFields(w)

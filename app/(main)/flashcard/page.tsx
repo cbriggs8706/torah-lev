@@ -1,4 +1,3 @@
-'use server'
 import Image from 'next/image'
 import { redirect } from 'next/navigation'
 
@@ -12,14 +11,22 @@ import {
 } from '@/db/queries'
 import dynamic from 'next/dynamic'
 
-import rawVocab from '@/lib/data/vocab/flashcards.json'
-import { DismissibleAlert } from '@/components/dismissible-alert'
+import awbHebrewVocab from '@/lib/data/vocab/awbVocab.json'
+import hebrewScoutsVocab from '@/lib/data/vocab/hebrewScoutsVocab.json'
+// import awaGreekVocab from '@/lib/data/vocab/greek-vocab.json'
 
-const SpellingPractice = dynamic(() => import('@/components/spelling'), {
+import { DismissibleAlert } from '@/components/dismissible-alert'
+import { PanoramaSharp } from '@mui/icons-material'
+
+const Flashcards = dynamic(() => import('@/components/hebrew-flashcards'), {
 	ssr: false,
 })
 
-const HebrewSpellingPage = async () => {
+export default async function FlashcardPage({
+	params,
+}: {
+	params: { lang: string }
+}) {
 	const userProgressData = getUserProgress()
 	const userChallengeData = await getCourseProgress()
 	const userSubscriptionData = getUserSubscription()
@@ -34,11 +41,16 @@ const HebrewSpellingPage = async () => {
 	}
 
 	const isPro = !!userSubscription?.isActive
+	const currentLesson = userChallengeData?.activeLesson?.lessonNumber
 
-	const title = userChallengeData?.activeLesson?.title ?? ''
-	const match = title.match(/AwB (\d{1,3})/)
+	const isHebrew = params.lang || 'hebrew'
 
-	const currentLesson = match ? parseInt(match[1], 10) : undefined
+	const data =
+		userProgress.activeCourseId === 6
+			? awbHebrewVocab
+			: userProgress.activeCourseId === 11
+			? hebrewScoutsVocab
+			: []
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
@@ -54,30 +66,37 @@ const HebrewSpellingPage = async () => {
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">
 					<Image
-						src="/input-latin-letters-svgrepo-com.svg"
+						src="/card-file-box.svg"
 						alt="Calendar"
 						height={90}
 						width={90}
 					/>
 					<h1 className="text-center font-bold text-neutral-800 text-2xl my-6">
-						Spelling
+						Flashcards
 					</h1>
-					<DismissibleAlert storageKey="spelling" className="mb-4">
-						Customize your prompt type. My favorite is letter-by-letter. For
-						sofit ending letters tap the Alt/Opt button. For additional vowels
-						and dagesh, tap the shift button. For the backspace to work properly
-						you need to have your cursor at the end/left of the word.
+					<DismissibleAlert storageKey="flashcard" className="mb-4">
+						These will default to your current lesson in the Learn section. You
+						can customize the cards to your hearts desire. There are 7 spots on
+						front and back where you can place whatever you would like.
 					</DismissibleAlert>
-
-					<SpellingPractice
-						data={rawVocab}
-						lessonPrefix="awb"
-						currentLesson={currentLesson}
+					<Flashcards
+						data={data}
+						allFields={[
+							'hebNiqqud',
+							'heb',
+							'eng',
+							'genderPerson',
+							'partOfSpeech',
+							'ipa',
+							'engTransliteration',
+							'images',
+							'hebAudio',
+						]}
+						currentLesson={currentLesson ?? ''}
+						layout={isHebrew}
 					/>
 				</div>
 			</FeedWrapper>
 		</div>
 	)
 }
-
-export default HebrewSpellingPage

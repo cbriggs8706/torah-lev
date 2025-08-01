@@ -82,7 +82,7 @@ export default function SidebarClient({
 						<>
 							{/* <SidebarItem
 								label="Letter Quiz"
-								href="/hebrew-letter-quiz"
+								href="/letter-quiz"
 								iconSrc="/a-button-blood-type-svgrepo-com.svg"
 								onClick={onItemClick}
 							/> */}
@@ -92,49 +92,49 @@ export default function SidebarClient({
 					<>
 						<SidebarItem
 							label="Flashcards"
-							href="/hebrew-flashcard"
+							href="/flashcard"
 							iconSrc="/card-file-box.svg"
 							onClick={onItemClick}
 						/>
 						<SidebarItem
 							label="Dictionary"
-							href="/hebrew-dictionary"
+							href="/dictionary"
 							iconSrc="/open-book-svgrepo-com.svg"
 							onClick={onItemClick}
 						/>
 						<SidebarItem
 							label="Lesson Scripts"
-							href="/hebrew-lesson-scripts"
+							href="/lesson-scripts"
 							iconSrc="/spiral-notepad-svgrepo-com.svg"
 							onClick={onItemClick}
 						/>
 						<SidebarItem
 							label="Spelling"
-							href="/hebrew-spelling"
+							href="/spelling"
 							iconSrc="/input-latin-letters-svgrepo-com.svg"
 							onClick={onItemClick}
 						/>
 						<SidebarItem
 							label="Letter Quiz"
-							href="/hebrew-letter-quiz"
+							href="/letter-quiz"
 							iconSrc="/a-button-blood-type-svgrepo-com.svg"
 							onClick={onItemClick}
 						/>
 						<SidebarItem
 							label="Scramble"
-							href="/hebrew-scramble"
+							href="/scramble"
 							iconSrc="/cooking-svgrepo-com.svg"
 							onClick={onItemClick}
 						/>
 						<SidebarItem
 							label="Sentences"
-							href="/hebrew-sentencebuilder"
+							href="/sentence-builder"
 							iconSrc="/building-construction-svgrepo-com.svg"
 							onClick={onItemClick}
 						/>
 						<SidebarItem
 							label="Matchup"
-							href="/hebrew-matchup"
+							href="/matchup"
 							iconSrc="/socks-svgrepo-com.svg"
 							onClick={onItemClick}
 						/>

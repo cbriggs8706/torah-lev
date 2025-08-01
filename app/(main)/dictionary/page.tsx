@@ -4,25 +4,35 @@ import { redirect } from 'next/navigation'
 import { FeedWrapper } from '@/components/feed-wrapper'
 import { UserProgress } from '@/components/user-progress'
 import { StickyWrapper } from '@/components/sticky-wrapper'
-import {
-	getCourseProgress,
-	getUserProgress,
-	getUserSubscription,
-} from '@/db/queries'
+import { getUserProgress, getUserSubscription } from '@/db/queries'
 import dynamic from 'next/dynamic'
 
-import rawVocab from '@/lib/data/vocab/flashcards.json'
+import awbHebrewVocab from '@/lib/data/vocab/awbVocab.json'
+// import awaGreekVocab from '@/lib/data/vocab/greek-vocab.json'
+
+import HebrewDictionary from '@/components/hebrew-dictionary'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 
-const FlashcardReview = dynamic(() => import('@/components/flashcards'), {
-	ssr: false,
-})
+const FlashcardReview = dynamic(
+	() => import('@/components/hebrew-flashcards'),
+	{
+		ssr: false,
+	}
+)
 
 const HebrewFlashcardPage = async () => {
 	const userProgressData = getUserProgress()
-	const userChallengeData = await getCourseProgress()
 	const userSubscriptionData = getUserSubscription()
-
+	// const filteredWords = awbHebrewVocab.filter(
+	// 	(word) => word.type?.toLowerCase() === 'word'
+	// )
+	const filteredWords = awbHebrewVocab.filter(
+		(word) =>
+			word.type?.toLowerCase() === 'word' &&
+			!word.lessons?.some((lesson) =>
+				lesson.toLowerCase().includes('classroom')
+			)
+	)
 	const [userProgress, userSubscription] = await Promise.all([
 		userProgressData,
 		userSubscriptionData,
@@ -33,11 +43,6 @@ const HebrewFlashcardPage = async () => {
 	}
 
 	const isPro = !!userSubscription?.isActive
-
-	const title = userChallengeData?.activeLesson?.title ?? ''
-	const match = title.match(/AwB (\d{1,3})/)
-
-	const currentLesson = match ? parseInt(match[1], 10) : undefined
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
@@ -53,35 +58,20 @@ const HebrewFlashcardPage = async () => {
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">
 					<Image
-						src="/card-file-box.svg"
-						alt="Calendar"
+						src="/open-book-svgrepo-com.svg"
+						alt="Dictionary"
 						height={90}
 						width={90}
 					/>
 					<h1 className="text-center font-bold text-neutral-800 text-2xl my-6">
-						Flashcards
+						Dictionary
 					</h1>
-					<DismissibleAlert storageKey="flashcard" className="mb-4">
-						These will default to your current lesson in the Learn section. You
-						can customize the cards to your hearts desire. There are 7 spots on
-						front and back where you can place whatever you would like.
+					<DismissibleAlert storageKey="dictionary" className="mb-4">
+						Make sure to look up words that you don&apos;t recognize in any
+						lesson. Filter alphabetically or by Lesson #. Click on any entry to
+						view more info.
 					</DismissibleAlert>
-					<FlashcardReview
-						data={rawVocab}
-						allFields={[
-							'hebNiqqud',
-							'heb',
-							'eng',
-							'genderPerson',
-							'partOfSpeech',
-							'ipa',
-							'engTransliteration',
-							'images',
-							'hebAudio',
-						]}
-						lessonPrefix="awb"
-						currentLesson={currentLesson}
-					/>
+					<HebrewDictionary data={filteredWords} />
 				</div>
 			</FeedWrapper>
 		</div>
