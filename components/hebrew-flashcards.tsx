@@ -2,7 +2,7 @@
 
 import { HebrewVocab } from '@/lib/vocab'
 import Image from 'next/image'
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useMemo, useEffect, useCallback } from 'react'
 import ReactConfetti from 'react-confetti'
 import { useAudio, useWindowSize } from 'react-use'
 
@@ -22,6 +22,7 @@ interface HebrewVocabProps {
 	allFields: (keyof HebrewVocab)[]
 	currentLesson: string
 	layout: string
+	userId: string
 }
 
 const FONT_SIZE_MAP = {
@@ -74,6 +75,7 @@ export default function HebrewHebrewVocab({
 	allFields,
 	currentLesson,
 	layout,
+	userId,
 }: HebrewVocabProps) {
 	const [selectedType, setSelectedType] = useState<'all' | 'word' | 'phrase'>(
 		'word'
@@ -142,6 +144,7 @@ export default function HebrewHebrewVocab({
 	const [backBottomRight, setBackBottomRight] = useState<
 		keyof HebrewVocab | 'engTransliteration'
 	>('engTransliteration')
+	const [cardsCompleted, setCardsCompleted] = useState(0)
 
 	const { width, height } = useWindowSize()
 
@@ -465,9 +468,33 @@ export default function HebrewHebrewVocab({
 				finishControls.play()
 				setTimeout(() => setShowConfetti(false), 12000)
 			}
+			setCardsCompleted((prev) => prev + 1)
+
 			setCurrentIndex(nextIndex % filteredCards.length)
 		}, 700) // ⏱ adjust this to match your card flip duration
 	}
+
+	const awardPoints = useCallback(
+		async (points: number) => {
+			try {
+				await fetch('/api/award-points', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ userId, points }),
+				})
+			} catch (error) {
+				console.error('Failed to award points', error)
+			}
+		},
+		[userId]
+	)
+
+	useEffect(() => {
+		if (cardsCompleted > 0 && cardsCompleted % 25 === 0) {
+			const pointsToAward = cardsCompleted / 25
+			awardPoints(pointsToAward)
+		}
+	}, [cardsCompleted, awardPoints])
 
 	function handlePreviousCard() {
 		setShowBack(false)

@@ -150,6 +150,7 @@ export default async function FlashcardPage({
 							allFields={allFieldsHebrew}
 							currentLesson={currentLesson ?? ''}
 							layout="hebrew"
+							userId={userProgress.userId}
 						/>
 					)}
 				</div>

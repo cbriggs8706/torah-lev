@@ -33,7 +33,7 @@ export const getUserProgress = cache(async () => {
 	// If not found, seed default progress
 	if (!progress) {
 		const user = await clerkClient.users.getUser(userId)
-		console.log(user)
+		console.log('user', user)
 		await db.insert(userProgress).values({
 			userId,
 			userName: user?.username ?? 'Anonymous',
