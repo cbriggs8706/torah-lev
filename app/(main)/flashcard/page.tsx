@@ -1,26 +1,71 @@
 import Image from 'next/image'
 import { redirect } from 'next/navigation'
+import dynamic from 'next/dynamic'
 
 import { FeedWrapper } from '@/components/feed-wrapper'
-import { UserProgress } from '@/components/user-progress'
-import { StickyWrapper } from '@/components/sticky-wrapper'
+import { DismissibleAlert } from '@/components/dismissible-alert'
+
 import {
 	getCourseProgress,
 	getUserProgress,
 	getUserSubscription,
 } from '@/db/queries'
-import dynamic from 'next/dynamic'
 
 import awbHebrewVocab from '@/lib/data/vocab/awbVocab.json'
 import hebrewScoutsVocab from '@/lib/data/vocab/hebrewScoutsVocab.json'
-// import awaGreekVocab from '@/lib/data/vocab/greek-vocab.json'
+import awaGreekVocab from '@/lib/data/vocab/awaVocab.json'
+import abcHebrewVocab from '@/lib/data/vocab/abcVocab.json'
+import ewbEnglishVocab from '@/lib/data/vocab/ewbVocab.json'
 
-import { DismissibleAlert } from '@/components/dismissible-alert'
-import { PanoramaSharp } from '@mui/icons-material'
+import { HebrewVocab, GreekVocab, EnglishVocab } from '@/lib/vocab'
 
-const Flashcards = dynamic(() => import('@/components/hebrew-flashcards'), {
+// ✅ Dynamic imports for each language
+const HebrewFlashcards = dynamic(
+	() => import('@/components/hebrew-flashcards'),
+	{ ssr: false }
+)
+const GreekFlashcards = dynamic(() => import('@/components/greek-flashcards'), {
 	ssr: false,
 })
+const EnglishFlashcards = dynamic(
+	() => import('@/components/english-flashcards'),
+	{ ssr: false }
+)
+
+// ✅ allFields constants
+const allFieldsHebrew: (keyof HebrewVocab)[] = [
+	'hebNiqqud',
+	'heb',
+	'eng',
+	'genderPerson',
+	'partOfSpeech',
+	'ipa',
+	'engTransliteration',
+	'images',
+	'hebAudio',
+]
+
+const allFieldsGreek: (keyof GreekVocab)[] = [
+	'grk',
+	'eng',
+	'genderPerson',
+	'partOfSpeech',
+	'ipa',
+	'engTransliteration',
+	'images',
+	'grkAudio',
+]
+
+const allFieldsEnglish: (keyof EnglishVocab)[] = [
+	'eng',
+	'engDefinition',
+	'genderPerson',
+	'partOfSpeech',
+	'ipa',
+	'engTransliteration',
+	'images',
+	'engAudio',
+]
 
 export default async function FlashcardPage({
 	params,
@@ -40,29 +85,28 @@ export default async function FlashcardPage({
 		redirect('/courses')
 	}
 
-	const isPro = !!userSubscription?.isActive
 	const currentLesson = userChallengeData?.activeLesson?.lessonNumber
 
-	const isHebrew = params.lang || 'hebrew'
-
-	const data =
+	// ✅ Prepare vocab data
+	const hebrewData: HebrewVocab[] =
 		userProgress.activeCourseId === 6
-			? awbHebrewVocab
+			? (awbHebrewVocab as HebrewVocab[])
 			: userProgress.activeCourseId === 11
-			? hebrewScoutsVocab
+			? (hebrewScoutsVocab as HebrewVocab[])
+			: userProgress.activeCourseId === 14
+			? (abcHebrewVocab as HebrewVocab[])
+			: []
+
+	const greekData: GreekVocab[] =
+		userProgress.activeCourseId === 12 ? (awaGreekVocab as GreekVocab[]) : []
+
+	const englishData: EnglishVocab[] =
+		userProgress.activeCourseId === 13
+			? (ewbEnglishVocab as EnglishVocab[])
 			: []
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
-			{/* <StickyWrapper>
-				<UserProgress
-					activeCourse={userProgress.activeCourse}
-					hearts={userProgress.hearts}
-					points={userProgress.points}
-					hasActiveSubscription={isPro}
-				/>
-				{!isPro && <Promo />}
-			</StickyWrapper> */}
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">
 					<Image
@@ -74,27 +118,40 @@ export default async function FlashcardPage({
 					<h1 className="text-center font-bold text-neutral-800 text-2xl my-6">
 						Flashcards
 					</h1>
+
 					<DismissibleAlert storageKey="flashcard" className="mb-4">
 						These will default to your current lesson in the Learn section. You
 						can customize the cards to your hearts desire. There are 7 spots on
 						front and back where you can place whatever you would like.
 					</DismissibleAlert>
-					<Flashcards
-						data={data}
-						allFields={[
-							'hebNiqqud',
-							'heb',
-							'eng',
-							'genderPerson',
-							'partOfSpeech',
-							'ipa',
-							'engTransliteration',
-							'images',
-							'hebAudio',
-						]}
-						currentLesson={currentLesson ?? ''}
-						layout={isHebrew}
-					/>
+
+					{/* ✅ Conditional rendering – clean & type-safe */}
+					{userProgress.activeCourseId === 12 && (
+						<GreekFlashcards
+							data={greekData}
+							allFields={allFieldsGreek}
+							currentLesson={currentLesson ?? ''}
+							layout="greek"
+						/>
+					)}
+
+					{userProgress.activeCourseId === 13 && (
+						<EnglishFlashcards
+							data={englishData}
+							allFields={allFieldsEnglish}
+							currentLesson={currentLesson ?? ''}
+							layout="english"
+						/>
+					)}
+
+					{![12, 13].includes(userProgress.activeCourseId ?? -1) && (
+						<HebrewFlashcards
+							data={hebrewData}
+							allFields={allFieldsHebrew}
+							currentLesson={currentLesson ?? ''}
+							layout="hebrew"
+						/>
+					)}
 				</div>
 			</FeedWrapper>
 		</div>

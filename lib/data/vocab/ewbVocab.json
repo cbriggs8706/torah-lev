@@ -1,0 +1,42 @@
+[
+	{
+		"id": 17,
+		"eng": "bull",
+		"engDefinition": "male bovine adult",
+		"genderPerson": "ms",
+		"partOfSpeech": ["Noun"],
+		"ipa": "[bull]",
+		"engTransliteration": "bull",
+		"dictionaryUrl": "",
+		"images": ["/awb1/bull par.jpg"],
+		"grkAudio": "awb1/bull par.mp3",
+		"engAudio": "",
+		"synonyms": [],
+		"antonyms": [],
+		"lessons": ["1"],
+		"scriptures": [],
+		"strongs": "",
+		"type": "word",
+		"category": "noun"
+	},
+	{
+		"id": 18,
+		"eng": "cow",
+		"engDefinition": "female bovine adult",
+		"genderPerson": "fs",
+		"partOfSpeech": ["Noun"],
+		"ipa": "[cow]",
+		"engTransliteration": "cow",
+		"dictionaryUrl": "",
+		"images": ["/awb1/cow parah.jpg"],
+		"grkAudio": "awb1/cow bous.mp3",
+		"engAudio": "",
+		"synonyms": [],
+		"antonyms": [],
+		"lessons": ["1"],
+		"scriptures": [],
+		"strongs": "",
+		"type": "word",
+		"category": "noun"
+	}
+]

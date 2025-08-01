@@ -1,6 +1,6 @@
 'use client'
 
-import { HebrewVocab } from '@/lib/vocab'
+import { GreekVocab } from '@/lib/vocab'
 import Image from 'next/image'
 import { useState, useMemo, useEffect } from 'react'
 import ReactConfetti from 'react-confetti'
@@ -17,9 +17,9 @@ type FontChoice =
 	| 'rashi'
 	| 'suez'
 
-interface HebrewVocabProps {
-	data: HebrewVocab[]
-	allFields: (keyof HebrewVocab)[]
+interface GreekGreekVocabProps {
+	data: GreekVocab[]
+	allFields: (keyof GreekVocab)[]
 	currentLesson: string
 	layout: string
 }
@@ -44,9 +44,8 @@ const FONT_SIZE_LABELS: Record<FontSizeKey, string> = {
 	threexl: '3XL',
 }
 
-const FIELD_LABELS: Partial<Record<keyof HebrewVocab, string>> = {
-	heb: 'Without Niqqud',
-	hebNiqqud: 'With Niqqud',
+const FIELD_LABELS: Partial<Record<keyof GreekVocab, string>> = {
+	grk: 'Greek',
 	eng: 'Translation',
 	engDefinition: 'Definition',
 	genderPerson: 'Gender / Person',
@@ -54,7 +53,7 @@ const FIELD_LABELS: Partial<Record<keyof HebrewVocab, string>> = {
 	ipa: 'IPA (Pronunciation)',
 	engTransliteration: 'English Transliteration',
 	images: 'Image',
-	hebAudio: 'Audio',
+	grkAudio: 'Audio',
 }
 
 const FONT_CLASS_MAP: Record<FontChoice, string> = {
@@ -69,26 +68,26 @@ const FONT_CLASS_MAP: Record<FontChoice, string> = {
 	suez: 'font-suez',
 }
 
-export default function HebrewHebrewVocab({
+export default function GreekGreekVocab({
 	data,
 	allFields,
 	currentLesson,
 	layout,
-}: HebrewVocabProps) {
+}: GreekGreekVocabProps) {
 	const [selectedType, setSelectedType] = useState<'all' | 'word' | 'phrase'>(
 		'word'
 	)
 	const [selectedLessons, setSelectedLessons] = useState<string[]>([])
 
-	const [frontField, setFrontField] = useState<keyof HebrewVocab>('hebNiqqud')
-	const [backField, setBackField] = useState<keyof HebrewVocab>('eng')
+	const [frontField, setFrontField] = useState<keyof GreekVocab>('grk')
+	const [backField, setBackField] = useState<keyof GreekVocab>('eng')
 	const [currentIndex, setCurrentIndex] = useState(0)
 	const [showBack, setShowBack] = useState(false)
 	const [showConfetti, setShowConfetti] = useState(false)
 	const [finishAudioElement, _, finishControls] = useAudio({
 		src: '/finish.mp3',
 	})
-	const [filteredCards, setFilteredCards] = useState<HebrewVocab[]>([])
+	const [filteredCards, setFilteredCards] = useState<GreekVocab[]>([])
 	const [selectedCategory, setSelectedCategory] = useState<string>('all')
 
 	const [frontFont, setFrontFont] = useState<FontChoice>('times')
@@ -100,47 +99,47 @@ export default function HebrewHebrewVocab({
 	const [showFilter, setShowFilter] = useState(false)
 	const [audioVolume, setAudioVolume] = useState(1) // full volume
 	const [audioSpeed, setAudioSpeed] = useState(1) // normal speed
-	const [frontTopLeft, setFrontTopLeft] = useState<keyof HebrewVocab | 'none'>(
+	const [frontTopLeft, setFrontTopLeft] = useState<keyof GreekVocab | 'none'>(
 		'none'
 	)
 	const [frontTopCenter, setFrontTopCenter] = useState<
-		keyof HebrewVocab | 'none'
+		keyof GreekVocab | 'none'
 	>('none')
 	const [frontTopRight, setFrontTopRight] = useState<
-		keyof HebrewVocab | 'hebAudio'
-	>('hebAudio')
+		keyof GreekVocab | 'grkAudio'
+	>('grkAudio')
 	const [frontMiddleCenter, setFrontMiddleCenter] = useState<
-		keyof HebrewVocab | 'none'
+		keyof GreekVocab | 'none'
 	>('images')
 	const [frontBottomLeft, setFrontBottomLeft] = useState<
-		keyof HebrewVocab | 'none'
+		keyof GreekVocab | 'none'
 	>('none')
 	const [frontBottomCenter, setFrontBottomCenter] = useState<
-		keyof HebrewVocab | 'genderPerson'
+		keyof GreekVocab | 'genderPerson'
 	>('genderPerson')
 	const [frontBottomRight, setFrontBottomRight] = useState<
-		keyof HebrewVocab | 'none'
+		keyof GreekVocab | 'none'
 	>('none')
-	const [backTopLeft, setBackTopLeft] = useState<keyof HebrewVocab | 'none'>(
+	const [backTopLeft, setBackTopLeft] = useState<keyof GreekVocab | 'none'>(
 		'none'
 	)
-	const [backTopCenter, setBackTopCenter] = useState<
-		keyof HebrewVocab | 'none'
-	>('none')
+	const [backTopCenter, setBackTopCenter] = useState<keyof GreekVocab | 'none'>(
+		'none'
+	)
 	const [backTopRight, setBackTopRight] = useState<
-		keyof HebrewVocab | 'hebAudio'
-	>('hebAudio')
+		keyof GreekVocab | 'grkAudio'
+	>('grkAudio')
 	const [backMiddleCenter, setBackMiddleCenter] = useState<
-		keyof HebrewVocab | 'eng'
-	>('hebNiqqud')
+		keyof GreekVocab | 'eng'
+	>('grk')
 	const [backBottomLeft, setBackBottomLeft] = useState<
-		keyof HebrewVocab | 'none'
+		keyof GreekVocab | 'none'
 	>('none')
 	const [backBottomCenter, setBackBottomCenter] = useState<
-		keyof HebrewVocab | 'ipa'
+		keyof GreekVocab | 'ipa'
 	>('ipa')
 	const [backBottomRight, setBackBottomRight] = useState<
-		keyof HebrewVocab | 'engTransliteration'
+		keyof GreekVocab | 'engTransliteration'
 	>('engTransliteration')
 
 	const { width, height } = useWindowSize()
@@ -149,45 +148,45 @@ export default function HebrewHebrewVocab({
 		{
 			label: 'Picture → Word',
 			front: { middle: 'images', font: 'sans', size: 'xl' },
-			back: { middle: 'hebNiqqud', font: 'times', size: 'threexl' },
+			back: { middle: 'grk', font: 'times', size: 'threexl' },
 		},
 		{
 			label: 'Audio → Picture',
-			front: { middle: 'hebAudio', font: 'sans', size: 'xl' },
+			front: { middle: 'grkAudio', font: 'sans', size: 'xl' },
 			back: { middle: 'images', font: 'times', size: 'threexl' },
 		},
 		{
 			label: 'Sightread',
 			front: { middle: 'heb', font: 'times', size: 'threexl' },
-			back: { middle: 'hebAudio', font: 'arial', size: 'lg' },
+			back: { middle: 'grkAudio', font: 'arial', size: 'lg' },
 		},
 		{
 			label: 'Translation',
-			front: { middle: 'hebNiqqud', font: 'times', size: 'threexl' },
+			front: { middle: 'grk', font: 'times', size: 'threexl' },
 			back: { middle: 'eng', font: 'times', size: 'lg' },
 		},
 	] as const
 
 	function applyPreset(preset: (typeof PRESETS)[number]) {
-		setFrontMiddleCenter(preset.front.middle as keyof HebrewVocab)
+		setFrontMiddleCenter(preset.front.middle as keyof GreekVocab)
 		setFrontFont(preset.front.font as FontChoice)
 		setFrontFontSize(preset.front.size as FontSizeKey)
 
-		setBackMiddleCenter(preset.back.middle as keyof HebrewVocab)
+		setBackMiddleCenter(preset.back.middle as keyof GreekVocab)
 		setBackFont(preset.back.font as FontChoice)
 		setBackFontSize(preset.back.size as FontSizeKey)
 
 		// Reset positions to default for simplicity
 		setFrontTopLeft('none')
 		setFrontTopCenter('none')
-		setFrontTopRight('hebAudio')
+		setFrontTopRight('grkAudio')
 		setFrontBottomLeft('none')
 		setFrontBottomCenter('genderPerson')
 		setFrontBottomRight('none')
 
 		setBackTopLeft('none')
 		setBackTopCenter('none')
-		setBackTopRight('hebAudio')
+		setBackTopRight('grkAudio')
 		setBackBottomLeft('none')
 		setBackBottomCenter('ipa')
 		setBackBottomRight('engTransliteration')
@@ -282,26 +281,26 @@ export default function HebrewHebrewVocab({
 			const hasMiddleFrontImage =
 				frontMiddleCenter !== 'images' || card.images.length > 0
 			const hasMiddleFrontAudio =
-				frontMiddleCenter !== 'hebAudio' || !!card.hebAudio
+				frontMiddleCenter !== 'grkAudio' || !!card.grkAudio
 
 			// Ensure middle-center image/audio (back)
 			const hasMiddleBackImage =
 				backMiddleCenter !== 'images' || card.images.length > 0
 			const hasMiddleBackAudio =
-				backMiddleCenter !== 'hebAudio' || !!card.hebAudio
+				backMiddleCenter !== 'grkAudio' || !!card.grkAudio
 
 			const hasValidFront =
 				(frontField === 'images' && card.images.length > 0) ||
-				(frontField === 'hebAudio' && !!card.hebAudio) ||
+				(frontField === 'grkAudio' && !!card.grkAudio) ||
 				(frontField !== 'images' &&
-					frontField !== 'hebAudio' &&
+					frontField !== 'grkAudio' &&
 					!!card[frontField])
 
 			const hasValidBack =
 				(backField === 'images' && card.images.length > 0) ||
-				(backField === 'hebAudio' && !!card.hebAudio) ||
+				(backField === 'grkAudio' && !!card.grkAudio) ||
 				(backField !== 'images' &&
-					backField !== 'hebAudio' &&
+					backField !== 'grkAudio' &&
 					!!card[backField])
 
 			return (
@@ -355,14 +354,14 @@ export default function HebrewHebrewVocab({
 
 	// Refs for controlling playback programmatically
 	const frontAudioRef = useMemo(() => {
-		if (frontField === 'hebAudio' && currentCard?.hebAudio)
-			return new Audio(currentCard.hebAudio)
+		if (frontField === 'grkAudio' && currentCard?.grkAudio)
+			return new Audio(currentCard.grkAudio)
 		return null
 	}, [frontField, currentCard])
 
 	const backAudioRef = useMemo(() => {
-		if (backField === 'hebAudio' && currentCard?.hebAudio)
-			return new Audio(currentCard.hebAudio)
+		if (backField === 'grkAudio' && currentCard?.grkAudio)
+			return new Audio(currentCard.grkAudio)
 		return null
 	}, [backField, currentCard])
 
@@ -421,10 +420,10 @@ export default function HebrewHebrewVocab({
 	// 		frontBottomLeft,
 	// 		frontBottomCenter,
 	// 		frontBottomRight,
-	// 	].includes('hebAudio')
+	// 	].includes('grkAudio')
 
-	// 	if (isFrontAudio && currentCard?.hebAudio) {
-	// 		const audio = new Audio(currentCard.hebAudio)
+	// 	if (isFrontAudio && currentCard?.grkAudio) {
+	// 		const audio = new Audio(currentCard.grkAudio)
 	// 		audio.volume = audioVolume
 	// 		audio.playbackRate = audioSpeed
 	// 		audio.play().catch(console.error)
@@ -443,13 +442,13 @@ export default function HebrewHebrewVocab({
 	// ])
 
 	useEffect(() => {
-		if (frontMiddleCenter === 'hebAudio' && currentCard?.hebAudio) {
-			playWithBoostedVolume(currentCard.hebAudio, audioVolume, audioSpeed)
+		if (frontMiddleCenter === 'grkAudio' && currentCard?.grkAudio) {
+			playWithBoostedVolume(currentCard.grkAudio, audioVolume, audioSpeed)
 		}
 	}, [currentCard, frontMiddleCenter, audioVolume, audioSpeed])
 
 	useEffect(() => {
-		if (showBack && backField === 'hebAudio' && backAudioRef) {
+		if (showBack && backField === 'grkAudio' && backAudioRef) {
 			backAudioRef.play().catch(console.error)
 		}
 	}, [showBack, backField, backAudioRef])
@@ -503,11 +502,11 @@ export default function HebrewHebrewVocab({
 	}, [])
 
 	const allDisplayFields = allFields.filter((f) => f !== 'dictionaryUrl')
-	const miniPositionFields: (keyof HebrewVocab)[] = [
-		'heb',
-		'hebNiqqud',
+	const miniPositionFields: (keyof GreekVocab)[] = [
+		'eng',
+		'grk',
 		'ipa',
-		'hebAudio',
+		'grkAudio',
 		'genderPerson',
 		'engTransliteration',
 	]
@@ -520,10 +519,10 @@ export default function HebrewHebrewVocab({
 		return FONT_SIZE_MAP[baseSize]
 	}
 
-	function fixHebrewPunctuation(text: string): string {
+	function fixGreekPunctuation(text: string): string {
 		// Replace ? at the end of a line with RTL-friendly question mark
-		// Only if the text contains Hebrew characters
-		const hebrewRegex = /[\u0590-\u05FF]/ // matches Hebrew script
+		// Only if the text contains Greek characters
+		const hebrewRegex = /[\u0590-\u05FF]/ // matches Greek script
 		if (!hebrewRegex.test(text)) return text
 
 		// Replace ? at the end or before a line break
@@ -531,7 +530,7 @@ export default function HebrewHebrewVocab({
 	}
 
 	function renderMiniContent(
-		field: keyof HebrewVocab | 'none',
+		field: keyof GreekVocab | 'none',
 		isMiddle = false
 	) {
 		if (!currentCard || field === 'none') return null
@@ -553,7 +552,7 @@ export default function HebrewHebrewVocab({
 				>
 					<Image
 						src={imageUrl}
-						alt="HebrewVocab image"
+						alt="GreekVocab image"
 						fill={isMiddle} // ✅ This enables full-size scaling
 						className="object-contain rounded"
 						sizes="(max-width: 768px) 100vw, 50vw"
@@ -562,14 +561,14 @@ export default function HebrewHebrewVocab({
 			)
 		}
 
-		if (field === 'hebAudio' && typeof value === 'string') {
+		if (field === 'grkAudio' && typeof value === 'string') {
 			return (
 				<button
 					className="text-3xl text-blue-600 hover:text-blue-800"
 					onClick={(e) => {
 						e.stopPropagation()
 						playWithBoostedVolume(
-							currentCard.hebAudio || '',
+							currentCard.grkAudio || '',
 							audioVolume,
 							audioSpeed
 						)
@@ -584,11 +583,11 @@ export default function HebrewHebrewVocab({
 			return value.join(', ')
 		}
 
-		const isHebrewField = field === 'heb' || field === 'hebNiqqud'
-		const className = !isMiddle && isHebrewField ? 'font-serif text-4xl' : ''
+		const isGreekField = field === 'eng' || field === 'grk'
+		const className = !isMiddle && isGreekField ? 'font-serif text-4xl' : ''
 
 		return (
-			<span className={className}>{fixHebrewPunctuation(value as string)}</span>
+			<span className={className}>{fixGreekPunctuation(value as string)}</span>
 		)
 	}
 
@@ -725,7 +724,7 @@ export default function HebrewHebrewVocab({
 									className="w-full p-2 border rounded"
 									value={frontTopLeft}
 									onChange={(e) =>
-										setFrontTopLeft(e.target.value as keyof HebrewVocab)
+										setFrontTopLeft(e.target.value as keyof GreekVocab)
 									}
 								>
 									<option value="none">None</option>
@@ -743,7 +742,7 @@ export default function HebrewHebrewVocab({
 									className="w-full p-2 border rounded"
 									value={frontTopCenter}
 									onChange={(e) =>
-										setFrontTopCenter(e.target.value as keyof HebrewVocab)
+										setFrontTopCenter(e.target.value as keyof GreekVocab)
 									}
 								>
 									<option value="none">None</option>
@@ -760,7 +759,7 @@ export default function HebrewHebrewVocab({
 									className="w-full p-2 border rounded"
 									value={frontTopRight}
 									onChange={(e) =>
-										setFrontTopRight(e.target.value as keyof HebrewVocab)
+										setFrontTopRight(e.target.value as keyof GreekVocab)
 									}
 								>
 									<option value="none">None</option>
@@ -779,7 +778,7 @@ export default function HebrewHebrewVocab({
 									className="w-full p-2 border rounded"
 									value={frontMiddleCenter}
 									onChange={(e) =>
-										setFrontMiddleCenter(e.target.value as keyof HebrewVocab)
+										setFrontMiddleCenter(e.target.value as keyof GreekVocab)
 									}
 								>
 									<option value="none">None</option>
@@ -828,7 +827,7 @@ export default function HebrewHebrewVocab({
 									className="w-full p-2 border rounded"
 									value={frontBottomLeft}
 									onChange={(e) =>
-										setFrontBottomLeft(e.target.value as keyof HebrewVocab)
+										setFrontBottomLeft(e.target.value as keyof GreekVocab)
 									}
 								>
 									<option value="none">None</option>
@@ -847,7 +846,7 @@ export default function HebrewHebrewVocab({
 									className="w-full p-2 border rounded"
 									value={frontBottomCenter}
 									onChange={(e) =>
-										setFrontBottomCenter(e.target.value as keyof HebrewVocab)
+										setFrontBottomCenter(e.target.value as keyof GreekVocab)
 									}
 								>
 									<option value="none">None</option>
@@ -866,7 +865,7 @@ export default function HebrewHebrewVocab({
 									className="w-full p-2 border rounded"
 									value={frontBottomRight}
 									onChange={(e) =>
-										setFrontBottomRight(e.target.value as keyof HebrewVocab)
+										setFrontBottomRight(e.target.value as keyof GreekVocab)
 									}
 								>
 									<option value="none">None</option>
@@ -888,7 +887,7 @@ export default function HebrewHebrewVocab({
 									className="w-full p-2 border rounded"
 									value={backTopLeft}
 									onChange={(e) =>
-										setBackTopLeft(e.target.value as keyof HebrewVocab)
+										setBackTopLeft(e.target.value as keyof GreekVocab)
 									}
 								>
 									<option value="none">None</option>
@@ -905,7 +904,7 @@ export default function HebrewHebrewVocab({
 									className="w-full p-2 border rounded"
 									value={backTopCenter}
 									onChange={(e) =>
-										setBackTopCenter(e.target.value as keyof HebrewVocab)
+										setBackTopCenter(e.target.value as keyof GreekVocab)
 									}
 								>
 									<option value="none">None</option>
@@ -922,7 +921,7 @@ export default function HebrewHebrewVocab({
 									className="w-full p-2 border rounded"
 									value={backTopRight}
 									onChange={(e) =>
-										setBackTopRight(e.target.value as keyof HebrewVocab)
+										setBackTopRight(e.target.value as keyof GreekVocab)
 									}
 								>
 									<option value="none">None</option>
@@ -941,7 +940,7 @@ export default function HebrewHebrewVocab({
 									className="w-full p-2 border rounded"
 									value={backMiddleCenter}
 									onChange={(e) =>
-										setBackMiddleCenter(e.target.value as keyof HebrewVocab)
+										setBackMiddleCenter(e.target.value as keyof GreekVocab)
 									}
 								>
 									<option value="none">None</option>
@@ -990,7 +989,7 @@ export default function HebrewHebrewVocab({
 									className="w-full p-2 border rounded"
 									value={backBottomLeft}
 									onChange={(e) =>
-										setBackBottomLeft(e.target.value as keyof HebrewVocab)
+										setBackBottomLeft(e.target.value as keyof GreekVocab)
 									}
 								>
 									<option value="none">None</option>
@@ -1009,7 +1008,7 @@ export default function HebrewHebrewVocab({
 									className="w-full p-2 border rounded"
 									value={backBottomCenter}
 									onChange={(e) =>
-										setBackBottomCenter(e.target.value as keyof HebrewVocab)
+										setBackBottomCenter(e.target.value as keyof GreekVocab)
 									}
 								>
 									<option value="none">None</option>
@@ -1028,7 +1027,7 @@ export default function HebrewHebrewVocab({
 									className="w-full p-2 border rounded"
 									value={backBottomRight}
 									onChange={(e) =>
-										setBackBottomRight(e.target.value as keyof HebrewVocab)
+										setBackBottomRight(e.target.value as keyof GreekVocab)
 									}
 								>
 									<option value="none">None</option>
@@ -1167,28 +1166,28 @@ export default function HebrewHebrewVocab({
 							})}
 
 							{/* {stringLessons.length > 0 && (
-								<button
-									onClick={() =>
-										setSelectedLessons((prev) => {
-											const allSelected = stringLessons.every((l) =>
-												prev.includes(l)
-											)
-											if (allSelected) {
-												return prev.filter((l) => !stringLessons.includes(l))
-											} else {
-												return Array.from(new Set([...prev, ...stringLessons]))
-											}
-										})
-									}
-									className={`px-3 py-1 border rounded-full text-sm ${
-										stringLessons.every((l) => selectedLessons.includes(l))
-											? 'bg-blue-500 text-white'
-											: 'bg-gray-200'
-									}`}
-								>
-									Other Lessons
-								</button>
-							)} */}
+                <button
+                  onClick={() =>
+                    setSelectedLessons((prev) => {
+                      const allSelected = stringLessons.every((l) =>
+                        prev.includes(l)
+                      )
+                      if (allSelected) {
+                        return prev.filter((l) => !stringLessons.includes(l))
+                      } else {
+                        return Array.from(new Set([...prev, ...stringLessons]))
+                      }
+                    })
+                  }
+                  className={`px-3 py-1 border rounded-full text-sm ${
+                    stringLessons.every((l) => selectedLessons.includes(l))
+                      ? 'bg-blue-500 text-white'
+                      : 'bg-gray-200'
+                  }`}
+                >
+                  Other Lessons
+                </button>
+              )} */}
 						</div>
 					</div>
 				</>

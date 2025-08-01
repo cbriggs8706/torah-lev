@@ -67,16 +67,12 @@ export default function SidebarClient({
 					iconSrc="/youtube.svg"
 					onClick={onItemClick}
 				/>
-				{userProgress?.activeCourse.id === 11 && (
-					<>
-						<SidebarItem
-							label="Flashcards"
-							href="/scouts-flashcard"
-							iconSrc="/card-file-box.svg"
-							onClick={onItemClick}
-						/>
-					</>
-				)}
+				<SidebarItem
+					label="Flashcards"
+					href="/flashcard"
+					iconSrc="/card-file-box.svg"
+					onClick={onItemClick}
+				/>
 				{userProgress?.activeCourse.id === 6 ||
 					(userProgress?.activeCourse.id === 11 && (
 						<>
@@ -90,12 +86,12 @@ export default function SidebarClient({
 					))}
 				{userProgress?.activeCourse.id === 6 && (
 					<>
-						<SidebarItem
+						{/* <SidebarItem
 							label="Flashcards"
 							href="/flashcard"
 							iconSrc="/card-file-box.svg"
 							onClick={onItemClick}
-						/>
+						/> */}
 						<SidebarItem
 							label="Dictionary"
 							href="/dictionary"

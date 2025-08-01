@@ -15,9 +15,12 @@ import awbHebrewVocab from '@/lib/data/vocab/awbVocab.json'
 // import awaGreekVocab from '@/lib/data/vocab/greek-vocab.json'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 
-const PhraseReconstruction = dynamic(() => import('@/components/scramble'), {
-	ssr: false,
-})
+const PhraseReconstruction = dynamic(
+	() => import('@/components/hebrew-scramble'),
+	{
+		ssr: false,
+	}
+)
 
 const HebrewScramblePage = async () => {
 	const userProgressData = getUserProgress()
@@ -71,7 +74,6 @@ const HebrewScramblePage = async () => {
 
 					<PhraseReconstruction
 						data={awbHebrewVocab}
-						lessonPrefix="awb"
 						currentLesson={currentLesson}
 					/>
 				</div>

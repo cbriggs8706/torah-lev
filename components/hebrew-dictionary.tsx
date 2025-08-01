@@ -1,13 +1,13 @@
 'use client'
 
 import { useState, useMemo, useRef, useEffect } from 'react'
-import { Flashcard } from '@/lib/vocab'
+import { HebrewVocab } from '@/lib/vocab'
 import Image from 'next/image'
 import FemaleIcon from '@/public/female-sign-svgrepo-com.svg'
 import MaleIcon from '@/public/male-sign-svgrepo-com.svg'
 
 interface DictionaryProps {
-	data: Flashcard[]
+	data: HebrewVocab[]
 }
 
 const hebrewAlphabet = [
@@ -122,7 +122,7 @@ export default function HebrewDictionary({ data }: DictionaryProps) {
 	const audioRefs = useRef<Record<number, HTMLAudioElement>>({})
 
 	const grouped = useMemo(() => {
-		const byLetter: Record<string, Flashcard[]> = {}
+		const byLetter: Record<string, HebrewVocab[]> = {}
 		for (const letter of hebrewAlphabet) byLetter[letter] = []
 
 		for (const word of data) {
@@ -146,7 +146,7 @@ export default function HebrewDictionary({ data }: DictionaryProps) {
 	}
 
 	const groupedByLessonRange = useMemo(() => {
-		const byRange: Record<string, Flashcard[]> = {}
+		const byRange: Record<string, HebrewVocab[]> = {}
 
 		for (const word of data) {
 			if (!Array.isArray(word.lessons)) continue
@@ -226,7 +226,7 @@ export default function HebrewDictionary({ data }: DictionaryProps) {
 		return () => observer.disconnect()
 	}, [sortMode])
 
-	function renderEntry(entry: Flashcard) {
+	function renderEntry(entry: HebrewVocab) {
 		return (
 			<div
 				key={entry.id}
@@ -403,7 +403,7 @@ export default function HebrewDictionary({ data }: DictionaryProps) {
 					<>
 						{Object.entries(groupedByLessonRange).map(([range, entries]) => {
 							// Group entries by individual lesson number
-							const byLesson: Record<number, Flashcard[]> = {}
+							const byLesson: Record<number, HebrewVocab[]> = {}
 							for (const entry of entries) {
 								const num = getLessonNumberFromString(entry.lessons?.[0])
 								if (num === null) continue

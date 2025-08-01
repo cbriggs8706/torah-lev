@@ -16,11 +16,11 @@ import awbHebrewVocab from '@/lib/data/vocab/awbVocab.json'
 // import awaGreekVocab from '@/lib/data/vocab/greek-vocab.json'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 
-const LetterQuiz = dynamic(() => import('@/components/letter-quiz'), {
+const LetterQuiz = dynamic(() => import('@/components/hebrew-letter-quiz'), {
 	ssr: false,
 })
 
-const HebrewLetterQuizPage = async () => {
+const HebrewMatchupPage = async () => {
 	const userProgressData = getUserProgress()
 	const userChallengeData = await getCourseProgress()
 	const userSubscriptionData = getUserSubscription()
@@ -70,15 +70,11 @@ const HebrewLetterQuizPage = async () => {
 						drag and drop doesn&apos;t work on android devices.
 					</DismissibleAlert>
 
-					<HebrewMatchup
-						data={awbHebrewVocab}
-						lessonPrefix="awb"
-						currentLesson={currentLesson}
-					/>
+					<HebrewMatchup data={awbHebrewVocab} currentLesson={currentLesson} />
 				</div>
 			</FeedWrapper>
 		</div>
 	)
 }
 
-export default HebrewLetterQuizPage
+export default HebrewMatchupPage

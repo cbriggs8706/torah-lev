@@ -16,7 +16,7 @@ import awbHebrewVocab from '@/lib/data/vocab/awbVocab.json'
 // import awaGreekVocab from '@/lib/data/vocab/greek-vocab.json'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 
-const SpellingPractice = dynamic(() => import('@/components/spelling'), {
+const SpellingPractice = dynamic(() => import('@/components/hebrew-spelling'), {
 	ssr: false,
 })
 
@@ -72,7 +72,6 @@ const HebrewSpellingPage = async () => {
 
 					<SpellingPractice
 						data={awbHebrewVocab}
-						lessonPrefix="awb"
 						currentLesson={currentLesson}
 					/>
 				</div>

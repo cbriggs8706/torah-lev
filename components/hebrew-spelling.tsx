@@ -6,22 +6,29 @@ import { useAudio, useWindowSize } from 'react-use'
 
 import HebrewKeyboard from './hebrew-keyboard'
 import ReactConfetti from 'react-confetti'
-import { Flashcard } from '@/lib/vocab'
+import { HebrewVocab } from '@/lib/vocab'
 import { letters } from '@/lib/letters'
 
-interface SpellingPracticeProps {
-	data: Flashcard[]
-	lessonPrefix: string
+interface HebrewSpellingProps {
+	data: HebrewVocab[]
 	currentLesson: number | undefined
 }
 
 type PromptType = 'image' | 'audio' | 'translation' | 'letter-by-letter'
 
-export default function SpellingPractice({
+function parseLessonKey(key: string) {
+	const match = key.match(/^(\d+)?([a-zA-Z]*)$/)
+	if (!match) return { num: NaN, text: key }
+	return {
+		num: match[1] ? parseInt(match[1], 10) : NaN,
+		text: match[2] || (match[1] ? '' : key),
+	}
+}
+
+export default function HebrewSpelling({
 	data,
-	lessonPrefix,
 	currentLesson,
-}: SpellingPracticeProps) {
+}: HebrewSpellingProps) {
 	const [selectedLessons, setSelectedLessons] = useState<string[]>([])
 
 	const [selectedType, setSelectedType] = useState<'all' | 'word' | 'phrase'>(
@@ -73,33 +80,35 @@ export default function SpellingPractice({
 		return () => window.removeEventListener('resize', checkMobile)
 	}, [])
 
-	const cardsForPrefix = useMemo(() => {
-		return data.filter((card) =>
-			card.lessons.some((lesson) => lesson.startsWith(lessonPrefix))
-		)
-	}, [data, lessonPrefix])
+	const cardsForPrefix = useMemo(() => data, [data])
 
 	const lessonOptions = useMemo(() => {
-		const all = cardsForPrefix.flatMap((card) =>
-			card.lessons.filter((l) => l.startsWith(lessonPrefix))
-		)
-		const unique = Array.from(new Set(all))
-		return unique.sort(
-			(a, b) =>
-				parseFloat(a.slice(lessonPrefix.length)) -
-				parseFloat(b.slice(lessonPrefix.length))
-		)
-	}, [cardsForPrefix, lessonPrefix])
+		const allLessons = cardsForPrefix.flatMap((card) => card.lessons)
+		const uniqueLessons = Array.from(new Set(allLessons))
+
+		return uniqueLessons.sort((a, b) => {
+			const A = parseLessonKey(a)
+			const B = parseLessonKey(b)
+
+			if (!isNaN(A.num) && !isNaN(B.num)) {
+				if (A.num !== B.num) return A.num - B.num
+				return A.text.localeCompare(B.text)
+			}
+			if (!isNaN(A.num) && isNaN(B.num)) return -1
+			if (isNaN(A.num) && !isNaN(B.num)) return 1
+			return a.localeCompare(b)
+		})
+	}, [cardsForPrefix])
 
 	useEffect(() => {
 		if (currentLesson !== undefined) {
 			const allLessonsUpToCurrent = lessonOptions.filter((lesson) => {
-				const num = parseInt(lesson.slice(lessonPrefix.length), 10)
-				return num <= currentLesson
+				const parsed = parseLessonKey(lesson)
+				return !isNaN(parsed.num) && parsed.num <= currentLesson
 			})
 			setSelectedLessons(allLessonsUpToCurrent)
 		}
-	}, [currentLesson, lessonOptions, lessonPrefix])
+	}, [currentLesson, lessonOptions])
 
 	const categoryOptions = useMemo(() => {
 		return Array.from(
@@ -144,7 +153,7 @@ export default function SpellingPractice({
 	const currentCard = filteredCards[currentIndex]
 
 	const shouldSkipCard = useCallback(
-		(card: Flashcard | undefined): boolean => {
+		(card: HebrewVocab | undefined): boolean => {
 			if (!card) return true
 
 			if (
@@ -462,7 +471,7 @@ export default function SpellingPractice({
 												: 'bg-gray-200'
 										}`}
 									>
-										{lesson.slice(lessonPrefix.length)}
+										{lesson}
 									</button>
 								))}
 							</div>

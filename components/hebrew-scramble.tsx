@@ -1,22 +1,20 @@
 'use client'
 
-import { Flashcard } from '@/lib/vocab'
+import { HebrewVocab } from '@/lib/vocab'
 import Image from 'next/image'
 import { useEffect, useMemo, useState } from 'react'
 import ReactConfetti from 'react-confetti'
 import { useAudio, useWindowSize } from 'react-use'
 
-interface ScrambleProps {
-	data: Flashcard[]
-	lessonPrefix: string
+interface HebrewScrambleProps {
+	data: HebrewVocab[]
 	currentLesson?: number
 }
 
-export default function Scramble({
+export default function HebrewScramble({
 	data,
-	lessonPrefix,
 	currentLesson,
-}: ScrambleProps) {
+}: HebrewScrambleProps) {
 	const [selectedLessons, setSelectedLessons] = useState<string[]>([])
 	const [currentIndex, setCurrentIndex] = useState(0)
 	const [selectedWords, setSelectedWords] = useState<string[]>([])
@@ -28,39 +26,45 @@ export default function Scramble({
 	const { width, height } = useWindowSize()
 
 	const cardsForPrefix = useMemo(() => {
-		return data.filter(
-			(card) =>
-				card.lessons.some((l) => l.startsWith(lessonPrefix)) &&
-				card.type === 'phrase'
-		)
-	}, [data, lessonPrefix])
+		return data.filter((card) => card.type === 'phrase')
+	}, [data])
+
+	function parseLessonKey(key: string) {
+		const match = key.match(/^(\d+)?([a-zA-Z]*)$/)
+		if (!match) return { num: NaN, text: key }
+		return {
+			num: match[1] ? parseInt(match[1], 10) : NaN,
+			text: match[2] || (match[1] ? '' : key),
+		}
+	}
 
 	const lessonOptions = useMemo(() => {
-		const all = cardsForPrefix.flatMap((card) =>
-			card.lessons.filter((l) => l.startsWith(lessonPrefix))
-		)
+		const allLessons = cardsForPrefix.flatMap((card) => card.lessons)
+		const uniqueLessons = Array.from(new Set(allLessons))
 
-		return Array.from(new Set(all)).sort((a, b) => {
-			const matchA = a.slice(lessonPrefix.length).match(/(\d+)([a-zA-Z]*)?/)
-			const matchB = b.slice(lessonPrefix.length).match(/(\d+)([a-zA-Z]*)?/)
+		return uniqueLessons.sort((a, b) => {
+			const A = parseLessonKey(a)
+			const B = parseLessonKey(b)
 
-			const numA = parseInt(matchA?.[1] || '0', 10)
-			const numB = parseInt(matchB?.[1] || '0', 10)
-
-			if (numA !== numB) return numA - numB
-			return (matchA?.[2] || '').localeCompare(matchB?.[2] || '')
+			if (!isNaN(A.num) && !isNaN(B.num)) {
+				if (A.num !== B.num) return A.num - B.num
+				return A.text.localeCompare(B.text)
+			}
+			if (!isNaN(A.num) && isNaN(B.num)) return -1
+			if (isNaN(A.num) && !isNaN(B.num)) return 1
+			return a.localeCompare(b)
 		})
-	}, [cardsForPrefix, lessonPrefix])
+	}, [cardsForPrefix])
 
 	useEffect(() => {
 		if (currentLesson !== undefined) {
 			const availableLessons = lessonOptions.filter((lesson) => {
-				const num = parseInt(lesson.slice(lessonPrefix.length), 10)
-				return num <= currentLesson
+				const parsed = parseLessonKey(lesson)
+				return !isNaN(parsed.num) && parsed.num <= currentLesson
 			})
 			setSelectedLessons(availableLessons)
 		}
-	}, [currentLesson, lessonOptions, lessonPrefix])
+	}, [currentLesson, lessonOptions])
 
 	const categoryOptions = useMemo(() => {
 		return Array.from(
@@ -193,7 +197,7 @@ export default function Scramble({
 										: 'bg-gray-200'
 								}`}
 							>
-								{lesson.slice(lessonPrefix.length)}
+								{lesson}
 							</button>
 						))}
 					</div>

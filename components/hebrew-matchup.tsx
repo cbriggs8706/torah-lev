@@ -9,27 +9,34 @@ import {
 	DragEndEvent,
 } from '@dnd-kit/core'
 import Image from 'next/image'
-import { Flashcard } from '@/lib/vocab'
+import { HebrewVocab } from '@/lib/vocab'
 import { useAudio, useWindowSize } from 'react-use'
 import ReactConfetti from 'react-confetti'
 
 interface WordMatchGameProps {
-	data: Flashcard[]
-	lessonPrefix: string
+	data: HebrewVocab[]
 	currentLesson?: number
 }
 
 type UniqueIdentifier = string | number
 
-const MATCH_FIELD_OPTIONS: (keyof Flashcard)[] = ['eng', 'images', 'hebAudio']
+const MATCH_FIELD_OPTIONS: (keyof HebrewVocab)[] = ['eng', 'images', 'hebAudio']
+
+function parseLessonKey(key: string) {
+	const match = key.match(/^(\d+)?([a-zA-Z]*)$/)
+	if (!match) return { num: NaN, text: key }
+	return {
+		num: match[1] ? parseInt(match[1], 10) : NaN,
+		text: match[2] || (match[1] ? '' : key),
+	}
+}
 
 export default function WordMatchGame({
 	data,
-	lessonPrefix,
 	currentLesson,
 }: WordMatchGameProps) {
 	const [showFilter, setShowFilter] = useState(false)
-	const [matchField, setMatchField] = useState<keyof Flashcard>('images')
+	const [matchField, setMatchField] = useState<keyof HebrewVocab>('images')
 	const [hebrewField, setHebrewField] = useState<'heb' | 'hebNiqqud'>(
 		'hebNiqqud'
 	)
@@ -42,34 +49,50 @@ export default function WordMatchGame({
 		src: '/finish.mp3',
 		autoPlay: false,
 	})
-	const [shuffledDraggables, setShuffledDraggables] = useState<Flashcard[]>([])
-	const [shuffledTargets, setShuffledTargets] = useState<Flashcard[]>([])
+	const [shuffledDraggables, setShuffledDraggables] = useState<HebrewVocab[]>(
+		[]
+	)
+	const [shuffledTargets, setShuffledTargets] = useState<HebrewVocab[]>([])
 	const [hasFinished, setHasFinished] = useState(false)
 
 	const { width, height } = useWindowSize()
 	const audioRef = useRef<HTMLAudioElement | null>(null)
 
-	const getCardId = (card: Flashcard) =>
+	const getCardId = (card: HebrewVocab) =>
 		`${(card.heb || '').trim()}::${(card.eng || '').trim()}`
 
 	const lessonOptions = useMemo(() => {
-		const all = data.flatMap((card) =>
-			card.lessons.filter((l) => l.startsWith(lessonPrefix))
-		)
-		return Array.from(new Set(all)).sort((a, b) => {
-			const aNum = parseInt(a.replace(lessonPrefix, ''))
-			const bNum = parseInt(b.replace(lessonPrefix, ''))
-			return aNum - bNum
+		const allLessons = data.flatMap((card) => card.lessons)
+		const uniqueLessons = Array.from(new Set(allLessons))
+
+		return uniqueLessons.sort((a, b) => {
+			const A = parseLessonKey(a)
+			const B = parseLessonKey(b)
+
+			// If both numeric, sort by number then text
+			if (!isNaN(A.num) && !isNaN(B.num)) {
+				if (A.num !== B.num) return A.num - B.num
+				return A.text.localeCompare(B.text)
+			}
+
+			// Numbers first
+			if (!isNaN(A.num) && isNaN(B.num)) return -1
+			if (isNaN(A.num) && !isNaN(B.num)) return 1
+
+			// Both strings → alphabetical
+			return a.localeCompare(b)
 		})
-	}, [data, lessonPrefix])
+	}, [data])
 
 	const allLessonsUpToCurrent = useMemo(() => {
 		if (currentLesson === undefined) return []
+
 		return lessonOptions.filter((lesson) => {
-			const num = parseInt(lesson.slice(lessonPrefix.length), 10)
-			return num <= currentLesson
+			const parsed = parseLessonKey(lesson)
+			if (isNaN(parsed.num)) return false
+			return parsed.num <= currentLesson
 		})
-	}, [currentLesson, lessonOptions, lessonPrefix])
+	}, [currentLesson, lessonOptions])
 
 	const [selectedLessons, setSelectedLessons] = useState<string[]>(
 		allLessonsUpToCurrent
@@ -299,7 +322,7 @@ export default function WordMatchGame({
 								All
 							</button>
 							{lessonOptions.map((lesson) => {
-								const label = lesson.slice(lessonPrefix.length)
+								const label = lesson
 								const isSelected = selectedLessons.includes(lesson)
 								return (
 									<button
@@ -417,8 +440,8 @@ function MatchContent({
 	card,
 	matchField,
 }: {
-	card: Flashcard
-	matchField: keyof Flashcard
+	card: HebrewVocab
+	matchField: keyof HebrewVocab
 }) {
 	const value = card[matchField]
 	if (!value) return null
@@ -427,7 +450,7 @@ function MatchContent({
 		return (
 			<Image
 				src={value[0]}
-				alt="Flashcard"
+				alt="HebrewVocab"
 				width={100}
 				height={100}
 				className="object-contain"

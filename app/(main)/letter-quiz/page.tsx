@@ -9,7 +9,7 @@ import dynamic from 'next/dynamic'
 import { letters } from '@/lib/letters'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 
-const LetterQuiz = dynamic(() => import('@/components/letter-quiz'), {
+const LetterQuiz = dynamic(() => import('@/components/hebrew-letter-quiz'), {
 	ssr: false,
 })
 

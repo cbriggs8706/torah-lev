@@ -29,7 +29,7 @@ type FontChoice =
 	| 'proto'
 	| 'torah'
 
-interface LetterQuizProps {
+interface HebrewLetterQuizProps {
 	letters: HebrewLetter[]
 }
 
@@ -106,7 +106,7 @@ const niqqudOptions = [
 	// { key: 'dagesh', symbol: 'ּ' },
 ] as const
 
-export default function LetterQuiz({ letters }: LetterQuizProps) {
+export default function HebrewLetterQuiz({ letters }: HebrewLetterQuizProps) {
 	const [gameStarted, setGameStarted] = useState(false)
 	const [selectedMode, setSelectedMode] = useState<Mode>('name')
 	const [timeLimit, setTimeLimit] = useState(3)
