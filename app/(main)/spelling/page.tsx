@@ -16,9 +16,12 @@ import awbHebrewVocab from '@/lib/data/vocab/awbVocab.json'
 // import awaGreekVocab from '@/lib/data/vocab/greek-vocab.json'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 
-const SpellingPractice = dynamic(() => import('@/components/hebrew-spelling'), {
-	ssr: false,
-})
+const SpellingPractice = dynamic(
+	() => import('@/components/hebrew/hebrew-spelling'),
+	{
+		ssr: false,
+	}
+)
 
 const HebrewSpellingPage = async () => {
 	const userProgressData = getUserProgress()

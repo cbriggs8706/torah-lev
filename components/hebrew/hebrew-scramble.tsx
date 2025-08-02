@@ -3,10 +3,10 @@
 import { HebrewVocab } from '@/lib/vocab'
 import Image from 'next/image'
 import { useEffect, useMemo, useState } from 'react'
-import LessonFilter from './filter-lesson'
 import { useCelebration } from '@/hooks/useCelebration'
-import ProgressBar from './progress-bar'
 import { parseLessonKey, useLessonCards } from '@/hooks/useLessonCards'
+import LessonFilter from '../filters/filter-lesson'
+import ProgressBar from '../progress-bar'
 
 interface HebrewScrambleProps {
 	data: HebrewVocab[]

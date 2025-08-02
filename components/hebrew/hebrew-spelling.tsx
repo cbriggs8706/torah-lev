@@ -7,12 +7,12 @@ import { useAudio } from 'react-use'
 import HebrewKeyboard from './hebrew-keyboard'
 import { HebrewVocab } from '@/lib/vocab'
 import { letters } from '@/lib/letters'
-import LessonFilter from './filter-lesson'
-import CategoryFilter from './filter-category'
-import FormatFilter, { FormatType } from './filter-format'
 import { useCelebration } from '@/hooks/useCelebration'
-import ProgressBar from './progress-bar'
 import { parseLessonKey, useLessonCards } from '@/hooks/useLessonCards'
+import FormatFilter, { FormatType } from '../filters/filter-format'
+import LessonFilter from '../filters/filter-lesson'
+import CategoryFilter from '../filters/filter-category'
+import ProgressBar from '../progress-bar'
 
 interface HebrewSpellingProps {
 	data: HebrewVocab[]

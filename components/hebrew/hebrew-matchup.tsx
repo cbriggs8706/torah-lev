@@ -12,11 +12,11 @@ import Image from 'next/image'
 import { HebrewVocab } from '@/lib/vocab'
 import { useAudio, useWindowSize } from 'react-use'
 import ReactConfetti from 'react-confetti'
-import LessonFilter from './filter-lesson'
-import CategoryFilter from './filter-category'
-import TypeFilter from './filter-type'
-import FormatFilter, { FormatType } from './filter-format'
-import NiqqudFilter from './filter-niqqud'
+import FormatFilter, { FormatType } from '../filters/filter-format'
+import TypeFilter from '../filters/filter-type'
+import NiqqudFilter from '../filters/filter-niqqud'
+import CategoryFilter from '../filters/filter-category'
+import LessonFilter from '../filters/filter-lesson'
 
 interface WordMatchGameProps {
 	data: HebrewVocab[]

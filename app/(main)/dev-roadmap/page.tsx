@@ -9,7 +9,6 @@ import {
 	getUserProgress,
 	getUserSubscription,
 } from '@/db/queries'
-import LessonScriptViewer from '@/components/hebrew-lesson-scripts'
 
 const HebrewLessonScriptsPage = async () => {
 	const lessons = await getLessonScripts()
@@ -50,7 +49,7 @@ const HebrewLessonScriptsPage = async () => {
 						Dev Roadmap
 					</h1>
 					<div className="text-left">
-						<h3 className="font-bold text-2xl">July 2025</h3>
+						<h3 className="font-bold text-2xl">Aug 2025</h3>
 						<ul className="text-muted-foreground text-lg mb-6">
 							<li>Make design less Duolingo-y</li>
 							<li>
@@ -61,11 +60,11 @@ const HebrewLessonScriptsPage = async () => {
 								variation can be found by students unfamiliar with roots
 							</li>
 							<li>LetterQuiz: add missing fonts</li>
-							<li>Data: scrape and add all AwB images/audio from Bibleling</li>
+							<li>Data: add missing AwB images/audio from Bibleling</li>
 							<li>Matchup: fix drag and drop on android mobile</li>
 							<li>Scripts: fix image sizing from import</li>
 						</ul>
-						<h3 className="font-bold text-2xl">Aug 2025</h3>
+						<h3 className="font-bold text-2xl">Sep 2025</h3>
 						<ul className="text-muted-foreground text-lg mb-6">
 							<li>Add conjugation charts and grammar sections</li>
 							<li>Flashcards: add anki type spaced repetition</li>
@@ -83,7 +82,7 @@ const HebrewLessonScriptsPage = async () => {
 								verbatim and not missing any words
 							</li>
 						</ul>
-						<h3 className="font-bold text-2xl">Sep 2025</h3>
+						<h3 className="font-bold text-2xl">Oct 2025</h3>
 						<ul className="text-muted-foreground text-lg mb-6">
 							<li>Add a number bingo to practice hearing</li>
 							<li>Mad Lib section of comprehensible input</li>
@@ -92,7 +91,7 @@ const HebrewLessonScriptsPage = async () => {
 							</li>
 							<li>Record all missing audio</li>
 						</ul>
-						<h3 className="font-bold text-2xl">Oct 2025</h3>
+						<h3 className="font-bold text-2xl">Nov 2025</h3>
 						<ul className="text-muted-foreground text-lg mb-6">
 							<li>
 								Add sitewide tooltip to tap on word and have it bring up the

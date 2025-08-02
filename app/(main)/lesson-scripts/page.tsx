@@ -10,7 +10,7 @@ import {
 	getUserProgress,
 	getUserSubscription,
 } from '@/db/queries'
-import LessonScriptViewer from '@/components/hebrew-lesson-scripts'
+import LessonScriptViewer from '@/components/hebrew/hebrew-lesson-scripts'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 
 const HebrewLessonScriptsPage = async () => {

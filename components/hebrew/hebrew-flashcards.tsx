@@ -3,12 +3,12 @@
 import { HebrewVocab } from '@/lib/vocab'
 import Image from 'next/image'
 import { useState, useMemo, useEffect, useCallback } from 'react'
-import LessonFilter from './filter-lesson'
-import CategoryFilter from './filter-category'
-import TypeFilter from './filter-type'
 import { useCelebration } from '@/hooks/useCelebration'
-import ProgressBar from './progress-bar'
 import { useLessonCards } from '@/hooks/useLessonCards'
+import TypeFilter from '../filters/filter-type'
+import CategoryFilter from '../filters/filter-category'
+import LessonFilter from '../filters/filter-lesson'
+import ProgressBar from '../progress-bar'
 
 type FontChoice =
 	| 'arial'

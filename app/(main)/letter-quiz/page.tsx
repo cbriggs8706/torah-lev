@@ -9,9 +9,12 @@ import dynamic from 'next/dynamic'
 import { letters } from '@/lib/letters'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 
-const LetterQuiz = dynamic(() => import('@/components/hebrew-letter-quiz'), {
-	ssr: false,
-})
+const LetterQuiz = dynamic(
+	() => import('@/components/hebrew/hebrew-letter-quiz'),
+	{
+		ssr: false,
+	}
+)
 
 const HebrewLetterQuizPage = async () => {
 	const userProgressData = getUserProgress()

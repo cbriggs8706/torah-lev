@@ -7,8 +7,8 @@ import { Loader } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { SidebarItem } from './sidebar-item'
 import { UserProgress } from './user-progress'
-import { HebrewClock } from './hebrew-clock'
 import { hebrewFriendIds } from '@/lib/friends'
+import { HebrewClock } from './hebrew/hebrew-clock'
 
 type Props = {
 	className?: string
@@ -222,9 +222,9 @@ export default function SidebarClient({
 								/>
 								<SidebarItem
 									label="Prayers"
-									href="#"
+									href="/prayer"
 									iconSrc="/folded-hands-medium-dark-skin-tone-svgrepo-com.svg"
-									// onClick={onItemClick}
+									onClick={onItemClick}
 								/>
 							</>
 						)}

@@ -172,3 +172,59 @@ export const userSubscription = pgTable('user_subscription', {
 	stripePriceId: text('stripe_price_id').notNull(),
 	stripeCurrentPeriodEnd: timestamp('stripe_current_period_end').notNull(),
 })
+
+// export const hebrewMusicLibrary = pgTable('hebrew_music_library', {
+// 	id: serial('id').primaryKey(),
+// 	title: text('title').notNull(),
+// 	hebTitle: text('heb_title'),
+// 	titleTransliteration: text('title_transliteration'),
+// 	lessonId: integer('lesson_id').notNull(),
+// 	order: integer('order').notNull(),
+// 	video: text('video'),
+// 	image: text('image'),
+// 	audio: text('audio'),
+// 	hebTranscription: text('heb_transcription'),
+// 	engTranscription: text('eng_transcription'),
+// 	engTransliteration: text('eng_transliteration'),
+// })
+
+export const hebrewPrayerLibrary = pgTable('hebrew_prayer_library', {
+	id: serial('id').primaryKey(),
+	title: text('title').notNull(),
+	hebTitle: text('heb_title'),
+	titleTransliteration: text('title_transliteration'),
+	order: integer('order').notNull(),
+	video: text('video'),
+	image: text('image'),
+	audio: text('audio'),
+})
+
+export const hebrewPrayerLine = pgTable('hebrew_prayer_line', {
+	id: serial('id').primaryKey(),
+	hebrewPrayerLibraryId: integer('hebrew_prayer_library_id')
+		.references(() => hebrewPrayerLibrary.id, { onDelete: 'cascade' })
+		.notNull(),
+	lineNumber: integer('line_number').notNull(),
+	engText: text('eng_text').notNull(),
+	hebNiqqud: text('heb_niqqud').notNull(),
+	hebText: text('heb_text').notNull(),
+	engTransliteration: text('eng_transliteration').notNull(),
+	audioSrc: text('audio_src'),
+})
+
+export const hebrewPrayerLineRelations = relations(
+	hebrewPrayerLine,
+	({ one }) => ({
+		hebrewPrayer: one(hebrewPrayerLibrary, {
+			fields: [hebrewPrayerLine.hebrewPrayerLibraryId],
+			references: [hebrewPrayerLibrary.id],
+		}),
+	})
+)
+
+export const hebrewPrayerLibraryRelations = relations(
+	hebrewPrayerLibrary,
+	({ many }) => ({
+		lines: many(hebrewPrayerLine),
+	})
+)

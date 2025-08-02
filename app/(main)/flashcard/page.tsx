@@ -21,14 +21,17 @@ import { HebrewVocab, GreekVocab, EnglishVocab } from '@/lib/vocab'
 
 // ✅ Dynamic imports for each language
 const HebrewFlashcards = dynamic(
-	() => import('@/components/hebrew-flashcards'),
+	() => import('@/components/hebrew/hebrew-flashcards'),
 	{ ssr: false }
 )
-const GreekFlashcards = dynamic(() => import('@/components/greek-flashcards'), {
-	ssr: false,
-})
+const GreekFlashcards = dynamic(
+	() => import('@/components/greek/greek-flashcards'),
+	{
+		ssr: false,
+	}
+)
 const EnglishFlashcards = dynamic(
-	() => import('@/components/english-flashcards'),
+	() => import('@/components/english/english-flashcards'),
 	{ ssr: false }
 )
 

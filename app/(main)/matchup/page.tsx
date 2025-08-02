@@ -9,16 +9,11 @@ import {
 	getUserProgress,
 	getUserSubscription,
 } from '@/db/queries'
-import dynamic from 'next/dynamic'
-import HebrewMatchup from '@/components/hebrew-matchup'
+import HebrewMatchup from '@/components/hebrew/hebrew-matchup'
 
 import awbHebrewVocab from '@/lib/data/vocab/awbVocab.json'
 // import awaGreekVocab from '@/lib/data/vocab/greek-vocab.json'
 import { DismissibleAlert } from '@/components/dismissible-alert'
-
-const LetterQuiz = dynamic(() => import('@/components/hebrew-letter-quiz'), {
-	ssr: false,
-})
 
 const HebrewMatchupPage = async () => {
 	const userProgressData = getUserProgress()

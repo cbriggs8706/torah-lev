@@ -5,16 +5,8 @@ import { FeedWrapper } from '@/components/feed-wrapper'
 import { UserProgress } from '@/components/user-progress'
 import { StickyWrapper } from '@/components/sticky-wrapper'
 import { getUserProgress, getUserSubscription } from '@/db/queries'
-import dynamic from 'next/dynamic'
 
-import HebrewMonthCalendar from '@/components/hebrew-month-calendar'
-
-const FlashcardReview = dynamic(
-	() => import('@/components/hebrew-flashcards'),
-	{
-		ssr: false,
-	}
-)
+import HebrewMonthCalendar from '@/components/hebrew/hebrew-month-calendar'
 
 const HebrewFlashcardPage = async () => {
 	const userProgressData = getUserProgress()

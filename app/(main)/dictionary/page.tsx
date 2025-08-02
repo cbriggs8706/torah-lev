@@ -5,20 +5,12 @@ import { FeedWrapper } from '@/components/feed-wrapper'
 import { UserProgress } from '@/components/user-progress'
 import { StickyWrapper } from '@/components/sticky-wrapper'
 import { getUserProgress, getUserSubscription } from '@/db/queries'
-import dynamic from 'next/dynamic'
 
 import awbHebrewVocab from '@/lib/data/vocab/awbVocab.json'
 // import awaGreekVocab from '@/lib/data/vocab/greek-vocab.json'
 
-import HebrewDictionary from '@/components/hebrew-dictionary'
+import HebrewDictionary from '@/components/hebrew/hebrew-dictionary'
 import { DismissibleAlert } from '@/components/dismissible-alert'
-
-const FlashcardReview = dynamic(
-	() => import('@/components/hebrew-flashcards'),
-	{
-		ssr: false,
-	}
-)
 
 const HebrewFlashcardPage = async () => {
 	const userProgressData = getUserProgress()
