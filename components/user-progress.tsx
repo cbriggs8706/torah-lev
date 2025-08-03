@@ -33,7 +33,7 @@ export const UserProgress = ({
 					/>
 				</Button>
 			</Link>
-			<Link href="/quests" onClick={onClick}>
+			<Link href="/market" onClick={onClick}>
 				<Button variant="ghost" className="text-orange-500">
 					<Image
 						src="/points.svg"

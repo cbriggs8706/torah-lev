@@ -2,6 +2,9 @@ import Image from 'next/image'
 import { FeedWrapper } from '@/components/feed-wrapper'
 import { getUserProgressWithTribe } from '@/db/queries'
 import HebrewUserDashboard from '@/components/hebrew/hebrew-dashboard'
+import db from '@/db/drizzle'
+import { eq } from 'drizzle-orm'
+import { challengeProgress, units } from '@/db/schema'
 
 const Dashboard = async () => {
 	const user = await getUserProgressWithTribe()
@@ -13,6 +16,27 @@ const Dashboard = async () => {
 			</div>
 		)
 	}
+
+	const courseId = user.activeCourse?.id ?? 6
+
+	const userUnitProgress = await db.query.units.findMany({
+		where: eq(units.courseId, courseId),
+		orderBy: (units, { asc }) => [asc(units.order)],
+		with: {
+			lessons: {
+				orderBy: (lessons, { asc }) => [asc(lessons.order)],
+				with: {
+					challenges: {
+						with: {
+							challengeProgress: {
+								where: eq(challengeProgress.userId, user.userId),
+							},
+						},
+					},
+				},
+			},
+		},
+	})
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
@@ -27,6 +51,13 @@ const Dashboard = async () => {
 						userName={user.userName}
 						userImageSrc={user.userImageSrc}
 						points={user.points}
+						hearts={user.hearts}
+						userUnitProgress={userUnitProgress}
+						activeCourse={{
+							id: user.activeCourse?.id ?? 0,
+							title: user.activeCourse?.title ?? 'Default Course',
+							imageSrc: user.activeCourse?.imageSrc ?? '/default-course.png',
+						}}
 						currentLesson={user.currentLesson}
 						tribe={
 							user.tribeId

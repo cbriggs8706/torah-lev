@@ -1,13 +1,13 @@
 import Image from 'next/image'
-
 import { cn } from '@/lib/utils'
 
 type Props = {
 	value: number
 	variant: 'points' | 'hearts'
+	tribePointAdded?: boolean // ✅ new prop
 }
 
-export const ResultCard = ({ value, variant }: Props) => {
+export const ResultCard = ({ value, variant, tribePointAdded }: Props) => {
 	const imageSrc = variant === 'hearts' ? '/heart.svg' : '/points.svg'
 
 	return (
@@ -27,21 +27,30 @@ export const ResultCard = ({ value, variant }: Props) => {
 			>
 				{variant === 'hearts' ? 'Hearts Left' : 'Total XP'}
 			</div>
+
 			<div
 				className={cn(
-					'rounded-2xl bg-white items-center flex justify-center p-6 font-bold text-lg',
+					'rounded-2xl bg-white items-center flex flex-col justify-center p-6 font-bold text-lg',
 					variant === 'hearts' && 'text-rose-500',
 					variant === 'points' && 'text-orange-400'
 				)}
 			>
-				<Image
-					alt="Icon"
-					src={imageSrc}
-					height={30}
-					width={30}
-					className="mr-1.5"
-				/>
-				{value}
+				<div className="flex items-center">
+					<Image
+						alt="Icon"
+						src={imageSrc}
+						height={30}
+						width={30}
+						className="mr-1.5"
+					/>
+					{value}
+				</div>
+
+				{tribePointAdded && variant === 'points' && (
+					<span className="mt-2 text-green-600 text-sm font-semibold">
+						+1 Tribe Point!
+					</span>
+				)}
 			</div>
 		</div>
 	)

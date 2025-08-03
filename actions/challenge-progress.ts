@@ -1,12 +1,17 @@
 'use server'
 
 import { auth } from '@clerk/nextjs/server'
-import { and, eq } from 'drizzle-orm'
+import { and, eq, sql } from 'drizzle-orm'
 import { revalidatePath } from 'next/cache'
 
 import db from '@/db/drizzle'
 import { getUserProgress, getUserSubscription } from '@/db/queries'
-import { challengeProgress, challenges, userProgress } from '@/db/schema'
+import {
+	challengeProgress,
+	challenges,
+	tribes,
+	userProgress,
+} from '@/db/schema'
 
 export const upsertChallengeProgress = async (challengeId: number) => {
 	const { userId } = await auth()
@@ -89,6 +94,42 @@ export const upsertChallengeProgress = async (challengeId: number) => {
 			lastSeen: new Date(),
 		})
 		.where(eq(userProgress.userId, userId))
+
+	// ✅ After inserting/updating challengeProgress
+	// Check if all challenges in this lesson are completed
+	const lessonChallenges = await db.query.challenges.findMany({
+		where: eq(challenges.lessonId, lessonId),
+		with: {
+			challengeProgress: {
+				where: eq(challengeProgress.userId, userId),
+			},
+		},
+	})
+
+	// Check if every challenge has progress and is completed
+	const allCompleted = lessonChallenges.every(
+		(c) =>
+			c.challengeProgress.length > 0 &&
+			c.challengeProgress.every((p) => p.completed)
+	)
+
+	// ✅ Check if the lesson was already completed BEFORE this challenge
+	const previouslyCompletedCount = lessonChallenges.filter((c) =>
+		c.challengeProgress.some((p) => p.completed)
+	).length
+
+	// ✅ Only add tribe points if the user just completed the lesson for the first time
+	if (
+		allCompleted &&
+		previouslyCompletedCount !== lessonChallenges.length - 1
+	) {
+		if (currentUserProgress.tribeId !== null) {
+			await db
+				.update(tribes)
+				.set({ points: sql`${tribes.points} + 1` })
+				.where(eq(tribes.id, currentUserProgress.tribeId))
+		}
+	}
 
 	revalidatePath('/learn')
 	revalidatePath('/lesson')

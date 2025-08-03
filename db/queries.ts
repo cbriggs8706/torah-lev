@@ -374,11 +374,16 @@ export async function getUserProgressWithTribe() {
 			tribeHebName: tribes.hebName,
 			tribePoints: tribes.points,
 			tribeImage: tribes.imgSrc,
-			activeCourse: userProgress.activeCourseId,
+			activeCourse: {
+				id: courses.id,
+				title: courses.title,
+				imageSrc: courses.imageSrc,
+			},
 		})
 		.from(userProgress)
 		.leftJoin(tribes, eq(userProgress.tribeId, tribes.id))
 		.leftJoin(lessons, eq(userProgress.activeLessonId, lessons.id))
+		.leftJoin(courses, eq(userProgress.activeCourseId, courses.id)) // ✅ join courses
 		.where(eq(userProgress.userId, userId))
 
 	return result[0] || null

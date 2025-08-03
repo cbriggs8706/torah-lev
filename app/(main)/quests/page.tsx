@@ -81,78 +81,88 @@ const QuestsPage = async () => {
 					</p>
 
 					{/* Quest Progress */}
-					<ul className="w-full">
-						{quests.map((quest) => {
-							const progress = (userProgress.points / quest.value) * 100
+					<div className="w-full flex flex-col md:flex-row gap-4">
+						<div className="w-full">
+							<ul className="w-full">
+								{quests.map((quest) => {
+									const progress = (userProgress.points / quest.value) * 100
 
-							return (
-								<div
-									className="flex items-center w-full p-4 gap-x-4 border-t-2"
-									key={quest.title}
-								>
-									<Image
-										src="/points.svg"
-										alt="Points"
-										width={60}
-										height={60}
-									/>
-									<div className="flex flex-col gap-y-2 w-full">
-										<p className="text-neutral-700 text-xl font-bold">
-											{quest.title}
-										</p>
-										<Progress value={progress} className="h-3" />
+									return (
+										<div
+											className="flex items-center w-full p-4 gap-x-4 border-t-2"
+											key={quest.title}
+										>
+											<Image
+												src="/points.svg"
+												alt="Points"
+												width={60}
+												height={60}
+											/>
+											<div className="flex flex-col gap-y-2 w-full">
+												<p className="text-neutral-700 text-xl font-bold">
+													{quest.title}
+												</p>
+												<Progress value={progress} className="h-3" />
+											</div>
+										</div>
+									)
+								})}
+							</ul>
+						</div>
+
+						{/* Unit Progress Section */}
+						<div className="w-full">
+							<h2 className="flex md:hidden text-xl font-semibold mt-10 mb-4 text-neutral-800">
+								Unit Progress
+							</h2>
+							{userUnitProgress.map((unit) => {
+								const totalChallenges = unit.lessons.reduce(
+									(acc, lesson) => acc + lesson.challenges.length,
+									0
+								)
+
+								const completedChallenges = unit.lessons.reduce(
+									(acc, lesson) => {
+										return (
+											acc +
+											lesson.challenges.filter((challenge) =>
+												challenge.challengeProgress?.some((p) => p.completed)
+											).length
+										)
+									},
+									0
+								)
+
+								const progress =
+									totalChallenges > 0
+										? (completedChallenges / totalChallenges) * 100
+										: 0
+
+								const unitTitle =
+									unit.title.match(/Unit\s*\d+/)?.[0] ?? unit.title
+
+								return (
+									<div
+										key={unit.id}
+										className="flex items-center w-full p-4 gap-x-4 border-t-2"
+									>
+										<Image
+											src="/points.svg"
+											alt="Unit Progress"
+											width={60}
+											height={60}
+										/>
+										<div className="flex flex-col gap-y-2 w-full">
+											<p className="text-neutral-700 text-xl font-bold">
+												{unitTitle}
+											</p>
+											<Progress value={progress} className="h-3" />
+										</div>
 									</div>
-								</div>
-							)
-						})}
-					</ul>
-
-					{/* Unit Progress Section */}
-					<h2 className="text-xl font-semibold mt-10 mb-4 text-neutral-800">
-						Unit Progress
-					</h2>
-					{userUnitProgress.map((unit) => {
-						const totalChallenges = unit.lessons.reduce(
-							(acc, lesson) => acc + lesson.challenges.length,
-							0
-						)
-
-						const completedChallenges = unit.lessons.reduce((acc, lesson) => {
-							return (
-								acc +
-								lesson.challenges.filter((challenge) =>
-									challenge.challengeProgress?.some((p) => p.completed)
-								).length
-							)
-						}, 0)
-
-						const progress =
-							totalChallenges > 0
-								? (completedChallenges / totalChallenges) * 100
-								: 0
-
-						const unitTitle = unit.title.match(/Unit\s*\d+/)?.[0] ?? unit.title
-
-						return (
-							<div
-								key={unit.id}
-								className="flex items-center w-full p-4 gap-x-4 border-t-2"
-							>
-								<Image
-									src="/points.svg"
-									alt="Unit Progress"
-									width={60}
-									height={60}
-								/>
-								<div className="flex flex-col gap-y-2 w-full">
-									<p className="text-neutral-700 text-xl font-bold">
-										{unitTitle}
-									</p>
-									<Progress value={progress} className="h-3" />
-								</div>
-							</div>
-						)
-					})}
+								)
+							})}
+						</div>
+					</div>
 				</div>
 			</FeedWrapper>
 		</div>

@@ -273,8 +273,13 @@ export const Quiz = ({
 								(total, c) => total + (c.type === 'WATCH' ? 10 : 1),
 								0
 							)}
+							tribePointAdded={true}
 						/>
-						<ResultCard variant="hearts" value={hearts} />
+						<ResultCard
+							variant="hearts"
+							value={hearts}
+							tribePointAdded={true}
+						/>
 					</div>
 				</div>
 				<Footer

@@ -4,11 +4,24 @@ import { useState, useTransition } from 'react'
 import Image from 'next/image'
 import { updateUserProfile } from '@/actions/user-progress'
 import HebrewKeyboard from './hebrew-keyboard'
+import { UserProgress } from '../user-progress'
+import { Shield } from '../shield'
+import { Progress } from '../ui/progress'
+import { quests } from '@/constants'
+import { eq } from 'drizzle-orm'
 
 interface HebrewUserDashboardProps {
 	userName: string
 	userImageSrc: string
 	points: number
+	hearts: number
+	// TODO fix any typing
+	userUnitProgress: any[]
+	activeCourse: {
+		id: number
+		title: string
+		imageSrc: string
+	}
 	currentLesson?: string | null
 	tribe?: {
 		engName: string
@@ -22,6 +35,9 @@ export default function HebrewUserDashboard({
 	userName,
 	userImageSrc,
 	points,
+	hearts,
+	activeCourse,
+	userUnitProgress,
 	tribe,
 	currentLesson,
 }: HebrewUserDashboardProps) {
@@ -80,7 +96,7 @@ export default function HebrewUserDashboard({
 					/>
 					<button
 						onClick={handleAvatarChange}
-						disabled={isPending || lessonValue < 30}
+						disabled={isPending || lessonValue < 100}
 						className="mt-2 text-sm px-3 py-1 rounded-lg border hover:bg-gray-100 disabled:opacity-50"
 					>
 						Change Avatar
@@ -114,11 +130,14 @@ export default function HebrewUserDashboard({
 			</div>
 
 			{/* Points Section */}
-			<div className="p-3 rounded-lg bg-gray-50">
-				<p className="text-lg font-semibold">My Individual Points: {points}</p>
-				<p className="text-lg font-semibold">
-					Current Lesson: {currentLesson ?? 'None'}
-				</p>
+			<div className="p-3 rounded-lg bg-gray-50 flex flex-row gap-4">
+				<Shield lessonNumber={currentLesson || 1} />
+				<UserProgress
+					activeCourse={activeCourse}
+					hearts={hearts}
+					points={points}
+					hasActiveSubscription={false}
+				/>
 			</div>
 
 			{/* Tribe Section */}
@@ -147,6 +166,7 @@ export default function HebrewUserDashboard({
 			) : (
 				<div className="p-3 rounded-lg bg-gray-100 text-gray-500">
 					You have not been assigned to a tribe yet.
+					<p className="text-xs text-gray-500 mt-1">🔒 Unlocks at lesson 10</p>
 				</div>
 			)}
 
@@ -188,6 +208,88 @@ export default function HebrewUserDashboard({
 					</div>
 				</div>
 			)}
+			{/* Quest Progress */}
+			<div className="w-full flex flex-col md:flex-row gap-4">
+				<div className="w-full">
+					<ul className="w-full">
+						{quests.map((quest) => {
+							const progress = (points / quest.value) * 100
+
+							return (
+								<div
+									className="flex items-center w-full p-4 gap-x-4 border-t-2"
+									key={quest.title}
+								>
+									<Image
+										src="/points.svg"
+										alt="Points"
+										width={60}
+										height={60}
+									/>
+									<div className="flex flex-col gap-y-2 w-full">
+										<p className="text-neutral-700 text-xl font-bold">
+											{quest.title}
+										</p>
+										<Progress value={progress} className="h-3" />
+									</div>
+								</div>
+							)
+						})}
+					</ul>
+				</div>
+
+				{/* Unit Progress Section */}
+				<div className="w-full">
+					<h2 className="flex md:hidden text-xl font-semibold mt-10 mb-4 text-neutral-800">
+						Unit Progress
+					</h2>
+					{userUnitProgress.map((unit) => {
+						const totalChallenges = unit.lessons.reduce(
+							(acc: any, lesson: any) => acc + lesson.challenges.length,
+							0
+						)
+
+						const completedChallenges = unit.lessons.reduce(
+							(acc: any, lesson: any) => {
+								return (
+									acc +
+									lesson.challenges.filter((challenge: any) =>
+										challenge.challengeProgress?.some((p: any) => p.completed)
+									).length
+								)
+							},
+							0
+						)
+
+						const progress =
+							totalChallenges > 0
+								? (completedChallenges / totalChallenges) * 100
+								: 0
+
+						const unitTitle = unit.title.match(/Unit\s*\d+/)?.[0] ?? unit.title
+
+						return (
+							<div
+								key={unit.id}
+								className="flex items-center w-full p-4 gap-x-4 border-t-2"
+							>
+								<Image
+									src="/points.svg"
+									alt="Unit Progress"
+									width={60}
+									height={60}
+								/>
+								<div className="flex flex-col gap-y-2 w-full">
+									<p className="text-neutral-700 text-xl font-bold">
+										{unitTitle}
+									</p>
+									<Progress value={progress} className="h-3" />
+								</div>
+							</div>
+						)
+					})}
+				</div>
+			</div>
 		</div>
 	)
 }
