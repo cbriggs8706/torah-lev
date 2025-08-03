@@ -226,6 +226,12 @@ export default function SidebarClient({
 									iconSrc="/folded-hands-medium-dark-skin-tone-svgrepo-com.svg"
 									onClick={onItemClick}
 								/>
+								<SidebarItem
+									label="Dashboard"
+									href="/dashboard"
+									iconSrc="/mascot.svg"
+									onClick={onItemClick}
+								/>
 							</>
 						)}
 					</>

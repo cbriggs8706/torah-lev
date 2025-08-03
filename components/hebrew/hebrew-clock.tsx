@@ -370,7 +370,7 @@ export function HebrewClock({ onClick, isWidget }: HebrewClockProps) {
 
 					{isWidget && (
 						<Link
-							href="/hebrew-calendar"
+							href="/calendar"
 							className="flex justify-center text-center"
 							onClick={onClick}
 						>

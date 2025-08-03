@@ -1,9 +1,10 @@
 'use server'
 
-import { and, eq } from 'drizzle-orm'
+import { and, eq, sql } from 'drizzle-orm'
 import { redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
 import { auth, currentUser } from '@clerk/nextjs/server'
+import { z } from 'zod'
 
 import db from '@/db/drizzle'
 import { POINTS_TO_REFILL } from '@/constants'
@@ -12,7 +13,12 @@ import {
 	getUserProgress,
 	getUserSubscription,
 } from '@/db/queries'
-import { challengeProgress, challenges, userProgress } from '@/db/schema'
+import {
+	challengeProgress,
+	challenges,
+	tribes,
+	userProgress,
+} from '@/db/schema'
 
 export const upsertUserProgress = async (courseId: number) => {
 	const { userId } = await auth()
@@ -146,5 +152,80 @@ export const refillHearts = async () => {
 	revalidatePath('/market')
 	revalidatePath('/learn')
 	revalidatePath('/quests')
+	revalidatePath('/leaderboard')
+}
+
+const updateUserSchema = z.object({
+	userName: z.string().min(2, 'Name must be at least 2 characters').optional(),
+	userImageSrc: z.string().url('Must be a valid URL').optional(),
+})
+
+export const updateUserProfile = async (data: {
+	userName?: string
+	userImageSrc?: string
+}) => {
+	const { userId } = await auth()
+
+	if (!userId) {
+		throw new Error('Unauthorized')
+	}
+
+	// ✅ Validate input
+	const parsed = updateUserSchema.safeParse(data)
+	if (!parsed.success) {
+		throw new Error(JSON.stringify(parsed.error.flatten().fieldErrors))
+	}
+
+	const currentUserProgress = await getUserProgress()
+	if (!currentUserProgress) {
+		throw new Error('User progress not found')
+	}
+
+	// ✅ Only update provided fields
+	await db
+		.update(userProgress)
+		.set({
+			...(parsed.data.userName && { userName: parsed.data.userName }),
+			...(parsed.data.userImageSrc && {
+				userImageSrc: parsed.data.userImageSrc,
+			}),
+		})
+		.where(eq(userProgress.userId, userId))
+
+	const [updatedUser] = await db
+		.select()
+		.from(userProgress)
+		.where(eq(userProgress.userId, userId))
+
+	// ✅ Revalidate relevant pages
+	revalidatePath('/learn')
+	revalidatePath('/leaderboard')
+	revalidatePath('/profile')
+
+	return updatedUser
+}
+
+export const exchangePointsForTribe = async () => {
+	const { userId } = await auth()
+	if (!userId) throw new Error('Unauthorized')
+
+	const currentUserProgress = await getUserProgress()
+	if (!currentUserProgress) throw new Error('User not found')
+	if (!currentUserProgress.tribeId) throw new Error('No tribe assigned')
+	if (currentUserProgress.points < 100) throw new Error('Not enough points')
+
+	// ✅ Deduct user points
+	await db
+		.update(userProgress)
+		.set({ points: currentUserProgress.points - 100 })
+		.where(eq(userProgress.userId, userId))
+
+	// ✅ Increment tribe points
+	await db
+		.update(tribes)
+		.set({ points: sql`${tribes.points} + 1` }) // ✅ safer increment
+		.where(eq(tribes.id, currentUserProgress.tribeId))
+
+	revalidatePath('/market')
 	revalidatePath('/leaderboard')
 }

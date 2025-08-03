@@ -1,5 +1,5 @@
 import { cache } from 'react'
-import { asc, desc, eq, like } from 'drizzle-orm'
+import { asc, desc, eq, like, sql } from 'drizzle-orm'
 import { auth, clerkClient } from '@clerk/nextjs/server'
 
 import db from '@/db/drizzle'
@@ -10,10 +10,12 @@ import {
 	hebrewPrayerLine,
 	lessons,
 	lessonScripts,
+	tribes,
 	units,
 	userProgress,
 	userSubscription,
 } from '@/db/schema'
+import { tr } from 'date-fns/locale'
 
 export const getUserProgress = cache(async () => {
 	const { userId } = await auth()
@@ -353,4 +355,118 @@ export async function getPrayerLines(prayerId: number) {
 		where: eq(hebrewPrayerLine.hebrewPrayerLibraryId, prayerId),
 		orderBy: asc(hebrewPrayerLine.lineNumber),
 	})
+}
+
+export async function getUserProgressWithTribe() {
+	const { userId } = await auth()
+	if (!userId) return null
+
+	const result = await db
+		.select({
+			userId: userProgress.userId,
+			userName: userProgress.userName,
+			userImageSrc: userProgress.userImageSrc,
+			points: userProgress.points,
+			hearts: userProgress.hearts,
+			currentLesson: lessons.lessonNumber,
+			tribeId: userProgress.tribeId,
+			tribeEngName: tribes.engName,
+			tribeHebName: tribes.hebName,
+			tribePoints: tribes.points,
+			tribeImage: tribes.imgSrc,
+			activeCourse: userProgress.activeCourseId,
+		})
+		.from(userProgress)
+		.leftJoin(tribes, eq(userProgress.tribeId, tribes.id))
+		.leftJoin(lessons, eq(userProgress.activeLessonId, lessons.id))
+		.where(eq(userProgress.userId, userId))
+
+	return result[0] || null
+}
+
+function parseLessonNumber(lesson: string | null) {
+	if (!lesson) return 0
+	const match = lesson.match(/^(\d+)([a-z])?$/i)
+	if (!match) return 0
+	const base = parseInt(match[1], 10)
+	const part = match[2]?.toLowerCase()
+	if (part === 'a') return base - 0.25
+	if (part === 'b') return base - 0.125
+	return base
+}
+
+export async function getTribeLeaderboard() {
+	const users = await db
+		.select({
+			tribeId: userProgress.tribeId,
+			userName: userProgress.userName,
+			points: userProgress.points,
+			lessonNumber: lessons.lessonNumber,
+		})
+		.from(userProgress)
+		.leftJoin(lessons, eq(userProgress.activeLessonId, lessons.id))
+		.where(sql`${userProgress.tribeId} IS NOT NULL`)
+
+	const tribeBase = await db
+		.select({
+			tribeId: tribes.id,
+			tribeEngName: tribes.engName,
+			tribeHebName: tribes.hebName,
+			tribePoints: tribes.points,
+			tribeImage: tribes.imgSrc,
+		})
+		.from(tribes)
+
+	// Group tribe data
+	const tribeData = tribeBase.map((tribe) => {
+		const members = users.filter((u) => u.tribeId === tribe.tribeId)
+
+		if (members.length === 0) {
+			return {
+				...tribe,
+				members: [],
+				avgLesson: 0,
+				totalMemberPoints: 0,
+				score: 0,
+			}
+		}
+
+		const totalPoints = members.reduce((sum, u) => sum + (u.points || 0), 0)
+		const avgLesson =
+			members.reduce((sum, u) => sum + parseLessonNumber(u.lessonNumber), 0) /
+			members.length
+
+		return {
+			...tribe,
+			members: members.map((m) => m.userName),
+			avgLesson,
+			totalMemberPoints: totalPoints,
+		}
+	})
+
+	// ✅ Normalize values to 0–1 range
+	const maxAvgLesson = Math.max(...tribeData.map((t) => t.avgLesson))
+	const maxTotalPoints = Math.max(...tribeData.map((t) => t.totalMemberPoints))
+	const maxTribePoints = Math.max(...tribeData.map((t) => t.tribePoints))
+
+	const scoredData = tribeData.map((tribe) => {
+		const normalizedLesson = maxAvgLesson ? tribe.avgLesson / maxAvgLesson : 0
+		const normalizedPoints = maxTotalPoints
+			? tribe.totalMemberPoints / maxTotalPoints
+			: 0
+		const normalizedTribePoints = maxTribePoints
+			? tribe.tribePoints / maxTribePoints
+			: 0
+
+		const score =
+			0.1 * normalizedLesson +
+			0.4 * normalizedPoints +
+			0.5 * normalizedTribePoints
+
+		return { ...tribe, score }
+	})
+
+	return scoredData
+		.filter((t) => t.members.length > 0)
+		.sort((a, b) => b.score - a.score)
 }

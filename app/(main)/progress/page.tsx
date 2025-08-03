@@ -58,6 +58,7 @@ const ProgressPage = async () => {
 						hearts={userProgress.hearts}
 						points={userProgress.points}
 						hasActiveSubscription={isPro}
+						hasTribe={!!userProgress.tribeId}
 					/>
 				</div>
 			</FeedWrapper>

@@ -151,6 +151,9 @@ export const userProgress = pgTable('user_progress', {
 	}),
 	hearts: integer('hearts').notNull().default(5),
 	points: integer('points').notNull().default(0),
+	tribeId: integer('tribe_id').references(() => tribes.id, {
+		onDelete: 'set null',
+	}),
 	activeLessonId: integer('active_lesson_id').references(() => lessons.id, {
 		onDelete: 'cascade',
 	}),
@@ -161,6 +164,10 @@ export const userProgressRelations = relations(userProgress, ({ one }) => ({
 	activeCourse: one(courses, {
 		fields: [userProgress.activeCourseId],
 		references: [courses.id],
+	}),
+	tribe: one(tribes, {
+		fields: [userProgress.tribeId],
+		references: [tribes.id],
 	}),
 }))
 
@@ -228,3 +235,17 @@ export const hebrewPrayerLibraryRelations = relations(
 		lines: many(hebrewPrayerLine),
 	})
 )
+
+export const tribes = pgTable('tribes', {
+	id: serial('id').primaryKey(),
+	engName: text('eng_name').notNull(),
+	hebName: text('heb_name').notNull(),
+	hebNameNiqqud: text('heb_name_niqqud').notNull(),
+	points: integer('points').notNull().default(0),
+	imgSrc: text('img_src'),
+	mother: text('mother').notNull().default(''),
+})
+
+export const tribesRelations = relations(tribes, ({ many }) => ({
+	members: many(userProgress),
+}))

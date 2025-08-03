@@ -38,7 +38,7 @@ const CameronsGroupsPage = async () => {
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">
 					<Image
-						src="/boy.svg"
+						src="/mascot.svg"
 						alt="Cameron's Study Groups"
 						height={90}
 						width={90}

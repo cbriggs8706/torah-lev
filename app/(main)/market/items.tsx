@@ -8,14 +8,23 @@ import { Button } from '@/components/ui/button'
 import { POINTS_TO_REFILL } from '@/constants'
 import { refillHearts } from '@/actions/user-progress'
 import { createStripeUrl } from '@/actions/user-subscription'
+import { exchangePointsForTribe } from '@/actions/user-progress'
 
 type Props = {
 	hearts: number
 	points: number
 	hasActiveSubscription: boolean
+	hasTribe: boolean
+	tribeImg?: string | null
 }
 
-export const Items = ({ hearts, points, hasActiveSubscription }: Props) => {
+export const Items = ({
+	hearts,
+	points,
+	hasActiveSubscription,
+	hasTribe,
+	tribeImg,
+}: Props) => {
 	const [pending, startTransition] = useTransition()
 
 	const onRefillHearts = () => {
@@ -61,6 +70,39 @@ export const Items = ({ hearts, points, hasActiveSubscription }: Props) => {
 							<p>{POINTS_TO_REFILL}</p>
 						</div>
 					)}
+				</Button>
+			</div>
+			{/* Exchange Tribe Points */}
+			<div className="flex items-center w-full p-4 gap-x-4 border-t-2">
+				<Image src={tribeImg || ''} alt="Tribe" height={60} width={60} />
+				<div className="flex-1">
+					<p className="text-neutral-700 text-base lg:text-xl font-bold">
+						Exchange 100 points for 1 Tribe Point
+					</p>
+				</div>
+				{!hasTribe && (
+					<p className="text-xs text-gray-500 ml-auto mt-1">
+						🔒 You must be in a tribe to exchange points
+					</p>
+				)}
+				<Button
+					onClick={() =>
+						startTransition(() => {
+							exchangePointsForTribe()
+								.then(() =>
+									toast.success('Exchanged 100 points for 1 tribe point!')
+								)
+								.catch((err) =>
+									toast.error(err.message || 'Something went wrong')
+								)
+						})
+					}
+					disabled={pending || points < 100 || !hasTribe}
+				>
+					<div className="flex items-center">
+						<Image src="/points.svg" alt="Points" height={20} width={20} />
+						<p>100</p>
+					</div>
 				</Button>
 			</div>
 			{/* <div className="flex items-center w-full p-4 pt-8 gap-x-4 border-t-2">
