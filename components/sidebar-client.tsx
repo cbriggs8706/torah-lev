@@ -117,6 +117,12 @@ export default function SidebarClient({
 							onClick={onItemClick}
 						/>
 						<SidebarItem
+							label="Matchup"
+							href="/matchup"
+							iconSrc="/socks-svgrepo-com.svg"
+							onClick={onItemClick}
+						/>
+						<SidebarItem
 							label="Scramble"
 							href="/scramble"
 							iconSrc="/cooking-svgrepo-com.svg"
@@ -128,16 +134,23 @@ export default function SidebarClient({
 							iconSrc="/building-construction-svgrepo-com.svg"
 							onClick={onItemClick}
 						/>
-						<SidebarItem
-							label="Matchup"
-							href="/matchup"
-							iconSrc="/socks-svgrepo-com.svg"
-							onClick={onItemClick}
-						/>
+
 						<SidebarItem
 							label="Dev Roadmap"
 							href="/dev-roadmap"
 							iconSrc="/world-map-svgrepo-com.svg"
+							onClick={onItemClick}
+						/>
+						<SidebarItem
+							label="Leaderboard"
+							href="/leaderboard"
+							iconSrc="/trophy-svgrepo-com.svg"
+							onClick={onItemClick}
+						/>
+						<SidebarItem
+							label="My Dashboard"
+							href="/dashboard"
+							iconSrc="/mascot.svg"
 							onClick={onItemClick}
 						/>
 						<span className="text-lg text-red-700 font-semibold text-center">
@@ -214,22 +227,11 @@ export default function SidebarClient({
 									iconSrc="/tear-off-calendar-svgrepo-com.svg"
 									onClick={onItemClick}
 								/>
-								<SidebarItem
-									label="Leaderboard"
-									href="/leaderboard"
-									iconSrc="/trophy-svgrepo-com.svg"
-									onClick={onItemClick}
-								/>
+
 								<SidebarItem
 									label="Prayers"
 									href="/prayer"
 									iconSrc="/folded-hands-medium-dark-skin-tone-svgrepo-com.svg"
-									onClick={onItemClick}
-								/>
-								<SidebarItem
-									label="Dashboard"
-									href="/dashboard"
-									iconSrc="/mascot.svg"
 									onClick={onItemClick}
 								/>
 							</>

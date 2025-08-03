@@ -33,7 +33,7 @@ const LessonPage = async () => {
 	const allLessons =
 		courseProgress?.unitsInActiveCourse.flatMap((u) => u.lessons) || []
 	const currentIndex = allLessons.findIndex((l) => l.id === lesson.id)
-	const nextLesson = allLessons[currentIndex]
+	const nextLesson = allLessons[currentIndex - 1]
 	// const nextLesson = allLessons[currentIndex + 1]
 
 	return (

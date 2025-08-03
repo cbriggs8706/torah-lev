@@ -30,10 +30,7 @@ const HebrewLessonScriptsPage = async () => {
 
 	const isPro = !!userSubscription?.isActive
 
-	const title = userChallengeData?.activeLesson?.title ?? ''
-	const match = title.match(/AwB (\d{1,3})/)
-
-	const currentLesson = match ? parseInt(match[1], 10) : undefined
+	const currentLesson = userChallengeData?.activeLesson?.lessonNumber
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
@@ -63,7 +60,10 @@ const HebrewLessonScriptsPage = async () => {
 						trouble displaying images nicely.
 					</DismissibleAlert>
 
-					<LessonScriptViewer lessons={lessons} currentLesson={currentLesson} />
+					<LessonScriptViewer
+						lessons={lessons}
+						currentLesson={currentLesson ?? ''}
+					/>
 				</div>
 			</FeedWrapper>
 		</div>

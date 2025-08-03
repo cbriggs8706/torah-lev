@@ -19,7 +19,6 @@ import { Header } from './header'
 import { Calendar } from '@/components/ui/calendar'
 import { GoalWrapper } from '@/components/goal-wrapper'
 import { DismissibleAlert } from '@/components/dismissible-alert'
-import { LoginToast } from '@/components/login-toast'
 
 const LearnPage = async () => {
 	const userProgressData = getUserProgress()
@@ -78,7 +77,6 @@ const LearnPage = async () => {
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
-			<LoginToast />
 			{/* <StickyWrapper>
 				<UserProgress
 					activeCourse={userProgress.activeCourse}

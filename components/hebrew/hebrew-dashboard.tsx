@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useTransition } from 'react'
+import { useEffect, useState, useTransition } from 'react'
 import Image from 'next/image'
 import { updateUserProfile } from '@/actions/user-progress'
 import HebrewKeyboard from './hebrew-keyboard'
@@ -9,6 +9,9 @@ import { Shield } from '../shield'
 import { Progress } from '../ui/progress'
 import { quests } from '@/constants'
 import { eq } from 'drizzle-orm'
+import { SignOutButton, UserButton } from '@clerk/nextjs'
+import Link from 'next/link'
+import { GoalDisplayCard } from './hebrew-goal-display-card'
 
 interface HebrewUserDashboardProps {
 	userName: string
@@ -110,10 +113,10 @@ export default function HebrewUserDashboard({
 
 				{/* Username Section */}
 				<div className="flex flex-col items-center flex-1">
+					<h2 className="text-6xl font-serif">{newName}</h2>
 					<label className="block text-sm font-semibold text-gray-700 mb-1">
 						Username
 					</label>
-					<h2 className="text-6xl font-serif">{newName}</h2>
 					<button
 						onClick={() => setIsEditing(true)}
 						disabled={lessonValue < 20}
@@ -170,6 +173,9 @@ export default function HebrewUserDashboard({
 				</div>
 			)}
 
+			{/* Goal Section */}
+			<GoalDisplayCard />
+
 			{/* ✅ Full-Screen Overlay for Editing */}
 			{isEditing && (
 				<div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
@@ -208,6 +214,8 @@ export default function HebrewUserDashboard({
 					</div>
 				</div>
 			)}
+
+			<h2 className="text-xl font-semibold mt-6">My Progress</h2>
 			{/* Quest Progress */}
 			<div className="w-full flex flex-col md:flex-row gap-4">
 				<div className="w-full">
@@ -237,7 +245,6 @@ export default function HebrewUserDashboard({
 						})}
 					</ul>
 				</div>
-
 				{/* Unit Progress Section */}
 				<div className="w-full">
 					<h2 className="flex md:hidden text-xl font-semibold mt-10 mb-4 text-neutral-800">
@@ -288,6 +295,29 @@ export default function HebrewUserDashboard({
 							</div>
 						)
 					})}
+				</div>{' '}
+			</div>
+
+			<div className="mt-6 p-4 bg-gray-50 border rounded-xl shadow-sm">
+				<h3 className="text-lg font-semibold text-gray-800 mb-2">
+					Account Settings
+				</h3>
+				<p className="text-sm text-gray-600 mb-4">
+					Manage your password, email, and phone using the profile menu. The
+					profile menu will not override the avatar and username set above.
+				</p>
+
+				<div className="flex flex-wrap items-center gap-4">
+					<div className="flex items-center gap-2">
+						<UserButton afterSignOutUrl="/" />
+						<span className="text-sm text-gray-700">Profile Menu</span>
+					</div>
+
+					<SignOutButton>
+						<button className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition">
+							Sign Out
+						</button>
+					</SignOutButton>
 				</div>
 			</div>
 		</div>

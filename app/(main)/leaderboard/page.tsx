@@ -13,6 +13,7 @@ import { Separator } from '@/components/ui/separator'
 import { Avatar, AvatarImage } from '@/components/ui/avatar'
 import { Ribbon } from '@/components/ribbon'
 import { Shield } from '@/components/shield'
+import { DismissibleAlert } from '@/components/dismissible-alert'
 
 const LeaderboardPage = async () => {
 	const [userProgress, userSubscription, leaderboard, tribeLeaderboardData] =
@@ -85,10 +86,7 @@ const LeaderboardPage = async () => {
 					<h1 className="text-center font-bold text-neutral-800 text-2xl my-6">
 						Leaderboard
 					</h1>
-					<p className="text-muted-foreground text-center text-lg mb-6">
-						This page is used for Cam&apos;s study groups. It will disappear
-						once the app is released.
-					</p>
+
 					<Separator className="mb-4 h-0.5 rounded-full" />
 
 					{/* ✅ User Leaderboard */}
@@ -150,10 +148,42 @@ const LeaderboardPage = async () => {
 						</tbody>
 					</table>
 
+					{/* Mobile Leaderboard */}
+					<div className="flex flex-col gap-4 md:hidden">
+						{scoredLeaderboard.map((user, index) => (
+							<div
+								key={user.userId}
+								className="flex items-center p-4 rounded-lg bg-gray-50 shadow-sm"
+							>
+								<Ribbon rank={userRanks[index]} />
+								<Avatar className="h-10 w-10 mx-3">
+									<AvatarImage src={user.userImageSrc} />
+								</Avatar>
+								<div className="flex flex-col flex-1">
+									<p className="font-bold">{user.userName}</p>
+									<p className="text-sm text-gray-500"></p>
+									<p>
+										Lesson: {user.activeLessonNumber} | {user.points} XP
+									</p>
+								</div>
+							</div>
+						))}
+					</div>
+
 					{/* ✅ Tribe Leaderboard */}
 					<Separator className="my-6 h-0.5 rounded-full" />
 					<h2 className="text-xl font-bold mb-4">Tribe Rankings</h2>
-
+					<DismissibleAlert storageKey="tribeRank" className="mb-4">
+						You earn one tribe point every day that you login.{' '}
+						<p>
+							Weighted: 10% Avg Lesson, 40% Sum of User Points, 50% Tribe
+							Points.
+						</p>
+						<p>
+							You can trade in personal points for team points by clicking the
+							lightning bolt in the menu.
+						</p>
+					</DismissibleAlert>
 					<table className="hidden md:table w-full border-collapse">
 						<thead>
 							<tr className="text-left text-gray-600">
