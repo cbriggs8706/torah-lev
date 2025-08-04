@@ -30,7 +30,11 @@
 	{
 		"date": "28th July 2025",
 		"sessions": [
-			{ "time": "12:30", "title": "Lesson 38" },
+			{
+				"time": "12:30",
+				"title": "Lesson 38",
+				"recording": "https://www.youtube.com/watch?v=Wv-tq_2T9lg&authuser=0"
+			},
 			{ "time": "4pm", "title": "Lesson 9" },
 			{ "time": "5pm", "title": "Kamats Part 5" },
 			{ "time": "6pm", "title": "Lesson 26" },
@@ -42,7 +46,7 @@
 		"sessions": [
 			{ "time": "12:30", "title": "Lesson 39" },
 			{ "time": "4pm", "title": "Lesson 9" },
-			{ "time": "5pm", "title": "Patach Part 1" },
+			{ "time": "5pm", "title": "Kamats Part 5" },
 			{ "time": "6pm", "title": "Lesson 27" },
 			{ "time": "7pm", "title": "ToZ Chapter 10.1" }
 		]
@@ -51,40 +55,231 @@
 		"date": "11th August 2025",
 		"sessions": [
 			{ "time": "12:30", "title": "SKIP - Summer Break" },
-			{ "time": "4pm", "title": "Maybe? SKIP - Cassia Fair" },
-			{ "time": "5pm", "title": "Maybe? SKIP - Cassia Fair" },
-			{ "time": "6pm", "title": "Maybe? SKIP - Cassia Fair" },
-			{ "time": "7pm", "title": "Maybe? SKIP - Cassia Fair" }
+			{ "time": "4pm", "title": "Kamats Testing" },
+			{ "time": "5pm", "title": "Classroom #1" },
+			{ "time": "6pm", "title": "Lesson 28" },
+			{ "time": "6:45pm", "title": "Dinner: Team Asher" },
+			{ "time": "7:15pm", "title": "ToZ Chapter 10.2" }
 		]
 	},
 	{
 		"date": "18th August 2025",
 		"sessions": [
 			{ "time": "12:30", "title": "SKIP - Summer Break" },
-			{ "time": "4pm", "title": "SKIP - Ed Week" },
-			{ "time": "5pm", "title": "SKIP - Ed Week" },
-			{ "time": "6pm", "title": "SKIP - Ed Week" },
-			{ "time": "7pm", "title": "SKIP - Ed Week" }
+			{ "time": "4pm", "title": "Kamats Testing" },
+			{ "time": "5pm", "title": "Classroom #1" },
+			{ "time": "6pm", "title": "Lesson 29" },
+			{ "time": "6:45pm", "title": "Dinner: Team Zebulun" },
+			{ "time": "7:15pm", "title": "ToZ Chapter 10.3" }
 		]
 	},
 	{
 		"date": "25th August 2025",
 		"sessions": [
 			{ "time": "12:30", "title": "SKIP - Summer Break" },
-			{ "time": "4pm", "title": "Lesson 10" },
-			{ "time": "5pm", "title": "Patach Part 2" },
-			{ "time": "6pm", "title": "Lesson 28" },
-			{ "time": "7pm", "title": "ToZ Chapter 10.2" }
+			{ "time": "4pm", "title": "Patach Part 1" },
+			{ "time": "5pm", "title": "Classroom #2" },
+			{ "time": "6pm", "title": "Lesson 30" },
+			{ "time": "6:45pm", "title": "Dinner: Team Naphtali" },
+			{ "time": "7:15pm", "title": "ToZ Chapter 10.4" }
 		]
 	},
 	{
 		"date": "1st September 2025",
 		"sessions": [
 			{ "time": "12:30", "title": "SKIP - Summer Break" },
+			{ "time": "4pm", "title": "Patach Part 2" },
+			{ "time": "5pm", "title": "Classroom #2" },
+			{ "time": "6pm", "title": "Lesson 31" },
+			{ "time": "6:45pm", "title": "Dinner: Team Reuben" },
+			{ "time": "7:15pm", "title": "S7S: Secret 1" }
+		]
+	},
+	{
+		"date": "8th September 2025",
+		"sessions": [
+			{ "time": "12:30", "title": "SKIP - Summer Break" },
+			{ "time": "4pm", "title": "Patach Part 3" },
+			{ "time": "5pm", "title": "Classroom #3" },
+			{ "time": "6pm", "title": "Lesson 32" },
+			{ "time": "6:45pm", "title": "Dinner: Goyim" },
+			{ "time": "7:15pm", "title": "S7S: Secret 2" }
+		]
+	},
+	{
+		"date": "15th September 2025",
+		"sessions": [
+			{ "time": "12:30", "title": "SKIP - Summer Break" },
+			{ "time": "4pm", "title": "Patach Part 4" },
+			{ "time": "5pm", "title": "Classroom #3" },
+			{ "time": "6pm", "title": "Lesson 33" },
+			{ "time": "6:45pm", "title": "Dinner: Team Asher" },
+			{ "time": "7:15pm", "title": "S7S: Secret 3" }
+		]
+	},
+	{
+		"date": "22nd September 2025",
+		"sessions": [
+			{ "time": "12:30", "title": "SKIP - Summer Break" },
+			{ "time": "4pm", "title": "SKIP" },
+			{ "time": "5pm", "title": "SKIP" },
+			{ "time": "6pm", "title": "SKIP - Rosh Hashana Dinner" },
+			{ "time": "6:45pm", "title": "SKIP" },
+			{ "time": "7:15pm", "title": "SKIP" }
+		]
+	},
+	{
+		"date": "29th September 2025",
+		"sessions": [
+			{ "time": "12:30", "title": "Lesson 30 Review" },
+			{ "time": "4pm", "title": "Patach Part 5" },
+			{ "time": "5pm", "title": "Classroom #4" },
+			{ "time": "6pm", "title": "Lesson 35" },
+			{ "time": "6:45pm", "title": "Dinner: Team Zebulun" },
+			{ "time": "7:15pm", "title": "S7S: Secret 5" }
+		]
+	},
+	{
+		"date": "6th October 2025",
+		"sessions": [
+			{ "time": "12:30", "title": "Lesson 31 Review" },
+			{ "time": "4pm", "title": "Patach Testing" },
+			{ "time": "5pm", "title": "Classroom #4" },
+			{ "time": "6pm", "title": "Lesson 35" },
+			{ "time": "6:45pm", "title": "Dinner: Team Naphtali" },
+			{ "time": "7:15pm", "title": "S7S: Secret 6" }
+		]
+	},
+	{
+		"date": "13th October 2025",
+		"sessions": [
+			{ "time": "12:30", "title": "Lesson 32 Review" },
+			{ "time": "4pm", "title": "Patach Testing" },
+			{ "time": "5pm", "title": "Classroom #5" },
+			{ "time": "6pm", "title": "Lesson 35" },
+			{ "time": "6:45pm", "title": "Dinner: Team Reuben" },
+			{ "time": "7:15pm", "title": "S7S: Secret 7" }
+		]
+	},
+	{
+		"date": "20th October 2025",
+		"sessions": [
+			{ "time": "12:30", "title": "Lesson 33 Review" },
 			{ "time": "4pm", "title": "Lesson 11" },
-			{ "time": "5pm", "title": "Patach Part 3" },
-			{ "time": "6pm", "title": "Lesson 29" },
-			{ "time": "7pm", "title": "ToZ Chapter 10.3" }
+			{ "time": "5pm", "title": "Classroom #5" },
+			{ "time": "6pm", "title": "Lesson 35" },
+			{ "time": "6:45pm", "title": "Dinner: Team Goyim" },
+			{ "time": "7:15pm", "title": "LoF" }
+		]
+	},
+	{
+		"date": "27th October 2025",
+		"sessions": [
+			{ "time": "12:30", "title": "Lesson 34 Review" },
+			{ "time": "4pm", "title": "Lesson 11" },
+			{ "time": "5pm", "title": "Classroom #6" },
+			{ "time": "6pm", "title": "Lesson 35" },
+			{ "time": "6:45pm", "title": "Dinner: Team Asher" },
+			{ "time": "7:15pm", "title": "LoF" }
+		]
+	},
+	{
+		"date": "3rd November 2025",
+		"sessions": [
+			{ "time": "12:30", "title": "Lesson 35 Review" },
+			{ "time": "4pm", "title": "Lesson 11" },
+			{ "time": "5pm", "title": "Classroom #6" },
+			{ "time": "6pm", "title": "Lesson 35" },
+			{ "time": "6:45pm", "title": "Dinner: Team Zebulun" },
+			{ "time": "7:15pm", "title": "LoF" }
+		]
+	},
+	{
+		"date": "10th November 2025",
+		"sessions": [
+			{ "time": "12:30", "title": "Lesson 36 Review" },
+			{ "time": "4pm", "title": "Lesson 11" },
+			{ "time": "5pm", "title": "Classroom #7" },
+			{ "time": "6pm", "title": "Lesson 35" },
+			{ "time": "6:45pm", "title": "Dinner: Team Naphtali" },
+			{ "time": "7:15pm", "title": "LoF" }
+		]
+	},
+	{
+		"date": "17th November 2025",
+		"sessions": [
+			{ "time": "12:30", "title": "Lesson 36 Review" },
+			{ "time": "4pm", "title": "Lesson 11" },
+			{ "time": "5pm", "title": "Classroom #7" },
+			{ "time": "6pm", "title": "Lesson 35" },
+			{ "time": "6:45pm", "title": "Dinner: Team Reuben" },
+			{ "time": "7:15pm", "title": "LoF" }
+		]
+	},
+	{
+		"date": "24th November 2025",
+		"sessions": [
+			{ "time": "12:30", "title": "SKIP" },
+			{ "time": "4pm", "title": "SKIP" },
+			{ "time": "5pm", "title": "SKIP" },
+			{ "time": "6pm", "title": "SKIP" },
+			{ "time": "6:45pm", "title": "SKIP" },
+			{ "time": "7:15pm", "title": "SKIP" }
+		]
+	},
+	{
+		"date": "1st December 2025",
+		"sessions": [
+			{ "time": "12:30", "title": "Lesson 36 Review" },
+			{ "time": "4pm", "title": "Lesson 11" },
+			{ "time": "5pm", "title": "Classroom #8" },
+			{ "time": "6pm", "title": "Lesson 35" },
+			{ "time": "6:45pm", "title": "Dinner: Team Goyim" },
+			{ "time": "7:15pm", "title": "LoF" }
+		]
+	},
+	{
+		"date": "8th December 2025",
+		"sessions": [
+			{ "time": "12:30", "title": "Lesson 36 Review" },
+			{ "time": "4pm", "title": "Lesson 11" },
+			{ "time": "5pm", "title": "Classroom #8" },
+			{ "time": "6pm", "title": "Lesson 35" },
+			{ "time": "6:45pm", "title": "Dinner: Team Asher" },
+			{ "time": "7:15pm", "title": "LoF" }
+		]
+	},
+	{
+		"date": "15th December 2025",
+		"sessions": [
+			{ "time": "12:30", "title": "Lesson 36 Review" },
+			{ "time": "4pm", "title": "Lesson 11" },
+			{ "time": "5pm", "title": "Classroom #9" },
+			{ "time": "6pm", "title": "Lesson 35" },
+			{ "time": "6:45pm", "title": "Dinner: Team Zebulun" },
+			{ "time": "7:15pm", "title": "LoF" }
+		]
+	},
+	{
+		"date": "22nd December 2025",
+		"sessions": [
+			{ "time": "12:30", "title": "SKIP" },
+			{ "time": "4pm", "title": "SKIP" },
+			{ "time": "5pm", "title": "SKIP" },
+			{ "time": "6pm", "title": "SKIP" },
+			{ "time": "6:45pm", "title": "SKIP" },
+			{ "time": "7:15pm", "title": "SKIP" }
+		]
+	},
+	{
+		"date": "29th December 2025",
+		"sessions": [
+			{ "time": "12:30", "title": "SKIP" },
+			{ "time": "4pm", "title": "SKIP" },
+			{ "time": "5pm", "title": "SKIP" },
+			{ "time": "6pm", "title": "SKIP" },
+			{ "time": "6:45pm", "title": "SKIP" },
+			{ "time": "7:15pm", "title": "SKIP" }
 		]
 	}
 ]
