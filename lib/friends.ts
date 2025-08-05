@@ -11,6 +11,7 @@ export const hebrewFriendIds = [
 	'user_2zY9uZIuR37LCLw2ziHVpqoo6gd', //flora
 	'user_2zFMLmH8IGm8VLv5VVA4jsI5eTb', //frobonni
 	'user_2rk2UFic8kTZU5jkWe4jl588Kmb', //tebernie1
+	'user_30qRTnmdqbfrZm7pORvbFpEfa9z', //heatherwoodland
 	// 'user_2zhVPti1l3FhMvMXS4pSm5tw4PP', //cbriggshdm user
 	// 'user_30Z80rGSIdclRyv5YwucFIWVM6d', //alephwithbeth
 ]
