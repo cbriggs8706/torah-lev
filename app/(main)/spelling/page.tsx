@@ -73,6 +73,7 @@ const HebrewSpellingPage = async () => {
 					<SpellingPractice
 						data={awbHebrewVocab}
 						currentLesson={currentLesson ?? ''}
+						userId={userProgress.userId}
 					/>
 				</div>
 			</FeedWrapper>

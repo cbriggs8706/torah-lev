@@ -17,6 +17,7 @@ import ProgressBar from '../progress-bar'
 interface HebrewSpellingProps {
 	data: HebrewVocab[]
 	currentLesson: string
+	userId: string
 }
 
 const formatOptions: FormatType[] = [
@@ -29,6 +30,7 @@ const formatOptions: FormatType[] = [
 export default function HebrewSpelling({
 	data,
 	currentLesson,
+	userId,
 }: HebrewSpellingProps) {
 	const {
 		selectedLessons,
@@ -51,6 +53,8 @@ export default function HebrewSpelling({
 	const [audioVolume, setAudioVolume] = useState(1) // default: 100%
 	const [audioSpeed, setAudioSpeed] = useState(1) // default: normal speed
 	const { Confetti, celebrate } = useCelebration()
+	const [cardsCompleted, setCardsCompleted] = useState(0)
+	const [lastAwardedCheckpoint, setLastAwardedCheckpoint] = useState(0)
 
 	function playConfiguredAudio(
 		src: string,
@@ -184,6 +188,8 @@ export default function HebrewSpelling({
 		setShowFeedback(isCorrect)
 
 		if (isCorrect) {
+			setCardsCompleted((prev) => prev + 1)
+
 			if (
 				isCorrect &&
 				formatType === 'letter-by-letter' &&
@@ -330,6 +336,33 @@ export default function HebrewSpelling({
 			playConfiguredAudio(src, volume, speed, onEnd)
 		}
 	}
+
+	const awardPoints = useCallback(
+		async (points: number) => {
+			try {
+				await fetch('/api/award-points', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ userId, points }),
+				})
+			} catch (error) {
+				console.error('Failed to award points', error)
+			}
+		},
+		[userId]
+	)
+
+	useEffect(() => {
+		if (
+			cardsCompleted > 0 &&
+			cardsCompleted % 10 === 0 &&
+			cardsCompleted !== lastAwardedCheckpoint
+		) {
+			const pointsToAward = cardsCompleted / 10
+			awardPoints(pointsToAward)
+			setLastAwardedCheckpoint(cardsCompleted)
+		}
+	}, [cardsCompleted, lastAwardedCheckpoint, awardPoints])
 
 	return (
 		<div className="p-4 max-w-3xl mx-auto text-center">

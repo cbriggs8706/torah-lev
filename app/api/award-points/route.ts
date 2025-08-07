@@ -7,7 +7,9 @@ export async function POST(req: Request) {
 
 	await db
 		.update(userProgress)
-		.set({ points: sql`${userProgress.points} + ${points}` })
+		.set({
+			points: sql.raw(`"points" + ${points}`),
+		})
 		.where(eq(userProgress.userId, userId))
 
 	return new Response(JSON.stringify({ success: true }), { status: 200 })
