@@ -1,4 +1,5 @@
-import { relations } from 'drizzle-orm'
+import { isHebrewFriend } from '@/lib/friends'
+import { is, relations } from 'drizzle-orm'
 import {
 	boolean,
 	integer,
@@ -154,6 +155,10 @@ export const userProgress = pgTable('user_progress', {
 	tribeId: integer('tribe_id').references(() => tribes.id, {
 		onDelete: 'set null',
 	}),
+	isHebrewFriend: boolean('is_hebrew_friend').notNull().default(false),
+	isSpanishFriend: boolean('is_spanish_friend').notNull().default(false),
+	isEnglishFriend: boolean('is_english_friend').notNull().default(false),
+	isTester: boolean('is_tester').notNull().default(false),
 	activeLessonId: integer('active_lesson_id').references(() => lessons.id, {
 		onDelete: 'cascade',
 	}),

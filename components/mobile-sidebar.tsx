@@ -19,9 +19,20 @@ type Props = {
 		activeCourseId: number | null
 	}
 	isPro: boolean
+	isHebrewFriend?: boolean
+	isSpanishFriend?: boolean
+	isEnglishFriend?: boolean
+	isTester?: boolean
 }
 
-export const MobileSidebar = ({ userProgress, isPro }: Props) => {
+export const MobileSidebar = ({
+	userProgress,
+	isPro,
+	isHebrewFriend,
+	isSpanishFriend,
+	isEnglishFriend,
+	isTester,
+}: Props) => {
 	const [open, setOpen] = useState(false)
 	// const pathname = headers().get('x-pathname') || ''
 
@@ -42,6 +53,10 @@ export const MobileSidebar = ({ userProgress, isPro }: Props) => {
 					userProgress={userProgress}
 					isPro={isPro}
 					onItemClick={() => setOpen(false)}
+					isHebrewFriend={isHebrewFriend}
+					isSpanishFriend={isSpanishFriend}
+					isEnglishFriend={isEnglishFriend}
+					isTester={isTester}
 				/>
 			</SheetContent>
 		</Sheet>

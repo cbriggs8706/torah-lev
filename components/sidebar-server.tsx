@@ -29,6 +29,11 @@ export default async function SidebarServer({
 		console.error('❌ SidebarServer is being run on the client!')
 	}
 
+	const isHebrewFriend = userProgress?.isHebrewFriend ?? false
+	const isSpanishFriend = userProgress?.isSpanishFriend ?? false
+	const isEnglishFriend = userProgress?.isEnglishFriend ?? false
+	const isTester = userProgress?.isTester ?? false
+
 	return (
 		<SidebarClient
 			className={className}
@@ -45,6 +50,10 @@ export default async function SidebarServer({
 				}
 			}
 			isPro={!!userSubscription?.isActive}
+			isHebrewFriend={isHebrewFriend}
+			isSpanishFriend={isSpanishFriend}
+			isEnglishFriend={isEnglishFriend}
+			isTester={isTester}
 		/>
 	)
 }

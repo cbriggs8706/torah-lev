@@ -23,6 +23,10 @@ type Props = {
 		activeCourseId: number | null
 	}
 	isPro: boolean
+	isHebrewFriend?: boolean
+	isSpanishFriend?: boolean
+	isEnglishFriend?: boolean
+	isTester?: boolean
 }
 
 export default function SidebarClient({
@@ -30,6 +34,10 @@ export default function SidebarClient({
 	onItemClick,
 	userProgress,
 	isPro,
+	isHebrewFriend,
+	isSpanishFriend,
+	isEnglishFriend,
+	isTester,
 }: Props) {
 	const isFriend =
 		userProgress.userId && hebrewFriendIds.includes(userProgress.userId)
@@ -216,7 +224,7 @@ export default function SidebarClient({
 							iconSrc="/menorah-svgrepo-com.svg"
 							// onClick={onItemClick}
 						/>
-						{isFriend && (
+						{userProgress?.activeCourse.id === 6 && isHebrewFriend && (
 							<>
 								<span className="text-lg text-red-700 font-semibold text-center">
 									-- Locals --

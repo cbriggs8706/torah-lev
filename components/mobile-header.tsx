@@ -12,11 +12,20 @@ export default async function MobileHeader() {
 		redirect('/courses')
 	}
 
+	const isHebrewFriend = userProgress?.isHebrewFriend ?? false
+	const isSpanishFriend = userProgress?.isSpanishFriend ?? false
+	const isEnglishFriend = userProgress?.isEnglishFriend ?? false
+	const isTester = userProgress?.isTester ?? false
+
 	return (
 		<nav className="lg:hidden px-6 h-[50px] flex items-center bg-sky-500 border-b fixed top-0 w-full z-50">
 			<MobileSidebar
 				userProgress={userProgress}
 				isPro={!!userSubscription?.isActive}
+				isHebrewFriend={isHebrewFriend}
+				isSpanishFriend={isSpanishFriend}
+				isEnglishFriend={isEnglishFriend}
+				isTester={isTester}
 			/>
 		</nav>
 	)
