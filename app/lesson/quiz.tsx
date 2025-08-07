@@ -48,9 +48,6 @@ export const Quiz = ({
 	const { open: openHeartsModal } = useHeartsModal()
 	const { open: openPracticeModal } = usePracticeModal()
 
-	console.log('currentLessonId:', initialLessonId)
-	console.log('nextLessonId:', nextLessonId)
-
 	// console.log(
 	// 	'Rendering Quiz with',
 	// 	initialLessonChallenges.length,
@@ -239,9 +236,8 @@ export const Quiz = ({
 
 	// TODO Change this to nextLessonId if you want
 	if (!challenge) {
-		if (nextLessonId) {
-			updateActiveLesson(nextLessonId)
-		}
+		updateActiveLesson()
+
 		return (
 			<>
 				{finishAudio}
