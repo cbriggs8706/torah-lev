@@ -7,6 +7,10 @@ import {
 	useDraggable,
 	useDroppable,
 	DragEndEvent,
+	useSensor,
+	useSensors,
+	MouseSensor,
+	TouchSensor,
 } from '@dnd-kit/core'
 import Image from 'next/image'
 import { HebrewVocab } from '@/lib/vocab'
@@ -190,6 +194,19 @@ export default function WordMatchGame({
 		[userId]
 	)
 
+	const isTouchDevice =
+		typeof window !== 'undefined' &&
+		('ontouchstart' in window || navigator.maxTouchPoints > 0)
+
+	const sensors = useSensors(
+		useSensor(MouseSensor, {
+			activationConstraint: { distance: 5 }, // desktop: start drag after a tiny move
+		}),
+		useSensor(TouchSensor, {
+			activationConstraint: { delay: 180, tolerance: 8 }, // mobile: press & hold
+		})
+	)
+
 	useEffect(() => {
 		const isComplete =
 			shuffledTargets.length > 0 &&
@@ -350,7 +367,7 @@ export default function WordMatchGame({
 				</>
 			)}
 
-			<DndContext onDragEnd={handleDragEnd}>
+			<DndContext sensors={sensors} onDragEnd={handleDragEnd}>
 				{filteredCards.length === 0 ? (
 					<div className="text-center text-gray-500 italic mt-8">
 						No cards available with this selection.
@@ -414,11 +431,12 @@ function DraggableWord({ id, label }: { id: string; label: string }) {
 
 	return (
 		<button
+			type="button"
 			ref={setNodeRef}
 			style={style}
 			{...listeners}
 			{...attributes}
-			className="px-4 py-2 bg-green-200 rounded shadow text-4xl font-serif cursor-grab"
+			className="px-4 py-2 bg-green-200 rounded shadow text-4xl font-serif cursor-grab touch-none select-none"
 		>
 			{label}
 		</button>
@@ -436,7 +454,7 @@ function DropTarget({
 	return (
 		<div
 			ref={setNodeRef}
-			className={`min-h-24 border-2 rounded p-3 flex items-center justify-center transition ${
+			className={`min-h-24 border-2 rounded p-3 flex items-center justify-center transition touch-none select-none ${
 				isOver ? 'border-green-500 bg-green-50' : 'border-gray-300'
 			}`}
 		>
@@ -462,7 +480,8 @@ function MatchContent({
 				alt="HebrewVocab"
 				width={100}
 				height={100}
-				className="object-contain"
+				className="object-contain pointer-events-none select-none"
+				draggable={false}
 			/>
 		)
 	}
