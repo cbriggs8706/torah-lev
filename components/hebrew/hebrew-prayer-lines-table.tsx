@@ -2,6 +2,8 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { HebrewPrayerLine } from '@/db/types'
+import { Button } from '../ui/button'
+import { useRouter } from 'next/navigation'
 
 const hebrewFonts = [
 	{ label: 'Arial', value: 'font-arial' },
@@ -17,15 +19,111 @@ const hebrewFonts = [
 
 interface PrayerLinesTableProps {
 	lines: HebrewPrayerLine[]
+	prayerId: number
 }
 
-export default function PrayerLinesTable({ lines }: PrayerLinesTableProps) {
+type DisplayableLine = HebrewPrayerLine & {
+	displayLineNumbers: number[]
+	_group: 0 | 1 | 2
+}
+
+export default function PrayerLinesTable({
+	lines,
+	prayerId,
+}: PrayerLinesTableProps) {
 	const [showTransliteration, setShowTransliteration] = useState(true)
 	const [showEnglish, setShowEnglish] = useState(true)
 	const [showNiqqud, setShowNiqqud] = useState(true)
 	const [fontClass, setFontClass] = useState('font-serif')
 	const [fontSize, setFontSize] = useState(36)
 	const audioRef = useRef<HTMLAudioElement | null>(null)
+	const router = useRouter()
+	const DB_OFFSET = 2
+
+	// Compute the smallest raw line number across all DB lines
+	const allRaw = (lines ?? []).flatMap((l) => l.lineNumbers ?? [])
+	const minRaw = allRaw.length ? Math.min(...allRaw) : Infinity
+
+	// We want the first DB line to display as 3 (after fixed 1 & 2)
+	const desiredFirstDb = 3
+	const offset = Number.isFinite(minRaw) ? desiredFirstDb - minRaw : 0
+
+	// Map DB lines using the dynamic offset
+	const dbLines: DisplayableLine[] = (lines ?? []).map((l) => ({
+		...l,
+		displayLineNumbers: (l.lineNumbers ?? []).map((n) => n + offset),
+		_group: 1,
+	}))
+
+	// Then compute maxDbDisplay from the *display* numbers as you already do
+	const maxDbDisplay = dbLines.length
+		? Math.max(
+				...dbLines.flatMap((l) =>
+					l.displayLineNumbers.length ? l.displayLineNumbers : [2]
+				)
+		  )
+		: 2
+
+	const fixedStart: DisplayableLine[] = [
+		{
+			id: -1,
+			hebrewPrayerLibraryId: prayerId,
+			lineNumbers: [], // keep raw empty
+			displayLineNumbers: [1],
+			hebNiqqud: 'בָּרוּךְ אַתָּה יְהוָה אֱלֹהֵינוּ',
+			hebText: 'ברוך אתה יהוה אלהינו',
+			engTransliteration: 'Baruch atah Yahweh Eloheinu',
+			engText: 'Blessed are You, Yahweh our God',
+			audioSrc: '/prayers/baruch atah.mp3',
+			_group: 0,
+		},
+		{
+			id: -2,
+			hebrewPrayerLibraryId: prayerId,
+			lineNumbers: [],
+			displayLineNumbers: [2],
+			hebNiqqud: 'מֶלֶךְ הָעוֹלָם',
+			hebText: 'מלך העולם',
+			engTransliteration: 'Melech ha’olam',
+			engText: 'King of the universe',
+			audioSrc: '/prayers/melech haolam.mp3',
+			_group: 0,
+		},
+	]
+
+	const fixedEnd: DisplayableLine[] = [
+		{
+			id: -3,
+			hebrewPrayerLibraryId: prayerId,
+			lineNumbers: [],
+			displayLineNumbers: [maxDbDisplay + 1],
+			hebNiqqud: 'בְּשֵׁם יֵשׁוּעַ הַמָּשִׁיחַ',
+			hebText: 'בשם ישוע המשיח',
+			engTransliteration: 'B’shem Yeshua ha’Mashiach',
+			engText: 'In the name of Yeshua the Messiah',
+			audioSrc: '/prayers/bshem.mp3',
+			_group: 2,
+		},
+		{
+			id: -4,
+			hebrewPrayerLibraryId: prayerId,
+			lineNumbers: [],
+			displayLineNumbers: [maxDbDisplay + 2],
+			hebNiqqud: 'אָמֵן',
+			hebText: 'אמן',
+			engTransliteration: 'Amen',
+			engText: 'Amen',
+			audioSrc: '/prayers/amen.mp3',
+			_group: 2,
+		},
+	]
+
+	// Final array: fixed-start → DB → fixed-end (DB already server-sorted)
+	const displayLines: DisplayableLine[] = [
+		...fixedStart,
+		...dbLines,
+		...fixedEnd,
+	]
 
 	// ✅ Load preferences on mount
 	useEffect(() => {
@@ -116,9 +214,11 @@ export default function PrayerLinesTable({ lines }: PrayerLinesTableProps) {
 				>
 					A-
 				</button>
+				<Button variant={'default'} onClick={() => router.push('/prayer')}>
+					All Prayers
+				</Button>
 			</div>
 
-			{/* Desktop Table */}
 			{/* Desktop Table */}
 			<div className="hidden md:block overflow-x-auto">
 				<div className="border border-gray-300 rounded-t-md overflow-hidden">
@@ -134,7 +234,7 @@ export default function PrayerLinesTable({ lines }: PrayerLinesTableProps) {
 							</tr>
 						</thead>
 						<tbody>
-							{lines.map((line) => (
+							{displayLines.map((line) => (
 								<tr
 									key={line.id}
 									className="hover:bg-gray-50 border-t border-gray-300"
@@ -157,7 +257,9 @@ export default function PrayerLinesTable({ lines }: PrayerLinesTableProps) {
 												: 'text-gray-400 cursor-default'
 										}`}
 									>
-										{line.lineNumber}
+										{line.displayLineNumbers?.length
+											? line.displayLineNumbers.join(', ')
+											: ''}
 									</td>
 
 									{showTransliteration && (
@@ -173,7 +275,7 @@ export default function PrayerLinesTable({ lines }: PrayerLinesTableProps) {
 
 			{/* ✅ Mobile Card Layout */}
 			<div className="space-y-4 md:hidden">
-				{lines.map((line) => (
+				{displayLines.map((line) => (
 					<div
 						key={line.id}
 						className="border rounded-lg shadow-sm bg-white flex"
@@ -207,7 +309,9 @@ export default function PrayerLinesTable({ lines }: PrayerLinesTableProps) {
 									: 'bg-gray-300 text-gray-600 cursor-default'
 							}`}
 						>
-							{line.lineNumber}
+							{line.displayLineNumbers?.length
+								? line.displayLineNumbers.join(', ')
+								: ''}
 						</div>
 					</div>
 				))}

@@ -3,6 +3,7 @@ import { FeedWrapper } from '@/components/feed-wrapper'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 import Link from 'next/link'
 import { getAllPrayersWithLines } from '@/db/queries'
+import PrayerList from '@/components/hebrew/hebrew-prayer-list'
 
 const HebrewPrayerPage = async () => {
 	const prayers = await getAllPrayersWithLines()
@@ -26,30 +27,7 @@ const HebrewPrayerPage = async () => {
 					</DismissibleAlert> */}
 				</div>
 				<div className="space-y-4">
-					{prayers.map((prayer) => (
-						<div
-							key={prayer.id}
-							className="rounded-lg border p-4 shadow hover:shadow-md transition"
-						>
-							<h2 className="text-xl font-semibold">{prayer.title}</h2>
-							{prayer.hebTitle && (
-								<p className="text-lg font-hebrew">{prayer.hebTitle}</p>
-							)}
-							{prayer.titleTransliteration && (
-								<p className="italic text-gray-600">
-									{prayer.titleTransliteration}
-								</p>
-							)}
-
-							{/* Link to detail page */}
-							<Link
-								href={`/prayer/${prayer.id}`}
-								className="inline-block mt-3 px-3 py-1 bg-sky-500 text-white rounded hover:bg-sky-700 transition"
-							>
-								View Prayer
-							</Link>
-						</div>
-					))}
+					<PrayerList prayers={prayers} />
 				</div>
 			</FeedWrapper>
 		</div>

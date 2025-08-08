@@ -44,7 +44,7 @@ export default async function PrayerDetailPage({
 					</p>
 				)}
 
-				<PrayerLinesTable lines={prayer.lines} />
+				<PrayerLinesTable lines={prayer.lines} prayerId={prayer.id} />
 			</FeedWrapper>
 		</div>
 	)

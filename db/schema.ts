@@ -8,6 +8,7 @@ import {
 	serial,
 	text,
 	timestamp,
+	varchar,
 } from 'drizzle-orm/pg-core'
 
 export const courses = pgTable('courses', {
@@ -59,6 +60,15 @@ export const lessonsRelations = relations(lessons, ({ one, many }) => ({
 }))
 
 export const lessonScripts = pgTable('lesson_scripts', {
+	id: serial('id').primaryKey(),
+	lessonId: text('lesson_id').notNull(),
+	// .references(() => lessons.lessonKey),
+	content: text('content'),
+	contentPlain: text('content_plain'),
+	audioSrc: text('audio_src'),
+})
+
+export const grammarLessons = pgTable('grammar_lessons', {
 	id: serial('id').primaryKey(),
 	lessonId: text('lesson_id').notNull(),
 	// .references(() => lessons.lessonKey),
@@ -209,6 +219,7 @@ export const hebrewPrayerLibrary = pgTable('hebrew_prayer_library', {
 	video: text('video'),
 	image: text('image'),
 	audio: text('audio'),
+	category: text('category').notNull().default(''),
 })
 
 export const hebrewPrayerLine = pgTable('hebrew_prayer_line', {
@@ -216,7 +227,7 @@ export const hebrewPrayerLine = pgTable('hebrew_prayer_line', {
 	hebrewPrayerLibraryId: integer('hebrew_prayer_library_id')
 		.references(() => hebrewPrayerLibrary.id, { onDelete: 'cascade' })
 		.notNull(),
-	lineNumber: integer('line_number').notNull(),
+	lineNumbers: integer('line_numbers').array().notNull(),
 	engText: text('eng_text').notNull(),
 	hebNiqqud: text('heb_niqqud').notNull(),
 	hebText: text('heb_text').notNull(),
@@ -241,6 +252,49 @@ export const hebrewPrayerLibraryRelations = relations(
 	})
 )
 
+export const hebrewMusicLibrary = pgTable('hebrew_music_library', {
+	id: serial('id').primaryKey(),
+	title: text('title').notNull(),
+	hebTitle: text('heb_title'),
+	titleTransliteration: text('title_transliteration'),
+	order: integer('order').notNull(),
+	video: text('video'),
+	image: text('image'),
+	audio: text('audio'),
+	public: boolean('public').notNull().default(false),
+})
+
+export const hebrewMusicLine = pgTable('hebrew_music_line', {
+	id: serial('id').primaryKey(),
+	hebrewMusicLibraryId: integer('hebrew_music_library_id')
+		.references(() => hebrewMusicLibrary.id, { onDelete: 'cascade' })
+		.notNull(),
+	lineNumbers: integer('line_numbers').array().notNull(),
+	sectionLabel: varchar('section_label').notNull(),
+	engText: text('eng_text').notNull(),
+	hebNiqqud: text('heb_niqqud').notNull(),
+	hebText: text('heb_text').notNull(),
+	engTransliteration: text('eng_transliteration').notNull(),
+	audioSrc: text('audio_src'),
+})
+
+export const hebrewMusicLineRelations = relations(
+	hebrewMusicLine,
+	({ one }) => ({
+		hebrewMusic: one(hebrewMusicLibrary, {
+			fields: [hebrewMusicLine.hebrewMusicLibraryId],
+			references: [hebrewMusicLibrary.id],
+		}),
+	})
+)
+
+export const hebrewMusicLibraryRelations = relations(
+	hebrewMusicLibrary,
+	({ many }) => ({
+		lines: many(hebrewMusicLine),
+	})
+)
+
 export const tribes = pgTable('tribes', {
 	id: serial('id').primaryKey(),
 	engName: text('eng_name').notNull(),
@@ -254,3 +308,16 @@ export const tribes = pgTable('tribes', {
 export const tribesRelations = relations(tribes, ({ many }) => ({
 	members: many(userProgress),
 }))
+
+export const events = pgTable('events', {
+	id: serial('id').primaryKey(),
+	name: text('name').notNull(),
+	hebName: text('heb_name'),
+	category: text('category').notNull(),
+	startTime: timestamp('start_time').defaultNow().notNull(),
+	endTime: timestamp('end_time'),
+	zoomUrl: text('zoom_url'),
+	recordingUrl: text('recording_url'),
+	address: text('address'),
+	notes: text('notes'),
+})

@@ -327,7 +327,7 @@ export async function getPrayerWithLines(prayerId: number) {
 		where: eq(hebrewPrayerLibrary.id, prayerId),
 		with: {
 			lines: {
-				orderBy: asc(hebrewPrayerLine.lineNumber),
+				orderBy: asc(sql`${hebrewPrayerLine.lineNumbers}[1]`),
 			},
 		},
 	})
@@ -338,7 +338,7 @@ export async function getAllPrayersWithLines() {
 		orderBy: asc(hebrewPrayerLibrary.order), // ✅ use correct column
 		with: {
 			lines: {
-				orderBy: asc(hebrewPrayerLine.lineNumber),
+				orderBy: asc(sql`${hebrewPrayerLine.lineNumbers}[1]`),
 			},
 		},
 	})
@@ -353,7 +353,7 @@ export async function getAllPrayers() {
 export async function getPrayerLines(prayerId: number) {
 	return db.query.hebrewPrayerLine.findMany({
 		where: eq(hebrewPrayerLine.hebrewPrayerLibraryId, prayerId),
-		orderBy: asc(hebrewPrayerLine.lineNumber),
+		orderBy: asc(sql`${hebrewPrayerLine.lineNumbers}[1]`),
 	})
 }
 
