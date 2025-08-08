@@ -20,6 +20,7 @@ type Props = {
 	current?: boolean
 	percentage: number
 	targetDate?: Date | null
+	reviewDate?: Date | null
 	lessonNumber: string
 }
 
@@ -33,6 +34,7 @@ export const LessonButton = ({
 	current,
 	percentage,
 	targetDate,
+	reviewDate,
 	lessonNumber,
 }: Props) => {
 	const cycleLength = 8
@@ -60,6 +62,11 @@ export const LessonButton = ({
 	const Icon = isCompleted ? Check : isLast ? Crown : Star
 
 	const href = isCompleted ? `/lesson/${id}` : '/lesson'
+
+	const rawDate = reviewDate ?? targetDate ?? null
+	const dateObj = rawDate ?? null
+	const dateLabel =
+		dateObj && !isNaN(+dateObj) ? format(dateObj, 'MMM d') : null
 
 	return (
 		<Link
@@ -133,10 +140,13 @@ export const LessonButton = ({
 						</span>
 					</Button>
 				)}
-				{/* ✅ Display target date */}
-				{targetDate && (
-					<span className="text-lg text-muted-foreground mt-1 ml-2">
-						{format(targetDate, 'MMM d')}
+				{/* ✅ Show either target or review date */}
+				{dateLabel && (
+					<span
+						className="block text-lg text-muted-foreground mt-1 ml-2"
+						title={format(dateObj!, 'PPP')}
+					>
+						{dateLabel}
 					</span>
 				)}
 			</div>
