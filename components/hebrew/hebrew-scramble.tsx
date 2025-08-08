@@ -2,7 +2,7 @@
 
 import { HebrewVocab } from '@/lib/vocab'
 import Image from 'next/image'
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useCelebration } from '@/hooks/useCelebration'
 import { parseLessonKey, useLessonCards } from '@/hooks/useLessonCards'
 import LessonFilter from '../filters/filter-lesson'
@@ -11,11 +11,13 @@ import ProgressBar from '../progress-bar'
 interface HebrewScrambleProps {
 	data: HebrewVocab[]
 	currentLesson: string
+	userId: string
 }
 
 export default function HebrewScramble({
 	data,
 	currentLesson,
+	userId,
 }: HebrewScrambleProps) {
 	const { selectedLessons, setSelectedLessons, currentIndex, setCurrentIndex } =
 		useLessonCards(data, currentLesson)
@@ -24,6 +26,9 @@ export default function HebrewScramble({
 	const [showFilter, setShowFilter] = useState(false)
 	const { Confetti, celebrate } = useCelebration()
 	const [filteredCards, setFilteredCards] = useState<HebrewVocab[]>([])
+	const [cardsCompleted, setCardsCompleted] = useState(0)
+
+	const MAX_CARDS = 25
 
 	const cardsForPrefix = useMemo(() => {
 		return data.filter(
@@ -34,16 +39,33 @@ export default function HebrewScramble({
 	}, [data, selectedLessons])
 
 	useEffect(() => {
-		const newFiltered = cardsForPrefix.filter((card) => {
+		// phrases w/2+ words
+		const pool = cardsForPrefix.filter((card) => {
 			const wordCount = card.heb.trim().split(/\s+/).length
-			return wordCount >= 2
+			return card.type === 'phrase' && wordCount >= 2
 		})
 
-		setFilteredCards([...newFiltered].sort(() => Math.random() - 0.5))
+		// randomize order and take up to 25
+		const shuffled = [...pool].sort(() => Math.random() - 0.5)
+		const limited = shuffled.slice(0, Math.min(MAX_CARDS, shuffled.length))
+
+		setFilteredCards(limited)
 		setCurrentIndex(0)
 		setSelectedWords([])
 		setShowFeedback(null)
 	}, [cardsForPrefix, selectedLessons, setCurrentIndex])
+
+	// useEffect(() => {
+	// 	const newFiltered = cardsForPrefix.filter((card) => {
+	// 		const wordCount = card.heb.trim().split(/\s+/).length
+	// 		return wordCount >= 2
+	// 	})
+
+	// 	setFilteredCards([...newFiltered].sort(() => Math.random() - 0.5))
+	// 	setCurrentIndex(0)
+	// 	setSelectedWords([])
+	// 	setShowFeedback(null)
+	// }, [cardsForPrefix, selectedLessons, setCurrentIndex])
 
 	const currentCard = filteredCards[currentIndex]
 
@@ -75,6 +97,8 @@ export default function HebrewScramble({
 		setShowFeedback(isCorrect)
 
 		if (isCorrect) {
+			setCardsCompleted((prev) => prev + 1)
+
 			const isLastCard = currentIndex === filteredCards.length - 1
 
 			if (isLastCard) {
@@ -95,6 +119,28 @@ export default function HebrewScramble({
 	function normalize(text: string) {
 		return text.normalize('NFKC').replace(/[\u0591-\u05BD\u05BF-\u05C7]/g, '') // strip niqqud
 	}
+
+	const awardPoints = useCallback(
+		async (points: number) => {
+			try {
+				await fetch('/api/award-points', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ userId, points }),
+				})
+			} catch (error) {
+				console.error('Failed to award points', error)
+			}
+		},
+		[userId]
+	)
+
+	useEffect(() => {
+		if (cardsCompleted > 0 && cardsCompleted % 25 === 0) {
+			const pointsToAward = cardsCompleted / 25
+			awardPoints(pointsToAward)
+		}
+	}, [cardsCompleted, awardPoints])
 
 	return (
 		<div className="p-4 max-w-3xl mx-auto text-center">
@@ -169,11 +215,29 @@ export default function HebrewScramble({
 					←
 				</button>
 				<button
+					onClick={() => {
+						setFilteredCards((prev) => {
+							const reshuffled = [...cardsForPrefix]
+								.filter((c) => c.heb.trim().split(/\s+/).length >= 2)
+								.sort(() => Math.random() - 0.5)
+								.slice(0, Math.min(MAX_CARDS, cardsForPrefix.length))
+							setCurrentIndex(0)
+							setSelectedWords([])
+							setShowFeedback(null)
+							return reshuffled
+						})
+					}}
+					className="px-3 py-2 bg-gray-200 rounded"
+				>
+					Reshuffle 25
+				</button>
+				<button
 					onClick={handleSubmit}
 					className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
 				>
 					Submit
 				</button>
+
 				<button
 					onClick={() => setCurrentIndex((i) => (i + 1) % filteredCards.length)}
 					className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"

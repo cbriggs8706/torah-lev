@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { useCallback } from 'react'
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 import {
@@ -21,6 +21,7 @@ import LessonFilter from '../filters/filter-lesson'
 interface WordMatchGameProps {
 	data: HebrewVocab[]
 	currentLesson?: number
+	userId: string
 }
 
 type UniqueIdentifier = string | number
@@ -38,6 +39,7 @@ function parseLessonKey(key: string) {
 export default function WordMatchGame({
 	data,
 	currentLesson,
+	userId,
 }: WordMatchGameProps) {
 	const [showFilter, setShowFilter] = useState(false)
 	const [matchField, setMatchField] = useState<keyof HebrewVocab>('images')
@@ -173,6 +175,21 @@ export default function WordMatchGame({
 		}
 	}
 
+	const awardPoints = useCallback(
+		async (points: number) => {
+			try {
+				await fetch('/api/award-points', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ userId, points }),
+				})
+			} catch (error) {
+				console.error('Failed to award points', error)
+			}
+		},
+		[userId]
+	)
+
 	useEffect(() => {
 		const isComplete =
 			shuffledTargets.length > 0 &&
@@ -184,7 +201,7 @@ export default function WordMatchGame({
 		if (isComplete && !hasFinished) {
 			setShowConfetti(true)
 			setHasFinished(true)
-
+			awardPoints(1)
 			const maybePromise = controls.play()
 			if (maybePromise instanceof Promise) maybePromise.catch(() => {})
 
@@ -213,7 +230,14 @@ export default function WordMatchGame({
 				setHasFinished(false)
 			}, 8000)
 		}
-	}, [matches, shuffledTargets, hasFinished, controls, filteredCards])
+	}, [
+		matches,
+		shuffledTargets,
+		hasFinished,
+		controls,
+		filteredCards,
+		awardPoints,
+	])
 
 	function toggleLesson(lesson: string) {
 		setSelectedLessons((prev) =>
@@ -249,7 +273,7 @@ export default function WordMatchGame({
 			{/* 👇 Make sure the audio element is rendered */}
 			{/* {React.cloneElement(finishAudio, { ref: audioRef })} */}
 
-			<div className="mb-4 flex justify-center">
+			<div className="mb-4 flex justify-center gap-3">
 				<button
 					onClick={() => setShowFilter((prev) => !prev)}
 					className={`px-4 py-2 rounded shadow flex items-center justify-center gap-4 ${
@@ -263,6 +287,32 @@ export default function WordMatchGame({
 						height={30}
 					/>
 					{showFilter ? 'Hide Filters' : 'Show Filters'}
+				</button>
+				<button
+					onClick={() => {
+						if (filteredCards.length === 0) return
+						const limited = filteredCards.slice(0, 12)
+
+						const shuffled1 = [...limited]
+						const shuffled2 = [...limited]
+
+						for (let i = shuffled1.length - 1; i > 0; i--) {
+							const j = Math.floor(Math.random() * (i + 1))
+							;[shuffled1[i], shuffled1[j]] = [shuffled1[j], shuffled1[i]]
+						}
+						for (let i = shuffled2.length - 1; i > 0; i--) {
+							const j = Math.floor(Math.random() * (i + 1))
+							;[shuffled2[i], shuffled2[j]] = [shuffled2[j], shuffled2[i]]
+						}
+
+						setShuffledDraggables(shuffled1)
+						setShuffledTargets(shuffled2)
+						setMatches({})
+						setHasFinished(false)
+					}}
+					className="px-4 py-2 bg-gray-200 rounded shadow hover:bg-gray-300"
+				>
+					Reshuffle
 				</button>
 			</div>
 

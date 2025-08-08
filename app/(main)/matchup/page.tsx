@@ -65,7 +65,11 @@ const HebrewMatchupPage = async () => {
 						drag and drop doesn&apos;t work on android devices.
 					</DismissibleAlert>
 
-					<HebrewMatchup data={awbHebrewVocab} currentLesson={currentLesson} />
+					<HebrewMatchup
+						data={awbHebrewVocab}
+						currentLesson={currentLesson}
+						userId={userProgress.userId}
+					/>
 				</div>
 			</FeedWrapper>
 		</div>

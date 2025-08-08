@@ -72,6 +72,7 @@ const HebrewScramblePage = async () => {
 					<HebrewScramble
 						data={awbHebrewVocab}
 						currentLesson={currentLesson ?? ''}
+						userId={userProgress.userId}
 					/>
 				</div>
 			</FeedWrapper>
