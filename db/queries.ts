@@ -11,6 +11,7 @@ import {
 	hebrewPrayerLine,
 	lessons,
 	lessonScripts,
+	grammarLessons,
 	tribes,
 	units,
 	userProgress,
@@ -239,6 +240,21 @@ export const getLessonScripts = async () => {
 		})
 		.from(lessonScripts)
 		.orderBy(lessonScripts.lessonId)
+
+	return results
+}
+
+export const getGrammarLessons = async () => {
+	const results = await db
+		.select({
+			id: grammarLessons.id,
+			lessonId: grammarLessons.lessonId,
+			content: grammarLessons.content,
+			contentPlain: grammarLessons.contentPlain,
+			audioSrc: grammarLessons.audioSrc,
+		})
+		.from(grammarLessons)
+		.orderBy(grammarLessons.lessonId)
 
 	return results
 }

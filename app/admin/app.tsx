@@ -31,6 +31,9 @@ import { AdminMenu } from '@/components/admin-menu'
 import { LessonScriptList } from './lesson-scripts/list'
 import { LessonScriptCreate } from './lesson-scripts/create'
 import { LessonScriptEdit } from './lesson-scripts/edit'
+import { GrammarLessonList } from './grammar-lessons/list'
+import { GrammarLessonEdit } from './grammar-lessons/edit'
+import { GrammarLessonCreate } from './grammar-lessons/create'
 
 const dataProvider = simpleRestProvider('/api')
 
@@ -74,12 +77,20 @@ const App = () => {
 				options={{ label: 'Challenge Options' }}
 			/>
 			<Resource
-				name="lessonScripts"
+				name="lesson-scripts"
 				list={LessonScriptList}
 				create={LessonScriptCreate}
 				edit={LessonScriptEdit}
 				recordRepresentation="text"
 				options={{ label: 'Lesson Scripts' }}
+			/>
+			<Resource
+				name="grammar-lessons"
+				list={GrammarLessonList}
+				create={GrammarLessonCreate}
+				edit={GrammarLessonEdit}
+				recordRepresentation="text"
+				options={{ label: 'Grammar Lessons' }}
 			/>
 			<CustomRoutes>
 				<Route

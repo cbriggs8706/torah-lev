@@ -113,6 +113,12 @@ export default function SidebarClient({
 							onClick={onItemClick}
 						/>
 						<SidebarItem
+							label="Grammar Lessons"
+							href="/grammar-lessons"
+							iconSrc="/bookmark-tabs-svgrepo-com (1).svg"
+							onClick={onItemClick}
+						/>
+						<SidebarItem
 							label="Spelling"
 							href="/spelling"
 							iconSrc="/input-latin-letters-svgrepo-com.svg"
@@ -176,12 +182,7 @@ export default function SidebarClient({
 							iconSrc="/person-juggling-light-skin-tone-svgrepo-com.svg"
 							// onClick={onItemClick}
 						/>
-						<SidebarItem
-							label="Grammar"
-							href="#"
-							iconSrc="/bookmark-tabs-svgrepo-com (1).svg"
-							// onClick={onItemClick}
-						/>
+
 						<SidebarItem
 							label="Memorize"
 							href="#"
