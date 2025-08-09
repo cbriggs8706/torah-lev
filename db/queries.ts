@@ -14,6 +14,8 @@ import {
 	units,
 	userProgress,
 	userSubscription,
+	hebrewMusicLibrary,
+	hebrewMusicLine,
 } from '@/db/schema'
 import { tr } from 'date-fns/locale'
 
@@ -354,6 +356,41 @@ export async function getPrayerLines(prayerId: number) {
 	return db.query.hebrewPrayerLine.findMany({
 		where: eq(hebrewPrayerLine.hebrewPrayerLibraryId, prayerId),
 		orderBy: asc(sql`${hebrewPrayerLine.lineNumbers}[1]`),
+	})
+}
+
+export async function getSongsWithLines(prayerId: number) {
+	return db.query.hebrewMusicLibrary.findFirst({
+		where: eq(hebrewMusicLibrary.id, prayerId),
+		with: {
+			lines: {
+				orderBy: asc(sql`${hebrewMusicLine.lineNumbers}[1]`),
+			},
+		},
+	})
+}
+
+export async function getAllSongsWithLines() {
+	return db.query.hebrewMusicLibrary.findMany({
+		orderBy: asc(hebrewMusicLibrary.order), // ✅ use correct column
+		with: {
+			lines: {
+				orderBy: asc(sql`${hebrewMusicLine.lineNumbers}[1]`),
+			},
+		},
+	})
+}
+
+export async function getAllSongs() {
+	return db.query.hebrewMusicLibrary.findMany({
+		orderBy: asc(hebrewMusicLibrary.order),
+	})
+}
+
+export async function getSongLines(prayerId: number) {
+	return db.query.hebrewMusicLine.findMany({
+		where: eq(hebrewMusicLine.hebrewMusicLibraryId, prayerId),
+		orderBy: asc(sql`${hebrewMusicLine.lineNumbers}[1]`),
 	})
 }
 

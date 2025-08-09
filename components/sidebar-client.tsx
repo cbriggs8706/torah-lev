@@ -142,13 +142,19 @@ export default function SidebarClient({
 							iconSrc="/building-construction-svgrepo-com.svg"
 							onClick={onItemClick}
 						/>
-
+						<SidebarItem
+							label="Music"
+							href="/music"
+							iconSrc="/musical-note-svgrepo-com.svg"
+							onClick={onItemClick}
+						/>
 						<SidebarItem
 							label="Dev Roadmap"
 							href="/dev-roadmap"
 							iconSrc="/world-map-svgrepo-com.svg"
 							onClick={onItemClick}
 						/>
+
 						<SidebarItem
 							label="Leaderboard"
 							href="/leaderboard"
@@ -186,12 +192,6 @@ export default function SidebarClient({
 							label="Numbers"
 							href="#"
 							iconSrc="/input-numbers-svgrepo-com.svg"
-							// onClick={onItemClick}
-						/>
-						<SidebarItem
-							label="Music"
-							href="#"
-							iconSrc="/musical-note-svgrepo-com.svg"
 							// onClick={onItemClick}
 						/>
 						<SidebarItem

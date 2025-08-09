@@ -262,6 +262,7 @@ export const hebrewMusicLibrary = pgTable('hebrew_music_library', {
 	image: text('image'),
 	audio: text('audio'),
 	public: boolean('public').notNull().default(false),
+	category: text('category').notNull().default(''),
 })
 
 export const hebrewMusicLine = pgTable('hebrew_music_line', {
