@@ -38,7 +38,6 @@ export default function PrayerLinesTable({
 	const [fontSize, setFontSize] = useState(36)
 	const audioRef = useRef<HTMLAudioElement | null>(null)
 	const router = useRouter()
-	const DB_OFFSET = 2
 
 	// Compute the smallest raw line number across all DB lines
 	const allRaw = (lines ?? []).flatMap((l) => l.lineNumbers ?? [])
@@ -161,6 +160,12 @@ export default function PrayerLinesTable({
 
 	return (
 		<div>
+			{/* Toggle Buttons */}
+			<div className="flex flex-wrap gap-4 mb-4 justify-center">
+				<Button variant={'default'} onClick={() => router.push('/prayer')}>
+					Back to Prayer List
+				</Button>
+			</div>
 			{/* Controls */}
 			<div className="flex flex-wrap gap-4 mb-4 items-center">
 				<label className="flex items-center gap-2">

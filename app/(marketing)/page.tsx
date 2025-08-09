@@ -32,8 +32,7 @@ export default function Home() {
 						<SignedOut>
 							<SignUpButton
 								mode="modal"
-								afterSignInUrl="/learn"
-								afterSignUpUrl="/learn"
+								fallbackRedirectUrl="/learn" // Correct prop for fallback redirection after sign-up
 							>
 								<Button size="lg" variant="secondary" className="w-full">
 									Get Started
@@ -41,8 +40,7 @@ export default function Home() {
 							</SignUpButton>
 							<SignInButton
 								mode="modal"
-								afterSignInUrl="/learn"
-								afterSignUpUrl="/learn"
+								fallbackRedirectUrl="/learn" // Correct prop for fallback redirection after sign-in
 							>
 								<Button size="lg" variant="primaryOutline" className="w-full">
 									I already have an account

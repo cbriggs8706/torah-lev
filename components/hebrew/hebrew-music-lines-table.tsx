@@ -38,6 +38,7 @@ export default function MusicLinesTable({
 	const [showNiqqud, setShowNiqqud] = useState(true)
 	const [fontClass, setFontClass] = useState('font-serif')
 	const [fontSize, setFontSize] = useState(36)
+	const [mediaType, setMediaType] = useState<'video' | 'audio'>('video') // Default to audio
 	const audioRef = useRef<HTMLAudioElement | null>(null)
 	const router = useRouter()
 
@@ -77,9 +78,21 @@ export default function MusicLinesTable({
 
 	return (
 		<div>
+			{/* Toggle Buttons */}
+			<div className="flex flex-wrap gap-4 mb-4 justify-center">
+				<Button onClick={() => setMediaType('video')} disabled={!video}>
+					Video
+				</Button>
+				<Button onClick={() => setMediaType('audio')} disabled={!audio}>
+					Audio
+				</Button>
+				<Button variant={'default'} onClick={() => router.push('/music')}>
+					Back to Song List
+				</Button>
+			</div>
 			{/* YouTube (convert youtu.be to embed format) */}
 			<div className="flex flex-col gap-4 mb-8">
-				{video && (
+				{mediaType === 'video' && video && (
 					<div className="relative w-full" style={{ paddingTop: '56.25%' }}>
 						<iframe
 							className="absolute inset-0 w-full h-full rounded-md"
@@ -97,7 +110,7 @@ export default function MusicLinesTable({
 					</div>
 				)}
 				{/* Spotify embed */}
-				{audio && (
+				{mediaType === 'audio' && audio && (
 					<iframe
 						className="w-full rounded-md"
 						src={audio.split('?')[0]} // strips utm_source params
@@ -109,14 +122,14 @@ export default function MusicLinesTable({
 				)}
 			</div>
 			{/* Controls */}
-			<div className="flex flex-wrap gap-4 mb-4 items-center">
+			<div className="flex flex-wrap gap-4 mb-4 justify-center items-center">
 				<label className="flex items-center gap-2">
 					<input
 						type="checkbox"
 						checked={showTransliteration}
 						onChange={(e) => setShowTransliteration(e.target.checked)}
 					/>
-					Show Transliteration
+					Transliteration
 				</label>
 
 				<label className="flex items-center gap-2">
@@ -125,7 +138,7 @@ export default function MusicLinesTable({
 						checked={showEnglish}
 						onChange={(e) => setShowEnglish(e.target.checked)}
 					/>
-					Show English
+					Translation
 				</label>
 
 				<label className="flex items-center gap-2">
@@ -134,7 +147,7 @@ export default function MusicLinesTable({
 						checked={showNiqqud}
 						onChange={(e) => setShowNiqqud(e.target.checked)}
 					/>
-					Show Niqqud
+					Niqqud
 				</label>
 
 				<select
@@ -161,9 +174,6 @@ export default function MusicLinesTable({
 				>
 					A-
 				</button>
-				<Button variant={'default'} onClick={() => router.push('/music')}>
-					All Songs
-				</Button>
 			</div>
 
 			{/* Desktop Table */}

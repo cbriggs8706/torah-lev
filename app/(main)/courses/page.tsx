@@ -2,11 +2,6 @@
 import { getCourses, getUserProgress } from '@/db/queries'
 
 import { List } from './list'
-import {
-	hebrewFriendIds,
-	spanishFriendIds,
-	englishFriendIds,
-} from '@/lib/friends'
 
 const CoursesPage = async () => {
 	const coursesData = getCourses()
@@ -17,8 +12,7 @@ const CoursesPage = async () => {
 		userProgressData,
 	])
 
-	const isHebrewFriend =
-		userProgress?.userId && hebrewFriendIds.includes(userProgress.userId)
+	const isHebrewFriend = userProgress?.isHebrewFriend ?? false
 
 	const visibleCourses = courses.filter(
 		(course) => course.id !== 11 || isHebrewFriend

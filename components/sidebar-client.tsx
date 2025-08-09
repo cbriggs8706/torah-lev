@@ -7,7 +7,6 @@ import { Loader } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { SidebarItem } from './sidebar-item'
 import { UserProgress } from './user-progress'
-import { hebrewFriendIds } from '@/lib/friends'
 import { HebrewClock } from './hebrew/hebrew-clock'
 
 type Props = {
@@ -39,9 +38,6 @@ export default function SidebarClient({
 	isEnglishFriend,
 	isTester,
 }: Props) {
-	const isFriend =
-		userProgress.userId && hebrewFriendIds.includes(userProgress.userId)
-
 	return (
 		<div
 			className={cn(

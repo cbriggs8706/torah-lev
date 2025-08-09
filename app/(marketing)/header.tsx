@@ -7,6 +7,7 @@ import {
 	SignedOut,
 	SignInButton,
 	UserButton,
+	SignIn,
 } from '@clerk/nextjs'
 import { Button } from '@/components/ui/button'
 
@@ -28,15 +29,15 @@ export const Header = () => {
 						<UserButton afterSignOutUrl="/" />
 					</SignedIn>
 					<SignedOut>
-						<SignInButton
-							mode="modal"
-							afterSignInUrl="/learn"
-							afterSignUpUrl="/learn"
-						>
+						<SignInButton mode="modal">
 							<Button size="lg" variant="ghost">
 								Login
 							</Button>
 						</SignInButton>
+						<SignIn
+							redirectUrl="/learn" // This ensures the redirection happens after sign-in
+							afterSignInUrl="/learn"
+						/>
 					</SignedOut>
 				</ClerkLoaded>
 			</div>

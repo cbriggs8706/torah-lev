@@ -1,5 +1,4 @@
-import { isHebrewFriend } from '@/lib/friends'
-import { is, relations } from 'drizzle-orm'
+import { relations } from 'drizzle-orm'
 import {
 	boolean,
 	integer,
