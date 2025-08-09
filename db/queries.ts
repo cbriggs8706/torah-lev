@@ -1,6 +1,7 @@
 import { cache } from 'react'
-import { asc, desc, eq, like, sql } from 'drizzle-orm'
+import { and, asc, desc, eq, gte, inArray, like, lte, sql } from 'drizzle-orm'
 import { auth, clerkClient } from '@clerk/nextjs/server'
+import { events } from '@/db/schema'
 
 import db from '@/db/drizzle'
 import {
@@ -511,4 +512,42 @@ export async function getTribeLeaderboard() {
 	return scoredData
 		.filter((t) => t.members.length > 0)
 		.sort((a, b) => b.score - a.score)
+}
+
+export type EventsFilter = {
+	categories?: string[] // e.g. ['virtual','inperson','dinner','bookclub']
+	fromStr?: string // 'YYYY-MM-DD' (local day start)
+	toStr?: string // 'YYYY-MM-DD' (local day end)
+}
+
+export async function listEvents(filter: EventsFilter = {}) {
+	const { categories, fromStr, toStr } = filter
+
+	// Build Postgres-side timestamp (naive) boundaries
+	const fromExpr = fromStr ? sql`${fromStr}::date::timestamp` : undefined
+	const toExpr = toStr
+		? sql`${toStr}::date::timestamp + interval '1 day' - interval '1 millisecond'`
+		: undefined
+
+	return db
+		.select({
+			id: events.id,
+			name: events.name,
+			category: events.category,
+			startTime: events.startTime,
+			endTime: events.endTime,
+			zoomUrl: events.zoomUrl,
+			recordingUrl: events.recordingUrl,
+			address: events.address,
+			notes: events.notes,
+		})
+		.from(events)
+		.where(
+			and(
+				categories?.length ? inArray(events.category, categories) : undefined,
+				fromExpr ? gte(events.startTime, fromExpr) : undefined,
+				toExpr ? lte(events.startTime, toExpr) : undefined
+			)
+		)
+		.orderBy(events.startTime)
 }

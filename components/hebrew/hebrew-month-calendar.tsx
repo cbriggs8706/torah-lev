@@ -6,31 +6,83 @@ import clsx from 'clsx'
 import { HebrewClock } from './hebrew-clock'
 
 const customEvents = [
+	// 1️⃣ Passover (Pesach)
 	{
 		startDay: 15,
 		endDay: 21,
 		month: 1,
 		desc: 'Pesach (Passover)',
+		hebDesc: 'פֶּסַח',
 		color: 'bg-green-500',
 		countdown: false,
 	}, // 15–21 Nisan
+
+	// 2️⃣ Feast of Unleavened Bread (Chag HaMatzot) - overlaps with Passover but listed separately
+	{
+		startDay: 15,
+		endDay: 21,
+		month: 1,
+		desc: 'Feast of Unleavened Bread',
+		hebDesc: 'חַג הַמַּצּוֹת',
+		color: 'bg-green-500',
+		countdown: false,
+	},
+
+	// 3️⃣ Feast of Firstfruits (Yom HaBikkurim)
+	{
+		startDay: 16,
+		endDay: 16,
+		month: 1,
+		desc: 'Firstfruits',
+		hebDesc: 'יוֹם הַבִּכּוּרִים',
+		color: 'bg-green-500',
+		countdown: false,
+	}, // 16 Nisan
+
+	// 4️⃣ Feast of Weeks (Shavuot)
+	{
+		startDay: 6,
+		endDay: 6,
+		month: 3,
+		desc: 'Shavuot (Feast of Weeks)',
+		hebDesc: 'שָׁבוּעוֹת',
+		color: 'bg-green-500',
+		countdown: false,
+	}, // 6 Sivan
+
+	// 5️⃣ Feast of Trumpets (Rosh Hashanah / Yom Teruah)
 	{
 		startDay: 1,
 		endDay: 2,
 		month: 7,
-		desc: 'Rosh Hashanah',
-		hebDesc: 'רֹאשׁ הַשָּׁנָה',
+		desc: 'Rosh Hashanah (Yom Teruah)',
+		hebDesc: 'יוֹם תְּרוּעָה',
 		color: 'bg-green-500',
 		countdown: true,
 	}, // 1–2 Tishrei
+
+	// 6️⃣ Day of Atonement (Yom Kippur)
 	{
 		startDay: 10,
 		endDay: 10,
 		month: 7,
-		desc: 'Yom Kippur',
+		desc: 'Yom Kippur (Day of Atonement)',
+		hebDesc: 'יוֹם הַכִּפּוּרִים',
 		color: 'bg-green-500',
 		countdown: false,
-	},
+	}, // 10 Tishrei
+
+	// 7️⃣ Feast of Tabernacles (Sukkot)
+	{
+		startDay: 15,
+		endDay: 21,
+		month: 7,
+		desc: 'Sukkot (Feast of Tabernacles)',
+		hebDesc: 'סֻכּוֹת',
+		color: 'bg-green-500',
+		countdown: false,
+	}, // 15–21 Tishrei
+
 	// {
 	// 	startDay: 11,
 	// 	endDay: 11,
