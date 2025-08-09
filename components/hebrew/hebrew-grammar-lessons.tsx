@@ -23,7 +23,7 @@ export default function GrammarLessonViewer({
 	const [selectedLessonId, setSelectedLessonId] =
 		useState<string>(currentLesson)
 	const [fontClass, setFontClass] = useState('font-times')
-	const [sizeClass, setSizeClass] = useState('text-4xl')
+	const [sizeClass, setSizeClass] = useState('text-xl')
 
 	// ✅ Find lesson by lessonId
 	const selected = lessons.find((l) => l.lessonId === selectedLessonId)
@@ -71,7 +71,6 @@ export default function GrammarLessonViewer({
 					)}
 
 					<div
-						dir="rtl"
 						className={`whitespace-pre-wrap bg-gray-50 p-4 border rounded shadow leading-loose ${fontClass} ${sizeClass}`}
 					>
 						<div

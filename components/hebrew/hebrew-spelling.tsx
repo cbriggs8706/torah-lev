@@ -260,6 +260,10 @@ export default function HebrewSpelling({
 		})
 	}
 
+	// Prefer Sephardic audio if present; otherwise fall back
+	const getActiveNameAudio = (l: any) => l.sephardicNameAudio ?? l.nameAudio
+	const getActiveSoundAudio = (l: any) => l.sephardicSoundAudio ?? l.soundAudio
+
 	function playLetterByLetter(word: string) {
 		const normalized = word
 			.normalize('NFKC')
@@ -272,18 +276,25 @@ export default function HebrewSpelling({
 		for (const char of chars) {
 			const normalizedChar = char
 				.normalize('NFKC')
-				.replace(/[\u0591-\u05BD\u05BF-\u05C7\u05C1\u05C2]/g, '') // remove niqqud and shin/sin dots
+				.replace(/[\u0591-\u05BD\u05BF-\u05C7\u05C1\u05C2]/g, '')
 
+			// Find the letter object by character
 			let match = letters.find((l) => l.char === normalizedChar)
 
-			// Special case: plain shin (ש) without dot → use shin audio
+			// Special case: plain shin (ש) without dot → use shin audio entry
 			if (!match && normalizedChar === 'ש') {
-				match = letters.find((l) => l.nameAudio?.includes('name-shin-base.mp3'))
+				match =
+					letters.find((l) => l.char === 'ש') ||
+					letters.find((l) =>
+						(l.nameAudio ?? '').includes('name-shin-base.mp3')
+					)
 			}
 
-			if (match?.nameAudio) {
-				console.log(`✅ Matched ${char} → ${match.char} → ${match.nameAudio}`)
-				audioPaths.push(match.nameAudio)
+			const nameAudio = match ? getActiveNameAudio(match) : undefined
+
+			if (nameAudio) {
+				console.log(`✅ Matched ${char} → ${match?.char} → ${nameAudio}`)
+				audioPaths.push(nameAudio)
 			} else {
 				console.warn(`❌ No match for: ${char} (normalized: ${normalizedChar})`)
 			}
@@ -294,7 +305,7 @@ export default function HebrewSpelling({
 
 			if (audioVolume > 1.0) {
 				playWithBoostedVolume(audioPaths[index], audioVolume, audioSpeed)
-				setTimeout(() => playSequentially(index + 1), 600) // rough timing fudge
+				setTimeout(() => playSequentially(index + 1), 600)
 			} else {
 				const audio = new Audio(audioPaths[index])
 				audio.volume = audioVolume

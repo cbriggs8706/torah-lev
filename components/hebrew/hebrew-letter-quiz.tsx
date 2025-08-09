@@ -4,11 +4,20 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useAudio, useWindowSize } from 'react-use'
 import ReactConfetti from 'react-confetti'
 import Image from 'next/image'
+interface HebrewLetterQuizProps {
+	letters: HebrewLetter[]
+	userId: string
+	pointsOnPass?: number
+}
+
+type Pronunciation = 'masoretic' | 'sephardic'
 
 interface HebrewLetter {
 	char: string
 	nameAudio: string
 	soundAudio: string
+	sephardicNameAudio?: string
+	sephardicSoundAudio?: string
 	category?: string
 	imageKey?: string
 }
@@ -28,10 +37,6 @@ type FontChoice =
 	| 'modern-round'
 	| 'proto'
 	| 'torah'
-
-interface HebrewLetterQuizProps {
-	letters: HebrewLetter[]
-}
 
 function CountdownCircle({ seconds }: { seconds: number }) {
 	const [progress, setProgress] = useState(0)
@@ -106,7 +111,11 @@ const niqqudOptions = [
 	// { key: 'dagesh', symbol: 'ּ' },
 ] as const
 
-export default function HebrewLetterQuiz({ letters }: HebrewLetterQuizProps) {
+export default function HebrewLetterQuiz({
+	letters,
+	userId,
+	pointsOnPass,
+}: HebrewLetterQuizProps) {
 	const [gameStarted, setGameStarted] = useState(false)
 	const [selectedMode, setSelectedMode] = useState<Mode>('name')
 	const [timeLimit, setTimeLimit] = useState(3)
@@ -126,17 +135,40 @@ export default function HebrewLetterQuiz({ letters }: HebrewLetterQuizProps) {
 	const [selectedNiqqud, setSelectedNiqqud] = useState<string[]>([])
 	const [disabledButtons, setDisabledButtons] = useState(false)
 	const [studyMode, setStudyMode] = useState(false)
+	const [awardedPoints, setAwardedPoints] = useState<number>(0)
+	const [pronunciation, setPronunciation] = useState<Pronunciation>('sephardic')
+
+	const getActiveNameAudio = useCallback(
+		(l: HebrewLetter) => {
+			if (pronunciation === 'sephardic' && l.sephardicNameAudio)
+				return l.sephardicNameAudio
+			return l.nameAudio
+		},
+		[pronunciation]
+	)
+
+	const getActiveSoundAudio = useCallback(
+		(l: HebrewLetter) => {
+			if (pronunciation === 'sephardic' && l.sephardicSoundAudio)
+				return l.sephardicSoundAudio
+			return l.soundAudio
+		},
+		[pronunciation]
+	)
 
 	// Filter the dataset by mode selection
 	const filteredLetters = useMemo(() => {
 		let base: HebrewLetter[] = []
 
 		if (selectedMode === 'name' || selectedMode === 'sound') {
-			base = letters.filter((l) => l.nameAudio.includes('base'))
+			base = letters.filter((l) =>
+				(getActiveNameAudio(l) ?? '').includes('base')
+			)
 		} else if (selectedMode === 'niqqud') {
 			if (selectedNiqqud.length === 0) return []
 			base = letters.filter((l) => {
-				const match = l.nameAudio.match(/name-[^-]+-(.+)\.mp3$/)
+				const activeName = getActiveNameAudio(l) ?? ''
+				const match = activeName.match(/name-[^-]+-(.+)\.mp3$/)
 				if (!match) return false
 				const niqqudKey = match[1]
 				return selectedNiqqud.includes(niqqudKey)
@@ -155,7 +187,7 @@ export default function HebrewLetterQuiz({ letters }: HebrewLetterQuizProps) {
 
 			return true
 		})
-	}, [letters, selectedMode, selectedNiqqud, fontChoice])
+	}, [letters, selectedMode, selectedNiqqud, fontChoice, getActiveNameAudio])
 
 	useEffect(() => {
 		if (!gameStarted) return
@@ -175,11 +207,11 @@ export default function HebrewLetterQuiz({ letters }: HebrewLetterQuizProps) {
 
 	const getAudioSrc = useCallback(() => {
 		if (!currentLetter) return ''
-		if (selectedMode === 'name') return `${currentLetter.nameAudio}`
+		if (selectedMode === 'name') return getActiveNameAudio(currentLetter)
 		if (selectedMode === 'sound' || selectedMode === 'niqqud')
-			return `${currentLetter.soundAudio}`
+			return getActiveSoundAudio(currentLetter)
 		return ''
-	}, [currentLetter, selectedMode])
+	}, [currentLetter, selectedMode, getActiveNameAudio, getActiveSoundAudio])
 
 	const audioRef = useRef<HTMLAudioElement | null>(null)
 
@@ -301,6 +333,39 @@ export default function HebrewLetterQuiz({ letters }: HebrewLetterQuizProps) {
 		return font.startsWith('modern-') || font === 'proto' || font === 'torah'
 	}
 
+	const hasAwardedRef = useRef(false)
+
+	const awardPoints = useCallback(
+		async (points: number) => {
+			try {
+				const res = await fetch('/api/award-points', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ userId, points }),
+				})
+				if (!res.ok) throw new Error('Bad response')
+				setAwardedPoints(points) // reflect what was actually awarded
+			} catch (err) {
+				console.error('Failed to award points', err)
+			}
+		},
+		[userId]
+	)
+
+	useEffect(() => {
+		if (finished && !passed) setAwardedPoints(0)
+	}, [finished, passed])
+
+	// Award on pass exactly once per finished run
+	useEffect(() => {
+		if (finished && passed && !hasAwardedRef.current) {
+			hasAwardedRef.current = true
+			// simple default: 5 points, or caller-specified
+			const pts = typeof pointsOnPass === 'number' ? pointsOnPass : 5
+			awardPoints(pts)
+		}
+	}, [finished, passed, pointsOnPass, awardPoints])
+
 	function resetToStart() {
 		setGameStarted(false)
 		setStudyMode(false)
@@ -310,6 +375,8 @@ export default function HebrewLetterQuiz({ letters }: HebrewLetterQuizProps) {
 		setWrongAnswers([])
 		setCorrectCount(0)
 		setWrongCount(0)
+		hasAwardedRef.current = false
+		setAwardedPoints(0)
 	}
 
 	return (
@@ -348,6 +415,24 @@ export default function HebrewLetterQuiz({ letters }: HebrewLetterQuizProps) {
 										: mode === 'sound'
 										? 'Sounds'
 										: 'Syllables'}
+								</button>
+							))}
+						</div>
+					</div>
+					<div className="mb-6">
+						<p className="font-medium mb-2">Pronunciation</p>
+						<div className="flex justify-center gap-2">
+							{(['sephardic', 'masoretic'] as Pronunciation[]).map((p) => (
+								<button
+									key={p}
+									onClick={() => setPronunciation(p)}
+									className={`px-4 py-2 border rounded-full ${
+										pronunciation === p
+											? 'bg-blue-500 text-white'
+											: 'bg-gray-200'
+									}`}
+								>
+									{p === 'sephardic' ? 'Sephardic (AwB)' : 'Masoretic (older)'}
 								</button>
 							))}
 						</div>
@@ -488,11 +573,11 @@ export default function HebrewLetterQuiz({ letters }: HebrewLetterQuizProps) {
 									</button>
 									{isImageFont(value) ? (
 										<Image
-											src={`/letters/${value}-alef.png`}
+											src={`/letters/${value}-alef.jpg`}
 											alt={`${label} preview`}
-											width={30}
-											height={30}
-											className="h-10 mt-1"
+											width={60}
+											height={60}
+											className="h-16 mt-0"
 										/>
 									) : (
 										<div
@@ -508,15 +593,42 @@ export default function HebrewLetterQuiz({ letters }: HebrewLetterQuizProps) {
 							))}
 						</div>
 					</div>
+
 					<div className="mb-6">
 						<p className="font-medium mb-2">Seconds to Answer</p>
+						<div className="flex gap-4 justify-center">
+							<button
+								onClick={() => setTimeLimit(1)}
+								className="px-4 py-2 border rounded-full bg-gray-200"
+							>
+								1s
+							</button>
+							<button
+								onClick={() => setTimeLimit(3)}
+								className="px-4 py-2 border rounded-full bg-gray-200"
+							>
+								3s
+							</button>
+							<button
+								onClick={() => setTimeLimit(5)}
+								className="px-4 py-2 border rounded-full bg-gray-200"
+							>
+								5s
+							</button>
+							<button
+								onClick={() => setTimeLimit(8)}
+								className="px-4 py-2 border rounded-full bg-gray-200"
+							>
+								8s
+							</button>
+						</div>
 						<input
 							type="number"
 							min={1}
 							max={10}
 							value={timeLimit}
 							onChange={(e) => setTimeLimit(Number(e.target.value))}
-							className="w-24 p-2 border text-center rounded"
+							className="w-24 p-2 border text-center rounded mt-4"
 						/>
 					</div>
 					{selectedMode === 'niqqud' && selectedNiqqud.length === 0 && (
@@ -572,7 +684,7 @@ export default function HebrewLetterQuiz({ letters }: HebrewLetterQuizProps) {
 							>
 								{isImageFont(fontChoice) && l.imageKey ? (
 									<Image
-										src={`/letters/${fontChoice}-${l.imageKey}.png`}
+										src={`/letters/${fontChoice}-${l.imageKey}.jpg`}
 										alt={l.char}
 										width={50}
 										height={50}
@@ -590,7 +702,9 @@ export default function HebrewLetterQuiz({ letters }: HebrewLetterQuizProps) {
 								<button
 									onClick={() => {
 										const audio = new Audio(
-											selectedMode === 'name' ? l.nameAudio : l.soundAudio
+											selectedMode === 'name'
+												? getActiveNameAudio(l)
+												: getActiveSoundAudio(l)
 										)
 										audio.play()
 									}}
@@ -614,14 +728,19 @@ export default function HebrewLetterQuiz({ letters }: HebrewLetterQuizProps) {
 					<h2 className="text-2xl font-bold">Quiz Complete!</h2>
 					<p className="text-lg">✅ Correct: {correctCount}</p>
 					<p className="text-lg">❌ Incorrect: {wrongCount}</p>
+
 					<p
 						className={`text-xl font-semibold ${
 							passed ? 'text-green-600' : 'text-red-500'
 						}`}
 					>
 						{passed
-							? '🎉 You Passed!'
+							? `🎉 You Passed!`
 							: "😞 In order to pass, you'll need to not miss more that 2 using 3 seconds or less. Let's try again!"}
+					</p>
+					<p className="text-lg">
+						⭐ Points earned:{' '}
+						<span className="font-semibold">{awardedPoints}</span>
 					</p>
 					{wrongAnswers.length > 0 && (
 						<div className="mt-6">
@@ -639,7 +758,7 @@ export default function HebrewLetterQuiz({ letters }: HebrewLetterQuizProps) {
 											fontChoice === 'proto') &&
 										l.imageKey ? (
 											<Image
-												src={`/letters/${fontChoice}-${l.imageKey}.png`}
+												src={`/letters/${fontChoice}-${l.imageKey}.jpg`}
 												alt={l.char}
 												width={30}
 												height={30}
@@ -660,7 +779,9 @@ export default function HebrewLetterQuiz({ letters }: HebrewLetterQuizProps) {
 										<button
 											onClick={() => {
 												const audio = new Audio(
-													selectedMode === 'name' ? l.nameAudio : l.soundAudio
+													selectedMode === 'name'
+														? getActiveNameAudio(l)
+														: getActiveSoundAudio(l)
 												)
 												audio.play()
 											}}
@@ -676,11 +797,7 @@ export default function HebrewLetterQuiz({ letters }: HebrewLetterQuizProps) {
 					)}
 
 					<button
-						onClick={() => {
-							setGameStarted(false)
-							setShowConfetti(false)
-							setFinished(false)
-						}}
+						onClick={() => resetToStart()}
 						className="mt-6 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
 					>
 						Start Over
@@ -695,11 +812,11 @@ export default function HebrewLetterQuiz({ letters }: HebrewLetterQuizProps) {
 							fontChoice === 'proto') &&
 						currentLetter?.imageKey ? (
 							<Image
-								src={`/letters/${fontChoice}-${currentLetter.imageKey}.png`}
+								src={`/letters/${fontChoice}-${currentLetter.imageKey}.jpg`}
 								alt={currentLetter.char}
-								width={72}
-								height={72}
-								className="h-auto w-auto max-w-[72px] max-h-[72px] object-contain"
+								width={150}
+								height={150}
+								className="h-auto w-auto max-w-[150px] max-h-[150px] object-contain"
 							/>
 						) : (
 							<div className={`text-[8rem] ${fontClassNameFor(fontChoice)}`}>

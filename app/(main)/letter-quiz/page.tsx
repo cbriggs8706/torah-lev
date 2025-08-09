@@ -25,7 +25,7 @@ const HebrewLetterQuizPage = async () => {
 		userSubscriptionData,
 	])
 
-	if (!userProgress || !userProgress.activeCourse) {
+	if (!userProgress || !userProgress.activeCourseId) {
 		redirect('/courses')
 	}
 
@@ -63,7 +63,7 @@ const HebrewLetterQuizPage = async () => {
 						The goal is to say the correct answer in under 3 seconds with no
 						more than 2 mistakes per round in order to pass it off in class.
 					</DismissibleAlert>
-					<LetterQuiz letters={letters} />
+					<LetterQuiz letters={letters} userId={userProgress.userId} />
 				</div>
 			</FeedWrapper>
 		</div>

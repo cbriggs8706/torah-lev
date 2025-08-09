@@ -6,12 +6,10 @@ export const GrammarLessonCreate = () => {
 		<Create>
 			<SimpleForm>
 				<TextInput source="lessonId" validate={[required()]} label="lessonId" />
-				<div dir="rtl">
-					<RichTextInput source="content" label="content" />
-				</div>
-				<div dir="rtl">
-					<RichTextInput source="contentPlain" label="contentPlain" />
-				</div>
+				<RichTextInput source="content" label="content" />
+
+				<RichTextInput source="contentPlain" label="contentPlain" />
+
 				<TextInput source="audioSrc" label="audioSrc" />
 			</SimpleForm>
 		</Create>
