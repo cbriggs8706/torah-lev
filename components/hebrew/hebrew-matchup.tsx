@@ -1,7 +1,5 @@
 'use client'
-import React, { useCallback } from 'react'
-
-import { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
 	DndContext,
 	useDraggable,
@@ -81,17 +79,14 @@ export default function WordMatchGame({
 			const A = parseLessonKey(a)
 			const B = parseLessonKey(b)
 
-			// If both numeric, sort by number then text
 			if (!isNaN(A.num) && !isNaN(B.num)) {
 				if (A.num !== B.num) return A.num - B.num
 				return A.text.localeCompare(B.text)
 			}
 
-			// Numbers first
 			if (!isNaN(A.num) && isNaN(B.num)) return -1
 			if (isNaN(A.num) && !isNaN(B.num)) return 1
 
-			// Both strings → alphabetical
 			return a.localeCompare(b)
 		})
 	}, [data])
@@ -110,7 +105,6 @@ export default function WordMatchGame({
 		allLessonsUpToCurrent
 	)
 
-	// Ensure selectedLessons updates if currentLesson changes
 	useEffect(() => {
 		setSelectedLessons(allLessonsUpToCurrent)
 	}, [allLessonsUpToCurrent])
@@ -125,7 +119,6 @@ export default function WordMatchGame({
 					: !!card[matchField]
 			const matchesType = selectedType === 'all' || card.type === selectedType
 
-			// ✅ New category check
 			const matchesCategory =
 				selectedCategory === 'all' || card.category === selectedCategory
 
@@ -149,11 +142,9 @@ export default function WordMatchGame({
 			return
 		}
 
-		// pick 12 random cards (not just the first 12)
 		const shuffled = [...filteredCards]
 			.sort(() => Math.random() - 0.5)
 			.slice(0, 12)
-
 		const shuffled1 = [...shuffled].sort(() => Math.random() - 0.5)
 		const shuffled2 = [...shuffled].sort(() => Math.random() - 0.5)
 
@@ -165,11 +156,6 @@ export default function WordMatchGame({
 
 	function handleDragEnd(event: DragEndEvent) {
 		const { active, over } = event
-		// console.log('🟡 DRAG END', {
-		// 	activeId: active.id,
-		// 	overId: over?.id,
-		// 	isMatch: active.id === over?.id,
-		// })
 
 		if (over && active.id === over.id) {
 			setMatches((prev) => ({
@@ -200,10 +186,10 @@ export default function WordMatchGame({
 
 	const sensors = useSensors(
 		useSensor(MouseSensor, {
-			activationConstraint: { distance: 5 }, // desktop: start drag after a tiny move
+			activationConstraint: { distance: 5 },
 		}),
 		useSensor(TouchSensor, {
-			activationConstraint: { delay: 180, tolerance: 8 }, // mobile: press & hold
+			activationConstraint: { delay: 180, tolerance: 8 },
 		})
 	)
 
@@ -222,11 +208,8 @@ export default function WordMatchGame({
 			const maybePromise = controls.play()
 			if (maybePromise instanceof Promise) maybePromise.catch(() => {})
 
-			// Confetti display duration
 			setTimeout(() => {
 				setShowConfetti(false)
-
-				// Auto-reset the round with same filters
 				const limited = filteredCards.slice(0, 12)
 
 				const shuffled1 = [...limited]
@@ -256,21 +239,13 @@ export default function WordMatchGame({
 		awardPoints,
 	])
 
-	function toggleLesson(lesson: string) {
-		setSelectedLessons((prev) =>
-			prev.includes(lesson)
-				? prev.filter((l) => l !== lesson)
-				: [...prev, lesson]
-		)
-	}
-
 	useEffect(() => {
 		if (formatType === 'image') {
 			setMatchField('images')
 		} else if (formatType === 'audio') {
 			setMatchField('hebAudio')
 		} else {
-			setMatchField('eng') // default for translation
+			setMatchField('eng')
 		}
 	}, [formatType])
 
@@ -287,8 +262,6 @@ export default function WordMatchGame({
 					tweenDuration={10000}
 				/>
 			)}
-			{/* 👇 Make sure the audio element is rendered */}
-			{/* {React.cloneElement(finishAudio, { ref: audioRef })} */}
 
 			<div className="mb-4 flex justify-center gap-3">
 				<button
@@ -379,13 +352,14 @@ export default function WordMatchGame({
 						<div className="flex flex-wrap justify-center gap-3 mb-6">
 							{shuffledDraggables.map((card) => {
 								const cardId = getCardId(card)
-								if (matches[cardId] === cardId) return null // already matched
+								if (matches[cardId] === cardId) return null // Hide matched draggable word
 
 								return (
 									<DraggableWord
 										key={cardId}
 										id={cardId}
 										label={(card[hebrewField] || card.heb) as string}
+										matches={matches}
 									/>
 								)
 							})}
@@ -397,7 +371,7 @@ export default function WordMatchGame({
 								const matched = matches[cardId] === cardId
 
 								return (
-									<DropTarget key={cardId} id={cardId}>
+									<DropTarget key={cardId} id={cardId} matches={matches}>
 										{matched ? (
 											<div className="text-4xl font-serif text-green-700">
 												{card[hebrewField]}
@@ -423,7 +397,15 @@ export default function WordMatchGame({
 	)
 }
 
-function DraggableWord({ id, label }: { id: string; label: string }) {
+function DraggableWord({
+	id,
+	label,
+	matches,
+}: {
+	id: string
+	label: string
+	matches: Record<string, string | number>
+}) {
 	const { attributes, listeners, setNodeRef, transform } = useDraggable({ id })
 	const style = transform
 		? { transform: `translate3d(${transform.x}px, ${transform.y}px, 0)` }
@@ -446,19 +428,29 @@ function DraggableWord({ id, label }: { id: string; label: string }) {
 function DropTarget({
 	id,
 	children,
+	matches,
 }: {
 	id: string
 	children: React.ReactNode
+	matches: Record<string, string | number>
 }) {
 	const { isOver, setNodeRef } = useDroppable({ id })
+	const matched = matches[id] === id
+
 	return (
 		<div
 			ref={setNodeRef}
 			className={`min-h-24 border-2 rounded p-3 flex items-center justify-center transition touch-none select-none ${
 				isOver ? 'border-green-500 bg-green-50' : 'border-gray-300'
-			}`}
+			} ${matched ? 'hidden' : ''}`} // Hide drop target if matched
 		>
-			{children}
+			{matched ? (
+				<div className="text-4xl font-serif text-green-700">{children}</div>
+			) : (
+				<div className="flex flex-col text-center justify-center">
+					{children}
+				</div>
+			)}
 		</div>
 	)
 }
@@ -483,17 +475,6 @@ function MatchContent({
 				className="object-contain pointer-events-none select-none"
 				draggable={false}
 			/>
-		)
-	}
-
-	if (matchField === 'hebAudio' && typeof value === 'string') {
-		return (
-			<button
-				onClick={() => new Audio(value).play()}
-				className="text-3xl text-blue-600"
-			>
-				🔊
-			</button>
 		)
 	}
 
