@@ -40,13 +40,29 @@ export const upsertUserProgress = async (courseId: number) => {
 
 	const existingUserProgress = await getUserProgress()
 
+	// Check if the username and avatar have been manually set
+	const currentUserProgress = existingUserProgress?.userName
+	const currentUserAvatar = existingUserProgress?.userImageSrc
+
+	// Determine the username to use
+	const usernameToUse =
+		currentUserProgress && currentUserProgress !== 'User'
+			? currentUserProgress // Keep the manually updated username
+			: user.username || 'User' // Default to Clerk's username if not manually updated
+
+	// Determine the avatar to use
+	const avatarToUse =
+		currentUserAvatar && currentUserAvatar !== '/mascot.svg'
+			? currentUserAvatar // Keep the manually updated avatar
+			: user.imageUrl || '/mascot.svg' // Default to Clerk's avatar if not manually updated
+
 	if (existingUserProgress) {
 		await db
 			.update(userProgress)
 			.set({
 				activeCourseId: courseId,
-				userName: user.username || 'User',
-				userImageSrc: user.imageUrl || '/mascot.svg',
+				userName: usernameToUse, // Use the determined username
+				userImageSrc: avatarToUse, // Use the determined avatar
 			})
 			.where(eq(userProgress.userId, userId))
 
@@ -58,8 +74,8 @@ export const upsertUserProgress = async (courseId: number) => {
 	await db.insert(userProgress).values({
 		userId,
 		activeCourseId: courseId,
-		userName: user.username || 'User',
-		userImageSrc: user.imageUrl || '/mascot.svg',
+		userName: usernameToUse, // Use the determined username
+		userImageSrc: avatarToUse, // Use the determined avatar
 	})
 
 	revalidatePath('/courses')
