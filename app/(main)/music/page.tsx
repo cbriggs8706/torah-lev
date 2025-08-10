@@ -4,12 +4,12 @@ import { getAllSongsWithLines, getUserProgress } from '@/db/queries'
 import MusicList from '@/components/hebrew/hebrew-music-list'
 
 const HebrewMusicPage = async () => {
-	const [songs, progress] = await Promise.all([
+	const [songs, userProgress] = await Promise.all([
 		getAllSongsWithLines(),
 		getUserProgress(),
 	])
 
-	const isHebrewFriend = !!progress?.isHebrewFriend
+	const isHebrewFriend = !!userProgress?.isHebrewFriend
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">

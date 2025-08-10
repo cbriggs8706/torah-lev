@@ -10,11 +10,11 @@ import {
 	getUserProgress,
 	getUserSubscription,
 } from '@/db/queries'
-import LessonScriptViewer from '@/components/hebrew/hebrew-lesson-scripts'
 import { DismissibleAlert } from '@/components/dismissible-alert'
+import LessonScriptList from '@/components/hebrew/hebrew-lesson-script-list'
 
-const HebrewLessonScriptsPage = async () => {
-	const lessons = await getLessonScripts()
+const LessonScriptsPage = async () => {
+	const lessonScripts = await getLessonScripts()
 	const userProgressData = getUserProgress()
 	const userChallengeData = await getCourseProgress()
 	const userSubscriptionData = getUserSubscription()
@@ -30,8 +30,9 @@ const HebrewLessonScriptsPage = async () => {
 
 	const isPro = !!userSubscription?.isActive
 
-	const currentLesson = userChallengeData?.activeLesson?.lessonNumber
+	const isHebrewFriend = !!userProgress?.isHebrewFriend
 
+	const currentLesson = userProgress.activeLessonId
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
 			{/* <StickyWrapper>
@@ -60,9 +61,10 @@ const HebrewLessonScriptsPage = async () => {
 						trouble displaying images nicely.
 					</DismissibleAlert>
 
-					<LessonScriptViewer
-						lessons={lessons}
-						currentLesson={currentLesson ?? ''}
+					<LessonScriptList
+						lessonScripts={lessonScripts}
+						isFriend={isHebrewFriend}
+						currentLesson={currentLesson}
 					/>
 				</div>
 			</FeedWrapper>
@@ -70,4 +72,4 @@ const HebrewLessonScriptsPage = async () => {
 	)
 }
 
-export default HebrewLessonScriptsPage
+export default LessonScriptsPage

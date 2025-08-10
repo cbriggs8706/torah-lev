@@ -235,15 +235,28 @@ export const getLessonScripts = async () => {
 	const results = await db
 		.select({
 			id: lessonScripts.id,
-			lessonId: lessonScripts.lessonId,
+			lessonScriptId: lessonScripts.lessonId,
 			content: lessonScripts.content,
 			contentPlain: lessonScripts.contentPlain,
 			audioSrc: lessonScripts.audioSrc,
+			title: lessons.title, // Select the title from the lessons table
+			lessonId: lessons.id,
 		})
 		.from(lessonScripts)
+		.innerJoin(
+			lessons,
+			sql`${lessonScripts.lessonId} = ${lessons.lessonNumber}` // Join condition on lessonId and lessonNumber
+		)
+		.where(like(lessons.title, 'AwB%')) // Filter titles starting with 'awb'
 		.orderBy(lessonScripts.lessonId)
 
 	return results
+}
+
+export async function getLessonScript(lessonScriptId: number) {
+	return db.query.lessonScripts.findFirst({
+		where: eq(lessonScripts.id, lessonScriptId),
+	})
 }
 
 export const getGrammarLessons = async () => {
