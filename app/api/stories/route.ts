@@ -22,10 +22,17 @@ export const GET = async (req: Request) => {
 	const columnMap = {
 		id: stories.id,
 		lessonId: stories.lessonId,
+		title: stories.title,
+		hebTitle: stories.hebTitle,
+		titleTransliteration: stories.titleTransliteration,
+		order: stories.order,
+		video: stories.video,
+		image: stories.image,
+		public: stories.public,
+		category: stories.category,
 		content: stories.content,
 		contentPlain: stories.contentPlain,
 		audio: stories.audio,
-		// TODO add to this list
 	} as const
 
 	const sortColumn =

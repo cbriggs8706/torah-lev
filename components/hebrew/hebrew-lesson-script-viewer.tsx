@@ -58,7 +58,10 @@ export default function LessonScriptViewer({
 			<div className="flex flex-wrap gap-4 mb-4 justify-center">
 				<Button
 					variant={'default'}
-					onClick={() => router.push('/lesson-scripts')}
+					onClick={() => {
+						router.push('/lesson-scripts')
+						router.refresh() // revalidate the next route after the push
+					}}
 				>
 					Back to Lesson Script List
 				</Button>

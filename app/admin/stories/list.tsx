@@ -27,10 +27,13 @@ export const StoryList = () => (
 	>
 		<Datagrid rowClick="edit">
 			<TextField source="id" />
+			<TextField source="order" />
 			<TextField source="lessonId" />
-			<TruncatedTextField source="content" />
-			<TruncatedTextField source="contentPlain" />
-			<TextField source="audioSrc" />
+			<TextField source="title" />
+			{/* <TruncatedTextField source="content" />
+			<TruncatedTextField source="contentPlain" /> */}
+			<TruncatedTextField source="video" />
+			<TruncatedTextField source="audio" />
 		</Datagrid>
 	</List>
 )

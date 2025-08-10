@@ -11,11 +11,14 @@ export const StoryEdit = () => {
 	return (
 		<Edit>
 			<SimpleForm>
-				<TextInput
-					source="lessonId"
-					validate={[required()]}
-					label="Lesson ID"
-				/>
+				<TextInput source="lessonId" validate={[required()]} label="lessonId" />
+				<TextInput source="title" label="title" />
+				<TextInput source="hebTitle" label="hebTitle" />
+				<TextInput source="titleTransliteration" label="titleTransliteration" />
+				<BooleanInput source="public" label="public" />
+				<TextInput source="category" label="category" />
+				<TextInput source="order" label="order" />
+
 				<div dir="rtl">
 					<RichTextInput source="content" label="content" />
 				</div>
@@ -25,12 +28,6 @@ export const StoryEdit = () => {
 				<TextInput source="audio" label="audio" />
 				<TextInput source="image" label="image" />
 				<TextInput source="video" label="video" />
-				<TextInput source="title" label="title" />
-				<TextInput source="hebTitle" label="hebTitle" />
-				<TextInput source="titleTransliteration" label="titleTransliteration" />
-				<TextInput source="order" label="order" />
-				<BooleanInput source="public" label="public" />
-				<TextInput source="category" label="category" />
 			</SimpleForm>
 		</Edit>
 	)

@@ -86,7 +86,13 @@ export default function MusicLinesTable({
 				<Button onClick={() => setMediaType('audio')} disabled={!audio}>
 					Audio
 				</Button>
-				<Button variant={'default'} onClick={() => router.push('/music')}>
+				<Button
+					variant={'default'}
+					onClick={() => {
+						router.push('/music')
+						router.refresh() // revalidate the next route after the push
+					}}
+				>
 					Back to Song List
 				</Button>
 			</div>

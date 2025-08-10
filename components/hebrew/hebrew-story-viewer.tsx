@@ -39,6 +39,8 @@ export default function HebrewStoryViewer(story: Story) {
 	// export default function HebrewStoryViewer({ story }: { story: Story }) {
 	const [fontClass, setFontClass] = useState('font-serif')
 	const [fontSize, setFontSize] = useState(36)
+	const [mediaType, setMediaType] = useState<'video' | 'audio'>('video') // Default to audio
+
 	const router = useRouter()
 
 	// Handle font change from dropdown
@@ -61,26 +63,58 @@ export default function HebrewStoryViewer(story: Story) {
 			{/* Toggle Buttons */}
 			<div className="flex flex-wrap gap-4 mb-4 justify-center">
 				<Button
+					onClick={() => setMediaType('video')}
+					disabled={!story.story.video}
+				>
+					Video
+				</Button>
+				<Button
+					onClick={() => setMediaType('audio')}
+					disabled={!story.story.audio}
+				>
+					Audio
+				</Button>
+				<Button
 					variant={'default'}
-					onClick={() => router.push('/lesson-scripts')}
+					onClick={() => {
+						router.push('/stories')
+						router.refresh() // revalidate the next route after the push
+					}}
 				>
 					Back to Story List
 				</Button>
 			</div>
-
-			{/* Audio Embed */}
-			{story.story.audio && (
-				<iframe
-					data-testid="embed-iframe"
-					style={{ borderRadius: 12 }}
-					src={story.story.audio}
-					width="100%"
-					height="152"
-					frameBorder="0"
-					allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-					loading="lazy"
-				></iframe>
-			)}
+			{/* YouTube (convert youtu.be to embed format) */}
+			<div className="flex flex-col gap-4 mb-8">
+				{mediaType === 'video' && story.story.video && (
+					<div className="relative w-full" style={{ paddingTop: '56.25%' }}>
+						<iframe
+							className="absolute inset-0 w-full h-full rounded-md"
+							src={
+								story.story.video
+									.replace('youtu.be/', 'www.youtube.com/embed/')
+									.replace('watch?v=', 'embed/')
+									.split('?')[0]
+							} // strips ?si=... so autoplay works cleanly
+							title="YouTube video player"
+							frameBorder="0"
+							allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+							allowFullScreen
+						/>
+					</div>
+				)}
+				{/* Spotify embed */}
+				{mediaType === 'audio' && story.story.audio && (
+					<iframe
+						className="w-full rounded-md"
+						src={story.story.audio.split('?')[0]} // strips utm_source params
+						height={152}
+						frameBorder="0"
+						allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+						loading="lazy"
+					/>
+				)}
+			</div>
 			{/* Font Selector and Size Controls */}
 			<div className="flex gap-4 mb-4 justify-center">
 				{/* Font Selector */}

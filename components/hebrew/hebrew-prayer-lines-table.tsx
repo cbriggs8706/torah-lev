@@ -162,7 +162,13 @@ export default function PrayerLinesTable({
 		<div>
 			{/* Toggle Buttons */}
 			<div className="flex flex-wrap gap-4 mb-4 justify-center">
-				<Button variant={'default'} onClick={() => router.push('/prayer')}>
+				<Button
+					variant={'default'}
+					onClick={() => {
+						router.push('/prayer')
+						router.refresh() // revalidate the next route after the push
+					}}
+				>
 					Back to Prayer List
 				</Button>
 			</div>
