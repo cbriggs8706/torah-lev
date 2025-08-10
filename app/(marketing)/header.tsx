@@ -28,16 +28,17 @@ export const Header = () => {
 					<SignedIn>
 						<UserButton afterSignOutUrl="/" />
 					</SignedIn>
+					{/* ✅ Modal (no path routing), safe to use anywhere */}
 					<SignedOut>
-						<SignInButton mode="modal">
+						<SignInButton
+							mode="modal"
+							fallbackRedirectUrl="/learn"
+							signUpFallbackRedirectUrl="/learn"
+						>
 							<Button size="lg" variant="ghost">
 								Login
 							</Button>
 						</SignInButton>
-						<SignIn
-							redirectUrl="/learn" // This ensures the redirection happens after sign-in
-							afterSignInUrl="/learn"
-						/>
 					</SignedOut>
 				</ClerkLoaded>
 			</div>
