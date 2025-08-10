@@ -1,0 +1,40 @@
+import Image from 'next/image'
+import { FeedWrapper } from '@/components/feed-wrapper'
+import { getAllStories, getUserProgress } from '@/db/queries'
+import StoryList from '@/components/hebrew/hebrew-story-list'
+
+const HebrewStoriesPage = async () => {
+	const [stories, userProgress] = await Promise.all([
+		getAllStories(),
+		getUserProgress(),
+	])
+
+	const isHebrewFriend = !!userProgress?.isHebrewFriend
+
+	return (
+		<div className="flex flex-row-reverse gap-[48px] px-6">
+			<FeedWrapper>
+				<div className="w-full flex flex-col items-center">
+					<Image
+						src="/books-svgrepo-com.svg"
+						alt="Stories"
+						height={90}
+						width={90}
+					/>
+					<h1 className="text-center font-bold text-neutral-800 text-2xl my-6">
+						Stories
+					</h1>
+					{/* <DismissibleAlert storageKey="matchup" className="mb-4">
+            {' '}
+            Musics
+          </DismissibleAlert> */}
+				</div>
+				<div className="space-y-4">
+					<StoryList stories={stories} isFriend={isHebrewFriend} />
+				</div>
+			</FeedWrapper>
+		</div>
+	)
+}
+
+export default HebrewStoriesPage

@@ -31,9 +31,14 @@ import { AdminMenu } from '@/components/admin-menu'
 import { LessonScriptList } from './lesson-scripts/list'
 import { LessonScriptCreate } from './lesson-scripts/create'
 import { LessonScriptEdit } from './lesson-scripts/edit'
+
 import { GrammarLessonList } from './grammar-lessons/list'
 import { GrammarLessonEdit } from './grammar-lessons/edit'
 import { GrammarLessonCreate } from './grammar-lessons/create'
+
+import { StoryList } from './stories/list'
+import { StoryEdit } from './stories/edit'
+import { StoryCreate } from './stories/create'
 
 const dataProvider = simpleRestProvider('/api')
 
@@ -91,6 +96,14 @@ const App = () => {
 				edit={GrammarLessonEdit}
 				recordRepresentation="text"
 				options={{ label: 'Grammar Lessons' }}
+			/>
+			<Resource
+				name="stories"
+				list={StoryList}
+				create={StoryCreate}
+				edit={StoryEdit}
+				recordRepresentation="text"
+				options={{ label: 'Stories' }}
 			/>
 			<CustomRoutes>
 				<Route

@@ -18,6 +18,7 @@ import {
 	userSubscription,
 	hebrewMusicLibrary,
 	hebrewMusicLine,
+	stories,
 } from '@/db/schema'
 import { tr } from 'date-fns/locale'
 
@@ -581,4 +582,16 @@ export async function listEvents(filter: EventsFilter = {}) {
 			)
 		)
 		.orderBy(events.startTime)
+}
+
+export async function getAllStories() {
+	return db.query.stories.findMany({
+		orderBy: asc(stories.order),
+	})
+}
+
+export async function getStory(storyId: number) {
+	return db.query.stories.findFirst({
+		where: eq(stories.id, storyId),
+	})
 }

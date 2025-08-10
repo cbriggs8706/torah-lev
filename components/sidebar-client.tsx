@@ -151,6 +151,12 @@ export default function SidebarClient({
 							onClick={onItemClick}
 						/>
 						<SidebarItem
+							label="Stories"
+							href="/stories"
+							iconSrc="/books-svgrepo-com.svg"
+							onClick={onItemClick}
+						/>
+						<SidebarItem
 							label="Dev Roadmap"
 							href="/dev-roadmap"
 							iconSrc="/world-map-svgrepo-com.svg"

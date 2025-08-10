@@ -321,3 +321,20 @@ export const events = pgTable('events', {
 	address: text('address'),
 	notes: text('notes'),
 })
+
+export const stories = pgTable('stories', {
+	id: serial('id').primaryKey(),
+	lessonId: text('lesson_id'),
+	// .references(() => lessons.lessonKey),
+	title: text('title').notNull(),
+	hebTitle: text('heb_title'),
+	titleTransliteration: text('title_transliteration'),
+	order: integer('order').notNull(),
+	video: text('video'),
+	image: text('image'),
+	audio: text('audio'),
+	public: boolean('public').notNull().default(true),
+	category: text('category').notNull().default(''),
+	content: text('content'),
+	contentPlain: text('content_plain'),
+})
