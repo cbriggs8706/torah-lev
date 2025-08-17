@@ -338,3 +338,47 @@ export const stories = pgTable('stories', {
 	content: text('content'),
 	contentPlain: text('content_plain'),
 })
+
+export const hebrewWords = pgTable('hebrew_words', {
+	id: serial('id').primaryKey(),
+	heb: text('heb').notNull(),
+	hebNiqqud: text('hebNiqqud').notNull(),
+	eng: text('eng').notNull(),
+	// engDefinition: text('engDefinition'),
+	person: integer('person'),
+	gender: text('gender'),
+	number: text('number'),
+	partOfSpeech: text('partOfSpeech').array(),
+	ipa: text('ipa'),
+	engTransliteration: text('engTransliteration'),
+	dictionaryUrl: text('dictionaryUrl'),
+	images: text('images').array(),
+	hebAudio: text('hebAudio'),
+	// engAudio: text('engAudio'),
+	// synonyms: integer('synonyms').array(),
+	// antonyms: integer('antonyms').array(),
+	lessons: text('lessons').array(),
+	// scriptures: text('scriptures').array(),
+	strongs: text('strongs'),
+	type: text('type'),
+	category: text('category'),
+})
+
+export const hebrewWordForms = pgTable('hebrew_word_forms', {
+	id: serial('id').primaryKey(),
+	wordId: integer('word_id').references(() => hebrewWords.id),
+	formType: text('form_type'), // base, prefix, conjugation, suffix, construct
+	subtype: text('subtype'), // past, present, future, plural, etc.
+	person: integer('person'),
+	gender: text('gender'),
+	number: text('number'),
+	heb: text('heb'),
+	hebNiqqud: text('hebNiqqud').notNull(),
+	eng: text('eng'),
+	ipa: text('ipa'),
+	engTransliteration: text('engTransliteration'),
+	images: text('images').array(),
+	hebAudio: text('hebAudio'),
+	lessons: text('lessons').array(),
+	// scriptures: text('scriptures').array(),
+})
