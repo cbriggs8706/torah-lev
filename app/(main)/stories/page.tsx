@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import { redirect } from 'next/navigation'
 import { FeedWrapper } from '@/components/feed-wrapper'
 import { getAllStories, getUserProgress } from '@/db/queries'
 import StoryList from '@/components/hebrew/hebrew-story-list'
@@ -9,7 +10,12 @@ const HebrewStoriesPage = async () => {
 		getUserProgress(),
 	])
 
+	if (!userProgress || !userProgress.activeCourse) {
+		redirect('/courses')
+	}
+
 	const isHebrewFriend = !!userProgress?.isHebrewFriend
+	const currentLesson = userProgress.activeLessonId
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
@@ -30,7 +36,11 @@ const HebrewStoriesPage = async () => {
           </DismissibleAlert> */}
 				</div>
 				<div className="space-y-4">
-					<StoryList stories={stories} isFriend={isHebrewFriend} />
+					<StoryList
+						stories={stories}
+						isFriend={isHebrewFriend}
+						currentLesson={currentLesson}
+					/>
 				</div>
 			</FeedWrapper>
 		</div>

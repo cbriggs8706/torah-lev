@@ -21,14 +21,17 @@ type Story = {
 	audio?: string | null
 	video?: string | null
 	public: boolean
+	lessonId?: string | null
 }
 
 export default function StoryList({
 	stories,
 	isFriend,
+	currentLesson,
 }: {
 	stories: Story[]
 	isFriend: boolean
+	currentLesson: number | null
 }) {
 	const filteredStories = useMemo(
 		() => (isFriend ? stories : stories.filter((s) => s.public)),
@@ -74,6 +77,15 @@ export default function StoryList({
 		[grouped]
 	)
 
+	function parseLessonId(id: string | null | undefined) {
+		if (!id) return { num: Infinity, suffix: '' } // put missing lessonIds at the end
+		const match = id.match(/^(\d+)([a-zA-Z]*)$/)
+		return {
+			num: match ? parseInt(match[1], 10) : Infinity,
+			suffix: match ? match[2] : '',
+		}
+	}
+
 	return (
 		<div className="space-y-4">
 			{/* Header + Filter */}
@@ -104,40 +116,74 @@ export default function StoryList({
 			</div>
 
 			{/* Grouped lists */}
-			{groupsInOrder.map(([cat, items]) => (
-				<div key={cat} className="space-y-2">
-					<h2 className="text-lg font-semibold text-neutral-700 uppercase">
-						{cat}
-					</h2>
-					<div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-						{items.map((story) => (
-							<div
-								key={story.id}
-								className="rounded-lg border p-4 shadow hover:shadow-md transition"
-							>
-								<h3 className="text-xl font-semibold">{story.title}</h3>
+			{groupsInOrder.map(([cat, items]) => {
+				// sort by parsed lessonId
+				const sortedItems = [...items].sort((a, b) => {
+					const A = parseLessonId(a.lessonId)
+					const B = parseLessonId(b.lessonId)
+					if (A.num !== B.num) return A.num - B.num
+					return A.suffix.localeCompare(B.suffix)
+				})
+				return (
+					<div key={cat} className="space-y-2">
+						<h2 className="text-lg font-semibold text-neutral-700 uppercase">
+							{cat}
+						</h2>
+						<div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+							{sortedItems.map((story) => {
+								const parsed = parseLessonId(story.lessonId)
+								const isLocked =
+									currentLesson !== null && parsed.num > currentLesson
 
-								{story.hebTitle && (
-									<p className="text-lg font-hebrew">{story.hebTitle}</p>
-								)}
+								return (
+									<div
+										key={story.id}
+										className="relative rounded-lg border p-4 shadow hover:shadow-md transition"
+									>
+										{/* Blue circle in upper-right */}
+										{story.lessonId && (
+											<div className="absolute top-2 right-2 bg-sky-500 text-white text-sm font-bold rounded-full w-8 h-8 flex items-center justify-center shadow">
+												{story.lessonId}
+											</div>
+										)}
+										<h3 className="text-xl font-semibold">{story.title}</h3>
 
-								{story.titleTransliteration && (
-									<p className="italic text-gray-600">
-										{story.titleTransliteration}
-									</p>
-								)}
+										{story.hebTitle && (
+											<p className="text-lg font-hebrew">{story.hebTitle}</p>
+										)}
 
-								<Link
-									href={`/stories/${story.id}`}
-									className="inline-block mt-3 px-3 py-1 bg-sky-500 text-white rounded hover:bg-sky-700 transition"
-								>
-									Read Story
-								</Link>
-							</div>
-						))}
+										{story.titleTransliteration && (
+											<p className="italic text-gray-600">
+												{story.titleTransliteration}
+											</p>
+										)}
+
+										<Link
+											href={`/stories/${story.id}`}
+											className="inline-block mt-3 px-3 py-1 bg-sky-500 text-white rounded hover:bg-sky-700 transition"
+										>
+											Read Story
+										</Link>
+										{/* TODO the query needs to join the lessonId properly */}
+										{/* {isLocked ? (
+        <div className="inline-block mt-3 px-3 py-1 bg-gray-400 text-white rounded">
+          Locked
+        </div>
+      ) : (
+        <Link
+          href={`/stories/${story.id}`}
+          className="inline-block mt-3 px-3 py-1 bg-sky-500 text-white rounded hover:bg-sky-700 transition"
+        >
+          Read Story
+        </Link>
+      )} */}
+									</div>
+								)
+							})}
+						</div>
 					</div>
-				</div>
-			))}
+				)
+			})}
 
 			{/* Empty state */}
 			{groupsInOrder.length === 0 && (
