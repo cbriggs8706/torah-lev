@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useMemo } from 'react'
 import { HebrewMusicLine } from '@/db/types'
 import { Button } from '../ui/button'
 import { useRouter } from 'next/navigation'
@@ -26,6 +26,11 @@ interface MusicLinesTableProps {
 type DisplayableLine = HebrewMusicLine & {
 	displayLineNumbers: number[]
 	_group: 0 | 1 | 2
+}
+
+type AugLine = HebrewMusicLine & {
+	_displayLineNumber?: number
+	_dupKey: string
 }
 
 export default function MusicLinesTable({
@@ -75,6 +80,26 @@ export default function MusicLinesTable({
 		audioRef.current = audio
 		audio.play().catch(() => {})
 	}
+
+	const expandedLines: AugLine[] = useMemo(() => {
+		const items = lines.flatMap((line) => {
+			const nums = (
+				line.lineNumbers?.length ? line.lineNumbers : [undefined]
+			) as (number | undefined)[]
+			return nums.map((n, idx) => ({
+				...line,
+				_displayLineNumber: n,
+				_dupKey: n !== undefined ? `${line.id}-${n}` : `${line.id}-base-${idx}`,
+			}))
+		})
+		// sort by the displayed number; undefined sinks to bottom
+		items.sort((a, b) => {
+			const av = a._displayLineNumber ?? Number.POSITIVE_INFINITY
+			const bv = b._displayLineNumber ?? Number.POSITIVE_INFINITY
+			return av - bv
+		})
+		return items
+	}, [lines])
 
 	return (
 		<div>
@@ -197,9 +222,9 @@ export default function MusicLinesTable({
 							</tr>
 						</thead>
 						<tbody>
-							{lines.map((line) => (
+							{expandedLines.map((line) => (
 								<tr
-									key={line.id}
+									key={line._dupKey}
 									className="hover:bg-gray-50 border-t border-gray-300"
 								>
 									<td
@@ -211,7 +236,6 @@ export default function MusicLinesTable({
 										</div>
 									</td>
 
-									{/* ✅ Clickable Line Number */}
 									<td
 										onClick={() => playAudio(line.audioSrc)}
 										className={`px-4 py-2 text-center font-bold ${
@@ -220,9 +244,7 @@ export default function MusicLinesTable({
 												: 'text-gray-400 cursor-default'
 										}`}
 									>
-										{line.lineNumbers?.length
-											? line.lineNumbers.join(', ')
-											: ''}
+										{line._displayLineNumber ?? ''}
 									</td>
 
 									{showTransliteration && (
@@ -237,9 +259,9 @@ export default function MusicLinesTable({
 			</div>
 			{/* ✅ Mobile Card Layout */}
 			<div className="space-y-4 md:hidden">
-				{lines.map((line) => (
+				{expandedLines.map((line) => (
 					<div
-						key={line.id}
+						key={line._dupKey}
 						className="border rounded-lg shadow-sm bg-white flex"
 					>
 						<div className="flex-1 p-3">
@@ -250,29 +272,27 @@ export default function MusicLinesTable({
 							>
 								{showNiqqud ? line.hebNiqqud : line.hebText}
 							</div>
-
 							{showTransliteration && (
 								<div className="text-lg font-semibold mb-1">
 									{line.engTransliteration}
 								</div>
 							)}
-
 							{showEnglish && (
 								<div className="text-gray-700">{line.engText}</div>
 							)}
 						</div>
 
-						{/* ✅ Blue Tab Clickable */}
-						<div
+						<button
+							type="button"
 							onClick={() => playAudio(line.audioSrc)}
 							className={`flex items-center justify-center px-3 text-lg font-bold rounded-r-lg ${
 								line.audioSrc
-									? 'bg-sky-500 text-white cursor-pointer hover:bg-sky-600 active:scale-95'
-									: 'bg-gray-300 text-gray-600 cursor-default'
+									? 'bg-sky-500 text-white hover:bg-sky-600 active:scale-95'
+									: 'bg-gray-300 text-gray-600'
 							}`}
 						>
-							{line.lineNumbers?.length ? line.lineNumbers.join(', ') : ''}
-						</div>
+							{line._displayLineNumber ?? ''}
+						</button>
 					</div>
 				))}
 			</div>
