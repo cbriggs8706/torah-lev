@@ -1,8 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Button } from '../ui/button'
 import { useRouter } from 'next/navigation'
+import AudioPlayer from '@/components/media/audio-player'
+import { isSpotifyUrl } from '@/components/media/audio-utils'
 
 const hebrewFonts = [
 	{ label: 'Arial', value: 'font-arial' },
@@ -42,6 +44,22 @@ export default function HebrewStoryViewer(story: Story) {
 	const [mediaType, setMediaType] = useState<'video' | 'audio'>('video') // Default to audio
 
 	const router = useRouter()
+
+	const audioIsSpotify = useMemo(
+		() => isSpotifyUrl(story.story.audio),
+		[story.story.audio]
+	)
+	const audioSrcClean = useMemo(() => {
+		const a = story.story.audio
+		if (!a) return null
+		try {
+			const u = new URL(a)
+			u.search = ''
+			return u.toString()
+		} catch {
+			return a
+		}
+	}, [story.story.audio])
 
 	// Handle font change from dropdown
 	const handleFontChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -84,7 +102,7 @@ export default function HebrewStoryViewer(story: Story) {
 					Back to Story List
 				</Button>
 			</div>
-			{/* YouTube (convert youtu.be to embed format) */}
+			{/* Media block */}
 			<div className="flex flex-col gap-4 mb-8">
 				{mediaType === 'video' && story.story.video && (
 					<div className="relative w-full" style={{ paddingTop: '56.25%' }}>
@@ -95,25 +113,39 @@ export default function HebrewStoryViewer(story: Story) {
 									.replace('youtu.be/', 'www.youtube.com/embed/')
 									.replace('watch?v=', 'embed/')
 									.split('?')[0]
-							} // strips ?si=... so autoplay works cleanly
+							}
 							title="YouTube video player"
-							frameBorder="0"
+							frameBorder={0}
 							allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
 							allowFullScreen
 						/>
 					</div>
 				)}
-				{/* Spotify embed */}
-				{mediaType === 'audio' && story.story.audio && (
-					<iframe
-						className="w-full rounded-md"
-						src={story.story.audio.split('?')[0]} // strips utm_source params
-						height={152}
-						frameBorder="0"
-						allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-						loading="lazy"
-					/>
-				)}
+
+				{mediaType === 'audio' &&
+					story.story.audio &&
+					(audioIsSpotify ? (
+						<iframe
+							className="w-full rounded-md"
+							src={audioSrcClean || undefined}
+							height={152}
+							frameBorder={0}
+							allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+							loading="lazy"
+						/>
+					) : (
+						<AudioPlayer
+							src={audioSrcClean!}
+							skipSeconds={10}
+							defaultRate={1}
+							defaultVolume={1}
+							startTime={0}
+							label={`Audio for ${story.story.title}`}
+							onEnded={() => {
+								/* optional: mark complete */
+							}}
+						/>
+					))}
 			</div>
 			{/* Font Selector and Size Controls */}
 			<div className="flex gap-4 mb-4 justify-center">

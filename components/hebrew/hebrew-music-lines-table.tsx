@@ -81,6 +81,10 @@ export default function MusicLinesTable({
 		audio.play().catch(() => {})
 	}
 
+	const scrollToTop = () => {
+		window.scrollTo({ top: 0, behavior: 'smooth' })
+	}
+
 	const expandedLines: AugLine[] = useMemo(() => {
 		const items = lines.flatMap((line) => {
 			const nums = (
@@ -137,6 +141,7 @@ export default function MusicLinesTable({
 							frameBorder="0"
 							allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
 							allowFullScreen
+							tabIndex={-1}
 						/>
 					</div>
 				)}
@@ -149,6 +154,7 @@ export default function MusicLinesTable({
 						frameBorder="0"
 						allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
 						loading="lazy"
+						tabIndex={-1}
 					/>
 				)}
 			</div>
@@ -255,6 +261,13 @@ export default function MusicLinesTable({
 							))}
 						</tbody>
 					</table>
+					<button
+						onClick={scrollToTop}
+						className="fixed bottom-4 right-4 z-50 bg-sky-500 hover:bg-sky-600 text-white px-3 py-2 rounded-full shadow-lg transition"
+						aria-label="Scroll to top"
+					>
+						↑ Top
+					</button>
 				</div>
 			</div>
 			{/* ✅ Mobile Card Layout */}
@@ -295,6 +308,13 @@ export default function MusicLinesTable({
 						</button>
 					</div>
 				))}
+				<button
+					onClick={scrollToTop}
+					className="fixed bottom-4 right-4 z-50 bg-sky-500 hover:bg-sky-600 text-white px-3 py-2 rounded-full shadow-lg transition"
+					aria-label="Scroll to top"
+				>
+					↑ Top
+				</button>
 			</div>
 		</div>
 	)
