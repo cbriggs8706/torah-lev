@@ -111,7 +111,8 @@ export const Unit = (props: Props) => {
 			<div className="flex items-center flex-col relative mb-12">
 				{lessons.map((lesson, index) => {
 					const isCurrent = lesson.id === activeLesson?.id
-					const isLocked = !lesson.completed && !isCurrent
+					const isLocked = false
+					// const isLocked = !lesson.completed && !isCurrent
 
 					// 👇 per-lesson review date (if any) from the map
 

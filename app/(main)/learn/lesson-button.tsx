@@ -61,7 +61,8 @@ export const LessonButton = ({
 
 	const Icon = isCompleted ? Check : isLast ? Crown : Star
 
-	const href = isCompleted ? `/lesson/${id}` : '/lesson'
+	const href = `/lesson/${id}`
+	// const href = isCompleted ? `/lesson/${id}` : '/lesson'
 
 	const rawDate = reviewDate ?? targetDate ?? null
 	const dateObj = rawDate ?? null
@@ -71,8 +72,8 @@ export const LessonButton = ({
 	return (
 		<Link
 			href={href}
-			aria-disabled={locked}
-			style={{ pointerEvents: locked ? 'none' : 'auto' }}
+			// aria-disabled={locked}
+			// style={{ pointerEvents: locked ? 'none' : 'auto' }}
 		>
 			<div
 				className="relative"
