@@ -17,7 +17,7 @@ type FontChoice =
 	| 'rashi'
 	| 'suez'
 
-interface EnglishEnglishVocabProps {
+interface EnglishFlashcardsProps {
 	data: EnglishVocab[]
 	allFields: (keyof EnglishVocab)[]
 	currentLesson: string
@@ -46,11 +46,15 @@ const FONT_SIZE_LABELS: Record<FontSizeKey, string> = {
 
 const FIELD_LABELS: Partial<Record<keyof EnglishVocab, string>> = {
 	eng: 'English',
+	spa: 'Spanish',
+	por: 'Portuguese',
 	engDefinition: 'Definition',
-	genderPerson: 'Gender / Person',
+	gender: 'Gender',
+	person: 'Person',
 	partOfSpeech: 'Part of Speech',
 	ipa: 'IPA (Pronunciation)',
-	engTransliteration: 'English Transliteration',
+	spaTransliteration: 'Spanish Transliteration',
+	porTransliteration: 'Portuguese Transliteration',
 	images: 'Image',
 	engAudio: 'Audio',
 }
@@ -67,12 +71,12 @@ const FONT_CLASS_MAP: Record<FontChoice, string> = {
 	suez: 'font-suez',
 }
 
-export default function EnglishEnglishVocab({
+export default function EnglishFlashcards({
 	data,
 	allFields,
 	currentLesson,
 	layout,
-}: EnglishEnglishVocabProps) {
+}: EnglishFlashcardsProps) {
 	const [selectedType, setSelectedType] = useState<'all' | 'word' | 'phrase'>(
 		'word'
 	)
@@ -89,11 +93,11 @@ export default function EnglishEnglishVocab({
 	const [filteredCards, setFilteredCards] = useState<EnglishVocab[]>([])
 	const [selectedCategory, setSelectedCategory] = useState<string>('all')
 
-	const [frontFont, setFrontFont] = useState<FontChoice>('times')
-	const [backFont, setBackFont] = useState<FontChoice>('times')
+	const [frontFont, setFrontFont] = useState<FontChoice>('nunito')
+	const [backFont, setBackFont] = useState<FontChoice>('nunito')
 
-	const [frontFontSize, setFrontFontSize] = useState<FontSizeKey>('threexl')
-	const [backFontSize, setBackFontSize] = useState<FontSizeKey>('threexl')
+	const [frontFontSize, setFrontFontSize] = useState<FontSizeKey>('xl')
+	const [backFontSize, setBackFontSize] = useState<FontSizeKey>('xl')
 	const [showCustomize, setShowCustomize] = useState(false)
 	const [showFilter, setShowFilter] = useState(false)
 	const [audioVolume, setAudioVolume] = useState(1) // full volume
@@ -114,8 +118,8 @@ export default function EnglishEnglishVocab({
 		keyof EnglishVocab | 'none'
 	>('none')
 	const [frontBottomCenter, setFrontBottomCenter] = useState<
-		keyof EnglishVocab | 'genderPerson'
-	>('genderPerson')
+		keyof EnglishVocab | 'none'
+	>('none')
 	const [frontBottomRight, setFrontBottomRight] = useState<
 		keyof EnglishVocab | 'none'
 	>('none')
@@ -132,14 +136,14 @@ export default function EnglishEnglishVocab({
 		keyof EnglishVocab | 'eng'
 	>('eng')
 	const [backBottomLeft, setBackBottomLeft] = useState<
-		keyof EnglishVocab | 'none'
-	>('none')
+		keyof EnglishVocab | 'spaTransliteration'
+	>('spaTransliteration')
 	const [backBottomCenter, setBackBottomCenter] = useState<
 		keyof EnglishVocab | 'ipa'
 	>('ipa')
 	const [backBottomRight, setBackBottomRight] = useState<
-		keyof EnglishVocab | 'engTransliteration'
-	>('engTransliteration')
+		keyof EnglishVocab | 'porTransliteration'
+	>('porTransliteration')
 
 	const { width, height } = useWindowSize()
 
@@ -147,22 +151,17 @@ export default function EnglishEnglishVocab({
 		{
 			label: 'Picture → Word',
 			front: { middle: 'images', font: 'sans', size: 'xl' },
-			back: { middle: 'eng', font: 'times', size: 'threexl' },
+			back: { middle: 'eng', font: 'nunito', size: 'xl' },
 		},
 		{
 			label: 'Audio → Picture',
 			front: { middle: 'engAudio', font: 'sans', size: 'xl' },
-			back: { middle: 'images', font: 'times', size: 'threexl' },
-		},
-		{
-			label: 'Sightread',
-			front: { middle: 'heb', font: 'times', size: 'threexl' },
-			back: { middle: 'engAudio', font: 'arial', size: 'lg' },
+			back: { middle: 'images', font: 'nunito', size: 'xl' },
 		},
 		{
 			label: 'Translation',
-			front: { middle: 'eng', font: 'times', size: 'threexl' },
-			back: { middle: 'eng', font: 'times', size: 'lg' },
+			front: { middle: 'eng', font: 'nunito', size: 'xl' },
+			back: { middle: 'eng', font: 'nunito', size: 'lg' },
 		},
 	] as const
 
@@ -180,15 +179,15 @@ export default function EnglishEnglishVocab({
 		setFrontTopCenter('none')
 		setFrontTopRight('engAudio')
 		setFrontBottomLeft('none')
-		setFrontBottomCenter('genderPerson')
+		setFrontBottomCenter('gender')
 		setFrontBottomRight('none')
 
 		setBackTopLeft('none')
 		setBackTopCenter('none')
 		setBackTopRight('engAudio')
-		setBackBottomLeft('none')
+		setBackBottomLeft('spaTransliteration')
 		setBackBottomCenter('ipa')
-		setBackBottomRight('engTransliteration')
+		setBackBottomRight('porTransliteration')
 		setShowCustomize(false)
 	}
 
@@ -489,24 +488,28 @@ export default function EnglishEnglishVocab({
 	useEffect(() => {
 		const width = window.innerWidth
 		if (width < 400) {
-			setFrontFontSize('threexl')
-			setBackFontSize('threexl')
+			setFrontFontSize('xl')
+			setBackFontSize('xl')
 		} else if (width < 768) {
-			setFrontFontSize('threexl')
-			setBackFontSize('threexl')
+			setFrontFontSize('xl')
+			setBackFontSize('xl')
 		} else {
-			setFrontFontSize('threexl')
-			setBackFontSize('threexl')
+			setFrontFontSize('xl')
+			setBackFontSize('xl')
 		}
 	}, [])
 
-	const allDisplayFields = allFields.filter((f) => f !== 'dictionaryUrl')
 	const miniPositionFields: (keyof EnglishVocab)[] = [
 		'eng',
 		'ipa',
 		'engAudio',
-		'genderPerson',
-		'engTransliteration',
+		'gender',
+		'person',
+		'number',
+		'spa',
+		'por',
+		'spaTransliteration',
+		'porTransliteration',
 	]
 
 	function getAdaptiveFontSize(text: string, baseSize: FontSizeKey): number {
@@ -581,7 +584,7 @@ export default function EnglishEnglishVocab({
 			return value.join(', ')
 		}
 
-		const className = !isMiddle ? 'font-serif text-4xl' : ''
+		const className = !isMiddle ? 'font-serif text-lg' : ''
 
 		return (
 			<span className={className}>{fixHebrewPunctuation(value as string)}</span>
@@ -779,7 +782,7 @@ export default function EnglishEnglishVocab({
 									}
 								>
 									<option value="none">None</option>
-									{allDisplayFields.map((field) => (
+									{allFields.map((field) => (
 										<option key={field} value={field}>
 											{FIELD_LABELS[field] || field}
 										</option>
@@ -941,7 +944,7 @@ export default function EnglishEnglishVocab({
 									}
 								>
 									<option value="none">None</option>
-									{allDisplayFields.map((field) => (
+									{allFields.map((field) => (
 										<option key={field} value={field}>
 											{FIELD_LABELS[field] || field}
 										</option>

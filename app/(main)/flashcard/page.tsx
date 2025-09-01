@@ -15,7 +15,7 @@ import awbHebrewVocab from '@/lib/data/vocab/awbVocab.json'
 import hebrewScoutsVocab from '@/lib/data/vocab/hebrewScoutsVocab.json'
 import awaGreekVocab from '@/lib/data/vocab/awaVocab.json'
 import abcHebrewVocab from '@/lib/data/vocab/abcVocab.json'
-import ewbEnglishVocab from '@/lib/data/vocab/ewbVocab.json'
+import efwEnglishVocab from '@/lib/data/vocab/efwVocab.json'
 
 import { HebrewVocab, GreekVocab, EnglishVocab } from '@/lib/vocab'
 
@@ -61,11 +61,15 @@ const allFieldsGreek: (keyof GreekVocab)[] = [
 
 const allFieldsEnglish: (keyof EnglishVocab)[] = [
 	'eng',
+	'spa',
+	'por',
 	'engDefinition',
-	'genderPerson',
+	'gender',
+	'person',
 	'partOfSpeech',
 	'ipa',
-	'engTransliteration',
+	'spaTransliteration',
+	'porTransliteration',
 	'images',
 	'engAudio',
 ]
@@ -105,7 +109,7 @@ export default async function FlashcardPage({
 
 	const englishData: EnglishVocab[] =
 		userProgress.activeCourseId === 13
-			? (ewbEnglishVocab as EnglishVocab[])
+			? (efwEnglishVocab as EnglishVocab[])
 			: []
 
 	return (
@@ -138,7 +142,7 @@ export default async function FlashcardPage({
 						/>
 					)}
 
-					{userProgress.activeCourseId === 13 && (
+					{userProgress.activeCourseId === 16 && (
 						<EnglishFlashcards
 							data={englishData}
 							allFields={allFieldsEnglish}

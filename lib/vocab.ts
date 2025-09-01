@@ -45,20 +45,20 @@ export type GreekVocab = {
 
 export type EnglishVocab = {
 	id: number | null
-	eng: string
+	lessons: string[]
+	type?: string
 	engDefinition?: string
-	genderPerson?: string
+	eng: string
+	spa: string
+	por: string
+	spaTransliteration: string
+	porTransliteration: string
+	person?: string
+	gender?: string
+	number?: string
 	partOfSpeech?: string[] // or string if singular
 	ipa?: string
-	engTransliteration?: string
-	dictionaryUrl?: string
 	images: string[]
 	engAudio: string
-	synonyms?: string[]
-	antonyms?: string[]
-	lessons: string[]
-	scriptures?: string[]
-	strongs?: string
-	type?: string
 	category?: string
 }
