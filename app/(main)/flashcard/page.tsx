@@ -18,6 +18,7 @@ import abcHebrewVocab from '@/lib/data/vocab/abcVocab.json'
 import efwEnglishVocab from '@/lib/data/vocab/efwVocab.json'
 
 import { HebrewVocab, GreekVocab, EnglishVocab } from '@/lib/vocab'
+import TorahScrollLoader from '@/components/hebrew/hebrew-loader'
 
 // ✅ Dynamic imports for each language
 const HebrewFlashcards = dynamic(
@@ -90,6 +91,12 @@ export default async function FlashcardPage({
 
 	if (!userProgress || !userProgress.activeCourse) {
 		redirect('/courses')
+	}
+
+	{
+		;[6, 11, 14].includes(userProgress?.activeCourse.id ?? 0) && (
+			<TorahScrollLoader />
+		)
 	}
 
 	const currentLesson = userChallengeData?.activeLesson?.lessonNumber

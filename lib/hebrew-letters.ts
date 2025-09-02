@@ -1,4 +1,4 @@
-export const letters = [
+export const hebrewLetters = [
 	{
 		char: 'א',
 		nameAudio: '/audio/name-alef-base.mp3',

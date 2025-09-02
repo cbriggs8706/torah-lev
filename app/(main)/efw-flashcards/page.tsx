@@ -84,7 +84,7 @@ export default async function EFWFlashcardPage({
 						<EnglishFlashcards
 							data={englishForWorkData}
 							allFields={allFieldsEnglish}
-							currentLesson={currentLesson ?? ''}
+							currentLesson={'1'}
 							layout="english"
 						/>
 					)}

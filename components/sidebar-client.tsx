@@ -63,7 +63,9 @@ export default function SidebarClient({
 					onClick={onItemClick}
 				/>
 			)}
-			<HebrewClock onClick={onItemClick} isWidget={true} />
+			{[6, 11, 14].includes(userProgress?.activeCourse.id ?? 0) && (
+				<HebrewClock onClick={onItemClick} isWidget={true} />
+			)}
 			<div className="flex flex-col gap-y-2 flex-1 overflow-y-auto">
 				<SidebarItem
 					label="Learn"
@@ -80,12 +82,26 @@ export default function SidebarClient({
 					/>
 				)}
 				{userProgress?.activeCourse.id === 16 && (
-					<SidebarItem
-						label="Flashcards"
-						href="/efw-flashcards"
-						iconSrc="/card-file-box.svg"
-						onClick={onItemClick}
-					/>
+					<>
+						<SidebarItem
+							label="Flashcards"
+							href="/efw-flashcards"
+							iconSrc="/card-file-box.svg"
+							onClick={onItemClick}
+						/>
+						<SidebarItem
+							label="Matchup"
+							href="/en/matchup"
+							iconSrc="/socks-svgrepo-com.svg"
+							onClick={onItemClick}
+						/>
+						<SidebarItem
+							label="Scramble"
+							href="/en/scramble"
+							iconSrc="/cooking-svgrepo-com.svg"
+							onClick={onItemClick}
+						/>
+					</>
 				)}
 				{userProgress?.activeCourse.id === 6 ||
 					(userProgress?.activeCourse.id === 11 && (

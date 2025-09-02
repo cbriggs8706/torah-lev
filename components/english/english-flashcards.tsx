@@ -77,6 +77,7 @@ export default function EnglishFlashcards({
 	currentLesson,
 	layout,
 }: EnglishFlashcardsProps) {
+	console.log('currentLesson', currentLesson)
 	const [selectedType, setSelectedType] = useState<'all' | 'word' | 'phrase'>(
 		'word'
 	)
@@ -159,9 +160,14 @@ export default function EnglishFlashcards({
 			back: { middle: 'images', font: 'nunito', size: 'xl' },
 		},
 		{
-			label: 'Translation',
+			label: 'Spa Translation',
 			front: { middle: 'eng', font: 'nunito', size: 'xl' },
-			back: { middle: 'eng', font: 'nunito', size: 'lg' },
+			back: { middle: 'spa', font: 'nunito', size: 'xl' },
+		},
+		{
+			label: 'Por Translation',
+			front: { middle: 'eng', font: 'nunito', size: 'xl' },
+			back: { middle: 'por', font: 'nunito', size: 'xl' },
 		},
 	] as const
 

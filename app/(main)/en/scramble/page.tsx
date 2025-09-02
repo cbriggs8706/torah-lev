@@ -4,20 +4,27 @@ import { redirect } from 'next/navigation'
 import { FeedWrapper } from '@/components/feed-wrapper'
 import { UserProgress } from '@/components/user-progress'
 import { StickyWrapper } from '@/components/sticky-wrapper'
-import { getUserProgress, getUserSubscription } from '@/db/queries'
+import {
+	getCourseProgress,
+	getUserProgress,
+	getUserSubscription,
+} from '@/db/queries'
 import dynamic from 'next/dynamic'
-import { hebrewLetters } from '@/lib/hebrew-letters'
+
+import efwEnglishVocab from '@/lib/data/vocab/efwVocab.json'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 
-const LetterQuiz = dynamic(
-	() => import('@/components/hebrew/hebrew-letter-quiz'),
+const EnglishScramble = dynamic(
+	() => import('@/components/english/english-scramble'),
 	{
 		ssr: false,
 	}
 )
 
-const HebrewLetterQuizPage = async () => {
+const EnglishScramblePage = async () => {
 	const userProgressData = getUserProgress()
+	const userChallengeData = await getCourseProgress()
+
 	const userSubscriptionData = getUserSubscription()
 
 	const [userProgress, userSubscription] = await Promise.all([
@@ -25,11 +32,9 @@ const HebrewLetterQuizPage = async () => {
 		userSubscriptionData,
 	])
 
-	if (!userProgress || !userProgress.activeCourseId) {
+	if (!userProgress || !userProgress.activeCourse) {
 		redirect('/courses')
 	}
-
-	const isPro = !!userSubscription?.isActive
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
@@ -45,29 +50,30 @@ const HebrewLetterQuizPage = async () => {
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">
 					<Image
-						src="/a-button-blood-type-svgrepo-com.svg"
-						alt="Calendar"
+						src="/cooking-svgrepo-com.svg"
+						alt="Scramble"
 						height={90}
 						width={90}
 					/>
 					<h1 className="text-center font-bold text-neutral-800 text-2xl my-6">
-						Letter Quiz
+						Scramble
 					</h1>
-					<DismissibleAlert storageKey="letter1" className="mb-4">
-						Quiz yourself on letter names, letter sounds or syllable sounds.
-						Play around with different fonts. New Study Alphabet button! More
-						fonts coming soon.
-					</DismissibleAlert>
-					<DismissibleAlert storageKey="letter2" className="mb-4">
+					<DismissibleAlert storageKey="scramble" className="mb-4">
 						{' '}
-						The goal is to say the correct answer in under 3 seconds with no
-						more than 2 mistakes per round in order to pass it off in class.
+						Below is a scrambled up sentence of 2-10 words. Click on them in
+						order to unscramble. To take a word out, tap on the corresponding
+						green word again to remove.
 					</DismissibleAlert>
-					<LetterQuiz letters={hebrewLetters} userId={userProgress.userId} />
+
+					<EnglishScramble
+						data={efwEnglishVocab}
+						currentLesson={'1'}
+						userId={userProgress.userId}
+					/>
 				</div>
 			</FeedWrapper>
 		</div>
 	)
 }
 
-export default HebrewLetterQuizPage
+export default EnglishScramblePage

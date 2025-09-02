@@ -1,3 +1,4 @@
+//app/admin/app.tsx
 'use client'
 
 import { Admin, CustomRoutes, Resource } from 'react-admin'

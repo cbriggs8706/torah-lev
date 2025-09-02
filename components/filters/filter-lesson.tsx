@@ -1,10 +1,10 @@
 'use client'
 
-import { HebrewVocab } from '@/lib/vocab'
+import { EnglishVocab, HebrewVocab } from '@/lib/vocab'
 import { useMemo } from 'react'
 
 interface LessonFilterProps {
-	data: HebrewVocab[]
+	data: HebrewVocab[] | EnglishVocab[]
 	selectedLessons: string[]
 	setSelectedLessons: React.Dispatch<React.SetStateAction<string[]>>
 	showRanges?: boolean

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { HebrewVocab } from '@/lib/vocab'
+import { EnglishVocab, HebrewVocab } from '@/lib/vocab'
 
 export function parseLessonKey(key: string) {
 	if (typeof key !== 'string') return { num: NaN, text: '' }
@@ -14,7 +14,10 @@ export function parseLessonKey(key: string) {
 	}
 }
 
-export function useLessonCards(data: HebrewVocab[], currentLesson: string) {
+export function useLessonCards(
+	data: HebrewVocab[] | EnglishVocab[],
+	currentLesson: string
+) {
 	const [selectedLessons, setSelectedLessons] = useState<string[]>([])
 	const [currentIndex, setCurrentIndex] = useState(0)
 

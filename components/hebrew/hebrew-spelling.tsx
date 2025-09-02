@@ -6,7 +6,7 @@ import { useAudio } from 'react-use'
 
 import HebrewKeyboard from './hebrew-keyboard'
 import { HebrewVocab } from '@/lib/vocab'
-import { letters } from '@/lib/letters'
+import { hebrewLetters } from '@/lib/hebrew-letters'
 import { useCelebration } from '@/hooks/useCelebration'
 import { parseLessonKey, useLessonCards } from '@/hooks/useLessonCards'
 import FormatFilter, { FormatType } from '../filters/filter-format'
@@ -279,13 +279,13 @@ export default function HebrewSpelling({
 				.replace(/[\u0591-\u05BD\u05BF-\u05C7\u05C1\u05C2]/g, '')
 
 			// Find the letter object by character
-			let match = letters.find((l) => l.char === normalizedChar)
+			let match = hebrewLetters.find((l) => l.char === normalizedChar)
 
 			// Special case: plain shin (ש) without dot → use shin audio entry
 			if (!match && normalizedChar === 'ש') {
 				match =
-					letters.find((l) => l.char === 'ש') ||
-					letters.find((l) =>
+					hebrewLetters.find((l) => l.char === 'ש') ||
+					hebrewLetters.find((l) =>
 						(l.nameAudio ?? '').includes('name-shin-base.mp3')
 					)
 			}
