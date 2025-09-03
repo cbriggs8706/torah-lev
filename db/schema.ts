@@ -14,6 +14,8 @@ export const courses = pgTable('courses', {
 	id: serial('id').primaryKey(),
 	title: text('title').notNull(),
 	imageSrc: text('image_src').notNull(),
+	proficiencyLevel: text('proficiency_level'),
+	endingProficiencyLevel: text('ending_proficiency_level'),
 })
 
 export const coursesRelations = relations(courses, ({ many }) => ({
