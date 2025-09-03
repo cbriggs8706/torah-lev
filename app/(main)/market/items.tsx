@@ -73,38 +73,41 @@ export const Items = ({
 				</Button>
 			</div>
 			{/* Exchange Tribe Points */}
-			<div className="flex items-center w-full p-4 gap-x-4 border-t-2">
-				<Image src={tribeImg || ''} alt="Tribe" height={60} width={60} />
-				<div className="flex-1">
-					<p className="text-neutral-700 text-base lg:text-xl font-bold">
-						Exchange 100 points for 1 Tribe Point
-					</p>
-				</div>
-				{!hasTribe && (
-					<p className="text-xs text-gray-500 ml-auto mt-1">
-						🔒 You must be in a tribe to exchange points
-					</p>
-				)}
-				<Button
-					onClick={() =>
-						startTransition(() => {
-							exchangePointsForTribe()
-								.then(() =>
-									toast.success('Exchanged 100 points for 1 tribe point!')
-								)
-								.catch((err) =>
-									toast.error(err.message || 'Something went wrong')
-								)
-						})
-					}
-					disabled={pending || points < 100 || !hasTribe}
-				>
-					<div className="flex items-center">
-						<Image src="/points.svg" alt="Points" height={20} width={20} />
-						<p>100</p>
+			{hasTribe && (
+				<div className="flex items-center w-full p-4 gap-x-4 border-t-2">
+					<Image
+						src={tribeImg || '/tribe-placeholder.svg'}
+						alt="Tribe"
+						height={60}
+						width={60}
+					/>
+					<div className="flex-1">
+						<p className="text-neutral-700 text-base lg:text-xl font-bold">
+							Exchange 100 points for 1 Tribe Point
+						</p>
 					</div>
-				</Button>
-			</div>
+					<Button
+						onClick={() =>
+							startTransition(() => {
+								exchangePointsForTribe()
+									.then(() =>
+										toast.success('Exchanged 100 points for 1 tribe point!')
+									)
+									.catch((err) =>
+										toast.error(err.message || 'Something went wrong')
+									)
+							})
+						}
+						disabled={pending || points < 100}
+					>
+						<div className="flex items-center">
+							<Image src="/points.svg" alt="Points" height={20} width={20} />
+							<p>100</p>
+						</div>
+					</Button>
+				</div>
+			)}
+
 			{/* <div className="flex items-center w-full p-4 pt-8 gap-x-4 border-t-2">
 				<Image src="/unlimited.svg" alt="Unlimited" height={60} width={60} />
 				<div className="flex-1">

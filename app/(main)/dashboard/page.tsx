@@ -57,6 +57,9 @@ const Dashboard = async () => {
 							id: user.activeCourse?.id ?? 0,
 							title: user.activeCourse?.title ?? 'Default Course',
 							imageSrc: user.activeCourse?.imageSrc ?? '/default-course.png',
+							proficiencyLevel: user.activeCourse?.proficiencyLevel ?? null,
+							endingProficiencyLevel:
+								user.activeCourse?.endingProficiencyLevel ?? null,
 						}}
 						currentLesson={user.currentLesson}
 						tribe={

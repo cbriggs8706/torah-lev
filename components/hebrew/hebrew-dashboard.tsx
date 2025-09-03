@@ -24,6 +24,8 @@ interface HebrewUserDashboardProps {
 		id: number
 		title: string
 		imageSrc: string
+		proficiencyLevel: string | null
+		endingProficiencyLevel: string | null
 	}
 	currentLesson?: string | null
 	tribe?: {

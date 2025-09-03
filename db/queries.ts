@@ -448,6 +448,8 @@ export async function getUserProgressWithTribe() {
 				id: courses.id,
 				title: courses.title,
 				imageSrc: courses.imageSrc,
+				proficiencyLevel: courses.proficiencyLevel,
+				endingProficiencyLevel: courses.endingProficiencyLevel,
 			},
 		})
 		.from(userProgress)

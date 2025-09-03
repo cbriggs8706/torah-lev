@@ -15,10 +15,14 @@ const CoursesPage = async () => {
 	const isHebrewFriend = userProgress?.isHebrewFriend ?? false
 
 	const isEnglishFriend = userProgress?.isEnglishFriend ?? false
+	const isSpanishFriend = userProgress?.isSpanishFriend ?? false
 
 	const visibleCourses = courses.filter((course) => {
 		if (course.id === 11 && !isHebrewFriend) return false
 		if (course.id === 17 && !isEnglishFriend) return false
+		if (course.id === 3 && !isEnglishFriend) return false
+		if (course.id === 4 && !isEnglishFriend) return false
+		if (course.id === 2 && !isSpanishFriend) return false
 		return true
 	})
 
