@@ -14,9 +14,13 @@ const CoursesPage = async () => {
 
 	const isHebrewFriend = userProgress?.isHebrewFriend ?? false
 
-	const visibleCourses = courses.filter(
-		(course) => course.id !== 11 || isHebrewFriend
-	)
+	const isEnglishFriend = userProgress?.isEnglishFriend ?? false
+
+	const visibleCourses = courses.filter((course) => {
+		if (course.id === 11 && !isHebrewFriend) return false
+		if (course.id === 17 && !isEnglishFriend) return false
+		return true
+	})
 
 	return (
 		<div className="h-full max-w-[912px] px-3 mx-auto">
