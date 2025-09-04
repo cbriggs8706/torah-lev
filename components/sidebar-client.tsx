@@ -101,18 +101,6 @@ export default function SidebarClient({
 							iconSrc="/cooking-svgrepo-com.svg"
 							onClick={onItemClick}
 						/>
-						<SidebarItem
-							label="Lesson Scripts"
-							href="/en/lesson-scripts"
-							iconSrc="/spiral-notepad-svgrepo-com.svg"
-							onClick={onItemClick}
-						/>
-						<SidebarItem
-							label="Stories"
-							href="/en/stories"
-							iconSrc="/books-svgrepo-com.svg"
-							onClick={onItemClick}
-						/>
 					</>
 				)}
 				{userProgress?.activeCourse.id === 17 && (

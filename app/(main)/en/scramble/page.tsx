@@ -12,7 +12,9 @@ import {
 import dynamic from 'next/dynamic'
 
 import efwEnglishVocab from '@/lib/data/vocab/efwVocab.json'
+import lrEnglishVocab from '@/lib/data/vocab/lrVocab.json'
 import { DismissibleAlert } from '@/components/dismissible-alert'
+import { EnglishVocab } from '@/lib/vocab'
 
 const EnglishScramble = dynamic(
 	() => import('@/components/english/english-scramble'),
@@ -35,6 +37,13 @@ const EnglishScramblePage = async () => {
 	if (!userProgress || !userProgress.activeCourse) {
 		redirect('/courses')
 	}
+
+	const englishData: EnglishVocab[] =
+		userProgress.activeCourseId === 16
+			? (efwEnglishVocab as EnglishVocab[])
+			: userProgress.activeCourseId === 17
+			? (lrEnglishVocab as EnglishVocab[])
+			: []
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
@@ -66,7 +75,7 @@ const EnglishScramblePage = async () => {
 					</DismissibleAlert>
 
 					<EnglishScramble
-						data={efwEnglishVocab}
+						data={englishData}
 						currentLesson={'1'}
 						userId={userProgress.userId}
 					/>

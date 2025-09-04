@@ -16,6 +16,7 @@ import hebrewScoutsVocab from '@/lib/data/vocab/hebrewScoutsVocab.json'
 import awaGreekVocab from '@/lib/data/vocab/awaVocab.json'
 import abcHebrewVocab from '@/lib/data/vocab/abcVocab.json'
 import efwEnglishVocab from '@/lib/data/vocab/efwVocab.json'
+import lrEnglishVocab from '@/lib/data/vocab/lrVocab.json'
 
 import { HebrewVocab, GreekVocab, EnglishVocab } from '@/lib/vocab'
 import TorahScrollLoader from '@/components/hebrew/hebrew-loader'
@@ -117,7 +118,11 @@ export default async function FlashcardPage({
 	const englishData: EnglishVocab[] =
 		userProgress.activeCourseId === 13
 			? (efwEnglishVocab as EnglishVocab[])
+			: userProgress.activeCourseId === 17
+			? (lrEnglishVocab as EnglishVocab[])
 			: []
+
+	// console.log(userProgress.activeCourseId)
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
@@ -125,7 +130,7 @@ export default async function FlashcardPage({
 				<div className="w-full flex flex-col items-center">
 					<Image
 						src="/card-file-box.svg"
-						alt="Calendar"
+						alt="Flashcards"
 						height={90}
 						width={90}
 					/>
@@ -157,8 +162,34 @@ export default async function FlashcardPage({
 							layout="english"
 						/>
 					)}
+					{userProgress.activeCourseId === 17 && (
+						<EnglishFlashcards
+							data={englishData}
+							allFields={allFieldsEnglish}
+							currentLesson={currentLesson ?? ''}
+							layout="english"
+						/>
+					)}
 
-					{![12, 13].includes(userProgress.activeCourseId ?? -1) && (
+					{userProgress.activeCourseId === 6 && (
+						<HebrewFlashcards
+							data={hebrewData}
+							allFields={allFieldsHebrew}
+							currentLesson={currentLesson ?? ''}
+							layout="hebrew"
+							userId={userProgress.userId}
+						/>
+					)}
+					{userProgress.activeCourseId === 11 && (
+						<HebrewFlashcards
+							data={hebrewData}
+							allFields={allFieldsHebrew}
+							currentLesson={currentLesson ?? ''}
+							layout="hebrew"
+							userId={userProgress.userId}
+						/>
+					)}
+					{userProgress.activeCourseId === 14 && (
 						<HebrewFlashcards
 							data={hebrewData}
 							allFields={allFieldsHebrew}

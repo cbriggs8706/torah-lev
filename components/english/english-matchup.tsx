@@ -58,7 +58,7 @@ export default function EnglishWordMatchGame({
 	const [shuffledTargets, setShuffledTargets] = useState<EnglishVocab[]>([])
 	const [hasFinished, setHasFinished] = useState(false)
 	const [selectedCategory, setSelectedCategory] = useState<string>('all')
-	const [formatType, setFormatType] = useState<FormatType>('image')
+	const [formatType, setFormatType] = useState<FormatType>('translation')
 	const [cols, setCols] = useState(4)
 
 	const [targetSize, setTargetSize] = useState<number>(
@@ -94,7 +94,7 @@ export default function EnglishWordMatchGame({
 	const audioRef = useRef<HTMLAudioElement | null>(null)
 
 	const getCardId = (card: EnglishVocab) =>
-		`${(card.eng || '').trim()}::${(card.eng || '').trim()}`
+		`${(card.eng || '').trim()}::${(card.spa || '').trim()}`
 
 	const lessonOptions = useMemo(() => {
 		const allLessons = data.flatMap((card) => card.lessons)
@@ -241,7 +241,7 @@ export default function EnglishWordMatchGame({
 		} else if (formatType === 'audio') {
 			setMatchField('engAudio')
 		} else {
-			setMatchField('eng')
+			setMatchField('spa')
 		}
 	}, [formatType])
 

@@ -6,16 +6,7 @@ import { useState, useMemo, useEffect } from 'react'
 import ReactConfetti from 'react-confetti'
 import { useAudio, useWindowSize } from 'react-use'
 
-type FontChoice =
-	| 'arial'
-	| 'times'
-	| 'sans'
-	| 'frank'
-	| 'tinos'
-	| 'nunito'
-	| 'cardo'
-	| 'rashi'
-	| 'suez'
+type FontChoice = 'arial' | 'times' | 'nunito'
 
 interface EnglishFlashcardsProps {
 	data: EnglishVocab[]
@@ -62,13 +53,7 @@ const FIELD_LABELS: Partial<Record<keyof EnglishVocab, string>> = {
 const FONT_CLASS_MAP: Record<FontChoice, string> = {
 	arial: 'font-arial',
 	times: 'font-serif',
-	frank: 'font-frank',
-	sans: 'font-sans',
-	tinos: 'font-tinos',
 	nunito: 'font-nunito',
-	cardo: 'font-cardo',
-	rashi: 'font-rashi',
-	suez: 'font-suez',
 }
 
 export default function EnglishFlashcards({
@@ -112,8 +97,8 @@ export default function EnglishFlashcards({
 		keyof EnglishVocab | 'engAudio'
 	>('engAudio')
 	const [frontMiddleCenter, setFrontMiddleCenter] = useState<
-		keyof EnglishVocab | 'none'
-	>('images')
+		keyof EnglishVocab | 'eng'
+	>('eng')
 	const [frontBottomLeft, setFrontBottomLeft] = useState<
 		keyof EnglishVocab | 'none'
 	>('none')
@@ -133,8 +118,8 @@ export default function EnglishFlashcards({
 		keyof EnglishVocab | 'engAudio'
 	>('engAudio')
 	const [backMiddleCenter, setBackMiddleCenter] = useState<
-		keyof EnglishVocab | 'eng'
-	>('eng')
+		keyof EnglishVocab | 'spa'
+	>('spa')
 	const [backBottomLeft, setBackBottomLeft] = useState<
 		keyof EnglishVocab | 'spaTransliteration'
 	>('spaTransliteration')
@@ -374,38 +359,7 @@ export default function EnglishFlashcards({
 		className: string
 	}[] = [
 		{ value: 'times', label: 'Times', className: 'font-serif' },
-		{
-			value: 'frank',
-			label: 'Frank',
-			className: 'font-frank',
-		},
-		{
-			value: 'tinos',
-			label: 'Tinos',
-			className: 'font-tinos',
-		},
-		{
-			value: 'cardo',
-			label: 'Cardo',
-			className: 'font-cardo',
-		},
-		{
-			value: 'rashi',
-			label: 'Rashi',
-			className: 'font-rashi',
-		},
-		{
-			value: 'suez',
-			label: 'Suez',
-			className: 'font-suez',
-		},
 		{ value: 'arial', label: 'Arial', className: 'font-arial' },
-		{
-			value: 'sans',
-			label: 'Sans',
-			className: 'font-sans',
-		},
-
 		{
 			value: 'nunito',
 			label: 'Nunito',

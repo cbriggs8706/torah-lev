@@ -12,7 +12,9 @@ import {
 import EnglishMatchup from '@/components/english/english-matchup'
 
 import efwEnglishVocab from '@/lib/data/vocab/efwVocab.json'
+import lrEnglishVocab from '@/lib/data/vocab/lrVocab.json'
 import { DismissibleAlert } from '@/components/dismissible-alert'
+import { EnglishVocab } from '@/lib/vocab'
 
 const EnglishMatchupPage = async () => {
 	const userProgressData = getUserProgress()
@@ -27,6 +29,13 @@ const EnglishMatchupPage = async () => {
 	if (!userProgress || !userProgress.activeCourse) {
 		redirect('/courses')
 	}
+
+	const englishData: EnglishVocab[] =
+		userProgress.activeCourseId === 16
+			? (efwEnglishVocab as EnglishVocab[])
+			: userProgress.activeCourseId === 17
+			? (lrEnglishVocab as EnglishVocab[])
+			: []
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
@@ -57,7 +66,7 @@ const EnglishMatchupPage = async () => {
 						drag and drop doesn&apos;t work on android devices.
 					</DismissibleAlert>
 
-					<EnglishMatchup data={efwEnglishVocab} userId={userProgress.userId} />
+					<EnglishMatchup data={englishData} userId={userProgress.userId} />
 				</div>
 			</FeedWrapper>
 		</div>
