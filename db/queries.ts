@@ -11,6 +11,7 @@ import {
 	hebrewPrayerLine,
 	lessons,
 	lessonScripts,
+	englishLessonScripts,
 	grammarLessons,
 	tribes,
 	units,
@@ -19,6 +20,7 @@ import {
 	hebrewMusicLibrary,
 	hebrewMusicLine,
 	stories,
+	englishStories,
 } from '@/db/schema'
 import { tr } from 'date-fns/locale'
 
@@ -257,6 +259,33 @@ export const getLessonScripts = async () => {
 export async function getLessonScript(lessonScriptId: number) {
 	return db.query.lessonScripts.findFirst({
 		where: eq(lessonScripts.id, lessonScriptId),
+	})
+}
+
+export const getEnglishLessonScripts = async () => {
+	const results = await db
+		.select({
+			id: englishLessonScripts.id,
+			lessonScriptId: englishLessonScripts.lessonId,
+			content: englishLessonScripts.content,
+			audioSrc: englishLessonScripts.audioSrc,
+			title: lessons.title, // Select the title from the lessons table
+			lessonId: lessons.id,
+		})
+		.from(englishLessonScripts)
+		.innerJoin(
+			lessons,
+			sql`${englishLessonScripts.lessonId} = ${lessons.lessonNumber}` // Join condition on lessonId and lessonNumber
+		)
+		.where(like(lessons.title, 'LR%')) // Filter titles starting with 'awb'
+		.orderBy(englishLessonScripts.lessonId)
+
+	return results
+}
+
+export async function getEnglishLessonScript(lessonScriptId: number) {
+	return db.query.englishLessonScripts.findFirst({
+		where: eq(englishLessonScripts.id, lessonScriptId),
 	})
 }
 
@@ -595,5 +624,17 @@ export async function getAllStories() {
 export async function getStory(storyId: number) {
 	return db.query.stories.findFirst({
 		where: eq(stories.id, storyId),
+	})
+}
+
+export async function getAllEnglishStories() {
+	return db.query.englishStories.findMany({
+		orderBy: asc(englishStories.order),
+	})
+}
+
+export async function getEnglishStory(storyId: number) {
+	return db.query.englishStories.findFirst({
+		where: eq(englishStories.id, storyId),
 	})
 }

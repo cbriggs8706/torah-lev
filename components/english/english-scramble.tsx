@@ -14,6 +14,8 @@ interface EnglishScrambleProps {
 	userId: string
 }
 
+type Lang = 'spa' | 'por'
+
 export default function EnglishScramble({
 	data,
 	currentLesson,
@@ -27,6 +29,7 @@ export default function EnglishScramble({
 	const { Confetti, celebrate } = useCelebration()
 	const [filteredCards, setFilteredCards] = useState<EnglishVocab[]>([])
 	const [cardsCompleted, setCardsCompleted] = useState(0)
+	const [lang, setLang] = useState<Lang>('spa')
 
 	const MAX_CARDS = 25
 
@@ -37,6 +40,22 @@ export default function EnglishScramble({
 				card.lessons.some((l) => selectedLessons.includes(String(l)))
 		)
 	}, [data, selectedLessons])
+
+	useEffect(() => {
+		const saved = (
+			typeof window !== 'undefined'
+				? window.localStorage.getItem('scrambleLang')
+				: null
+		) as Lang | null
+		if (saved === 'spa' || saved === 'por') setLang(saved)
+	}, [])
+
+	// Persist preference
+	useEffect(() => {
+		if (typeof window !== 'undefined') {
+			window.localStorage.setItem('scrambleLang', lang)
+		}
+	}, [lang])
 
 	useEffect(() => {
 		// phrases w/2+ words
@@ -162,16 +181,46 @@ export default function EnglishScramble({
 			</div>
 
 			{showFilter && (
-				<LessonFilter
-					data={data}
-					selectedLessons={selectedLessons}
-					setSelectedLessons={setSelectedLessons}
-					showRanges={true}
-				/>
+				<>
+					<LessonFilter
+						data={data}
+						selectedLessons={selectedLessons}
+						setSelectedLessons={setSelectedLessons}
+						showRanges={true}
+					/>
+					<h2 className="text-xl font-semibold mb-2">Select Language</h2>
+
+					<div className="mb-6 flex justify-center gap-3">
+						<button
+							onClick={() => setLang('spa')}
+							className={`px-3 py-2 rounded shadow text-sm ${
+								lang === 'spa' ? 'bg-blue-600 text-white' : 'bg-gray-200'
+							}`}
+							aria-pressed={lang === 'spa'}
+						>
+							Spanish
+						</button>
+						<button
+							onClick={() => setLang('por')}
+							className={`px-3 py-2 rounded shadow text-sm ${
+								lang === 'por' ? 'bg-blue-600 text-white' : 'bg-gray-200'
+							}`}
+							aria-pressed={lang === 'por'}
+						>
+							Portuguese
+						</button>
+					</div>
+				</>
 			)}
 
 			{/* Prompt */}
-			{/* <div className="mb-4 text-xl font-bold">{currentCard?.eng}</div> */}
+			<div className="mb-4 text-xl font-bold">
+				{currentCard
+					? lang === 'spa'
+						? currentCard.spa ?? currentCard.por ?? ''
+						: currentCard.por ?? currentCard.spa ?? ''
+					: ''}
+			</div>
 
 			{/* Word Choices */}
 			<div className="flex flex-wrap justify-center gap-2 mb-6">
@@ -255,10 +304,8 @@ export default function EnglishScramble({
 						'Correct!'
 					) : (
 						<>
-							Incorrect. Correct:{' '}
-							<span className="font-serif font-normal text-4xl">
-								{correctWords.join(' ')}
-							</span>
+							Incorrect. It should be:{' '}
+							<span className="">{correctWords.join(' ')}</span>
 						</>
 					)}
 				</div>

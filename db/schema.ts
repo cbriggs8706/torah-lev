@@ -69,6 +69,14 @@ export const lessonScripts = pgTable('lesson_scripts', {
 	audioSrc: text('audio_src'),
 })
 
+export const englishLessonScripts = pgTable('english_lesson_scripts', {
+	id: serial('id').primaryKey(),
+	lessonId: text('lesson_id').notNull(),
+	// .references(() => lessons.lessonKey),
+	content: text('content'),
+	audioSrc: text('audio_src'),
+})
+
 export const grammarLessons = pgTable('grammar_lessons', {
 	id: serial('id').primaryKey(),
 	lessonId: text('lesson_id').notNull(),
@@ -339,6 +347,20 @@ export const stories = pgTable('stories', {
 	category: text('category').notNull().default(''),
 	content: text('content'),
 	contentPlain: text('content_plain'),
+})
+
+export const englishStories = pgTable('english_stories', {
+	id: serial('id').primaryKey(),
+	lessonId: text('lesson_id'),
+	// .references(() => lessons.lessonKey),
+	title: text('title').notNull(),
+	order: integer('order').notNull(),
+	video: text('video'),
+	image: text('image'),
+	audio: text('audio'),
+	public: boolean('public').notNull().default(true),
+	category: text('category').notNull().default(''),
+	content: text('content'),
 })
 
 export const hebrewWords = pgTable('hebrew_words', {
