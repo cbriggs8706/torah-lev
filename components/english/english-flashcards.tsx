@@ -77,7 +77,6 @@ export default function EnglishFlashcards({
 	currentLesson,
 	layout,
 }: EnglishFlashcardsProps) {
-	console.log('currentLesson', currentLesson)
 	const [selectedType, setSelectedType] = useState<'all' | 'word' | 'phrase'>(
 		'word'
 	)

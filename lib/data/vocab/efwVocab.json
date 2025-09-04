@@ -2504,7 +2504,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun phrase"],
 		"ipa": "[aɪˈdiː bædʒ]",
-		"images": ["/efw1/id badge.webp"],
+		"images": ["/efw1/idbadge.webp"],
 		"engAudio": "efw1/idbadge.mp3"
 	},
 	{
@@ -2618,7 +2618,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun phrase"],
 		"ipa": "[ˌnuː ˈhaɪər]",
-		"images": ["/efw1/new hire.webp"],
+		"images": ["/efw1/newhire.webp"],
 		"engAudio": "efw1/newhire.mp3"
 	},
 	{
@@ -2658,25 +2658,6 @@
 		"ipa": "[ˌɔriɛnˈteɪʃən]",
 		"images": ["/efw1/orientation.webp"],
 		"engAudio": "efw1/orientation.mp3"
-	},
-	{
-		"id": 43,
-		"lessons": ["1"],
-		"type": "word",
-		"engDefinition": "a movie that explains a job or place.",
-		"category": "",
-		"eng": "Orientation video",
-		"spa": "Video de orientación",
-		"por": "Vídeo de orientação",
-		"spaTransliteration": "oh-ree-en-TAY-shon VEE-dee-oh",
-		"porTransliteration": "ohr-yen-tah-SOWN VEE-jee-oh",
-		"person": "",
-		"gender": "m",
-		"number": "s",
-		"partOfSpeech": ["noun phrase"],
-		"ipa": "[ˌɔriɛnˈteɪʃən ˈvɪdioʊ]",
-		"images": ["/efw1/orientationvideo.webp"],
-		"engAudio": "efw1/orientationvideo.mp3"
 	},
 	{
 		"id": 44,
@@ -5544,8 +5525,8 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈseɪfti]",
-		"images": ["/efw2/safety.webp"],
-		"engAudio": "efw2/safety.mp3"
+		"images": ["/efw1/safety.webp"],
+		"engAudio": "efw1/safety.mp3"
 	},
 	{
 		"id": 122,
