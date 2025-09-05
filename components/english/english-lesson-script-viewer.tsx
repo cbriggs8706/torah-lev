@@ -1,10 +1,12 @@
 'use client'
 
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Button } from '../ui/button'
 import { useRouter } from 'next/navigation'
+import { isSpotifyUrl } from '../media/audio-utils'
+import AudioPlayer from '../media/audio-player'
 
-const hebrewFonts = [
+const englishFonts = [
 	{ label: 'Arial', value: 'font-arial' },
 	{ label: 'Times', value: 'font-serif' },
 	{ label: 'Nunito', value: 'font-nunito' },
@@ -29,6 +31,22 @@ export default function LessonScriptViewer({
 	const [fontClass, setFontClass] = useState('font-nunito')
 	const [fontSize, setFontSize] = useState(36)
 	const router = useRouter()
+	const audioIsSpotify = useMemo(
+		() => isSpotifyUrl(lessonScript.audioSrc),
+		[lessonScript.audioSrc]
+	)
+
+	const audioSrcClean = useMemo(() => {
+		const a = lessonScript.audioSrc
+		if (!a) return null
+		try {
+			const u = new URL(a)
+			u.search = ''
+			return u.toString()
+		} catch {
+			return a
+		}
+	}, [lessonScript.audioSrc])
 
 	// Handle font change from dropdown
 	const handleFontChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -60,19 +78,36 @@ export default function LessonScriptViewer({
 				</Button>
 			</div>
 
-			{/* Audio Embed */}
+			{/* Media */}
 			{lessonScript.audioSrc && (
-				<iframe
-					data-testid="embed-iframe"
-					style={{ borderRadius: 12 }}
-					src={lessonScript.audioSrc}
-					width="100%"
-					height="152"
-					frameBorder="0"
-					allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-					loading="lazy"
-				></iframe>
+				<div className="flex flex-col gap-4 mb-8">
+					{audioIsSpotify ? (
+						<iframe
+							data-testid="embed-iframe"
+							className="w-full rounded-md"
+							style={{ borderRadius: 12 }}
+							src={audioSrcClean || undefined}
+							height={152}
+							frameBorder={0}
+							allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+							loading="lazy"
+						/>
+					) : (
+						<AudioPlayer
+							src={audioSrcClean!}
+							skipSeconds={10}
+							defaultRate={1}
+							defaultVolume={1}
+							startTime={0}
+							label="Lesson audio"
+							onEnded={() => {
+								/* hook for completion */
+							}}
+						/>
+					)}
+				</div>
 			)}
+
 			{/* Font Selector and Size Controls */}
 			<div className="flex gap-4 mb-4 justify-center">
 				{/* Font Selector */}
@@ -81,7 +116,7 @@ export default function LessonScriptViewer({
 					onChange={handleFontChange}
 					className="border p-1 rounded"
 				>
-					{hebrewFonts.map((font) => (
+					{englishFonts.map((font) => (
 						<option key={font.value} value={font.value}>
 							{font.label}
 						</option>

@@ -78,6 +78,8 @@ export default function HebrewStoryViewer(story: Story) {
 
 	return (
 		<div className="w-full space-y-4">
+			<h2 className="text-4xl font-bold text-center">{story.story.title}</h2>
+
 			{/* Toggle Buttons */}
 			<div className="flex flex-wrap gap-4 mb-4 justify-center">
 				<Button

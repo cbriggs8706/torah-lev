@@ -117,6 +117,18 @@ export default function SidebarClient({
 							iconSrc="/books-svgrepo-com.svg"
 							onClick={onItemClick}
 						/>
+						<SidebarItem
+							label="Matchup"
+							href="/en/matchup"
+							iconSrc="/socks-svgrepo-com.svg"
+							onClick={onItemClick}
+						/>
+						<SidebarItem
+							label="Scramble"
+							href="/en/scramble"
+							iconSrc="/cooking-svgrepo-com.svg"
+							onClick={onItemClick}
+						/>
 					</>
 				)}
 

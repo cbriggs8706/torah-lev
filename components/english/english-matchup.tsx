@@ -424,11 +424,11 @@ export default function EnglishWordMatchGame({
 													matchField={matchField}
 													size={targetSize} // NEW
 												/>
-												{card.gender && (
+												{/* {card.gender && (
 													<div className="text-xs text-gray-500 mt-1">
 														({card.gender})
 													</div>
-												)}
+												)} */}
 											</div>
 										)}
 									</DropTarget>

@@ -97,8 +97,8 @@ export default function EnglishFlashcards({
 		keyof EnglishVocab | 'engAudio'
 	>('engAudio')
 	const [frontMiddleCenter, setFrontMiddleCenter] = useState<
-		keyof EnglishVocab | 'eng'
-	>('eng')
+		keyof EnglishVocab | 'spa'
+	>('spa')
 	const [frontBottomLeft, setFrontBottomLeft] = useState<
 		keyof EnglishVocab | 'none'
 	>('none')
@@ -118,8 +118,8 @@ export default function EnglishFlashcards({
 		keyof EnglishVocab | 'engAudio'
 	>('engAudio')
 	const [backMiddleCenter, setBackMiddleCenter] = useState<
-		keyof EnglishVocab | 'spa'
-	>('spa')
+		keyof EnglishVocab | 'eng'
+	>('eng')
 	const [backBottomLeft, setBackBottomLeft] = useState<
 		keyof EnglishVocab | 'spaTransliteration'
 	>('spaTransliteration')
