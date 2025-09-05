@@ -73,7 +73,7 @@ export default function SidebarClient({
 					iconSrc="/youtube.svg"
 					onClick={onItemClick}
 				/>
-				{userProgress?.activeCourse.id !== 16 && (
+				{[6, 11, 14].includes(userProgress?.activeCourse.id) && (
 					<SidebarItem
 						label="Flashcards"
 						href="/flashcard"
@@ -81,11 +81,12 @@ export default function SidebarClient({
 						onClick={onItemClick}
 					/>
 				)}
-				{userProgress?.activeCourse.id === 16 && (
+				{/* English */}
+				{[3, 4, 13, 16, 17].includes(userProgress?.activeCourse.id) && (
 					<>
 						<SidebarItem
 							label="Flashcards"
-							href="/efw-flashcards"
+							href="/en/flashcards"
 							iconSrc="/card-file-box.svg"
 							onClick={onItemClick}
 						/>
@@ -101,9 +102,15 @@ export default function SidebarClient({
 							iconSrc="/cooking-svgrepo-com.svg"
 							onClick={onItemClick}
 						/>
+						<SidebarItem
+							label="Dictionary"
+							href="/en/dictionary"
+							iconSrc="/open-book-svgrepo-com.svg"
+							onClick={onItemClick}
+						/>
 					</>
 				)}
-				{userProgress?.activeCourse.id === 17 && (
+				{[13, 17].includes(userProgress?.activeCourse.id) && (
 					<>
 						<SidebarItem
 							label="Lesson Scripts"
@@ -111,38 +118,19 @@ export default function SidebarClient({
 							iconSrc="/spiral-notepad-svgrepo-com.svg"
 							onClick={onItemClick}
 						/>
+					</>
+				)}
+				{userProgress?.activeCourse.id === 17 && (
+					<>
 						<SidebarItem
 							label="Stories"
 							href="/en/stories"
 							iconSrc="/books-svgrepo-com.svg"
 							onClick={onItemClick}
 						/>
-						<SidebarItem
-							label="Matchup"
-							href="/en/matchup"
-							iconSrc="/socks-svgrepo-com.svg"
-							onClick={onItemClick}
-						/>
-						<SidebarItem
-							label="Scramble"
-							href="/en/scramble"
-							iconSrc="/cooking-svgrepo-com.svg"
-							onClick={onItemClick}
-						/>
 					</>
 				)}
-
-				{userProgress?.activeCourse.id === 6 ||
-					(userProgress?.activeCourse.id === 11 && (
-						<>
-							{/* <SidebarItem
-								label="Letter Quiz"
-								href="/letter-quiz"
-								iconSrc="/a-button-blood-type-svgrepo-com.svg"
-								onClick={onItemClick}
-							/> */}
-						</>
-					))}
+				{/* Hebrew */}
 				{userProgress?.activeCourse.id === 6 && (
 					<>
 						{/* <SidebarItem

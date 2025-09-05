@@ -7,13 +7,7 @@ import { useRouter } from 'next/navigation'
 const hebrewFonts = [
 	{ label: 'Arial', value: 'font-arial' },
 	{ label: 'Times', value: 'font-serif' },
-	{ label: 'Frank Ruhl Libre', value: 'font-frank' },
-	{ label: 'Sans', value: 'font-sans' },
-	{ label: 'Tinos', value: 'font-tinos' },
 	{ label: 'Nunito', value: 'font-nunito' },
-	{ label: 'Cardo', value: 'font-cardo' },
-	{ label: 'Rashi', value: 'font-rashi' },
-	{ label: 'Suez', value: 'font-suez' },
 ]
 
 type LessonScript = {
@@ -21,7 +15,7 @@ type LessonScript = {
 	content: string | null
 	contentPlain: string | null
 	audioSrc: string | null
-	lessonId: string
+	lessonId: string | null
 }
 
 type Lesson = {

@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button'
 
 type LessonScript = {
 	id: number | string
-	lessonScriptId: string
+	lessonScriptId: string | null
 	content: string | null
 	contentPlain: string | null
 	category?: string | null

@@ -6,12 +6,11 @@ import { Button } from '@/components/ui/button'
 
 type LessonScript = {
 	id: number | string
-	lessonScriptId: string
+	lessonId: string | null
 	content: string | null
 	category?: string | null
 	audioSrc?: string | null
-	title: string
-	lessonId: number
+	lessonTitle: string
 }
 
 export default function LessonScriptList({
@@ -26,8 +25,8 @@ export default function LessonScriptList({
 	// Sort the lesson scripts by lessonId
 	const sortedLessonScripts = useMemo(() => {
 		return lessonScripts.sort((a, b) => {
-			const lessonIdA = a.lessonId.toString()
-			const lessonIdB = b.lessonId.toString()
+			const lessonIdA = a.lessonTitle.toString()
+			const lessonIdB = b.lessonTitle.toString()
 
 			// Sort by lessonId, considering the alphanumeric nature (e.g., 1, 1a, 1b, 2, 2a, 3...)
 			return lessonIdA.localeCompare(lessonIdB, undefined, { numeric: true })
@@ -50,7 +49,7 @@ export default function LessonScriptList({
 							isLocked ? 'opacity-50 cursor-not-allowed' : ''
 						}`}
 					>
-						<h3 className="text-xl font-semibold">{script.title}</h3>
+						<h3 className="text-xl font-semibold">{script.lessonTitle}</h3>
 
 						{/* Disable the link if the lesson is locked */}
 						<Link

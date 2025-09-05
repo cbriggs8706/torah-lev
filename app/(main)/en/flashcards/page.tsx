@@ -12,6 +12,8 @@ import {
 } from '@/db/queries'
 
 import efwEnglishVocab from '@/lib/data/vocab/efwVocab.json'
+import ewbEnglishVocab from '@/lib/data/vocab/ewbVocab.json'
+import lrEnglishVocab from '@/lib/data/vocab/lrVocab.json'
 import { EnglishVocab } from '@/lib/vocab'
 
 const EnglishFlashcards = dynamic(
@@ -55,9 +57,13 @@ export default async function EFWFlashcardPage({
 
 	const currentLesson = userChallengeData?.activeLesson?.lessonNumber
 
-	const englishForWorkData: EnglishVocab[] =
+	const englishData: EnglishVocab[] =
 		userProgress.activeCourseId === 16
 			? (efwEnglishVocab as EnglishVocab[])
+			: userProgress.activeCourseId === 13
+			? (ewbEnglishVocab as EnglishVocab[])
+			: userProgress.activeCourseId === 17
+			? (lrEnglishVocab as EnglishVocab[])
 			: []
 
 	return (
@@ -66,7 +72,7 @@ export default async function EFWFlashcardPage({
 				<div className="w-full flex flex-col items-center">
 					<Image
 						src="/card-file-box.svg"
-						alt="Calendar"
+						alt="Flashcards"
 						height={90}
 						width={90}
 					/>
@@ -80,14 +86,12 @@ export default async function EFWFlashcardPage({
 						front and back where you can place whatever you would like.
 					</DismissibleAlert>
 
-					{userProgress.activeCourseId === 16 && (
-						<EnglishFlashcards
-							data={englishForWorkData}
-							allFields={allFieldsEnglish}
-							currentLesson={'1'}
-							layout="english"
-						/>
-					)}
+					<EnglishFlashcards
+						data={englishData}
+						allFields={allFieldsEnglish}
+						currentLesson={'1'}
+						layout="english"
+					/>
 				</div>
 			</FeedWrapper>
 		</div>

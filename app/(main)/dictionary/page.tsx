@@ -12,7 +12,7 @@ import awbHebrewVocab from '@/lib/data/vocab/awbVocab.json'
 import HebrewDictionary from '@/components/hebrew/hebrew-dictionary'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 
-const HebrewFlashcardPage = async () => {
+const HebrewDictionaryPage = async () => {
 	const userProgressData = getUserProgress()
 	const userSubscriptionData = getUserSubscription()
 	// const filteredWords = awbHebrewVocab.filter(
@@ -70,4 +70,4 @@ const HebrewFlashcardPage = async () => {
 	)
 }
 
-export default HebrewFlashcardPage
+export default HebrewDictionaryPage

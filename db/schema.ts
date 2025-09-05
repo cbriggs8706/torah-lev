@@ -1,4 +1,5 @@
 import { relations } from 'drizzle-orm'
+import { index } from 'drizzle-orm/mysql-core'
 import {
 	boolean,
 	integer,
@@ -58,12 +59,16 @@ export const lessonsRelations = relations(lessons, ({ one, many }) => ({
 		references: [units.id],
 	}),
 	challenges: many(challenges),
+	// lessonScripts: many(lessonScripts),
+	// englishLessonScripts: many(englishLessonScripts),
 }))
 
 export const lessonScripts = pgTable('lesson_scripts', {
 	id: serial('id').primaryKey(),
-	lessonId: text('lesson_id').notNull(),
-	// .references(() => lessons.lessonKey),
+	lessonId: text('lesson_id'),
+	// lessonId: integer('lesson_id')
+	// .references(() => lessons.id, { onDelete: 'cascade' })
+	// .notNull(),
 	content: text('content'),
 	contentPlain: text('content_plain'),
 	audioSrc: text('audio_src'),
@@ -71,11 +76,27 @@ export const lessonScripts = pgTable('lesson_scripts', {
 
 export const englishLessonScripts = pgTable('english_lesson_scripts', {
 	id: serial('id').primaryKey(),
-	lessonId: text('lesson_id').notNull(),
-	// .references(() => lessons.lessonKey),
+	lessonId: text('lesson_id'),
 	content: text('content'),
 	audioSrc: text('audio_src'),
 })
+
+// export const lessonScriptsRelations = relations(lessonScripts, ({ one }) => ({
+// 	lesson: one(lessons, {
+// 		fields: [lessonScripts.lessonId],
+// 		references: [lessons.id],
+// 	}),
+// }))
+
+// export const englishLessonScriptsRelations = relations(
+// 	englishLessonScripts,
+// 	({ one }) => ({
+// 		lesson: one(lessons, {
+// 			fields: [englishLessonScripts.lessonId],
+// 			references: [lessons.id],
+// 		}),
+// 	})
+// )
 
 export const grammarLessons = pgTable('grammar_lessons', {
 	id: serial('id').primaryKey(),

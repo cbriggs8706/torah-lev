@@ -4,29 +4,25 @@ import { redirect } from 'next/navigation'
 import { FeedWrapper } from '@/components/feed-wrapper'
 import { UserProgress } from '@/components/user-progress'
 import { StickyWrapper } from '@/components/sticky-wrapper'
-import {
-	getCourseProgress,
-	getUserProgress,
-	getUserSubscription,
-} from '@/db/queries'
-import EnglishMatchup from '@/components/english/english-matchup'
+import { getUserProgress, getUserSubscription } from '@/db/queries'
 
 import efwEnglishVocab from '@/lib/data/vocab/efwVocab.json'
-import lrEnglishVocab from '@/lib/data/vocab/lrVocab.json'
 import ewbEnglishVocab from '@/lib/data/vocab/ewbVocab.json'
+import lrEnglishVocab from '@/lib/data/vocab/lrVocab.json'
+// import awaGreekVocab from '@/lib/data/vocab/greek-vocab.json'
+
+import EnglishDictionary from '@/components/english/english-dictionary'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 import { EnglishVocab } from '@/lib/vocab'
 
-const EnglishMatchupPage = async () => {
+const EnglishDictionaryPage = async () => {
 	const userProgressData = getUserProgress()
-	const userChallengeData = await getCourseProgress()
 	const userSubscriptionData = getUserSubscription()
 
 	const [userProgress, userSubscription] = await Promise.all([
 		userProgressData,
 		userSubscriptionData,
 	])
-
 	if (!userProgress || !userProgress.activeCourse) {
 		redirect('/courses')
 	}
@@ -39,6 +35,9 @@ const EnglishMatchupPage = async () => {
 			: userProgress.activeCourseId === 17
 			? (lrEnglishVocab as EnglishVocab[])
 			: []
+	const filteredData = englishData.filter((entry) => entry.type === 'word')
+
+	const isPro = !!userSubscription?.isActive
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
@@ -54,26 +53,24 @@ const EnglishMatchupPage = async () => {
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">
 					<Image
-						src="/socks-svgrepo-com.svg"
-						alt="Matchup"
+						src="/open-book-svgrepo-com.svg"
+						alt="Dictionary"
 						height={90}
 						width={90}
 					/>
 					<h1 className="text-center font-bold text-neutral-800 text-2xl my-6">
-						Matchup
+						Dictionary
 					</h1>
-					<DismissibleAlert storageKey="matchup" className="mb-4">
-						{' '}
-						It will load up to 12 words from your current lesson by default. You
-						can change between text, images and audio in the filters. Known bug:
-						drag and drop doesn&apos;t work on android devices.
+					<DismissibleAlert storageKey="dictionary" className="mb-4">
+						Make sure to look up words that you don&apos;t recognize in any
+						lesson. Filter alphabetically or by Lesson #. Click on any entry to
+						view more info.
 					</DismissibleAlert>
-
-					<EnglishMatchup data={englishData} userId={userProgress.userId} />
+					<EnglishDictionary data={filteredData} />
 				</div>
 			</FeedWrapper>
 		</div>
 	)
 }
 
-export default EnglishMatchupPage
+export default EnglishDictionaryPage

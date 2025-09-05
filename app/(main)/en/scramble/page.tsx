@@ -12,6 +12,7 @@ import {
 import dynamic from 'next/dynamic'
 
 import efwEnglishVocab from '@/lib/data/vocab/efwVocab.json'
+import ewbEnglishVocab from '@/lib/data/vocab/ewbVocab.json'
 import lrEnglishVocab from '@/lib/data/vocab/lrVocab.json'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 import { EnglishVocab } from '@/lib/vocab'
@@ -41,6 +42,8 @@ const EnglishScramblePage = async () => {
 	const englishData: EnglishVocab[] =
 		userProgress.activeCourseId === 16
 			? (efwEnglishVocab as EnglishVocab[])
+			: userProgress.activeCourseId === 13
+			? (ewbEnglishVocab as EnglishVocab[])
 			: userProgress.activeCourseId === 17
 			? (lrEnglishVocab as EnglishVocab[])
 			: []

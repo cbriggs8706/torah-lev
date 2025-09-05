@@ -4,6 +4,8 @@ import { notFound } from 'next/navigation'
 import { getEnglishLessonScript } from '@/db/queries'
 import LessonScriptViewer from '@/components/english/english-lesson-script-viewer'
 
+export const dynamic = 'force-dynamic' // 👈 ensures fresh fetch
+
 export default async function EnglishLessonScriptPage({
 	params,
 }: {

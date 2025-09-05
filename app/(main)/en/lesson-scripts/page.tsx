@@ -14,7 +14,6 @@ import { DismissibleAlert } from '@/components/dismissible-alert'
 import LessonScriptList from '@/components/english/english-lesson-script-list'
 
 const EnglishLessonScriptsPage = async () => {
-	const lessonScripts = await getEnglishLessonScripts()
 	const userProgressData = getUserProgress()
 	const userChallengeData = await getCourseProgress()
 	const userSubscriptionData = getUserSubscription()
@@ -28,11 +27,24 @@ const EnglishLessonScriptsPage = async () => {
 		redirect('/courses')
 	}
 
+	const coursePrefixes: Record<number, string> = {
+		17: 'LR',
+		13: 'EwB',
+		16: 'EfW',
+	}
+
+	const prefix = coursePrefixes[userProgress.activeCourse.id] // may be undefined
+
+	// Get everything, then conditionally filter in memory
+	const lessonScripts = await getEnglishLessonScripts()
+	const filteredLessonScripts = prefix
+		? lessonScripts.filter((script) => script.lessonTitle?.startsWith(prefix))
+		: lessonScripts
+
 	const isPro = !!userSubscription?.isActive
-
 	const isEnglishFriend = !!userProgress?.isEnglishFriend
-
 	const currentLesson = userProgress.activeLessonId
+
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
 			{/* <StickyWrapper>
@@ -62,7 +74,7 @@ const EnglishLessonScriptsPage = async () => {
 					</DismissibleAlert> */}
 
 					<LessonScriptList
-						lessonScripts={lessonScripts}
+						lessonScripts={filteredLessonScripts}
 						isFriend={isEnglishFriend}
 						currentLesson={currentLesson}
 					/>

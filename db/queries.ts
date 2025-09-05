@@ -1,5 +1,16 @@
 import { cache } from 'react'
-import { and, asc, desc, eq, gte, inArray, like, lte, sql } from 'drizzle-orm'
+import {
+	and,
+	asc,
+	desc,
+	eq,
+	gte,
+	ilike,
+	inArray,
+	like,
+	lte,
+	sql,
+} from 'drizzle-orm'
 import { auth, clerkClient } from '@clerk/nextjs/server'
 import { events } from '@/db/schema'
 
@@ -263,25 +274,49 @@ export async function getLessonScript(lessonScriptId: number) {
 }
 
 export const getEnglishLessonScripts = async () => {
-	const results = await db
+	const rows = await db
 		.select({
 			id: englishLessonScripts.id,
-			lessonScriptId: englishLessonScripts.lessonId,
+			lessonId: englishLessonScripts.lessonId,
 			content: englishLessonScripts.content,
 			audioSrc: englishLessonScripts.audioSrc,
-			title: lessons.title, // Select the title from the lessons table
-			lessonId: lessons.id,
+			lessonTitle: lessons.title,
 		})
 		.from(englishLessonScripts)
 		.innerJoin(
 			lessons,
-			sql`${englishLessonScripts.lessonId} = ${lessons.lessonNumber}` // Join condition on lessonId and lessonNumber
+			sql`${englishLessonScripts.lessonId}::int = ${lessons.id}`
 		)
-		.where(like(lessons.title, 'LR%')) // Filter titles starting with 'awb'
-		.orderBy(englishLessonScripts.lessonId)
 
-	return results
+	return rows
 }
+
+// export const getEnglishLessonScripts = async (prefix?: string) => {
+// 	const whereParts = [
+// 		prefix ? ilike(lessons.lessonNumber, `${prefix}%`) : undefined,
+// 	].filter(Boolean)
+
+// 	const rows = await db
+// 		.select({
+// 			id: englishLessonScripts.id,
+// 			// cast to int so downstream code treats it as number
+// 			lessonId: sql<number>`${englishLessonScripts.lessonId}::int`,
+// 			content: englishLessonScripts.content,
+// 			audioSrc: englishLessonScripts.audioSrc,
+// 			lessonTitle: lessons.title,
+// 			lessonNumber: lessons.lessonNumber,
+// 		})
+// 		.from(englishLessonScripts)
+// 		.innerJoin(
+// 			lessons,
+// 			// join string column to numeric id by casting string -> int
+// 			sql`${englishLessonScripts.lessonId}::int = ${lessons.id}`
+// 		)
+// 		.where(and(...whereParts))
+// 		.orderBy(lessons.lessonNumber)
+
+// 	return rows
+// }
 
 export async function getEnglishLessonScript(lessonScriptId: number) {
 	return db.query.englishLessonScripts.findFirst({

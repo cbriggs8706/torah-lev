@@ -62,6 +62,7 @@ export default function EnglishFlashcards({
 	currentLesson,
 	layout,
 }: EnglishFlashcardsProps) {
+	console.log('Initial data count:', data.length)
 	const [selectedType, setSelectedType] = useState<'all' | 'word' | 'phrase'>(
 		'word'
 	)
@@ -145,13 +146,13 @@ export default function EnglishFlashcards({
 		},
 		{
 			label: 'Spa Translation',
-			front: { middle: 'eng', font: 'nunito', size: 'xl' },
-			back: { middle: 'spa', font: 'nunito', size: 'xl' },
+			front: { middle: 'spa', font: 'nunito', size: 'xl' },
+			back: { middle: 'eng', font: 'nunito', size: 'xl' },
 		},
 		{
 			label: 'Por Translation',
-			front: { middle: 'eng', font: 'nunito', size: 'xl' },
-			back: { middle: 'por', font: 'nunito', size: 'xl' },
+			front: { middle: 'por', font: 'nunito', size: 'xl' },
+			back: { middle: 'eng', font: 'nunito', size: 'xl' },
 		},
 	] as const
 
