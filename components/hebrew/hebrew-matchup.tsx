@@ -131,13 +131,24 @@ export default function WordMatchGame({
 		})
 	}, [currentLesson, lessonOptions])
 
+	// const [selectedLessons, setSelectedLessons] = useState<string[]>(
+	// 	allLessonsUpToCurrent
+	// )
 	const [selectedLessons, setSelectedLessons] = useState<string[]>(
-		allLessonsUpToCurrent
+		allLessonsUpToCurrent.length > 0 ? allLessonsUpToCurrent : ['1']
 	)
 
 	useEffect(() => {
-		setSelectedLessons(allLessonsUpToCurrent)
+		if (allLessonsUpToCurrent.length > 0) {
+			setSelectedLessons(allLessonsUpToCurrent)
+		} else {
+			setSelectedLessons(['1'])
+		}
 	}, [allLessonsUpToCurrent])
+
+	// useEffect(() => {
+	// 	setSelectedLessons(allLessonsUpToCurrent)
+	// }, [allLessonsUpToCurrent])
 
 	const filteredCards = useMemo(() => {
 		return data.filter((card) => {

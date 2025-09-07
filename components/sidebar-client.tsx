@@ -74,13 +74,28 @@ export default function SidebarClient({
 					onClick={onItemClick}
 				/>
 				{[6, 11, 14].includes(userProgress?.activeCourse.id) && (
-					<SidebarItem
-						label="Flashcards"
-						href="/flashcard"
-						iconSrc="/card-file-box.svg"
-						onClick={onItemClick}
-					/>
+					<>
+						<SidebarItem
+							label="Flashcards"
+							href="/flashcard"
+							iconSrc="/card-file-box.svg"
+							onClick={onItemClick}
+						/>
+						<SidebarItem
+							label="Dictionary"
+							href="/dictionary"
+							iconSrc="/open-book-svgrepo-com.svg"
+							onClick={onItemClick}
+						/>
+						<SidebarItem
+							label="Matchup"
+							href="/matchup"
+							iconSrc="/socks-svgrepo-com.svg"
+							onClick={onItemClick}
+						/>
+					</>
 				)}
+
 				{/* English */}
 				{[3, 4, 13, 16, 17].includes(userProgress?.activeCourse.id) && (
 					<>
@@ -139,12 +154,7 @@ export default function SidebarClient({
 							iconSrc="/card-file-box.svg"
 							onClick={onItemClick}
 						/> */}
-						<SidebarItem
-							label="Dictionary"
-							href="/dictionary"
-							iconSrc="/open-book-svgrepo-com.svg"
-							onClick={onItemClick}
-						/>
+
 						<SidebarItem
 							label="Lesson Scripts"
 							href="/lesson-scripts"
@@ -169,12 +179,12 @@ export default function SidebarClient({
 							iconSrc="/a-button-blood-type-svgrepo-com.svg"
 							onClick={onItemClick}
 						/>
-						<SidebarItem
+						{/* <SidebarItem
 							label="Matchup"
 							href="/matchup"
 							iconSrc="/socks-svgrepo-com.svg"
 							onClick={onItemClick}
-						/>
+						/> */}
 						<SidebarItem
 							label="Scramble"
 							href="/scramble"

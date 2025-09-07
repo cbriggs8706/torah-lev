@@ -12,7 +12,7 @@ import {
 } from '@/db/queries'
 
 import awbHebrewVocab from '@/lib/data/vocab/awbVocab.json'
-import hebrewScoutsVocab from '@/lib/data/vocab/hebrewScoutsVocab.json'
+import hsVocab from '@/lib/data/vocab/hsVocab.json'
 import awaGreekVocab from '@/lib/data/vocab/awaVocab.json'
 import abcHebrewVocab from '@/lib/data/vocab/abcVocab.json'
 import efwEnglishVocab from '@/lib/data/vocab/efwVocab.json'
@@ -107,7 +107,7 @@ export default async function FlashcardPage({
 		userProgress.activeCourseId === 6
 			? (awbHebrewVocab as HebrewVocab[])
 			: userProgress.activeCourseId === 11
-			? (hebrewScoutsVocab as HebrewVocab[])
+			? (hsVocab as HebrewVocab[])
 			: userProgress.activeCourseId === 14
 			? (abcHebrewVocab as HebrewVocab[])
 			: []
