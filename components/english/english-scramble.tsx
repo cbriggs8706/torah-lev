@@ -23,7 +23,9 @@ export default function EnglishScramble({
 }: EnglishScrambleProps) {
 	const { selectedLessons, setSelectedLessons, currentIndex, setCurrentIndex } =
 		useLessonCards(data, currentLesson)
-	const [selectedWords, setSelectedWords] = useState<string[]>([])
+	// const [selectedWords, setSelectedWords] = useState<string[]>([])
+	const [selectedIds, setSelectedIds] = useState<number[]>([])
+
 	const [showFeedback, setShowFeedback] = useState<null | boolean>(null)
 	const [showFilter, setShowFilter] = useState(false)
 	const { Confetti, celebrate } = useCelebration()
@@ -70,7 +72,7 @@ export default function EnglishScramble({
 
 		setFilteredCards(limited)
 		setCurrentIndex(0)
-		setSelectedWords([])
+		setSelectedIds([])
 		setShowFeedback(null)
 	}, [cardsForPrefix, selectedLessons, setCurrentIndex])
 
@@ -90,8 +92,17 @@ export default function EnglishScramble({
 
 	const correctWords = useMemo(() => {
 		if (!currentCard) return []
-		return currentCard.eng.trim().split(' ')
+		return currentCard.eng.trim().split(/\s+/)
 	}, [currentCard])
+
+	type Token = { id: number; text: string }
+	const tokens = useMemo<Token[]>(() => {
+		return correctWords.map((text, i) => ({ id: i, text }))
+	}, [correctWords])
+
+	const shuffledTokens = useMemo(() => {
+		return [...tokens].sort(() => Math.random() - 0.5)
+	}, [tokens])
 
 	const shuffledWords = useMemo(() => {
 		if (!currentCard) return []
@@ -99,38 +110,32 @@ export default function EnglishScramble({
 	}, [correctWords, currentCard])
 
 	useEffect(() => {
-		setSelectedWords([])
+		setSelectedIds([])
 		setShowFeedback(null)
 	}, [currentCard])
 
-	function toggleWord(word: string) {
-		setSelectedWords((prev) =>
-			prev.includes(word) ? prev.filter((w) => w !== word) : [...prev, word]
+	function toggleId(id: number) {
+		setSelectedIds((prev) =>
+			prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
 		)
 	}
 
 	function handleSubmit() {
-		const joined = selectedWords.join(' ')
+		const joined = selectedIds
+			.map((id) => tokens.find((t) => t.id === id)!.text)
+			.join(' ')
 		const correct = correctWords.join(' ')
 		const isCorrect = joined === correct
 		setShowFeedback(isCorrect)
 
 		if (isCorrect) {
 			setCardsCompleted((prev) => prev + 1)
-
 			const isLastCard = currentIndex === filteredCards.length - 1
-
-			if (isLastCard) {
-				celebrate()
-			}
-
+			if (isLastCard) celebrate()
 			setTimeout(() => {
 				setShowFeedback(null)
-				setSelectedWords([])
-
-				if (!isLastCard) {
-					setCurrentIndex((i) => (i + 1) % filteredCards.length)
-				}
+				setSelectedIds([])
+				if (!isLastCard) setCurrentIndex((i) => (i + 1) % filteredCards.length)
 			}, 1000)
 		}
 	}
@@ -224,24 +229,26 @@ export default function EnglishScramble({
 
 			{/* Word Choices */}
 			<div className="flex flex-wrap justify-center gap-2 mb-6">
-				{shuffledWords.map((word, i) => (
+				{shuffledTokens.map(({ id, text }) => (
 					<button
-						key={`${word}-${i}`}
-						onClick={() => toggleWord(word)}
+						key={id}
+						onClick={() => toggleId(id)}
 						className={`border px-3 py-1 rounded text-4xl font-serif ${
-							selectedWords.includes(word)
+							selectedIds.includes(id)
 								? 'bg-green-200'
 								: 'bg-gray-100 hover:bg-gray-300'
 						}`}
 					>
-						{word}
+						{text}
 					</button>
 				))}
 			</div>
 
 			{/* Selected Phrase */}
 			<div className="mb-4 text-4xl font-serif border p-4 rounded min-h-[60px] bg-gray-50">
-				{selectedWords.join(' ')}
+				{selectedIds
+					.map((id) => tokens.find((t) => t.id === id)!.text)
+					.join(' ')}
 			</div>
 
 			{/* Controls */}
@@ -264,7 +271,7 @@ export default function EnglishScramble({
 								.sort(() => Math.random() - 0.5)
 								.slice(0, Math.min(MAX_CARDS, cardsForPrefix.length))
 							setCurrentIndex(0)
-							setSelectedWords([])
+							setSelectedIds([])
 							setShowFeedback(null)
 							return reshuffled
 						})

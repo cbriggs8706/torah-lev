@@ -14,6 +14,8 @@ import EnglishMatchup from '@/components/english/english-matchup'
 import efwEnglishVocab from '@/lib/data/vocab/efwVocab.json'
 import lrEnglishVocab from '@/lib/data/vocab/lrVocab.json'
 import ewbEnglishVocab from '@/lib/data/vocab/ewbVocab.json'
+import ec1EnglishVocab from '@/lib/data/vocab/ec1Vocab.json'
+import ec2EnglishVocab from '@/lib/data/vocab/ec2Vocab.json'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 import { EnglishVocab } from '@/lib/vocab'
 
@@ -38,6 +40,10 @@ const EnglishMatchupPage = async () => {
 			? (ewbEnglishVocab as EnglishVocab[])
 			: userProgress.activeCourseId === 17
 			? (lrEnglishVocab as EnglishVocab[])
+			: userProgress.activeCourseId === 3
+			? (ec1EnglishVocab as EnglishVocab[])
+			: userProgress.activeCourseId === 4
+			? (ec2EnglishVocab as EnglishVocab[])
 			: []
 
 	return (

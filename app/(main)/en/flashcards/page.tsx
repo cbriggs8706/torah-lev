@@ -14,6 +14,8 @@ import {
 import efwEnglishVocab from '@/lib/data/vocab/efwVocab.json'
 import ewbEnglishVocab from '@/lib/data/vocab/ewbVocab.json'
 import lrEnglishVocab from '@/lib/data/vocab/lrVocab.json'
+import ec1EnglishVocab from '@/lib/data/vocab/ec1Vocab.json'
+import ec2EnglishVocab from '@/lib/data/vocab/ec2Vocab.json'
 import { EnglishVocab } from '@/lib/vocab'
 
 const EnglishFlashcards = dynamic(
@@ -64,6 +66,10 @@ export default async function EFWFlashcardPage({
 			? (ewbEnglishVocab as EnglishVocab[])
 			: userProgress.activeCourseId === 17
 			? (lrEnglishVocab as EnglishVocab[])
+			: userProgress.activeCourseId === 3
+			? (ec1EnglishVocab as EnglishVocab[])
+			: userProgress.activeCourseId === 4
+			? (ec2EnglishVocab as EnglishVocab[])
 			: []
 
 	return (

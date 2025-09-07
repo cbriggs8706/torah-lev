@@ -206,7 +206,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[fɪl ɪn]",
 		"images": [],
-		"engAudio": "ewf1/fill in.mp3"
+		"engAudio": "/ewf1/fill in.mp3"
 	},
 	{
 		"id": 1356,
@@ -225,7 +225,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[fɪl ɪn fɔr]",
 		"images": [],
-		"engAudio": "ewf1/fill in for.mp3"
+		"engAudio": "/ewf1/fill in for.mp3"
 	},
 	{
 		"id": 1357,
@@ -244,7 +244,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[fɪl ɪn ɑn]",
 		"images": [],
-		"engAudio": "ewf1/fill in on.mp3"
+		"engAudio": "/ewf1/fill in on.mp3"
 	},
 	{
 		"id": 1358,
@@ -263,7 +263,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[fɪl aʊt]",
 		"images": [],
-		"engAudio": "ewf1/fill out.mp3"
+		"engAudio": "/ewf1/fill out.mp3"
 	},
 	{
 		"id": 1359,
@@ -282,7 +282,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[fɪl aʊt ˈɪntu]",
 		"images": [],
-		"engAudio": "ewf1/fill out into.mp3"
+		"engAudio": "/ewf1/fill out into.mp3"
 	},
 	{
 		"id": 1360,
@@ -301,7 +301,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[fɪl ˈsʌmwʌn ɪn]",
 		"images": [],
-		"engAudio": "ewf1/fill someone in.mp3"
+		"engAudio": "/ewf1/fill someone in.mp3"
 	},
 	{
 		"id": 1361,
@@ -320,7 +320,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[fɪl ˈsʌmwʌnz ʃuz]",
 		"images": [],
-		"engAudio": "ewf1/fill someone’s shoes.mp3"
+		"engAudio": "/ewf1/fill someone’s shoes.mp3"
 	},
 	{
 		"id": 1362,
@@ -339,7 +339,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[fɪl tu]",
 		"images": [],
-		"engAudio": "ewf1/fill to.mp3"
+		"engAudio": "/ewf1/fill to.mp3"
 	},
 	{
 		"id": 1363,
@@ -358,7 +358,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[fɪl ʌp]",
 		"images": [],
-		"engAudio": "ewf1/fill up.mp3"
+		"engAudio": "/ewf1/fill up.mp3"
 	},
 	{
 		"id": 1364,
@@ -377,7 +377,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[fɪl ʌp wɪð]",
 		"images": [],
-		"engAudio": "ewf1/fill up with.mp3"
+		"engAudio": "/ewf1/fill up with.mp3"
 	},
 	{
 		"id": 1365,
@@ -396,7 +396,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[fɪl wɪð]",
 		"images": [],
-		"engAudio": "ewf1/fill with.mp3"
+		"engAudio": "/ewf1/fill with.mp3"
 	},
 	{
 		"id": 1366,
@@ -415,7 +415,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[fɪl wɪð ɪˈmoʊʃən]",
 		"images": [],
-		"engAudio": "ewf1/fill with emotion.mp3"
+		"engAudio": "/ewf1/fill with emotion.mp3"
 	},
 	{
 		"id": 1367,
@@ -434,7 +434,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ɡɛt əˈkrɔs]",
 		"images": [],
-		"engAudio": "ewf1/get across.mp3"
+		"engAudio": "/ewf1/get across.mp3"
 	},
 	{
 		"id": 1368,
@@ -453,7 +453,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ɡɛt əˈhɛd]",
 		"images": [],
-		"engAudio": "ewf1/get ahead.mp3"
+		"engAudio": "/ewf1/get ahead.mp3"
 	},
 	{
 		"id": 1369,
@@ -472,7 +472,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ɡɛt əˈlɔŋ wɪð]",
 		"images": [],
-		"engAudio": "ewf1/get along with.mp3"
+		"engAudio": "/ewf1/get along with.mp3"
 	},
 	{
 		"id": 1370,
@@ -491,7 +491,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ɡɛt əˈraʊnd]",
 		"images": [],
-		"engAudio": "ewf1/get around.mp3"
+		"engAudio": "/ewf1/get around.mp3"
 	},
 	{
 		"id": 1371,
@@ -510,7 +510,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ɡɛt əˈraʊnd tu]",
 		"images": [],
-		"engAudio": "ewf1/get around to.mp3"
+		"engAudio": "/ewf1/get around to.mp3"
 	},
 	{
 		"id": 1372,
@@ -529,7 +529,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ɡɛt æt]",
 		"images": [],
-		"engAudio": "ewf1/get at.mp3"
+		"engAudio": "/ewf1/get at.mp3"
 	},
 	{
 		"id": 1373,
@@ -548,7 +548,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ɡɛt əˈweɪ]",
 		"images": [],
-		"engAudio": "ewf1/get away.mp3"
+		"engAudio": "/ewf1/get away.mp3"
 	},
 	{
 		"id": 1374,
@@ -567,7 +567,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ɡɛt əˈweɪ wɪð]",
 		"images": [],
-		"engAudio": "ewf1/get away with.mp3"
+		"engAudio": "/ewf1/get away with.mp3"
 	},
 	{
 		"id": 1375,
@@ -586,7 +586,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ɡɛt bæk]",
 		"images": [],
-		"engAudio": "ewf1/get back.mp3"
+		"engAudio": "/ewf1/get back.mp3"
 	},
 	{
 		"id": 1376,
@@ -605,7 +605,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ɡɛt bæk ˈsʌmθɪŋ]",
 		"images": [],
-		"engAudio": "ewf1/get back something.mp3"
+		"engAudio": "/ewf1/get back something.mp3"
 	},
 	{
 		"id": 1377,
@@ -624,7 +624,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ɡɛt bɪˈhaɪnd wɪð]",
 		"images": [],
-		"engAudio": "ewf1/get behind with.mp3"
+		"engAudio": "/ewf1/get behind with.mp3"
 	},
 	{
 		"id": 1378,
@@ -643,7 +643,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ɡɛt baɪ]",
 		"images": [],
-		"engAudio": "ewf1/get by.mp3"
+		"engAudio": "/ewf1/get by.mp3"
 	},
 	{
 		"id": 1379,
@@ -662,7 +662,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ɡɛt ˈkæriəd əˈweɪ]",
 		"images": [],
-		"engAudio": "ewf1/get carried away.mp3"
+		"engAudio": "/ewf1/get carried away.mp3"
 	},
 	{
 		"id": 1380,
@@ -681,7 +681,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ɡɛt dɪˈprɛst] [ɡɛt strɛst aʊt]",
 		"images": [],
-		"engAudio": "ewf1/get depressed.mp3"
+		"engAudio": "/ewf1/get depressed.mp3"
 	},
 	{
 		"id": 1381,
@@ -700,7 +700,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ɡɛt daʊn tu]",
 		"images": [],
-		"engAudio": "ewf1/get down to.mp3"
+		"engAudio": "/ewf1/get down to.mp3"
 	},
 	{
 		"id": 1382,
@@ -719,7 +719,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ɡɛt drɛst] [ɡɛt ʧeɪndʒd]",
 		"images": [],
-		"engAudio": "ewf1/get dressed.mp3"
+		"engAudio": "/ewf1/get dressed.mp3"
 	},
 	{
 		"id": 1383,
@@ -738,7 +738,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ɡɛt ˈɡoʊɪŋ]",
 		"images": [],
-		"engAudio": "ewf1/get going.mp3"
+		"engAudio": "/ewf1/get going.mp3"
 	},
 	{
 		"id": 1384,
@@ -757,7 +757,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ɡɛt hoʊld ʌv]",
 		"images": [],
-		"engAudio": "ewf1/get hold of.mp3"
+		"engAudio": "/ewf1/get hold of.mp3"
 	},
 	{
 		"id": 1385,
@@ -776,7 +776,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ɡɛt ɪn] [ɡɛt ˈɪntu]",
 		"images": [],
-		"engAudio": "ewf1/get in.mp3"
+		"engAudio": "/ewf1/get in.mp3"
 	},
 	{
 		"id": 1386,
@@ -795,7 +795,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ɡɛt ɪn tʌʧ]",
 		"images": [],
-		"engAudio": "ewf1/get in touch.mp3"
+		"engAudio": "/ewf1/get in touch.mp3"
 	},
 	{
 		"id": 1387,
@@ -814,7 +814,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ɡɛt mɪkst ʌp wɪð]",
 		"images": [],
-		"engAudio": "ewf1/get mixed up with.mp3"
+		"engAudio": "/ewf1/get mixed up with.mp3"
 	},
 	{
 		"id": 1388,
@@ -833,7 +833,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ɡɛt ɔf]",
 		"images": [],
-		"engAudio": "ewf1/get off.mp3"
+		"engAudio": "/ewf1/get off.mp3"
 	},
 	{
 		"id": 1389,
@@ -852,7 +852,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ɡɛt ɑn]",
 		"images": [],
-		"engAudio": "ewf1/get on.mp3"
+		"engAudio": "/ewf1/get on.mp3"
 	},
 	{
 		"id": 1390,
@@ -871,7 +871,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ɡɛt ɑn ˈsʌmwʌnz nɜrvz]",
 		"images": [],
-		"engAudio": "ewf1/get on someones nerves.mp3"
+		"engAudio": "/ewf1/get on someones nerves.mp3"
 	},
 	{
 		"id": 1391,
@@ -890,7 +890,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ɡɛt aʊt]",
 		"images": [],
-		"engAudio": "ewf1/get out.mp3"
+		"engAudio": "/ewf1/get out.mp3"
 	},
 	{
 		"id": 1392,
@@ -909,7 +909,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ɡɛt aʊt ʌv ˈsʌmθɪŋ]",
 		"images": [],
-		"engAudio": "ewf1/get out of.mp3"
+		"engAudio": "/ewf1/get out of.mp3"
 	},
 	{
 		"id": 1393,
@@ -928,7 +928,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ɡɛt ˈoʊvər]",
 		"images": [],
-		"engAudio": "ewf1/get over.mp3"
+		"engAudio": "/ewf1/get over.mp3"
 	},
 	{
 		"id": 1394,
@@ -947,7 +947,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ɡɛt ˈoʊvər ˈsʌmθɪŋ]",
 		"images": [],
-		"engAudio": "ewf1/get over something.mp3"
+		"engAudio": "/ewf1/get over something.mp3"
 	},
 	{
 		"id": 1395,
@@ -966,7 +966,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ɡɛt ˈrɛdi]",
 		"images": [],
-		"engAudio": "ewf1/get ready.mp3"
+		"engAudio": "/ewf1/get ready.mp3"
 	},
 	{
 		"id": 1396,
@@ -985,7 +985,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ɡɛt rɪd ʌv]",
 		"images": [],
-		"engAudio": "ewf1/get rid of.mp3"
+		"engAudio": "/ewf1/get rid of.mp3"
 	},
 	{
 		"id": 1397,
@@ -1004,7 +1004,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ɡɛt ˈstɑrtəd]",
 		"images": [],
-		"engAudio": "ewf1/get started.mp3"
+		"engAudio": "/ewf1/get started.mp3"
 	},
 	{
 		"id": 1398,
@@ -1023,7 +1023,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ɡɛt stʌk]",
 		"images": [],
-		"engAudio": "ewf1/get stuck.mp3"
+		"engAudio": "/ewf1/get stuck.mp3"
 	},
 	{
 		"id": 1399,
@@ -1042,7 +1042,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ɡɛt θru]",
 		"images": [],
-		"engAudio": "ewf1/get through.mp3"
+		"engAudio": "/ewf1/get through.mp3"
 	},
 	{
 		"id": 1400,
@@ -1061,7 +1061,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ɡɛt θru ˈsʌmθɪŋ]",
 		"images": [],
-		"engAudio": "ewf1/get through something.mp3"
+		"engAudio": "/ewf1/get through something.mp3"
 	},
 	{
 		"id": 1401,
@@ -1080,7 +1080,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ɡɛt θru tu]",
 		"images": [],
-		"engAudio": "ewf1/get through to.mp3"
+		"engAudio": "/ewf1/get through to.mp3"
 	},
 	{
 		"id": 1405,
@@ -1099,7 +1099,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ɡɛt θru tu]",
 		"images": [],
-		"engAudio": "ewf1/get through to-2.mp3"
+		"engAudio": "/ewf1/get through to-2.mp3"
 	},
 	{
 		"id": 1402,
@@ -1118,7 +1118,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ɡɛt ˈtaɪərd ʌv]",
 		"images": [],
-		"engAudio": "ewf1/get tired of.mp3"
+		"engAudio": "/ewf1/get tired of.mp3"
 	},
 	{
 		"id": 1406,
@@ -1137,7 +1137,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ɡɛt ˈtaɪərd ʌv]",
 		"images": [],
-		"engAudio": "ewf1/get tired of-2.mp3"
+		"engAudio": "/ewf1/get tired of-2.mp3"
 	},
 	{
 		"id": 1403,
@@ -1156,7 +1156,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ɡɛt tu ˈsʌmwʌn]",
 		"images": [],
-		"engAudio": "ewf1/get to someone.mp3"
+		"engAudio": "/ewf1/get to someone.mp3"
 	},
 	{
 		"id": 1407,
@@ -1175,7 +1175,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ɡɛt tu ˈsʌmwʌn]",
 		"images": [],
-		"engAudio": "ewf1/get to someone-2.mp3"
+		"engAudio": "/ewf1/get to someone-2.mp3"
 	},
 	{
 		"id": 1404,
@@ -1194,7 +1194,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ɡɛt təˈɡɛðər]",
 		"images": [],
-		"engAudio": "ewf1/get together.mp3"
+		"engAudio": "/ewf1/get together.mp3"
 	},
 	{
 		"id": 1408,
@@ -1213,7 +1213,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ɡɛt təˈɡɛðər]",
 		"images": [],
-		"engAudio": "ewf1/get together-2.mp3"
+		"engAudio": "/ewf1/get together-2.mp3"
 	},
 	{
 		"id": 1409,
@@ -1232,7 +1232,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ɡɛt ˈjust tu]",
 		"images": [],
-		"engAudio": "ewf1/get used to.mp3"
+		"engAudio": "/ewf1/get used to.mp3"
 	},
 	{
 		"id": 1410,
@@ -1251,7 +1251,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ɡɛt wɜrkt ʌp]",
 		"images": [],
-		"engAudio": "ewf1/get worked up.mp3"
+		"engAudio": "/ewf1/get worked up.mp3"
 	},
 	{
 		"id": 1428,
@@ -1270,7 +1270,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[rɪˈpɔrt ˈsʌmwʌn fɔr ˈsʌmθɪŋ]",
 		"images": [],
-		"engAudio": "ewf1/report someone.mp3"
+		"engAudio": "/ewf1/report someone.mp3"
 	},
 	{
 		"id": 1429,
@@ -1289,7 +1289,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[rɪˈpɔrt bæk]",
 		"images": [],
-		"engAudio": "ewf1/report back.mp3"
+		"engAudio": "/ewf1/report back.mp3"
 	},
 	{
 		"id": 1430,
@@ -1308,7 +1308,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[rɪˈpɔrt fɔr]",
 		"images": [],
-		"engAudio": "ewf1/report for duty.mp3"
+		"engAudio": "/ewf1/report for duty.mp3"
 	},
 	{
 		"id": 1411,
@@ -1327,7 +1327,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ʃoʊ əˈraʊnd]",
 		"images": [],
-		"engAudio": "ewf1/show around.mp3"
+		"engAudio": "/ewf1/show around.mp3"
 	},
 	{
 		"id": 1412,
@@ -1346,7 +1346,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ʃoʊ kənˈsɜrn] [ˈɪntrəst]",
 		"images": [],
-		"engAudio": "ewf1/show concern.mp3"
+		"engAudio": "/ewf1/show concern.mp3"
 	},
 	{
 		"id": 1413,
@@ -1365,7 +1365,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ʃoʊ ˌdɪsəˈpɔɪntmənt]",
 		"images": [],
-		"engAudio": "ewf1/show disappointment.mp3"
+		"engAudio": "/ewf1/show disappointment.mp3"
 	},
 	{
 		"id": 1414,
@@ -1384,7 +1384,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ʃoʊ fɔrθ]",
 		"images": [],
-		"engAudio": "ewf1/show forth.mp3"
+		"engAudio": "/ewf1/show forth.mp3"
 	},
 	{
 		"id": 1415,
@@ -1403,7 +1403,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ʃoʊ haʊ]",
 		"images": [],
-		"engAudio": "ewf1/show how.mp3"
+		"engAudio": "/ewf1/show how.mp3"
 	},
 	{
 		"id": 1416,
@@ -1422,7 +1422,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ʃoʊ ˈɪntu]",
 		"images": [],
-		"engAudio": "ewf1/show into.mp3"
+		"engAudio": "/ewf1/show into.mp3"
 	},
 	{
 		"id": 1417,
@@ -1441,7 +1441,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ʃoʊ ɔf]",
 		"images": [],
-		"engAudio": "ewf1/show off.mp3"
+		"engAudio": "/ewf1/show off.mp3"
 	},
 	{
 		"id": 1418,
@@ -1460,7 +1460,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ʃoʊ ɔf ˈsʌmθɪŋ]",
 		"images": [],
-		"engAudio": "ewf1/show off something.mp3"
+		"engAudio": "/ewf1/show off something.mp3"
 	},
 	{
 		"id": 1419,
@@ -1479,7 +1479,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ʃoʊ aʊt]",
 		"images": [],
-		"engAudio": "ewf1/show out.mp3"
+		"engAudio": "/ewf1/show out.mp3"
 	},
 	{
 		"id": 1420,
@@ -1498,7 +1498,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ʃoʊ ˈoʊvər]",
 		"images": [],
-		"engAudio": "ewf1/show over.mp3"
+		"engAudio": "/ewf1/show over.mp3"
 	},
 	{
 		"id": 1421,
@@ -1517,7 +1517,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ʃoʊ ˈpeɪʃəns] [ˈkaɪndnəs]",
 		"images": [],
-		"engAudio": "ewf1/show patience.mp3"
+		"engAudio": "/ewf1/show patience.mp3"
 	},
 	{
 		"id": 1422,
@@ -1536,7 +1536,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ʃoʊ θru]",
 		"images": [],
-		"engAudio": "ewf1/show through.mp3"
+		"engAudio": "/ewf1/show through.mp3"
 	},
 	{
 		"id": 1423,
@@ -1555,7 +1555,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ʃoʊ ʌp]",
 		"images": [],
-		"engAudio": "ewf1/show up.mp3"
+		"engAudio": "/ewf1/show up.mp3"
 	},
 	{
 		"id": 1424,
@@ -1574,7 +1574,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ʃoʊ ʌp fɔr]",
 		"images": [],
-		"engAudio": "ewf1/show up for.mp3"
+		"engAudio": "/ewf1/show up for.mp3"
 	},
 	{
 		"id": 1425,
@@ -1593,7 +1593,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ʃoʊ ʌp ˈsʌmwʌn]",
 		"images": [],
-		"engAudio": "ewf1/show up someone.mp3"
+		"engAudio": "/ewf1/show up someone.mp3"
 	},
 	{
 		"id": 1426,
@@ -1612,7 +1612,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ʃoʊ ʌp ɪn]",
 		"images": [],
-		"engAudio": "ewf1/show up in.mp3"
+		"engAudio": "/ewf1/show up in.mp3"
 	},
 	{
 		"id": 1427,
@@ -1631,7 +1631,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[ʃoʊ ʌp leɪt]",
 		"images": [],
-		"engAudio": "ewf1/show up late.mp3"
+		"engAudio": "/ewf1/show up late.mp3"
 	},
 	{
 		"id": 1275,
@@ -1745,7 +1745,7 @@
 		"partOfSpeech": ["noun/adj"],
 		"ipa": "[ˈænɪməl prɪnt]",
 		"images": ["/efw1/animalprint.webp"],
-		"engAudio": "efw1/animal print.mp3"
+		"engAudio": "/efw1/animal print.mp3"
 	},
 	{
 		"id": 5,
@@ -1764,7 +1764,7 @@
 		"partOfSpeech": ["noun/adj"],
 		"ipa": "[ˈɑrˌɡaɪl]",
 		"images": ["/efw1/argyle.webp"],
-		"engAudio": "efw1/argyle.mp3"
+		"engAudio": "/efw1/argyle.mp3"
 	},
 	{
 		"id": 9,
@@ -1783,7 +1783,7 @@
 		"partOfSpeech": ["adj"],
 		"ipa": "[ˈʧɛkərd]",
 		"images": ["/efw1/checkered.webp"],
-		"engAudio": "efw1/checkered.mp3"
+		"engAudio": "/efw1/checkered.mp3"
 	},
 	{
 		"id": 10,
@@ -1802,7 +1802,7 @@
 		"partOfSpeech": ["noun/adj"],
 		"ipa": "[ˈʃɛvrən]",
 		"images": ["/efw1/chevron.webp"],
-		"engAudio": "efw1/chevron.mp3"
+		"engAudio": "/efw1/chevron.mp3"
 	},
 	{
 		"id": 14,
@@ -1821,7 +1821,7 @@
 		"partOfSpeech": ["noun/adj"],
 		"ipa": "[ˈdaɪmənd]",
 		"images": ["/efw1/diamond.webp"],
-		"engAudio": "efw1/diamond.mp3"
+		"engAudio": "/efw1/diamond.mp3"
 	},
 	{
 		"id": 20,
@@ -1840,7 +1840,7 @@
 		"partOfSpeech": ["adj"],
 		"ipa": "[ˈflɔrəl]",
 		"images": ["/efw1/floral.webp"],
-		"engAudio": "efw1/floral.mp3"
+		"engAudio": "/efw1/floral.mp3"
 	},
 	{
 		"id": 23,
@@ -1859,7 +1859,7 @@
 		"partOfSpeech": ["adj"],
 		"ipa": "[ˌʤiəˈmɛtrɪk]",
 		"images": ["/efw1/geometric.webp"],
-		"engAudio": "efw1/geometric.mp3"
+		"engAudio": "/efw1/geometric.mp3"
 	},
 	{
 		"id": 24,
@@ -1878,7 +1878,7 @@
 		"partOfSpeech": ["noun/adj"],
 		"ipa": "[ˈɡɪŋəm]",
 		"images": ["/efw1/gingham.webp"],
-		"engAudio": "efw1/gingham.mp3"
+		"engAudio": "/efw1/gingham.mp3"
 	},
 	{
 		"id": 25,
@@ -1897,7 +1897,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ɡrɪd]",
 		"images": ["/efw1/grid.webp"],
-		"engAudio": "efw1/grid.mp3"
+		"engAudio": "/efw1/grid.mp3"
 	},
 	{
 		"id": 28,
@@ -1916,7 +1916,7 @@
 		"partOfSpeech": ["noun/adj"],
 		"ipa": "[ˈhɛrɪŋˌboʊn]",
 		"images": ["/efw1/herringbone.webp"],
-		"engAudio": "efw1/herringbone.mp3"
+		"engAudio": "/efw1/herringbone.mp3"
 	},
 	{
 		"id": 29,
@@ -1935,7 +1935,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈhʌniˌkoʊm]",
 		"images": ["/efw1/honeycomb.webp"],
-		"engAudio": "efw1/honeycomb.mp3"
+		"engAudio": "/efw1/honeycomb.mp3"
 	},
 	{
 		"id": 30,
@@ -1954,7 +1954,7 @@
 		"partOfSpeech": ["noun/adj"],
 		"ipa": "[ˈhaʊndzˌtuθ]",
 		"images": ["/efw1/houndstooth.webp"],
-		"engAudio": "efw1/houndstooth.mp3"
+		"engAudio": "/efw1/houndstooth.mp3"
 	},
 	{
 		"id": 34,
@@ -1973,7 +1973,7 @@
 		"partOfSpeech": ["noun/adj"],
 		"ipa": "[ˈiːkæt]",
 		"images": ["/efw1/ikat.webp"],
-		"engAudio": "efw1/ikat.mp3"
+		"engAudio": "/efw1/ikat.mp3"
 	},
 	{
 		"id": 35,
@@ -1992,7 +1992,7 @@
 		"partOfSpeech": ["noun/adj"],
 		"ipa": "[lif prɪnt]",
 		"images": ["/efw1/leaf print.webp"],
-		"engAudio": "efw1/leaf print.mp3"
+		"engAudio": "/efw1/leaf print.mp3"
 	},
 	{
 		"id": 45,
@@ -2011,7 +2011,7 @@
 		"partOfSpeech": ["noun/adj"],
 		"ipa": "[ˈpeɪzli]",
 		"images": ["/efw1/paisley.webp"],
-		"engAudio": "efw1/paisley.mp3"
+		"engAudio": "/efw1/paisley.mp3"
 	},
 	{
 		"id": 49,
@@ -2030,7 +2030,7 @@
 		"partOfSpeech": ["noun/adj"],
 		"ipa": "[plæd]",
 		"images": ["/efw1/plaid.webp"],
-		"engAudio": "efw1/plaid.mp3"
+		"engAudio": "/efw1/plaid.mp3"
 	},
 	{
 		"id": 51,
@@ -2049,7 +2049,7 @@
 		"partOfSpeech": ["noun/adj"],
 		"ipa": "[ˈpoʊlkə dɑt]",
 		"images": ["/efw1/polkadot.webp"],
-		"engAudio": "efw1/polka dot.mp3"
+		"engAudio": "/efw1/polka dot.mp3"
 	},
 	{
 		"id": 52,
@@ -2068,7 +2068,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈpɑlɪˌɡɑnz]",
 		"images": ["/efw1/polygons.webp"],
-		"engAudio": "efw1/polygons.mp3"
+		"engAudio": "/efw1/polygons.mp3"
 	},
 	{
 		"id": 63,
@@ -2087,7 +2087,7 @@
 		"partOfSpeech": ["adj"],
 		"ipa": "[straɪpt]",
 		"images": ["/efw1/striped.webp"],
-		"engAudio": "efw1/striped.mp3"
+		"engAudio": "/efw1/striped.mp3"
 	},
 	{
 		"id": 65,
@@ -2106,7 +2106,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈtɑrtən]",
 		"images": ["/efw1/tartan.webp"],
-		"engAudio": "efw1/tartan.mp3"
+		"engAudio": "/efw1/tartan.mp3"
 	},
 	{
 		"id": 70,
@@ -2125,7 +2125,7 @@
 		"partOfSpeech": ["noun/adj"],
 		"ipa": "[ˈwʊdˌɡreɪn]",
 		"images": ["/efw1/woodgrain.webp"],
-		"engAudio": "efw1/woodgrain.mp3"
+		"engAudio": "/efw1/woodgrain.mp3"
 	},
 	{
 		"id": 1,
@@ -2144,7 +2144,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[əˈdrɛs]",
 		"images": ["/efw1/address.webp"],
-		"engAudio": "efw1/address.mp3"
+		"engAudio": "/efw1/address.mp3"
 	},
 	{
 		"id": 2,
@@ -2163,7 +2163,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[əˈɡriːmənt]",
 		"images": ["/efw1/agreement.webp"],
-		"engAudio": "efw1/agreement.mp3"
+		"engAudio": "/efw1/agreement.mp3"
 	},
 	{
 		"id": 4,
@@ -2182,7 +2182,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˌæplɪˈkeɪʃən]",
 		"images": ["/efw1/application.webp"],
-		"engAudio": "efw1/application.mp3"
+		"engAudio": "/efw1/application.mp3"
 	},
 	{
 		"id": 6,
@@ -2201,7 +2201,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[əˈtɛndəns]",
 		"images": ["/efw1/attendance.webp"],
-		"engAudio": "efw1/attendance.mp3"
+		"engAudio": "/efw1/attendance.mp3"
 	},
 	{
 		"id": 7,
@@ -2220,7 +2220,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈbɛnɪfɪts]",
 		"images": ["/efw1/benefits.webp"],
-		"engAudio": "efw1/benefits.mp3"
+		"engAudio": "/efw1/benefits.mp3"
 	},
 	{
 		"id": 8,
@@ -2239,7 +2239,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[breɪk]",
 		"images": ["/efw1/break.webp"],
-		"engAudio": "efw1/break.mp3"
+		"engAudio": "/efw1/break.mp3"
 	},
 	{
 		"id": 11,
@@ -2258,7 +2258,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈkʌmpəni]",
 		"images": ["/efw1/company.webp"],
-		"engAudio": "efw1/company.mp3"
+		"engAudio": "/efw1/company.mp3"
 	},
 	{
 		"id": 12,
@@ -2277,7 +2277,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈkɒntrækt]",
 		"images": ["/efw1/contract.webp"],
-		"engAudio": "efw1/contract.mp3"
+		"engAudio": "/efw1/contract.mp3"
 	},
 	{
 		"id": 13,
@@ -2296,7 +2296,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈkoʊwɜrkər]",
 		"images": ["/efw1/coworker.webp"],
-		"engAudio": "efw1/coworker.mp3"
+		"engAudio": "/efw1/coworker.mp3"
 	},
 	{
 		"id": 15,
@@ -2315,7 +2315,7 @@
 		"partOfSpeech": ["noun phrase"],
 		"ipa": "[ˈdrɛs koʊd]",
 		"images": ["/efw1/dresscode.webp"],
-		"engAudio": "efw1/dresscode.mp3"
+		"engAudio": "/efw1/dresscode.mp3"
 	},
 	{
 		"id": 16,
@@ -2334,7 +2334,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈiːmeɪl]",
 		"images": ["/efw1/email.webp"],
-		"engAudio": "efw1/email.mp3"
+		"engAudio": "/efw1/email.mp3"
 	},
 	{
 		"id": 17,
@@ -2353,7 +2353,7 @@
 		"partOfSpeech": ["noun phrase"],
 		"ipa": "[ɪˈmɜrdʒənsi ˈkɒntækt]",
 		"images": ["/efw1/emergencycontact.webp"],
-		"engAudio": "efw1/emergencycontact.mp3"
+		"engAudio": "/efw1/emergencycontact.mp3"
 	},
 	{
 		"id": 18,
@@ -2372,7 +2372,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ɛmˈplɔɪi]",
 		"images": ["/efw1/employee.webp"],
-		"engAudio": "efw1/employee.mp3"
+		"engAudio": "/efw1/employee.mp3"
 	},
 	{
 		"id": 19,
@@ -2391,7 +2391,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ɛmˈplɔɪər]",
 		"images": ["/efw1/employer.webp"],
-		"engAudio": "efw1/employer.mp3"
+		"engAudio": "/efw1/employer.mp3"
 	},
 	{
 		"id": 21,
@@ -2410,7 +2410,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[fɔrm]",
 		"images": ["/efw1/form.webp"],
-		"engAudio": "efw1/form.mp3"
+		"engAudio": "/efw1/form.mp3"
 	},
 	{
 		"id": 22,
@@ -2429,7 +2429,7 @@
 		"partOfSpeech": ["adjective"],
 		"ipa": "[ˈfʊl taɪm]",
 		"images": ["/efw1/fulltime.webp"],
-		"engAudio": "efw1/fulltime.mp3"
+		"engAudio": "/efw1/fulltime.mp3"
 	},
 	{
 		"id": 26,
@@ -2448,7 +2448,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈhændbʊk]",
 		"images": ["/efw1/handbook.webp"],
-		"engAudio": "efw1/handbook.mp3"
+		"engAudio": "/efw1/handbook.mp3"
 	},
 	{
 		"id": 27,
@@ -2467,7 +2467,7 @@
 		"partOfSpeech": ["noun phrase"],
 		"ipa": "[hɛlθ ɪnˈʃʊrəns]",
 		"images": ["/efw1/healthinsurance.webp"],
-		"engAudio": "efw1/healthinsurance.mp3"
+		"engAudio": "/efw1/healthinsurance.mp3"
 	},
 	{
 		"id": 31,
@@ -2486,7 +2486,7 @@
 		"partOfSpeech": ["noun phrase"],
 		"ipa": "[ˈhjuːmən rɪˈsɔrsɪz]",
 		"images": ["/efw1/humanresources.webp"],
-		"engAudio": "efw1/humanresources.mp3"
+		"engAudio": "/efw1/humanresources.mp3"
 	},
 	{
 		"id": 32,
@@ -2505,7 +2505,7 @@
 		"partOfSpeech": ["noun phrase"],
 		"ipa": "[aɪˈdiː bædʒ]",
 		"images": ["/efw1/idbadge.webp"],
-		"engAudio": "efw1/idbadge.mp3"
+		"engAudio": "/efw1/idbadge.mp3"
 	},
 	{
 		"id": 33,
@@ -2524,7 +2524,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[aɪˌdɛntəfəˈkeɪʃən]",
 		"images": ["/efw1/identification.webp"],
-		"engAudio": "efw1/identification.mp3"
+		"engAudio": "/efw1/identification.mp3"
 	},
 	{
 		"id": 36,
@@ -2543,7 +2543,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[lʌntʃ]",
 		"images": ["/efw1/lunch.webp"],
-		"engAudio": "efw1/lunch.mp3"
+		"engAudio": "/efw1/lunch.mp3"
 	},
 	{
 		"id": 37,
@@ -2562,7 +2562,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈmænɪdʒər]",
 		"images": ["/efw1/manager.webp"],
-		"engAudio": "efw1/manager.mp3"
+		"engAudio": "/efw1/manager.mp3"
 	},
 	{
 		"id": 38,
@@ -2581,7 +2581,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈmɛntɔr]",
 		"images": ["/efw1/mentor.webp"],
-		"engAudio": "efw1/mentor.mp3"
+		"engAudio": "/efw1/mentor.mp3"
 	},
 	{
 		"id": 39,
@@ -2600,7 +2600,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[neɪm]",
 		"images": ["/efw1/name.webp"],
-		"engAudio": "efw1/name.mp3"
+		"engAudio": "/efw1/name.mp3"
 	},
 	{
 		"id": 40,
@@ -2619,7 +2619,7 @@
 		"partOfSpeech": ["noun phrase"],
 		"ipa": "[ˌnuː ˈhaɪər]",
 		"images": ["/efw1/newhire.webp"],
-		"engAudio": "efw1/newhire.mp3"
+		"engAudio": "/efw1/newhire.mp3"
 	},
 	{
 		"id": 41,
@@ -2638,7 +2638,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈɑnˌbɔrdɪŋ]",
 		"images": ["/efw1/onboarding.webp"],
-		"engAudio": "efw1/onboarding.mp3"
+		"engAudio": "/efw1/onboarding.mp3"
 	},
 	{
 		"id": 42,
@@ -2657,7 +2657,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˌɔriɛnˈteɪʃən]",
 		"images": ["/efw1/orientation.webp"],
-		"engAudio": "efw1/orientation.mp3"
+		"engAudio": "/efw1/orientation.mp3"
 	},
 	{
 		"id": 44,
@@ -2676,7 +2676,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈoʊvərˌtaɪm]",
 		"images": ["/efw1/overtime.webp"],
-		"engAudio": "efw1/overtime.mp3"
+		"engAudio": "/efw1/overtime.mp3"
 	},
 	{
 		"id": 46,
@@ -2695,7 +2695,7 @@
 		"partOfSpeech": ["adjective"],
 		"ipa": "[ˈpɑrt taɪm]",
 		"images": ["/efw1/parttime.webp"],
-		"engAudio": "efw1/parttime.mp3"
+		"engAudio": "/efw1/parttime.mp3"
 	},
 	{
 		"id": 47,
@@ -2714,7 +2714,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈpeɪtʃɛk]",
 		"images": ["/efw1/paycheck.webp"],
-		"engAudio": "efw1/paycheck.mp3"
+		"engAudio": "/efw1/paycheck.mp3"
 	},
 	{
 		"id": 48,
@@ -2733,7 +2733,7 @@
 		"partOfSpeech": ["noun phrase"],
 		"ipa": "[ˈfoʊn ˌnʌmbər]",
 		"images": ["/efw1/phonenumber.webp"],
-		"engAudio": "efw1/phonenumber.mp3"
+		"engAudio": "/efw1/phonenumber.mp3"
 	},
 	{
 		"id": 50,
@@ -2752,7 +2752,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈpɑləsi]",
 		"images": ["/efw1/policy.webp"],
-		"engAudio": "efw1/policy.mp3"
+		"engAudio": "/efw1/policy.mp3"
 	},
 	{
 		"id": 53,
@@ -2771,7 +2771,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[prəˈsiːdʒər]",
 		"images": ["/efw1/procedure.webp"],
-		"engAudio": "efw1/procedure.mp3"
+		"engAudio": "/efw1/procedure.mp3"
 	},
 	{
 		"id": 54,
@@ -2790,7 +2790,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[rɪˌspɑnsəˈbɪlətiz]",
 		"images": ["/efw1/responsibilities.webp"],
-		"engAudio": "efw1/responsibilities.mp3"
+		"engAudio": "/efw1/responsibilities.mp3"
 	},
 	{
 		"id": 55,
@@ -2809,7 +2809,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[raɪts]",
 		"images": ["/efw1/rights.webp"],
-		"engAudio": "efw1/rights.mp3"
+		"engAudio": "/efw1/rights.mp3"
 	},
 	{
 		"id": 56,
@@ -2828,7 +2828,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ruːl]",
 		"images": ["/efw1/rule.webp"],
-		"engAudio": "efw1/rule.mp3"
+		"engAudio": "/efw1/rule.mp3"
 	},
 	{
 		"id": 57,
@@ -2847,7 +2847,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈseɪfti]",
 		"images": ["/efw1/safety.webp"],
-		"engAudio": "efw1/safety.mp3"
+		"engAudio": "/efw1/safety.mp3"
 	},
 	{
 		"id": 58,
@@ -2866,7 +2866,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈskɛdʒuːl]",
 		"images": ["/efw1/schedule.webp"],
-		"engAudio": "efw1/schedule.mp3"
+		"engAudio": "/efw1/schedule.mp3"
 	},
 	{
 		"id": 59,
@@ -2885,7 +2885,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ʃɪft]",
 		"images": ["/efw1/shift.webp"],
-		"engAudio": "efw1/shift.mp3"
+		"engAudio": "/efw1/shift.mp3"
 	},
 	{
 		"id": 60,
@@ -2904,7 +2904,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈsɪɡnətʃər]",
 		"images": ["/efw1/signature.webp"],
-		"engAudio": "efw1/signature.mp3"
+		"engAudio": "/efw1/signature.mp3"
 	},
 	{
 		"id": 61,
@@ -2923,7 +2923,7 @@
 		"partOfSpeech": ["noun phrase"],
 		"ipa": "[ˈsoʊʃəl sɪˈkjʊrɪti ˌnʌmbər]",
 		"images": ["/efw1/socialsecuritynumber.webp"],
-		"engAudio": "efw1/socialsecuritynumber.mp3"
+		"engAudio": "/efw1/socialsecuritynumber.mp3"
 	},
 	{
 		"id": 62,
@@ -2942,7 +2942,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[stæf]",
 		"images": ["/efw1/staff.webp"],
-		"engAudio": "efw1/staff.mp3"
+		"engAudio": "/efw1/staff.mp3"
 	},
 	{
 		"id": 64,
@@ -2961,7 +2961,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈsuːpərˌvaɪzər]",
 		"images": ["/efw1/supervisor.webp"],
-		"engAudio": "efw1/supervisor.mp3"
+		"engAudio": "/efw1/supervisor.mp3"
 	},
 	{
 		"id": 66,
@@ -2980,7 +2980,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[tiːm]",
 		"images": ["/efw1/team.webp"],
-		"engAudio": "efw1/team.mp3"
+		"engAudio": "/efw1/team.mp3"
 	},
 	{
 		"id": 67,
@@ -2999,7 +2999,7 @@
 		"partOfSpeech": ["noun phrase"],
 		"ipa": "[ˈtaɪm klɑk]",
 		"images": ["/efw1/timeclock.webp"],
-		"engAudio": "efw1/timeclock.mp3"
+		"engAudio": "/efw1/timeclock.mp3"
 	},
 	{
 		"id": 68,
@@ -3018,7 +3018,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈtreɪnɪŋ]",
 		"images": ["/efw1/training.webp"],
-		"engAudio": "efw1/training.mp3"
+		"engAudio": "/efw1/training.mp3"
 	},
 	{
 		"id": 69,
@@ -3037,7 +3037,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈjunəˌfɔrm]",
 		"images": ["/efw1/uniform.webp"],
-		"engAudio": "efw1/uniform.mp3"
+		"engAudio": "/efw1/uniform.mp3"
 	},
 	{
 		"id": 71,
@@ -3056,7 +3056,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈwɜrkˌpleɪs]",
 		"images": ["/efw1/workplace.webp"],
-		"engAudio": "efw1/workplace.mp3"
+		"engAudio": "/efw1/workplace.mp3"
 	},
 	{
 		"id": 1126,
@@ -3265,7 +3265,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[breɪk əˈweɪ]",
 		"images": [],
-		"engAudio": "efw2/break away.mp3"
+		"engAudio": "/efw2/break away.mp3"
 	},
 	{
 		"id": 1490,
@@ -3284,7 +3284,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[breɪk əˈweɪ frʌm]",
 		"images": [],
-		"engAudio": "efw2/break away from.mp3"
+		"engAudio": "/efw2/break away from.mp3"
 	},
 	{
 		"id": 1431,
@@ -3303,7 +3303,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[rɪˈpɔrt ɪn]",
 		"images": [],
-		"engAudio": "efw2/report in.mp3"
+		"engAudio": "/efw2/report in.mp3"
 	},
 	{
 		"id": 1432,
@@ -3322,7 +3322,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[rɪˈpɔrt ɑn]",
 		"images": [],
-		"engAudio": "efw2/report on.mp3"
+		"engAudio": "/efw2/report on.mp3"
 	},
 	{
 		"id": 1433,
@@ -3341,7 +3341,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[rɪˈpɔrt aʊt]",
 		"images": [],
-		"engAudio": "efw2/report out.mp3"
+		"engAudio": "/efw2/report out.mp3"
 	},
 	{
 		"id": 1434,
@@ -3360,7 +3360,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[rɪˈpɔrt tu ˈsʌmwʌn]",
 		"images": [],
-		"engAudio": "efw2/report to someone.mp3"
+		"engAudio": "/efw2/report to someone.mp3"
 	},
 	{
 		"id": 1435,
@@ -3379,7 +3379,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[rɪˈpɔrt ʌp]",
 		"images": [],
-		"engAudio": "efw2/report up.mp3"
+		"engAudio": "/efw2/report up.mp3"
 	},
 	{
 		"id": 1436,
@@ -3398,7 +3398,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[teɪk ˈæftər]",
 		"images": [],
-		"engAudio": "efw2/take after.mp3"
+		"engAudio": "/efw2/take after.mp3"
 	},
 	{
 		"id": 1437,
@@ -3417,7 +3417,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[teɪk əˈɡɛnst]",
 		"images": [],
-		"engAudio": "efw2/take against.mp3"
+		"engAudio": "/efw2/take against.mp3"
 	},
 	{
 		"id": 1438,
@@ -3436,7 +3436,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[teɪk əˈpɑrt]",
 		"images": [],
-		"engAudio": "efw2/take apart.mp3"
+		"engAudio": "/efw2/take apart.mp3"
 	},
 	{
 		"id": 1439,
@@ -3455,7 +3455,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[teɪk əˈraʊnd]",
 		"images": [],
-		"engAudio": "efw2/take around.mp3"
+		"engAudio": "/efw2/take around.mp3"
 	},
 	{
 		"id": 1440,
@@ -3474,7 +3474,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[teɪk əˈweɪ]",
 		"images": [],
-		"engAudio": "efw2/take away.mp3"
+		"engAudio": "/efw2/take away.mp3"
 	},
 	{
 		"id": 1441,
@@ -3493,7 +3493,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[teɪk bæk]",
 		"images": [],
-		"engAudio": "efw2/take back.mp3"
+		"engAudio": "/efw2/take back.mp3"
 	},
 	{
 		"id": 1442,
@@ -3512,7 +3512,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[teɪk daʊn]",
 		"images": [],
-		"engAudio": "efw2/take down.mp3"
+		"engAudio": "/efw2/take down.mp3"
 	},
 	{
 		"id": 1443,
@@ -3531,7 +3531,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[teɪk daʊn əˈpoʊnənt]",
 		"images": [],
-		"engAudio": "efw2/take down opponent.mp3"
+		"engAudio": "/efw2/take down opponent.mp3"
 	},
 	{
 		"id": 1444,
@@ -3550,7 +3550,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[teɪk ˈfɔrwərd]",
 		"images": [],
-		"engAudio": "efw2/take forward.mp3"
+		"engAudio": "/efw2/take forward.mp3"
 	},
 	{
 		"id": 1445,
@@ -3569,7 +3569,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[teɪk ɪn]",
 		"images": [],
-		"engAudio": "efw2/take in.mp3"
+		"engAudio": "/efw2/take in.mp3"
 	},
 	{
 		"id": 1447,
@@ -3588,7 +3588,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[teɪk ɪt aʊt ʌv ˈsʌmwʌn]",
 		"images": [],
-		"engAudio": "efw2/take it out of someone.mp3"
+		"engAudio": "/efw2/take it out of someone.mp3"
 	},
 	{
 		"id": 1448,
@@ -3607,7 +3607,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[teɪk ɔf]",
 		"images": [],
-		"engAudio": "efw2/take off.mp3"
+		"engAudio": "/efw2/take off.mp3"
 	},
 	{
 		"id": 1449,
@@ -3626,7 +3626,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[teɪk ɔf taɪm]",
 		"images": [],
-		"engAudio": "efw2/take off time.mp3"
+		"engAudio": "/efw2/take off time.mp3"
 	},
 	{
 		"id": 1450,
@@ -3645,7 +3645,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[teɪk ɑn]",
 		"images": [],
-		"engAudio": "efw2/take on.mp3"
+		"engAudio": "/efw2/take on.mp3"
 	},
 	{
 		"id": 1451,
@@ -3664,7 +3664,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[teɪk ɑn ˈprɑbləmz] [teɪk ɑn ˈɛnəmiz]",
 		"images": [],
-		"engAudio": "efw2/take on problems.mp3"
+		"engAudio": "/efw2/take on problems.mp3"
 	},
 	{
 		"id": 1452,
@@ -3683,7 +3683,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[teɪk aʊt]",
 		"images": [],
-		"engAudio": "efw2/take out.mp3"
+		"engAudio": "/efw2/take out.mp3"
 	},
 	{
 		"id": 1453,
@@ -3702,7 +3702,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[teɪk aʊt ɪnˈʃʊrəns] [teɪk aʊt loʊn]",
 		"images": [],
-		"engAudio": "efw2/take out insuranceloan.mp3"
+		"engAudio": "/efw2/take out insuranceloan.mp3"
 	},
 	{
 		"id": 1454,
@@ -3721,7 +3721,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[teɪk aʊt ʌv ˈkɑnˌtɛkst]",
 		"images": [],
-		"engAudio": "efw2/take out of context.mp3"
+		"engAudio": "/efw2/take out of context.mp3"
 	},
 	{
 		"id": 1455,
@@ -3740,7 +3740,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[teɪk aʊt ɑn ˈsʌmwʌn]",
 		"images": [],
-		"engAudio": "efw2/take out on someone.mp3"
+		"engAudio": "/efw2/take out on someone.mp3"
 	},
 	{
 		"id": 1456,
@@ -3759,7 +3759,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[teɪk ˈoʊvər]",
 		"images": [],
-		"engAudio": "efw2/take over.mp3"
+		"engAudio": "/efw2/take over.mp3"
 	},
 	{
 		"id": 1457,
@@ -3778,7 +3778,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[teɪk ˈoʊvər frʌm]",
 		"images": [],
-		"engAudio": "efw2/take over from.mp3"
+		"engAudio": "/efw2/take over from.mp3"
 	},
 	{
 		"id": 1461,
@@ -3797,7 +3797,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[teɪk ˈoʊvər frʌm]",
 		"images": [],
-		"engAudio": "efw2/take over from.mp3"
+		"engAudio": "/efw2/take over from.mp3"
 	},
 	{
 		"id": 1462,
@@ -3816,7 +3816,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[teɪk ˈoʊvər ˈmɑrkət]",
 		"images": [],
-		"engAudio": "efw2/take over market.mp3"
+		"engAudio": "/efw2/take over market.mp3"
 	},
 	{
 		"id": 1459,
@@ -3835,7 +3835,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[teɪk ˈoʊvər æz]",
 		"images": [],
-		"engAudio": "efw2/take over as.mp3"
+		"engAudio": "/efw2/take over as.mp3"
 	},
 	{
 		"id": 1463,
@@ -3854,7 +3854,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[teɪk ˈoʊvər æz]",
 		"images": [],
-		"engAudio": "efw2/take over as.mp3"
+		"engAudio": "/efw2/take over as.mp3"
 	},
 	{
 		"id": 1460,
@@ -3873,7 +3873,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[teɪk θru]",
 		"images": [],
-		"engAudio": "efw2/take through.mp3"
+		"engAudio": "/efw2/take through.mp3"
 	},
 	{
 		"id": 1464,
@@ -3892,7 +3892,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[teɪk θru]",
 		"images": [],
-		"engAudio": "efw2/take through.mp3"
+		"engAudio": "/efw2/take through.mp3"
 	},
 	{
 		"id": 1465,
@@ -3911,7 +3911,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[teɪk tu]",
 		"images": [],
-		"engAudio": "efw2/take to.mp3"
+		"engAudio": "/efw2/take to.mp3"
 	},
 	{
 		"id": 1466,
@@ -3930,7 +3930,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[teɪk ʌp]",
 		"images": [],
-		"engAudio": "efw2/take up.mp3"
+		"engAudio": "/efw2/take up.mp3"
 	},
 	{
 		"id": 1467,
@@ -3949,7 +3949,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[teɪk ʌp taɪm]",
 		"images": [],
-		"engAudio": "efw2/take up timespace.mp3"
+		"engAudio": "/efw2/take up timespace.mp3"
 	},
 	{
 		"id": 1468,
@@ -3968,7 +3968,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[teɪk ʌp wɪð]",
 		"images": [],
-		"engAudio": "efw2/take up with.mp3"
+		"engAudio": "/efw2/take up with.mp3"
 	},
 	{
 		"id": 1469,
@@ -3987,7 +3987,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[wɜrk əˈɡɛnst]",
 		"images": [],
-		"engAudio": "efw2/work against.mp3"
+		"engAudio": "/efw2/work against.mp3"
 	},
 	{
 		"id": 1470,
@@ -4006,7 +4006,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[wɜrk æt]",
 		"images": [],
-		"engAudio": "efw2/work at.mp3"
+		"engAudio": "/efw2/work at.mp3"
 	},
 	{
 		"id": 1471,
@@ -4025,7 +4025,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[wɜrk əˈweɪ]",
 		"images": [],
-		"engAudio": "efw2/work away at.mp3"
+		"engAudio": "/efw2/work away at.mp3"
 	},
 	{
 		"id": 1472,
@@ -4044,7 +4044,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[wɜrk ɪn]",
 		"images": [],
-		"engAudio": "efw2/work in.mp3"
+		"engAudio": "/efw2/work in.mp3"
 	},
 	{
 		"id": 1473,
@@ -4063,7 +4063,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[wɜrk ˈɪntu]",
 		"images": [],
-		"engAudio": "efw2/work into.mp3"
+		"engAudio": "/efw2/work into.mp3"
 	},
 	{
 		"id": 1474,
@@ -4082,7 +4082,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[wɜrk ˈɪntu ə ˌkɑnvərˈseɪʃən]",
 		"images": [],
-		"engAudio": "efw2/work into a conversation.mp3"
+		"engAudio": "/efw2/work into a conversation.mp3"
 	},
 	{
 		"id": 1475,
@@ -4101,7 +4101,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[wɜrk ɔf]",
 		"images": [],
-		"engAudio": "efw2/work off.mp3"
+		"engAudio": "/efw2/work off.mp3"
 	},
 	{
 		"id": 1476,
@@ -4120,7 +4120,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[wɜrk ɑn]",
 		"images": [],
-		"engAudio": "efw2/work on.mp3"
+		"engAudio": "/efw2/work on.mp3"
 	},
 	{
 		"id": 1477,
@@ -4139,7 +4139,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[wɜrk ɑn ˈsʌmwʌn]",
 		"images": [],
-		"engAudio": "efw2/work on someone.mp3"
+		"engAudio": "/efw2/work on someone.mp3"
 	},
 	{
 		"id": 1478,
@@ -4158,7 +4158,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[wɜrk aʊt]",
 		"images": [],
-		"engAudio": "efw2/work out.mp3"
+		"engAudio": "/efw2/work out.mp3"
 	},
 	{
 		"id": 1479,
@@ -4177,7 +4177,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[wɜrk aʊt fɔr ˈsʌmwʌn]",
 		"images": [],
-		"engAudio": "efw2/work out for someone.mp3"
+		"engAudio": "/efw2/work out for someone.mp3"
 	},
 	{
 		"id": 1480,
@@ -4196,7 +4196,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[wɜrk ˈoʊvər]",
 		"images": [],
-		"engAudio": "efw2/work over.mp3"
+		"engAudio": "/efw2/work over.mp3"
 	},
 	{
 		"id": 1481,
@@ -4215,7 +4215,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[wɜrk ˈoʊvər ə plæn]",
 		"images": [],
-		"engAudio": "efw2/work over a plan.mp3"
+		"engAudio": "/efw2/work over a plan.mp3"
 	},
 	{
 		"id": 1482,
@@ -4234,7 +4234,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[wɜrk ˈoʊvər ˈsʌmwʌn]",
 		"images": [],
-		"engAudio": "efw2/work over someone.mp3"
+		"engAudio": "/efw2/work over someone.mp3"
 	},
 	{
 		"id": 1483,
@@ -4253,7 +4253,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[wɜrk ˈoʊvər taɪm]",
 		"images": [],
-		"engAudio": "efw2/work over time.mp3"
+		"engAudio": "/efw2/work over time.mp3"
 	},
 	{
 		"id": 1484,
@@ -4272,7 +4272,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[wɜrk θru]",
 		"images": [],
-		"engAudio": "efw2/work through.mp3"
+		"engAudio": "/efw2/work through.mp3"
 	},
 	{
 		"id": 1485,
@@ -4291,7 +4291,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[wɜrk ʌp]",
 		"images": [],
-		"engAudio": "efw2/work up.mp3"
+		"engAudio": "/efw2/work up.mp3"
 	},
 	{
 		"id": 1486,
@@ -4310,7 +4310,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[wɜrk ʌp ˈsʌmwʌn]",
 		"images": [],
-		"engAudio": "efw2/work up someone.mp3"
+		"engAudio": "/efw2/work up someone.mp3"
 	},
 	{
 		"id": 1487,
@@ -4329,7 +4329,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[wɜrk ʌp tu]",
 		"images": [],
-		"engAudio": "efw2/work up to.mp3"
+		"engAudio": "/efw2/work up to.mp3"
 	},
 	{
 		"id": 1488,
@@ -4348,7 +4348,7 @@
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[wɜrk wɪð]",
 		"images": [],
-		"engAudio": "efw2/work with.mp3"
+		"engAudio": "/efw2/work with.mp3"
 	},
 	{
 		"id": 1284,
@@ -4462,7 +4462,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈæbstrækt ʃeɪps]",
 		"images": ["/efw2/abstract shapes.webp"],
-		"engAudio": "efw2/abstract shapes.mp3"
+		"engAudio": "/efw2/abstract shapes.mp3"
 	},
 	{
 		"id": 76,
@@ -4481,7 +4481,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈænɪməl moʊˈtif]",
 		"images": ["/efw2/animal motif.webp"],
-		"engAudio": "efw2/animal motif.mp3"
+		"engAudio": "/efw2/animal motif.mp3"
 	},
 	{
 		"id": 78,
@@ -4500,7 +4500,7 @@
 		"partOfSpeech": ["adj"],
 		"ipa": "[ˈæzˌtɛk]",
 		"images": ["/efw2/aztec.webp"],
-		"engAudio": "efw2/aztec.mp3"
+		"engAudio": "/efw2/aztec.mp3"
 	},
 	{
 		"id": 79,
@@ -4519,7 +4519,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈbrʌʃˌstroʊk]",
 		"images": ["/efw2/brushstroke.webp"],
-		"engAudio": "efw2/brushstroke.mp3"
+		"engAudio": "/efw2/brushstroke.mp3"
 	},
 	{
 		"id": 80,
@@ -4538,7 +4538,7 @@
 		"partOfSpeech": ["adj"],
 		"ipa": "[səˈlɛstiəl]",
 		"images": ["/efw2/celestial.webp"],
-		"engAudio": "efw2/celestial.mp3"
+		"engAudio": "/efw2/celestial.mp3"
 	},
 	{
 		"id": 87,
@@ -4557,7 +4557,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈdæməsk]",
 		"images": ["/efw2/damask.webp"],
-		"engAudio": "efw2/damask.mp3"
+		"engAudio": "/efw2/damask.mp3"
 	},
 	{
 		"id": 92,
@@ -4576,7 +4576,7 @@
 		"partOfSpeech": ["adj"],
 		"ipa": "[ˈfɛstɪv]",
 		"images": ["/efw2/festive.webp"],
-		"engAudio": "efw2/festive.mp3"
+		"engAudio": "/efw2/festive.mp3"
 	},
 	{
 		"id": 98,
@@ -4595,7 +4595,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈkɪlɪm]",
 		"images": ["/efw2/kilim.webp"],
-		"engAudio": "efw2/kilim.mp3"
+		"engAudio": "/efw2/kilim.mp3"
 	},
 	{
 		"id": 104,
@@ -4614,7 +4614,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈmændələ]",
 		"images": ["/efw2/mandala.webp"],
-		"engAudio": "efw2/mandala.mp3"
+		"engAudio": "/efw2/mandala.mp3"
 	},
 	{
 		"id": 105,
@@ -4633,7 +4633,7 @@
 		"partOfSpeech": ["noun/adj"],
 		"ipa": "[ˈmɑrbəl]",
 		"images": ["/efw2/marble.webp"],
-		"engAudio": "efw2/marble.mp3"
+		"engAudio": "/efw2/marble.mp3"
 	},
 	{
 		"id": 108,
@@ -4652,7 +4652,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈmaɪkroʊˌprɪnt]",
 		"images": ["/efw2/microprint.webp"],
-		"engAudio": "efw2/microprint.mp3"
+		"engAudio": "/efw2/microprint.mp3"
 	},
 	{
 		"id": 109,
@@ -4671,7 +4671,7 @@
 		"partOfSpeech": ["noun/adj"],
 		"ipa": "[ˈmɪnəməl dɑts]",
 		"images": ["/efw2/minimal dots.webp"],
-		"engAudio": "efw2/minimal dots.mp3"
+		"engAudio": "/efw2/minimal dots.mp3"
 	},
 	{
 		"id": 110,
@@ -4690,7 +4690,7 @@
 		"partOfSpeech": ["adj"],
 		"ipa": "[ˈmɑnəˌkroʊm]",
 		"images": ["/efw2/monochrome.webp"],
-		"engAudio": "efw2/monochrome.mp3"
+		"engAudio": "/efw2/monochrome.mp3"
 	},
 	{
 		"id": 112,
@@ -4709,7 +4709,7 @@
 		"partOfSpeech": ["adj"],
 		"ipa": "[ˈɑmbreɪ]",
 		"images": ["/efw2/ombre.webp"],
-		"engAudio": "efw2/ombre.mp3"
+		"engAudio": "/efw2/ombre.mp3"
 	},
 	{
 		"id": 128,
@@ -4728,7 +4728,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈsplætər]",
 		"images": ["/efw2/splatter.webp"],
-		"engAudio": "efw2/splatter.mp3"
+		"engAudio": "/efw2/splatter.mp3"
 	},
 	{
 		"id": 129,
@@ -4747,7 +4747,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[spɔrts]",
 		"images": ["/efw2/sports.webp"],
-		"engAudio": "efw2/sports.mp3"
+		"engAudio": "/efw2/sports.mp3"
 	},
 	{
 		"id": 130,
@@ -4766,7 +4766,7 @@
 		"partOfSpeech": ["adj"],
 		"ipa": "[ˈstɑri]",
 		"images": ["/efw2/starry.webp"],
-		"engAudio": "efw2/starry.mp3"
+		"engAudio": "/efw2/starry.mp3"
 	},
 	{
 		"id": 134,
@@ -4785,7 +4785,7 @@
 		"partOfSpeech": ["noun/adj"],
 		"ipa": "[θɪn straɪps]",
 		"images": ["/efw2/thin stripes.webp"],
-		"engAudio": "efw2/thin stripes.mp3"
+		"engAudio": "/efw2/thin stripes.mp3"
 	},
 	{
 		"id": 135,
@@ -4804,7 +4804,7 @@
 		"partOfSpeech": ["noun/adj"],
 		"ipa": "[ˈtaɪˌdaɪ]",
 		"images": ["/efw2/tie-dye.webp"],
-		"engAudio": "efw2/tie-dye.mp3"
+		"engAudio": "/efw2/tie-dye.mp3"
 	},
 	{
 		"id": 136,
@@ -4823,7 +4823,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[twɑl]",
 		"images": ["/efw2/toile.webp"],
-		"engAudio": "efw2/toile.mp3"
+		"engAudio": "/efw2/toile.mp3"
 	},
 	{
 		"id": 139,
@@ -4842,7 +4842,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈwɔtərkʌlər]",
 		"images": ["/efw2/watercolor.webp"],
-		"engAudio": "efw2/watercolor.mp3"
+		"engAudio": "/efw2/watercolor.mp3"
 	},
 	{
 		"id": 73,
@@ -4861,7 +4861,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[əˈkaʊntənt]",
 		"images": ["/efw2/accountant.webp"],
-		"engAudio": "efw2/accountant.mp3"
+		"engAudio": "/efw2/accountant.mp3"
 	},
 	{
 		"id": 74,
@@ -4880,7 +4880,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[əˈkaʊntɪŋ]",
 		"images": ["/efw2/accounting.webp"],
-		"engAudio": "efw2/accounting.mp3"
+		"engAudio": "/efw2/accounting.mp3"
 	},
 	{
 		"id": 75,
@@ -4899,7 +4899,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ədˌmɪnɪˈstreɪʃən]",
 		"images": ["/efw2/administration.webp"],
-		"engAudio": "efw2/administration.mp3"
+		"engAudio": "/efw2/administration.mp3"
 	},
 	{
 		"id": 77,
@@ -4918,7 +4918,7 @@
 		"partOfSpeech": ["noun phrase"],
 		"ipa": "[əˈsɪstənt ˈmænɪdʒər]",
 		"images": ["/efw2/assistantmanager.webp"],
-		"engAudio": "efw2/assistantmanager.mp3"
+		"engAudio": "/efw2/assistantmanager.mp3"
 	},
 	{
 		"id": 81,
@@ -4937,7 +4937,7 @@
 		"partOfSpeech": ["noun phrase"],
 		"ipa": "[ˌsiː.iːˈoʊ]",
 		"images": ["/efw2/ceo.webp"],
-		"engAudio": "efw2/ceo.mp3"
+		"engAudio": "/efw2/ceo.mp3"
 	},
 	{
 		"id": 82,
@@ -4956,7 +4956,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈkliːnər] / [ˈdʒænɪtər]",
 		"images": ["/efw2/cleaner.webp"],
-		"engAudio": "efw2/cleaner.mp3"
+		"engAudio": "/efw2/cleaner.mp3"
 	},
 	{
 		"id": 83,
@@ -4975,7 +4975,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈkliːnɪŋ] / [ˌsænɪˈteɪʃən]",
 		"images": ["/efw2/cleaning.webp"],
-		"engAudio": "efw2/cleaning.mp3"
+		"engAudio": "/efw2/cleaning.mp3"
 	},
 	{
 		"id": 84,
@@ -4994,7 +4994,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[klɜrk]",
 		"images": ["/efw2/clerk.webp"],
-		"engAudio": "efw2/clerk.mp3"
+		"engAudio": "/efw2/clerk.mp3"
 	},
 	{
 		"id": 85,
@@ -5013,7 +5013,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[kɔrdəˈneɪtər]",
 		"images": ["/efw2/coordinator.webp"],
-		"engAudio": "efw2/coordinator.mp3"
+		"engAudio": "/efw2/coordinator.mp3"
 	},
 	{
 		"id": 86,
@@ -5032,7 +5032,7 @@
 		"partOfSpeech": ["noun phrase"],
 		"ipa": "[ˈkʌstəmər ˈsɜrvɪs]",
 		"images": ["/efw2/customerservice.webp"],
-		"engAudio": "efw2/customerservice.mp3"
+		"engAudio": "/efw2/customerservice.mp3"
 	},
 	{
 		"id": 88,
@@ -5051,7 +5051,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[dəˈrɛktər]",
 		"images": ["/efw2/director.webp"],
-		"engAudio": "efw2/director.mp3"
+		"engAudio": "/efw2/director.mp3"
 	},
 	{
 		"id": 89,
@@ -5070,7 +5070,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈdraɪvər]",
 		"images": ["/efw2/driver.webp"],
-		"engAudio": "efw2/driver.mp3"
+		"engAudio": "/efw2/driver.mp3"
 	},
 	{
 		"id": 90,
@@ -5089,7 +5089,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ɪˌlɛkˈtrɪʃən]",
 		"images": ["/efw2/electrician.webp"],
-		"engAudio": "efw2/electrician.mp3"
+		"engAudio": "/efw2/electrician.mp3"
 	},
 	{
 		"id": 91,
@@ -5108,7 +5108,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˌɛnʤəˈnɪrɪŋ]",
 		"images": ["/efw2/engineering.webp"],
-		"engAudio": "efw2/engineering.mp3"
+		"engAudio": "/efw2/engineering.mp3"
 	},
 	{
 		"id": 93,
@@ -5127,7 +5127,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈfaɪnæns]",
 		"images": ["/efw2/finance.webp"],
-		"engAudio": "efw2/finance.mp3"
+		"engAudio": "/efw2/finance.mp3"
 	},
 	{
 		"id": 94,
@@ -5146,7 +5146,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈfɔrmən]",
 		"images": ["/efw2/foreman.webp"],
-		"engAudio": "efw2/foreman.mp3"
+		"engAudio": "/efw2/foreman.mp3"
 	},
 	{
 		"id": 95,
@@ -5165,7 +5165,7 @@
 		"partOfSpeech": ["noun phrase"],
 		"ipa": "[ˈhjuːmən rɪˈsɔrsɪz]",
 		"images": ["/efw1/humanresources.webp"],
-		"engAudio": "efw1/humanresources.mp3"
+		"engAudio": "/efw1/humanresources.mp3"
 	},
 	{
 		"id": 96,
@@ -5184,7 +5184,7 @@
 		"partOfSpeech": ["noun phrase"],
 		"ipa": "[ˈspɛʃəlɪst]",
 		"images": ["/efw2/humanresources.webp"],
-		"engAudio": "efw2/humanresources.mp3"
+		"engAudio": "/efw2/humanresources.mp3"
 	},
 	{
 		"id": 97,
@@ -5203,7 +5203,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˌaɪˈtiː]",
 		"images": ["/efw2/it.webp"],
-		"engAudio": "efw2/it.mp3"
+		"engAudio": "/efw2/it.mp3"
 	},
 	{
 		"id": 99,
@@ -5222,7 +5222,7 @@
 		"partOfSpeech": ["adjective/noun"],
 		"ipa": "[ˈliːɡəl]",
 		"images": ["/efw2/legal.webp"],
-		"engAudio": "efw2/legal.mp3"
+		"engAudio": "/efw2/legal.mp3"
 	},
 	{
 		"id": 100,
@@ -5241,7 +5241,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ləˈʤɪstɪks]",
 		"images": ["/efw2/logistics.webp"],
-		"engAudio": "efw2/logistics.mp3"
+		"engAudio": "/efw2/logistics.mp3"
 	},
 	{
 		"id": 101,
@@ -5260,7 +5260,7 @@
 		"partOfSpeech": ["noun phrase"],
 		"ipa": "[məˈʃin ˈɑpəˌreɪtər]",
 		"images": ["/efw2/machineoperator.webp"],
-		"engAudio": "efw2/machineoperator.mp3"
+		"engAudio": "/efw2/machineoperator.mp3"
 	},
 	{
 		"id": 102,
@@ -5279,7 +5279,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈmeɪntənəns]",
 		"images": ["/efw2/maintenance.webp"],
-		"engAudio": "efw2/maintenance.mp3"
+		"engAudio": "/efw2/maintenance.mp3"
 	},
 	{
 		"id": 103,
@@ -5298,7 +5298,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈmænɪdʒər]",
 		"images": ["/efw2/manager.webp"],
-		"engAudio": "efw2/manager.mp3"
+		"engAudio": "/efw2/manager.mp3"
 	},
 	{
 		"id": 106,
@@ -5317,7 +5317,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈmɑrkətɪŋ]",
 		"images": ["/efw2/marketing.webp"],
-		"engAudio": "efw2/marketing.mp3"
+		"engAudio": "/efw2/marketing.mp3"
 	},
 	{
 		"id": 107,
@@ -5336,7 +5336,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[məˈkænɪk]",
 		"images": ["/efw2/mechanic.webp"],
-		"engAudio": "efw2/mechanic.mp3"
+		"engAudio": "/efw2/mechanic.mp3"
 	},
 	{
 		"id": 111,
@@ -5355,7 +5355,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[nɜrs]",
 		"images": ["/efw2/nurse.webp"],
-		"engAudio": "efw2/nurse.mp3"
+		"engAudio": "/efw2/nurse.mp3"
 	},
 	{
 		"id": 113,
@@ -5374,7 +5374,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˌɑpəˈreɪʃənz]",
 		"images": ["/efw2/operations.webp"],
-		"engAudio": "efw2/operations.mp3"
+		"engAudio": "/efw2/operations.mp3"
 	},
 	{
 		"id": 114,
@@ -5393,7 +5393,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈɑpəˌreɪtər]",
 		"images": ["/efw2/operator.webp"],
-		"engAudio": "efw2/operator.mp3"
+		"engAudio": "/efw2/operator.mp3"
 	},
 	{
 		"id": 115,
@@ -5412,7 +5412,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈoʊnər]",
 		"images": ["/efw2/owner.webp"],
-		"engAudio": "efw2/owner.mp3"
+		"engAudio": "/efw2/owner.mp3"
 	},
 	{
 		"id": 116,
@@ -5431,7 +5431,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[prəˈdʌkʃən]",
 		"images": ["/efw2/production.webp"],
-		"engAudio": "efw2/production.mp3"
+		"engAudio": "/efw2/production.mp3"
 	},
 	{
 		"id": 117,
@@ -5450,7 +5450,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈkwɑləti]",
 		"images": ["/efw2/quality.webp"],
-		"engAudio": "efw2/quality.mp3"
+		"engAudio": "/efw2/quality.mp3"
 	},
 	{
 		"id": 118,
@@ -5469,7 +5469,7 @@
 		"partOfSpeech": ["noun phrase"],
 		"ipa": "[ˈkwɑləti ɪnˈspɛktər]",
 		"images": ["/efw2/qualityinspector.webp"],
-		"engAudio": "efw2/qualityinspector.mp3"
+		"engAudio": "/efw2/qualityinspector.mp3"
 	},
 	{
 		"id": 119,
@@ -5488,7 +5488,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[rɪˈsɛpʃənɪst]",
 		"images": ["/efw2/receptionist.webp"],
-		"engAudio": "efw2/receptionist.mp3"
+		"engAudio": "/efw2/receptionist.mp3"
 	},
 	{
 		"id": 120,
@@ -5507,7 +5507,7 @@
 		"partOfSpeech": ["noun phrase"],
 		"ipa": "[rɪˈsɜrʧ ænd dɪˈvɛləpmənt]",
 		"images": ["/efw2/researchdevelopment.webp"],
-		"engAudio": "efw2/researchdevelopment.mp3"
+		"engAudio": "/efw2/researchdevelopment.mp3"
 	},
 	{
 		"id": 121,
@@ -5526,7 +5526,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈseɪfti]",
 		"images": ["/efw1/safety.webp"],
-		"engAudio": "efw1/safety.mp3"
+		"engAudio": "/efw1/safety.mp3"
 	},
 	{
 		"id": 122,
@@ -5545,7 +5545,7 @@
 		"partOfSpeech": ["noun phrase"],
 		"ipa": "[ˈseɪfti ˈɔfəsər]",
 		"images": ["/efw2/safetyofficer.webp"],
-		"engAudio": "efw2/safetyofficer.mp3"
+		"engAudio": "/efw2/safetyofficer.mp3"
 	},
 	{
 		"id": 123,
@@ -5564,7 +5564,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[seɪlz]",
 		"images": ["/efw2/sales.webp"],
-		"engAudio": "efw2/sales.mp3"
+		"engAudio": "/efw2/sales.mp3"
 	},
 	{
 		"id": 124,
@@ -5583,7 +5583,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈsɛkrəˌtɛri]",
 		"images": ["/efw2/secretary.webp"],
-		"engAudio": "efw2/secretary.mp3"
+		"engAudio": "/efw2/secretary.mp3"
 	},
 	{
 		"id": 125,
@@ -5602,7 +5602,7 @@
 		"partOfSpeech": ["noun phrase"],
 		"ipa": "[sɪˈkjʊrəti ɡɑrd]",
 		"images": ["/efw2/securityguard.webp"],
-		"engAudio": "efw2/securityguard.mp3"
+		"engAudio": "/efw2/securityguard.mp3"
 	},
 	{
 		"id": 126,
@@ -5621,7 +5621,7 @@
 		"partOfSpeech": ["noun phrase"],
 		"ipa": "[ʃɪft ˈliːdər]",
 		"images": ["/efw2/shiftleader.webp"],
-		"engAudio": "efw2/shiftleader.mp3"
+		"engAudio": "/efw2/shiftleader.mp3"
 	},
 	{
 		"id": 127,
@@ -5640,7 +5640,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈʃɪpɪŋ]",
 		"images": ["/efw2/shipping.webp"],
-		"engAudio": "efw2/shipping.mp3"
+		"engAudio": "/efw2/shipping.mp3"
 	},
 	{
 		"id": 131,
@@ -5659,7 +5659,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈsuːpərˌvaɪzər]",
 		"images": ["/efw2/supervisor.webp"],
-		"engAudio": "efw2/supervisor.mp3"
+		"engAudio": "/efw2/supervisor.mp3"
 	},
 	{
 		"id": 132,
@@ -5678,7 +5678,7 @@
 		"partOfSpeech": ["noun phrase"],
 		"ipa": "[tiːm ˈliːdər]",
 		"images": ["/efw2/teamleader.webp"],
-		"engAudio": "efw2/teamleader.mp3"
+		"engAudio": "/efw2/teamleader.mp3"
 	},
 	{
 		"id": 133,
@@ -5697,7 +5697,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[tɛkˈnɪʃən]",
 		"images": ["/efw2/technician.webp"],
-		"engAudio": "efw2/technician.mp3"
+		"engAudio": "/efw2/technician.mp3"
 	},
 	{
 		"id": 137,
@@ -5716,7 +5716,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈtreɪnər]",
 		"images": ["/efw2/trainer.webp"],
-		"engAudio": "efw2/trainer.mp3"
+		"engAudio": "/efw2/trainer.mp3"
 	},
 	{
 		"id": 138,
@@ -5735,7 +5735,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈwɛrhaʊs]",
 		"images": ["/efw2/warehouse.webp"],
-		"engAudio": "efw2/warehouse.mp3"
+		"engAudio": "/efw2/warehouse.mp3"
 	},
 	{
 		"id": 140,
@@ -5754,7 +5754,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈwɛldər]",
 		"images": ["/efw2/welder.webp"],
-		"engAudio": "efw2/welder.mp3"
+		"engAudio": "/efw2/welder.mp3"
 	},
 	{
 		"id": 141,
@@ -5773,7 +5773,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈwɜrkər]",
 		"images": ["/efw2/worker.webp"],
-		"engAudio": "efw2/worker.mp3"
+		"engAudio": "/efw2/worker.mp3"
 	},
 	{
 		"id": 143,

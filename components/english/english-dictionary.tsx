@@ -44,12 +44,6 @@ const englishAlphabet = [
 // 	return text.normalize('NFD').replace(/[\u0591-\u05C7]/g, '')
 // }
 
-function getLessonNumberFromString(input: string | undefined): number | null {
-	if (!input) return null
-	const match = input.match(/\d+/) // Finds first number in string
-	return match ? parseInt(match[0], 10) : null
-}
-
 // function parseGenderPerson(code: string | undefined) {
 // 	if (!code) return null
 // 	const elements: JSX.Element[] = []
@@ -118,12 +112,26 @@ function getLessonNumberFromString(input: string | undefined): number | null {
 // 	return <div className="flex gap-1 items-center">{elements}</div>
 // }
 
+const isFiniteNumber = (n: unknown): n is number =>
+	typeof n === 'number' && Number.isFinite(n)
+
+const toNums = (vals: unknown[] | undefined): number[] =>
+	(vals ?? [])
+		.map((v) => (typeof v === 'string' ? Number(v) : v))
+		.filter(isFiniteNumber)
+
+const getFirstLesson = (entry: EnglishVocab): number | null => {
+	const nums = toNums(entry.lessons as unknown as unknown[])
+	return nums.length ? Math.min(...nums) : null
+}
+
 export default function EnglishDictionary({ data }: DictionaryProps) {
 	const [expandedId, setExpandedId] = useState<number | null>(null)
-	const [activeLetter, setActiveLetter] = useState<string>('א')
+	const [activeLetter, setActiveLetter] = useState<string>('A')
 	const [sortMode, setSortMode] = useState<'alphabetical' | 'lesson'>(
 		'alphabetical'
 	)
+
 	const audioRefs = useRef<Record<number, HTMLAudioElement>>({})
 
 	const grouped = useMemo(() => {
@@ -162,46 +170,33 @@ export default function EnglishDictionary({ data }: DictionaryProps) {
 		return `${start}-${end}`
 	}
 
+	useEffect(() => {
+		data.forEach((w) => {
+			const nums = (w.lessons ?? []).map((v) =>
+				typeof v === 'string' ? Number(v) : v
+			)
+			if (nums.some((n) => !Number.isFinite(n))) {
+				console.warn('Bad lessons for', w.eng, w.lessons)
+			}
+		})
+	}, [data])
+
 	const groupedByLessonRange = useMemo(() => {
 		const byRange: Record<string, EnglishVocab[]> = {}
-
 		for (const word of data) {
-			if (!Array.isArray(word.lessons)) continue
-
-			const validLessonNum = word.lessons
-				.map((lesson) => {
-					const n = getLessonNumberFromString(lesson)
-					if (n === null) console.warn('Unparsed lesson:', lesson)
-					return n
-				})
-				.filter((n): n is number => n !== null)
-				.sort((a, b) => b - a)[0]
-
-			if (validLessonNum === undefined) continue
-
-			const range = getLessonRange(validLessonNum)
-			if (!byRange[range]) byRange[range] = []
-			byRange[range].push(word)
+			const first = getFirstLesson(word)
+			if (first == null) continue
+			const range = getLessonRange(first)
+			;(byRange[range] ??= []).push(word)
 		}
 
-		// Sort inside each range
-		// ✅ CORRECT
+		// Sort inside each range by first appearance, then alphabetically
 		for (const range in byRange) {
 			byRange[range].sort((a, b) => {
-				const aNums =
-					a.lessons
-						?.map(getLessonNumberFromString)
-						.filter((n): n is number => n !== null) ?? []
-				const bNums =
-					b.lessons
-						?.map(getLessonNumberFromString)
-						.filter((n): n is number => n !== null) ?? []
-
-				const aMin = Math.min(...aNums)
-				const bMin = Math.min(...bNums)
-
-				if (aMin !== bMin) return aMin - bMin
-				return a.eng.localeCompare(b.eng, 'he')
+				const fa = getFirstLesson(a) ?? Infinity
+				const fb = getFirstLesson(b) ?? Infinity
+				if (fa !== fb) return fa - fb
+				return a.eng.localeCompare(b.eng, undefined, { sensitivity: 'base' })
 			})
 		}
 
@@ -250,24 +245,19 @@ export default function EnglishDictionary({ data }: DictionaryProps) {
 				}
 			>
 				<div className="flex items-center justify-between w-full p-1">
-					<div className="ml-auto flex items-center gap-6">
-						{/* {parseGenderPerson(entry.genderPerson)} */}
-						<span className="text-xl font-nunito">{entry.eng}</span>
-					</div>
-					<div className="flex gap-2 items-center w-full">
-						{entry.engAudio && (
-							<button
-								className="text-xl"
-								onClick={(e) => {
-									e.stopPropagation()
-									playAudio(entry.id ?? 0, entry.engAudio)
-								}}
-								aria-label="Play English audio"
-							>
-								🔊
-							</button>
-						)}
-					</div>
+					<span className="text-xl font-nunito">{entry.eng}</span>
+					{entry.engAudio && (
+						<button
+							className="text-xl"
+							onClick={(e) => {
+								e.stopPropagation()
+								playAudio(entry.id ?? 0, entry.engAudio)
+							}}
+							aria-label="Play English audio"
+						>
+							🔊
+						</button>
+					)}
 				</div>
 				<div
 					className={`${
@@ -337,8 +327,7 @@ export default function EnglishDictionary({ data }: DictionaryProps) {
 					)} */}
 					{entry.lessons?.length > 0 && (
 						<p>
-							<strong>Lesson:</strong>{' '}
-							{entry.lessons.map((l) => l.slice(3)).join(', ')}
+							<strong>First lesson:</strong> {getFirstLesson(entry) ?? '—'}
 						</p>
 					)}
 				</div>
@@ -416,43 +405,46 @@ export default function EnglishDictionary({ data }: DictionaryProps) {
 					</>
 				) : (
 					<>
-						{Object.entries(groupedByLessonRange).map(([range, entries]) => {
-							// Group entries by individual lesson number
-							const byLesson: Record<number, EnglishVocab[]> = {}
-							for (const entry of entries) {
-								const num = getLessonNumberFromString(entry.lessons?.[0])
-								if (num === null) continue
-								if (!byLesson[num]) byLesson[num] = []
-								byLesson[num].push(entry)
-							}
-
-							const sortedLessons = Object.keys(byLesson)
-								.map(Number)
-								.sort((a, b) => a - b)
-
-							return (
-								<div
-									key={range}
-									id={`range-${range}`}
-									className="mb-4 scroll-mt-16"
-								>
-									<h2 className="text-3xl font-bold text-white text-right pr-4 rounded-md bg-sky-500 my-6">
-										Lessons {range}
-									</h2>
-
-									{sortedLessons.map((lessonNum) => (
-										<div key={lessonNum} className="mb-6">
-											<h3 className="text-2xl font-bold text-right pr-4 text-white bg-sky-400 rounded-t-md">
-												Lesson {lessonNum}
-											</h3>
-											<div className="space-y-1 bg-white rounded-b-md shadow">
-												{byLesson[lessonNum].map(renderEntry)}
-											</div>
-										</div>
-									))}
-								</div>
+						{Object.entries(groupedByLessonRange)
+							.sort(
+								([a], [b]) => Number(a.split('-')[0]) - Number(b.split('-')[0])
 							)
-						})}
+							.map(([range, entries]) => {
+								const byLesson: Record<number, EnglishVocab[]> = {}
+
+								for (const entry of entries) {
+									const first = getFirstLesson(entry)
+									if (first == null) continue
+									;(byLesson[first] ??= []).push(entry) // only the FIRST lesson
+								}
+
+								const sortedLessons = Object.keys(byLesson)
+									.map(Number)
+									.sort((a, b) => a - b)
+
+								return (
+									<div
+										key={range}
+										id={`range-${range}`}
+										className="mb-4 scroll-mt-16"
+									>
+										<h2 className="text-3xl font-bold text-white text-right pr-4 rounded-md bg-sky-500 my-6">
+											Lessons {range}
+										</h2>
+
+										{sortedLessons.map((lessonNum) => (
+											<div key={lessonNum} className="mb-6">
+												<h3 className="text-2xl font-bold text-right pr-4 text-white bg-sky-400 rounded-t-md">
+													Lesson {lessonNum}
+												</h3>
+												<div className="space-y-1 bg-white rounded-b-md shadow">
+													{(byLesson[lessonNum] ?? []).map(renderEntry)}
+												</div>
+											</div>
+										))}
+									</div>
+								)
+							})}
 					</>
 				)}
 			</div>
@@ -475,7 +467,7 @@ export default function EnglishDictionary({ data }: DictionaryProps) {
 							</a>
 					  ))
 					: Object.keys(groupedByLessonRange)
-							.sort((a, b) => parseInt(a) - parseInt(b))
+							.sort((a, b) => Number(a.split('-')[0]) - Number(b.split('-')[0]))
 							.map((range) => (
 								<a
 									key={range}

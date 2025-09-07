@@ -29,7 +29,7 @@ export default function LessonScriptViewer({
 	lessonScript: LessonScript
 }) {
 	const [fontClass, setFontClass] = useState('font-nunito')
-	const [fontSize, setFontSize] = useState(36)
+	const [fontSize, setFontSize] = useState(24)
 	const router = useRouter()
 	const audioIsSpotify = useMemo(
 		() => isSpotifyUrl(lessonScript.audioSrc),
