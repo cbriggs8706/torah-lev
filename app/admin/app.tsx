@@ -40,6 +40,9 @@ import { GrammarLessonCreate } from './grammar-lessons/create'
 import { StoryList } from './stories/list'
 import { StoryEdit } from './stories/edit'
 import { StoryCreate } from './stories/create'
+import { EnglishLessonScriptList } from './english-lesson-scripts/list'
+import { EnglishLessonScriptCreate } from './english-lesson-scripts/create'
+import { EnglishLessonScriptEdit } from './english-lesson-scripts/edit'
 
 const dataProvider = simpleRestProvider('/api')
 
@@ -89,6 +92,14 @@ const App = () => {
 				edit={LessonScriptEdit}
 				recordRepresentation="text"
 				options={{ label: 'Lesson Scripts' }}
+			/>
+			<Resource
+				name="english-lesson-scripts"
+				list={EnglishLessonScriptList}
+				create={EnglishLessonScriptCreate}
+				edit={EnglishLessonScriptEdit}
+				recordRepresentation="text"
+				options={{ label: 'Eng Lesson Scripts' }}
 			/>
 			<Resource
 				name="grammar-lessons"

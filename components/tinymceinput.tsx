@@ -15,7 +15,7 @@ type Props = {
 export default function TinyMCEInput({
 	source,
 	label,
-	dir = 'rtl',
+	dir,
 	minHeight = 320,
 }: Props) {
 	const { field, fieldState, isRequired } = useInput({ source })

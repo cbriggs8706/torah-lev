@@ -7,14 +7,14 @@ import { isAdmin } from '@/lib/admin'
 
 export const GET = async (
 	req: Request,
-	{ params }: { params: { lessonId: number } }
+	{ params }: { params: { lessonId: string } }
 ) => {
 	if (!isAdmin()) {
 		return new NextResponse('Unauthorized', { status: 403 })
 	}
-
+	const id = Number(params.lessonId)
 	const data = await db.query.lessons.findFirst({
-		where: eq(lessons.id, params.lessonId),
+		where: eq(lessons.id, id),
 	})
 
 	return NextResponse.json(data)
@@ -22,7 +22,7 @@ export const GET = async (
 
 export const PUT = async (
 	req: Request,
-	{ params }: { params: { lessonId: number } }
+	{ params }: { params: { lessonId: string } }
 ) => {
 	console.log('API Method:', req.method)
 	console.log('Matched dynamic route:', params.lessonId, req.method)
@@ -30,14 +30,14 @@ export const PUT = async (
 	if (!isAdmin()) {
 		return new NextResponse('Unauthorized', { status: 403 })
 	}
-
+	const id = Number(params.lessonId)
 	const body = await req.json()
 	const data = await db
 		.update(lessons)
 		.set({
 			...body,
 		})
-		.where(eq(lessons.id, params.lessonId))
+		.where(eq(lessons.id, id))
 		.returning()
 
 	return NextResponse.json(data[0])
@@ -45,16 +45,13 @@ export const PUT = async (
 
 export const DELETE = async (
 	req: Request,
-	{ params }: { params: { lessonId: number } }
+	{ params }: { params: { lessonId: string } }
 ) => {
 	if (!isAdmin()) {
 		return new NextResponse('Unauthorized', { status: 403 })
 	}
-
-	const data = await db
-		.delete(lessons)
-		.where(eq(lessons.id, params.lessonId))
-		.returning()
+	const id = Number(params.lessonId)
+	const data = await db.delete(lessons).where(eq(lessons.id, id)).returning()
 
 	return NextResponse.json(data[0])
 }

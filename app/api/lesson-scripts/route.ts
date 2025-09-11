@@ -59,12 +59,18 @@ export const GET = async (req: Request) => {
 		.from(lessonScripts)
 		.where(whereClause ?? sql`TRUE`)
 
-	return new NextResponse(JSON.stringify(rows), {
-		headers: {
-			'X-Total-Count': count.toString(),
-			'Access-Control-Expose-Headers': 'X-Total-Count',
-		},
-	})
+	const res = new NextResponse(JSON.stringify(rows), { status: 200 })
+	// 🔑 Make RA pagination happy
+	res.headers.set(
+		'Content-Range',
+		`lessons ${start}-${Math.max(start, end)}/${count}`
+	)
+	res.headers.set(
+		'Access-Control-Expose-Headers',
+		'Content-Range, X-Total-Count'
+	)
+	res.headers.set('X-Total-Count', count.toString())
+	return res
 }
 
 export const POST = async (req: Request) => {

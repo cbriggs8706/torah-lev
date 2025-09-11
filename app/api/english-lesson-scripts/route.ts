@@ -1,18 +1,15 @@
 import { NextResponse } from 'next/server'
 import db from '@/db/drizzle'
-import { lessons } from '@/db/schema'
-import { asc, desc, eq, sql } from 'drizzle-orm'
 import { isAdmin } from '@/lib/admin'
+import { englishLessonScripts } from '@/db/schema'
+import { asc, desc, sql, inArray } from 'drizzle-orm'
 
 export const GET = async (req: Request) => {
-	console.log('API /api/lessons called with method:', req.method)
-
 	if (!isAdmin()) return new NextResponse('Unauthorized', { status: 401 })
 
 	const { searchParams } = new URL(req.url)
 
-	// Parse RA params
-	const sort = JSON.parse(searchParams.get('sort') || `["id","ASC"]`)
+	const sort = JSON.parse(searchParams.get('sort') || `["lessonId","ASC"]`)
 	const range = JSON.parse(searchParams.get('range') || '[0,9]')
 	const filter = JSON.parse(searchParams.get('filter') || '{}')
 
@@ -21,35 +18,45 @@ export const GET = async (req: Request) => {
 	const perPage = end - start + 1
 	const offset = start
 
-	// Map sort field safely
+	// Map allowed columns
 	const columnMap = {
-		id: lessons.id,
-		title: lessons.title,
-		order: lessons.order,
-		unitId: lessons.unitId,
+		id: englishLessonScripts.id,
+		lessonId: englishLessonScripts.lessonId,
+		content: englishLessonScripts.content,
+		audioSrc: englishLessonScripts.audioSrc,
 	} as const
 
 	const sortColumn =
-		columnMap[sortField as keyof typeof columnMap] || lessons.id
+		columnMap[sortField as keyof typeof columnMap] ||
+		englishLessonScripts.lessonId
 	const sortDirection = sortOrder === 'DESC' ? desc : asc
 
-	// Filtering pattern for a single possible filter
-	let whereClause = undefined
-	if (filter.title) {
-		whereClause = sql`${lessons.title} ILIKE ${'%' + filter.title + '%'}`
-	}
+	// Filtering pattern for many possible filters
+	const filters: any[] = []
+	if (filter.id && Array.isArray(filter.id))
+		filters.push(inArray(englishLessonScripts.id, filter.id))
+	if (filter.lessonId)
+		filters.push(sql`${englishLessonScripts.lessonId} = ${filter.lessonId}`)
+	if (filter.content)
+		filters.push(
+			sql`${englishLessonScripts.content} ILIKE ${'%' + filter.content + '%'}`
+		)
+
+	const whereClause =
+		filters.length > 0 ? sql.join(filters, sql` AND `) : undefined
 
 	// Query
-	const rows = await db.query.lessons.findMany({
+	const rows = await db.query.englishLessonScripts.findMany({
 		where: whereClause,
 		orderBy: sortDirection(sortColumn),
-		limit: perPage,
-		offset,
+		limit: filter.id ? undefined : perPage,
+		offset: filter.id ? undefined : offset,
 	})
 
+	// Count
 	const [{ count }] = await db
 		.select({ count: sql<number>`count(*)` })
-		.from(lessons)
+		.from(englishLessonScripts)
 		.where(whereClause ?? sql`TRUE`)
 
 	const res = new NextResponse(JSON.stringify(rows), { status: 200 })
@@ -69,16 +76,9 @@ export const GET = async (req: Request) => {
 export const POST = async (req: Request) => {
 	if (!isAdmin()) return new NextResponse('Unauthorized', { status: 401 })
 
-	const raw = await req.json()
-	const body = raw?.data ?? raw // support both provider shapes
+	const body = await req.json()
 
-	const payload = {
-		title: body.title,
-		unitId: Number(body.unitId),
-		order: Number(body.order),
-	}
+	const data = await db.insert(englishLessonScripts).values(body).returning()
 
-	const [created] = await db.insert(lessons).values(payload).returning()
-	// RA requires an `id` field in the response
-	return NextResponse.json(created, { status: 201 })
+	return NextResponse.json(data[0])
 }

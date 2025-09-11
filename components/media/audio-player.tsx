@@ -1,36 +1,58 @@
 'use client'
 
-import React, { useEffect, useImperativeHandle, useRef, useState } from 'react'
-import { formatTime } from './audio-utils'
+import React, {
+	useEffect,
+	useImperativeHandle,
+	useMemo,
+	useRef,
+	useState,
+} from 'react'
+import {
+	Play,
+	Pause,
+	RotateCcw,
+	RotateCw,
+	Volume2,
+	VolumeX,
+	Settings as SettingsIcon,
+	Eye,
+	EyeOff,
+} from 'lucide-react'
+
+// Utils
+const clamp = (n: number, min: number, max: number) =>
+	Math.max(min, Math.min(max, n))
+const formatTime = (t: number) => {
+	if (!isFinite(t) || t < 0) t = 0
+	const h = Math.floor(t / 3600)
+	const m = Math.floor((t % 3600) / 60)
+	const s = Math.floor(t % 60)
+	const mm = h > 0 ? String(m).padStart(2, '0') : String(m)
+	const ss = String(s).padStart(2, '0')
+	return h > 0 ? `${h}:${mm}:${ss}` : `${mm}:${ss}`
+}
 
 export type AudioSource = { src: string; type?: string }
 
 export type AudioPlayerProps = {
-	/** Single src or a list of <source> entries */
 	src?: string
 	sources?: AudioSource[]
-	/** Skip amount in seconds (used by ± buttons & keyboard) */
 	skipSeconds?: number
-	/** Initial volume (0–1) */
 	defaultVolume?: number
-	/** Initial playback rate */
 	defaultRate?: number
-	/** Start position (seconds) */
 	startTime?: number
-	/** Tailwind / custom classes */
 	className?: string
-	/** Standard HTMLAudioElement props (subset) */
 	loop?: boolean
 	preload?: 'none' | 'metadata' | 'auto'
 	autoPlay?: boolean
-	/** Events */
 	onPlay?: () => void
 	onPause?: () => void
 	onEnded?: () => void
 	onTimeUpdate?: (currentTime: number, duration: number) => void
 	onError?: (e: Event) => void
-	/** Optional label for accessibility */
 	label?: string
+	/** If true, fixes the player to the bottom of the viewport. */
+	floating?: boolean
 }
 
 export type AudioPlayerHandle = {
@@ -45,10 +67,7 @@ export type AudioPlayerHandle = {
 	getDuration: () => number
 }
 
-/**
- * Reusable audio player with Play/Pause, ±skip, seekbar, speed, volume, and keyboard shortcuts.
- * Keyboard: Space = toggle, J = -skip, L = +skip, K = toggle, ArrowLeft/Right = ±5s.
- */
+// Compact, translucent floating player with hide/show
 const AudioPlayer = React.forwardRef<AudioPlayerHandle, AudioPlayerProps>(
 	(
 		{
@@ -68,6 +87,7 @@ const AudioPlayer = React.forwardRef<AudioPlayerHandle, AudioPlayerProps>(
 			onTimeUpdate,
 			onError,
 			label = 'Audio player',
+			floating = true,
 		},
 		ref
 	) => {
@@ -77,8 +97,12 @@ const AudioPlayer = React.forwardRef<AudioPlayerHandle, AudioPlayerProps>(
 		const [dur, setDur] = useState(0)
 		const [vol, setVol] = useState(defaultVolume)
 		const [rate, setRate] = useState(defaultRate)
+		const [showSettings, setShowSettings] = useState(false)
+		const [isHidden, setIsHidden] = useState(false)
 
-		// Expose imperative API
+		// Stable key for sources
+		const sourcesKey = useMemo(() => JSON.stringify(sources ?? []), [sources])
+
 		useImperativeHandle(ref, () => ({
 			async play() {
 				if (!audioRef.current) return
@@ -107,7 +131,8 @@ const AudioPlayer = React.forwardRef<AudioPlayerHandle, AudioPlayerProps>(
 			nudge(delta: number) {
 				if (!audioRef.current) return
 				const t = (audioRef.current.currentTime || 0) + delta
-				this.seekTo(t)
+				audioRef.current.currentTime = clamp(t, 0, dur || 0)
+				setCur(audioRef.current.currentTime)
 			},
 			setRate(r: number) {
 				setRate(r)
@@ -125,7 +150,7 @@ const AudioPlayer = React.forwardRef<AudioPlayerHandle, AudioPlayerProps>(
 			},
 		}))
 
-		// Initialize & react to source changes
+		// Init on source & config changes
 		useEffect(() => {
 			const el = audioRef.current
 			if (!el) return
@@ -134,21 +159,17 @@ const AudioPlayer = React.forwardRef<AudioPlayerHandle, AudioPlayerProps>(
 			el.load()
 			el.currentTime = startTime
 			setCur(startTime)
-			// ensure settings
 			el.volume = clamp(defaultVolume, 0, 1)
 			el.playbackRate = defaultRate
 			setVol(clamp(defaultVolume, 0, 1))
 			setRate(defaultRate)
-			// autoplay if requested
 			if (autoPlay) {
 				el.play()
 					.then(() => setIsPlaying(true))
 					.catch(() => setIsPlaying(false))
 			}
-			// eslint-disable-next-line react-hooks/exhaustive-deps
-		}, [src, JSON.stringify(sources)])
+		}, [src, sourcesKey, autoPlay, defaultVolume, defaultRate, startTime])
 
-		// Wire events
 		useEffect(() => {
 			const el = audioRef.current
 			if (!el) return
@@ -189,7 +210,6 @@ const AudioPlayer = React.forwardRef<AudioPlayerHandle, AudioPlayerProps>(
 			}
 		}, [onEnded, onPause, onPlay, onTimeUpdate, onError])
 
-		// Keep volume/rate synced
 		useEffect(() => {
 			if (audioRef.current) audioRef.current.volume = clamp(vol, 0, 1)
 		}, [vol])
@@ -197,21 +217,16 @@ const AudioPlayer = React.forwardRef<AudioPlayerHandle, AudioPlayerProps>(
 			if (audioRef.current) audioRef.current.playbackRate = rate
 		}, [rate])
 
-		// Keyboard shortcuts (only when focused)
 		const onKeyDown: React.KeyboardEventHandler<HTMLDivElement> = async (e) => {
 			const five = 5
-			if (e.code === 'Space' || e.key.toLowerCase() === 'k') {
+			const k = e.key.toLowerCase()
+			if (e.code === 'Space' || k === 'k') {
 				e.preventDefault()
 				await toggle()
-			} else if (e.key.toLowerCase() === 'j') {
-				nudge(-skipSeconds)
-			} else if (e.key.toLowerCase() === 'l') {
-				nudge(skipSeconds)
-			} else if (e.key === 'ArrowLeft') {
-				nudge(-five)
-			} else if (e.key === 'ArrowRight') {
-				nudge(five)
-			}
+			} else if (k === 'j') nudge(-skipSeconds)
+			else if (k === 'l') nudge(skipSeconds)
+			else if (e.key === 'ArrowLeft') nudge(-five)
+			else if (e.key === 'ArrowRight') nudge(five)
 		}
 
 		const toggle = async () => {
@@ -238,9 +253,78 @@ const AudioPlayer = React.forwardRef<AudioPlayerHandle, AudioPlayerProps>(
 
 		const nudge = (delta: number) => seek(cur + delta)
 
+		const iconBtn = ({
+			onClick,
+			label,
+			title,
+			children,
+			caption,
+			size = 'md',
+		}: {
+			onClick: () => void
+			label: string
+			title?: string
+			children: React.ReactNode
+			caption?: string
+			size?: 'sm' | 'md' | 'lg'
+		}) => {
+			const dim =
+				size === 'lg' ? 'h-12 w-12' : size === 'md' ? 'h-10 w-10' : 'h-9 w-9'
+			return (
+				<button
+					type="button"
+					onClick={onClick}
+					className={
+						`inline-flex flex-col items-center justify-center ${dim} rounded-full border border-white/50 bg-white/70 backdrop-blur-md shadow ` +
+						`active:scale-95 transition will-change-transform focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500`
+					}
+					aria-label={label}
+					title={title || label}
+				>
+					{children}
+					{caption && (
+						<span className="mt-0.5 text-[10px] leading-none text-neutral-700 select-none">
+							{caption}
+						</span>
+					)}
+				</button>
+			)
+		}
+
+		const volumeIcon =
+			vol === 0 ? (
+				<VolumeX className="h-5 w-5" />
+			) : (
+				<Volume2 className="h-5 w-5" />
+			)
+
+		// Floating: compact pill anchored bottom-right; otherwise inline block
+		const wrapperBase = `w-[min(92vw,28rem)] ${className}`
+		const wrapperFloating = `fixed bottom-3 right-3 z-50 rounded-2xl border border-sky-200/40 bg-sky-200/60 backdrop-blur-md shadow-lg p-3 pb-[max(0.5rem,env(safe-area-inset-bottom))]`
+		const wrapperInline = `rounded-2xl border border-sky-200/40 bg-sky-200/60 backdrop-blur-md shadow p-3`
+
+		// Hidden tab styles
+		const tabBtn = `fixed bottom-3 right-3 z-50 inline-flex items-center gap-2 rounded-full border border-sky-200/40 bg-sky-200/60 backdrop-blur-md shadow px-3 py-2 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500`
+
+		if (floating && isHidden) {
+			return (
+				<button
+					type="button"
+					className={tabBtn}
+					onClick={() => setIsHidden(false)}
+					aria-label="Show player"
+					title="Show player"
+				>
+					<Eye className="h-4 w-4" /> Show player
+				</button>
+			)
+		}
+
 		return (
 			<div
-				className={`w-full rounded-md border p-3 shadow-sm bg-white focus:outline-none focus:ring ring-offset-2 ring-blue-300 ${className}`}
+				className={`${
+					floating ? wrapperFloating : wrapperInline
+				} ${wrapperBase}`}
 				role="group"
 				aria-label={label}
 				tabIndex={0}
@@ -255,47 +339,95 @@ const AudioPlayer = React.forwardRef<AudioPlayerHandle, AudioPlayerProps>(
 					Your browser does not support the audio element.
 				</audio>
 
+				{/* Seek */}
+				<div className="mb-2 flex items-center gap-2">
+					<span className="text-[11px] tabular-nums w-10 text-right text-neutral-700 select-none">
+						{formatTime(cur)}
+					</span>
+					<input
+						className="flex-1 appearance-none h-2 rounded-full bg-white/50 cursor-pointer [accent-color:theme(colors.sky.500)] touch-none"
+						type="range"
+						min={0}
+						max={isFinite(dur) && dur > 0 ? dur : 0}
+						step={0.1}
+						value={Math.min(cur, dur || 0)}
+						onChange={(e) => seek(parseFloat(e.target.value))}
+						aria-label="Seek"
+					/>
+					<span className="text-[11px] tabular-nums w-10 text-neutral-700 select-none">
+						{formatTime(dur)}
+					</span>
+				</div>
+
 				{/* Controls */}
-				<div className="flex flex-wrap items-center gap-2">
+				<div className="flex items-center justify-center gap-4">
+					{iconBtn({
+						onClick: () => nudge(-skipSeconds),
+						label: `Back ${skipSeconds} seconds`,
+						title: `Back ${skipSeconds}s (J)`,
+						size: 'sm',
+						caption: `${skipSeconds}s`,
+						children: <RotateCcw className="h-5 w-5" aria-hidden />,
+					})}
+
+					{iconBtn({
+						onClick: toggle,
+						label: isPlaying ? 'Pause' : 'Play',
+						title: 'Play/Pause (Space, K)',
+						size: 'lg',
+						children: isPlaying ? (
+							<Pause className="h-7 w-7" aria-hidden />
+						) : (
+							<Play className="h-7 w-7 translate-x-[1px]" aria-hidden />
+						),
+					})}
+
+					{iconBtn({
+						onClick: () => nudge(skipSeconds),
+						label: `Forward ${skipSeconds} seconds`,
+						title: `Forward ${skipSeconds}s (L)`,
+						size: 'sm',
+						caption: `${skipSeconds}s`,
+						children: <RotateCw className="h-5 w-5" aria-hidden />,
+					})}
+				</div>
+
+				{/* Settings row */}
+				<div className="mt-2 flex items-center justify-between gap-3">
 					<button
 						type="button"
-						onClick={() => nudge(-skipSeconds)}
-						className="px-2 py-1 border rounded text-sm"
-						aria-label={`Back ${skipSeconds} seconds`}
-						title={`Back ${skipSeconds}s (J)`}
+						className="inline-flex items-center gap-1 rounded-full border border-white/40 bg-white/60 backdrop-blur-md px-2 py-1 text-xs text-neutral-800 shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
+						onClick={() => setIsHidden(true)}
+						aria-label="Hide player"
+						title="Hide player"
 					>
-						⏪ {skipSeconds}s
+						<EyeOff className="h-3.5 w-3.5" /> Hide
 					</button>
-
+					{/* Options button only on small screens where it toggles the collapsible settings */}
 					<button
 						type="button"
-						onClick={toggle}
-						className="px-3 py-1 border rounded text-sm"
-						aria-label={isPlaying ? 'Pause' : 'Play'}
-						title="Play/Pause (Space or K)"
+						onClick={() => setShowSettings((s) => !s)}
+						className="sm:hidden inline-flex items-center gap-1 rounded-full border border-white/40 bg-white/60 backdrop-blur-md px-2 py-1 text-xs text-neutral-800 shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
+						aria-expanded={showSettings}
+						aria-controls="ap-settings"
 					>
-						{isPlaying ? '⏸️ Pause' : '▶️ Play'}
+						<div className="flex items-center gap-2">
+							<SettingsIcon className="h-3.5 w-3.5" /> Options
+						</div>
 					</button>
 
-					<button
-						type="button"
-						onClick={() => nudge(skipSeconds)}
-						className="px-2 py-1 border rounded text-sm"
-						aria-label={`Forward ${skipSeconds} seconds`}
-						title={`Forward ${skipSeconds}s (L)`}
-					>
-						{skipSeconds}s ⏩
-					</button>
-
-					<div className="ml-auto flex items-center gap-3">
-						<label className="text-sm">
-							Speed{' '}
+					<div className="hidden sm:flex items-center gap-3 ml-auto">
+						<label
+							className="text-sm text-neutral-800 flex items-center gap-2"
+							aria-label="Playback speed"
+						>
+							<span className="hidden xs:inline">Speed</span>
 							<select
-								className="border rounded px-1 py-0.5"
+								className="border rounded-md px-2 py-1 text-sm bg-white/80 backdrop-blur"
 								value={rate}
 								onChange={(e) => setRate(parseFloat(e.target.value))}
-								aria-label="Playback speed"
 							>
+								<option value={0.5}>0.5×</option>
 								<option value={0.75}>0.75×</option>
 								<option value={1}>1×</option>
 								<option value={1.25}>1.25×</option>
@@ -305,10 +437,10 @@ const AudioPlayer = React.forwardRef<AudioPlayerHandle, AudioPlayerProps>(
 						</label>
 
 						<label
-							className="text-sm flex items-center gap-2"
+							className="text-sm text-neutral-800 flex items-center gap-2 select-none"
 							aria-label="Volume"
 						>
-							Vol
+							{volumeIcon}
 							<input
 								type="range"
 								min={0}
@@ -316,28 +448,55 @@ const AudioPlayer = React.forwardRef<AudioPlayerHandle, AudioPlayerProps>(
 								step={0.01}
 								value={vol}
 								onChange={(e) => setVol(parseFloat(e.target.value))}
+								className="h-2 w-24 rounded-full bg-white/50 [accent-color:theme(colors.sky.500)]"
 							/>
 						</label>
 					</div>
 				</div>
 
-				{/* Seek bar */}
-				<div className="mt-2 flex items-center gap-2">
-					<span className="text-xs tabular-nums w-10 text-right">
-						{formatTime(cur)}
-					</span>
-					<input
-						className="flex-1"
-						type="range"
-						min={0}
-						max={isFinite(dur) && dur > 0 ? dur : 0}
-						step={0.1}
-						value={Math.min(cur, dur || 0)}
-						onChange={(e) => seek(parseFloat(e.target.value))}
-						aria-label="Seek"
-					/>
-					<span className="text-xs tabular-nums w-10">{formatTime(dur)}</span>
-				</div>
+				{showSettings && (
+					<div
+						id="ap-settings"
+						className="mt-2 grid grid-cols-1 sm:hidden gap-3 rounded-xl border border-white/40 bg-white/60 backdrop-blur-md p-3"
+					>
+						<label
+							className="text-sm text-neutral-800 flex items-center justify-between gap-3"
+							aria-label="Playback speed"
+						>
+							<span>Speed</span>
+							<select
+								className="border rounded-md px-2 py-1 text-sm bg-white/80 backdrop-blur"
+								value={rate}
+								onChange={(e) => setRate(parseFloat(e.target.value))}
+							>
+								<option value={0.5}>0.5×</option>
+								<option value={0.75}>0.75×</option>
+								<option value={1}>1×</option>
+								<option value={1.25}>1.25×</option>
+								<option value={1.5}>1.5×</option>
+								<option value={2}>2×</option>
+							</select>
+						</label>
+
+						<label
+							className="text-sm text-neutral-800 flex items-center justify-between gap-3"
+							aria-label="Volume"
+						>
+							<span className="flex items-center gap-2">
+								{volumeIcon} Volume
+							</span>
+							<input
+								type="range"
+								min={0}
+								max={1}
+								step={0.01}
+								value={vol}
+								onChange={(e) => setVol(parseFloat(e.target.value))}
+								className="h-2 w-36 rounded-full bg-white/50 [accent-color:theme(colors.sky.500)]"
+							/>
+						</label>
+					</div>
+				)}
 			</div>
 		)
 	}
@@ -346,7 +505,3 @@ const AudioPlayer = React.forwardRef<AudioPlayerHandle, AudioPlayerProps>(
 AudioPlayer.displayName = 'AudioPlayer'
 
 export default AudioPlayer
-
-function clamp(n: number, min: number, max: number) {
-	return Math.max(min, Math.min(max, n))
-}

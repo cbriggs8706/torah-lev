@@ -5,7 +5,7 @@ import {
 	required,
 	BooleanInput,
 } from 'react-admin'
-import { RichTextInput } from 'ra-input-rich-text'
+import TinyMCEInput from '@/components/tinymceinput'
 
 export const StoryCreate = () => {
 	return (
@@ -18,12 +18,10 @@ export const StoryCreate = () => {
 				<BooleanInput source="public" label="public" />
 				<TextInput source="category" label="category" />
 				<TextInput source="order" label="order" />
-				<div dir="rtl">
-					<RichTextInput source="content" label="content" />
-				</div>
-				<div dir="rtl">
-					<RichTextInput source="contentPlain" label="contentPlain" />
-				</div>
+				<TinyMCEInput source="content" label="content" dir="rtl" />
+
+				<TinyMCEInput source="contentPlain" label="contentPlain" dir="rtl" />
+
 				<TextInput source="audio" label="audio" />
 				<TextInput source="image" label="image" />
 				<TextInput source="video" label="video" />
