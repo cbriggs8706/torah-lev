@@ -1,31 +1,19 @@
-'use server'
 import Image from 'next/image'
 import { redirect } from 'next/navigation'
 
 import { FeedWrapper } from '@/components/feed-wrapper'
 import { UserProgress } from '@/components/user-progress'
 import { StickyWrapper } from '@/components/sticky-wrapper'
-import {
-	getCourseProgress,
-	getUserProgress,
-	getUserSubscription,
-} from '@/db/queries'
+import { getUserProgress, getUserSubscription } from '@/db/queries'
 import dynamic from 'next/dynamic'
-
-import awbHebrewVocab from '@/lib/data/vocab/awbVocab.json'
-// import awaGreekVocab from '@/lib/data/vocab/greek-vocab.json'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 
-const SpellingPractice = dynamic(
-	() => import('@/components/hebrew/hebrew-spelling'),
-	{
-		ssr: false,
-	}
-)
+const SentenceBuilder = dynamic(() => import('@/components/sentence-builder'), {
+	ssr: false,
+})
 
-const HebrewSpellingPage = async () => {
+const HebrewSentenceBuilderPage = async () => {
 	const userProgressData = getUserProgress()
-	const userChallengeData = await getCourseProgress()
 	const userSubscriptionData = getUserSubscription()
 
 	const [userProgress, userSubscription] = await Promise.all([
@@ -38,8 +26,6 @@ const HebrewSpellingPage = async () => {
 	}
 
 	const isPro = !!userSubscription?.isActive
-
-	const currentLesson = userChallengeData?.activeLesson?.lessonNumber
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
@@ -55,30 +41,24 @@ const HebrewSpellingPage = async () => {
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">
 					<Image
-						src="/input-latin-letters-svgrepo-com.svg"
-						alt="Calendar"
+						src="/building-construction-svgrepo-com.svg"
+						alt="Sentence Builder"
 						height={90}
 						width={90}
 					/>
 					<h1 className="text-center font-bold text-neutral-800 text-2xl my-6">
-						Spelling
+						Sentence Builder
 					</h1>
-					<DismissibleAlert storageKey="spelling" className="mb-4">
-						Customize your prompt type. My favorite is letter-by-letter. For
-						sofit ending letters tap the Alt/Opt button. For additional vowels
-						and dagesh, tap the shift button. For the backspace to work properly
-						you need to have your cursor at the end/left of the word.
+					<DismissibleAlert storageKey="sentenceBuilder" className="mb-4">
+						Known issues. This activity will be merged into the Scramble
+						activity and enhanced. Coming soon! For now when you drag words into
+						the bar in a correct order, the english equivalent will appear.
 					</DismissibleAlert>
-
-					<SpellingPractice
-						data={awbHebrewVocab}
-						currentLesson={currentLesson ?? ''}
-						userId={userProgress.userId}
-					/>
+					<SentenceBuilder />
 				</div>
 			</FeedWrapper>
 		</div>
 	)
 }
 
-export default HebrewSpellingPage
+export default HebrewSentenceBuilderPage

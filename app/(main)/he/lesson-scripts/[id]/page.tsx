@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation'
 import { getLessonScript } from '@/db/queries'
 import LessonScriptViewer from '@/components/hebrew/hebrew-lesson-script-viewer'
 
-export default async function LessonScriptPage({
+export default async function HebrewLessonScriptPage({
 	params,
 }: {
 	params: { id: string }

@@ -118,7 +118,7 @@ export default function MusicLinesTable({
 				<Button
 					variant={'default'}
 					onClick={() => {
-						router.push('/music')
+						router.push('/he/music')
 						router.refresh() // revalidate the next route after the push
 					}}
 				>

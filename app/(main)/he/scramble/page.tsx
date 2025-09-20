@@ -12,7 +12,6 @@ import {
 import dynamic from 'next/dynamic'
 
 import awbHebrewVocab from '@/lib/data/vocab/awbVocab.json'
-// import awaGreekVocab from '@/lib/data/vocab/greek-vocab.json'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 
 const HebrewScramble = dynamic(

@@ -128,7 +128,7 @@ export default function SongList({
 								)}
 
 								<Link
-									href={`/music/${music.id}`}
+									href={`/he/music/${music.id}`}
 									className="inline-block mt-3 px-3 py-1 bg-sky-500 text-white rounded hover:bg-sky-700 transition"
 									scroll
 								>

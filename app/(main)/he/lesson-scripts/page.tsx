@@ -13,7 +13,7 @@ import {
 import { DismissibleAlert } from '@/components/dismissible-alert'
 import LessonScriptList from '@/components/hebrew/hebrew-lesson-script-list'
 
-const LessonScriptsPage = async () => {
+const HebrewLessonScriptsPage = async () => {
 	const lessonScripts = await getLessonScripts()
 	const userProgressData = getUserProgress()
 	const userChallengeData = await getCourseProgress()
@@ -72,4 +72,4 @@ const LessonScriptsPage = async () => {
 	)
 }
 
-export default LessonScriptsPage
+export default HebrewLessonScriptsPage
