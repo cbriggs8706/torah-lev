@@ -1,8 +1,7 @@
 import { SimpleForm, Create, TextInput, required } from 'react-admin'
-import { RichTextInput } from 'ra-input-rich-text'
 import TinyMCEInput from '@/components/tinymceinput'
 
-export const LessonScriptCreate = () => {
+export const HebrewLessonScriptCreate = () => {
 	return (
 		<Create>
 			<SimpleForm>

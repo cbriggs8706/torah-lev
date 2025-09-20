@@ -5,8 +5,9 @@ import { FeedWrapper } from '@/components/feed-wrapper'
 import { UserProgress } from '@/components/user-progress'
 import { StickyWrapper } from '@/components/sticky-wrapper'
 import {
+	getAllHebrewLessonScripts,
 	getCourseProgress,
-	getLessonScripts,
+	getHebrewLessonScripts,
 	getUserProgress,
 	getUserSubscription,
 } from '@/db/queries'
@@ -14,7 +15,6 @@ import { DismissibleAlert } from '@/components/dismissible-alert'
 import LessonScriptList from '@/components/hebrew/hebrew-lesson-script-list'
 
 const HebrewLessonScriptsPage = async () => {
-	const lessonScripts = await getLessonScripts()
 	const userProgressData = getUserProgress()
 	const userChallengeData = await getCourseProgress()
 	const userSubscriptionData = getUserSubscription()
@@ -33,6 +33,10 @@ const HebrewLessonScriptsPage = async () => {
 	const isHebrewFriend = !!userProgress?.isHebrewFriend
 
 	const currentLesson = userProgress.activeLessonId
+	const currentCourse = userProgress.activeCourse.id
+	const lessonScripts = await getAllHebrewLessonScripts(currentCourse)
+	// const lessonScripts = await getHebrewLessonScripts(currentCourse)
+
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
 			{/* <StickyWrapper>

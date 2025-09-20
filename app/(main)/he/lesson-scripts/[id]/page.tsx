@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { FeedWrapper } from '@/components/feed-wrapper'
 import { notFound } from 'next/navigation'
-import { getLessonScript } from '@/db/queries'
+import { getHebrewLessonScript } from '@/db/queries'
 import LessonScriptViewer from '@/components/hebrew/hebrew-lesson-script-viewer'
 
 export default async function HebrewLessonScriptPage({
@@ -9,7 +9,7 @@ export default async function HebrewLessonScriptPage({
 }: {
 	params: { id: string }
 }) {
-	const lessonScript = await getLessonScript(Number(params.id))
+	const lessonScript = await getHebrewLessonScript(Number(params.id))
 
 	if (!lessonScript) return notFound()
 

@@ -29,9 +29,9 @@ import GenerateChallengesPage from './generate-challenges/page'
 
 import { AdminMenu } from '@/components/admin-menu'
 
-import { LessonScriptList } from './lesson-scripts/list'
-import { LessonScriptCreate } from './lesson-scripts/create'
-import { LessonScriptEdit } from './lesson-scripts/edit'
+import { HebrewLessonScriptList } from './he-lesson-scripts/list'
+import { HebrewLessonScriptCreate } from './he-lesson-scripts/create'
+import { HebrewLessonScriptEdit } from './he-lesson-scripts/edit'
 
 import { GrammarLessonList } from './grammar-lessons/list'
 import { GrammarLessonEdit } from './grammar-lessons/edit'
@@ -86,12 +86,12 @@ const App = () => {
 				options={{ label: 'Challenge Options' }}
 			/>
 			<Resource
-				name="lesson-scripts"
-				list={LessonScriptList}
-				create={LessonScriptCreate}
-				edit={LessonScriptEdit}
+				name="hebrew-lesson-scripts"
+				list={HebrewLessonScriptList}
+				create={HebrewLessonScriptCreate}
+				edit={HebrewLessonScriptEdit}
 				recordRepresentation="text"
-				options={{ label: 'Lesson Scripts' }}
+				options={{ label: 'Heb Lesson Scripts' }}
 			/>
 			<Resource
 				name="english-lesson-scripts"

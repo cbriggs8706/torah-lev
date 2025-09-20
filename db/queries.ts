@@ -21,7 +21,7 @@ import {
 	hebrewPrayerLibrary,
 	hebrewPrayerLine,
 	lessons,
-	lessonScripts,
+	hebrewLessonScripts,
 	englishLessonScripts,
 	grammarLessons,
 	tribes,
@@ -245,31 +245,57 @@ export const getLesson = cache(async (id?: number) => {
 	return { ...data, challenges: normalizedChallenges }
 })
 
-export const getLessonScripts = async () => {
+export async function getAllHebrewLessonScripts(courseId?: number) {
+	const base = db
+		.select({
+			id: hebrewLessonScripts.id,
+			courseId: hebrewLessonScripts.courseId,
+			lessonId: hebrewLessonScripts.lessonId,
+			part: hebrewLessonScripts.part,
+			content: hebrewLessonScripts.content,
+			contentPlain: hebrewLessonScripts.contentPlain,
+			audioSrc: hebrewLessonScripts.audioSrc,
+			// 👇 from lessons
+			title: lessons.title,
+		})
+		.from(hebrewLessonScripts)
+		.innerJoin(lessons, eq(hebrewLessonScripts.lessonId, lessons.id))
+
+	const q =
+		courseId != null
+			? base.where(sql`${courseId} = ANY(${hebrewLessonScripts.courseId})`)
+			: base
+
+	return q.orderBy(
+		asc(hebrewLessonScripts.lessonId),
+		asc(hebrewLessonScripts.part)
+	)
+}
+
+export const getHebrewLessonScripts = async (courseId: number) => {
 	const results = await db
 		.select({
-			id: lessonScripts.id,
-			lessonScriptId: lessonScripts.lessonId,
-			content: lessonScripts.content,
-			contentPlain: lessonScripts.contentPlain,
-			audioSrc: lessonScripts.audioSrc,
+			id: hebrewLessonScripts.id,
+			courseId: hebrewLessonScripts.courseId,
+			lessonScriptId: hebrewLessonScripts.lessonId,
+			part: hebrewLessonScripts.part,
+			content: hebrewLessonScripts.content,
+			contentPlain: hebrewLessonScripts.contentPlain,
+			audioSrc: hebrewLessonScripts.audioSrc,
 			title: lessons.title, // Select the title from the lessons table
 			lessonId: lessons.id,
 		})
-		.from(lessonScripts)
-		.innerJoin(
-			lessons,
-			sql`${lessonScripts.lessonId} = ${lessons.lessonNumber}` // Join condition on lessonId and lessonNumber
-		)
-		.where(like(lessons.title, 'AwB%')) // Filter titles starting with 'awb'
-		.orderBy(lessonScripts.lessonId)
+		.from(hebrewLessonScripts)
+		.innerJoin(lessons, eq(hebrewLessonScripts.lessonId, lessons.id))
+		.where(sql`${courseId} = ANY(${hebrewLessonScripts.courseId})`)
+		.orderBy(asc(hebrewLessonScripts.lessonId), asc(hebrewLessonScripts.part))
 
 	return results
 }
 
-export async function getLessonScript(lessonScriptId: number) {
-	return db.query.lessonScripts.findFirst({
-		where: eq(lessonScripts.id, lessonScriptId),
+export async function getHebrewLessonScript(lessonScriptId: number) {
+	return db.query.hebrewLessonScripts.findFirst({
+		where: eq(hebrewLessonScripts.id, lessonScriptId),
 	})
 }
 

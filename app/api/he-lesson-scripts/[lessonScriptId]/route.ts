@@ -2,7 +2,7 @@ import { eq } from 'drizzle-orm'
 import { NextResponse } from 'next/server'
 
 import db from '@/db/drizzle'
-import { lessonScripts } from '@/db/schema'
+import { hebrewLessonScripts } from '@/db/schema'
 import { isAdmin } from '@/lib/admin'
 
 export const GET = async (
@@ -18,8 +18,8 @@ export const GET = async (
 		return new NextResponse('Unauthorized', { status: 403 })
 	}
 
-	const data = await db.query.lessonScripts.findFirst({
-		where: eq(lessonScripts.id, id),
+	const data = await db.query.hebrewLessonScripts.findFirst({
+		where: eq(hebrewLessonScripts.id, id),
 	})
 
 	return NextResponse.json(data)
@@ -39,11 +39,11 @@ export const PUT = async (
 
 	const body = await req.json()
 	const data = await db
-		.update(lessonScripts)
+		.update(hebrewLessonScripts)
 		.set({
 			...body,
 		})
-		.where(eq(lessonScripts.id, id))
+		.where(eq(hebrewLessonScripts.id, id))
 		.returning()
 
 	return NextResponse.json(data[0])
@@ -62,8 +62,8 @@ export const DELETE = async (
 	}
 
 	const data = await db
-		.delete(lessonScripts)
-		.where(eq(lessonScripts.id, id))
+		.delete(hebrewLessonScripts)
+		.where(eq(hebrewLessonScripts.id, id))
 		.returning()
 
 	return NextResponse.json(data[0])

@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import db from '@/db/drizzle'
 import { isAdmin } from '@/lib/admin'
-import { lessonScripts } from '@/db/schema'
+import { hebrewLessonScripts } from '@/db/schema'
 import { asc, desc, sql, inArray } from 'drizzle-orm'
 
 export const GET = async (req: Request) => {
@@ -20,33 +20,34 @@ export const GET = async (req: Request) => {
 
 	// Map allowed columns
 	const columnMap = {
-		id: lessonScripts.id,
-		lessonId: lessonScripts.lessonId,
-		content: lessonScripts.content,
-		contentPlain: lessonScripts.contentPlain,
-		audioSrc: lessonScripts.audioSrc,
+		id: hebrewLessonScripts.id,
+		lessonId: hebrewLessonScripts.lessonId,
+		content: hebrewLessonScripts.content,
+		contentPlain: hebrewLessonScripts.contentPlain,
+		audioSrc: hebrewLessonScripts.audioSrc,
 	} as const
 
 	const sortColumn =
-		columnMap[sortField as keyof typeof columnMap] || lessonScripts.lessonId
+		columnMap[sortField as keyof typeof columnMap] ||
+		hebrewLessonScripts.lessonId
 	const sortDirection = sortOrder === 'DESC' ? desc : asc
 
 	// Filtering
 	const filters: any[] = []
 	if (filter.id && Array.isArray(filter.id))
-		filters.push(inArray(lessonScripts.id, filter.id))
+		filters.push(inArray(hebrewLessonScripts.id, filter.id))
 	if (filter.lessonId)
-		filters.push(sql`${lessonScripts.lessonId} = ${filter.lessonId}`)
+		filters.push(sql`${hebrewLessonScripts.lessonId} = ${filter.lessonId}`)
 	if (filter.content)
 		filters.push(
-			sql`${lessonScripts.content} ILIKE ${'%' + filter.content + '%'}`
+			sql`${hebrewLessonScripts.content} ILIKE ${'%' + filter.content + '%'}`
 		)
 
 	const whereClause =
 		filters.length > 0 ? sql.join(filters, sql` AND `) : undefined
 
 	// Query
-	const rows = await db.query.lessonScripts.findMany({
+	const rows = await db.query.hebrewLessonScripts.findMany({
 		where: whereClause,
 		orderBy: sortDirection(sortColumn),
 		limit: filter.id ? undefined : perPage,
@@ -56,7 +57,7 @@ export const GET = async (req: Request) => {
 	// Count
 	const [{ count }] = await db
 		.select({ count: sql<number>`count(*)` })
-		.from(lessonScripts)
+		.from(hebrewLessonScripts)
 		.where(whereClause ?? sql`TRUE`)
 
 	const res = new NextResponse(JSON.stringify(rows), { status: 200 })
@@ -78,7 +79,7 @@ export const POST = async (req: Request) => {
 
 	const body = await req.json()
 
-	const data = await db.insert(lessonScripts).values(body).returning()
+	const data = await db.insert(hebrewLessonScripts).values(body).returning()
 
 	return NextResponse.json(data[0])
 }

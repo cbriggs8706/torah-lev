@@ -15,7 +15,8 @@ type LessonScript = {
 	content: string | null
 	contentPlain: string | null
 	audioSrc: string | null
-	lessonId: string | null
+	lessonId: number | null
+	courseId: number[] | null
 }
 
 type Lesson = {
