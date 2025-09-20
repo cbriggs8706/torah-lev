@@ -167,13 +167,11 @@ export default function StoryList({
 
 										{/* Text content */}
 										<div className="p-4">
-											<h3 className="text-lg font-semibold leading-snug">
-												{story.title}
-											</h3>
+											<h3 className="text-4xl font-times">{story.hebTitle}</h3>
 
 											{story.hebTitle && (
-												<p className="text-base font-hebrew mt-1">
-													{story.hebTitle}
+												<p className="text-base font-nunito mt-1">
+													{story.title}
 												</p>
 											)}
 

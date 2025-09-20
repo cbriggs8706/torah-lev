@@ -132,14 +132,14 @@ export default function SongList({
 									</div>
 								)}
 
-								<h3 className="text-xl font-semibold">{music.title}</h3>
+								<h3 className="text-4xl font-times">{music.hebTitle}</h3>
 
 								{music.hebTitle && (
-									<p className="text-lg font-hebrew">{music.hebTitle}</p>
+									<p className="text-base font-nunito mt-1">{music.title}</p>
 								)}
 
 								{music.titleTransliteration && (
-									<p className="italic text-gray-600">
+									<p className="italic mt-0.5 text-gray-600">
 										{music.titleTransliteration}
 									</p>
 								)}
