@@ -35,6 +35,20 @@ const hebrewAlphabet = [
 	'ת',
 ]
 
+function toAbsoluteUrl(src: string) {
+	if (!src) return src
+	// If it's already absolute (http/https), keep it
+	if (/^https?:\/\//i.test(src)) return src
+	// Ensure leading slash so it resolves from site root
+	const normalized = src.startsWith('/') ? src : `/${src.replace(/^\/+/, '')}`
+
+	// If you use a basePath or assetPrefix, you can optionally prepend it:
+	// const base = process.env.NEXT_PUBLIC_BASE_PATH ?? ''
+	// return `${base}${normalized}`
+
+	return normalized
+}
+
 function stripHebrewMarks(text: string): string {
 	return text.normalize('NFD').replace(/[\u0591-\u05C7]/g, '')
 }
@@ -196,10 +210,18 @@ export default function HebrewDictionary({ data }: DictionaryProps) {
 
 	function playAudio(id: number, src: string | undefined) {
 		if (!src) return
+		const url = toAbsoluteUrl(src)
 		if (!audioRefs.current[id]) {
-			audioRefs.current[id] = new Audio(src)
+			audioRefs.current[id] = new Audio(url)
+		} else {
+			// keep src updated if your data can change
+			if (audioRefs.current[id].src !== url) {
+				audioRefs.current[id].src = url
+			}
 		}
-		audioRefs.current[id].play().catch(console.error)
+		audioRefs.current[id].play().catch((err) => {
+			console.error('Audio play failed:', err, 'src:', url)
+		})
 	}
 
 	useEffect(() => {
