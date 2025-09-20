@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { FeedWrapper } from '@/components/feed-wrapper'
 import { notFound } from 'next/navigation'
-import { getStory } from '@/db/queries'
+import { getHebrewStory } from '@/db/queries'
 import HebrewStoryViewer from '@/components/hebrew/hebrew-story-viewer'
 
 export default async function LessonScriptPage({
@@ -9,7 +9,7 @@ export default async function LessonScriptPage({
 }: {
 	params: { id: string }
 }) {
-	const story = await getStory(Number(params.id))
+	const story = await getHebrewStory(Number(params.id))
 
 	if (!story) return notFound()
 

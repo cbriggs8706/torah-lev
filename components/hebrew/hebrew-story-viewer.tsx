@@ -28,7 +28,8 @@ type HebrewStory = {
 	content: string | null
 	contentPlain: string | null
 	audio: string | null
-	lessonId: string | null
+	lessonId: number | null
+	courseId: number[] | null
 	category: string
 	public: boolean
 }
@@ -97,7 +98,7 @@ export default function HebrewStoryViewer(story: Story) {
 				<Button
 					variant={'default'}
 					onClick={() => {
-						router.push('/stories')
+						router.push('/he/stories')
 						router.refresh() // revalidate the next route after the push
 					}}
 				>

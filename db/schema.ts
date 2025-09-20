@@ -353,9 +353,10 @@ export const events = pgTable('events', {
 	notes: text('notes'),
 })
 
-export const stories = pgTable('stories', {
+export const hebrewStories = pgTable('hebrew_stories', {
 	id: serial('id').primaryKey(),
-	lessonId: text('lesson_id'),
+	lessonId: integer('lesson_id').notNull(),
+	courseId: integer('course_id').array(),
 	// .references(() => lessons.lessonKey),
 	title: text('title').notNull(),
 	hebTitle: text('heb_title'),

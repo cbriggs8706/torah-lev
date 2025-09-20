@@ -37,9 +37,9 @@ import { GrammarLessonList } from './grammar-lessons/list'
 import { GrammarLessonEdit } from './grammar-lessons/edit'
 import { GrammarLessonCreate } from './grammar-lessons/create'
 
-import { StoryList } from './stories/list'
-import { StoryEdit } from './stories/edit'
-import { StoryCreate } from './stories/create'
+import { HebrewStoryList } from './he-stories/list'
+import { HebrewStoryEdit } from './he-stories/edit'
+import { HebrewStoryCreate } from './he-stories/create'
 import { EnglishLessonScriptList } from './english-lesson-scripts/list'
 import { EnglishLessonScriptCreate } from './english-lesson-scripts/create'
 import { EnglishLessonScriptEdit } from './english-lesson-scripts/edit'
@@ -110,12 +110,12 @@ const App = () => {
 				options={{ label: 'Grammar Lessons' }}
 			/>
 			<Resource
-				name="stories"
-				list={StoryList}
-				create={StoryCreate}
-				edit={StoryEdit}
+				name="he-stories"
+				list={HebrewStoryList}
+				create={HebrewStoryCreate}
+				edit={HebrewStoryEdit}
 				recordRepresentation="text"
-				options={{ label: 'Stories' }}
+				options={{ label: 'Heb Stories' }}
 			/>
 			<CustomRoutes>
 				<Route

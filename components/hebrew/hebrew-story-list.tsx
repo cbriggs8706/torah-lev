@@ -21,7 +21,8 @@ type Story = {
 	audio?: string | null
 	video?: string | null
 	public: boolean
-	lessonId?: string | null
+	lessonId?: number | null
+	courseId?: number[] | null
 }
 
 export default function StoryList({
@@ -77,14 +78,8 @@ export default function StoryList({
 		[grouped]
 	)
 
-	function parseLessonId(id: string | null | undefined) {
-		if (!id) return { num: Infinity, suffix: '' } // put missing lessonIds at the end
-		const match = id.match(/^(\d+)([a-zA-Z]*)$/)
-		return {
-			num: match ? parseInt(match[1], 10) : Infinity,
-			suffix: match ? match[2] : '',
-		}
-	}
+	const lessonNum = (n?: number | null) =>
+		typeof n === 'number' ? n : Number.POSITIVE_INFINITY
 
 	return (
 		<div className="space-y-4">
@@ -118,12 +113,9 @@ export default function StoryList({
 			{/* Grouped lists */}
 			{groupsInOrder.map(([cat, items]) => {
 				// sort by parsed lessonId
-				const sortedItems = [...items].sort((a, b) => {
-					const A = parseLessonId(a.lessonId)
-					const B = parseLessonId(b.lessonId)
-					if (A.num !== B.num) return A.num - B.num
-					return A.suffix.localeCompare(B.suffix)
-				})
+				const sortedItems = [...items].sort(
+					(a, b) => lessonNum(a.lessonId) - lessonNum(b.lessonId)
+				)
 				return (
 					<div key={cat} className="space-y-2">
 						<h2 className="text-lg font-semibold text-neutral-700 uppercase">
@@ -131,9 +123,9 @@ export default function StoryList({
 						</h2>
 						<div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
 							{sortedItems.map((story) => {
-								const parsed = parseLessonId(story.lessonId)
 								const isLocked =
-									currentLesson !== null && parsed.num > currentLesson
+									currentLesson !== null &&
+									lessonNum(story.lessonId) > currentLesson
 
 								return (
 									<div
@@ -157,26 +149,24 @@ export default function StoryList({
 												{story.titleTransliteration}
 											</p>
 										)}
-
 										<Link
-											href={`/stories/${story.id}`}
+											href={`/he/stories/${story.id}`}
 											className="inline-block mt-3 px-3 py-1 bg-sky-500 text-white rounded hover:bg-sky-700 transition"
 										>
 											Read Story
 										</Link>
-										{/* TODO the query needs to join the lessonId properly */}
 										{/* {isLocked ? (
-        <div className="inline-block mt-3 px-3 py-1 bg-gray-400 text-white rounded">
-          Locked
-        </div>
-      ) : (
-        <Link
-          href={`/stories/${story.id}`}
-          className="inline-block mt-3 px-3 py-1 bg-sky-500 text-white rounded hover:bg-sky-700 transition"
-        >
-          Read Story
-        </Link>
-      )} */}
+											<div className="inline-block mt-3 px-3 py-1 bg-gray-400 text-white rounded select-none">
+												Locked
+											</div>
+										) : (
+											<Link
+												href={`/he/stories/${story.id}`}
+												className="inline-block mt-3 px-3 py-1 bg-sky-500 text-white rounded hover:bg-sky-700 transition"
+											>
+												Read Story
+											</Link>
+										)} */}
 									</div>
 								)
 							})}

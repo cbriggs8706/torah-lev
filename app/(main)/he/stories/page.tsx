@@ -1,14 +1,11 @@
 import Image from 'next/image'
 import { redirect } from 'next/navigation'
 import { FeedWrapper } from '@/components/feed-wrapper'
-import { getAllStories, getUserProgress } from '@/db/queries'
+import { getAllHebrewStories, getUserProgress } from '@/db/queries'
 import StoryList from '@/components/hebrew/hebrew-story-list'
 
 const HebrewStoriesPage = async () => {
-	const [stories, userProgress] = await Promise.all([
-		getAllStories(),
-		getUserProgress(),
-	])
+	const userProgress = await getUserProgress()
 
 	if (!userProgress || !userProgress.activeCourse) {
 		redirect('/courses')
@@ -16,6 +13,9 @@ const HebrewStoriesPage = async () => {
 
 	const isHebrewFriend = !!userProgress?.isHebrewFriend
 	const currentLesson = userProgress.activeLessonId
+	const currentCourse = userProgress.activeCourse.id
+
+	const stories = await getAllHebrewStories(currentCourse)
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">

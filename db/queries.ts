@@ -30,7 +30,7 @@ import {
 	userSubscription,
 	hebrewMusicLibrary,
 	hebrewMusicLine,
-	stories,
+	hebrewStories,
 	englishStories,
 } from '@/db/schema'
 import { tr } from 'date-fns/locale'
@@ -650,15 +650,16 @@ export async function listEvents(filter: EventsFilter = {}) {
 		.orderBy(events.startTime)
 }
 
-export async function getAllStories() {
-	return db.query.stories.findMany({
-		orderBy: asc(stories.order),
+export async function getAllHebrewStories(courseId?: number) {
+	return db.query.hebrewStories.findMany({
+		where: sql`${courseId} = ANY(${hebrewStories.courseId})`,
+		orderBy: asc(hebrewStories.order),
 	})
 }
 
-export async function getStory(storyId: number) {
-	return db.query.stories.findFirst({
-		where: eq(stories.id, storyId),
+export async function getHebrewStory(storyId: number) {
+	return db.query.hebrewStories.findFirst({
+		where: eq(hebrewStories.id, storyId),
 	})
 }
 

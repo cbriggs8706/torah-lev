@@ -54,23 +54,18 @@ const HebrewDictionaryPage = async () => {
 
 	const activeCourseId = userProgress.activeCourseId
 
-	// Only try to look up if it's not null
-	const prefix =
-		typeof activeCourseId === 'number'
-			? coursePrefixes[activeCourseId] ?? ''
-			: ''
+	const hebrewData: HebrewVocab[] = (() => {
+		const baseData: HebrewVocab[] =
+			activeCourseId === 6
+				? (awbHebrewVocab as HebrewVocab[])
+				: activeCourseId === 11
+				? (hsHebrewVocab as HebrewVocab[])
+				: activeCourseId === 14
+				? (abcHebrewVocab as HebrewVocab[])
+				: []
 
-	const match = prefix ? title.match(new RegExp(`${prefix} (\\d{1,3})`)) : null
-	const currentLesson = match ? parseInt(match[1], 10) : undefined
-
-	const hebrewData: HebrewVocab[] =
-		activeCourseId === 6
-			? (awbHebrewVocab as HebrewVocab[])
-			: activeCourseId === 11
-			? (hsHebrewVocab as HebrewVocab[])
-			: activeCourseId === 14
-			? (abcHebrewVocab as HebrewVocab[])
-			: []
+		return baseData.filter((w) => w.type?.toLowerCase() === 'word')
+	})()
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">

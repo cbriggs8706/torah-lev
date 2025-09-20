@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import db from '@/db/drizzle'
 import { isAdmin } from '@/lib/admin'
-import { stories } from '@/db/schema'
+import { hebrewStories } from '@/db/schema'
 import { asc, desc, sql, inArray } from 'drizzle-orm'
 
 export const GET = async (req: Request) => {
@@ -20,39 +20,42 @@ export const GET = async (req: Request) => {
 
 	// Map allowed columns
 	const columnMap = {
-		id: stories.id,
-		lessonId: stories.lessonId,
-		title: stories.title,
-		hebTitle: stories.hebTitle,
-		titleTransliteration: stories.titleTransliteration,
-		order: stories.order,
-		video: stories.video,
-		image: stories.image,
-		public: stories.public,
-		category: stories.category,
-		content: stories.content,
-		contentPlain: stories.contentPlain,
-		audio: stories.audio,
+		id: hebrewStories.id,
+		lessonId: hebrewStories.lessonId,
+		courseId: hebrewStories.courseId,
+		title: hebrewStories.title,
+		hebTitle: hebrewStories.hebTitle,
+		titleTransliteration: hebrewStories.titleTransliteration,
+		order: hebrewStories.order,
+		video: hebrewStories.video,
+		image: hebrewStories.image,
+		public: hebrewStories.public,
+		category: hebrewStories.category,
+		content: hebrewStories.content,
+		contentPlain: hebrewStories.contentPlain,
+		audio: hebrewStories.audio,
 	} as const
 
 	const sortColumn =
-		columnMap[sortField as keyof typeof columnMap] || stories.lessonId
+		columnMap[sortField as keyof typeof columnMap] || hebrewStories.lessonId
 	const sortDirection = sortOrder === 'DESC' ? desc : asc
 
 	// Filtering
 	const filters: any[] = []
 	if (filter.id && Array.isArray(filter.id))
-		filters.push(inArray(stories.id, filter.id))
+		filters.push(inArray(hebrewStories.id, filter.id))
 	if (filter.lessonId)
-		filters.push(sql`${stories.lessonId} = ${filter.lessonId}`)
+		filters.push(sql`${hebrewStories.lessonId} = ${filter.lessonId}`)
 	if (filter.content)
-		filters.push(sql`${stories.content} ILIKE ${'%' + filter.content + '%'}`)
+		filters.push(
+			sql`${hebrewStories.content} ILIKE ${'%' + filter.content + '%'}`
+		)
 
 	const whereClause =
 		filters.length > 0 ? sql.join(filters, sql` AND `) : undefined
 
 	// Query
-	const rows = await db.query.stories.findMany({
+	const rows = await db.query.hebrewStories.findMany({
 		where: whereClause,
 		orderBy: sortDirection(sortColumn),
 		limit: filter.id ? undefined : perPage,
@@ -62,7 +65,7 @@ export const GET = async (req: Request) => {
 	// Count
 	const [{ count }] = await db
 		.select({ count: sql<number>`count(*)` })
-		.from(stories)
+		.from(hebrewStories)
 		.where(whereClause ?? sql`TRUE`)
 
 	return new NextResponse(JSON.stringify(rows), {
@@ -78,7 +81,7 @@ export const POST = async (req: Request) => {
 
 	const body = await req.json()
 
-	const data = await db.insert(stories).values(body).returning()
+	const data = await db.insert(hebrewStories).values(body).returning()
 
 	return NextResponse.json(data[0])
 }

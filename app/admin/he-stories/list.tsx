@@ -18,7 +18,7 @@ const scriptFilters = [
 	<TextInput key="content" label="Search Content" source="content" />,
 ]
 
-export const StoryList = () => (
+export const HebrewStoryList = () => (
 	<List
 		filters={scriptFilters}
 		sort={{ field: 'id', order: 'ASC' }}
@@ -29,6 +29,7 @@ export const StoryList = () => (
 			<TextField source="id" />
 			<TextField source="order" />
 			<TextField source="lessonId" />
+			<TextField source="courseId" />
 			<TextField source="title" />
 			{/* <TruncatedTextField source="content" />
 			<TruncatedTextField source="contentPlain" /> */}

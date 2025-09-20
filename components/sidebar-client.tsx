@@ -205,7 +205,7 @@ export default function SidebarClient({
 						/>
 						<SidebarItem
 							label="Stories"
-							href="/stories"
+							href="/he/stories"
 							iconSrc="/books-svgrepo-com.svg"
 							onClick={onItemClick}
 						/>
