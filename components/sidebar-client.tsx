@@ -192,6 +192,12 @@ export default function SidebarClient({
 				{userProgress?.activeCourse.id === 12 && (
 					<>
 						<SidebarItem
+							label="Flashcards"
+							href="/flashcard"
+							iconSrc="/card-file-box.svg"
+							onClick={onItemClick}
+						/>
+						<SidebarItem
 							label="Lesson Scripts"
 							href="/el/lesson-scripts"
 							iconSrc="/spiral-notepad-svgrepo-com.svg"
