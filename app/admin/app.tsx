@@ -33,6 +33,10 @@ import { HebrewLessonScriptList } from './he-lesson-scripts/list'
 import { HebrewLessonScriptCreate } from './he-lesson-scripts/create'
 import { HebrewLessonScriptEdit } from './he-lesson-scripts/edit'
 
+import { GreekLessonScriptList } from './el-lesson-scripts/list'
+import { GreekLessonScriptCreate } from './el-lesson-scripts/create'
+import { GreekLessonScriptEdit } from './el-lesson-scripts/edit'
+
 import { GrammarLessonList } from './grammar-lessons/list'
 import { GrammarLessonEdit } from './grammar-lessons/edit'
 import { GrammarLessonCreate } from './grammar-lessons/create'
@@ -40,6 +44,7 @@ import { GrammarLessonCreate } from './grammar-lessons/create'
 import { HebrewStoryList } from './he-stories/list'
 import { HebrewStoryEdit } from './he-stories/edit'
 import { HebrewStoryCreate } from './he-stories/create'
+
 import { EnglishLessonScriptList } from './english-lesson-scripts/list'
 import { EnglishLessonScriptCreate } from './english-lesson-scripts/create'
 import { EnglishLessonScriptEdit } from './english-lesson-scripts/edit'
@@ -86,12 +91,20 @@ const App = () => {
 				options={{ label: 'Challenge Options' }}
 			/>
 			<Resource
-				name="hebrew-lesson-scripts"
+				name="he-lesson-scripts"
 				list={HebrewLessonScriptList}
 				create={HebrewLessonScriptCreate}
 				edit={HebrewLessonScriptEdit}
 				recordRepresentation="text"
 				options={{ label: 'Heb Lesson Scripts' }}
+			/>
+			<Resource
+				name="el-lesson-scripts"
+				list={GreekLessonScriptList}
+				create={GreekLessonScriptCreate}
+				edit={GreekLessonScriptEdit}
+				recordRepresentation="text"
+				options={{ label: 'Grk Lesson Scripts' }}
 			/>
 			<Resource
 				name="english-lesson-scripts"

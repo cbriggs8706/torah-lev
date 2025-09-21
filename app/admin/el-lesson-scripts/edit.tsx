@@ -1,7 +1,7 @@
 import { SimpleForm, Edit, TextInput, required } from 'react-admin'
 import TinyMCEInput from '@/components/tinymceinput'
 
-export const HebrewLessonScriptEdit = () => {
+export const GreekLessonScriptEdit = () => {
 	return (
 		<Edit>
 			<SimpleForm>
@@ -11,8 +11,7 @@ export const HebrewLessonScriptEdit = () => {
 					label="Lesson ID"
 				/>
 				<TextInput source="courseId" label="courseId" />
-				<TinyMCEInput source="content" label="content" dir="rtl" />
-				<TinyMCEInput source="contentPlain" label="contentPlain" dir="rtl" />
+				<TinyMCEInput source="content" label="content" />
 				<TextInput source="audioSrc" label="audioSrc" />
 			</SimpleForm>
 		</Edit>

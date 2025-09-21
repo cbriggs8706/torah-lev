@@ -6,6 +6,11 @@ import {
 	Cardo,
 	Noto_Rashi_Hebrew,
 	Suez_One,
+	EB_Garamond,
+	Eczar,
+	Mansalva,
+	Bona_Nova,
+	Alegreya_SC,
 } from 'next/font/google'
 import { ClerkProvider } from '@clerk/nextjs'
 import { Toaster } from '@/components/ui/sonner'
@@ -15,6 +20,7 @@ import { PracticeModal } from '@/components/modals/practice-modal'
 import './globals.css'
 import { Analytics } from '@vercel/analytics/next'
 import { updateLastSeen } from '@/actions/update-last-seen'
+import Script from 'next/script'
 
 const frank = Frank_Ruhl_Libre({
 	subsets: ['hebrew'],
@@ -42,6 +48,26 @@ const suez = Suez_One({
 	variable: '--font-suez',
 	weight: '400',
 })
+const garamond = EB_Garamond({
+	subsets: ['greek'],
+	variable: '--font-garamond',
+	weight: '400',
+})
+const eczar = Eczar({
+	subsets: ['greek'],
+	variable: '--font-eczar',
+	weight: '400',
+})
+const manslava = Mansalva({
+	subsets: ['greek'],
+	variable: '--font-manslava',
+	weight: '400',
+})
+const alegreya = Alegreya_SC({
+	subsets: ['greek'],
+	variable: '--font-alegreya',
+	weight: '400',
+})
 
 export const metadata: Metadata = {
 	title: 'Idiom Go',
@@ -58,6 +84,11 @@ export default async function RootLayout({
 		<ClerkProvider>
 			<html lang="en">
 				<head>
+					<Script
+						src={`https://cdn.tiny.cloud/1/${process.env.NEXT_PUBLIC_TINYMCE_API_KEY}/tinymce/6/tinymce.min.js`}
+						referrerPolicy="origin"
+						strategy="afterInteractive"
+					/>
 					<Analytics />
 					<link rel="icon" href="/favicon.ico" />
 					<link
@@ -85,7 +116,7 @@ export default async function RootLayout({
 					/>
 				</head>
 				<body
-					className={`${font.className} ${frank.variable} ${tinos.variable} ${cardo.variable} ${rashi.variable} ${suez.variable}`}
+					className={`${font.className} ${frank.variable}  ${tinos.variable} ${cardo.variable} ${rashi.variable} ${suez.variable} ${garamond.variable} ${eczar.variable} ${manslava.variable} ${alegreya.variable}`}
 				>
 					<Toaster />
 					<ExitModal />

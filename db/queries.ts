@@ -22,6 +22,7 @@ import {
 	hebrewPrayerLine,
 	lessons,
 	hebrewLessonScripts,
+	greekLessonScripts,
 	englishLessonScripts,
 	grammarLessons,
 	tribes,
@@ -699,4 +700,36 @@ export async function getEnglishStory(storyId: number) {
 	return db.query.englishStories.findFirst({
 		where: eq(englishStories.id, storyId),
 	})
+}
+
+export async function getGreekLessonScript(lessonScriptId: number) {
+	return db.query.greekLessonScripts.findFirst({
+		where: eq(greekLessonScripts.id, lessonScriptId),
+	})
+}
+
+export async function getAllGreekLessonScripts(courseId?: number) {
+	const base = db
+		.select({
+			id: greekLessonScripts.id,
+			courseId: greekLessonScripts.courseId,
+			lessonId: greekLessonScripts.lessonId,
+			part: greekLessonScripts.part,
+			content: greekLessonScripts.content,
+			audioSrc: greekLessonScripts.audioSrc,
+			// 👇 from lessons
+			title: lessons.title,
+		})
+		.from(greekLessonScripts)
+		.innerJoin(lessons, eq(greekLessonScripts.lessonId, lessons.id))
+
+	const q =
+		courseId != null
+			? base.where(sql`${courseId} = ANY(${greekLessonScripts.courseId})`)
+			: base
+
+	return q.orderBy(
+		asc(greekLessonScripts.lessonId),
+		asc(greekLessonScripts.part)
+	)
 }

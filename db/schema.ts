@@ -65,7 +65,7 @@ export const lessonsRelations = relations(lessons, ({ one, many }) => ({
 
 export const hebrewLessonScripts = pgTable('hebrew_lesson_scripts', {
 	id: serial('id').primaryKey(),
-	lessonId: integer('lesson_id').notNull(),
+	lessonId: integer('lesson_id').notNull().default(1),
 	courseId: integer('course_id').array(),
 	part: integer('part'),
 	// lessonId: integer('lesson_id')
@@ -73,6 +73,18 @@ export const hebrewLessonScripts = pgTable('hebrew_lesson_scripts', {
 	// .notNull(),
 	content: text('content'),
 	contentPlain: text('content_plain'),
+	audioSrc: text('audio_src'),
+})
+
+export const greekLessonScripts = pgTable('greek_lesson_scripts', {
+	id: serial('id').primaryKey(),
+	lessonId: integer('lesson_id').notNull(),
+	courseId: integer('course_id').array(),
+	part: integer('part'),
+	// lessonId: integer('lesson_id')
+	// .references(() => lessons.id, { onDelete: 'cascade' })
+	// .notNull(),
+	content: text('content'),
 	audioSrc: text('audio_src'),
 })
 
@@ -357,7 +369,7 @@ export const events = pgTable('events', {
 
 export const hebrewStories = pgTable('hebrew_stories', {
 	id: serial('id').primaryKey(),
-	lessonId: integer('lesson_id').notNull(),
+	lessonId: integer('lesson_id').notNull().default(1),
 	courseId: integer('course_id').array(),
 	// .references(() => lessons.lessonKey),
 	title: text('title').notNull(),
