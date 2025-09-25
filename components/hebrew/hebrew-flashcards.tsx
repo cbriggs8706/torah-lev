@@ -132,7 +132,7 @@ export default function HebrewFlashcards({
 	)
 	const [backTopCenter, setBackTopCenter] = useState<
 		keyof HebrewVocab | 'none'
-	>('none')
+	>('eng')
 	const [backTopRight, setBackTopRight] = useState<
 		keyof HebrewVocab | 'hebAudio'
 	>('hebAudio')
@@ -430,6 +430,7 @@ export default function HebrewFlashcards({
 		'hebAudio',
 		'genderPerson',
 		'engTransliteration',
+		'eng',
 	]
 
 	function fixHebrewPunctuation(text: string): string {

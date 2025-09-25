@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useAudio, useWindowSize } from 'react-use'
 import ReactConfetti from 'react-confetti'
 import Image from 'next/image'
+
 interface EnglishLetterQuizProps {
 	letters: EnglishLetter[]
 	userId: string
@@ -12,19 +13,23 @@ interface EnglishLetterQuizProps {
 
 type Pronunciation = 'american'
 
+/** Allow strings or rich objects for sounds */
+type SoundDef =
+	| string
+	| {
+			audio: string
+			ipa?: string
+			examples?: string[]
+	  }
+
 interface EnglishLetter {
 	char: string
 	nameAudio: string
-	sounds: string[]
+	phonemes: SoundDef[]
 }
 
 type Mode = 'name' | 'sound'
 type FontChoice = 'times' | 'nunito'
-// type FontChoice = 'arial' | 'times' | 'sans' | 'nunito'
-
-function pickRandom<T>(arr: T[]): T {
-	return arr[Math.floor(Math.random() * arr.length)]
-}
 
 function CountdownCircle({ seconds }: { seconds: number }) {
 	const [progress, setProgress] = useState(0)
@@ -102,14 +107,20 @@ export default function EnglishLetterQuiz({
 	const [studyMode, setStudyMode] = useState(false)
 	const [awardedPoints, setAwardedPoints] = useState<number>(0)
 
+	// Keeps which sound index to use for each letter (for cycling)
 	const soundIndexRef = useRef<Record<string, number>>({})
+
+	// The ONE normalized sound selected for the current prompt (so audio + IPA/examples match)
+	const currentSoundInfoRef = useRef<{
+		audio: string
+		ipa?: string
+		examples?: string[]
+	} | null>(null)
 
 	useEffect(() => {
 		if (!gameStarted) return
 		if (letters.length === 0) return
-
 		const shuffled = [...letters].sort(() => Math.random() - 0.5)
-
 		setShuffledLetters(shuffled)
 		setCurrentIndex(0)
 		setFinished(false)
@@ -120,41 +131,69 @@ export default function EnglishLetterQuiz({
 
 	const currentLetter = shuffledLetters[currentIndex]
 
-	function resolveAudio(letter: EnglishLetter, mode: Mode): string {
-		if (mode === 'name') return letter.nameAudio
-		const list = letter.sounds ?? []
-		if (list.length === 0) return letter.nameAudio
+	/** Normalize a SoundDef to a concrete {audio, ipa?, examples?} */
+	function normalizeSoundDef(s: SoundDef): {
+		audio: string
+		ipa?: string
+		examples?: string[]
+	} {
+		if (typeof s === 'string') return { audio: s }
+		return { audio: s.audio, ipa: s.ipa, examples: s.examples }
+	}
 
+	/** Pick (and advance) the sound for the current letter in sound mode; or name in name mode */
+	function resolveSoundInfo(letter: EnglishLetter, mode: Mode) {
+		if (mode === 'name')
+			return { audio: letter.nameAudio } as {
+				audio: string
+				ipa?: string
+				examples?: string[]
+			}
+		const list = letter.phonemes ?? []
+		if (list.length === 0) return { audio: letter.nameAudio }
 		const key = letter.char
 		const idx = (soundIndexRef.current[key] ?? -1) + 1
 		const next = idx % list.length
 		soundIndexRef.current[key] = next
-		return list[next]
+		return normalizeSoundDef(list[next])
 	}
 
-	const getAudioSrc = useCallback(() => {
-		if (!currentLetter) return ''
-		return resolveAudio(currentLetter, selectedMode)
+	/** Prepare one sound info per question so display and audio stay in sync */
+	useEffect(() => {
+		if (!currentLetter) return
+		// set a new sound selection when question changes
+		currentSoundInfoRef.current = resolveSoundInfo(currentLetter, selectedMode)
 	}, [currentLetter, selectedMode])
+
+	const getAudioSrc = useCallback(() => {
+		return currentSoundInfoRef.current?.audio || ''
+	}, [])
 
 	const audioRef = useRef<HTMLAudioElement | null>(null)
 
+	// Preload audio (supports both string and object entries)
 	useEffect(() => {
 		letters.forEach((l) => {
 			new Audio(l.nameAudio)
-			;(l.sounds ?? []).forEach((s) => new Audio(s))
+			;(l.phonemes ?? []).forEach((s) => {
+				const src = typeof s === 'string' ? s : s.audio
+				if (src) new Audio(src)
+			})
 		})
 	}, [letters])
 
+	// Auto-play audio after countdown ends (when waiting === false) unless in study mode
 	useEffect(() => {
 		if (!gameStarted || finished || waiting || !currentLetter) return
-
 		if (studyMode) return
-
-		const audio = new Audio(getAudioSrc())
+		const src = getAudioSrc()
+		if (!src) {
+			setHasPlayedAudio(true)
+			return
+		}
+		const audio = new Audio(src)
 		audioRef.current = audio
 		audio.currentTime = 0
-
 		audio
 			.play()
 			.then(() => setHasPlayedAudio(true))
@@ -162,7 +201,6 @@ export default function EnglishLetterQuiz({
 				console.warn('Audio failed to play. Proceeding anyway.')
 				setHasPlayedAudio(true)
 			})
-
 		return () => {
 			audio.pause()
 			audioRef.current = null
@@ -177,34 +215,26 @@ export default function EnglishLetterQuiz({
 		getAudioSrc,
 	])
 
+	// Per-question countdown
 	useEffect(() => {
 		if (!gameStarted || finished || !currentLetter) return
-
 		setWaiting(true)
 		setHasPlayedAudio(false)
 		setFeedback(null)
 		setDisabledButtons(false)
-
-		const timer = setTimeout(() => {
-			setWaiting(false)
-		}, timeLimit * 1000)
-
+		const timer = setTimeout(() => setWaiting(false), timeLimit * 1000)
 		return () => clearTimeout(timer)
 	}, [currentIndex, gameStarted, timeLimit, finished, currentLetter])
 
 	function handleResponse(correct: boolean) {
-		if (disabledButtons) return // Prevent double-click
-
+		if (disabledButtons) return
 		setDisabledButtons(true)
 		setFeedback(correct)
-
-		if (correct) {
-			setCorrectCount((prev) => prev + 1)
-		} else {
+		if (correct) setCorrectCount((prev) => prev + 1)
+		else {
 			setWrongCount((prev) => prev + 1)
 			setWrongAnswers((prev) => [...prev, currentLetter])
 		}
-
 		setTimeout(() => {
 			const isLast = currentIndex === shuffledLetters.length - 1
 			if (isLast) {
@@ -212,7 +242,7 @@ export default function EnglishLetterQuiz({
 				setFinished(true)
 			} else {
 				setCurrentIndex((i) => i + 1)
-				setDisabledButtons(false) // Re-enable after transition
+				setDisabledButtons(false)
 			}
 		}, 1500)
 	}
@@ -220,29 +250,21 @@ export default function EnglishLetterQuiz({
 	const total = shuffledLetters.length
 	const passed = wrongCount <= 2 && timeLimit <= 3
 	const englishExample = 'ABC'
-
 	const isStartDisabled = letters.length === 0
 
+	// Safety: also restart countdown when selectedMode changes mid-run
 	useEffect(() => {
 		if (!gameStarted || finished || !currentLetter) return
-
-		// Start the timer when a new currentLetter is available
 		setWaiting(true)
 		setHasPlayedAudio(false)
 		setFeedback(null)
-
-		const timer = setTimeout(() => {
-			setWaiting(false)
-		}, timeLimit * 1000)
-
+		const timer = setTimeout(() => setWaiting(false), timeLimit * 1000)
 		return () => clearTimeout(timer)
-	}, [currentLetter?.char, currentLetter, finished, gameStarted, timeLimit])
+	}, [selectedMode]) // eslint-disable-line react-hooks/exhaustive-deps
 
 	function fontClassNameFor(font: FontChoice): string {
 		const classes: Record<FontChoice, string> = {
-			// arial: 'font-arial',
 			times: 'font-times',
-			// sans: 'font-sans',
 			nunito: 'font-nunito',
 		}
 		return classes[font] || ''
@@ -259,7 +281,7 @@ export default function EnglishLetterQuiz({
 					body: JSON.stringify({ userId, points }),
 				})
 				if (!res.ok) throw new Error('Bad response')
-				setAwardedPoints(points) // reflect what was actually awarded
+				setAwardedPoints(points)
 			} catch (err) {
 				console.error('Failed to award points', err)
 			}
@@ -271,11 +293,9 @@ export default function EnglishLetterQuiz({
 		if (finished && !passed) setAwardedPoints(0)
 	}, [finished, passed])
 
-	// Award on pass exactly once per finished run
 	useEffect(() => {
 		if (finished && passed && !hasAwardedRef.current) {
 			hasAwardedRef.current = true
-			// simple default: 5 points, or caller-specified
 			const pts = typeof pointsOnPass === 'number' ? pointsOnPass : 5
 			awardPoints(pts)
 		}
@@ -293,6 +313,10 @@ export default function EnglishLetterQuiz({
 		hasAwardedRef.current = false
 		setAwardedPoints(0)
 	}
+
+	// Helper to read the selected prompt’s IPA/examples without advancing indices
+	const currentIPA = currentSoundInfoRef.current?.ipa
+	const currentExamples = currentSoundInfoRef.current?.examples
 
 	return (
 		<div className="w-full mx-auto p-6 text-center border rounded-xl shadow">
@@ -312,6 +336,7 @@ export default function EnglishLetterQuiz({
 			{!gameStarted ? (
 				<div>
 					<h1 className="text-2xl font-bold mb-6">Start Letter Quiz</h1>
+
 					<div className="mb-6">
 						<p className="font-medium mb-2">Select Mode</p>
 						<div className="flex justify-center gap-2">
@@ -346,21 +371,7 @@ export default function EnglishLetterQuiz({
 										value: 'nunito' as FontChoice,
 										className: 'font-nunito',
 									},
-									// {
-									// 	label: 'Sans',
-									// 	value: 'sans' as FontChoice,
-									// 	className: 'font-sans',
-									// },
-									// {
-									// 	label: 'Arial',
-									// 	value: 'arial' as FontChoice,
-									// 	className: 'font-arial',
-									// },
-								] as {
-									label: string
-									value: FontChoice
-									className: string
-								}[]
+								] as { label: string; value: FontChoice; className: string }[]
 							).map(({ label, value, className }) => (
 								<div key={value} className="flex flex-col items-center gap-1">
 									<button
@@ -388,30 +399,15 @@ export default function EnglishLetterQuiz({
 					<div className="mb-6">
 						<p className="font-medium mb-2">Seconds to Answer</p>
 						<div className="flex gap-4 justify-center">
-							<button
-								onClick={() => setTimeLimit(1)}
-								className="px-4 py-2 border rounded-full bg-gray-200"
-							>
-								1s
-							</button>
-							<button
-								onClick={() => setTimeLimit(3)}
-								className="px-4 py-2 border rounded-full bg-gray-200"
-							>
-								3s
-							</button>
-							<button
-								onClick={() => setTimeLimit(5)}
-								className="px-4 py-2 border rounded-full bg-gray-200"
-							>
-								5s
-							</button>
-							<button
-								onClick={() => setTimeLimit(8)}
-								className="px-4 py-2 border rounded-full bg-gray-200"
-							>
-								8s
-							</button>
+							{[1, 3, 5, 8].map((n) => (
+								<button
+									key={n}
+									onClick={() => setTimeLimit(n)}
+									className="px-4 py-2 border rounded-full bg-gray-200"
+								>
+									{n}s
+								</button>
+							))}
 						</div>
 						<input
 							type="number"
@@ -426,8 +422,8 @@ export default function EnglishLetterQuiz({
 					<button
 						onClick={() => {
 							if (!isStartDisabled) {
-								setGameStarted(true) // <- make sure quiz mode is entered
-								setStudyMode(true) // <- then set study mode active
+								setGameStarted(true)
+								setStudyMode(true)
 							}
 						}}
 						disabled={isStartDisabled}
@@ -442,8 +438,6 @@ export default function EnglishLetterQuiz({
 
 					<button
 						onClick={() => {
-							console.log('Starting game with', letters.length, 'letters')
-
 							if (!isStartDisabled) setGameStarted(true)
 						}}
 						disabled={isStartDisabled}
@@ -470,10 +464,11 @@ export default function EnglishLetterQuiz({
 								>
 									{l.char}
 								</div>
-
 								<button
 									onClick={() => {
-										const audio = new Audio(resolveAudio(l, selectedMode))
+										// In study mode, replay current selection for this letter/mode
+										const info = resolveSoundInfo(l, selectedMode)
+										const audio = new Audio(info.audio)
 										audio.play()
 									}}
 									className="text-xl text-blue-600 hover:text-blue-800"
@@ -496,7 +491,6 @@ export default function EnglishLetterQuiz({
 					<h2 className="text-2xl font-bold">Quiz Complete!</h2>
 					<p className="text-lg">✅ Correct: {correctCount}</p>
 					<p className="text-lg">❌ Incorrect: {wrongCount}</p>
-
 					<p
 						className={`text-xl font-semibold ${
 							passed ? 'text-green-600' : 'text-red-500'
@@ -519,7 +513,6 @@ export default function EnglishLetterQuiz({
 										key={i}
 										className="p-4 border rounded-lg flex flex-col items-center justify-center"
 									>
-										{/* Letter visual: image or font */}
 										<div
 											className={`text-6xl mb-2 ${fontClassNameFor(
 												fontChoice
@@ -527,11 +520,10 @@ export default function EnglishLetterQuiz({
 										>
 											{l.char}
 										</div>
-
-										{/* Audio replay button */}
 										<button
 											onClick={() => {
-												const audio = new Audio(resolveAudio(l, selectedMode))
+												const info = resolveSoundInfo(l, selectedMode)
+												const audio = new Audio(info.audio)
 												audio.play()
 											}}
 											className="text-xl text-blue-600 hover:text-blue-800"
@@ -544,7 +536,6 @@ export default function EnglishLetterQuiz({
 							</div>
 						</div>
 					)}
-
 					<button
 						onClick={() => resetToStart()}
 						className="mt-6 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
@@ -554,12 +545,43 @@ export default function EnglishLetterQuiz({
 				</div>
 			) : (
 				<>
-					<div className="min-h-[180px] mb-4 flex justify-center items-center">
-						<div className={`text-[8rem] ${fontClassNameFor(fontChoice)}`}>
-							{currentLetter?.char ?? ''}
+					{/* PROMPT: Uppercase + lowercase always visible */}
+					<div className="min-h-[220px] mb-4 flex flex-col justify-center items-center">
+						<div className="flex items-end gap-4">
+							<div
+								className={`text-[8rem] leading-none font-semibold ${fontClassNameFor(
+									fontChoice
+								)}`}
+							>
+								{currentLetter?.char?.toUpperCase() ?? ''}
+							</div>
+							<div
+								className={`text-[4rem] leading-none text-gray-700 ${fontClassNameFor(
+									fontChoice
+								)}`}
+							>
+								{currentLetter?.char?.toLowerCase() ?? ''}
+							</div>
 						</div>
+
+						{/* Reveal IPA and examples only after countdown */}
+						{!waiting && (
+							<>
+								{currentIPA && (
+									<div className="text-2xl text-gray-800 mt-2">
+										{currentIPA}
+									</div>
+								)}
+								{currentExamples && currentExamples.length > 0 && (
+									<div className="text-sm text-gray-600 mt-1">
+										{currentExamples.join(', ')}
+									</div>
+								)}
+							</>
+						)}
 					</div>
 
+					{/* Timer or Replay */}
 					{waiting ? (
 						<div className="mb-6 flex justify-center">
 							<CountdownCircle seconds={timeLimit} />
@@ -573,6 +595,8 @@ export default function EnglishLetterQuiz({
 							🔊
 						</button>
 					)}
+
+					{/* Self-assessment */}
 					{!waiting && (
 						<div className="flex justify-center gap-6 mt-4">
 							<button
@@ -595,6 +619,8 @@ export default function EnglishLetterQuiz({
 							</button>
 						</div>
 					)}
+
+					{/* Feedback */}
 					{feedback !== null && (
 						<p
 							className={`mt-4 text-lg font-bold ${
@@ -604,6 +630,8 @@ export default function EnglishLetterQuiz({
 							{feedback ? 'Great job!' : "Don't worry, you got this!"}
 						</p>
 					)}
+
+					{/* Progress */}
 					<div className="mt-6">
 						<p className="text-sm font-medium text-gray-600 mb-1">
 							{currentIndex + 1} / {total}
@@ -615,6 +643,8 @@ export default function EnglishLetterQuiz({
 							></div>
 						</div>
 					</div>
+
+					{/* Restart */}
 					<div className="mt-6">
 						<button
 							onClick={() => {

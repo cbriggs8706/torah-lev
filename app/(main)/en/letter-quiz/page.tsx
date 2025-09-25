@@ -9,7 +9,7 @@ import dynamic from 'next/dynamic'
 import { englishLetters } from '@/lib/english-letters'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 
-const LetterQuiz = dynamic(
+const EnglishLetterQuiz = dynamic(
 	() => import('@/components/english/english-letter-quiz'),
 	{
 		ssr: false,
@@ -63,7 +63,10 @@ const EnglishLetterQuizPage = async () => {
 						The goal is to say the correct answer in under 3 seconds with no
 						more than 2 mistakes per round in order to pass it off in class.
 					</DismissibleAlert>
-					<LetterQuiz letters={englishLetters} userId={userProgress.userId} />
+					<EnglishLetterQuiz
+						letters={englishLetters}
+						userId={userProgress.userId}
+					/>
 				</div>
 			</FeedWrapper>
 		</div>
