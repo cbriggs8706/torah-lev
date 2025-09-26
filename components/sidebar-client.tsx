@@ -229,6 +229,12 @@ export default function SidebarClient({
 							onClick={onItemClick}
 						/>
 						<SidebarItem
+							label="Speed Quiz"
+							href="/he/speed-quiz"
+							iconSrc="/man-juggling-medium-skin-tone-svgrepo-com.svg"
+							onClick={onItemClick}
+						/>
+						<SidebarItem
 							label="Scramble"
 							href="/he/scramble"
 							iconSrc="/cooking-svgrepo-com.svg"
