@@ -1,10 +1,10 @@
 'use client'
 
-import { HebrewVocab } from '@/lib/vocab'
+import { EnglishVocab, HebrewVocab } from '@/lib/vocab'
 import { useMemo } from 'react'
 
 interface CategoryFilterProps {
-	data: HebrewVocab[]
+	data: HebrewVocab[] | EnglishVocab[]
 	selectedCategory: string
 	setSelectedCategory: React.Dispatch<React.SetStateAction<string>>
 }

@@ -12,17 +12,23 @@ import {
 } from '@/db/queries'
 import dynamic from 'next/dynamic'
 
-import awbHebrewVocab from '@/lib/data/vocab/awbVocab.json'
+import efwEnglishVocab from '@/lib/data/vocab/efwVocab.json'
+import ewbEnglishVocab from '@/lib/data/vocab/ewbVocab.json'
+import lrEnglishVocab from '@/lib/data/vocab/lrVocab.json'
+import ec1EnglishVocab from '@/lib/data/vocab/ec1Vocab.json'
+import ec2EnglishVocab from '@/lib/data/vocab/ec2Vocab.json'
+
 import { DismissibleAlert } from '@/components/dismissible-alert'
+import { EnglishVocab } from '@/lib/vocab'
 
 const SpellingPractice = dynamic(
-	() => import('@/components/hebrew/hebrew-spelling'),
+	() => import('@/components/english/english-spelling'),
 	{
 		ssr: false,
 	}
 )
 
-const HebrewSpellingPage = async () => {
+const EnglishSpellingPage = async () => {
 	const userProgressData = getUserProgress()
 	const userChallengeData = await getCourseProgress()
 	const userSubscriptionData = getUserSubscription()
@@ -36,8 +42,21 @@ const HebrewSpellingPage = async () => {
 		redirect('/courses')
 	}
 
-	const isPro = !!userSubscription?.isActive
+	const englishData: EnglishVocab[] =
+		userProgress.activeCourseId === 16
+			? (efwEnglishVocab as EnglishVocab[])
+			: userProgress.activeCourseId === 13
+			? (ewbEnglishVocab as EnglishVocab[])
+			: userProgress.activeCourseId === 17
+			? (lrEnglishVocab as EnglishVocab[])
+			: userProgress.activeCourseId === 3
+			? (ec1EnglishVocab as EnglishVocab[])
+			: userProgress.activeCourseId === 4
+			? (ec2EnglishVocab as EnglishVocab[])
+			: []
+	const filteredData = englishData.filter((entry) => entry.type === 'word')
 
+	const isPro = !!userSubscription?.isActive
 	const currentLesson = userChallengeData?.activeLesson?.lessonNumber
 
 	return (
@@ -70,7 +89,7 @@ const HebrewSpellingPage = async () => {
 					</DismissibleAlert>
 
 					<SpellingPractice
-						data={awbHebrewVocab}
+						data={filteredData}
 						currentLesson={currentLesson ?? ''}
 						userId={userProgress.userId}
 					/>
@@ -80,4 +99,4 @@ const HebrewSpellingPage = async () => {
 	)
 }
 
-export default HebrewSpellingPage
+export default EnglishSpellingPage

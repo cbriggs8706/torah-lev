@@ -1,7 +1,8 @@
 export const englishLetters = [
 	{
 		char: 'a',
-		nameAudio: '/audio/name-a.mp3',
+		nameAudio: '/audio/sound-alef-tsere.mp3',
+		// nameAudio: '/audio/name-a.mp3',
 		phonemes: {
 			simple: [
 				{
@@ -62,7 +63,9 @@ export const englishLetters = [
 	},
 	{
 		char: 'b',
-		nameAudio: '/audio/name-b.mp3',
+		nameAudio: '/audio/sound-alef-tsere.mp3',
+
+		// nameAudio: '/audio/name-b.mp3',
 		phonemes: {
 			simple: [
 				{
@@ -91,7 +94,9 @@ export const englishLetters = [
 	},
 	{
 		char: 'c',
-		nameAudio: '/audio/name-c.mp3',
+		nameAudio: '/audio/sound-alef-tsere.mp3',
+
+		// nameAudio: '/audio/name-c.mp3',
 		phonemes: {
 			simple: [
 				{
@@ -131,7 +136,8 @@ export const englishLetters = [
 	},
 	{
 		char: 'd',
-		nameAudio: '/audio/name-d.mp3',
+		nameAudio: '/audio/sound-alef-tsere.mp3',
+		// nameAudio: '/audio/name-d.mp3',
 		phonemes: {
 			simple: [
 				{
@@ -170,7 +176,8 @@ export const englishLetters = [
 	},
 	{
 		char: 'e',
-		nameAudio: '/audio/name-e.mp3',
+		nameAudio: '/audio/sound-alef-tsere.mp3',
+		// nameAudio: '/audio/name-e.mp3',
 		phonemes: {
 			simple: [
 				{
@@ -229,7 +236,8 @@ export const englishLetters = [
 	},
 	{
 		char: 'f',
-		nameAudio: '/audio/name-f.mp3',
+		nameAudio: '/audio/sound-alef-tsere.mp3',
+		// nameAudio: '/audio/name-f.mp3',
 		phonemes: {
 			simple: [
 				{
@@ -259,7 +267,8 @@ export const englishLetters = [
 	},
 	{
 		char: 'g',
-		nameAudio: '/audio/name-g.mp3',
+		nameAudio: '/audio/sound-alef-tsere.mp3',
+		// nameAudio: '/audio/name-g.mp3',
 		phonemes: {
 			simple: [
 				{
@@ -298,7 +307,8 @@ export const englishLetters = [
 	},
 	{
 		char: 'h',
-		nameAudio: '/audio/name-h.mp3',
+		nameAudio: '/audio/sound-alef-tsere.mp3',
+		// nameAudio: '/audio/name-h.mp3',
 		phonemes: {
 			simple: [
 				{
@@ -327,7 +337,8 @@ export const englishLetters = [
 	},
 	{
 		char: 'i',
-		nameAudio: '/audio/name-i.mp3',
+		nameAudio: '/audio/sound-alef-tsere.mp3',
+		// nameAudio: '/audio/name-i.mp3',
 		phonemes: {
 			simple: [
 				{
@@ -380,7 +391,8 @@ export const englishLetters = [
 	},
 	{
 		char: 'j',
-		nameAudio: '/audio/name-j.mp3',
+		nameAudio: '/audio/sound-alef-tsere.mp3',
+		// nameAudio: '/audio/name-j.mp3',
 		phonemes: {
 			simple: [
 				{
@@ -402,7 +414,8 @@ export const englishLetters = [
 	},
 	{
 		char: 'k',
-		nameAudio: '/audio/name-k.mp3',
+		nameAudio: '/audio/sound-alef-tsere.mp3',
+		// nameAudio: '/audio/name-k.mp3',
 		phonemes: {
 			simple: [
 				{
@@ -431,7 +444,8 @@ export const englishLetters = [
 	},
 	{
 		char: 'l',
-		nameAudio: '/audio/name-l.mp3',
+		nameAudio: '/audio/sound-alef-tsere.mp3',
+		// nameAudio: '/audio/name-l.mp3',
 		phonemes: {
 			simple: [
 				{
@@ -465,7 +479,8 @@ export const englishLetters = [
 	},
 	{
 		char: 'm',
-		nameAudio: '/audio/name-m.mp3',
+		nameAudio: '/audio/sound-alef-tsere.mp3',
+		// nameAudio: '/audio/name-m.mp3',
 		phonemes: {
 			simple: [
 				{
@@ -503,7 +518,8 @@ export const englishLetters = [
 	},
 	{
 		char: 'n',
-		nameAudio: '/audio/name-n.mp3',
+		nameAudio: '/audio/sound-alef-tsere.mp3',
+		// nameAudio: '/audio/name-n.mp3',
 		phonemes: {
 			simple: [
 				{
@@ -537,7 +553,8 @@ export const englishLetters = [
 	},
 	{
 		char: 'o',
-		nameAudio: '/audio/name-o.mp3',
+		nameAudio: '/audio/sound-alef-tsere.mp3',
+		// nameAudio: '/audio/name-o.mp3',
 		phonemes: {
 			simple: [
 				{
@@ -597,7 +614,8 @@ export const englishLetters = [
 	},
 	{
 		char: 'p',
-		nameAudio: '/audio/name-p.mp3',
+		nameAudio: '/audio/sound-alef-tsere.mp3',
+		// nameAudio: '/audio/name-p.mp3',
 		phonemes: {
 			simple: [
 				{
@@ -626,7 +644,8 @@ export const englishLetters = [
 	},
 	{
 		char: 'q',
-		nameAudio: '/audio/name-q.mp3',
+		nameAudio: '/audio/sound-alef-tsere.mp3',
+		// nameAudio: '/audio/name-q.mp3',
 		phonemes: {
 			simple: [
 				{
@@ -654,7 +673,8 @@ export const englishLetters = [
 	},
 	{
 		char: 'r',
-		nameAudio: '/audio/name-r.mp3',
+		nameAudio: '/audio/sound-alef-tsere.mp3',
+		// nameAudio: '/audio/name-r.mp3',
 		phonemes: {
 			simple: [
 				{
@@ -681,7 +701,8 @@ export const englishLetters = [
 	},
 	{
 		char: 's',
-		nameAudio: '/audio/name-s.mp3',
+		nameAudio: '/audio/sound-alef-tsere.mp3',
+		// nameAudio: '/audio/name-s.mp3',
 		phonemes: {
 			simple: [
 				{
@@ -727,7 +748,8 @@ export const englishLetters = [
 	},
 	{
 		char: 't',
-		nameAudio: '/audio/name-t.mp3',
+		nameAudio: '/audio/sound-alef-tsere.mp3',
+		// nameAudio: '/audio/name-t.mp3',
 		phonemes: {
 			simple: [
 				{
@@ -772,7 +794,8 @@ export const englishLetters = [
 	},
 	{
 		char: 'u',
-		nameAudio: '/audio/name-u.mp3',
+		nameAudio: '/audio/sound-alef-tsere.mp3',
+		// nameAudio: '/audio/name-u.mp3',
 		phonemes: {
 			simple: [
 				{
@@ -831,7 +854,8 @@ export const englishLetters = [
 	},
 	{
 		char: 'v',
-		nameAudio: '/audio/name-v.mp3',
+		nameAudio: '/audio/sound-alef-tsere.mp3',
+		// nameAudio: '/audio/name-v.mp3',
 		phonemes: {
 			simple: [
 				{
@@ -855,7 +879,8 @@ export const englishLetters = [
 	},
 	{
 		char: 'w',
-		nameAudio: '/audio/name-w.mp3',
+		nameAudio: '/audio/sound-alef-tsere.mp3',
+		// nameAudio: '/audio/name-w.mp3',
 		phonemes: {
 			simple: [
 				{
@@ -882,7 +907,8 @@ export const englishLetters = [
 	},
 	{
 		char: 'x',
-		nameAudio: '/audio/name-x.mp3',
+		nameAudio: '/audio/sound-alef-tsere.mp3',
+		// nameAudio: '/audio/name-x.mp3',
 		phonemes: {
 			simple: [
 				{
@@ -929,7 +955,8 @@ export const englishLetters = [
 	},
 	{
 		char: 'y',
-		nameAudio: '/audio/name-y.mp3',
+		nameAudio: '/audio/sound-alef-tsere.mp3',
+		// nameAudio: '/audio/name-y.mp3',
 		phonemes: {
 			simple: [
 				{
@@ -975,7 +1002,8 @@ export const englishLetters = [
 	},
 	{
 		char: 'z',
-		nameAudio: '/audio/name-z.mp3',
+		nameAudio: '/audio/sound-alef-tsere.mp3',
+		// nameAudio: '/audio/name-z.mp3',
 		phonemes: {
 			simple: [
 				{
