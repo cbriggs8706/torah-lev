@@ -9,13 +9,11 @@ import { useAudio, useWindowSize } from 'react-use'
 type FontChoice =
 	| 'arial'
 	| 'times'
-	| 'sans'
-	| 'frank'
+	| 'alegreya'
+	| 'manslava'
 	| 'tinos'
-	| 'nunito'
-	| 'cardo'
-	| 'rashi'
-	| 'suez'
+	| 'eczar'
+	| 'garamond'
 
 interface GreekGreekVocabProps {
 	data: GreekVocab[]
@@ -59,13 +57,11 @@ const FIELD_LABELS: Partial<Record<keyof GreekVocab, string>> = {
 const FONT_CLASS_MAP: Record<FontChoice, string> = {
 	arial: 'font-arial',
 	times: 'font-serif',
-	frank: 'font-frank',
-	sans: 'font-sans',
+	alegreya: 'font-alegreya',
 	tinos: 'font-tinos',
-	nunito: 'font-nunito',
-	cardo: 'font-cardo',
-	rashi: 'font-rashi',
-	suez: 'font-suez',
+	manslava: 'font-manslava',
+	eczar: 'font-eczar',
+	garamond: 'font-garamond',
 }
 
 export default function GreekGreekVocab({
@@ -372,9 +368,9 @@ export default function GreekGreekVocab({
 	}[] = [
 		{ value: 'times', label: 'Times', className: 'font-serif' },
 		{
-			value: 'frank',
-			label: 'Frank',
-			className: 'font-frank',
+			value: 'alegreya',
+			label: 'Alegreya',
+			className: 'font-alegreya',
 		},
 		{
 			value: 'tinos',
@@ -382,32 +378,21 @@ export default function GreekGreekVocab({
 			className: 'font-tinos',
 		},
 		{
-			value: 'cardo',
-			label: 'Cardo',
-			className: 'font-cardo',
+			value: 'manslava',
+			label: 'Manslava',
+			className: 'font-manslava',
 		},
 		{
-			value: 'rashi',
-			label: 'Rashi',
-			className: 'font-rashi',
+			value: 'eczar',
+			label: 'Eczar',
+			className: 'font-eczar',
 		},
 		{
-			value: 'suez',
-			label: 'Suez',
-			className: 'font-suez',
+			value: 'garamond',
+			label: 'Garamond',
+			className: 'font-garamond',
 		},
 		{ value: 'arial', label: 'Arial', className: 'font-arial' },
-		{
-			value: 'sans',
-			label: 'Sans',
-			className: 'font-sans',
-		},
-
-		{
-			value: 'nunito',
-			label: 'Nunito',
-			className: 'font-nunito',
-		},
 	]
 
 	//AUTO PLAY OF ALL CARDS

@@ -63,14 +63,28 @@ export const lessonsRelations = relations(lessons, ({ one, many }) => ({
 	// englishLessonScripts: many(englishLessonScripts),
 }))
 
-export const lessonScripts = pgTable('lesson_scripts', {
+export const hebrewLessonScripts = pgTable('hebrew_lesson_scripts', {
 	id: serial('id').primaryKey(),
-	lessonId: text('lesson_id'),
+	lessonId: integer('lesson_id').notNull().default(1),
+	courseId: integer('course_id').array(),
+	part: integer('part'),
 	// lessonId: integer('lesson_id')
 	// .references(() => lessons.id, { onDelete: 'cascade' })
 	// .notNull(),
 	content: text('content'),
 	contentPlain: text('content_plain'),
+	audioSrc: text('audio_src'),
+})
+
+export const greekLessonScripts = pgTable('greek_lesson_scripts', {
+	id: serial('id').primaryKey(),
+	lessonId: integer('lesson_id').notNull(),
+	courseId: integer('course_id').array(),
+	part: integer('part'),
+	// lessonId: integer('lesson_id')
+	// .references(() => lessons.id, { onDelete: 'cascade' })
+	// .notNull(),
+	content: text('content'),
 	audioSrc: text('audio_src'),
 })
 
@@ -353,9 +367,10 @@ export const events = pgTable('events', {
 	notes: text('notes'),
 })
 
-export const stories = pgTable('stories', {
+export const hebrewStories = pgTable('hebrew_stories', {
 	id: serial('id').primaryKey(),
-	lessonId: text('lesson_id'),
+	lessonId: integer('lesson_id').notNull().default(1),
+	courseId: integer('course_id').array(),
 	// .references(() => lessons.lessonKey),
 	title: text('title').notNull(),
 	hebTitle: text('heb_title'),

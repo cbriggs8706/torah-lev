@@ -1,5 +1,5 @@
 import { SimpleForm, Edit, TextInput, required } from 'react-admin'
-import { RichTextInput } from 'ra-input-rich-text'
+import TinyMCEInput from '@/components/tinymceinput'
 
 export const GrammarLessonEdit = () => {
 	return (
@@ -10,9 +10,9 @@ export const GrammarLessonEdit = () => {
 					validate={[required()]}
 					label="Lesson ID"
 				/>
-				<RichTextInput source="content" label="content" />
+				<TinyMCEInput source="content" label="content" />
 
-				<RichTextInput source="contentPlain" label="contentPlain" />
+				<TinyMCEInput source="contentPlain" label="contentPlain" />
 
 				<TextInput source="audioSrc" label="audioSrc" />
 			</SimpleForm>

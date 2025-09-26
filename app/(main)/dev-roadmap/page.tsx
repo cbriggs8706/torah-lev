@@ -4,28 +4,8 @@ import { redirect } from 'next/navigation'
 import { FeedWrapper } from '@/components/feed-wrapper'
 import { UserProgress } from '@/components/user-progress'
 import { StickyWrapper } from '@/components/sticky-wrapper'
-import {
-	getLessonScripts,
-	getUserProgress,
-	getUserSubscription,
-} from '@/db/queries'
 
-const HebrewLessonScriptsPage = async () => {
-	const lessons = await getLessonScripts()
-	const userProgressData = getUserProgress()
-	const userSubscriptionData = getUserSubscription()
-
-	const [userProgress, userSubscription] = await Promise.all([
-		userProgressData,
-		userSubscriptionData,
-	])
-
-	if (!userProgress || !userProgress.activeCourse) {
-		redirect('/courses')
-	}
-
-	const isPro = !!userSubscription?.isActive
-
+const DevRoadmapPage = async () => {
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
 			{/* <StickyWrapper>
@@ -105,4 +85,4 @@ const HebrewLessonScriptsPage = async () => {
 	)
 }
 
-export default HebrewLessonScriptsPage
+export default DevRoadmapPage

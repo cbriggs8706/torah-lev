@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useMemo } from 'react'
 import { HebrewMusicLine } from '@/db/types'
 import { Button } from '../ui/button'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 
 const hebrewFonts = [
 	{ label: 'Arial', value: 'font-arial' },
@@ -20,6 +21,7 @@ const hebrewFonts = [
 interface MusicLinesTableProps {
 	lines: HebrewMusicLine[]
 	audio?: string | null
+	image?: string | null
 	video?: string | null
 }
 
@@ -35,6 +37,7 @@ type AugLine = HebrewMusicLine & {
 
 export default function MusicLinesTable({
 	lines,
+	image,
 	audio,
 	video,
 }: MusicLinesTableProps) {
@@ -107,6 +110,21 @@ export default function MusicLinesTable({
 
 	return (
 		<div>
+			{/* TODO why isn't this displaying */}
+			{image && (
+				<div className="w-full flex justify-center mb-4">
+					<Image
+						src={image}
+						alt="Song thumbnail"
+						width={520} // tweak to taste (e.g., 420–560)
+						height={0} // keeps aspect ratio with h-auto
+						className="h-auto w-auto max-w-full rounded-md border shadow"
+						sizes="(max-width: 640px) 90vw, (max-width: 1024px) 70vw, 520px"
+						// placeholder={imageBlurDataURL ? 'blur' : 'empty'}
+						// blurDataURL={imageBlurDataURL || undefined}
+					/>
+				</div>
+			)}
 			{/* Toggle Buttons */}
 			<div className="flex flex-wrap gap-4 mb-4 justify-center">
 				<Button onClick={() => setMediaType('video')} disabled={!video}>
@@ -118,13 +136,14 @@ export default function MusicLinesTable({
 				<Button
 					variant={'default'}
 					onClick={() => {
-						router.push('/music')
+						router.push('/he/music')
 						router.refresh() // revalidate the next route after the push
 					}}
 				>
 					Back to Song List
 				</Button>
 			</div>
+
 			{/* YouTube (convert youtu.be to embed format) */}
 			<div className="flex flex-col gap-4 mb-8">
 				{mediaType === 'video' && video && (

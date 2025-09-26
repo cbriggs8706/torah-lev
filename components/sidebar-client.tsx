@@ -73,6 +73,7 @@ export default function SidebarClient({
 					iconSrc="/youtube.svg"
 					onClick={onItemClick}
 				/>
+
 				{[6, 11, 14].includes(userProgress?.activeCourse.id) && (
 					<>
 						<SidebarItem
@@ -83,14 +84,56 @@ export default function SidebarClient({
 						/>
 						<SidebarItem
 							label="Dictionary"
-							href="/dictionary"
+							href="/he/dictionary"
 							iconSrc="/open-book-svgrepo-com.svg"
 							onClick={onItemClick}
 						/>
 						<SidebarItem
 							label="Matchup"
-							href="/matchup"
+							href="/he/matchup"
 							iconSrc="/socks-svgrepo-com.svg"
+							onClick={onItemClick}
+						/>
+						<SidebarItem
+							label="Letter Quiz"
+							href="/he/letter-quiz"
+							iconSrc="/a-button-blood-type-svgrepo-com.svg"
+							onClick={onItemClick}
+						/>
+						<SidebarItem
+							label="Lesson Scripts"
+							href="/he/lesson-scripts"
+							iconSrc="/spiral-notepad-svgrepo-com.svg"
+							onClick={onItemClick}
+						/>
+
+						<SidebarItem
+							label="Music"
+							href="/he/music"
+							iconSrc="/musical-note-svgrepo-com.svg"
+							onClick={onItemClick}
+						/>
+						<SidebarItem
+							label="Leaderboard"
+							href="/leaderboard"
+							iconSrc="/trophy-svgrepo-com.svg"
+							onClick={onItemClick}
+						/>
+						<SidebarItem
+							label="My Dashboard"
+							href="/dashboard"
+							iconSrc="/mascot.svg"
+							onClick={onItemClick}
+						/>
+					</>
+				)}
+
+				{[6, 11].includes(userProgress?.activeCourse.id) && (
+					<>
+						<SidebarItem
+							label="Stories"
+							href="/he/stories"
+							iconSrc="/books-svgrepo-com.svg"
 							onClick={onItemClick}
 						/>
 					</>
@@ -145,6 +188,24 @@ export default function SidebarClient({
 						/>
 					</>
 				)}
+				{/* Greek */}
+				{userProgress?.activeCourse.id === 12 && (
+					<>
+						<SidebarItem
+							label="Flashcards"
+							href="/flashcard"
+							iconSrc="/card-file-box.svg"
+							onClick={onItemClick}
+						/>
+						<SidebarItem
+							label="Lesson Scripts"
+							href="/el/lesson-scripts"
+							iconSrc="/spiral-notepad-svgrepo-com.svg"
+							onClick={onItemClick}
+						/>
+					</>
+				)}
+
 				{/* Hebrew */}
 				{userProgress?.activeCourse.id === 6 && (
 					<>
@@ -155,80 +216,31 @@ export default function SidebarClient({
 							onClick={onItemClick}
 						/> */}
 
-						<SidebarItem
-							label="Lesson Scripts"
-							href="/lesson-scripts"
-							iconSrc="/spiral-notepad-svgrepo-com.svg"
-							onClick={onItemClick}
-						/>
-						<SidebarItem
+						{/* <SidebarItem
 							label="Grammar Lessons"
-							href="/grammar-lessons"
+							href="/he/grammar-lessons"
 							iconSrc="/bookmark-tabs-svgrepo-com (1).svg"
 							onClick={onItemClick}
-						/>
+						/> */}
 						<SidebarItem
 							label="Spelling"
-							href="/spelling"
+							href="/he/spelling"
 							iconSrc="/input-latin-letters-svgrepo-com.svg"
 							onClick={onItemClick}
 						/>
 						<SidebarItem
-							label="Letter Quiz"
-							href="/letter-quiz"
-							iconSrc="/a-button-blood-type-svgrepo-com.svg"
-							onClick={onItemClick}
-						/>
-						{/* <SidebarItem
-							label="Matchup"
-							href="/matchup"
-							iconSrc="/socks-svgrepo-com.svg"
-							onClick={onItemClick}
-						/> */}
-						<SidebarItem
 							label="Scramble"
-							href="/scramble"
+							href="/he/scramble"
 							iconSrc="/cooking-svgrepo-com.svg"
 							onClick={onItemClick}
 						/>
 						<SidebarItem
 							label="Sentences"
-							href="/sentence-builder"
+							href="/he/sentence-builder"
 							iconSrc="/building-construction-svgrepo-com.svg"
 							onClick={onItemClick}
 						/>
-						<SidebarItem
-							label="Music"
-							href="/music"
-							iconSrc="/musical-note-svgrepo-com.svg"
-							onClick={onItemClick}
-						/>
-						<SidebarItem
-							label="Stories"
-							href="/stories"
-							iconSrc="/books-svgrepo-com.svg"
-							onClick={onItemClick}
-						/>
-						<SidebarItem
-							label="Dev Roadmap"
-							href="/dev-roadmap"
-							iconSrc="/world-map-svgrepo-com.svg"
-							onClick={onItemClick}
-						/>
-
-						<SidebarItem
-							label="Leaderboard"
-							href="/leaderboard"
-							iconSrc="/trophy-svgrepo-com.svg"
-							onClick={onItemClick}
-						/>
-						<SidebarItem
-							label="My Dashboard"
-							href="/dashboard"
-							iconSrc="/mascot.svg"
-							onClick={onItemClick}
-						/>
-						<span className="text-lg text-red-700 font-semibold text-center">
+						{/* <span className="text-lg text-red-700 font-semibold text-center">
 							-- Coming Soon --
 						</span>
 						<SidebarItem
@@ -279,7 +291,8 @@ export default function SidebarClient({
 							href="#"
 							iconSrc="/menorah-svgrepo-com.svg"
 							// onClick={onItemClick}
-						/>
+						/> */}
+
 						{userProgress?.activeCourse.id === 6 && isHebrewFriend && (
 							<>
 								<span className="text-lg text-red-700 font-semibold text-center">
@@ -302,6 +315,12 @@ export default function SidebarClient({
 						)}
 					</>
 				)}
+				<SidebarItem
+					label="Dev Roadmap"
+					href="/dev-roadmap"
+					iconSrc="/world-map-svgrepo-com.svg"
+					onClick={onItemClick}
+				/>
 			</div>
 			<div className="p-4">
 				<ClerkLoading>

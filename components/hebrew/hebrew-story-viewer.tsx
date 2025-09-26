@@ -5,6 +5,7 @@ import { Button } from '../ui/button'
 import { useRouter } from 'next/navigation'
 import AudioPlayer from '@/components/media/audio-player'
 import { isSpotifyUrl } from '@/components/media/audio-utils'
+import Image from 'next/image'
 
 const hebrewFonts = [
 	{ label: 'Arial', value: 'font-arial' },
@@ -28,7 +29,8 @@ type HebrewStory = {
 	content: string | null
 	contentPlain: string | null
 	audio: string | null
-	lessonId: string | null
+	lessonId: number | null
+	courseId: number[] | null
 	category: string
 	public: boolean
 }
@@ -79,6 +81,17 @@ export default function HebrewStoryViewer(story: Story) {
 	return (
 		<div className="w-full space-y-4">
 			<h2 className="text-4xl font-bold text-center">{story.story.title}</h2>
+			{story.story.image && (
+				<div className="flex justify-center">
+					<Image
+						src={story.story.image}
+						alt={`${story.story.title} thumbnail`}
+						width={300} // scale down: adjust as needed
+						height={0} // height auto (ignored when fill not used)
+						className="h-auto w-auto max-w-full rounded-md border shadow"
+					/>
+				</div>
+			)}
 
 			{/* Toggle Buttons */}
 			<div className="flex flex-wrap gap-4 mb-4 justify-center">
@@ -97,7 +110,7 @@ export default function HebrewStoryViewer(story: Story) {
 				<Button
 					variant={'default'}
 					onClick={() => {
-						router.push('/stories')
+						router.push('/he/stories')
 						router.refresh() // revalidate the next route after the push
 					}}
 				>

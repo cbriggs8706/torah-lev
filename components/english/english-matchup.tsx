@@ -412,7 +412,7 @@ export default function EnglishWordMatchGame({
 									>
 										{matched ? (
 											<div
-												className="font-serif text-green-700"
+												className="font-nunito text-green-700"
 												style={{ fontSize: Math.round(targetSize * 0.28) }}
 											>
 												{card.eng}
@@ -463,7 +463,7 @@ function DraggableWord({
 			style={style}
 			{...listeners}
 			{...attributes}
-			className="px-4 py-2 bg-green-200 rounded shadow text-xl font-serif cursor-grab touch-none select-none"
+			className="px-4 py-2 bg-green-200 rounded shadow text-xl font-nunito cursor-grab touch-none select-none"
 		>
 			{label}
 		</button>
@@ -540,8 +540,8 @@ function MatchContent({
 	// TEXT fallback
 	return (
 		<div
-			className="font-nunito"
-			style={{ fontSize: Math.max(14, Math.round(size * 0.22)) }}
+			className="font-nunito text-xl"
+			// style={{ fontSize: Math.max(14, Math.round(size * 0.22)) }}
 		>
 			{String(value)}
 		</div>

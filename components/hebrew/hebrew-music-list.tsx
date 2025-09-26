@@ -19,6 +19,7 @@ type Song = {
 	titleTransliteration?: string | null
 	category?: string | null
 	audio?: string | null
+	image?: string | null
 	video?: string | null
 	public: boolean
 }
@@ -113,28 +114,68 @@ export default function SongList({
 						{items.map((music) => (
 							<div
 								key={music.id}
-								className="rounded-lg border p-4 shadow hover:shadow-md transition"
+								className="rounded-lg border p-4 shadow hover:shadow-md transition bg-white"
 							>
-								<h3 className="text-xl font-semibold">{music.title}</h3>
+								{/* Small centered thumbnail that preserves the whole image */}
+								{music.image && (
+									<div className="w-full flex justify-center mb-3">
+										<Image
+											src={music.image}
+											alt={`${music.title} thumbnail`}
+											width={520} // 👈 scale this up/down to taste (e.g., 420/480)
+											height={0} // height auto (ignored; keeps aspect ratio)
+											className="h-auto w-auto max-w-full rounded-md border"
+											sizes="(max-width: 640px) 90vw, (max-width: 1024px) 40vw, 320px"
+											// placeholder={music.blurDataURL ? 'blur' : 'empty'}
+											// blurDataURL={music.blurDataURL || undefined}
+										/>
+									</div>
+								)}
+
+								<h3 className="text-4xl font-times">{music.hebTitle}</h3>
 
 								{music.hebTitle && (
-									<p className="text-lg font-hebrew">{music.hebTitle}</p>
+									<p className="text-base font-nunito mt-1">{music.title}</p>
 								)}
 
 								{music.titleTransliteration && (
-									<p className="italic text-gray-600">
+									<p className="italic mt-0.5 text-gray-600">
 										{music.titleTransliteration}
 									</p>
 								)}
 
 								<Link
-									href={`/music/${music.id}`}
+									href={`/he/music/${music.id}`}
 									className="inline-block mt-3 px-3 py-1 bg-sky-500 text-white rounded hover:bg-sky-700 transition"
 									scroll
 								>
 									View Song
 								</Link>
 							</div>
+							// <div
+							// 	key={music.id}
+							// 	className="rounded-lg border p-4 shadow hover:shadow-md transition"
+							// >
+							// 	<h3 className="text-xl font-semibold">{music.title}</h3>
+
+							// 	{music.hebTitle && (
+							// 		<p className="text-lg font-hebrew">{music.hebTitle}</p>
+							// 	)}
+
+							// 	{music.titleTransliteration && (
+							// 		<p className="italic text-gray-600">
+							// 			{music.titleTransliteration}
+							// 		</p>
+							// 	)}
+
+							// 	<Link
+							// 		href={`/he/music/${music.id}`}
+							// 		className="inline-block mt-3 px-3 py-1 bg-sky-500 text-white rounded hover:bg-sky-700 transition"
+							// 		scroll
+							// 	>
+							// 		View Song
+							// 	</Link>
+							// </div>
 						))}
 					</div>
 				</div>

@@ -12061,7 +12061,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[bæɡ]",
-		"images": [],
+		"images": ["/efw5/bag.webp"],
 		"engAudio": ""
 	},
 	{
@@ -12080,7 +12080,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈbɔɪlər]",
-		"images": [],
+		"images": ["/efw5/boiler.webp"],
 		"engAudio": ""
 	},
 	{
@@ -12099,7 +12099,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[bɑks]",
-		"images": [],
+		"images": ["/efw5/box.webp"],
 		"engAudio": ""
 	},
 	{
@@ -12118,7 +12118,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun phrase"],
 		"ipa": "[ˈbreɪk rum]",
-		"images": [],
+		"images": ["/efw5/break room.webp"],
 		"engAudio": ""
 	},
 	{
@@ -12137,7 +12137,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈbʌkɪt]",
-		"images": [],
+		"images": ["/efw5/bucket.webp"],
 		"engAudio": ""
 	},
 	{
@@ -12156,7 +12156,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[kɑrt]",
-		"images": [],
+		"images": ["/efw5/cart.webp"],
 		"engAudio": ""
 	},
 	{
@@ -12175,7 +12175,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun phrase"],
 		"ipa": "[kənˈveɪər bɛlt]",
-		"images": [],
+		"images": ["/efw5/conveyor belt.webp"],
 		"engAudio": ""
 	},
 	{
@@ -12194,7 +12194,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[kreɪt]",
-		"images": [],
+		"images": ["/efw5/crate.webp"],
 		"engAudio": ""
 	},
 	{
@@ -12213,7 +12213,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[drɪl]",
-		"images": [],
+		"images": ["/efw5/drill.webp"],
 		"engAudio": ""
 	},
 	{
@@ -12232,7 +12232,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈɛntrəns]",
-		"images": [],
+		"images": ["/efw5/entrance.webp"],
 		"engAudio": ""
 	},
 	{
@@ -12251,7 +12251,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈfɔrklɪft]",
-		"images": [],
+		"images": ["/efw5/forklift.webp"],
 		"engAudio": ""
 	},
 	{
@@ -12270,7 +12270,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈʤɛnəˌreɪtər]",
-		"images": [],
+		"images": ["/efw5/generator.webp"],
 		"engAudio": ""
 	},
 	{
@@ -12289,7 +12289,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈhæmər]",
-		"images": [],
+		"images": ["/efw5/hammer.webp"],
 		"engAudio": ""
 	},
 	{
@@ -12308,7 +12308,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[hoʊz]",
-		"images": [],
+		"images": ["/efw5/hose.webp"],
 		"engAudio": ""
 	},
 	{
@@ -12327,7 +12327,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈleɪbəl]",
-		"images": [],
+		"images": ["/efw5/label.webp"],
 		"engAudio": ""
 	},
 	{
@@ -12346,7 +12346,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈlædər]",
-		"images": [],
+		"images": ["/efw5/ladder.webp"],
 		"engAudio": ""
 	},
 	{
@@ -12365,7 +12365,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun phrase"],
 		"ipa": "[ˈloʊdɪŋ dɑk]",
-		"images": [],
+		"images": ["/efw5/loading dock.webp"],
 		"engAudio": ""
 	},
 	{
@@ -12384,7 +12384,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈlɑkər]",
-		"images": [],
+		"images": ["/efw5/locker.webp"],
 		"engAudio": ""
 	},
 	{
@@ -12403,7 +12403,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[məˈʃin]",
-		"images": [],
+		"images": ["/efw5/machine.webp"],
 		"engAudio": ""
 	},
 	{
@@ -12422,7 +12422,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈmɪksər]",
-		"images": [],
+		"images": ["/efw5/mixer.webp"],
 		"engAudio": ""
 	},
 	{
@@ -12441,7 +12441,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈmoʊtər]",
-		"images": [],
+		"images": ["/efw5/motor.webp"],
 		"engAudio": ""
 	},
 	{
@@ -12460,7 +12460,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈɔfəs]",
-		"images": [],
+		"images": ["/efw5/office.webp"],
 		"engAudio": ""
 	},
 	{
@@ -12479,7 +12479,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈpækɪdʒ]",
-		"images": [],
+		"images": ["/efw5/package.webp"],
 		"engAudio": ""
 	},
 	{
@@ -12498,7 +12498,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈpælət]",
-		"images": [],
+		"images": ["/efw5/pallet.webp"],
 		"engAudio": ""
 	},
 	{
@@ -12517,7 +12517,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun phrase"],
 		"ipa": "[ˈpælət ʤæk]",
-		"images": [],
+		"images": ["/efw5/pallet jack.webp"],
 		"engAudio": ""
 	},
 	{
@@ -12536,7 +12536,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun phrase"],
 		"ipa": "[ˈpɑrkɪŋ lɑt]",
-		"images": [],
+		"images": ["/efw5/parking lot.webp"],
 		"engAudio": ""
 	},
 	{
@@ -12555,7 +12555,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[paɪp]",
-		"images": [],
+		"images": ["/efw5/pipe.webp"],
 		"engAudio": ""
 	},
 	{
@@ -12574,7 +12574,7 @@
 		"number": "p",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈplaɪərz]",
-		"images": [],
+		"images": ["/efw5/pliers.webp"],
 		"engAudio": ""
 	},
 	{
@@ -12593,7 +12593,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun phrase"],
 		"ipa": "[prəˈdʌkʃən laɪn]",
-		"images": [],
+		"images": ["/efw5/production line.webp"],
 		"engAudio": ""
 	},
 	{
@@ -12612,7 +12612,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[pʌmp]",
-		"images": [],
+		"images": ["/efw5/pump.webp"],
 		"engAudio": ""
 	},
 	{
@@ -12631,7 +12631,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈrɛstruːm]",
-		"images": [],
+		"images": ["/efw5/restroom.webp"],
 		"engAudio": ""
 	},
 	{
@@ -12650,7 +12650,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[sɔ]",
-		"images": [],
+		"images": ["/efw5/saw.webp"],
 		"engAudio": ""
 	},
 	{
@@ -12669,7 +12669,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[skeɪl]",
-		"images": [],
+		"images": ["/efw5/scale.webp"],
 		"engAudio": ""
 	},
 	{
@@ -12688,7 +12688,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈskruːˌdraɪvər]",
-		"images": [],
+		"images": ["/efw5/screwdriver.webp"],
 		"engAudio": ""
 	},
 	{
@@ -12707,7 +12707,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈstɔrɪʤ]",
-		"images": [],
+		"images": ["/efw5/storage.webp"],
 		"engAudio": ""
 	},
 	{
@@ -12726,7 +12726,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[tæŋk]",
-		"images": [],
+		"images": ["/efw5/tank.webp"],
 		"engAudio": ""
 	},
 	{
@@ -12745,7 +12745,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun phrase"],
 		"ipa": "[ˈteɪp ˌmɛʒər]",
-		"images": [],
+		"images": ["/efw5/tape measure.webp"],
 		"engAudio": ""
 	},
 	{
@@ -12764,7 +12764,7 @@
 		"number": "—",
 		"partOfSpeech": ["verb"],
 		"ipa": "[tu əˈsɛmbəl]",
-		"images": [],
+		"images": ["/efw5/to assemble.webp"],
 		"engAudio": ""
 	},
 	{
@@ -12783,7 +12783,7 @@
 		"number": "—",
 		"partOfSpeech": ["verb"],
 		"ipa": "[tu ˈkæri]",
-		"images": [],
+		"images": ["/efw5/to carry.webp"],
 		"engAudio": ""
 	},
 	{
@@ -12802,7 +12802,7 @@
 		"number": "—",
 		"partOfSpeech": ["verb"],
 		"ipa": "[tu klin]",
-		"images": [],
+		"images": ["/efw5/to clean.webp"],
 		"engAudio": ""
 	},
 	{
@@ -12821,7 +12821,7 @@
 		"number": "—",
 		"partOfSpeech": ["verb"],
 		"ipa": "[tu lɪft]",
-		"images": [],
+		"images": ["/efw5/to lift.webp"],
 		"engAudio": ""
 	},
 	{
@@ -12840,7 +12840,7 @@
 		"number": "—",
 		"partOfSpeech": ["verb"],
 		"ipa": "[tu loʊd]",
-		"images": [],
+		"images": ["/efw5/to load.webp"],
 		"engAudio": ""
 	},
 	{
@@ -12859,7 +12859,7 @@
 		"number": "—",
 		"partOfSpeech": ["verb"],
 		"ipa": "[ˈɑpəˌreɪt]",
-		"images": [],
+		"images": ["/efw5/to operate.webp"],
 		"engAudio": ""
 	},
 	{
@@ -12878,7 +12878,7 @@
 		"number": "—",
 		"partOfSpeech": ["verb"],
 		"ipa": "[tu pʊl]",
-		"images": [],
+		"images": ["/efw5/to pull.webp"],
 		"engAudio": ""
 	},
 	{
@@ -12897,7 +12897,7 @@
 		"number": "—",
 		"partOfSpeech": ["verb"],
 		"ipa": "[tu pʊʃ]",
-		"images": [],
+		"images": ["/efw5/to push.webp"],
 		"engAudio": ""
 	},
 	{
@@ -12916,7 +12916,7 @@
 		"number": "—",
 		"partOfSpeech": ["verb"],
 		"ipa": "[tu rɪˈpɛr]",
-		"images": [],
+		"images": ["/efw5/to repair.webp"],
 		"engAudio": ""
 	},
 	{
@@ -12935,7 +12935,7 @@
 		"number": "—",
 		"partOfSpeech": ["verb"],
 		"ipa": "[tu ʌnˈloʊd]",
-		"images": [],
+		"images": ["/efw5/to unload.webp"],
 		"engAudio": ""
 	},
 	{
@@ -12954,7 +12954,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[vælv]",
-		"images": [],
+		"images": ["/efw5/valve.webp"],
 		"engAudio": ""
 	},
 	{
@@ -12973,7 +12973,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈwɛrˌhaʊs]",
-		"images": [],
+		"images": ["/efw5/warehouse.webp"],
 		"engAudio": ""
 	},
 	{
@@ -12992,7 +12992,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[rɛnʧ]",
-		"images": [],
+		"images": ["/efw5/wrench.webp"],
 		"engAudio": ""
 	},
 	{
@@ -16621,7 +16621,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[əˈlɑrm]",
-		"images": [],
+		"images": ["/efw7/alarm.webp"],
 		"engAudio": ""
 	},
 	{
@@ -16640,7 +16640,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈeɪprən]",
-		"images": [],
+		"images": ["/efw7/apron.webp"],
 		"engAudio": ""
 	},
 	{
@@ -16659,7 +16659,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈbændɪʤ]",
-		"images": [],
+		"images": ["/efw7/bandage.webp"],
 		"engAudio": ""
 	},
 	{
@@ -16678,7 +16678,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun/adj"],
 		"ipa": "[ˈbliːdɪŋ]",
-		"images": [],
+		"images": ["/efw7/bleeding.webp"],
 		"engAudio": ""
 	},
 	{
@@ -16697,7 +16697,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun phrase"],
 		"ipa": "[ˈbroʊkən boʊn]",
-		"images": [],
+		"images": ["/efw7/brokenbone.webp"],
 		"engAudio": ""
 	},
 	{
@@ -16716,7 +16716,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[bruz]",
-		"images": [],
+		"images": ["/efw7/bruise.webp"],
 		"engAudio": ""
 	},
 	{
@@ -16735,7 +16735,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun/verb"],
 		"ipa": "[bɜrn]",
-		"images": [],
+		"images": ["/efw7/burn.webp"],
 		"engAudio": ""
 	},
 	{
@@ -16754,7 +16754,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈklɪnɪk]",
-		"images": [],
+		"images": ["/efw7/clinic.webp"],
 		"engAudio": ""
 	},
 	{
@@ -16773,7 +16773,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun/verb"],
 		"ipa": "[kʌt]",
-		"images": [],
+		"images": ["/efw7/cut.webp"],
 		"engAudio": ""
 	},
 	{
@@ -16792,7 +16792,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈdeɪndʒər]",
-		"images": [],
+		"images": ["/efw7/danger.webp"],
 		"engAudio": ""
 	},
 	{
@@ -16811,7 +16811,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈdɑktər]",
-		"images": [],
+		"images": ["/efw7/doctor.webp"],
 		"engAudio": ""
 	},
 	{
@@ -16830,7 +16830,7 @@
 		"number": "p",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈɪrmʌfs]",
-		"images": [],
+		"images": ["/efw7/earmuffs.webp"],
 		"engAudio": ""
 	},
 	{
@@ -16849,7 +16849,7 @@
 		"number": "p",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈɪrplʌɡz]",
-		"images": [],
+		"images": ["/efw7/earplugs.webp"],
 		"engAudio": ""
 	},
 	{
@@ -16868,7 +16868,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ɪˈmɜrdʒənsi]",
-		"images": [],
+		"images": ["/efw7/emergency.webp"],
 		"engAudio": ""
 	},
 	{
@@ -16887,7 +16887,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ɪˌvækjʊˈeɪʃən]",
-		"images": [],
+		"images": ["/efw7/evacuation.webp"],
 		"engAudio": ""
 	},
 	{
@@ -16906,7 +16906,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ɪkˈsploʊʒən]",
-		"images": [],
+		"images": ["/efw7/explosion.webp"],
 		"engAudio": ""
 	},
 	{
@@ -16925,7 +16925,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun phrase"],
 		"ipa": "[feɪs ʃild]",
-		"images": [],
+		"images": ["/efw7/faceshield.webp"],
 		"engAudio": ""
 	},
 	{
@@ -16944,7 +16944,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun/verb"],
 		"ipa": "[fɔl]",
-		"images": [],
+		"images": ["/efw7/fall.webp"],
 		"engAudio": ""
 	},
 	{
@@ -16963,7 +16963,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈfivər]",
-		"images": [],
+		"images": ["/efw7/fever.webp"],
 		"engAudio": ""
 	},
 	{
@@ -16982,7 +16982,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈfaɪər]",
-		"images": [],
+		"images": ["/efw7/fire.webp"],
 		"engAudio": ""
 	},
 	{
@@ -17001,7 +17001,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun phrase"],
 		"ipa": "[ˈfaɪər drɪl]",
-		"images": [],
+		"images": ["/efw7/firedrill.webp"],
 		"engAudio": ""
 	},
 	{
@@ -17020,7 +17020,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun phrase"],
 		"ipa": "[ˌfɜrst ˈeɪd]",
-		"images": [],
+		"images": ["/efw7/firstaid.webp"],
 		"engAudio": ""
 	},
 	{
@@ -17039,7 +17039,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ɡɔz]",
-		"images": [],
+		"images": ["/efw7/gauze.webp"],
 		"engAudio": ""
 	},
 	{
@@ -17058,7 +17058,7 @@
 		"number": "p",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ɡlʌvz]",
-		"images": [],
+		"images": ["/efw7/gloves.webp"],
 		"engAudio": ""
 	},
 	{
@@ -17077,7 +17077,7 @@
 		"number": "p",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈɡɑɡəlz]",
-		"images": [],
+		"images": ["/efw7/goggles.webp"],
 		"engAudio": ""
 	},
 	{
@@ -17096,7 +17096,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈhɛdˌeɪk]",
-		"images": [],
+		"images": ["/efw7/headache.webp"],
 		"engAudio": ""
 	},
 	{
@@ -17115,7 +17115,7 @@
 		"number": "—",
 		"partOfSpeech": ["adjective"],
 		"ipa": "[ˈhɛlθi]",
-		"images": [],
+		"images": ["/efw7/healthy.webp"],
 		"engAudio": ""
 	},
 	{
@@ -17134,7 +17134,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈhɛlmət] / [hɑrd hæt]",
-		"images": [],
+		"images": ["/efw7/hardhat.webp"],
 		"engAudio": ""
 	},
 	{
@@ -17153,7 +17153,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun phrase"],
 		"ipa": "[aɪs pæk]",
-		"images": [],
+		"images": ["/efw7/icepack.webp"],
 		"engAudio": ""
 	},
 	{
@@ -17172,7 +17172,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈɪlnəs]",
-		"images": [],
+		"images": ["/efw7/illness.webp"],
 		"engAudio": ""
 	},
 	{
@@ -17191,7 +17191,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈɪnʤəri]",
-		"images": [],
+		"images": ["/efw7/injury.webp"],
 		"engAudio": ""
 	},
 	{
@@ -17210,7 +17210,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun/verb"],
 		"ipa": "[lik]",
-		"images": [],
+		"images": ["/efw7/leak.webp"],
 		"engAudio": ""
 	},
 	{
@@ -17229,7 +17229,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[mæsk]",
-		"images": [],
+		"images": ["/efw7/mask.webp"],
 		"engAudio": ""
 	},
 	{
@@ -17248,7 +17248,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈmɛdəsən]",
-		"images": [],
+		"images": ["/efw7/medicine.webp"],
 		"engAudio": ""
 	},
 	{
@@ -17267,7 +17267,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[nɜrs]",
-		"images": [],
+		"images": ["/efw7/nurse.webp"],
 		"engAudio": ""
 	},
 	{
@@ -17286,7 +17286,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[peɪn]",
-		"images": [],
+		"images": ["/efw7/pain.webp"],
 		"engAudio": ""
 	},
 	{
@@ -17305,7 +17305,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[rɪsk]",
-		"images": [],
+		"images": ["/efw7/risk.webp"],
 		"engAudio": ""
 	},
 	{
@@ -17324,7 +17324,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈseɪfti]",
-		"images": [],
+		"images": ["/efw7/safety.webp"],
 		"engAudio": ""
 	},
 	{
@@ -17343,7 +17343,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun phrase"],
 		"ipa": "[ˈseɪfti vɛst]",
-		"images": [],
+		"images": ["/efw7/safetyvest.webp"],
 		"engAudio": ""
 	},
 	{
@@ -17362,7 +17362,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ʃɑk]",
-		"images": [],
+		"images": ["/efw7/shock.webp"],
 		"engAudio": ""
 	},
 	{
@@ -17381,7 +17381,7 @@
 		"number": "—",
 		"partOfSpeech": ["adjective"],
 		"ipa": "[sɪk]",
-		"images": [],
+		"images": ["/efw7/sick.webp"],
 		"engAudio": ""
 	},
 	{
@@ -17400,7 +17400,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[saɪn]",
-		"images": [],
+		"images": ["/efw7/sign.webp"],
 		"engAudio": ""
 	},
 	{
@@ -17419,7 +17419,7 @@
 		"number": "—",
 		"partOfSpeech": ["noun/verb"],
 		"ipa": "[slɪp]",
-		"images": [],
+		"images": ["/efw7/slip.webp"],
 		"engAudio": ""
 	},
 	{
@@ -17438,7 +17438,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun/verb"],
 		"ipa": "[smoʊk]",
-		"images": [],
+		"images": ["/efw7/smoke.webp"],
 		"engAudio": ""
 	},
 	{
@@ -17457,7 +17457,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun/verb"],
 		"ipa": "[spɪl]",
-		"images": [],
+		"images": ["/efw7/spill.webp"],
 		"engAudio": ""
 	},
 	{
@@ -17476,7 +17476,7 @@
 		"number": "p",
 		"partOfSpeech": ["noun phrase"],
 		"ipa": "[ˈstil toʊ buts]",
-		"images": [],
+		"images": ["/efw7/steeltoeboots.webp"],
 		"engAudio": ""
 	},
 	{
@@ -17495,7 +17495,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈstʌməkˌeɪk]",
-		"images": [],
+		"images": ["/efw7/stomachache.webp"],
 		"engAudio": ""
 	},
 	{
@@ -17514,7 +17514,7 @@
 		"number": "—",
 		"partOfSpeech": ["noun/verb"],
 		"ipa": "[trɪp]",
-		"images": [],
+		"images": ["/efw7/trip.webp"],
 		"engAudio": ""
 	},
 	{
@@ -17533,7 +17533,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈwɔrnɪŋ]",
-		"images": [],
+		"images": ["/efw7/warning.webp"],
 		"engAudio": ""
 	},
 	{
@@ -17552,7 +17552,7 @@
 		"number": "s",
 		"partOfSpeech": ["noun"],
 		"ipa": "[wund]",
-		"images": [],
+		"images": ["/efw7/wound.webp"],
 		"engAudio": ""
 	},
 	{

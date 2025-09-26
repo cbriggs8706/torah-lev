@@ -15,7 +15,8 @@ type LessonScript = {
 	content: string | null
 	contentPlain: string | null
 	audioSrc: string | null
-	lessonId: string | null
+	lessonId: number | null
+	courseId: number[] | null
 }
 
 type Lesson = {
@@ -53,7 +54,7 @@ export default function LessonScriptViewer({
 				<Button
 					variant={'default'}
 					onClick={() => {
-						router.push('/lesson-scripts')
+						router.push('/he/lesson-scripts')
 						router.refresh() // revalidate the next route after the push
 					}}
 				>
