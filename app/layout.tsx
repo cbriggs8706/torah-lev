@@ -9,8 +9,10 @@ import {
 	EB_Garamond,
 	Eczar,
 	Mansalva,
-	Bona_Nova,
 	Alegreya_SC,
+	MonteCarlo,
+	UnifrakturMaguntia,
+	Reenie_Beanie,
 } from 'next/font/google'
 import { ClerkProvider } from '@clerk/nextjs'
 import { Toaster } from '@/components/ui/sonner'
@@ -68,6 +70,21 @@ const alegreya = Alegreya_SC({
 	variable: '--font-alegreya',
 	weight: '400',
 })
+const montecarlo = MonteCarlo({
+	subsets: ['latin'],
+	variable: '--font-montecarlo',
+	weight: '400',
+})
+const maguntia = UnifrakturMaguntia({
+	subsets: ['latin'],
+	variable: '--font-maguntia',
+	weight: '400',
+})
+const reeniebeanie = Reenie_Beanie({
+	subsets: ['latin'],
+	variable: '--font-reeniebeanie',
+	weight: '400',
+})
 
 export const metadata: Metadata = {
 	title: 'Idiom Go',
@@ -116,7 +133,7 @@ export default async function RootLayout({
 					/>
 				</head>
 				<body
-					className={`${font.className} ${frank.variable}  ${tinos.variable} ${cardo.variable} ${rashi.variable} ${suez.variable} ${garamond.variable} ${eczar.variable} ${manslava.variable} ${alegreya.variable}`}
+					className={`${font.className} ${frank.variable}  ${tinos.variable} ${cardo.variable} ${rashi.variable} ${suez.variable} ${garamond.variable} ${eczar.variable} ${manslava.variable} ${alegreya.variable} ${montecarlo.variable} ${maguntia.variable} ${reeniebeanie.variable}`}
 				>
 					<Toaster />
 					<ExitModal />

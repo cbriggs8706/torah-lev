@@ -10,12 +10,14 @@ export const englishLetters = [
 			},
 			{
 				ipa: '/ɑ/',
-				audio: '/audio/sound-a-2.mp3',
+				audio: '/audio/sound-alef-qamats.mp3',
+				// audio: '/audio/sound-a-2.mp3',
 				examples: ['father', 'pasta', 'spa'],
 			},
 			{
 				ipa: '/eɪ/',
-				audio: '/audio/sound-a-3.mp3',
+				audio: '/audio/sound-alef-tsere.mp3',
+				// audio: '/audio/sound-a-3.mp3',
 				examples: ['name', 'rain', 'paper'],
 			},
 			{
@@ -30,7 +32,8 @@ export const englishLetters = [
 			},
 			{
 				ipa: '/ɛ/',
-				audio: '/audio/sound-a-6.mp3',
+				audio: '/audio/sound-alef-chataf-segol.mp3',
+				// audio: '/audio/sound-a-6.mp3',
 				examples: ['any', 'many', 'said'],
 			},
 		],
@@ -41,7 +44,8 @@ export const englishLetters = [
 		phonemes: [
 			{
 				ipa: '/b/',
-				audio: '/audio/sound-b-1.mp3',
+				audio: '/audio/sound-bet-base.mp3',
+				// audio: '/audio/sound-b-1.mp3',
 				examples: ['bat', 'big', 'blue'],
 			},
 			{
@@ -57,12 +61,14 @@ export const englishLetters = [
 		phonemes: [
 			{
 				ipa: '/k/',
-				audio: '/audio/sound-c-1.mp3',
+				audio: '/audio/sound-kaf-base.mp3',
+				// audio: '/audio/sound-c-1.mp3',
 				examples: ['cat', 'cold', 'class'],
 			},
 			{
 				ipa: '/s/',
-				audio: '/audio/sound-c-2.mp3',
+				audio: '/audio/sound-sin-base.mp3',
+				// audio: '/audio/sound-c-2.mp3',
 				examples: ['city', 'cent', 'face'],
 			},
 			{
@@ -83,7 +89,8 @@ export const englishLetters = [
 		phonemes: [
 			{
 				ipa: '/d/',
-				audio: '/audio/sound-d-1.mp3',
+				audio: '/audio/sound-dalet-base.mp3',
+				// audio: '/audio/sound-d-1.mp3',
 				examples: ['dog', 'door', 'day'],
 			},
 			{
@@ -109,12 +116,14 @@ export const englishLetters = [
 		phonemes: [
 			{
 				ipa: '/iː/',
-				audio: '/audio/sound-e-1.mp3',
+				audio: '/audio/sound-alef-hiriq.mp3',
+				// audio: '/audio/sound-e-1.mp3',
 				examples: ['me', 'these', 'theme'],
 			},
 			{
 				ipa: '/ɛ/',
-				audio: '/audio/sound-e-2.mp3',
+				audio: '/audio/sound-alef-segol.mp3',
+				// audio: '/audio/sound-e-2.mp3',
 				examples: ['pen', 'get', 'seven'],
 			},
 			{
@@ -145,12 +154,14 @@ export const englishLetters = [
 		phonemes: [
 			{
 				ipa: '/f/',
-				audio: '/audio/sound-f-1.mp3',
+				audio: '/audio/sound-fe-base.mp3',
+				// audio: '/audio/sound-f-1.mp3',
 				examples: ['fan', 'coffee', 'after'],
 			},
 			{
 				ipa: '/v/',
-				audio: '/audio/sound-f-2.mp3',
+				audio: '/audio/sound-vet-base.mp3',
+				// audio: '/audio/sound-f-2.mp3',
 				examples: ['of', 'Stephen', 'halves'],
 			}, // spelling causes /v/
 		],
@@ -161,7 +172,8 @@ export const englishLetters = [
 		phonemes: [
 			{
 				ipa: '/g/',
-				audio: '/audio/sound-g-1.mp3',
+				audio: '/audio/sound-gimel-base.mp3',
+				// audio: '/audio/sound-g-1.mp3',
 				examples: ['go', 'get', 'game'],
 			},
 			{
@@ -187,7 +199,8 @@ export const englishLetters = [
 		phonemes: [
 			{
 				ipa: '/h/',
-				audio: '/audio/sound-h-1.mp3',
+				audio: '/audio/sound-he-base.mp3',
+				// audio: '/audio/sound-h-1.mp3',
 				examples: ['hat', 'help', 'happy'],
 			},
 			{
@@ -208,7 +221,8 @@ export const englishLetters = [
 			},
 			{
 				ipa: '/aɪ/',
-				audio: '/audio/sound-i-2.mp3',
+				audio: '/audio/sound-alef-patach-yod.mp3',
+				// audio: '/audio/sound-i-2.mp3',
 				examples: ['time', 'find', 'ice'],
 			},
 			{
@@ -245,7 +259,8 @@ export const englishLetters = [
 		phonemes: [
 			{
 				ipa: '/k/',
-				audio: '/audio/sound-k-1.mp3',
+				audio: '/audio/sound-kaf-base.mp3',
+				// audio: '/audio/sound-k-1.mp3',
 				examples: ['kit', 'key', 'book'],
 			},
 			{
@@ -261,7 +276,8 @@ export const englishLetters = [
 		phonemes: [
 			{
 				ipa: '/l/',
-				audio: '/audio/sound-l-1.mp3',
+				audio: '/audio/sound-lamed-base.mp3',
+				// audio: '/audio/sound-l-1.mp3',
 				examples: ['light', 'leaf', 'look'],
 			},
 			{
@@ -282,7 +298,8 @@ export const englishLetters = [
 		phonemes: [
 			{
 				ipa: '/m/',
-				audio: '/audio/sound-m-1.mp3',
+				audio: '/audio/sound-mem-base.mp3',
+				// audio: '/audio/sound-m-1.mp3',
 				examples: ['man', 'make', 'ham'],
 			},
 			{
@@ -307,7 +324,8 @@ export const englishLetters = [
 		phonemes: [
 			{
 				ipa: '/n/',
-				audio: '/audio/sound-n-1.mp3',
+				audio: '/audio/sound-nun-base.mp3',
+				// audio: '/audio/sound-n-1.mp3',
 				examples: ['no', 'nine', 'need'],
 			},
 			{
@@ -328,12 +346,14 @@ export const englishLetters = [
 		phonemes: [
 			{
 				ipa: '/oʊ/',
-				audio: '/audio/sound-o-1.mp3',
+				audio: '/audio/sound-alef-holam-male.mp3',
+				// audio: '/audio/sound-o-1.mp3',
 				examples: ['go', 'home', 'open'],
 			},
 			{
 				ipa: '/ɑ/',
-				audio: '/audio/sound-o-2.mp3',
+				audio: '/audio/sound-alef-patach.mp3',
+				// audio: '/audio/sound-o-2.mp3',
 				examples: ['pot', 'lot', 'shock'],
 			},
 			{
@@ -343,7 +363,8 @@ export const englishLetters = [
 			},
 			{
 				ipa: '/uː/',
-				audio: '/audio/sound-o-4.mp3',
+				audio: '/audio/sound-alef-shuruk.mp3',
+				// audio: '/audio/sound-o-4.mp3',
 				examples: ['move', 'do', 'to'],
 			},
 			{
@@ -364,7 +385,8 @@ export const englishLetters = [
 		phonemes: [
 			{
 				ipa: '/p/',
-				audio: '/audio/sound-p-1.mp3',
+				audio: '/audio/sound-pe-base.mp3',
+				// audio: '/audio/sound-p-1.mp3',
 				examples: ['pen', 'paper', 'open'],
 			},
 			{
@@ -385,7 +407,8 @@ export const englishLetters = [
 			},
 			{
 				ipa: '/k/',
-				audio: '/audio/sound-q-2.mp3',
+				audio: '/audio/sound-kaf-base.mp3',
+				// audio: '/audio/sound-q-2.mp3',
 				examples: ['Iraq', 'Qatar (Anglicized)', 'burqa'],
 			},
 		],
@@ -412,17 +435,20 @@ export const englishLetters = [
 		phonemes: [
 			{
 				ipa: '/s/',
-				audio: '/audio/sound-s-1.mp3',
+				audio: '/audio/sound-sin-base.mp3',
+				// audio: '/audio/sound-s-1.mp3',
 				examples: ['sun', 'see', 'class'],
 			},
 			{
 				ipa: '/z/',
-				audio: '/audio/sound-s-2.mp3',
+				audio: '/audio/sound-zayin-base.mp3',
+				// audio: '/audio/sound-s-2.mp3',
 				examples: ['dogs', 'rose', 'was'],
 			},
 			{
 				ipa: '/ʃ/',
-				audio: '/audio/sound-s-3.mp3',
+				audio: '/audio/sound-shin-base.mp3',
+				// audio: '/audio/sound-s-3.mp3',
 				examples: ['sure', 'sugar', 'Asia (1st s)'],
 			},
 			{
@@ -443,7 +469,8 @@ export const englishLetters = [
 		phonemes: [
 			{
 				ipa: '/t/',
-				audio: '/audio/sound-t-1.mp3',
+				audio: '/audio/sound-tav-base.mp3',
+				// audio: '/audio/sound-t-1.mp3',
 				examples: ['top', 'ten', 'time'],
 			},
 			{
@@ -458,7 +485,8 @@ export const englishLetters = [
 			},
 			{
 				ipa: '/ʃ/',
-				audio: '/audio/sound-t-4.mp3',
+				audio: '/audio/sound-shin-base.mp3',
+				// audio: '/audio/sound-t-4.mp3',
 				examples: ['nation', 'patient', 'motion'],
 			},
 			{
@@ -474,12 +502,14 @@ export const englishLetters = [
 		phonemes: [
 			{
 				ipa: '/ʌ/',
-				audio: '/audio/sound-u-1.mp3',
+				audio: '/audio/sound-alef-qubutz.mp3',
+				// audio: '/audio/sound-u-1.mp3',
 				examples: ['cup', 'sun', 'lunch'],
 			},
 			{
 				ipa: '/uː/',
-				audio: '/audio/sound-u-2.mp3',
+				audio: '/audio/sound-alef-shuruk.mp3',
+				// audio: '/audio/sound-u-2.mp3',
 				examples: ['flute', 'rule', 'truth'],
 			},
 			{
@@ -510,7 +540,8 @@ export const englishLetters = [
 		phonemes: [
 			{
 				ipa: '/v/',
-				audio: '/audio/sound-v-1.mp3',
+				audio: '/audio/sound-vet-base.mp3',
+				// audio: '/audio/sound-v-1.mp3',
 				examples: ['van', 'move', 'seven'],
 			},
 		],
@@ -547,7 +578,8 @@ export const englishLetters = [
 			},
 			{
 				ipa: '/z/',
-				audio: '/audio/sound-x-3.mp3',
+				audio: '/audio/sound-zayin-base.mp3',
+				// audio: '/audio/sound-x-3.mp3',
 				examples: ['xylophone', 'Xenia', 'Xerox'],
 			},
 			{
@@ -572,12 +604,14 @@ export const englishLetters = [
 		phonemes: [
 			{
 				ipa: '/j/',
-				audio: '/audio/sound-y-1.mp3',
+				audio: '/audio/sound-yod-base.mp3',
+				// audio: '/audio/sound-y-1.mp3',
 				examples: ['yes', 'yellow', 'yoga'],
 			},
 			{
 				ipa: '/aɪ/',
-				audio: '/audio/sound-y-2.mp3',
+				audio: '/audio/sound-alef-patach-yod.mp3',
+				// audio: '/audio/sound-y-2.mp3',
 				examples: ['my', 'try', 'fly'],
 			},
 			{
@@ -587,7 +621,8 @@ export const englishLetters = [
 			},
 			{
 				ipa: '/iː/',
-				audio: '/audio/sound-y-4.mp3',
+				audio: '/audio/sound-alef-hiriq.mp3',
+				// audio: '/audio/sound-y-4.mp3',
 				examples: ['happy', 'city', 'candy'],
 			},
 			{
@@ -603,7 +638,8 @@ export const englishLetters = [
 		phonemes: [
 			{
 				ipa: '/z/',
-				audio: '/audio/sound-z-1.mp3',
+				audio: '/audio/sound-zayin-base.mp3',
+				// audio: '/audio/sound-z-1.mp3',
 				examples: ['zoo', 'zero', 'lazy'],
 			},
 			{
@@ -613,7 +649,8 @@ export const englishLetters = [
 			},
 			{
 				ipa: '/ts/',
-				audio: '/audio/sound-z-3.mp3',
+				audio: '/audio/sound-tsadi-base.mp3',
+				// audio: '/audio/sound-z-3.mp3',
 				examples: ['pizza', 'mozzarella', 'piazza'],
 			}, // loan/zz
 			{

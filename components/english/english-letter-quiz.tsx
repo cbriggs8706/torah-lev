@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useAudio, useWindowSize } from 'react-use'
 import ReactConfetti from 'react-confetti'
 import Image from 'next/image'
+import { resolve } from 'path'
 
 interface EnglishLetterQuizProps {
 	letters: EnglishLetter[]
@@ -29,7 +30,14 @@ interface EnglishLetter {
 }
 
 type Mode = 'name' | 'sound'
-type FontChoice = 'times' | 'nunito'
+type FontChoice =
+	| 'arial'
+	| 'times'
+	| 'nunito'
+	| 'suez'
+	| 'montecarlo'
+	| 'maguntia'
+	| 'reeniebeanie'
 
 function CountdownCircle({ seconds }: { seconds: number }) {
 	const [progress, setProgress] = useState(0)
@@ -120,7 +128,22 @@ export default function EnglishLetterQuiz({
 	useEffect(() => {
 		if (!gameStarted) return
 		if (letters.length === 0) return
-		const shuffled = [...letters].sort(() => Math.random() - 0.5)
+
+		// Flatten into one entry per phoneme
+		const allCards = letters.flatMap((l) =>
+			(l.phonemes ?? []).map((s) => {
+				const norm = typeof s === 'string' ? { audio: s } : s
+				return {
+					...l,
+					// override so each card points to one specific sound
+					phonemes: [norm],
+				}
+			})
+		)
+
+		// Shuffle
+		const shuffled = [...allCards].sort(() => Math.random() - 0.5)
+
 		setShuffledLetters(shuffled)
 		setCurrentIndex(0)
 		setFinished(false)
@@ -264,8 +287,13 @@ export default function EnglishLetterQuiz({
 
 	function fontClassNameFor(font: FontChoice): string {
 		const classes: Record<FontChoice, string> = {
+			arial: 'font-arial',
 			times: 'font-times',
 			nunito: 'font-nunito',
+			suez: 'font-suez',
+			montecarlo: 'font-montecarlo',
+			maguntia: 'font-maguntia',
+			reeniebeanie: 'font-reeniebeanie',
 		}
 		return classes[font] || ''
 	}
@@ -366,10 +394,37 @@ export default function EnglishLetterQuiz({
 										value: 'times' as FontChoice,
 										className: 'font-times',
 									},
+
+									{
+										label: 'Suez',
+										value: 'suez' as FontChoice,
+										className: 'font-suez',
+									},
 									{
 										label: 'Nunito',
 										value: 'nunito' as FontChoice,
 										className: 'font-nunito',
+									},
+
+									{
+										label: 'Arial',
+										value: 'arial' as FontChoice,
+										className: 'font-arial',
+									},
+									{
+										label: 'Monte Carlo',
+										value: 'montecarlo' as FontChoice,
+										className: 'font-montecarlo',
+									},
+									{
+										label: 'Maguntia',
+										value: 'maguntia' as FontChoice,
+										className: 'font-maguntia',
+									},
+									{
+										label: 'Reenie Beanie',
+										value: 'reeniebeanie' as FontChoice,
+										className: 'font-reeniebeanie',
 									},
 								] as { label: string; value: FontChoice; className: string }[]
 							).map(({ label, value, className }) => (
@@ -455,27 +510,55 @@ export default function EnglishLetterQuiz({
 					<h2 className="text-2xl font-bold mb-4">Study the Alphabet</h2>
 					<div className="flex flex-wrap justify-center gap-6">
 						{letters.map((l, i) => (
-							<div
-								key={i}
-								className="p-4 border rounded-lg flex flex-col items-center w-24"
-							>
-								<div
-									className={`text-5xl mb-2 ${fontClassNameFor(fontChoice)}`}
-								>
-									{l.char}
-								</div>
-								<button
-									onClick={() => {
-										// In study mode, replay current selection for this letter/mode
-										const info = resolveSoundInfo(l, selectedMode)
-										const audio = new Audio(info.audio)
-										audio.play()
-									}}
-									className="text-xl text-blue-600 hover:text-blue-800"
-									aria-label="Replay Audio"
-								>
-									🔊
-								</button>
+							<div key={i} className="flex flex-wrap justify-center gap-6">
+								{(l.phonemes ?? []).map((s, j) => {
+									const norm = typeof s === 'string' ? { audio: s } : s
+									return (
+										<div
+											key={`${l.char}-${j}`}
+											className="p-4 border rounded-lg flex flex-col items-center w-56"
+										>
+											{/* Upper + lower */}
+											<div className="flex items-end gap-2 mb-2">
+												<div
+													className={`text-5xl leading-none ${fontClassNameFor(
+														fontChoice
+													)}`}
+												>
+													{l.char.toUpperCase()}
+												</div>
+												<div
+													className={`text-3xl leading-none text-gray-700 ${fontClassNameFor(
+														fontChoice
+													)}`}
+												>
+													{l.char.toLowerCase()}
+												</div>
+											</div>
+
+											{/* IPA + examples */}
+											{norm.ipa && (
+												<div className="text-base text-gray-800">
+													{norm.ipa}
+												</div>
+											)}
+											{norm.examples && norm.examples.length > 0 && (
+												<div className="text-xs text-gray-600">
+													{norm.examples.join(', ')}
+												</div>
+											)}
+
+											{/* Play this sound */}
+											<button
+												onClick={() => new Audio(norm.audio).play()}
+												className="mt-2 text-xl text-blue-600 hover:text-blue-800"
+												aria-label="Play pronunciation"
+											>
+												🔊
+											</button>
+										</div>
+									)
+								})}
 							</div>
 						))}
 					</div>
@@ -549,14 +632,14 @@ export default function EnglishLetterQuiz({
 					<div className="min-h-[220px] mb-4 flex flex-col justify-center items-center">
 						<div className="flex items-end gap-4">
 							<div
-								className={`text-[8rem] leading-none font-semibold ${fontClassNameFor(
+								className={`text-[8rem] leading-none ${fontClassNameFor(
 									fontChoice
 								)}`}
 							>
 								{currentLetter?.char?.toUpperCase() ?? ''}
 							</div>
 							<div
-								className={`text-[4rem] leading-none text-gray-700 ${fontClassNameFor(
+								className={`text-[7rem] leading-none ${fontClassNameFor(
 									fontChoice
 								)}`}
 							>
@@ -564,20 +647,13 @@ export default function EnglishLetterQuiz({
 							</div>
 						</div>
 
-						{/* Reveal IPA and examples only after countdown */}
-						{!waiting && (
-							<>
-								{currentIPA && (
-									<div className="text-2xl text-gray-800 mt-2">
-										{currentIPA}
-									</div>
-								)}
-								{currentExamples && currentExamples.length > 0 && (
-									<div className="text-sm text-gray-600 mt-1">
-										{currentExamples.join(', ')}
-									</div>
-								)}
-							</>
+						{currentIPA && (
+							<div className="text-2xl text-gray-800 mt-2">{currentIPA}</div>
+						)}
+						{currentExamples && currentExamples.length > 0 && (
+							<div className="text-md text-gray-600 mt-1">
+								{currentExamples.join(', ')}
+							</div>
 						)}
 					</div>
 
