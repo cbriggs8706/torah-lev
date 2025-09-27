@@ -127,11 +127,13 @@ export default function EnglishLetterQuiz({
 	const [correctCount, setCorrectCount] = useState(0)
 	const [wrongCount, setWrongCount] = useState(0)
 	const [finished, setFinished] = useState(false)
-	const [wrongAnswers, setWrongAnswers] = useState<EnglishLetter[]>([])
+	const [wrongAnswers, setWrongAnswers] = useState<Card[]>([])
 	const [finishAudio] = useAudio({ src: '/finish.mp3', autoPlay: true })
 	const { width, height } = useWindowSize()
 	const [disabledButtons, setDisabledButtons] = useState(false)
 	const [studyMode, setStudyMode] = useState(false)
+	const [awardedPoints, setAwardedPoints] = useState(0)
+	const hasAwardedRef = useRef(false)
 
 	function buildCardPool(letters: EnglishLetter[], mode: Mode): Card[] {
 		const pool: Card[] = []
@@ -225,12 +227,26 @@ export default function EnglishLetterQuiz({
 		if (correct) setCorrectCount((p) => p + 1)
 		else {
 			setWrongCount((p) => p + 1)
-			setWrongAnswers((p) => [...p, currentLetter])
+			// setWrongAnswers((p) => [...p, currentLetter])
+			if (!correct && currentCard) {
+				setWrongCount((p) => p + 1)
+				setWrongAnswers((p) => [...p, currentCard])
+			}
 		}
+		// setTimeout(() => {
+		// 	const isLast = currentIndex === shuffledCards.length - 1
+		// 	if (isLast) {
+		// 		setShowConfetti(true)
+		// 		setFinished(true)
+		// 	} else {
+		// 		setCurrentIndex((i) => i + 1)
+		// 		setDisabledButtons(false)
+		// 	}
+		// }, 1200)
 		setTimeout(() => {
 			const isLast = currentIndex === shuffledCards.length - 1
 			if (isLast) {
-				setShowConfetti(true)
+				if (wrongCount + (correct ? 0 : 1) <= 2) setShowConfetti(true)
 				setFinished(true)
 			} else {
 				setCurrentIndex((i) => i + 1)
@@ -240,6 +256,32 @@ export default function EnglishLetterQuiz({
 	}
 
 	const total = shuffledCards.length
+	const passed = wrongCount <= 2
+
+	const awardPoints = useCallback(
+		async (points: number) => {
+			try {
+				const res = await fetch('/api/award-points', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ userId, points }),
+				})
+				if (!res.ok) throw new Error('Bad response')
+				setAwardedPoints(points)
+			} catch (err) {
+				console.error('Failed to award points', err)
+			}
+		},
+		[userId]
+	)
+
+	useEffect(() => {
+		if (finished && passed && !hasAwardedRef.current) {
+			hasAwardedRef.current = true
+			const pts = typeof pointsOnPass === 'number' ? pointsOnPass : 5
+			awardPoints(pts)
+		}
+	}, [finished, passed, pointsOnPass, awardPoints])
 
 	function hasIPA(sound: any): sound is SimplePhoneme | ComplexPhoneme {
 		return 'ipa' in sound
@@ -292,13 +334,17 @@ export default function EnglishLetterQuiz({
 
 	return (
 		<div className="w-full mx-auto p-6 text-center border rounded-xl shadow">
-			{showConfetti && (
-				<ReactConfetti
-					width={width}
-					height={height}
-					recycle={false}
-					numberOfPieces={500}
-				/>
+			{showConfetti && passed && (
+				<>
+					<ReactConfetti
+						width={width}
+						height={height}
+						recycle={false}
+						numberOfPieces={500}
+						tweenDuration={10000}
+					/>
+					{finishAudio}
+				</>
 			)}
 
 			{!gameStarted ? (
@@ -565,21 +611,81 @@ export default function EnglishLetterQuiz({
 					</button>
 				</div>
 			) : finished ? (
-				<div>
+				<div className="space-y-4">
 					<h2 className="text-2xl font-bold">Quiz Complete!</h2>
-					<p>✅ Correct: {correctCount}</p>
-					<p>❌ Incorrect: {wrongCount}</p>
+					<p className="text-lg">✅ Correct: {correctCount}</p>
+					<p className="text-lg">❌ Incorrect: {wrongCount}</p>
+
+					<p
+						className={`text-xl font-semibold ${
+							passed ? 'text-green-600' : 'text-red-500'
+						}`}
+					>
+						{passed
+							? `🎉 You Passed!`
+							: "😞 To pass, you must miss 2 or fewer. Let's try again!"}
+					</p>
+					<p className="text-lg">
+						⭐ Points earned:{' '}
+						<span className="font-semibold">{awardedPoints}</span>
+					</p>
+
+					{wrongAnswers.length > 0 && (
+						<div className="mt-6">
+							<h3 className="font-medium text-lg mb-2">You missed:</h3>
+							<div className="flex flex-wrap justify-center gap-6">
+								{wrongAnswers.map((card, i) => (
+									<div
+										key={i}
+										className="p-4 border rounded-lg flex flex-col items-center justify-center w-24"
+									>
+										{/* Always display the letter */}
+										<div
+											className={`text-6xl mb-2 ${fontClassNameFor(
+												fontChoice
+											)}`}
+										>
+											{card.letter.char}
+										</div>
+
+										{/* If the sound had a grapheme, display it */}
+										{'grapheme' in card.sound && card.sound.grapheme && (
+											<div className="text-3xl mb-2">{card.sound.grapheme}</div>
+										)}
+
+										{/* Replay the same audio clip that was used in the quiz */}
+										<button
+											onClick={() => new Audio(card.sound.audio).play()}
+											className="text-xl text-blue-600 hover:text-blue-800"
+											aria-label="Replay Audio"
+										>
+											🔊
+										</button>
+									</div>
+								))}
+							</div>
+						</div>
+					)}
+
 					<button
 						onClick={resetToStart}
-						className="mt-6 px-6 py-2 bg-blue-600 text-white"
+						className="mt-6 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
 					>
 						Start Over
 					</button>
 				</div>
 			) : (
-				<>
-					{/* Prompt */}
-					<div className="min-h-[220px] mb-4 flex flex-col justify-center items-center">
+				<div className="relative">
+					{/* Back button in upper left */}
+					<button
+						onClick={resetToStart}
+						className="absolute top-4 left-4 p-2 rounded-full bg-gray-200 hover:bg-gray-300"
+					>
+						⬅
+					</button>
+
+					{/* Prompt area */}
+					<div className="min-h-[220px] mb-6 flex flex-col justify-center items-center">
 						<div className="flex items-end gap-4">
 							<div className={`text-[8rem] ${fontClassNameFor(fontChoice)}`}>
 								{currentLetter?.char.toUpperCase()}
@@ -600,37 +706,62 @@ export default function EnglishLetterQuiz({
 						)}
 					</div>
 
-					{/* Countdown centered */}
-					{waiting ? (
-						<div className="mb-6 flex justify-center">
+					{/* Countdown / speaker in fixed spot */}
+					<div className="mb-6 flex justify-center">
+						{waiting ? (
 							<CountdownCircle seconds={timeLimit} />
-						</div>
-					) : (
-						<button
-							onClick={() => audioRef.current?.play()}
-							className="text-5xl"
-						>
-							🔊
-						</button>
-					)}
+						) : (
+							<button
+								onClick={() => audioRef.current?.play()}
+								className="text-5xl text-blue-600 hover:text-blue-800"
+							>
+								🔊
+							</button>
+						)}
+					</div>
 
-					{/* Self assessment */}
-					{!waiting && (
-						<div className="flex justify-center gap-6 mt-4">
-							<button
-								onClick={() => handleResponse(true)}
-								className="px-4 py-2 bg-green-500 text-white rounded-lg"
-							>
-								I got it 👍
-							</button>
-							<button
-								onClick={() => handleResponse(false)}
-								className="px-4 py-2 bg-red-500 text-white rounded-lg"
-							>
-								I missed 👎
-							</button>
-						</div>
-					)}
+					{/* Response buttons (always shown, greyed out if waiting) */}
+					<div className="flex justify-center gap-6 mt-4">
+						<button
+							onClick={() => !waiting && handleResponse(true)}
+							disabled={waiting || disabledButtons}
+							className={`px-4 py-2 rounded-lg text-white ${
+								waiting || disabledButtons
+									? 'bg-green-300 cursor-not-allowed'
+									: 'bg-green-500 hover:bg-green-600'
+							}`}
+						>
+							I got it 👍
+						</button>
+
+						{/* Pause button */}
+						<button
+							onClick={() => {
+								if (audioRef.current) {
+									if (audioRef.current.paused) {
+										audioRef.current.play()
+									} else {
+										audioRef.current.pause()
+									}
+								}
+							}}
+							className="px-4 py-2 bg-yellow-400 text-black rounded-lg hover:bg-yellow-500"
+						>
+							⏸ Pause
+						</button>
+
+						<button
+							onClick={() => !waiting && handleResponse(false)}
+							disabled={waiting || disabledButtons}
+							className={`px-4 py-2 rounded-lg text-white ${
+								waiting || disabledButtons
+									? 'bg-red-300 cursor-not-allowed'
+									: 'bg-red-500 hover:bg-red-600'
+							}`}
+						>
+							I missed 👎
+						</button>
+					</div>
 
 					{/* Feedback */}
 					{feedback !== null && (
@@ -655,17 +786,7 @@ export default function EnglishLetterQuiz({
 							/>
 						</div>
 					</div>
-
-					{/* Restart */}
-					<div className="mt-6">
-						<button
-							onClick={resetToStart}
-							className="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded-lg text-gray-800"
-						>
-							Back
-						</button>
-					</div>
-				</>
+				</div>
 			)}
 		</div>
 	)
