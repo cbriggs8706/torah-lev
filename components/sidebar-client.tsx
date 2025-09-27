@@ -172,6 +172,12 @@ export default function SidebarClient({
 							iconSrc="/input-numbers-svgrepo-com.svg"
 							onClick={onItemClick}
 						/>
+						<SidebarItem
+							label="Letter Quiz"
+							href="/en/letter-quiz"
+							iconSrc="/a-button-blood-type-svgrepo-com.svg"
+							onClick={onItemClick}
+						/>
 					</>
 				)}
 				{[13, 17].includes(userProgress?.activeCourse.id) && (

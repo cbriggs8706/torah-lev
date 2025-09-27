@@ -1,8 +1,7 @@
 export const numbers = [
 	{
 		number: 1,
-		eng: '/audio/sound-alef-tsere.mp3',
-		// eng: '/numbers/eng/1.mp3',
+		eng: '/numbers/eng/1.mp3',
 		spa: '/numbers/spa/1.mp3',
 		por: '/numbers/por/1.mp3',
 		grk: '/numbers/grk/1.mp3',
