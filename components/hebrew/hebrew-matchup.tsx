@@ -112,8 +112,7 @@ export default function WordMatchGame({
 	const { width, height } = useWindowSize()
 	const audioRef = useRef<HTMLAudioElement | null>(null)
 
-	const getCardId = (card: HebrewVocab) =>
-		`${(card.heb || '').trim()}::${(card.eng || '').trim()}`
+	const getCardId = (card: HebrewVocab) => String(card.id)
 
 	const lessonOptions = useMemo(() => {
 		const allLessons = data.flatMap((card) => card.lessons)
@@ -211,11 +210,15 @@ export default function WordMatchGame({
 
 	function handleDragEnd(event: DragEndEvent) {
 		const { active, over } = event
+		if (!over) return
 
-		if (over && active.id === over.id) {
+		const activeId = String(active.id)
+		const overId = String(over.id)
+
+		if (activeId === overId) {
 			setMatches((prev) => ({
 				...prev,
-				[String(active.id)]: String(over.id),
+				[activeId]: overId,
 			}))
 		}
 	}
@@ -460,7 +463,7 @@ export default function WordMatchGame({
 						<div
 							className="grid gap-4 justify-center"
 							style={{
-								gridTemplateColumns: `repeat(${cols}, minmax(${targetSize}px, 1fr))`,
+								gridTemplateColumns: `repeat(auto-fit, minmax(${targetSize}px, 1fr))`,
 							}}
 						>
 							{' '}

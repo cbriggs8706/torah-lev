@@ -28,7 +28,11 @@ export default async function PrayerDetailPage({
 						height={90}
 						width={90}
 					/>
-					<h1 className="text-center font-bold text-neutral-800 text-2xl my-6">
+					<h1 className="text-center font-cardo text-neutral-800 text-6xl my-6">
+						תְּפִלָּה
+					</h1>
+					<p className="text-center font-bold text-neutral-800 mb-2">Prayer</p>
+					<h1 className="text-center font-bold text-neutral-800 text-2xl">
 						{prayer.title}
 					</h1>
 				</div>

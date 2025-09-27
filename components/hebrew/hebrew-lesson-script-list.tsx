@@ -38,7 +38,10 @@ export default function LessonScriptList({
 	)
 
 	return (
-		<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+		<div
+			className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4"
+			dir="rtl"
+		>
 			{/* Displaying the sorted list */}
 			{sortedLessonScripts.map((script) => {
 				// Check if the lesson should be locked (after currentLesson)
@@ -65,7 +68,7 @@ export default function LessonScriptList({
 								locked ? 'pointer-events-none' : ''
 							}`}
 						>
-							View Lesson Script
+							קרא
 						</Link>
 					</div>
 				)

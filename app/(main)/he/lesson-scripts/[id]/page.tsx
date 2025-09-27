@@ -25,9 +25,12 @@ export default async function HebrewLessonScriptPage({
 						height={90}
 						width={90}
 					/>
-					<h1 className="text-center font-bold text-neutral-800 text-2xl my-6">
-						Lesson Script
+					<h1 className="text-center font-cardo text-neutral-800 text-6xl my-6">
+						תַּסְרִיט שִׁעוּר
 					</h1>
+					<p className="text-center font-bold text-neutral-800 mb-2">
+						Lesson Script
+					</p>
 				</div>
 				<LessonScriptViewer lessonScript={lessonScript} />
 			</FeedWrapper>

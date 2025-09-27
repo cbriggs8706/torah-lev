@@ -46,9 +46,12 @@ const HebrewSentenceBuilderPage = async () => {
 						height={90}
 						width={90}
 					/>
-					<h1 className="text-center font-bold text-neutral-800 text-2xl my-6">
-						Sentence Builder
+					<h1 className="text-center font-cardo text-neutral-800 text-6xl my-6">
+						בּוֹנֵה מִשְׁפָּטִים
 					</h1>
+					<p className="text-center font-bold text-neutral-800 mb-2">
+						Sentence Builder
+					</p>
 					<DismissibleAlert storageKey="sentenceBuilder" className="mb-4">
 						Known issues. This activity will be merged into the Scramble
 						activity and enhanced. Coming soon! For now when you drag words into

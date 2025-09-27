@@ -165,7 +165,7 @@ export default function PrayerLinesTable({
 				<Button
 					variant={'default'}
 					onClick={() => {
-						router.push('/prayer')
+						router.push('/he/prayer')
 						router.refresh() // revalidate the next route after the push
 					}}
 				>

@@ -56,15 +56,17 @@ const HebrewSpeedQuizPage = async () => {
 						height={90}
 						width={90}
 					/>
-					<h1 className="text-center font-bold text-neutral-800 text-2xl my-6">
-						Speed Quiz
+					<h1 className="text-center font-cardo text-neutral-800 text-6xl my-6">
+						חִידוֹן מָהִיר
 					</h1>
-					{/* <DismissibleAlert storageKey="letter1" className="mb-4">
-						Quiz yourself on letter names, letter sounds or syllable sounds.
-						Play around with different fonts. New Study Alphabet button! More
-						fonts coming soon.
+					<p className="text-center font-bold text-neutral-800 mb-2">
+						Speed Quiz
+					</p>
+					<DismissibleAlert storageKey="letter1" className="mb-4">
+						Takes a second to load even though it appears blank at first. Click
+						filter to select a different lesson.
 					</DismissibleAlert>
-					<DismissibleAlert storageKey="letter2" className="mb-4">
+					{/*<DismissibleAlert storageKey="letter2" className="mb-4">
 						{' '}
 						The goal is to say the correct answer in under 3 seconds with no
 						more than 2 mistakes per round in order to pass it off in class.

@@ -51,9 +51,12 @@ const HebrewGrammarLessonsPage = async () => {
 						height={90}
 						width={90}
 					/>
-					<h1 className="text-center font-bold text-neutral-800 text-2xl my-6">
-						Grammar Lessons
+					<h1 className="text-center text-neutral-800 text-6xl font-cardo my-4">
+						שִׁעוּרֵי דִּקְדּוּק{' '}
 					</h1>
+					<p className="text-center font-bold text-neutral-800 mb-2">
+						Grammar Lessons
+					</p>
 					{/* <DismissibleAlert storageKey="scripts" className="mb-4">
             Lessons 1-100 are loaded. Most have audio where you can click the
             play button to listen while you read. Some browsers are having

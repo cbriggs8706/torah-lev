@@ -5,22 +5,30 @@ import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 
 import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
 
 type Props = {
 	label: string
 	iconSrc: string
 	href: string
 	onClick?: () => void
+	className?: string
 }
 
-export const SidebarItem = ({ label, iconSrc, href, onClick }: Props) => {
+export const SidebarItem = ({
+	label,
+	iconSrc,
+	href,
+	onClick,
+	className,
+}: Props) => {
 	const pathname = usePathname()
 	const active = pathname === href
 
 	return (
 		<Button
 			variant={active ? 'sidebarOutline' : 'sidebar'}
-			className="justify-start h-[52px]"
+			className={cn('justify-start h-[52px]', className)}
 			onClick={onClick}
 			asChild
 		>

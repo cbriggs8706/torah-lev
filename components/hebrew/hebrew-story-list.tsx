@@ -122,7 +122,7 @@ export default function StoryList({
 						<h2 className="text-lg font-semibold text-neutral-700 uppercase">
 							{cat}
 						</h2>
-						<div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+						<div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" dir="rtl">
 							{sortedItems.map((story) => {
 								const isLocked =
 									currentLesson !== null &&
@@ -166,7 +166,7 @@ export default function StoryList({
 										</Link>
 
 										{/* Text content */}
-										<div className="p-4">
+										<div className="p-4" dir="rtl">
 											<h3 className="text-4xl font-times">{story.hebTitle}</h3>
 
 											{story.hebTitle && (
@@ -186,7 +186,7 @@ export default function StoryList({
 													href={`/he/stories/${story.id}`}
 													className="inline-block px-3 py-1 bg-sky-500 text-white rounded hover:bg-sky-700 transition"
 												>
-													Read Story
+													קרא
 												</Link>
 											</div>
 										</div>

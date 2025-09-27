@@ -93,8 +93,7 @@ export default function EnglishWordMatchGame({
 	const { width, height } = useWindowSize()
 	const audioRef = useRef<HTMLAudioElement | null>(null)
 
-	const getCardId = (card: EnglishVocab) =>
-		`${(card.eng || '').trim()}::${(card.spa || '').trim()}`
+	const getCardId = (card: EnglishVocab) => String(card.id)
 
 	const lessonOptions = useMemo(() => {
 		const allLessons = data.flatMap((card) => card.lessons)
@@ -152,8 +151,9 @@ export default function EnglishWordMatchGame({
 
 	function handleDragEnd(event: DragEndEvent) {
 		const { active, over } = event
+		if (!over) return
 
-		if (over && active.id === over.id) {
+		if (active.id === over.id) {
 			setMatches((prev) => ({
 				...prev,
 				[String(active.id)]: String(over.id),
@@ -396,7 +396,7 @@ export default function EnglishWordMatchGame({
 						<div
 							className="grid gap-4 justify-center"
 							style={{
-								gridTemplateColumns: `repeat(${cols}, minmax(${targetSize}px, 1fr))`,
+								gridTemplateColumns: `repeat(auto-fit, minmax(${targetSize}px, 1fr))`,
 							}}
 						>
 							{' '}

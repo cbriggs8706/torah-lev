@@ -13,7 +13,6 @@ import {
 import awbHebrewVocab from '@/lib/data/vocab/awbVocab.json'
 import hsHebrewVocab from '@/lib/data/vocab/hsVocab.json'
 import abcHebrewVocab from '@/lib/data/vocab/abcVocab.json'
-// import awaGreekVocab from '@/lib/data/vocab/greek-vocab.json'
 
 import HebrewDictionary from '@/components/hebrew/hebrew-dictionary'
 import { DismissibleAlert } from '@/components/dismissible-alert'
@@ -86,9 +85,12 @@ const HebrewDictionaryPage = async () => {
 						height={90}
 						width={90}
 					/>
-					<h1 className="text-center font-bold text-neutral-800 text-2xl my-6">
-						Dictionary
+					<h1 className="text-center font-cardo text-neutral-800 text-6xl my-4">
+						מִלוֹן
 					</h1>
+					<p className="text-center font-bold text-neutral-800 mb-2">
+						Dictionary
+					</p>
 					<DismissibleAlert storageKey="dictionary" className="mb-4">
 						Make sure to look up words that you don&apos;t recognize in any
 						lesson. Filter alphabetically or by Lesson #. Click on any entry to

@@ -57,9 +57,12 @@ const HebrewScramblePage = async () => {
 						height={90}
 						width={90}
 					/>
-					<h1 className="text-center font-bold text-neutral-800 text-2xl my-6">
-						Scramble
+					<h1 className="text-center font-cardo text-neutral-800 text-6xl my-6">
+						עִרְבּוּב
 					</h1>
+					<p className="text-center font-bold text-neutral-800 mb-2">
+						Scramble
+					</p>
 					<DismissibleAlert storageKey="scramble" className="mb-4">
 						{' '}
 						Much more coming soon to this activity! Below is a scrambled up

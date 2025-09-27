@@ -93,7 +93,7 @@ export default function PrayerList({ prayers }: { prayers: Prayer[] }) {
 					<h2 className="text-lg font-semibold text-neutral-700 uppercase">
 						{cat}
 					</h2>
-					<div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+					<div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" dir="rtl">
 						{items.map((prayer) => (
 							<div
 								key={prayer.id}
@@ -112,10 +112,10 @@ export default function PrayerList({ prayers }: { prayers: Prayer[] }) {
 								)}
 
 								<Link
-									href={`/prayer/${prayer.id}`}
+									href={`/he/prayer/${prayer.id}`}
 									className="inline-block mt-3 px-3 py-1 bg-sky-500 text-white rounded hover:bg-sky-700 transition"
 								>
-									View Prayer
+									התפלל
 								</Link>
 							</div>
 						))}

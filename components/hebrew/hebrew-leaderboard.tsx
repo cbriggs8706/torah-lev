@@ -29,7 +29,12 @@ export default async function HebrewLeaderboard() {
 	if (!leaderboard?.length) {
 		return (
 			<div className="w-full">
-				<h2 className="text-xl font-bold mb-4">Leaderboard</h2>
+				<h1 className="text-center font-cardo text-neutral-800 text-6xl my-6">
+					טַבְלַת מוֹבִילִים
+				</h1>
+				<p className="text-center font-bold text-neutral-800 mb-2">
+					Leaderboard
+				</p>
 				<p className="text-muted-foreground">No users yet.</p>
 			</div>
 		)
@@ -78,10 +83,10 @@ export default async function HebrewLeaderboard() {
 				height={90}
 				width={90}
 			/>
-			<h1 className="text-center font-bold text-neutral-800 text-2xl my-6">
-				Leaderboard
+			<h1 className="text-center font-cardo text-neutral-800 text-6xl my-6">
+				טַבְלַת מוֹבִילִים
 			</h1>
-
+			<p className="text-center font-bold text-neutral-800 mb-2">Leaderboard</p>
 			<Separator className="mb-4 h-0.5 rounded-full" />
 
 			{/* Desktop: User Leaderboard */}

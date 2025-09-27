@@ -67,68 +67,77 @@ export default function SidebarClient({
 				<HebrewClock onClick={onItemClick} isWidget={true} />
 			)}
 			<div className="flex flex-col gap-y-2 flex-1 overflow-y-auto">
-				<SidebarItem
-					label="Learn"
-					href="/learn"
-					iconSrc="/youtube.svg"
-					onClick={onItemClick}
-				/>
-
 				{[6, 11, 14].includes(userProgress?.activeCourse.id) && (
 					<>
 						<SidebarItem
-							label="Flashcards"
+							label="למד"
+							href="/learn"
+							iconSrc="/youtube.svg"
+							onClick={onItemClick}
+							className="font-cardo text-xl"
+						/>
+						<SidebarItem
+							label="כרטיסיות"
 							href="/flashcard"
 							iconSrc="/card-file-box.svg"
 							onClick={onItemClick}
+							className="font-cardo text-xl"
 						/>
 						<SidebarItem
-							label="Dictionary"
+							label="מילון"
 							href="/he/dictionary"
 							iconSrc="/open-book-svgrepo-com.svg"
 							onClick={onItemClick}
+							className="font-cardo text-xl"
 						/>
 						<SidebarItem
-							label="Matchup"
+							label="התאמה"
 							href="/he/matchup"
 							iconSrc="/socks-svgrepo-com.svg"
 							onClick={onItemClick}
+							className="font-cardo text-xl"
 						/>
 						<SidebarItem
-							label="Letter Quiz"
+							label="חידון אותיות"
 							href="/he/letter-quiz"
 							iconSrc="/a-button-blood-type-svgrepo-com.svg"
 							onClick={onItemClick}
+							className="font-cardo text-xl"
 						/>
 						<SidebarItem
-							label="Lesson Scripts"
+							label="תסריטי שיעור"
 							href="/he/lesson-scripts"
 							iconSrc="/spiral-notepad-svgrepo-com.svg"
 							onClick={onItemClick}
+							className="font-cardo text-xl"
 						/>
 						<SidebarItem
-							label="Spelling"
+							label="איות"
 							href="/he/spelling"
 							iconSrc="/input-latin-letters-svgrepo-com.svg"
 							onClick={onItemClick}
+							className="font-cardo text-xl"
 						/>
 						<SidebarItem
-							label="Music"
+							label="שירים"
 							href="/he/music"
 							iconSrc="/musical-note-svgrepo-com.svg"
 							onClick={onItemClick}
+							className="font-cardo text-xl"
 						/>
 						<SidebarItem
-							label="Leaderboard"
-							href="/leaderboard"
+							label="טבלת מובילים"
+							href="/he/leaderboard"
 							iconSrc="/trophy-svgrepo-com.svg"
 							onClick={onItemClick}
+							className="font-cardo text-xl"
 						/>
 						<SidebarItem
-							label="My Dashboard"
-							href="/dashboard"
+							label="לוח הבקרה"
+							href="/he/dashboard"
 							iconSrc="/mascot.svg"
 							onClick={onItemClick}
+							className="font-cardo text-xl"
 						/>
 					</>
 				)}
@@ -136,10 +145,11 @@ export default function SidebarClient({
 				{[6, 11].includes(userProgress?.activeCourse.id) && (
 					<>
 						<SidebarItem
-							label="Stories"
+							label="סיפורים"
 							href="/he/stories"
 							iconSrc="/books-svgrepo-com.svg"
 							onClick={onItemClick}
+							className="font-cardo text-xl"
 						/>
 					</>
 				)}
@@ -147,6 +157,12 @@ export default function SidebarClient({
 				{/* English */}
 				{[3, 4, 13, 16, 17].includes(userProgress?.activeCourse.id) && (
 					<>
+						<SidebarItem
+							label="Learn"
+							href="/learn"
+							iconSrc="/youtube.svg"
+							onClick={onItemClick}
+						/>
 						<SidebarItem
 							label="Flashcards"
 							href="/en/flashcards"
@@ -215,6 +231,12 @@ export default function SidebarClient({
 				{userProgress?.activeCourse.id === 12 && (
 					<>
 						<SidebarItem
+							label="Learn"
+							href="/learn"
+							iconSrc="/youtube.svg"
+							onClick={onItemClick}
+						/>
+						<SidebarItem
 							label="Flashcards"
 							href="/flashcard"
 							iconSrc="/card-file-box.svg"
@@ -247,22 +269,25 @@ export default function SidebarClient({
 						/> */}
 
 						<SidebarItem
-							label="Speed Quiz"
+							label="חידון מהיר"
 							href="/he/speed-quiz"
 							iconSrc="/man-juggling-medium-skin-tone-svgrepo-com.svg"
 							onClick={onItemClick}
+							className="font-cardo text-xl"
 						/>
 						<SidebarItem
-							label="Scramble"
+							label="ערבוב"
 							href="/he/scramble"
 							iconSrc="/cooking-svgrepo-com.svg"
 							onClick={onItemClick}
+							className="font-cardo text-xl"
 						/>
 						<SidebarItem
-							label="Sentences"
+							label="משפטים"
 							href="/he/sentence-builder"
 							iconSrc="/building-construction-svgrepo-com.svg"
 							onClick={onItemClick}
+							className="font-cardo text-xl"
 						/>
 						{/* <span className="text-lg text-red-700 font-semibold text-center">
 							-- Coming Soon --
@@ -323,17 +348,19 @@ export default function SidebarClient({
 									-- Locals --
 								</span>
 								<SidebarItem
-									label="Schedule"
+									label="לוח זמנים"
 									href="/camerons-groups"
 									iconSrc="/tear-off-calendar-svgrepo-com.svg"
 									onClick={onItemClick}
+									className="font-cardo text-xl"
 								/>
 
 								<SidebarItem
-									label="Prayers"
-									href="/prayer"
+									label="תפילות"
+									href="/he/prayer"
 									iconSrc="/folded-hands-medium-dark-skin-tone-svgrepo-com.svg"
 									onClick={onItemClick}
+									className="font-cardo text-xl"
 								/>
 							</>
 						)}

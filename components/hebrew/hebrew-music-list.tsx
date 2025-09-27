@@ -110,7 +110,7 @@ export default function SongList({
 					<h2 className="text-lg font-semibold text-neutral-700 uppercase">
 						{cat}
 					</h2>
-					<div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+					<div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" dir="rtl">
 						{items.map((music) => (
 							<div
 								key={music.id}
@@ -149,7 +149,7 @@ export default function SongList({
 									className="inline-block mt-3 px-3 py-1 bg-sky-500 text-white rounded hover:bg-sky-700 transition"
 									scroll
 								>
-									View Song
+									שיר
 								</Link>
 							</div>
 							// <div
