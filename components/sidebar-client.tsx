@@ -106,7 +106,12 @@ export default function SidebarClient({
 							iconSrc="/spiral-notepad-svgrepo-com.svg"
 							onClick={onItemClick}
 						/>
-
+						<SidebarItem
+							label="Spelling"
+							href="/he/spelling"
+							iconSrc="/input-latin-letters-svgrepo-com.svg"
+							onClick={onItemClick}
+						/>
 						<SidebarItem
 							label="Music"
 							href="/he/music"
@@ -178,6 +183,12 @@ export default function SidebarClient({
 							iconSrc="/a-button-blood-type-svgrepo-com.svg"
 							onClick={onItemClick}
 						/>
+						<SidebarItem
+							label="Spelling"
+							href="/en/spelling"
+							iconSrc="/input-latin-letters-svgrepo-com.svg"
+							onClick={onItemClick}
+						/>
 					</>
 				)}
 				{[13, 17].includes(userProgress?.activeCourse.id) && (
@@ -234,12 +245,7 @@ export default function SidebarClient({
 							iconSrc="/bookmark-tabs-svgrepo-com (1).svg"
 							onClick={onItemClick}
 						/> */}
-						<SidebarItem
-							label="Spelling"
-							href="/he/spelling"
-							iconSrc="/input-latin-letters-svgrepo-com.svg"
-							onClick={onItemClick}
-						/>
+
 						<SidebarItem
 							label="Speed Quiz"
 							href="/he/speed-quiz"

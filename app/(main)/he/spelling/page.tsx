@@ -13,7 +13,10 @@ import {
 import dynamic from 'next/dynamic'
 
 import awbHebrewVocab from '@/lib/data/vocab/awbVocab.json'
+import hsHebrewVocab from '@/lib/data/vocab/hsVocab.json'
+import abcHebrewVocab from '@/lib/data/vocab/abcVocab.json'
 import { DismissibleAlert } from '@/components/dismissible-alert'
+import { HebrewVocab } from '@/lib/vocab'
 
 const SpellingPractice = dynamic(
 	() => import('@/components/hebrew/hebrew-spelling'),
@@ -39,7 +42,20 @@ const HebrewSpellingPage = async () => {
 	const isPro = !!userSubscription?.isActive
 
 	const currentLesson = userChallengeData?.activeLesson?.lessonNumber
+	const activeCourseId = userProgress.activeCourseId
 
+	const hebrewData: HebrewVocab[] = (() => {
+		const baseData: HebrewVocab[] =
+			activeCourseId === 6
+				? (awbHebrewVocab as HebrewVocab[])
+				: activeCourseId === 11
+				? (hsHebrewVocab as HebrewVocab[])
+				: activeCourseId === 14
+				? (abcHebrewVocab as HebrewVocab[])
+				: []
+
+		return baseData.filter((w) => w.type?.toLowerCase() === 'word')
+	})()
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
 			{/* <StickyWrapper>
@@ -70,7 +86,7 @@ const HebrewSpellingPage = async () => {
 					</DismissibleAlert>
 
 					<SpellingPractice
-						data={awbHebrewVocab}
+						data={hebrewData}
 						currentLesson={currentLesson ?? ''}
 						userId={userProgress.userId}
 					/>
