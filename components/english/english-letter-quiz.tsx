@@ -333,7 +333,16 @@ export default function EnglishLetterQuiz({
 	}
 
 	return (
-		<div className="w-full mx-auto p-6 text-center border rounded-xl shadow">
+		<div className="w-full mx-auto p-6 text-center border rounded-xl shadow relative">
+			{gameStarted && (
+				<button
+					onClick={resetToStart}
+					className="absolute top-4 left-4 text-gray-600 hover:text-gray-900"
+					aria-label="Back"
+				>
+					⬅️
+				</button>
+			)}
 			{showConfetti && passed && (
 				<>
 					<ReactConfetti
@@ -676,14 +685,6 @@ export default function EnglishLetterQuiz({
 				</div>
 			) : (
 				<div className="relative">
-					{/* Back button in upper left */}
-					<button
-						onClick={resetToStart}
-						className="absolute top-4 left-4 p-2 rounded-full bg-gray-200 hover:bg-gray-300"
-					>
-						⬅
-					</button>
-
 					{/* Prompt area */}
 					<div className="min-h-[220px] mb-6 flex flex-col justify-center items-center">
 						<div className="flex items-end gap-4">

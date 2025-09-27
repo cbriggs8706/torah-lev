@@ -6,6 +6,7 @@ import ReactConfetti from 'react-confetti'
 import Image from 'next/image'
 interface HebrewLetterQuizProps {
 	letters: HebrewLetter[]
+	niqqud: HebrewNiqqud[]
 	userId: string
 	pointsOnPass?: number
 }
@@ -21,8 +22,15 @@ interface HebrewLetter {
 	category?: string
 	imageKey?: string
 }
+interface HebrewNiqqud {
+	char: string
+	name: string
+	nameAudio: string
+	soundAudio: string
+	imageKey?: string
+}
 
-type Mode = 'name' | 'sound' | 'niqqud'
+type Mode = 'name' | 'sound' | 'syllable' | 'niqqud'
 type FontChoice =
 	| 'arial'
 	| 'times'
@@ -89,7 +97,7 @@ function CountdownCircle({ seconds }: { seconds: number }) {
 	)
 }
 
-const niqqudOptions = [
+const syllableOptions = [
 	{ key: 'qamats', symbol: 'ָ' },
 	{ key: 'patach', symbol: 'ַ' },
 	{ key: 'chataf-patach', symbol: 'ֲ' },
@@ -113,6 +121,7 @@ const niqqudOptions = [
 
 export default function HebrewLetterQuiz({
 	letters,
+	niqqud,
 	userId,
 	pointsOnPass,
 }: HebrewLetterQuizProps) {
@@ -132,7 +141,7 @@ export default function HebrewLetterQuiz({
 	const [wrongAnswers, setWrongAnswers] = useState<HebrewLetter[]>([])
 	const [finishAudio] = useAudio({ src: '/finish.mp3', autoPlay: true })
 	const { width, height } = useWindowSize()
-	const [selectedNiqqud, setSelectedNiqqud] = useState<string[]>([])
+	const [selectedVowel, setSelectedVowels] = useState<string[]>([])
 	const [disabledButtons, setDisabledButtons] = useState(false)
 	const [studyMode, setStudyMode] = useState(false)
 	const [awardedPoints, setAwardedPoints] = useState<number>(0)
@@ -164,14 +173,14 @@ export default function HebrewLetterQuiz({
 			base = letters.filter((l) =>
 				(getActiveNameAudio(l) ?? '').includes('base')
 			)
-		} else if (selectedMode === 'niqqud') {
-			if (selectedNiqqud.length === 0) return []
+		} else if (selectedMode === 'syllable') {
+			if (selectedVowel.length === 0) return []
 			base = letters.filter((l) => {
 				const activeName = getActiveNameAudio(l) ?? ''
 				const match = activeName.match(/name-[^-]+-(.+)\.mp3$/)
 				if (!match) return false
-				const niqqudKey = match[1]
-				return selectedNiqqud.includes(niqqudKey)
+				const syllableKey = match[1]
+				return selectedVowel.includes(syllableKey)
 			})
 		}
 
@@ -187,29 +196,40 @@ export default function HebrewLetterQuiz({
 
 			return true
 		})
-	}, [letters, selectedMode, selectedNiqqud, fontChoice, getActiveNameAudio])
+	}, [letters, selectedMode, selectedVowel, fontChoice, getActiveNameAudio])
+
+	const filteredNiqqud = useMemo(() => {
+		if (selectedMode !== 'niqqud') return []
+		return niqqud
+	}, [selectedMode, niqqud])
 
 	useEffect(() => {
 		if (!gameStarted) return
-		if (filteredLetters.length === 0) return
 
-		const shuffled = [...filteredLetters].sort(() => Math.random() - 0.5)
+		const pool = selectedMode === 'niqqud' ? filteredNiqqud : filteredLetters
 
-		setShuffledLetters(shuffled)
+		if (pool.length === 0) return
+
+		const shuffled = [...pool].sort(() => Math.random() - 0.5)
+
+		setShuffledLetters(shuffled as HebrewLetter[])
 		setCurrentIndex(0)
 		setFinished(false)
 		setCorrectCount(0)
 		setWrongCount(0)
 		setWrongAnswers([])
-	}, [gameStarted, filteredLetters])
+	}, [gameStarted, filteredLetters, filteredNiqqud, selectedMode])
 
 	const currentLetter = shuffledLetters[currentIndex]
 
 	const getAudioSrc = useCallback(() => {
 		if (!currentLetter) return ''
-		if (selectedMode === 'name') return getActiveNameAudio(currentLetter)
-		if (selectedMode === 'sound' || selectedMode === 'niqqud')
-			return getActiveSoundAudio(currentLetter)
+		if (selectedMode === 'name')
+			return getActiveNameAudio(currentLetter as HebrewLetter)
+		if (selectedMode === 'sound' || selectedMode === 'syllable')
+			return getActiveSoundAudio(currentLetter as HebrewLetter)
+		if (selectedMode === 'niqqud')
+			return (currentLetter as HebrewNiqqud).soundAudio
 		return ''
 	}, [currentLetter, selectedMode, getActiveNameAudio, getActiveSoundAudio])
 
@@ -281,7 +301,7 @@ export default function HebrewLetterQuiz({
 				setFinished(true)
 			} else {
 				setCurrentIndex((i) => i + 1)
-				setDisabledButtons(false) // Re-enable after transition
+				setDisabledButtons(false)
 			}
 		}, 1500)
 	}
@@ -291,9 +311,9 @@ export default function HebrewLetterQuiz({
 	const hebrewExample = 'א'
 
 	const isStartDisabled =
-		selectedMode === 'niqqud' && selectedNiqqud.length === 0
-			? true
-			: filteredLetters.length === 0
+		(selectedMode === 'syllable' && selectedVowel.length === 0) ||
+		(selectedMode === 'niqqud' && filteredNiqqud.length === 0) ||
+		(selectedMode !== 'niqqud' && filteredLetters.length === 0)
 
 	useEffect(() => {
 		if (!gameStarted || finished || !currentLetter) return
@@ -344,7 +364,7 @@ export default function HebrewLetterQuiz({
 					body: JSON.stringify({ userId, points }),
 				})
 				if (!res.ok) throw new Error('Bad response')
-				setAwardedPoints(points) // reflect what was actually awarded
+				setAwardedPoints(points)
 			} catch (err) {
 				console.error('Failed to award points', err)
 			}
@@ -380,7 +400,16 @@ export default function HebrewLetterQuiz({
 	}
 
 	return (
-		<div className="w-full mx-auto p-6 text-center border rounded-xl shadow">
+		<div className="w-full mx-auto p-6 text-center border rounded-xl shadow flex flex-col min-h-[600px] relative">
+			{gameStarted && (
+				<button
+					onClick={resetToStart}
+					className="absolute top-4 left-4 text-gray-600 hover:text-gray-900"
+					aria-label="Back"
+				>
+					⬅️
+				</button>
+			)}
 			{showConfetti && passed && (
 				<>
 					<ReactConfetti
@@ -396,27 +425,33 @@ export default function HebrewLetterQuiz({
 
 			{!gameStarted ? (
 				<div>
-					<h1 className="text-2xl font-bold mb-6">Start Letter Quiz</h1>
+					<h1 className="text-2xl font-bold mb-6">
+						Customize Your Letter Quiz
+					</h1>
 					<div className="mb-6">
 						<p className="font-medium mb-2">Select Mode</p>
 						<div className="flex justify-center gap-2">
-							{(['name', 'sound', 'niqqud'] as Mode[]).map((mode) => (
-								<button
-									key={mode}
-									onClick={() => setSelectedMode(mode)}
-									className={`px-4 py-2 border rounded-full ${
-										selectedMode === mode
-											? 'bg-blue-500 text-white'
-											: 'bg-gray-200'
-									}`}
-								>
-									{mode === 'name'
-										? 'Names'
-										: mode === 'sound'
-										? 'Sounds'
-										: 'Syllables'}
-								</button>
-							))}
+							{(['name', 'sound', 'syllable', 'niqqud'] as Mode[]).map(
+								(mode) => (
+									<button
+										key={mode}
+										onClick={() => setSelectedMode(mode)}
+										className={`px-4 py-2 border rounded-full ${
+											selectedMode === mode
+												? 'bg-blue-500 text-white'
+												: 'bg-gray-200'
+										}`}
+									>
+										{mode === 'name'
+											? 'Names'
+											: mode === 'sound'
+											? 'Sounds'
+											: mode === 'syllable'
+											? 'Syllables'
+											: 'Niqqud Names'}
+									</button>
+								)
+							)}
 						</div>
 					</div>
 					<div className="mb-6">
@@ -437,40 +472,40 @@ export default function HebrewLetterQuiz({
 							))}
 						</div>
 					</div>
-					{selectedMode === 'niqqud' && (
+					{selectedMode === 'syllable' && (
 						<div className="mb-6">
-							<p className="font-medium mb-2">Select Niqqud(s)</p>
+							<p className="font-medium mb-2">Select Vowel(s)</p>
 							<div className="flex flex-wrap gap-2 justify-center">
 								<button
 									onClick={() => {
-										if (selectedNiqqud.length === niqqudOptions.length) {
-											setSelectedNiqqud([]) // Deselect all
+										if (selectedVowel.length === syllableOptions.length) {
+											setSelectedVowels([])
 										} else {
-											setSelectedNiqqud(niqqudOptions.map((n) => n.key)) // Select all
+											setSelectedVowels(syllableOptions.map((n) => n.key))
 										}
 									}}
 									className={`px-4 py-2 border rounded-full font-semibold ${
-										selectedNiqqud.length === niqqudOptions.length
+										selectedVowel.length === syllableOptions.length
 											? 'bg-red-500 text-white'
 											: 'bg-green-600 text-white'
 									}`}
 								>
-									{selectedNiqqud.length === niqqudOptions.length
+									{selectedVowel.length === syllableOptions.length
 										? 'Clear All'
 										: 'Select All'}
 								</button>
-								{niqqudOptions.map(({ key, symbol }) => (
+								{syllableOptions.map(({ key, symbol }) => (
 									<button
 										key={key}
 										onClick={() =>
-											setSelectedNiqqud((prev) =>
+											setSelectedVowels((prev) =>
 												prev.includes(key)
 													? prev.filter((v) => v !== key)
 													: [...prev, key]
 											)
 										}
 										className={`text-5xl font-times w-16 h-16 border rounded-full ${
-											selectedNiqqud.includes(key)
+											selectedVowel.includes(key)
 												? 'bg-blue-600 text-white'
 												: 'bg-gray-200 text-black'
 										}`}
@@ -631,16 +666,16 @@ export default function HebrewLetterQuiz({
 							className="w-24 p-2 border text-center rounded mt-4"
 						/>
 					</div>
-					{selectedMode === 'niqqud' && selectedNiqqud.length === 0 && (
+					{selectedMode === 'syllable' && selectedVowel.length === 0 && (
 						<p className="text-red-600 font-medium mb-2">
-							Please select at least one niqqud to begin.
+							Please select at least one syllable to begin.
 						</p>
 					)}
 					<button
 						onClick={() => {
 							if (!isStartDisabled) {
-								setGameStarted(true) // <- make sure quiz mode is entered
-								setStudyMode(true) // <- then set study mode active
+								setGameStarted(true)
+								setStudyMode(true)
 							}
 						}}
 						disabled={isStartDisabled}
@@ -677,44 +712,52 @@ export default function HebrewLetterQuiz({
 				<div className="space-y-4">
 					<h2 className="text-2xl font-bold mb-4">Study the Alphabet</h2>
 					<div className="flex flex-wrap justify-center gap-6" dir="rtl">
-						{filteredLetters.map((l, i) => (
-							<div
-								key={i}
-								className="p-4 border rounded-lg flex flex-col items-center w-24"
-							>
-								{isImageFont(fontChoice) && l.imageKey ? (
-									<Image
-										src={`/letters/${fontChoice}-${l.imageKey}.jpg`}
-										alt={l.char}
-										width={50}
-										height={50}
-										className="h-auto w-auto object-contain mb-2"
-									/>
-								) : (
-									<div
-										className={`text-5xl mb-2 ${fontClassNameFor(fontChoice)}`}
-										dir="rtl"
-									>
-										{l.char}
-									</div>
-								)}
-
-								<button
-									onClick={() => {
-										const audio = new Audio(
-											selectedMode === 'name'
-												? getActiveNameAudio(l)
-												: getActiveSoundAudio(l)
-										)
-										audio.play()
-									}}
-									className="text-xl text-blue-600 hover:text-blue-800"
-									aria-label="Replay Audio"
+						{/* {filteredLetters.map((l, i) => ( */}
+						{(selectedMode === 'niqqud' ? filteredNiqqud : filteredLetters).map(
+							(l, i) => (
+								<div
+									key={i}
+									className="p-4 border rounded-lg flex flex-col items-center w-24"
 								>
-									🔊
-								</button>
-							</div>
-						))}
+									{'imageKey' in l && isImageFont(fontChoice) && l.imageKey ? (
+										<Image
+											src={`/letters/${fontChoice}-${l.imageKey}.jpg`}
+											alt={l.char}
+											width={50}
+											height={50}
+											className="h-auto w-auto object-contain mb-2"
+										/>
+									) : (
+										<div
+											className={`text-5xl mb-2 ${fontClassNameFor(
+												fontChoice
+											)}`}
+											dir="rtl"
+										>
+											{l.char}
+										</div>
+									)}
+
+									<button
+										onClick={() => {
+											const audio =
+												selectedMode === 'niqqud'
+													? new Audio((l as HebrewNiqqud).soundAudio)
+													: new Audio(
+															selectedMode === 'name'
+																? getActiveNameAudio(l as HebrewLetter)
+																: getActiveSoundAudio(l as HebrewLetter)
+													  )
+											audio.play()
+										}}
+										className="text-xl text-blue-600 hover:text-blue-800"
+										aria-label="Replay Audio"
+									>
+										🔊
+									</button>
+								</div>
+							)
+						)}
 					</div>
 					<button
 						onClick={() => resetToStart()}
@@ -838,37 +881,60 @@ export default function HebrewLetterQuiz({
 							🔊
 						</button>
 					)}
-					{!waiting && (
-						<div className="flex justify-center gap-6 mt-4">
-							<button
-								onClick={() => handleResponse(true)}
-								disabled={disabledButtons}
-								className={`px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 ${
-									disabledButtons ? 'opacity-50 cursor-not-allowed' : ''
+					<div className="flex justify-center gap-6 mt-6 min-h-[60px]">
+						{finished ? null : (
+							<>
+								<button
+									onClick={() => handleResponse(true)}
+									disabled={waiting || disabledButtons}
+									className={`px-4 py-2 rounded-lg ${
+										waiting || disabledButtons
+											? 'bg-green-300 cursor-not-allowed'
+											: 'bg-green-500 hover:bg-green-600'
+									}`}
+								>
+									I got it right 👍
+								</button>
+								{/* Pause button */}
+								<button
+									onClick={() => {
+										if (audioRef.current) {
+											if (audioRef.current.paused) {
+												audioRef.current.play()
+											} else {
+												audioRef.current.pause()
+											}
+										}
+									}}
+									className="px-4 py-2 bg-yellow-400 text-black rounded-lg hover:bg-yellow-500"
+								>
+									⏸ Pause
+								</button>
+								<button
+									onClick={() => handleResponse(false)}
+									disabled={waiting || disabledButtons}
+									className={`px-4 py-2 rounded-lg ${
+										waiting || disabledButtons
+											? 'bg-red-300 cursor-not-allowed'
+											: 'bg-red-500 hover:bg-red-600'
+									}`}
+								>
+									I missed it 👎
+								</button>
+							</>
+						)}
+					</div>
+					<div className="mt-4 min-h-[32px]">
+						{feedback !== null && (
+							<p
+								className={`text-lg font-bold ${
+									feedback ? 'text-green-600' : 'text-red-500'
 								}`}
 							>
-								I got it right 👍
-							</button>
-							<button
-								onClick={() => handleResponse(false)}
-								disabled={disabledButtons}
-								className={`px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 ${
-									disabledButtons ? 'opacity-50 cursor-not-allowed' : ''
-								}`}
-							>
-								I missed it 👎
-							</button>
-						</div>
-					)}
-					{feedback !== null && (
-						<p
-							className={`mt-4 text-lg font-bold ${
-								feedback ? 'text-green-600' : 'text-red-500'
-							}`}
-						>
-							{feedback ? 'Great job!' : "Don't worry, you got this!"}
-						</p>
-					)}
+								{feedback ? 'Great job!' : "Don't worry, you got this!"}
+							</p>
+						)}
+					</div>
 					<div className="mt-6">
 						<p className="text-sm font-medium text-gray-600 mb-1">
 							{currentIndex + 1} / {total}
@@ -879,18 +945,6 @@ export default function HebrewLetterQuiz({
 								style={{ width: `${((currentIndex + 1) / total) * 100}%` }}
 							></div>
 						</div>
-					</div>
-					<div className="mt-6">
-						<button
-							onClick={() => {
-								resetToStart()
-								setShowConfetti(false)
-								setFinished(false)
-							}}
-							className="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded-lg text-gray-800"
-						>
-							Restart
-						</button>
 					</div>
 				</>
 			)}

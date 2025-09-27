@@ -7,6 +7,7 @@ import { StickyWrapper } from '@/components/sticky-wrapper'
 import { getUserProgress, getUserSubscription } from '@/db/queries'
 import dynamic from 'next/dynamic'
 import { hebrewLetters } from '@/lib/hebrew-letters'
+import { hebrewNiqqud } from '@/lib/hebrew-niqqud'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 
 const LetterQuiz = dynamic(
@@ -66,7 +67,11 @@ const HebrewLetterQuizPage = async () => {
 						The goal is to say the correct answer in under 3 seconds with no
 						more than 2 mistakes per round in order to pass it off in class.
 					</DismissibleAlert>
-					<LetterQuiz letters={hebrewLetters} userId={userProgress.userId} />
+					<LetterQuiz
+						letters={hebrewLetters}
+						niqqud={hebrewNiqqud}
+						userId={userProgress.userId}
+					/>
 				</div>
 			</FeedWrapper>
 		</div>
