@@ -46,7 +46,7 @@
 		"partOfSpeech": ["article"],
 		"ipa": "[eɪ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/a.mp3"
 	},
 	{
 		"id": 2,
@@ -79,7 +79,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[æm]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/am.mp3"
 	},
 	{
 		"id": 3,
@@ -128,7 +128,7 @@
 		"partOfSpeech": ["conj."],
 		"ipa": "[ænd]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/and.mp3"
 	},
 	{
 		"id": 4,
@@ -168,7 +168,7 @@
 		"partOfSpeech": ["noun (name)"],
 		"ipa": "[ˈændru]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/andrew.mp3"
 	},
 	{
 		"id": 5,
@@ -206,7 +206,7 @@
 		"partOfSpeech": ["noun (name)"],
 		"ipa": "[bɛθ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/beth.mp3"
 	},
 	{
 		"id": 6,
@@ -251,7 +251,7 @@
 		"partOfSpeech": ["interj."],
 		"ipa": "[baɪ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/bye.mp3"
 	},
 	{
 		"id": 7,
@@ -288,7 +288,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[kɑr]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/car.mp3"
 	},
 	{
 		"id": 8,
@@ -322,7 +322,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[kæt]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/cat.mp3"
 	},
 	{
 		"id": 9,
@@ -355,7 +355,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[kəmˈpjutər]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/computer.mp3"
 	},
 	{
 		"id": 10,
@@ -392,7 +392,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[dɑɡ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/dog.mp3"
 	},
 	{
 		"id": 11,
@@ -411,7 +411,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈdɑɡhaʊs]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/doghouse.mp3"
 	},
 	{
 		"id": 12,
@@ -444,7 +444,7 @@
 		"partOfSpeech": ["adj."],
 		"ipa": "[ɡʊd]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/good.mp3"
 	},
 	{
 		"id": 13,
@@ -463,7 +463,7 @@
 		"partOfSpeech": ["interj."],
 		"ipa": "[həˈloʊ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/hello.mp3"
 	},
 	{
 		"id": 14,
@@ -502,7 +502,7 @@
 		"partOfSpeech": ["adv."],
 		"ipa": "[hɪr]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/here.mp3"
 	},
 	{
 		"id": 15,
@@ -521,7 +521,7 @@
 		"partOfSpeech": ["interj."],
 		"ipa": "[heɪ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/hey.mp3"
 	},
 	{
 		"id": 16,
@@ -561,7 +561,7 @@
 		"partOfSpeech": ["interj."],
 		"ipa": "[haɪ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/hi.mp3"
 	},
 	{
 		"id": 17,
@@ -580,7 +580,7 @@
 		"partOfSpeech": ["interj."],
 		"ipa": "[hmː]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/hmm.mp3"
 	},
 	{
 		"id": 18,
@@ -614,7 +614,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[haʊs]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/house.mp3"
 	},
 	{
 		"id": 19,
@@ -662,7 +662,7 @@
 		"partOfSpeech": ["pronoun"],
 		"ipa": "[aɪ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/i.mp3"
 	},
 	{
 		"id": 20,
@@ -706,7 +706,7 @@
 		"partOfSpeech": ["contraction"],
 		"ipa": "[aɪm]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/im.mp3"
 	},
 	{
 		"id": 21,
@@ -755,7 +755,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[ɪz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/is.mp3"
 	},
 	{
 		"id": 22,
@@ -774,7 +774,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[dʒɑb]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/job.mp3"
 	},
 	{
 		"id": 23,
@@ -793,7 +793,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈkɪti]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/kitty.mp3"
 	},
 	{
 		"id": 24,
@@ -828,7 +828,7 @@
 		"partOfSpeech": ["noun/verb"],
 		"ipa": "[lʌv]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/love.mp3"
 	},
 	{
 		"id": 25,
@@ -865,7 +865,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[mæn]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/man.mp3"
 	},
 	{
 		"id": 26,
@@ -910,7 +910,7 @@
 		"partOfSpeech": ["noun (name)"],
 		"ipa": "[neɪˈoʊmi]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/naomi.mp3"
 	},
 	{
 		"id": 27,
@@ -948,7 +948,7 @@
 		"partOfSpeech": ["interj."],
 		"ipa": "[oʊ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/oh.mp3"
 	},
 	{
 		"id": 28,
@@ -993,7 +993,7 @@
 		"partOfSpeech": ["conj."],
 		"ipa": "[ɔr]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/or.mp3"
 	},
 	{
 		"id": 29,
@@ -1030,7 +1030,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[foʊn]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/phone.mp3"
 	},
 	{
 		"id": 30,
@@ -1064,7 +1064,7 @@
 		"partOfSpeech": ["adj./adv."],
 		"ipa": "[raɪt]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/right.mp3"
 	},
 	{
 		"id": 31,
@@ -1083,7 +1083,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈtɛləˌfoʊn]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/telephone.mp3"
 	},
 	{
 		"id": 32,
@@ -1102,7 +1102,7 @@
 		"partOfSpeech": ["article"],
 		"ipa": "[ðə], [ði]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/the.mp3"
 	},
 	{
 		"id": 33,
@@ -1151,7 +1151,7 @@
 		"partOfSpeech": [],
 		"ipa": "",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/this.mp3"
 	},
 	{
 		"id": 34,
@@ -1195,7 +1195,7 @@
 		"partOfSpeech": ["pronoun"],
 		"ipa": "[wʌt]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/what.mp3"
 	},
 	{
 		"id": 35,
@@ -1241,7 +1241,7 @@
 		"partOfSpeech": ["contraction"],
 		"ipa": "[wʌts]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/whats.mp3"
 	},
 	{
 		"id": 36,
@@ -1273,7 +1273,7 @@
 		"partOfSpeech": ["adv."],
 		"ipa": "[wɛr]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/where.mp3"
 	},
 	{
 		"id": 37,
@@ -1292,7 +1292,7 @@
 		"partOfSpeech": ["contraction"],
 		"ipa": "[wɛrz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/wheres.mp3"
 	},
 	{
 		"id": 38,
@@ -1311,7 +1311,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈwʊmən]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/woman.mp3"
 	},
 	{
 		"id": 39,
@@ -1344,7 +1344,7 @@
 		"partOfSpeech": ["interj."],
 		"ipa": "[jæ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/yeah.mp3"
 	},
 	{
 		"id": 40,
@@ -1388,7 +1388,7 @@
 		"partOfSpeech": ["pronoun"],
 		"ipa": "[juː]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/you.mp3"
 	},
 	{
 		"id": 41,
@@ -1407,7 +1407,7 @@
 		"partOfSpeech": ["interj."],
 		"ipa": "[ɑːw]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/aww.mp3"
 	},
 	{
 		"id": 42,
@@ -1445,7 +1445,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈbeɪbi]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/baby.mp3"
 	},
 	{
 		"id": 43,
@@ -1478,7 +1478,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[bɝd]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/bird.mp3"
 	},
 	{
 		"id": 44,
@@ -1497,7 +1497,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈbɝdhaʊs]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/birdhouse.mp3"
 	},
 	{
 		"id": 45,
@@ -1535,7 +1535,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[bɔɪ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/boy.mp3"
 	},
 	{
 		"id": 46,
@@ -1571,7 +1571,7 @@
 		"partOfSpeech": [],
 		"ipa": "",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/fish.mp3"
 	},
 	{
 		"id": 47,
@@ -1611,7 +1611,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ɡɝl]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/girl.mp3"
 	},
 	{
 		"id": 48,
@@ -1630,7 +1630,7 @@
 		"partOfSpeech": ["contraction"],
 		"ipa": "[hɪrz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/heres.mp3"
 	},
 	{
 		"id": 49,
@@ -1662,7 +1662,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[hɔrs]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/horse.mp3"
 	},
 	{
 		"id": 50,
@@ -1700,7 +1700,7 @@
 		"partOfSpeech": [],
 		"ipa": "",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/it.mp3"
 	},
 	{
 		"id": 51,
@@ -1741,7 +1741,7 @@
 		"partOfSpeech": [],
 		"ipa": "",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/its.mp3"
 	},
 	{
 		"id": 52,
@@ -1782,7 +1782,7 @@
 		"partOfSpeech": [],
 		"ipa": "",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/lesson.mp3"
 	},
 	{
 		"id": 53,
@@ -1819,7 +1819,7 @@
 		"partOfSpeech": ["pronoun"],
 		"ipa": "[miː]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/me.mp3"
 	},
 	{
 		"id": 54,
@@ -1864,7 +1864,7 @@
 		"partOfSpeech": ["interj."],
 		"ipa": "[noʊ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/no.mp3"
 	},
 	{
 		"id": 55,
@@ -1910,7 +1910,7 @@
 		"partOfSpeech": ["adv."],
 		"ipa": "[nɑt]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/not.mp3"
 	},
 	{
 		"id": 56,
@@ -1958,7 +1958,7 @@
 		"partOfSpeech": ["prep."],
 		"ipa": "[ʌv]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/of.mp3"
 	},
 	{
 		"id": 57,
@@ -1994,7 +1994,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈfoʊtoʊ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/photo.mp3"
 	},
 	{
 		"id": 58,
@@ -2013,7 +2013,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈfoʊtəˌɡræf]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/photograph.mp3"
 	},
 	{
 		"id": 59,
@@ -2048,7 +2048,7 @@
 		"partOfSpeech": ["pronoun"],
 		"ipa": "[ðæt]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/that.mp3"
 	},
 	{
 		"id": 60,
@@ -2084,7 +2084,7 @@
 		"partOfSpeech": ["contraction"],
 		"ipa": "[ðæts]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/thats.mp3"
 	},
 	{
 		"id": 61,
@@ -2116,7 +2116,7 @@
 		"partOfSpeech": ["pronoun"],
 		"ipa": "[huː]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/who.mp3"
 	},
 	{
 		"id": 62,
@@ -2151,7 +2151,7 @@
 		"partOfSpeech": ["interj."],
 		"ipa": "[jɛs]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/yes.mp3"
 	},
 	{
 		"id": 63,
@@ -2170,7 +2170,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[zɛd]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/zed.mp3"
 	},
 	{
 		"id": 64,
@@ -2189,7 +2189,7 @@
 		"partOfSpeech": ["noun (name)"],
 		"ipa": "[ˈeɪbrəhæm]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/abraham.mp3"
 	},
 	{
 		"id": 65,
@@ -2221,7 +2221,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[bʊk]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/book.mp3"
 	},
 	{
 		"id": 66,
@@ -2240,7 +2240,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[bɔɪz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/boys.mp3"
 	},
 	{
 		"id": 67,
@@ -2259,7 +2259,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ɡɝlz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/girls.mp3"
 	},
 	{
 		"id": 68,
@@ -2278,7 +2278,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ɡlæs]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/glass.mp3"
 	},
 	{
 		"id": 69,
@@ -2316,7 +2316,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[kɪdz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/kids.mp3"
 	},
 	{
 		"id": 70,
@@ -2335,7 +2335,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[kɑrz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/cars.mp3"
 	},
 	{
 		"id": 71,
@@ -2369,7 +2369,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈɡlæsɪz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/glasses.mp3"
 	},
 	{
 		"id": 72,
@@ -2388,7 +2388,7 @@
 		"partOfSpeech": ["noun (name)"],
 		"ipa": "[ˈlɪŋkən]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/lincoln.mp3"
 	},
 	{
 		"id": 73,
@@ -2407,7 +2407,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[mɛn]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/men.mp3"
 	},
 	{
 		"id": 74,
@@ -2426,7 +2426,7 @@
 		"partOfSpeech": ["interj."],
 		"ipa": "[mː]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/mmm.mp3"
 	},
 	{
 		"id": 75,
@@ -2462,7 +2462,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈpipəl]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/people.mp3"
 	},
 	{
 		"id": 76,
@@ -2481,7 +2481,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈpɝsən]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/person.mp3"
 	},
 	{
 		"id": 77,
@@ -2500,7 +2500,7 @@
 		"partOfSpeech": ["noun (name)"],
 		"ipa": "[ˈsuːpərmæn]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/superman.mp3"
 	},
 	{
 		"id": 78,
@@ -2547,7 +2547,7 @@
 		"partOfSpeech": ["pronoun"],
 		"ipa": "[ðiz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/these.mp3"
 	},
 	{
 		"id": 79,
@@ -2566,7 +2566,7 @@
 		"partOfSpeech": ["pronoun"],
 		"ipa": "[ðoʊz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/those.mp3"
 	},
 	{
 		"id": 80,
@@ -2604,7 +2604,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈwɔtər]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/water.mp3"
 	},
 	{
 		"id": 81,
@@ -2623,7 +2623,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈwɪmɪn]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/women.mp3"
 	},
 	{
 		"id": 82,
@@ -2642,7 +2642,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈziːbrə]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/zebra.mp3"
 	},
 	{
 		"id": 83,
@@ -2661,7 +2661,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈbeɪbiz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/babies.mp3"
 	},
 	{
 		"id": 84,
@@ -2680,7 +2680,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[bɔl]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/ball.mp3"
 	},
 	{
 		"id": 85,
@@ -2699,7 +2699,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[bɔlz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/balls.mp3"
 	},
 	{
 		"id": 86,
@@ -2731,7 +2731,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[kloʊðz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/clothes.mp3"
 	},
 	{
 		"id": 87,
@@ -2750,7 +2750,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈdɑlər]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/dollar.mp3"
 	},
 	{
 		"id": 88,
@@ -2769,7 +2769,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ɛɡ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/egg.mp3"
 	},
 	{
 		"id": 89,
@@ -2788,7 +2788,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ɛɡz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/eggs.mp3"
 	},
 	{
 		"id": 90,
@@ -2823,7 +2823,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[fuːd]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/food.mp3"
 	},
 	{
 		"id": 91,
@@ -2842,7 +2842,7 @@
 		"partOfSpeech": ["noun (name)"],
 		"ipa": "[dʒɔrdʒ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/george.mp3"
 	},
 	{
 		"id": 92,
@@ -2861,7 +2861,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈmʌni]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/money.mp3"
 	},
 	{
 		"id": 93,
@@ -2903,7 +2903,7 @@
 		"partOfSpeech": ["number"],
 		"ipa": "[wʌn]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/one.mp3"
 	},
 	{
 		"id": 94,
@@ -2922,7 +2922,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[rɑk]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/rock.mp3"
 	},
 	{
 		"id": 95,
@@ -2941,7 +2941,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[rɑks]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/rocks.mp3"
 	},
 	{
 		"id": 96,
@@ -2960,7 +2960,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[stɑr]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/star.mp3"
 	},
 	{
 		"id": 97,
@@ -2979,7 +2979,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈstɑrˌfɪʃ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/starfish.mp3"
 	},
 	{
 		"id": 98,
@@ -3018,7 +3018,7 @@
 		"partOfSpeech": ["number"],
 		"ipa": "[θriː]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/three.mp3"
 	},
 	{
 		"id": 99,
@@ -3063,7 +3063,7 @@
 		"partOfSpeech": ["number"],
 		"ipa": "[tuː]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/two.mp3"
 	},
 	{
 		"id": 100,
@@ -3082,7 +3082,7 @@
 		"partOfSpeech": ["noun (name)"],
 		"ipa": "[ˈwɑʃɪŋtən]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/washington.mp3"
 	},
 	{
 		"id": 101,
@@ -3101,7 +3101,7 @@
 		"partOfSpeech": ["interj."],
 		"ipa": "[waʊ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/wow.mp3"
 	},
 	{
 		"id": 102,
@@ -3147,7 +3147,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[ɑr]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/are.mp3"
 	},
 	{
 		"id": 103,
@@ -3166,7 +3166,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[bɝdz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/birds.mp3"
 	},
 	{
 		"id": 104,
@@ -3185,7 +3185,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[bʊks]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/books.mp3"
 	},
 	{
 		"id": 105,
@@ -3229,7 +3229,7 @@
 		"partOfSpeech": ["prep."],
 		"ipa": "[fɔr]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/for.mp3"
 	},
 	{
 		"id": 106,
@@ -3248,7 +3248,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈhɔrsɪz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/horses.mp3"
 	},
 	{
 		"id": 107,
@@ -3267,7 +3267,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈhaʊzɪz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/houses.mp3"
 	},
 	{
 		"id": 108,
@@ -3299,7 +3299,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[kɪd]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/kid.mp3"
 	},
 	{
 		"id": 109,
@@ -3318,7 +3318,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ɛm]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/m.mp3"
 	},
 	{
 		"id": 110,
@@ -3337,7 +3337,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[foʊnz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/phones.mp3"
 	},
 	{
 		"id": 111,
@@ -3356,7 +3356,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈfoʊtoʊz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/photos.mp3"
 	},
 	{
 		"id": 112,
@@ -3375,7 +3375,7 @@
 		"partOfSpeech": ["contraction"],
 		"ipa": "[huz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/whos.mp3"
 	},
 	{
 		"id": 113,
@@ -3414,7 +3414,7 @@
 		"partOfSpeech": ["article"],
 		"ipa": "[æn]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/an.mp3"
 	},
 	{
 		"id": 114,
@@ -3433,7 +3433,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[kæts]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/cats.mp3"
 	},
 	{
 		"id": 115,
@@ -3452,7 +3452,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[dɑɡz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/dogs.mp3"
 	},
 	{
 		"id": 116,
@@ -3471,7 +3471,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[ɡoʊ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/go.mp3"
 	},
 	{
 		"id": 117,
@@ -3513,7 +3513,7 @@
 		"partOfSpeech": ["prep."],
 		"ipa": "[ɪn]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/in.mp3"
 	},
 	{
 		"id": 118,
@@ -3553,7 +3553,7 @@
 		"partOfSpeech": ["prep."],
 		"ipa": "[ɑn]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/on.mp3"
 	},
 	{
 		"id": 119,
@@ -3572,7 +3572,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[stɑrz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/stars.mp3"
 	},
 	{
 		"id": 120,
@@ -3591,7 +3591,7 @@
 		"partOfSpeech": ["adv."],
 		"ipa": "[ðɛr]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/there.mp3"
 	},
 	{
 		"id": 121,
@@ -3610,7 +3610,7 @@
 		"partOfSpeech": ["noun (name)"],
 		"ipa": "[ˈwɑʃɪŋtənz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/washingtons.mp3"
 	},
 	{
 		"id": 122,
@@ -3629,7 +3629,7 @@
 		"partOfSpeech": ["interj."],
 		"ipa": "[jeɪ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/yay.mp3"
 	},
 	{
 		"id": 123,
@@ -3648,7 +3648,7 @@
 		"partOfSpeech": ["adv."],
 		"ipa": "[ˈɔlsoʊ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/also.mp3"
 	},
 	{
 		"id": 124,
@@ -3667,7 +3667,7 @@
 		"partOfSpeech": ["adj./pron."],
 		"ipa": "[ˈɛni]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/any.mp3"
 	},
 	{
 		"id": 125,
@@ -3686,7 +3686,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈbaɪsɪkəl]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/bicycle.mp3"
 	},
 	{
 		"id": 126,
@@ -3705,7 +3705,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈbaɪsɪkəlz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/bicycles.mp3"
 	},
 	{
 		"id": 127,
@@ -3724,7 +3724,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[baɪk]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/bike.mp3"
 	},
 	{
 		"id": 128,
@@ -3743,7 +3743,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[baɪks]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/bikes.mp3"
 	},
 	{
 		"id": 129,
@@ -3762,7 +3762,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[boʊt]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/boat.mp3"
 	},
 	{
 		"id": 130,
@@ -3781,7 +3781,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈboʊthaʊs]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/boathouse.mp3"
 	},
 	{
 		"id": 131,
@@ -3800,7 +3800,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[boʊts]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/boats.mp3"
 	},
 	{
 		"id": 132,
@@ -3840,7 +3840,7 @@
 		"partOfSpeech": ["conj."],
 		"ipa": "[bʌt]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/but.mp3"
 	},
 	{
 		"id": 133,
@@ -3859,7 +3859,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[kəmˈpjutərz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/computers.mp3"
 	},
 	{
 		"id": 134,
@@ -3900,7 +3900,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[duː]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/do.mp3"
 	},
 	{
 		"id": 135,
@@ -3919,7 +3919,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[dʌz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/does.mp3"
 	},
 	{
 		"id": 136,
@@ -3938,7 +3938,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[ˈdʌzənt]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/doesnt.mp3"
 	},
 	{
 		"id": 137,
@@ -3957,7 +3957,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈdɑlərz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/dollars.mp3"
 	},
 	{
 		"id": 138,
@@ -3998,7 +3998,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[doʊnt]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/dont.mp3"
 	},
 	{
 		"id": 139,
@@ -4030,7 +4030,7 @@
 		"partOfSpeech": ["number"],
 		"ipa": "[faɪv]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/five.mp3"
 	},
 	{
 		"id": 140,
@@ -4064,7 +4064,7 @@
 		"partOfSpeech": ["number"],
 		"ipa": "[fɔr]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/four.mp3"
 	},
 	{
 		"id": 141,
@@ -4105,7 +4105,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[hæz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/has.mp3"
 	},
 	{
 		"id": 142,
@@ -4149,7 +4149,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[hæv]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/have.mp3"
 	},
 	{
 		"id": 143,
@@ -4168,7 +4168,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈhaʊsˌboʊt]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/houseboat.mp3"
 	},
 	{
 		"id": 144,
@@ -4187,7 +4187,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈhaʊsˌboʊts]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/houseboats.mp3"
 	},
 	{
 		"id": 145,
@@ -4222,7 +4222,7 @@
 		"partOfSpeech": ["adv."],
 		"ipa": "[naʊ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/now.mp3"
 	},
 	{
 		"id": 146,
@@ -4241,7 +4241,7 @@
 		"partOfSpeech": ["interj."],
 		"ipa": "[uː]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/ooh.mp3"
 	},
 	{
 		"id": 147,
@@ -4260,7 +4260,7 @@
 		"partOfSpeech": ["interj."],
 		"ipa": "[rʌf]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/ruff.mp3"
 	},
 	{
 		"id": 148,
@@ -4279,7 +4279,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[ˈsiɪŋ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/seeing.mp3"
 	},
 	{
 		"id": 149,
@@ -4298,7 +4298,7 @@
 		"partOfSpeech": ["adj./pron."],
 		"ipa": "[sʌm]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/some.mp3"
 	},
 	{
 		"id": 150,
@@ -4317,7 +4317,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[θæŋk]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/thank.mp3"
 	},
 	{
 		"id": 151,
@@ -4336,7 +4336,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[weɪt]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/wait.mp3"
 	},
 	{
 		"id": 152,
@@ -4374,7 +4374,7 @@
 		"partOfSpeech": ["pronoun"],
 		"ipa": "[wi]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/we.mp3"
 	},
 	{
 		"id": 153,
@@ -4393,7 +4393,7 @@
 		"partOfSpeech": ["contraction"],
 		"ipa": "[wɪr]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/were.mp3"
 	},
 	{
 		"id": 154,
@@ -4412,7 +4412,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈɛrˌpleɪn]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/airplane.mp3"
 	},
 	{
 		"id": 155,
@@ -4431,7 +4431,7 @@
 		"partOfSpeech": ["interj."],
 		"ipa": "[ɑː]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/aw.mp3"
 	},
 	{
 		"id": 156,
@@ -4450,7 +4450,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[bɛd]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/bed.mp3"
 	},
 	{
 		"id": 157,
@@ -4469,7 +4469,7 @@
 		"partOfSpeech": ["adj./pron."],
 		"ipa": "[fjuː]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/few.mp3"
 	},
 	{
 		"id": 158,
@@ -4513,7 +4513,7 @@
 		"partOfSpeech": ["adj."],
 		"ipa": "[ˈlɪtəl]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/little.mp3"
 	},
 	{
 		"id": 159,
@@ -4548,7 +4548,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[lɑt]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/lot.mp3"
 	},
 	{
 		"id": 160,
@@ -4583,7 +4583,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[lɑts]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/lots.mp3"
 	},
 	{
 		"id": 161,
@@ -4618,7 +4618,7 @@
 		"partOfSpeech": ["adj./pron."],
 		"ipa": "[ˈmɛni]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/many.mp3"
 	},
 	{
 		"id": 162,
@@ -4637,7 +4637,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[pleɪn]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/plane.mp3"
 	},
 	{
 		"id": 163,
@@ -4656,7 +4656,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[pleɪnz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/planes.mp3"
 	},
 	{
 		"id": 164,
@@ -4675,7 +4675,7 @@
 		"partOfSpeech": ["number"],
 		"ipa": "[sɪks]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/six.mp3"
 	},
 	{
 		"id": 165,
@@ -4694,7 +4694,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈtɝtəl]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/turtle.mp3"
 	},
 	{
 		"id": 166,
@@ -4713,7 +4713,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈtɝtəlz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/turtles.mp3"
 	},
 	{
 		"id": 167,
@@ -4732,7 +4732,7 @@
 		"partOfSpeech": ["noun (name)"],
 		"ipa": "[ˈɔːlkət]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/alcott.mp3"
 	},
 	{
 		"id": 168,
@@ -4751,7 +4751,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈænəməl]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/animal.mp3"
 	},
 	{
 		"id": 169,
@@ -4770,7 +4770,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈænəməlz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/animals.mp3"
 	},
 	{
 		"id": 170,
@@ -4789,7 +4789,7 @@
 		"partOfSpeech": ["prep./adv."],
 		"ipa": "[bɪˈfɔr]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/before.mp3"
 	},
 	{
 		"id": 171,
@@ -4825,7 +4825,7 @@
 		"partOfSpeech": ["adj."],
 		"ipa": "[bɪɡ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/big.mp3"
 	},
 	{
 		"id": 172,
@@ -4844,7 +4844,7 @@
 		"partOfSpeech": ["adj."],
 		"ipa": "[blæk]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/black.mp3"
 	},
 	{
 		"id": 173,
@@ -4877,7 +4877,7 @@
 		"partOfSpeech": ["adj."],
 		"ipa": "[bluː]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/blue.mp3"
 	},
 	{
 		"id": 174,
@@ -4896,7 +4896,7 @@
 		"partOfSpeech": ["prep."],
 		"ipa": "[baɪ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/by.mp3"
 	},
 	{
 		"id": 175,
@@ -4915,7 +4915,7 @@
 		"partOfSpeech": ["interj."],
 		"ipa": "[ˈbaɪˌbaɪ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/bye-bye.mp3"
 	},
 	{
 		"id": 176,
@@ -4950,7 +4950,7 @@
 		"partOfSpeech": ["verb (past)"],
 		"ipa": "[kɔld]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/called.mp3"
 	},
 	{
 		"id": 177,
@@ -4969,7 +4969,7 @@
 		"partOfSpeech": ["noun (name)"],
 		"ipa": "[ˈklɪfərd]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/clifford.mp3"
 	},
 	{
 		"id": 178,
@@ -5001,7 +5001,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈkɔfi]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/coffee.mp3"
 	},
 	{
 		"id": 179,
@@ -5020,7 +5020,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈkɑnsənənt]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/consonant.mp3"
 	},
 	{
 		"id": 180,
@@ -5039,7 +5039,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[kʌp]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/cup.mp3"
 	},
 	{
 		"id": 181,
@@ -5058,7 +5058,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[kʌps]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/cups.mp3"
 	},
 	{
 		"id": 182,
@@ -5077,7 +5077,7 @@
 		"partOfSpeech": ["noun (title)"],
 		"ipa": "[ˈdɑktər]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/dr.mp3"
 	},
 	{
 		"id": 183,
@@ -5096,7 +5096,7 @@
 		"partOfSpeech": ["verb/noun"],
 		"ipa": "[drɪŋk]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/drink.mp3"
 	},
 	{
 		"id": 184,
@@ -5115,7 +5115,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[drɪŋks]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/drinks.mp3"
 	},
 	{
 		"id": 185,
@@ -5134,7 +5134,7 @@
 		"partOfSpeech": ["number"],
 		"ipa": "[eɪt]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/eight.mp3"
 	},
 	{
 		"id": 186,
@@ -5170,7 +5170,7 @@
 		"partOfSpeech": ["adv."],
 		"ipa": "[haʊ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/how.mp3"
 	},
 	{
 		"id": 187,
@@ -5189,7 +5189,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[kɪŋ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/king.mp3"
 	},
 	{
 		"id": 188,
@@ -5208,7 +5208,7 @@
 		"partOfSpeech": ["noun (name)"],
 		"ipa": "[kɔŋ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/kong.mp3"
 	},
 	{
 		"id": 189,
@@ -5227,7 +5227,7 @@
 		"partOfSpeech": ["adj."],
 		"ipa": "[lɑrdʒ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/large.mp3"
 	},
 	{
 		"id": 190,
@@ -5246,7 +5246,7 @@
 		"partOfSpeech": ["contraction"],
 		"ipa": "[lɛts]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/lets.mp3"
 	},
 	{
 		"id": 191,
@@ -5265,7 +5265,7 @@
 		"partOfSpeech": ["noun (name)"],
 		"ipa": "[luˈiːzə]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/louisa.mp3"
 	},
 	{
 		"id": 192,
@@ -5284,7 +5284,7 @@
 		"partOfSpeech": ["verb/month"],
 		"ipa": "[meɪ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/may.mp3"
 	},
 	{
 		"id": 193,
@@ -5303,7 +5303,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈmɝˌmeɪd]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/mermaid.mp3"
 	},
 	{
 		"id": 194,
@@ -5322,7 +5322,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈmuːvi]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/movie.mp3"
 	},
 	{
 		"id": 195,
@@ -5357,7 +5357,7 @@
 		"partOfSpeech": ["adj."],
 		"ipa": "[nuː]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/new.mp3"
 	},
 	{
 		"id": 196,
@@ -5391,7 +5391,7 @@
 		"partOfSpeech": ["adj."],
 		"ipa": "[oʊld]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/old.mp3"
 	},
 	{
 		"id": 197,
@@ -5410,7 +5410,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[rid] (present), [rɛd] (past)",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/read.mp3"
 	},
 	{
 		"id": 198,
@@ -5446,7 +5446,7 @@
 		"partOfSpeech": ["adj."],
 		"ipa": "[rɛd]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/red.mp3"
 	},
 	{
 		"id": 199,
@@ -5465,7 +5465,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[seɪ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/say.mp3"
 	},
 	{
 		"id": 200,
@@ -5484,7 +5484,7 @@
 		"partOfSpeech": ["noun (name)"],
 		"ipa": "[suːs]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/seuss.mp3"
 	},
 	{
 		"id": 201,
@@ -5503,7 +5503,7 @@
 		"partOfSpeech": ["number"],
 		"ipa": "[ˈsɛvən]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/seven.mp3"
 	},
 	{
 		"id": 202,
@@ -5535,7 +5535,7 @@
 		"partOfSpeech": ["adj."],
 		"ipa": "[smɑl]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/small.mp3"
 	},
 	{
 		"id": 203,
@@ -5554,7 +5554,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[θɪŋ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/thing.mp3"
 	},
 	{
 		"id": 204,
@@ -5585,7 +5585,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[θɪŋz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/things.mp3"
 	},
 	{
 		"id": 205,
@@ -5604,7 +5604,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈvaʊəl]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/vowel.mp3"
 	},
 	{
 		"id": 206,
@@ -5623,7 +5623,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈkʌlərz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/colors.mp3"
 	},
 	{
 		"id": 207,
@@ -5642,7 +5642,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[eɪtʃ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/h.mp3"
 	},
 	{
 		"id": 208,
@@ -5661,7 +5661,7 @@
 		"partOfSpeech": ["interj."],
 		"ipa": "[hɑː]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/ha.mp3"
 	},
 	{
 		"id": 209,
@@ -5680,7 +5680,7 @@
 		"partOfSpeech": ["conj."],
 		"ipa": "[ɪf]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/if.mp3"
 	},
 	{
 		"id": 210,
@@ -5699,7 +5699,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈmɑmə]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/mama.mp3"
 	},
 	{
 		"id": 211,
@@ -5718,7 +5718,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[mɪlk]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/milk.mp3"
 	},
 	{
 		"id": 212,
@@ -5737,7 +5737,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈmjuzɪk]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/music.mp3"
 	},
 	{
 		"id": 213,
@@ -5756,7 +5756,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[nid]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/need.mp3"
 	},
 	{
 		"id": 214,
@@ -5775,7 +5775,7 @@
 		"partOfSpeech": ["verb/noun"],
 		"ipa": "[nidz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/needs.mp3"
 	},
 	{
 		"id": 215,
@@ -5794,7 +5794,7 @@
 		"partOfSpeech": ["number"],
 		"ipa": "[naɪn]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/nine.mp3"
 	},
 	{
 		"id": 216,
@@ -5813,7 +5813,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[oʊ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/o.mp3"
 	},
 	{
 		"id": 217,
@@ -5832,7 +5832,7 @@
 		"partOfSpeech": ["interj."],
 		"ipa": "[oʊˈkeɪ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/okay.mp3"
 	},
 	{
 		"id": 218,
@@ -5851,7 +5851,7 @@
 		"partOfSpeech": ["pronoun"],
 		"ipa": "[wʌnz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/ones.mp3"
 	},
 	{
 		"id": 219,
@@ -5870,7 +5870,7 @@
 		"partOfSpeech": ["interj."],
 		"ipa": "[pliz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/please.mp3"
 	},
 	{
 		"id": 220,
@@ -5889,7 +5889,7 @@
 		"partOfSpeech": ["adj."],
 		"ipa": "[pʊr]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/poor.mp3"
 	},
 	{
 		"id": 221,
@@ -5908,7 +5908,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ɛs]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/s.mp3"
 	},
 	{
 		"id": 222,
@@ -5927,7 +5927,7 @@
 		"partOfSpeech": ["adj."],
 		"ipa": "[seɪm]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/same.mp3"
 	},
 	{
 		"id": 223,
@@ -5946,7 +5946,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[siː]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/see.mp3"
 	},
 	{
 		"id": 224,
@@ -5965,7 +5965,7 @@
 		"partOfSpeech": ["noun (sound)"],
 		"ipa": "[ʃ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/sh.mp3"
 	},
 	{
 		"id": 225,
@@ -5984,7 +5984,7 @@
 		"partOfSpeech": ["interj."],
 		"ipa": "[ʃoʊ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/sho.mp3"
 	},
 	{
 		"id": 226,
@@ -6003,7 +6003,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ʃuː]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/shoe.mp3"
 	},
 	{
 		"id": 227,
@@ -6022,7 +6022,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ʃuːz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/shoes.mp3"
 	},
 	{
 		"id": 228,
@@ -6041,7 +6041,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[sɑk]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/sock.mp3"
 	},
 	{
 		"id": 229,
@@ -6060,7 +6060,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[sɑks]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/socks.mp3"
 	},
 	{
 		"id": 230,
@@ -6079,7 +6079,7 @@
 		"partOfSpeech": ["adj./interj."],
 		"ipa": "[ˈsɑri]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/sorry.mp3"
 	},
 	{
 		"id": 231,
@@ -6098,7 +6098,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[saʊnd]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/sound.mp3"
 	},
 	{
 		"id": 232,
@@ -6117,7 +6117,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈʃʊɡər]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/sugar.mp3"
 	},
 	{
 		"id": 233,
@@ -6136,7 +6136,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[tiː]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/t.mp3"
 	},
 	{
 		"id": 234,
@@ -6155,7 +6155,7 @@
 		"partOfSpeech": ["adv."],
 		"ipa": "[ðɛn]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/then.mp3"
 	},
 	{
 		"id": 235,
@@ -6189,7 +6189,7 @@
 		"partOfSpeech": ["pronoun"],
 		"ipa": "[ðeɪ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/they.mp3"
 	},
 	{
 		"id": 236,
@@ -6226,7 +6226,7 @@
 		"partOfSpeech": ["contraction"],
 		"ipa": "[ðɛr]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/theyre.mp3"
 	},
 	{
 		"id": 237,
@@ -6261,7 +6261,7 @@
 		"partOfSpeech": ["prep."],
 		"ipa": "[tuː]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/to.mp3"
 	},
 	{
 		"id": 238,
@@ -6299,7 +6299,7 @@
 		"partOfSpeech": ["adv."],
 		"ipa": "[tuː]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/too.mp3"
 	},
 	{
 		"id": 239,
@@ -6318,7 +6318,7 @@
 		"partOfSpeech": ["interj."],
 		"ipa": "[ʌ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/uh.mp3"
 	},
 	{
 		"id": 240,
@@ -6337,7 +6337,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[wɜr]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/were.mp3"
 	},
 	{
 		"id": 241,
@@ -6356,7 +6356,7 @@
 		"partOfSpeech": ["contraction"],
 		"ipa": "[ˈwɛr ər]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/wherere.mp3"
 	},
 	{
 		"id": 242,
@@ -6391,7 +6391,7 @@
 		"partOfSpeech": ["prep."],
 		"ipa": "[wɪð]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/with.mp3"
 	},
 	{
 		"id": 243,
@@ -6410,7 +6410,7 @@
 		"partOfSpeech": ["interj."],
 		"ipa": "[woʊ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/wo.mp3"
 	},
 	{
 		"id": 244,
@@ -6429,7 +6429,7 @@
 		"partOfSpeech": ["adj./verb"],
 		"ipa": "[ˈrɪtən]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/written.mp3"
 	},
 	{
 		"id": 245,
@@ -6448,7 +6448,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[jɪr]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/year.mp3"
 	},
 	{
 		"id": 246,
@@ -6467,7 +6467,7 @@
 		"partOfSpeech": ["contraction"],
 		"ipa": "[jʊr]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/youre.mp3"
 	},
 	{
 		"id": 247,
@@ -6486,7 +6486,7 @@
 		"partOfSpeech": ["pronoun"],
 		"ipa": "[jʊr]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/your.mp3"
 	},
 	{
 		"id": 248,
@@ -6505,7 +6505,7 @@
 		"partOfSpeech": ["adj."],
 		"ipa": "[ˌblæk ən ˈwaɪt]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/black-and-white.mp3"
 	},
 	{
 		"id": 249,
@@ -6524,7 +6524,7 @@
 		"partOfSpeech": ["verb/noun"],
 		"ipa": "[kæn]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/can.mp3"
 	},
 	{
 		"id": 250,
@@ -6543,7 +6543,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[tʃɛr]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/chair.mp3"
 	},
 	{
 		"id": 251,
@@ -6562,7 +6562,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[tʃɛrz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/chairs.mp3"
 	},
 	{
 		"id": 252,
@@ -6581,7 +6581,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[kaʊnt]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/count.mp3"
 	},
 	{
 		"id": 253,
@@ -6612,7 +6612,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[drɛs]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/dress.mp3"
 	},
 	{
 		"id": 254,
@@ -6631,7 +6631,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈdrɛsɪz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/dresses.mp3"
 	},
 	{
 		"id": 255,
@@ -6650,7 +6650,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈflaʊər]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/flower.mp3"
 	},
 	{
 		"id": 256,
@@ -6669,7 +6669,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈflaʊərz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/flowers.mp3"
 	},
 	{
 		"id": 257,
@@ -6700,7 +6700,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ɡaɪ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/guy.mp3"
 	},
 	{
 		"id": 258,
@@ -6719,7 +6719,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈleɪdi]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/lady.mp3"
 	},
 	{
 		"id": 259,
@@ -6738,7 +6738,7 @@
 		"partOfSpeech": ["possessive noun"],
 		"ipa": "[neɪˈoʊmiz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/naomis.mp3"
 	},
 	{
 		"id": 260,
@@ -6757,7 +6757,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[sit]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/seat.mp3"
 	},
 	{
 		"id": 261,
@@ -6776,7 +6776,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈteɪbəl]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/table.mp3"
 	},
 	{
 		"id": 262,
@@ -6795,7 +6795,7 @@
 		"partOfSpeech": ["number"],
 		"ipa": "[tɛn]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/ten.mp3"
 	},
 	{
 		"id": 263,
@@ -6814,7 +6814,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[triː]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/tree.mp3"
 	},
 	{
 		"id": 264,
@@ -6833,7 +6833,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈtriːhaʊs]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/treehouse.mp3"
 	},
 	{
 		"id": 265,
@@ -6852,7 +6852,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[triz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/trees.mp3"
 	},
 	{
 		"id": 266,
@@ -6886,7 +6886,7 @@
 		"partOfSpeech": ["adj."],
 		"ipa": "[waɪt]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/white.mp3"
 	},
 	{
 		"id": 267,
@@ -6905,7 +6905,7 @@
 		"partOfSpeech": ["adj."],
 		"ipa": "[ˈjɛloʊ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/yellow.mp3"
 	},
 	{
 		"id": 268,
@@ -6924,7 +6924,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈbæskɪt]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/basket.mp3"
 	},
 	{
 		"id": 269,
@@ -6943,7 +6943,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈbæskətˌbɔl]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/basketball.mp3"
 	},
 	{
 		"id": 270,
@@ -6962,7 +6962,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[bɑks]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/box.mp3"
 	},
 	{
 		"id": 271,
@@ -6981,7 +6981,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[ɡɪv]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/give.mp3"
 	},
 	{
 		"id": 272,
@@ -7000,7 +7000,7 @@
 		"partOfSpeech": ["pronoun"],
 		"ipa": "[hɪm]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/him.mp3"
 	},
 	{
 		"id": 273,
@@ -7019,7 +7019,7 @@
 		"partOfSpeech": ["noun/verb"],
 		"ipa": "[kɪs]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/kiss.mp3"
 	},
 	{
 		"id": 274,
@@ -7038,7 +7038,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[laɪk]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/like.mp3"
 	},
 	{
 		"id": 275,
@@ -7057,7 +7057,7 @@
 		"partOfSpeech": ["adj./pron."],
 		"ipa": "[ˈʌðər]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/other.mp3"
 	},
 	{
 		"id": 276,
@@ -7076,7 +7076,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[pʊt]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/put.mp3"
 	},
 	{
 		"id": 277,
@@ -7095,7 +7095,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈʃuːˌbɑks]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/shoebox.mp3"
 	},
 	{
 		"id": 278,
@@ -7114,7 +7114,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[steɪt]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/state.mp3"
 	},
 	{
 		"id": 279,
@@ -7133,7 +7133,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈtæksi]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/taxi.mp3"
 	},
 	{
 		"id": 280,
@@ -7152,7 +7152,7 @@
 		"partOfSpeech": ["noun (name)"],
 		"ipa": "[ˈtɛksəs]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/texas.mp3"
 	},
 	{
 		"id": 281,
@@ -7171,7 +7171,7 @@
 		"partOfSpeech": ["contraction"],
 		"ipa": "[ðɛrz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/theres.mp3"
 	},
 	{
 		"id": 282,
@@ -7190,7 +7190,7 @@
 		"partOfSpeech": ["adv."],
 		"ipa": "[ˈvɛri]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/very.mp3"
 	},
 	{
 		"id": 283,
@@ -7209,7 +7209,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[wɑnt]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/want.mp3"
 	},
 	{
 		"id": 284,
@@ -7228,7 +7228,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈæpəl]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/apple.mp3"
 	},
 	{
 		"id": 285,
@@ -7247,7 +7247,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈæpəlz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/apples.mp3"
 	},
 	{
 		"id": 286,
@@ -7266,7 +7266,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[ˈdrɪŋkɪŋ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/drinking.mp3"
 	},
 	{
 		"id": 287,
@@ -7285,7 +7285,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[it]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/eat.mp3"
 	},
 	{
 		"id": 288,
@@ -7316,7 +7316,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[ˈitɪŋ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/eating.mp3"
 	},
 	{
 		"id": 289,
@@ -7335,7 +7335,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈɛləfənt]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/elephant.mp3"
 	},
 	{
 		"id": 290,
@@ -7368,7 +7368,7 @@
 		"partOfSpeech": ["pronoun"],
 		"ipa": "[hiː]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/he.mp3"
 	},
 	{
 		"id": 291,
@@ -7387,7 +7387,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[dʒus]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/juice.mp3"
 	},
 	{
 		"id": 292,
@@ -7406,7 +7406,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈdʒusˌbɑks]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/juicebox.mp3"
 	},
 	{
 		"id": 293,
@@ -7425,7 +7425,7 @@
 		"partOfSpeech": ["interj."],
 		"ipa": "[mː mː]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/mm-mm.mp3"
 	},
 	{
 		"id": 294,
@@ -7444,7 +7444,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈpiːtsə]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/pizza.mp3"
 	},
 	{
 		"id": 295,
@@ -7463,7 +7463,7 @@
 		"partOfSpeech": ["adj."],
 		"ipa": "[ˈprɛɡnənt]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/pregnant.mp3"
 	},
 	{
 		"id": 296,
@@ -7499,7 +7499,7 @@
 		"partOfSpeech": ["pronoun"],
 		"ipa": "[ʃiː]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/she.mp3"
 	},
 	{
 		"id": 297,
@@ -7518,7 +7518,7 @@
 		"partOfSpeech": ["noun/verb"],
 		"ipa": "[ˈʃɑpɪŋ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/shopping.mp3"
 	},
 	{
 		"id": 298,
@@ -7537,7 +7537,7 @@
 		"partOfSpeech": ["adv."],
 		"ipa": "[sun]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/soon.mp3"
 	},
 	{
 		"id": 299,
@@ -7556,7 +7556,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈtæksiz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/taxis.mp3"
 	},
 	{
 		"id": 300,
@@ -7575,7 +7575,7 @@
 		"partOfSpeech": ["verb (aux.)"],
 		"ipa": "[wɪl]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/will.mp3"
 	},
 	{
 		"id": 301,
@@ -7594,7 +7594,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[tʃɪk]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/chick.mp3"
 	},
 	{
 		"id": 302,
@@ -7613,7 +7613,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈtʃɪkən]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/chicken.mp3"
 	},
 	{
 		"id": 303,
@@ -7632,7 +7632,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈtʃɪkənz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/chickens.mp3"
 	},
 	{
 		"id": 304,
@@ -7651,7 +7651,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[tʃɪks]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/chicks.mp3"
 	},
 	{
 		"id": 305,
@@ -7670,7 +7670,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[tʃaɪld]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/child.mp3"
 	},
 	{
 		"id": 306,
@@ -7689,7 +7689,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈtʃɪldrən]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/children.mp3"
 	},
 	{
 		"id": 307,
@@ -7721,7 +7721,7 @@
 		"partOfSpeech": ["adj."],
 		"ipa": "[kjuːt]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/cute.mp3"
 	},
 	{
 		"id": 308,
@@ -7740,7 +7740,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈɛləfənts]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/elephants.mp3"
 	},
 	{
 		"id": 309,
@@ -7775,7 +7775,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ɡaɪz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/guys.mp3"
 	},
 	{
 		"id": 310,
@@ -7809,7 +7809,7 @@
 		"partOfSpeech": ["contraction"],
 		"ipa": "[hiz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/hes.mp3"
 	},
 	{
 		"id": 311,
@@ -7828,7 +7828,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈkɪtən]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/kitten.mp3"
 	},
 	{
 		"id": 312,
@@ -7847,7 +7847,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈkɪtənz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/kittens.mp3"
 	},
 	{
 		"id": 313,
@@ -7866,7 +7866,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[lʌvz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/loves.mp3"
 	},
 	{
 		"id": 314,
@@ -7885,7 +7885,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈmʌðər]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/mother.mp3"
 	},
 	{
 		"id": 315,
@@ -7904,7 +7904,7 @@
 		"partOfSpeech": ["interj."],
 		"ipa": "[noʊːː]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/noooo.mp3"
 	},
 	{
 		"id": 316,
@@ -7923,7 +7923,7 @@
 		"partOfSpeech": ["adj."],
 		"ipa": "[ˈprɪti]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/pretty.mp3"
 	},
 	{
 		"id": 317,
@@ -7942,7 +7942,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈpʌpiz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/puppies.mp3"
 	},
 	{
 		"id": 318,
@@ -7961,7 +7961,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈpʌpi]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/puppy.mp3"
 	},
 	{
 		"id": 319,
@@ -7980,7 +7980,7 @@
 		"partOfSpeech": ["number"],
 		"ipa": "[ˌθɜrˈtin]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/thirteen.mp3"
 	},
 	{
 		"id": 320,
@@ -8013,7 +8013,7 @@
 		"partOfSpeech": ["interj."],
 		"ipa": "[ˈwɛlkəm]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/welcome.mp3"
 	},
 	{
 		"id": 321,
@@ -8032,7 +8032,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈziːbrəz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/zebras.mp3"
 	},
 	{
 		"id": 322,
@@ -8051,7 +8051,7 @@
 		"partOfSpeech": ["adv."],
 		"ipa": "[ɔlˈrɛdi]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/already.mp3"
 	},
 	{
 		"id": 323,
@@ -8070,7 +8070,7 @@
 		"partOfSpeech": ["noun (name)"],
 		"ipa": "[ˈænə]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/anna.mp3"
 	},
 	{
 		"id": 324,
@@ -8089,7 +8089,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[koʊt]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/coat.mp3"
 	},
 	{
 		"id": 325,
@@ -8108,7 +8108,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[koʊts]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/coats.mp3"
 	},
 	{
 		"id": 326,
@@ -8127,7 +8127,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[ˈduɪŋ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/doing.mp3"
 	},
 	{
 		"id": 327,
@@ -8146,7 +8146,7 @@
 		"partOfSpeech": ["number"],
 		"ipa": "[ˌfɔrˈtin]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/fourteen.mp3"
 	},
 	{
 		"id": 328,
@@ -8165,7 +8165,7 @@
 		"partOfSpeech": ["noun (possessive)"],
 		"ipa": "[ˈɡrænˌmɑz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/grandmas.mp3"
 	},
 	{
 		"id": 329,
@@ -8184,7 +8184,7 @@
 		"partOfSpeech": ["adj."],
 		"ipa": "[ɡreɪt]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/great.mp3"
 	},
 	{
 		"id": 330,
@@ -8203,7 +8203,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[hæt]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/hat.mp3"
 	},
 	{
 		"id": 331,
@@ -8222,7 +8222,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[hæts]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/hats.mp3"
 	},
 	{
 		"id": 332,
@@ -8241,7 +8241,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[dʒinz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/jeans.mp3"
 	},
 	{
 		"id": 333,
@@ -8260,7 +8260,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈlɛtər]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/letter.mp3"
 	},
 	{
 		"id": 334,
@@ -8279,7 +8279,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈmeɪkˌʌp]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/makeup.mp3"
 	},
 	{
 		"id": 335,
@@ -8298,7 +8298,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[ˈpʊtɪŋ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/putting.mp3"
 	},
 	{
 		"id": 336,
@@ -8317,7 +8317,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[ˈraɪdɪŋ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/riding.mp3"
 	},
 	{
 		"id": 337,
@@ -8349,7 +8349,7 @@
 		"partOfSpeech": ["contraction"],
 		"ipa": "[ʃiz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/shes.mp3"
 	},
 	{
 		"id": 338,
@@ -8368,7 +8368,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ʃɜrt]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/shirt.mp3"
 	},
 	{
 		"id": 339,
@@ -8387,7 +8387,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈtiːˌʃɜrt]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/t-shirt.mp3"
 	},
 	{
 		"id": 340,
@@ -8406,7 +8406,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈtiːˌʃɜrts]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/t-shirts.mp3"
 	},
 	{
 		"id": 341,
@@ -8425,7 +8425,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[tiː]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/tee.mp3"
 	},
 	{
 		"id": 342,
@@ -8444,7 +8444,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[wɛr]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/wear.mp3"
 	},
 	{
 		"id": 343,
@@ -8475,7 +8475,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[ˈwɛrɪŋ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/wearing.mp3"
 	},
 	{
 		"id": 345,
@@ -8494,7 +8494,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈtʃɑklət]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/chocolate.mp3"
 	},
 	{
 		"id": 346,
@@ -8513,7 +8513,7 @@
 		"partOfSpeech": ["adj."],
 		"ipa": "[koʊld]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/cold.mp3"
 	},
 	{
 		"id": 347,
@@ -8532,7 +8532,7 @@
 		"partOfSpeech": ["adj."],
 		"ipa": "[dɑrk]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/dark.mp3"
 	},
 	{
 		"id": 348,
@@ -8551,7 +8551,7 @@
 		"partOfSpeech": ["number"],
 		"ipa": "[ˈfɪfti]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/fifty.mp3"
 	},
 	{
 		"id": 349,
@@ -8570,7 +8570,7 @@
 		"partOfSpeech": ["adj."],
 		"ipa": "[hɑt]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/hot.mp3"
 	},
 	{
 		"id": 350,
@@ -8589,7 +8589,7 @@
 		"partOfSpeech": ["number"],
 		"ipa": "[ˈhʌndrəd]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/hundred.mp3"
 	},
 	{
 		"id": 351,
@@ -8622,7 +8622,7 @@
 		"partOfSpeech": ["adv."],
 		"ipa": "[dʒʌst]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/just.mp3"
 	},
 	{
 		"id": 352,
@@ -8641,7 +8641,7 @@
 		"partOfSpeech": ["adj./adv."],
 		"ipa": "[mʌtʃ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/much.mp3"
 	},
 	{
 		"id": 353,
@@ -8660,7 +8660,7 @@
 		"partOfSpeech": ["adv."],
 		"ipa": "[ˈoʊnli]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/only.mp3"
 	},
 	{
 		"id": 354,
@@ -8694,7 +8694,7 @@
 		"partOfSpeech": ["adv."],
 		"ipa": "[ˈriəli]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/really.mp3"
 	},
 	{
 		"id": 355,
@@ -8713,7 +8713,7 @@
 		"partOfSpeech": ["adj."],
 		"ipa": "[ˈsaɪlənt]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/silent.mp3"
 	},
 	{
 		"id": 356,
@@ -8747,7 +8747,7 @@
 		"partOfSpeech": ["adv./conj."],
 		"ipa": "[soʊ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/so.mp3"
 	},
 	{
 		"id": 357,
@@ -8766,7 +8766,7 @@
 		"partOfSpeech": ["interj."],
 		"ipa": "[brrrr]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/brrr.mp3"
 	},
 	{
 		"id": 358,
@@ -8785,7 +8785,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[krim]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/cream.mp3"
 	},
 	{
 		"id": 359,
@@ -8804,7 +8804,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[ˈfɪʃɪŋ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/fishing.mp3"
 	},
 	{
 		"id": 360,
@@ -8823,7 +8823,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[aɪs]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/ice.mp3"
 	},
 	{
 		"id": 361,
@@ -8842,7 +8842,7 @@
 		"partOfSpeech": ["adj."],
 		"ipa": "[aɪst]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/iced.mp3"
 	},
 	{
 		"id": 362,
@@ -8861,7 +8861,7 @@
 		"partOfSpeech": ["noun/verb"],
 		"ipa": "[reɪn]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/rain.mp3"
 	},
 	{
 		"id": 363,
@@ -8880,7 +8880,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈreɪnˌkoʊt]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/raincoat.mp3"
 	},
 	{
 		"id": 364,
@@ -8899,7 +8899,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[ˈreɪnɪŋ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/raining.mp3"
 	},
 	{
 		"id": 365,
@@ -8918,7 +8918,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[snoʊ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/snow.mp3"
 	},
 	{
 		"id": 366,
@@ -8937,7 +8937,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈsnoʊˌmæn]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/snowman.mp3"
 	},
 	{
 		"id": 367,
@@ -8956,7 +8956,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈsnoʊˌʃuz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/snowshoes.mp3"
 	},
 	{
 		"id": 368,
@@ -8975,7 +8975,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[ˈwɑtʃɪŋ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/watching.mp3"
 	},
 	{
 		"id": 369,
@@ -8994,7 +8994,7 @@
 		"partOfSpeech": ["adv."],
 		"ipa": "[waɪ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/why.mp3"
 	},
 	{
 		"id": 370,
@@ -9013,7 +9013,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈkoʊkoʊ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/cocoa.mp3"
 	},
 	{
 		"id": 371,
@@ -9032,7 +9032,7 @@
 		"partOfSpeech": ["verb (informal)"],
 		"ipa": "[dəˈnoʊ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/dunno.mp3"
 	},
 	{
 		"id": 372,
@@ -9051,7 +9051,7 @@
 		"partOfSpeech": ["adj."],
 		"ipa": "[ɡrin]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/green.mp3"
 	},
 	{
 		"id": 373,
@@ -9070,7 +9070,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈɡrinˌhaʊs]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/greenhouse.mp3"
 	},
 	{
 		"id": 374,
@@ -9089,7 +9089,7 @@
 		"partOfSpeech": ["noun (name)"],
 		"ipa": "[dʒɑn]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/john.mp3"
 	},
 	{
 		"id": 375,
@@ -9108,7 +9108,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[keɪ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/k.mp3"
 	},
 	{
 		"id": 377,
@@ -9139,7 +9139,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[noʊ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/know.mp3"
 	},
 	{
 		"id": 378,
@@ -9158,7 +9158,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[meɪk]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/make.mp3"
 	},
 	{
 		"id": 379,
@@ -9177,7 +9177,7 @@
 		"partOfSpeech": ["noun (name)"],
 		"ipa": "[ˈmɛri]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/mary.mp3"
 	},
 	{
 		"id": 380,
@@ -9211,7 +9211,7 @@
 		"partOfSpeech": ["pronoun"],
 		"ipa": "[maɪ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/my.mp3"
 	},
 	{
 		"id": 381,
@@ -9230,7 +9230,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[neɪm]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/name.mp3"
 	},
 	{
 		"id": 382,
@@ -9249,7 +9249,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[neɪmz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/names.mp3"
 	},
 	{
 		"id": 383,
@@ -9268,7 +9268,7 @@
 		"partOfSpeech": ["noun (name)"],
 		"ipa": "[ˈpitər]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/peter.mp3"
 	},
 	{
 		"id": 384,
@@ -9287,7 +9287,7 @@
 		"partOfSpeech": ["number"],
 		"ipa": "[ˌsɛvənˈtin]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/seventeen.mp3"
 	},
 	{
 		"id": 385,
@@ -9306,7 +9306,7 @@
 		"partOfSpeech": ["interj."],
 		"ipa": "[ʃː]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/shh.mp3"
 	},
 	{
 		"id": 386,
@@ -9325,7 +9325,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈʃʊɡər]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/shh-ugar-(playful).mp3"
 	},
 	{
 		"id": 387,
@@ -9344,7 +9344,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈsnoʊˌbɔl]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/snowball.mp3"
 	},
 	{
 		"id": 388,
@@ -9363,7 +9363,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[saʊndz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/sounds.mp3"
 	},
 	{
 		"id": 389,
@@ -9382,7 +9382,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[tiː]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/tea.mp3"
 	},
 	{
 		"id": 390,
@@ -9401,7 +9401,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈtiːˌkʌp]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/teacup.mp3"
 	},
 	{
 		"id": 391,
@@ -9420,7 +9420,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈtiːˌkʌps]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/teacups.mp3"
 	},
 	{
 		"id": 392,
@@ -9439,7 +9439,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[tiz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/teas.mp3"
 	},
 	{
 		"id": 393,
@@ -9458,7 +9458,7 @@
 		"partOfSpeech": ["possessive noun"],
 		"ipa": "[ˈændruz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/andrews.mp3"
 	},
 	{
 		"id": 394,
@@ -9477,7 +9477,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[əˈpɑstrəfi]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/apostrophe.mp3"
 	},
 	{
 		"id": 395,
@@ -9496,7 +9496,7 @@
 		"partOfSpeech": ["noun (informal)"],
 		"ipa": "[ˈbeɪbi ˌmeɪkɪŋ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/baby-making.mp3"
 	},
 	{
 		"id": 396,
@@ -9515,7 +9515,7 @@
 		"partOfSpeech": ["noun (sound)"],
 		"ipa": "[tʃ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/ch.mp3"
 	},
 	{
 		"id": 397,
@@ -9534,7 +9534,7 @@
 		"partOfSpeech": ["possessive noun"],
 		"ipa": "[ˈtʃɪldrənz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/childrens.mp3"
 	},
 	{
 		"id": 398,
@@ -9553,7 +9553,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈtʃɑkləts]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/chocolates.mp3"
 	},
 	{
 		"id": 399,
@@ -9572,7 +9572,7 @@
 		"partOfSpeech": ["noun/verb"],
 		"ipa": "[ɛndz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/ends.mp3"
 	},
 	{
 		"id": 400,
@@ -9591,7 +9591,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[hænd]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/hand.mp3"
 	},
 	{
 		"id": 401,
@@ -9610,7 +9610,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[hændz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/hands.mp3"
 	},
 	{
 		"id": 402,
@@ -9641,7 +9641,7 @@
 		"partOfSpeech": ["pronoun"],
 		"ipa": "[hɜr]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/her.mp3"
 	},
 	{
 		"id": 403,
@@ -9672,7 +9672,7 @@
 		"partOfSpeech": ["pronoun"],
 		"ipa": "[hɪz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/his.mp3"
 	},
 	{
 		"id": 404,
@@ -9691,7 +9691,7 @@
 		"partOfSpeech": ["pronoun"],
 		"ipa": "[ɪts]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/its.mp3"
 	},
 	{
 		"id": 406,
@@ -9710,7 +9710,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[məˈʃin]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/machine.mp3"
 	},
 	{
 		"id": 407,
@@ -9729,7 +9729,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[məˈʃinz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/machines.mp3"
 	},
 	{
 		"id": 408,
@@ -9748,7 +9748,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈmeɪkər]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/maker.mp3"
 	},
 	{
 		"id": 409,
@@ -9767,7 +9767,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[meɪks]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/makes.mp3"
 	},
 	{
 		"id": 410,
@@ -9786,7 +9786,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[məˈʃin]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/mashine*.mp3"
 	},
 	{
 		"id": 411,
@@ -9805,7 +9805,7 @@
 		"partOfSpeech": ["possessive noun"],
 		"ipa": "[mɛnz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/mens.mp3"
 	},
 	{
 		"id": 412,
@@ -9824,7 +9824,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈmoʊtərˌsaɪkəl]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/motorcycle.mp3"
 	},
 	{
 		"id": 413,
@@ -9843,7 +9843,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈræbɪt]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/rabbit.mp3"
 	},
 	{
 		"id": 414,
@@ -9862,7 +9862,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈræbɪts]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/rabbits.mp3"
 	},
 	{
 		"id": 415,
@@ -9881,7 +9881,7 @@
 		"partOfSpeech": ["verb/noun"],
 		"ipa": "[raɪd]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/ride.mp3"
 	},
 	{
 		"id": 416,
@@ -9900,7 +9900,7 @@
 		"partOfSpeech": ["grammar"],
 		"ipa": "[ˈɛs ɪz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/ss.mp3"
 	},
 	{
 		"id": 417,
@@ -9919,7 +9919,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[sɛz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/says.mp3"
 	},
 	{
 		"id": 418,
@@ -9938,7 +9938,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈsɛmi]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/semi.mp3"
 	},
 	{
 		"id": 419,
@@ -9957,7 +9957,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈsɛmiˌtrʌk]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/semi-truck.mp3"
 	},
 	{
 		"id": 420,
@@ -9976,7 +9976,7 @@
 		"partOfSpeech": ["pronoun"],
 		"ipa": "[ðɛr]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/their.mp3"
 	},
 	{
 		"id": 421,
@@ -9995,7 +9995,7 @@
 		"partOfSpeech": ["pronoun"],
 		"ipa": "[ðɛm]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/them.mp3"
 	},
 	{
 		"id": 422,
@@ -10014,7 +10014,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[trʌk]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/truck.mp3"
 	},
 	{
 		"id": 423,
@@ -10033,7 +10033,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[trʌks]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/trucks.mp3"
 	},
 	{
 		"id": 424,
@@ -10052,7 +10052,7 @@
 		"partOfSpeech": ["possessive noun"],
 		"ipa": "[ˈwɪmɪnz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/womens.mp3"
 	},
 	{
 		"id": 425,
@@ -10071,7 +10071,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[wɝd]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/word.mp3"
 	},
 	{
 		"id": 426,
@@ -10090,7 +10090,7 @@
 		"partOfSpeech": ["contraction"],
 		"ipa": "[ɑrnt]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/arent.mp3"
 	},
 	{
 		"id": 427,
@@ -10109,7 +10109,7 @@
 		"partOfSpeech": ["noun (plural/name)"],
 		"ipa": "[brʊks]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/brooks.mp3"
 	},
 	{
 		"id": 428,
@@ -10128,7 +10128,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈbrʌðər]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/brother.mp3"
 	},
 	{
 		"id": 429,
@@ -10147,7 +10147,7 @@
 		"partOfSpeech": ["possessive noun"],
 		"ipa": "[ˈbrʌðərz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/brothers.mp3"
 	},
 	{
 		"id": 430,
@@ -10166,7 +10166,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈbrʌðərz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/brothers.mp3"
 	},
 	{
 		"id": 431,
@@ -10185,7 +10185,7 @@
 		"partOfSpeech": ["possessive noun"],
 		"ipa": "[tʃaɪldz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/childs.mp3"
 	},
 	{
 		"id": 432,
@@ -10204,7 +10204,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[dæd]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/dad.mp3"
 	},
 	{
 		"id": 433,
@@ -10223,7 +10223,7 @@
 		"partOfSpeech": ["possessive noun"],
 		"ipa": "[dædz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/dads.mp3"
 	},
 	{
 		"id": 434,
@@ -10242,7 +10242,7 @@
 		"partOfSpeech": ["noun (name)"],
 		"ipa": "[ˈdæn.jəl]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/daniel.mp3"
 	},
 	{
 		"id": 435,
@@ -10261,7 +10261,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈdɔtər]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/daughter.mp3"
 	},
 	{
 		"id": 436,
@@ -10280,7 +10280,7 @@
 		"partOfSpeech": ["possessive noun"],
 		"ipa": "[ˈdɔtərz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/daughters.mp3"
 	},
 	{
 		"id": 437,
@@ -10299,7 +10299,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈdɔtərz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/daughters.mp3"
 	},
 	{
 		"id": 438,
@@ -10318,7 +10318,7 @@
 		"partOfSpeech": ["noun (name)"],
 		"ipa": "[ˈdeɪvi]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/davie.mp3"
 	},
 	{
 		"id": 439,
@@ -10337,7 +10337,7 @@
 		"partOfSpeech": ["possessive noun"],
 		"ipa": "[dɑɡz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/dogs.mp3"
 	},
 	{
 		"id": 440,
@@ -10356,7 +10356,7 @@
 		"partOfSpeech": ["noun (name)"],
 		"ipa": "[ˈdɔrəθi]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/dorothy.mp3"
 	},
 	{
 		"id": 441,
@@ -10375,7 +10375,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈfæməli]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/family.mp3"
 	},
 	{
 		"id": 442,
@@ -10394,7 +10394,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈhʌzbənd]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/husband.mp3"
 	},
 	{
 		"id": 443,
@@ -10413,7 +10413,7 @@
 		"partOfSpeech": ["possessive noun"],
 		"ipa": "[ˈhʌzbəndz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/husbands.mp3"
 	},
 	{
 		"id": 444,
@@ -10432,7 +10432,7 @@
 		"partOfSpeech": ["noun (name)"],
 		"ipa": "[dʒoʊˈzaɪə]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/josiah.mp3"
 	},
 	{
 		"id": 445,
@@ -10451,7 +10451,7 @@
 		"partOfSpeech": ["possessive noun"],
 		"ipa": "[dʒoʊˈzaɪəz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/josiahs.mp3"
 	},
 	{
 		"id": 446,
@@ -10470,7 +10470,7 @@
 		"partOfSpeech": ["noun (name)"],
 		"ipa": "[keɪt]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/kate.mp3"
 	},
 	{
 		"id": 447,
@@ -10489,7 +10489,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[ˈmeɪkɪŋ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/making.mp3"
 	},
 	{
 		"id": 448,
@@ -10508,7 +10508,7 @@
 		"partOfSpeech": ["noun (name)"],
 		"ipa": "[ˈmiːmi]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/mimi.mp3"
 	},
 	{
 		"id": 449,
@@ -10527,7 +10527,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[mɑm]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/mom.mp3"
 	},
 	{
 		"id": 450,
@@ -10546,7 +10546,7 @@
 		"partOfSpeech": ["possessive noun"],
 		"ipa": "[mɑmz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/moms.mp3"
 	},
 	{
 		"id": 451,
@@ -10565,7 +10565,7 @@
 		"partOfSpeech": ["possessive noun"],
 		"ipa": "[ˈmʌðərz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/mothers.mp3"
 	},
 	{
 		"id": 452,
@@ -10584,7 +10584,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈnʌmbər]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/number.mp3"
 	},
 	{
 		"id": 453,
@@ -10603,7 +10603,7 @@
 		"partOfSpeech": ["pronoun"],
 		"ipa": "[ˈaʊər]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/our.mp3"
 	},
 	{
 		"id": 454,
@@ -10622,7 +10622,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈpɛrənt]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/parent.mp3"
 	},
 	{
 		"id": 455,
@@ -10641,7 +10641,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈpɛrənts]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/parents.mp3"
 	},
 	{
 		"id": 456,
@@ -10660,7 +10660,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈsɪstər]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/sister.mp3"
 	},
 	{
 		"id": 457,
@@ -10679,7 +10679,7 @@
 		"partOfSpeech": ["possessive noun"],
 		"ipa": "[ˈsɪstərz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/sisters.mp3"
 	},
 	{
 		"id": 458,
@@ -10698,7 +10698,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈsɪstərz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/sisters.mp3"
 	},
 	{
 		"id": 459,
@@ -10717,7 +10717,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[sʌn]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/son.mp3"
 	},
 	{
 		"id": 460,
@@ -10736,7 +10736,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[sʌnz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/sons.mp3"
 	},
 	{
 		"id": 461,
@@ -10755,7 +10755,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[waɪf]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/wife.mp3"
 	},
 	{
 		"id": 462,
@@ -10774,7 +10774,7 @@
 		"partOfSpeech": ["possessive noun"],
 		"ipa": "[waɪfs]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/wifes.mp3"
 	},
 	{
 		"id": 463,
@@ -10793,7 +10793,7 @@
 		"partOfSpeech": ["prep."],
 		"ipa": "[əˈbaʊt]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/about.mp3"
 	},
 	{
 		"id": 464,
@@ -10812,7 +10812,7 @@
 		"partOfSpeech": ["conj."],
 		"ipa": "[bɪˈkʌz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/because.mp3"
 	},
 	{
 		"id": 465,
@@ -10831,7 +10831,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈbaɪbəl]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/bible.mp3"
 	},
 	{
 		"id": 466,
@@ -10850,7 +10850,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈbaɪkər]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/biker.mp3"
 	},
 	{
 		"id": 467,
@@ -10869,7 +10869,7 @@
 		"partOfSpeech": ["possessive noun"],
 		"ipa": "[kæts]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/cats.mp3"
 	},
 	{
 		"id": 468,
@@ -10888,7 +10888,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈdaɪnəˌsɔrz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/dinosaurs.mp3"
 	},
 	{
 		"id": 469,
@@ -10907,7 +10907,7 @@
 		"partOfSpeech": ["number"],
 		"ipa": "[ɪˈlɛvən]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/eleven.mp3"
 	},
 	{
 		"id": 470,
@@ -10926,7 +10926,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈɪŋɡlɪʃ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/english.mp3"
 	},
 	{
 		"id": 471,
@@ -10945,7 +10945,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ɡeɪm]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/game.mp3"
 	},
 	{
 		"id": 472,
@@ -10964,7 +10964,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈɡeɪmər]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/gamer.mp3"
 	},
 	{
 		"id": 473,
@@ -10983,7 +10983,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ɡeɪmz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/games.mp3"
 	},
 	{
 		"id": 474,
@@ -11002,7 +11002,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈɡræmə]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/gramma.mp3"
 	},
 	{
 		"id": 475,
@@ -11021,7 +11021,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈɡræmpɑ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/grampa.mp3"
 	},
 	{
 		"id": 476,
@@ -11040,7 +11040,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈɡrændˌtʃɪldrən]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/grandchildren.mp3"
 	},
 	{
 		"id": 477,
@@ -11059,7 +11059,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈɡrændæd]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/granddad.mp3"
 	},
 	{
 		"id": 478,
@@ -11078,7 +11078,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈɡrændˌdɔtər]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/granddaughter.mp3"
 	},
 	{
 		"id": 479,
@@ -11097,7 +11097,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈɡrændˌfɑðər]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/grandfather.mp3"
 	},
 	{
 		"id": 480,
@@ -11116,7 +11116,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈɡrændkɪdz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/grandkids.mp3"
 	},
 	{
 		"id": 481,
@@ -11135,7 +11135,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈɡrænˌmɑ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/grandma.mp3"
 	},
 	{
 		"id": 482,
@@ -11154,7 +11154,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈɡrændˌmʌðər]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/grandmother.mp3"
 	},
 	{
 		"id": 483,
@@ -11173,7 +11173,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈɡrænˌpɑ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/grandpa.mp3"
 	},
 	{
 		"id": 484,
@@ -11192,7 +11192,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈɡrænˌpɛrənts]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/grandparents.mp3"
 	},
 	{
 		"id": 485,
@@ -11211,7 +11211,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈɡrændˌsʌn]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/grandson.mp3"
 	},
 	{
 		"id": 486,
@@ -11230,7 +11230,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈmoʊtərˌsaɪkəlz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/motorcycles.mp3"
 	},
 	{
 		"id": 487,
@@ -11249,7 +11249,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈmuːviz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/movies.mp3"
 	},
 	{
 		"id": 488,
@@ -11268,7 +11268,7 @@
 		"partOfSpeech": ["possessive noun"],
 		"ipa": "[ˈpɝsənz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/persons.mp3"
 	},
 	{
 		"id": 489,
@@ -11287,7 +11287,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[pleɪ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/play.mp3"
 	},
 	{
 		"id": 490,
@@ -11306,7 +11306,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈpleɪər]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/player.mp3"
 	},
 	{
 		"id": 491,
@@ -11325,7 +11325,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[ˈpleɪɪŋ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/playing.mp3"
 	},
 	{
 		"id": 492,
@@ -11344,7 +11344,7 @@
 		"partOfSpeech": ["verb/noun"],
 		"ipa": "[pleɪz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/plays.mp3"
 	},
 	{
 		"id": 493,
@@ -11363,7 +11363,7 @@
 		"partOfSpeech": ["possessive noun"],
 		"ipa": "[ˈræbɪts]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/rabbits.mp3"
 	},
 	{
 		"id": 494,
@@ -11382,7 +11382,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈridər]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/reader.mp3"
 	},
 	{
 		"id": 495,
@@ -11401,7 +11401,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[ˈridɪŋ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/reading.mp3"
 	},
 	{
 		"id": 496,
@@ -11420,7 +11420,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈraɪdər]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/rider.mp3"
 	},
 	{
 		"id": 497,
@@ -11439,7 +11439,7 @@
 		"partOfSpeech": ["number"],
 		"ipa": "[ˈtwɛnti]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/twenty.mp3"
 	},
 	{
 		"id": 498,
@@ -11458,7 +11458,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈvɪdioʊ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/video.mp3"
 	},
 	{
 		"id": 499,
@@ -11477,7 +11477,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈvɪdioʊz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/videos.mp3"
 	},
 	{
 		"id": 500,
@@ -11496,7 +11496,7 @@
 		"partOfSpeech": ["verb/noun"],
 		"ipa": "[wɑtʃ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/watch.mp3"
 	},
 	{
 		"id": 501,
@@ -11515,7 +11515,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈwɪskərz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/whiskers.mp3"
 	},
 	{
 		"id": 502,
@@ -11534,7 +11534,7 @@
 		"partOfSpeech": ["noun (name)"],
 		"ipa": "[ˈjuˌtub]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/youtube.mp3"
 	},
 	{
 		"id": 503,
@@ -11553,7 +11553,7 @@
 		"partOfSpeech": ["adv."],
 		"ipa": "[ˈækʧuəli]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/actually.mp3"
 	},
 	{
 		"id": 504,
@@ -11572,7 +11572,7 @@
 		"partOfSpeech": ["adv."],
 		"ipa": "[əˈɡɛn]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/again.mp3"
 	},
 	{
 		"id": 505,
@@ -11591,7 +11591,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈbɑksɪz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/boxes.mp3"
 	},
 	{
 		"id": 506,
@@ -11610,7 +11610,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[bɪld]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/build.mp3"
 	},
 	{
 		"id": 507,
@@ -11629,7 +11629,7 @@
 		"partOfSpeech": ["possessive noun"],
 		"ipa": "[kɑrz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/cars.mp3"
 	},
 	{
 		"id": 508,
@@ -11648,7 +11648,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈkætˌfɪʃ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/catfish.mp3"
 	},
 	{
 		"id": 509,
@@ -11667,7 +11667,7 @@
 		"partOfSpeech": ["adj./noun"],
 		"ipa": "[feɪk]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/fake.mp3"
 	},
 	{
 		"id": 510,
@@ -11686,7 +11686,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈfæməliz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/families.mp3"
 	},
 	{
 		"id": 511,
@@ -11705,7 +11705,7 @@
 		"partOfSpeech": ["noun (name)"],
 		"ipa": "[ˈhɜrbi]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/herbie.mp3"
 	},
 	{
 		"id": 512,
@@ -11724,7 +11724,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈhaʊsˌplænt]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/houseplant.mp3"
 	},
 	{
 		"id": 513,
@@ -11743,7 +11743,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈhaʊsˌplænts]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/houseplants.mp3"
 	},
 	{
 		"id": 514,
@@ -11762,7 +11762,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[lʊk]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/look.mp3"
 	},
 	{
 		"id": 515,
@@ -11781,7 +11781,7 @@
 		"partOfSpeech": ["adj./adv."],
 		"ipa": "[mɔr]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/more.mp3"
 	},
 	{
 		"id": 516,
@@ -11800,7 +11800,7 @@
 		"partOfSpeech": ["pronoun"],
 		"ipa": "[wʌnz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/ones.mp3"
 	},
 	{
 		"id": 517,
@@ -11819,7 +11819,7 @@
 		"partOfSpeech": ["noun/verb"],
 		"ipa": "[plænt]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/plant.mp3"
 	},
 	{
 		"id": 518,
@@ -11838,7 +11838,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈplæntər]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/planter.mp3"
 	},
 	{
 		"id": 519,
@@ -11857,7 +11857,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[ˈplæntɪŋ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/planting.mp3"
 	},
 	{
 		"id": 520,
@@ -11876,7 +11876,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[plænts]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/plants.mp3"
 	},
 	{
 		"id": 521,
@@ -11895,7 +11895,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈpleɪˌhaʊs]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/playhouse.mp3"
 	},
 	{
 		"id": 522,
@@ -11914,7 +11914,7 @@
 		"partOfSpeech": ["adj."],
 		"ipa": "[riːəl]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/real.mp3"
 	},
 	{
 		"id": 523,
@@ -11933,7 +11933,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[tɔɪ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/toy.mp3"
 	},
 	{
 		"id": 524,
@@ -11952,7 +11952,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[tɔɪz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/toys.mp3"
 	},
 	{
 		"id": 525,
@@ -11971,7 +11971,7 @@
 		"partOfSpeech": ["interj."],
 		"ipa": "[ʌm]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/um.mp3"
 	},
 	{
 		"id": 526,
@@ -11990,7 +11990,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[ˈwɔtərɪŋ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/watering.mp3"
 	},
 	{
 		"id": 527,
@@ -12009,7 +12009,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈbɔɪˌfrɛnd]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/boyfriend.mp3"
 	},
 	{
 		"id": 528,
@@ -12028,7 +12028,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈkʌpəl]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/couple.mp3"
 	},
 	{
 		"id": 529,
@@ -12047,7 +12047,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[ˈdeɪtɪŋ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/dating.mp3"
 	},
 	{
 		"id": 530,
@@ -12066,7 +12066,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[frɛnd]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/friend.mp3"
 	},
 	{
 		"id": 531,
@@ -12085,7 +12085,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[frɛndz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/friends.mp3"
 	},
 	{
 		"id": 532,
@@ -12104,7 +12104,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈɡɝlˌfrɛnd]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/girlfriend.mp3"
 	},
 	{
 		"id": 533,
@@ -12123,7 +12123,7 @@
 		"partOfSpeech": ["noun (name)"],
 		"ipa": "[ˈdʒoʊfi]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/jophie.mp3"
 	},
 	{
 		"id": 534,
@@ -12142,7 +12142,7 @@
 		"partOfSpeech": ["adj."],
 		"ipa": "[ˈmærid]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/married.mp3"
 	},
 	{
 		"id": 535,
@@ -12161,7 +12161,7 @@
 		"partOfSpeech": ["verb/noun"],
 		"ipa": "[minz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/means.mp3"
 	},
 	{
 		"id": 536,
@@ -12180,7 +12180,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈroʊˌbɑt]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/robot.mp3"
 	},
 	{
 		"id": 537,
@@ -12199,7 +12199,7 @@
 		"partOfSpeech": ["adj."],
 		"ipa": "[ˈsɪŋɡəl]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/single.mp3"
 	},
 	{
 		"id": 538,
@@ -12218,7 +12218,7 @@
 		"partOfSpeech": ["pronoun"],
 		"ipa": "[ˈsʌmwʌn]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/someone.mp3"
 	},
 	{
 		"id": 539,
@@ -12237,7 +12237,7 @@
 		"partOfSpeech": ["adv./adj."],
 		"ipa": "[stɪl]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/still.mp3"
 	},
 	{
 		"id": 540,
@@ -12256,7 +12256,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[wɛrz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/wears.mp3"
 	},
 	{
 		"id": 541,
@@ -12275,7 +12275,7 @@
 		"partOfSpeech": ["interj."],
 		"ipa": "[ɑː]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/ah.mp3"
 	},
 	{
 		"id": 542,
@@ -12294,7 +12294,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[əˈmɛrɪkə]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/america.mp3"
 	},
 	{
 		"id": 543,
@@ -12313,7 +12313,7 @@
 		"partOfSpeech": ["noun/sound"],
 		"ipa": "[bip]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/beep.mp3"
 	},
 	{
 		"id": 544,
@@ -12332,7 +12332,7 @@
 		"partOfSpeech": ["possessive noun"],
 		"ipa": "[bɝdz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/birds.mp3"
 	},
 	{
 		"id": 545,
@@ -12351,7 +12351,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈbɝdi]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/birdy.mp3"
 	},
 	{
 		"id": 546,
@@ -12370,7 +12370,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈbʌni]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/bunny.mp3"
 	},
 	{
 		"id": 547,
@@ -12389,7 +12389,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈkʌntriz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/countries.mp3"
 	},
 	{
 		"id": 548,
@@ -12408,7 +12408,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈkʌntri]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/country.mp3"
 	},
 	{
 		"id": 549,
@@ -12427,7 +12427,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[kaʊ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/cow.mp3"
 	},
 	{
 		"id": 550,
@@ -12446,7 +12446,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈdædi]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/daddy.mp3"
 	},
 	{
 		"id": 551,
@@ -12465,7 +12465,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈdɔɡi]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/doggie-/-doggy.mp3"
 	},
 	{
 		"id": 553,
@@ -12484,7 +12484,7 @@
 		"partOfSpeech": ["adv."],
 		"ipa": "[ˈivən]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/even.mp3"
 	},
 	{
 		"id": 554,
@@ -12503,7 +12503,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈfɑðər]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/father.mp3"
 	},
 	{
 		"id": 555,
@@ -12522,7 +12522,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[fɪlm]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/film.mp3"
 	},
 	{
 		"id": 556,
@@ -12541,7 +12541,7 @@
 		"partOfSpeech": ["adj./noun"],
 		"ipa": "[ˈfɪʃi]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/fishy.mp3"
 	},
 	{
 		"id": 557,
@@ -12560,7 +12560,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[flæɡ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/flag.mp3"
 	},
 	{
 		"id": 558,
@@ -12579,7 +12579,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[flæɡz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/flags.mp3"
 	},
 	{
 		"id": 559,
@@ -12598,7 +12598,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈfʊtbɔl]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/football.mp3"
 	},
 	{
 		"id": 560,
@@ -12617,7 +12617,7 @@
 		"partOfSpeech": ["possessive noun"],
 		"ipa": "[ɡaɪz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/guys.mp3"
 	},
 	{
 		"id": 561,
@@ -12636,7 +12636,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[hɑrt]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/heart.mp3"
 	},
 	{
 		"id": 562,
@@ -12655,7 +12655,7 @@
 		"partOfSpeech": ["adj./noun"],
 		"ipa": "[ˈhɔrsi]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/horsy.mp3"
 	},
 	{
 		"id": 563,
@@ -12674,7 +12674,7 @@
 		"partOfSpeech": ["possessive noun"],
 		"ipa": "[kɪdz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/kids.mp3"
 	},
 	{
 		"id": 564,
@@ -12693,7 +12693,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈkɪŋdəm]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/kingdom.mp3"
 	},
 	{
 		"id": 565,
@@ -12712,7 +12712,7 @@
 		"partOfSpeech": ["possessive noun"],
 		"ipa": "[ˈleɪdiz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/ladys.mp3"
 	},
 	{
 		"id": 566,
@@ -12731,7 +12731,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈlʌvər]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/lover.mp3"
 	},
 	{
 		"id": 567,
@@ -12750,7 +12750,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈmɑmi]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/mommy.mp3"
 	},
 	{
 		"id": 568,
@@ -12769,7 +12769,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[oʊz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/os.mp3"
 	},
 	{
 		"id": 569,
@@ -12788,7 +12788,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[pɪɡ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/pig.mp3"
 	},
 	{
 		"id": 570,
@@ -12807,7 +12807,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ʃip]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/sheep.mp3"
 	},
 	{
 		"id": 571,
@@ -12826,7 +12826,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈsɑkər]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/soccer.mp3"
 	},
 	{
 		"id": 572,
@@ -12845,7 +12845,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[steɪts]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/states.mp3"
 	},
 	{
 		"id": 573,
@@ -12864,7 +12864,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[juː]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/u.mp3"
 	},
 	{
 		"id": 574,
@@ -12883,7 +12883,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˌjuːˈkeɪ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/uk.mp3"
 	},
 	{
 		"id": 575,
@@ -12902,7 +12902,7 @@
 		"partOfSpeech": ["adj."],
 		"ipa": "[juˈnaɪtɪd]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/united.mp3"
 	},
 	{
 		"id": 576,
@@ -12921,7 +12921,7 @@
 		"partOfSpeech": ["pronoun / noun"],
 		"ipa": "[ʌs] / [ˈjuːɛs]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/us.mp3"
 	},
 	{
 		"id": 577,
@@ -12940,7 +12940,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[wɔrz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/wars.mp3"
 	},
 	{
 		"id": 578,
@@ -12959,7 +12959,7 @@
 		"partOfSpeech": ["adj."],
 		"ipa": "[waɪld]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/wild.mp3"
 	},
 	{
 		"id": 579,
@@ -12978,7 +12978,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ziː]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/zee.mp3"
 	},
 
 	{
@@ -12998,7 +12998,7 @@
 		"partOfSpeech": ["noun (name)"],
 		"ipa": "[ˌædriˈɑnə]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/adriana.mp3"
 	},
 	{
 		"id": 582,
@@ -13017,7 +13017,7 @@
 		"partOfSpeech": ["adv."],
 		"ipa": "[əˈhɛd]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/ahead.mp3"
 	},
 	{
 		"id": 583,
@@ -13036,7 +13036,7 @@
 		"partOfSpeech": ["adj./pron."],
 		"ipa": "[ɔl]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/all.mp3"
 	},
 	{
 		"id": 585,
@@ -13055,7 +13055,7 @@
 		"partOfSpeech": ["noun (place)"],
 		"ipa": "[ˌɑrdʒənˈtinə]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/argentina.mp3"
 	},
 	{
 		"id": 586,
@@ -13074,7 +13074,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈɔdiˌoʊ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/audio.mp3"
 	},
 	{
 		"id": 587,
@@ -13093,7 +13093,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[biː]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/be.mp3"
 	},
 	{
 		"id": 588,
@@ -13112,7 +13112,7 @@
 		"partOfSpeech": ["adj./noun"],
 		"ipa": "[blæŋk]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/blank.mp3"
 	},
 	{
 		"id": 589,
@@ -13131,7 +13131,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈbluːpərz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/bloopers.mp3"
 	},
 	{
 		"id": 590,
@@ -13150,7 +13150,7 @@
 		"partOfSpeech": ["noun (place)"],
 		"ipa": "[brəˈzɪl]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/brazil.mp3"
 	},
 	{
 		"id": 591,
@@ -13169,7 +13169,7 @@
 		"partOfSpeech": ["noun (place)"],
 		"ipa": "[ˈbrɔdˌweɪ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/broadway.mp3"
 	},
 	{
 		"id": 592,
@@ -13188,7 +13188,7 @@
 		"partOfSpeech": ["adj."],
 		"ipa": "[ˈbʌndəld]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/bundled.mp3"
 	},
 	{
 		"id": 593,
@@ -13207,7 +13207,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[siː]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/c.mp3"
 	},
 	{
 		"id": 594,
@@ -13226,7 +13226,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[kɔl]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/call.mp3"
 	},
 	{
 		"id": 595,
@@ -13245,7 +13245,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[kəˈrɪzmə]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/charisma.mp3"
 	},
 	{
 		"id": 596,
@@ -13264,7 +13264,7 @@
 		"partOfSpeech": ["verb/noun"],
 		"ipa": "[ʧɛk]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/check.mp3"
 	},
 	{
 		"id": 597,
@@ -13283,7 +13283,7 @@
 		"partOfSpeech": ["noun (place)"],
 		"ipa": "[ʃɪˈkɑːɡoʊ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/chicago.mp3"
 	},
 	{
 		"id": 598,
@@ -13302,7 +13302,7 @@
 		"partOfSpeech": ["noun (place)"],
 		"ipa": "[ˈʧɪleɪ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/chile.mp3"
 	},
 	{
 		"id": 599,
@@ -13321,7 +13321,7 @@
 		"partOfSpeech": ["noun/adj."],
 		"ipa": "[ˈʧɪlɪən]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/chilean.mp3"
 	},
 	{
 		"id": 600,
@@ -13340,7 +13340,7 @@
 		"partOfSpeech": ["noun (place)"],
 		"ipa": "[ˈʧaɪnə]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/china.mp3"
 	},
 	{
 		"id": 601,
@@ -13359,7 +13359,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈsɪtiz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/cities.mp3"
 	},
 	{
 		"id": 602,
@@ -13378,7 +13378,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈsɪti]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/city.mp3"
 	},
 	{
 		"id": 603,
@@ -13397,7 +13397,7 @@
 		"partOfSpeech": ["noun (place)"],
 		"ipa": "[kəˈlʌmbiə]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/colombia.mp3"
 	},
 	{
 		"id": 604,
@@ -13416,7 +13416,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[kʌm]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/come.mp3"
 	},
 	{
 		"id": 605,
@@ -13435,7 +13435,7 @@
 		"partOfSpeech": ["adj."],
 		"ipa": "[kul]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/cool.mp3"
 	},
 	{
 		"id": 606,
@@ -13454,7 +13454,7 @@
 		"partOfSpeech": ["noun (place)"],
 		"ipa": "[ˈkɔstə]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/costa-(rica).mp3"
 	},
 	{
 		"id": 607,
@@ -13473,7 +13473,7 @@
 		"partOfSpeech": ["noun (name)"],
 		"ipa": "[ˈdærəl]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/darrell.mp3"
 	},
 	{
 		"id": 608,
@@ -13492,7 +13492,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[deɪ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/day.mp3"
 	},
 	{
 		"id": 609,
@@ -13511,7 +13511,7 @@
 		"partOfSpeech": ["noun (name)"],
 		"ipa": "[daɪˈænə]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/diana.mp3"
 	},
 	{
 		"id": 610,
@@ -13530,7 +13530,7 @@
 		"partOfSpeech": ["noun (place)"],
 		"ipa": "[duːˈbaɪ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/dubai.mp3"
 	},
 	{
 		"id": 611,
@@ -13549,7 +13549,7 @@
 		"partOfSpeech": ["adj./noun"],
 		"ipa": "[ˌɛkwəˈtɔriəl]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/equatorial-(guinea).mp3"
 	},
 	{
 		"id": 612,
@@ -13568,7 +13568,7 @@
 		"partOfSpeech": ["verb/adj."],
 		"ipa": "[feɪnt]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/faint.mp3"
 	},
 	{
 		"id": 613,
@@ -13587,7 +13587,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[fɪl]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/fill.mp3"
 	},
 	{
 		"id": 614,
@@ -13606,7 +13606,7 @@
 		"partOfSpeech": ["?"],
 		"ipa": "[ˈfaɪərkl]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/firecl*.mp3"
 	},
 	{
 		"id": 615,
@@ -13625,7 +13625,7 @@
 		"partOfSpeech": ["verb/noun"],
 		"ipa": "[floʊts]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/floats.mp3"
 	},
 	{
 		"id": 616,
@@ -13644,7 +13644,7 @@
 		"partOfSpeech": ["prep."],
 		"ipa": "[frʌm]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/from.mp3"
 	},
 	{
 		"id": 617,
@@ -13663,7 +13663,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[dʒiː]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/g.mp3"
 	},
 	{
 		"id": 618,
@@ -13682,7 +13682,7 @@
 		"partOfSpeech": ["noun (place)"],
 		"ipa": "[ˈdʒɜrməni]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/germany.mp3"
 	},
 	{
 		"id": 619,
@@ -13701,7 +13701,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[ˈɡoʊɪŋ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/going.mp3"
 	},
 	{
 		"id": 620,
@@ -13720,7 +13720,7 @@
 		"partOfSpeech": ["noun (place)"],
 		"ipa": "[ɡris]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/greece.mp3"
 	},
 	{
 		"id": 621,
@@ -13739,7 +13739,7 @@
 		"partOfSpeech": ["noun (place)"],
 		"ipa": "[ˈɡɪni]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/guinea.mp3"
 	},
 	{
 		"id": 622,
@@ -13758,7 +13758,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[hɛr]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/hair.mp3"
 	},
 	{
 		"id": 623,
@@ -13777,7 +13777,7 @@
 		"partOfSpeech": ["contraction"],
 		"ipa": "[aɪl]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/ill.mp3"
 	},
 	{
 		"id": 624,
@@ -13796,7 +13796,7 @@
 		"partOfSpeech": ["noun (place)"],
 		"ipa": "[ˈɪndiə]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/india.mp3"
 	},
 	{
 		"id": 625,
@@ -13815,7 +13815,7 @@
 		"partOfSpeech": ["noun (place)"],
 		"ipa": "[ˌɪndiˈænə]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/indiana.mp3"
 	},
 	{
 		"id": 626,
@@ -13834,7 +13834,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈɪnˌmeɪts]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/inmates.mp3"
 	},
 	{
 		"id": 627,
@@ -13853,7 +13853,7 @@
 		"partOfSpeech": ["noun (place)"],
 		"ipa": "[ˈaɪəwə]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/iowa.mp3"
 	},
 	{
 		"id": 628,
@@ -13872,7 +13872,7 @@
 		"partOfSpeech": ["noun (place)"],
 		"ipa": "[ˈɪtəli]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/italy.mp3"
 	},
 	{
 		"id": 629,
@@ -13891,7 +13891,7 @@
 		"partOfSpeech": ["noun (place)"],
 		"ipa": "[dʒəˈpæn]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/japan.mp3"
 	},
 	{
 		"id": 630,
@@ -13910,7 +13910,7 @@
 		"partOfSpeech": ["noun (name)"],
 		"ipa": "[ˈdʒɑsəlɪn]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/jocelyn.mp3"
 	},
 	{
 		"id": 631,
@@ -13929,7 +13929,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[kip]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/keep.mp3"
 	},
 	{
 		"id": 632,
@@ -13948,7 +13948,7 @@
 		"partOfSpeech": ["noun (place)"],
 		"ipa": "[lɑs]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/las-(vegas).mp3"
 	},
 	{
 		"id": 633,
@@ -13967,7 +13967,7 @@
 		"partOfSpeech": ["noun (place)"],
 		"ipa": "[ˈmɛksɪkoʊ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/mexico.mp3"
 	},
 	{
 		"id": 634,
@@ -13986,7 +13986,7 @@
 		"partOfSpeech": ["noun (place)"],
 		"ipa": "[ˈmɪʃɪɡən]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/michigan.mp3"
 	},
 	{
 		"id": 635,
@@ -14005,7 +14005,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈmaɪnər]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/miner.mp3"
 	},
 	{
 		"id": 636,
@@ -14024,7 +14024,7 @@
 		"partOfSpeech": ["noun (place)"],
 		"ipa": "[nəˈvædə]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/nevada.mp3"
 	},
 	{
 		"id": 637,
@@ -14043,7 +14043,7 @@
 		"partOfSpeech": ["noun/adj."],
 		"ipa": "[ˌpæləsˈtɪniən]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/palestinian.mp3"
 	},
 	{
 		"id": 638,
@@ -14062,7 +14062,7 @@
 		"partOfSpeech": ["noun (name)"],
 		"ipa": "[paʊˈliːnə]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/paulina.mp3"
 	},
 	{
 		"id": 639,
@@ -14081,7 +14081,7 @@
 		"partOfSpeech": ["noun (place)"],
 		"ipa": "[ˈfɪləˌpinz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/philippines.mp3"
 	},
 	{
 		"id": 640,
@@ -14100,7 +14100,7 @@
 		"partOfSpeech": ["noun (place)"],
 		"ipa": "[ˈpɔrtʃəɡəl]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/portugal.mp3"
 	},
 	{
 		"id": 641,
@@ -14119,7 +14119,7 @@
 		"partOfSpeech": ["verb/noun"],
 		"ipa": "[prɛs]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/press.mp3"
 	},
 	{
 		"id": 642,
@@ -14138,7 +14138,7 @@
 		"partOfSpeech": ["noun/verb"],
 		"ipa": "[ˈrɛkərd] (noun), [rɪˈkɔrd] (verb)",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/record.mp3"
 	},
 	{
 		"id": 643,
@@ -14157,7 +14157,7 @@
 		"partOfSpeech": ["noun (place)"],
 		"ipa": "[ˈriːkə]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/rica-(costa-rica).mp3"
 	},
 	{
 		"id": 644,
@@ -14176,7 +14176,7 @@
 		"partOfSpeech": ["adj./noun"],
 		"ipa": "[ˈriːkən]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/rican-(costa-rican).mp3"
 	},
 	{
 		"id": 645,
@@ -14195,7 +14195,7 @@
 		"partOfSpeech": ["noun (place)"],
 		"ipa": "[roʊm]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/rome.mp3"
 	},
 	{
 		"id": 646,
@@ -14214,7 +14214,7 @@
 		"partOfSpeech": ["noun/verb"],
 		"ipa": "[saɪn]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/sign.mp3"
 	},
 	{
 		"id": 647,
@@ -14233,7 +14233,7 @@
 		"partOfSpeech": ["noun (name)"],
 		"ipa": "[ˈsnuːpi]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/snoopy.mp3"
 	},
 	{
 		"id": 648,
@@ -14252,7 +14252,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[ˈsnoʊɪŋ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/snowing.mp3"
 	},
 	{
 		"id": 649,
@@ -14271,7 +14271,7 @@
 		"partOfSpeech": ["noun (place)"],
 		"ipa": "[speɪn]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/spain.mp3"
 	},
 	{
 		"id": 650,
@@ -14290,7 +14290,7 @@
 		"partOfSpeech": ["noun (name)"],
 		"ipa": "[tæft]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/taft.mp3"
 	},
 	{
 		"id": 651,
@@ -14309,7 +14309,7 @@
 		"partOfSpeech": ["interj."],
 		"ipa": "[θæŋks]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/thanks.mp3"
 	},
 	{
 		"id": 652,
@@ -14328,7 +14328,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈθʌmˌneɪl]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/thumbnail.mp3"
 	},
 	{
 		"id": 653,
@@ -14347,7 +14347,7 @@
 		"partOfSpeech": ["noun (place)"],
 		"ipa": "[ˈtoʊkioʊ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/tokyo.mp3"
 	},
 	{
 		"id": 654,
@@ -14366,7 +14366,7 @@
 		"partOfSpeech": ["number"],
 		"ipa": "[ˈtwɛnti fɔr]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/twenty-four.mp3"
 	},
 	{
 		"id": 655,
@@ -14385,7 +14385,7 @@
 		"partOfSpeech": ["adv./prep."],
 		"ipa": "[ʌp]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/up.mp3"
 	},
 	{
 		"id": 656,
@@ -14404,7 +14404,7 @@
 		"partOfSpeech": ["noun (place)"],
 		"ipa": "[ˈveɪɡəs]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/vegas-(las-vegas).mp3"
 	},
 	{
 		"id": 657,
@@ -14423,7 +14423,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[ˈweɪtɪŋ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/waiting.mp3"
 	},
 	{
 		"id": 658,
@@ -14442,7 +14442,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[wʌz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/was.mp3"
 	},
 	{
 		"id": 659,
@@ -14461,7 +14461,7 @@
 		"partOfSpeech": ["adj."],
 		"ipa": "[waɪd]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/wide.mp3"
 	},
 	{
 		"id": 660,
@@ -14480,7 +14480,7 @@
 		"partOfSpeech": ["noun (name)"],
 		"ipa": "[ˈjɛri]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/yeri.mp3"
 	},
 	{
 		"id": 661,
@@ -14499,7 +14499,7 @@
 		"partOfSpeech": ["noun (place)"],
 		"ipa": "[jɔrk]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/york.mp3"
 	},
 	{
 		"id": 662,
@@ -14518,7 +14518,7 @@
 		"partOfSpeech": ["noun (place)"],
 		"ipa": "[jɔrks]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/yorks-(new-yorks,-yorkshire).mp3"
 	},
 	{
 		"id": 663,
@@ -14537,7 +14537,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ziː]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/z.mp3"
 	},
 	{
 		"id": 664,
@@ -14556,7 +14556,7 @@
 		"partOfSpeech": ["adj."],
 		"ipa": "[bæd]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/bad.mp3"
 	},
 	{
 		"id": 665,
@@ -14575,7 +14575,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[bɛr]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/bear.mp3"
 	},
 	{
 		"id": 666,
@@ -14594,7 +14594,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[bɛrz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/bears.mp3"
 	},
 	{
 		"id": 667,
@@ -14613,7 +14613,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈbrɑkəli]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/broccoli.mp3"
 	},
 	{
 		"id": 668,
@@ -14632,7 +14632,7 @@
 		"partOfSpeech": ["noun (place)"],
 		"ipa": "[ˌkælɪˈfɔrnjə]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/california.mp3"
 	},
 	{
 		"id": 669,
@@ -14651,7 +14651,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈkærəts]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/carrots.mp3"
 	},
 	{
 		"id": 670,
@@ -14670,7 +14670,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈsɛləri]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/celery.mp3"
 	},
 	{
 		"id": 671,
@@ -14689,7 +14689,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈkoʊkə]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/coca.mp3"
 	},
 	{
 		"id": 672,
@@ -14708,7 +14708,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈkoʊlə]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/cola.mp3"
 	},
 	{
 		"id": 673,
@@ -14727,7 +14727,7 @@
 		"partOfSpeech": ["adv."],
 		"ipa": "[ɛls]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/else.mp3"
 	},
 	{
 		"id": 674,
@@ -14746,7 +14746,7 @@
 		"partOfSpeech": ["noun (place)"],
 		"ipa": "[ˈflɔrɪdə]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/florida.mp3"
 	},
 	{
 		"id": 675,
@@ -14765,7 +14765,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[fudz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/foods.mp3"
 	},
 	{
 		"id": 676,
@@ -14784,7 +14784,7 @@
 		"partOfSpeech": ["noun (place)"],
 		"ipa": "[ˌɪndoʊˈniʒə]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/indonesia.mp3"
 	},
 	{
 		"id": 677,
@@ -14803,7 +14803,7 @@
 		"partOfSpeech": ["noun (place)"],
 		"ipa": "[ˈɪzreɪəl]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/israel.mp3"
 	},
 	{
 		"id": 678,
@@ -14822,7 +14822,7 @@
 		"partOfSpeech": ["noun (place/name)"],
 		"ipa": "[ˈʤɔrdən]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/jordan.mp3"
 	},
 	{
 		"id": 679,
@@ -14841,7 +14841,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[laɪks]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/likes.mp3"
 	},
 	{
 		"id": 680,
@@ -14860,7 +14860,7 @@
 		"partOfSpeech": ["noun (place)"],
 		"ipa": "[məˈrɑkoʊ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/morocco.mp3"
 	},
 	{
 		"id": 681,
@@ -14879,7 +14879,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[pɑm]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/palm.mp3"
 	},
 	{
 		"id": 682,
@@ -14898,7 +14898,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈpændə]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/panda.mp3"
 	},
 	{
 		"id": 683,
@@ -14917,7 +14917,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈʃipˌdɔɡ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/sheepdog.mp3"
 	},
 	{
 		"id": 684,
@@ -14936,7 +14936,7 @@
 		"partOfSpeech": ["number"],
 		"ipa": "[ˈtwɛnti faɪv]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/twenty-five.mp3"
 	},
 	{
 		"id": 685,
@@ -14955,7 +14955,7 @@
 		"partOfSpeech": ["interj."],
 		"ipa": "[ʌɡh]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/ugh.mp3"
 	},
 	{
 		"id": 686,
@@ -14974,7 +14974,7 @@
 		"partOfSpeech": ["adv./noun"],
 		"ipa": "[wɛl]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/well.mp3"
 	},
 	{
 		"id": 687,
@@ -14993,7 +14993,7 @@
 		"partOfSpeech": ["noun (place)"],
 		"ipa": "[ˈæfrɪkə]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/africa.mp3"
 	},
 	{
 		"id": 688,
@@ -15012,7 +15012,7 @@
 		"partOfSpeech": ["adj./noun"],
 		"ipa": "[ˈæfrɪkən]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/african.mp3"
 	},
 	{
 		"id": 689,
@@ -15031,7 +15031,7 @@
 		"partOfSpeech": ["interj."],
 		"ipa": "[ɑːˈhɑː]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/aha.mp3"
 	},
 	{
 		"id": 690,
@@ -15050,7 +15050,7 @@
 		"partOfSpeech": ["adj./noun"],
 		"ipa": "[əˈmɛrɪkən]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/american.mp3"
 	},
 	{
 		"id": 691,
@@ -15069,7 +15069,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[əˈmɛrɪkənz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/americans.mp3"
 	},
 	{
 		"id": 692,
@@ -15088,7 +15088,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ɑˈreɪpɑs]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/arepas.mp3"
 	},
 	{
 		"id": 693,
@@ -15107,7 +15107,7 @@
 		"partOfSpeech": ["adj./noun"],
 		"ipa": "[ˌɑrdʒənˈtɪniən]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/argentinian.mp3"
 	},
 	{
 		"id": 694,
@@ -15126,7 +15126,7 @@
 		"partOfSpeech": ["prep."],
 		"ipa": "[æt]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/at.mp3"
 	},
 	{
 		"id": 695,
@@ -15145,7 +15145,7 @@
 		"partOfSpeech": ["noun (place)"],
 		"ipa": "[ɑˈstreɪljə]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/australia.mp3"
 	},
 	{
 		"id": 696,
@@ -15164,7 +15164,7 @@
 		"partOfSpeech": ["adj./noun"],
 		"ipa": "[ɑˈstreɪljən]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/australian.mp3"
 	},
 	{
 		"id": 697,
@@ -15183,7 +15183,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈbiːbɪmbæp]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/bibimbap.mp3"
 	},
 	{
 		"id": 698,
@@ -15202,7 +15202,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[blaʊs]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/blouse.mp3"
 	},
 	{
 		"id": 699,
@@ -15221,7 +15221,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈblaʊsɪz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/blouses.mp3"
 	},
 	{
 		"id": 700,
@@ -15240,7 +15240,7 @@
 		"partOfSpeech": ["noun (name)"],
 		"ipa": "[ˈbreɪdi]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/brady.mp3"
 	},
 	{
 		"id": 701,
@@ -15259,7 +15259,7 @@
 		"partOfSpeech": ["adj./noun"],
 		"ipa": "[ˈbrɪtɪʃ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/british.mp3"
 	},
 	{
 		"id": 702,
@@ -15278,7 +15278,7 @@
 		"partOfSpeech": ["adj./noun"],
 		"ipa": "[ʧaɪˈniz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/chinese.mp3"
 	},
 	{
 		"id": 703,
@@ -15297,7 +15297,7 @@
 		"partOfSpeech": ["noun (brand)"],
 		"ipa": "[ˌkoʊkəˈkoʊlə]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/coca-cola.mp3"
 	},
 	{
 		"id": 704,
@@ -15316,7 +15316,7 @@
 		"partOfSpeech": ["adj./noun"],
 		"ipa": "[kəˈlʌmbiən]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/colombian.mp3"
 	},
 	{
 		"id": 705,
@@ -15335,7 +15335,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[kɔrs]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/course.mp3"
 	},
 	{
 		"id": 706,
@@ -15354,7 +15354,7 @@
 		"partOfSpeech": ["noun (place)"],
 		"ipa": "[fræns]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/france.mp3"
 	},
 	{
 		"id": 707,
@@ -15373,7 +15373,7 @@
 		"partOfSpeech": ["adj./noun"],
 		"ipa": "[frɛntʃ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/french.mp3"
 	},
 	{
 		"id": 708,
@@ -15392,7 +15392,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[fraɪz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/fries.mp3"
 	},
 	{
 		"id": 709,
@@ -15411,7 +15411,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[frɑɡ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/frog.mp3"
 	},
 	{
 		"id": 710,
@@ -15430,7 +15430,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[dʒəˈlɑːtoʊ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/gelato.mp3"
 	},
 	{
 		"id": 711,
@@ -15449,7 +15449,7 @@
 		"partOfSpeech": ["adj./noun"],
 		"ipa": "[ˈdʒɜrmən]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/german.mp3"
 	},
 	{
 		"id": 712,
@@ -15468,7 +15468,7 @@
 		"partOfSpeech": ["adj./noun"],
 		"ipa": "[ˈɪndiən]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/indian.mp3"
 	},
 	{
 		"id": 713,
@@ -15487,7 +15487,7 @@
 		"partOfSpeech": ["adj./noun"],
 		"ipa": "[ɪˈtæljən]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/italian.mp3"
 	},
 	{
 		"id": 714,
@@ -15506,7 +15506,7 @@
 		"partOfSpeech": ["adj./noun"],
 		"ipa": "[ˌʤæpəˈniz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/japanese.mp3"
 	},
 	{
 		"id": 715,
@@ -15525,7 +15525,7 @@
 		"partOfSpeech": ["noun (name)"],
 		"ipa": "[ˈkɜrmɪt]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/kermit.mp3"
 	},
 	{
 		"id": 716,
@@ -15544,7 +15544,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈkɪmtʃi]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/kimchi.mp3"
 	},
 	{
 		"id": 717,
@@ -15563,7 +15563,7 @@
 		"partOfSpeech": ["noun (place)"],
 		"ipa": "[kəˈriə]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/korea.mp3"
 	},
 	{
 		"id": 718,
@@ -15582,7 +15582,7 @@
 		"partOfSpeech": ["adj./noun"],
 		"ipa": "[kəˈriən]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/korean.mp3"
 	},
 	{
 		"id": 719,
@@ -15601,7 +15601,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈleɪdiz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/ladies.mp3"
 	},
 	{
 		"id": 720,
@@ -15620,7 +15620,7 @@
 		"partOfSpeech": ["noun (name)"],
 		"ipa": "[ˈlaɪənəl]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/lionel.mp3"
 	},
 	{
 		"id": 721,
@@ -15639,7 +15639,7 @@
 		"partOfSpeech": ["noun (name)"],
 		"ipa": "[ˈmeɪnɔr]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/mainor.mp3"
 	},
 	{
 		"id": 722,
@@ -15658,7 +15658,7 @@
 		"partOfSpeech": ["noun (name)"],
 		"ipa": "[ˈmɛsi]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/messi.mp3"
 	},
 	{
 		"id": 723,
@@ -15677,7 +15677,7 @@
 		"partOfSpeech": ["adj./noun"],
 		"ipa": "[ˈmɛksɪkən]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/mexican.mp3"
 	},
 	{
 		"id": 724,
@@ -15696,7 +15696,7 @@
 		"partOfSpeech": ["noun (name)"],
 		"ipa": "[mɪŋ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/ming.mp3"
 	},
 	{
 		"id": 725,
@@ -15715,7 +15715,7 @@
 		"partOfSpeech": ["noun (place)"],
 		"ipa": "[naɪˈʤɪriə]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/nigeria.mp3"
 	},
 	{
 		"id": 726,
@@ -15734,7 +15734,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈpeɪsoʊs]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/pesos.mp3"
 	},
 	{
 		"id": 727,
@@ -15753,7 +15753,7 @@
 		"partOfSpeech": ["noun (place)"],
 		"ipa": "[ˈrʌʃə]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/russia.mp3"
 	},
 	{
 		"id": 728,
@@ -15772,7 +15772,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[saɪnz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/signs.mp3"
 	},
 	{
 		"id": 729,
@@ -15791,7 +15791,7 @@
 		"partOfSpeech": ["noun/adj."],
 		"ipa": "[saʊθ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/south.mp3"
 	},
 	{
 		"id": 730,
@@ -15810,7 +15810,7 @@
 		"partOfSpeech": ["adj./noun"],
 		"ipa": "[ˈspænɪʃ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/spanish.mp3"
 	},
 	{
 		"id": 731,
@@ -15829,7 +15829,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈsuːʃi]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/sushi.mp3"
 	},
 	{
 		"id": 732,
@@ -15848,7 +15848,7 @@
 		"partOfSpeech": ["noun (name)"],
 		"ipa": "[tɑm]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/tom.mp3"
 	},
 	{
 		"id": 733,
@@ -15867,7 +15867,7 @@
 		"partOfSpeech": ["number"],
 		"ipa": "[ˈtwɛnti sɪks]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/twenty-six.mp3"
 	},
 	{
 		"id": 734,
@@ -15886,7 +15886,7 @@
 		"partOfSpeech": ["noun (name)"],
 		"ipa": "[jaʊ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/yao.mp3"
 	},
 	{
 		"id": 735,
@@ -15905,7 +15905,7 @@
 		"partOfSpeech": ["adv."],
 		"ipa": "[əˈbrɔd]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/abroad.mp3"
 	},
 	{
 		"id": 736,
@@ -15924,7 +15924,7 @@
 		"partOfSpeech": ["noun (name)"],
 		"ipa": "[əˈmɪr]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/amir.mp3"
 	},
 	{
 		"id": 737,
@@ -15943,7 +15943,7 @@
 		"partOfSpeech": ["noun/verb"],
 		"ipa": "[ˈɑːmoʊ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/amo.mp3"
 	},
 	{
 		"id": 738,
@@ -15962,7 +15962,7 @@
 		"partOfSpeech": ["noun (name)"],
 		"ipa": "[əˈnuːʃkə]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/anushka.mp3"
 	},
 	{
 		"id": 739,
@@ -15981,7 +15981,7 @@
 		"partOfSpeech": ["adj./noun"],
 		"ipa": "[ˈærəbɪk]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/arabic.mp3"
 	},
 	{
 		"id": 740,
@@ -16000,7 +16000,7 @@
 		"partOfSpeech": ["adj./noun"],
 		"ipa": "[ˈeɪʒən]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/asian.mp3"
 	},
 	{
 		"id": 741,
@@ -16019,7 +16019,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[bɪˈɡɪnɪŋ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/beginning.mp3"
 	},
 	{
 		"id": 742,
@@ -16038,7 +16038,7 @@
 		"partOfSpeech": ["noun (place)"],
 		"ipa": "[bɜrˈlɪn]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/berlin.mp3"
 	},
 	{
 		"id": 743,
@@ -16057,7 +16057,7 @@
 		"partOfSpeech": ["adj."],
 		"ipa": "[ˈbɪblɪkəl]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/biblical.mp3"
 	},
 	{
 		"id": 744,
@@ -16076,7 +16076,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈbɑliˌwʊd]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/bollywood.mp3"
 	},
 	{
 		"id": 745,
@@ -16095,7 +16095,7 @@
 		"partOfSpeech": ["interj."],
 		"ipa": "[bɔ̃ˈʒuʁ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/bonjour.mp3"
 	},
 	{
 		"id": 746,
@@ -16114,7 +16114,7 @@
 		"partOfSpeech": ["noun (place)"],
 		"ipa": "[ˈkænədə]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/canada.mp3"
 	},
 	{
 		"id": 747,
@@ -16133,7 +16133,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[kəˈneɪdiənz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/canadians.mp3"
 	},
 	{
 		"id": 748,
@@ -16152,7 +16152,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈkɑlɪʤ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/college.mp3"
 	},
 	{
 		"id": 749,
@@ -16171,7 +16171,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[kriˈeɪtɪd]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/created.mp3"
 	},
 	{
 		"id": 750,
@@ -16190,7 +16190,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈkrɪkɪt]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/cricket.mp3"
 	},
 	{
 		"id": 751,
@@ -16209,7 +16209,7 @@
 		"partOfSpeech": ["noun/verb"],
 		"ipa": "[kruːz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/cruise.mp3"
 	},
 	{
 		"id": 752,
@@ -16228,7 +16228,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ɜrθ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/earth.mp3"
 	},
 	{
 		"id": 753,
@@ -16247,7 +16247,7 @@
 		"partOfSpeech": ["noun/adj."],
 		"ipa": "[ist]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/east.mp3"
 	},
 	{
 		"id": 754,
@@ -16266,7 +16266,7 @@
 		"partOfSpeech": ["adj."],
 		"ipa": "[ˈistərn]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/eastern.mp3"
 	},
 	{
 		"id": 755,
@@ -16285,7 +16285,7 @@
 		"partOfSpeech": ["noun (name)"],
 		"ipa": "[ˈaɪfəl]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/eiffel.mp3"
 	},
 	{
 		"id": 756,
@@ -16304,7 +16304,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[fərˈɡɑt]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/forgot.mp3"
 	},
 	{
 		"id": 757,
@@ -16323,7 +16323,7 @@
 		"partOfSpeech": ["interj."],
 		"ipa": "[kam.sa.ham.ni.da]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/gamsahamnida.mp3"
 	},
 	{
 		"id": 758,
@@ -16342,7 +16342,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ɡɑd]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/god.mp3"
 	},
 	{
 		"id": 759,
@@ -16361,7 +16361,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ɡɑdˈzɪlə]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/godzilla.mp3"
 	},
 	{
 		"id": 760,
@@ -16380,7 +16380,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[hæd]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/had.mp3"
 	},
 	{
 		"id": 761,
@@ -16399,7 +16399,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈhɛvənz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/heavens.mp3"
 	},
 	{
 		"id": 762,
@@ -16418,7 +16418,7 @@
 		"partOfSpeech": ["noun/adj."],
 		"ipa": "[ˈhiːbruː]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/hebrew.mp3"
 	},
 	{
 		"id": 763,
@@ -16437,7 +16437,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈhɪndi]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/hindi.mp3"
 	},
 	{
 		"id": 764,
@@ -16456,7 +16456,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈhɑliˌwʊd]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/hollywood.mp3"
 	},
 	{
 		"id": 765,
@@ -16475,7 +16475,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈhʊməs]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/hummus.mp3"
 	},
 	{
 		"id": 766,
@@ -16494,7 +16494,7 @@
 		"partOfSpeech": ["contraction"],
 		"ipa": "[aɪv]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/ive.mp3"
 	},
 	{
 		"id": 767,
@@ -16513,7 +16513,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈɪndiənz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/indians.mp3"
 	},
 	{
 		"id": 768,
@@ -16532,7 +16532,7 @@
 		"partOfSpeech": ["noun (place)"],
 		"ipa": "[ɪˈrɑn]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/iran.mp3"
 	},
 	{
 		"id": 769,
@@ -16551,7 +16551,7 @@
 		"partOfSpeech": ["noun (name)"],
 		"ipa": "[joʊˈhænsən]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/johansson.mp3"
 	},
 	{
 		"id": 770,
@@ -16570,7 +16570,7 @@
 		"partOfSpeech": ["noun (name)"],
 		"ipa": "[kɑn]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/khan.mp3"
 	},
 	{
 		"id": 771,
@@ -16589,7 +16589,7 @@
 		"partOfSpeech": ["noun/adj."],
 		"ipa": "[kaɪnd]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/kind.mp3"
 	},
 	{
 		"id": 772,
@@ -16608,7 +16608,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[kəˈriənz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/koreans.mp3"
 	},
 	{
 		"id": 773,
@@ -16627,7 +16627,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈlæŋɡwɪʤ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/language.mp3"
 	},
 	{
 		"id": 774,
@@ -16646,7 +16646,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈlæŋɡwɪʤɪz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/languages.mp3"
 	},
 	{
 		"id": 775,
@@ -16665,7 +16665,7 @@
 		"partOfSpeech": ["adj./noun"],
 		"ipa": "[ˈlætɪn]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/latin.mp3"
 	},
 	{
 		"id": 776,
@@ -16684,7 +16684,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[lɪvd]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/lived.mp3"
 	},
 	{
 		"id": 777,
@@ -16703,7 +16703,7 @@
 		"partOfSpeech": ["noun (place)"],
 		"ipa": "[məˈdrɪd]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/madrid.mp3"
 	},
 	{
 		"id": 778,
@@ -16722,7 +16722,7 @@
 		"partOfSpeech": ["adj./noun"],
 		"ipa": "[ˈmɪdəl]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/middle.mp3"
 	},
 	{
 		"id": 779,
@@ -16741,7 +16741,7 @@
 		"partOfSpeech": ["adj./noun"],
 		"ipa": "[naɪˈʤɪriən]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/nigerian.mp3"
 	},
 	{
 		"id": 780,
@@ -16760,7 +16760,7 @@
 		"partOfSpeech": ["noun (place)"],
 		"ipa": "[ˈpærɪs]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/paris.mp3"
 	},
 	{
 		"id": 781,
@@ -16779,7 +16779,7 @@
 		"partOfSpeech": ["adj./noun"],
 		"ipa": "[ˈpɜrʒən]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/persian.mp3"
 	},
 	{
 		"id": 782,
@@ -16798,7 +16798,7 @@
 		"partOfSpeech": ["adj./noun"],
 		"ipa": "[ˌpɔrtʃəˈɡiz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/portuguese.mp3"
 	},
 	{
 		"id": 783,
@@ -16817,7 +16817,7 @@
 		"partOfSpeech": ["noun (letter sound)"],
 		"ipa": "[r]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/rr.mp3"
 	},
 	{
 		"id": 784,
@@ -16836,7 +16836,7 @@
 		"partOfSpeech": ["adj./noun"],
 		"ipa": "[ˈrʌʃən]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/russian.mp3"
 	},
 	{
 		"id": 785,
@@ -16855,7 +16855,7 @@
 		"partOfSpeech": ["noun (name)"],
 		"ipa": "[ˈskɑrlət]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/scarlett.mp3"
 	},
 	{
 		"id": 786,
@@ -16874,7 +16874,7 @@
 		"partOfSpeech": ["noun (name)"],
 		"ipa": "[ˈʃɑrmə]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/sharma.mp3"
 	},
 	{
 		"id": 787,
@@ -16893,7 +16893,7 @@
 		"partOfSpeech": ["interj."],
 		"ipa": "[ˈʃʊkrɑn]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/shukran.mp3"
 	},
 	{
 		"id": 788,
@@ -16912,7 +16912,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[spik]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/speak.mp3"
 	},
 	{
 		"id": 789,
@@ -16931,7 +16931,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈspikər]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/speaker.mp3"
 	},
 	{
 		"id": 790,
@@ -16950,7 +16950,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈspikərz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/speakers.mp3"
 	},
 	{
 		"id": 791,
@@ -16969,7 +16969,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[ˈspikɪŋ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/speaking.mp3"
 	},
 	{
 		"id": 792,
@@ -16988,7 +16988,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[spiks]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/speaks.mp3"
 	},
 	{
 		"id": 793,
@@ -17007,7 +17007,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[ˈstʌdid]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/studied.mp3"
 	},
 	{
 		"id": 794,
@@ -17026,7 +17026,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈswiti]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/sweetie.mp3"
 	},
 	{
 		"id": 795,
@@ -17045,7 +17045,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[te]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/te.mp3"
 	},
 	{
 		"id": 796,
@@ -17064,7 +17064,7 @@
 		"partOfSpeech": ["conj."],
 		"ipa": "[ðæn]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/than.mp3"
 	},
 	{
 		"id": 797,
@@ -17083,7 +17083,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈtaʊər]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/tower.mp3"
 	},
 	{
 		"id": 798,
@@ -17102,7 +17102,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[ˌʌndərˈstænd]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/understand.mp3"
 	},
 	{
 		"id": 799,
@@ -17121,7 +17121,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˌjunəˈvɜrsəti]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/university.mp3"
 	},
 	{
 		"id": 800,
@@ -17140,7 +17140,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[wɝdz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/words.mp3"
 	},
 	{
 		"id": 801,
@@ -17159,7 +17159,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[jɪrz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/years.mp3"
 	},
 	{
 		"id": 802,
@@ -17178,7 +17178,7 @@
 		"partOfSpeech": ["noun (place)"],
 		"ipa": "[ˈeɪʒə]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/asia.mp3"
 	},
 	{
 		"id": 803,
@@ -17197,7 +17197,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[bluz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/blues.mp3"
 	},
 	{
 		"id": 804,
@@ -17216,7 +17216,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈkʌlər]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/color.mp3"
 	},
 	{
 		"id": 805,
@@ -17235,7 +17235,7 @@
 		"partOfSpeech": ["adj."],
 		"ipa": "[ˈkʌlərfəl]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/colorful.mp3"
 	},
 	{
 		"id": 806,
@@ -17254,7 +17254,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[kaʊz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/cows.mp3"
 	},
 	{
 		"id": 807,
@@ -17273,7 +17273,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈdɑŋki]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/donkey.mp3"
 	},
 	{
 		"id": 808,
@@ -17292,7 +17292,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈdɑŋkiz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/donkeys.mp3"
 	},
 	{
 		"id": 809,
@@ -17311,7 +17311,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[dʌk]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/duck.mp3"
 	},
 	{
 		"id": 810,
@@ -17330,7 +17330,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈdʌkiz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/duckies.mp3"
 	},
 	{
 		"id": 811,
@@ -17349,7 +17349,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈdʌklɪŋ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/duckling.mp3"
 	},
 	{
 		"id": 812,
@@ -17368,7 +17368,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈdʌklɪŋz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/ducklings.mp3"
 	},
 	{
 		"id": 813,
@@ -17387,7 +17387,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[dʌks]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/ducks.mp3"
 	},
 	{
 		"id": 814,
@@ -17406,7 +17406,7 @@
 		"partOfSpeech": ["noun/adj."],
 		"ipa": "[ˈdʌki]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/ducky.mp3"
 	},
 	{
 		"id": 815,
@@ -17425,7 +17425,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[fɑrm]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/farm.mp3"
 	},
 	{
 		"id": 816,
@@ -17444,7 +17444,7 @@
 		"partOfSpeech": ["possessive noun"],
 		"ipa": "[ˈfɪʃɪz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/fishs.mp3"
 	},
 	{
 		"id": 817,
@@ -17463,7 +17463,7 @@
 		"partOfSpeech": ["noun (letters)"],
 		"ipa": "[ɡ] / silent",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/gh.mp3"
 	},
 	{
 		"id": 818,
@@ -17482,7 +17482,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ɡoʊt]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/goat.mp3"
 	},
 	{
 		"id": 819,
@@ -17501,7 +17501,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ɡoʊts]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/goats.mp3"
 	},
 	{
 		"id": 820,
@@ -17520,7 +17520,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ɡrinz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/greens.mp3"
 	},
 	{
 		"id": 821,
@@ -17539,7 +17539,7 @@
 		"partOfSpeech": ["noun (place)"],
 		"ipa": "[ˈaɪslənd]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/iceland.mp3"
 	},
 	{
 		"id": 822,
@@ -17558,7 +17558,7 @@
 		"partOfSpeech": ["adj./noun"],
 		"ipa": "[aɪsˈlændɪk]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/icelandic.mp3"
 	},
 	{
 		"id": 823,
@@ -17577,7 +17577,7 @@
 		"partOfSpeech": ["contraction"],
 		"ipa": "[ˈɪzənt]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/isnt.mp3"
 	},
 	{
 		"id": 824,
@@ -17596,7 +17596,7 @@
 		"partOfSpeech": ["noun/adj."],
 		"ipa": "[laɪt]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/light.mp3"
 	},
 	{
 		"id": 825,
@@ -17615,7 +17615,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈlaɪtˌhaʊs]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/lighthouse.mp3"
 	},
 	{
 		"id": 826,
@@ -17634,7 +17634,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[laɪts]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/lights.mp3"
 	},
 	{
 		"id": 827,
@@ -17653,7 +17653,7 @@
 		"partOfSpeech": ["adv."],
 		"ipa": "[ˈmeɪbi]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/maybe.mp3"
 	},
 	{
 		"id": 828,
@@ -17672,7 +17672,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[ˈmɪlkɪŋ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/milking.mp3"
 	},
 	{
 		"id": 829,
@@ -17691,7 +17691,7 @@
 		"partOfSpeech": ["possessive noun"],
 		"ipa": "[ˈmɑmiz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/mommys.mp3"
 	},
 	{
 		"id": 830,
@@ -17710,7 +17710,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[mʌŋ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/mung.mp3"
 	},
 	{
 		"id": 831,
@@ -17729,7 +17729,7 @@
 		"partOfSpeech": ["noun (name)"],
 		"ipa": "[ˈnimoʊ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/nemo.mp3"
 	},
 	{
 		"id": 832,
@@ -17748,7 +17748,7 @@
 		"partOfSpeech": ["noun/adj."],
 		"ipa": "[ˈɔrɪndʒ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/orange.mp3"
 	},
 	{
 		"id": 833,
@@ -17767,7 +17767,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈɔrɪndʒɪz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/oranges.mp3"
 	},
 	{
 		"id": 834,
@@ -17786,7 +17786,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈpɪɡlət]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/piglet.mp3"
 	},
 	{
 		"id": 835,
@@ -17805,7 +17805,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈpɪɡləts]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/piglets.mp3"
 	},
 	{
 		"id": 836,
@@ -17824,7 +17824,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[pɪɡz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/pigs.mp3"
 	},
 	{
 		"id": 837,
@@ -17843,7 +17843,7 @@
 		"partOfSpeech": ["adj."],
 		"ipa": "[pɪŋk]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/pink.mp3"
 	},
 	{
 		"id": 838,
@@ -17862,7 +17862,7 @@
 		"partOfSpeech": ["adj."],
 		"ipa": "[ˈpɜrpəl]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/purple.mp3"
 	},
 	{
 		"id": 839,
@@ -17881,7 +17881,7 @@
 		"partOfSpeech": ["noun/verb"],
 		"ipa": "[rɪˈvju]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/review.mp3"
 	},
 	{
 		"id": 840,
@@ -17900,7 +17900,7 @@
 		"partOfSpeech": ["verb/noun"],
 		"ipa": "[ˈseɪɪŋ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/saying.mp3"
 	},
 	{
 		"id": 841,
@@ -17919,7 +17919,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[sits]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/seats.mp3"
 	},
 	{
 		"id": 842,
@@ -17938,7 +17938,7 @@
 		"partOfSpeech": ["noun (short)"],
 		"ipa": "[ˈsɛmitr]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/semitr.mp3"
 	},
 	{
 		"id": 843,
@@ -17957,7 +17957,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[ˈsaɪnɪŋ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/signing.mp3"
 	},
 	{
 		"id": 844,
@@ -17976,7 +17976,7 @@
 		"partOfSpeech": ["adj./noun"],
 		"ipa": "[soʊˈmɑli]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/somali.mp3"
 	},
 	{
 		"id": 845,
@@ -17995,7 +17995,7 @@
 		"partOfSpeech": ["noun (place)"],
 		"ipa": "[soʊˈmɑliə]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/somalia.mp3"
 	},
 	{
 		"id": 846,
@@ -18014,7 +18014,7 @@
 		"partOfSpeech": ["noun (place)"],
 		"ipa": "[ˈtaɪˌlænd]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/thailand.mp3"
 	},
 	{
 		"id": 847,
@@ -18033,7 +18033,7 @@
 		"partOfSpeech": ["interj."],
 		"ipa": "[woʊ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/whoa.mp3"
 	},
 	{
 		"id": 848,
@@ -18052,7 +18052,7 @@
 		"partOfSpeech": ["possessive noun"],
 		"ipa": "[ˈwʊmənz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/womans.mp3"
 	},
 	{
 		"id": 849,
@@ -18071,7 +18071,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈjɛloʊz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/yellows.mp3"
 	},
 	{
 		"id": 850,
@@ -18090,7 +18090,7 @@
 		"partOfSpeech": ["noun (place)"],
 		"ipa": "[ˈændʒələs]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/angeles-(los-angeles).mp3"
 	},
 	{
 		"id": 851,
@@ -18109,7 +18109,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈbeɪsˌbɔl]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/baseball.mp3"
 	},
 	{
 		"id": 852,
@@ -18128,7 +18128,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[bɛdz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/beds.mp3"
 	},
 	{
 		"id": 853,
@@ -18147,7 +18147,7 @@
 		"partOfSpeech": ["adj."],
 		"ipa": "[braɪt]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/bright.mp3"
 	},
 	{
 		"id": 854,
@@ -18166,7 +18166,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈbʌtərˌflaɪz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/butterflies.mp3"
 	},
 	{
 		"id": 855,
@@ -18185,7 +18185,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈbʌtərˌflaɪ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/butterfly.mp3"
 	},
 	{
 		"id": 856,
@@ -18204,7 +18204,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈdeɪzi]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/daisy.mp3"
 	},
 	{
 		"id": 857,
@@ -18223,7 +18223,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[deɪz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/days.mp3"
 	},
 	{
 		"id": 858,
@@ -18242,7 +18242,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈdeɪˌtaɪm]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/daytime.mp3"
 	},
 	{
 		"id": 859,
@@ -18261,7 +18261,7 @@
 		"partOfSpeech": ["noun (name)"],
 		"ipa": "[ˈdɑnəld]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/donald.mp3"
 	},
 	{
 		"id": 860,
@@ -18280,7 +18280,7 @@
 		"partOfSpeech": ["prep."],
 		"ipa": "[ˈdʊrɪŋ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/during.mp3"
 	},
 	{
 		"id": 861,
@@ -18299,7 +18299,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ɪɡˈzæmpəlz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/examples.mp3"
 	},
 	{
 		"id": 862,
@@ -18318,7 +18318,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[ˈfɑloʊ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/follow.mp3"
 	},
 	{
 		"id": 863,
@@ -18337,7 +18337,7 @@
 		"partOfSpeech": ["noun (place)"],
 		"ipa": "[frænˈsɪskoʊ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/francisco-(san-francisco).mp3"
 	},
 	{
 		"id": 864,
@@ -18356,7 +18356,7 @@
 		"partOfSpeech": ["possessive noun"],
 		"ipa": "[ɡɝlz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/girls.mp3"
 	},
 	{
 		"id": 865,
@@ -18375,7 +18375,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ɡɑlf]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/golf.mp3"
 	},
 	{
 		"id": 866,
@@ -18394,7 +18394,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈɡɑlfər]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/golfer.mp3"
 	},
 	{
 		"id": 867,
@@ -18413,7 +18413,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈɡɑlfərz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/golfers.mp3"
 	},
 	{
 		"id": 868,
@@ -18432,7 +18432,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[ˈɡɑlfɪŋ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/golfing.mp3"
 	},
 	{
 		"id": 869,
@@ -18451,7 +18451,7 @@
 		"partOfSpeech": ["interj."],
 		"ipa": "[ˈɡʊd deɪ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/goodday.mp3"
 	},
 	{
 		"id": 870,
@@ -18470,7 +18470,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[ˈhævɪŋ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/having.mp3"
 	},
 	{
 		"id": 871,
@@ -18489,7 +18489,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈhɑki]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/hockey.mp3"
 	},
 	{
 		"id": 872,
@@ -18508,7 +18508,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈkiːwɝdz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/keywords.mp3"
 	},
 	{
 		"id": 873,
@@ -18527,7 +18527,7 @@
 		"partOfSpeech": ["part of name"],
 		"ipa": "[loʊs]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/los-(los-angeles).mp3"
 	},
 	{
 		"id": 874,
@@ -18546,7 +18546,7 @@
 		"partOfSpeech": ["possessive noun"],
 		"ipa": "[mænz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/mans.mp3"
 	},
 	{
 		"id": 875,
@@ -18565,7 +18565,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[mun]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/moon.mp3"
 	},
 	{
 		"id": 876,
@@ -18584,7 +18584,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈmunˌlaɪt]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/moonlight.mp3"
 	},
 	{
 		"id": 877,
@@ -18603,7 +18603,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[nɛt]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/net.mp3"
 	},
 	{
 		"id": 878,
@@ -18622,7 +18622,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[naɪt]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/night.mp3"
 	},
 	{
 		"id": 879,
@@ -18641,7 +18641,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈnaɪtˌlaɪt]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/nightlight.mp3"
 	},
 	{
 		"id": 880,
@@ -18660,7 +18660,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[naɪts]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/nights.mp3"
 	},
 	{
 		"id": 881,
@@ -18679,7 +18679,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈnaɪtˌtaɪm]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/nighttime.mp3"
 	},
 	{
 		"id": 882,
@@ -18698,7 +18698,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈpleɪərz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/players.mp3"
 	},
 	{
 		"id": 883,
@@ -18717,7 +18717,7 @@
 		"partOfSpeech": ["part of name"],
 		"ipa": "[sæn]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/san-(san-francisco).mp3"
 	},
 	{
 		"id": 884,
@@ -18736,7 +18736,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[sɝ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/sir.mp3"
 	},
 	{
 		"id": 885,
@@ -18755,7 +18755,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[skaɪ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/sky.mp3"
 	},
 	{
 		"id": 886,
@@ -18774,7 +18774,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈskaɪˌlaɪt]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/skylight.mp3"
 	},
 	{
 		"id": 887,
@@ -18793,7 +18793,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[spɔrts]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/sports.mp3"
 	},
 	{
 		"id": 888,
@@ -18812,7 +18812,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[sʌn]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/sun.mp3"
 	},
 	{
 		"id": 889,
@@ -18831,7 +18831,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈsʌnˌflaʊər]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/sunflower.mp3"
 	},
 	{
 		"id": 890,
@@ -18850,7 +18850,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈsʌnˌflaʊərz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/sunflowers.mp3"
 	},
 	{
 		"id": 891,
@@ -18869,7 +18869,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈsʌnˌɡlæsɪz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/sunglasses.mp3"
 	},
 	{
 		"id": 892,
@@ -18888,7 +18888,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈsʌnˌlaɪt]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/sunlight.mp3"
 	},
 	{
 		"id": 893,
@@ -18907,7 +18907,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈtɛnɪs]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/tennis.mp3"
 	},
 	{
 		"id": 894,
@@ -18926,7 +18926,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[taʊn]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/town.mp3"
 	},
 	{
 		"id": 895,
@@ -18945,7 +18945,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[voʊˈkæbjəˌlɛri]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/vocabulary.mp3"
 	},
 	{
 		"id": 896,
@@ -18964,7 +18964,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈvɑliˌbɔl]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/volleyball.mp3"
 	},
 	{
 		"id": 897,
@@ -18983,7 +18983,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[wuː]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/woo.mp3"
 	},
 	{
 		"id": 898,
@@ -19002,7 +19002,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈjuːˌtuːbər]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/youtuber.mp3"
 	},
 	{
 		"id": 899,
@@ -19021,7 +19021,7 @@
 		"partOfSpeech": ["possessive noun"],
 		"ipa": "[ˈjuːˌtuːbərz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/youtubers.mp3"
 	},
 	{
 		"id": 900,
@@ -19040,7 +19040,7 @@
 		"partOfSpeech": ["noun (place)"],
 		"ipa": "[ˈziːlənd]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/zealand-(new-zealand).mp3"
 	},
 	{
 		"id": 901,
@@ -19059,7 +19059,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈæfrɪkənz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/africans.mp3"
 	},
 	{
 		"id": 902,
@@ -19078,7 +19078,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈbæskətˌbɔlz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/basketballs.mp3"
 	},
 	{
 		"id": 903,
@@ -19097,7 +19097,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[brəˈzɪljənz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/brazilians.mp3"
 	},
 	{
 		"id": 904,
@@ -19116,7 +19116,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[kəˈlʌmbiənz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/colombians.mp3"
 	},
 	{
 		"id": 905,
@@ -19135,7 +19135,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[ˈkʌmɪŋ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/coming.mp3"
 	},
 	{
 		"id": 906,
@@ -19154,7 +19154,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈkjuːbənz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/cubans.mp3"
 	},
 	{
 		"id": 907,
@@ -19173,7 +19173,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈiːstərnərz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/easterners.mp3"
 	},
 	{
 		"id": 908,
@@ -19192,7 +19192,7 @@
 		"partOfSpeech": ["adj./noun"],
 		"ipa": "[ˌjʊrəˈpiən]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/european.mp3"
 	},
 	{
 		"id": 909,
@@ -19211,7 +19211,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈfɪʃər]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/fisher.mp3"
 	},
 	{
 		"id": 910,
@@ -19230,7 +19230,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈfɪʃərmən]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/fisherman.mp3"
 	},
 	{
 		"id": 911,
@@ -19249,7 +19249,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈfɪʃərmɪn]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/fishermen.mp3"
 	},
 	{
 		"id": 912,
@@ -19268,7 +19268,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[ɡɛt]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/get.mp3"
 	},
 	{
 		"id": 913,
@@ -19287,7 +19287,7 @@
 		"partOfSpeech": ["noun (name)"],
 		"ipa": "[həˈlɛnə]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/helena.mp3"
 	},
 	{
 		"id": 914,
@@ -19306,7 +19306,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈhʌni]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/honey.mp3"
 	},
 	{
 		"id": 915,
@@ -19325,7 +19325,7 @@
 		"partOfSpeech": ["adj./noun"],
 		"ipa": "[ˌɪndoʊˈniʒən]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/indonesian.mp3"
 	},
 	{
 		"id": 916,
@@ -19344,26 +19344,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˌɪndoʊˈniʒənz]",
 		"images": [],
-		"engAudio": ""
-	},
-	{
-		"id": 917,
-		"lessons": ["30"],
-		"type": "word",
-		"engDefinition": "proper name (variant of Josiah)",
-		"category": "",
-		"eng": "Joiah*",
-		"spa": "Joiah",
-		"por": "Joiah",
-		"spaTransliteration": "yóia",
-		"porTransliteration": "yóia",
-		"person": "",
-		"gender": "",
-		"number": "",
-		"partOfSpeech": ["noun (name)"],
-		"ipa": "[ˈdʒoʊaɪə]",
-		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/indonesians.mp3"
 	},
 	{
 		"id": 918,
@@ -19382,7 +19363,7 @@
 		"partOfSpeech": ["possessive noun"],
 		"ipa": "[ˈlɛsənz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/lessons.mp3"
 	},
 	{
 		"id": 919,
@@ -19401,7 +19382,7 @@
 		"partOfSpeech": ["verb/adj."],
 		"ipa": "[min]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/mean.mp3"
 	},
 	{
 		"id": 920,
@@ -19420,7 +19401,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈmɛksɪkənz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/mexicans.mp3"
 	},
 	{
 		"id": 921,
@@ -19439,26 +19420,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈmɔrfoʊ]",
 		"images": [],
-		"engAudio": ""
-	},
-	{
-		"id": 922,
-		"lessons": ["30"],
-		"type": "word",
-		"engDefinition": "long vowel sound",
-		"category": "",
-		"eng": "oo",
-		"spa": "oo (sonido)",
-		"por": "oo (som)",
-		"spaTransliteration": "úu",
-		"porTransliteration": "úu",
-		"person": "",
-		"gender": "",
-		"number": "",
-		"partOfSpeech": ["interj./sound"],
-		"ipa": "[uː]",
-		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/morpho.mp3"
 	},
 	{
 		"id": 923,
@@ -19477,7 +19439,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈsnikərz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/sneakers.mp3"
 	},
 	{
 		"id": 924,
@@ -19496,7 +19458,7 @@
 		"partOfSpeech": ["verb/noun"],
 		"ipa": "[stɑp]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/stop.mp3"
 	},
 	{
 		"id": 925,
@@ -19515,7 +19477,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈstɑpˌlaɪt]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/stoplight.mp3"
 	},
 	{
 		"id": 926,
@@ -19534,7 +19496,7 @@
 		"partOfSpeech": ["verb"],
 		"ipa": "[ˈstɑpɪŋ]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/stopping.mp3"
 	},
 	{
 		"id": 927,
@@ -19553,6 +19515,6 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈtreɪnərz]",
 		"images": [],
-		"engAudio": ""
+		"engAudio": "/english/trainers.mp3"
 	}
 ]
