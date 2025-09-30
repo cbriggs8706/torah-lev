@@ -8,6 +8,11 @@ const hebrewFonts = [
 	{ label: 'Arial', value: 'font-arial' },
 	{ label: 'Times', value: 'font-serif' },
 	{ label: 'Nunito', value: 'font-nunito' },
+	{ label: 'Frank', value: 'font-frank' },
+	{ label: 'Tinos', value: 'font-tinos' },
+	{ label: 'Cardo', value: 'font-cardo' },
+	{ label: 'Rashi', value: 'font-rashi' },
+	{ label: 'Suez', value: 'font-suez' },
 ]
 
 type LessonScript = {

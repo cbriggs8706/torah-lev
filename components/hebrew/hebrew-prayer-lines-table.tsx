@@ -225,9 +225,9 @@ export default function PrayerLinesTable({
 				>
 					A-
 				</button>
-				<Button variant={'default'} onClick={() => router.push('/prayer')}>
+				{/* <Button variant={'default'} onClick={() => router.push('/he/prayer')}>
 					All Prayers
-				</Button>
+				</Button> */}
 			</div>
 
 			{/* Desktop Table */}

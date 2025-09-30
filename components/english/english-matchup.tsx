@@ -22,6 +22,7 @@ import LessonFilter from '../filters/filter-lesson'
 interface EnglishWordMatchGameProps {
 	data: EnglishVocab[]
 	userId: string
+	currentLesson?: number
 }
 
 type UniqueIdentifier = string | number
@@ -37,12 +38,13 @@ function parseLessonKey(key: string) {
 }
 
 export default function EnglishWordMatchGame({
+	currentLesson,
 	data,
 	userId,
 }: EnglishWordMatchGameProps) {
 	const [showFilter, setShowFilter] = useState(false)
+	// const [selectedLessons, setSelectedLessons] = useState<string[]>([])
 	const [matchField, setMatchField] = useState<keyof EnglishVocab>('images')
-
 	const [matches, setMatches] = useState<Record<string, UniqueIdentifier>>({})
 	const [selectedType, setSelectedType] = useState<'all' | 'word' | 'phrase'>(
 		'word'
@@ -114,6 +116,31 @@ export default function EnglishWordMatchGame({
 			return a.localeCompare(b)
 		})
 	}, [data])
+
+	const allLessonsUpToCurrent = useMemo(() => {
+		if (currentLesson === undefined) return []
+
+		return lessonOptions.filter((lesson) => {
+			const parsed = parseLessonKey(lesson)
+			if (isNaN(parsed.num)) return false
+			return parsed.num <= currentLesson
+		})
+	}, [currentLesson, lessonOptions])
+
+	// const [selectedLessons, setSelectedLessons] = useState<string[]>(
+	// 	allLessonsUpToCurrent
+	// )
+	const [selectedLessons, setSelectedLessons] = useState<string[]>(
+		allLessonsUpToCurrent.length > 0 ? allLessonsUpToCurrent : ['1']
+	)
+
+	useEffect(() => {
+		if (allLessonsUpToCurrent.length > 0) {
+			setSelectedLessons(allLessonsUpToCurrent)
+		} else {
+			setSelectedLessons(['1'])
+		}
+	}, [allLessonsUpToCurrent])
 
 	const filteredCards = useMemo(() => {
 		return data.filter((card) => {
@@ -357,13 +384,13 @@ export default function EnglishWordMatchGame({
 							data={data}
 							selectedCategory={selectedCategory}
 							setSelectedCategory={setSelectedCategory}
-						/>
+						/> */}
 						<LessonFilter
 							data={data}
 							selectedLessons={selectedLessons}
 							setSelectedLessons={setSelectedLessons}
 							showRanges={true}
-						/> */}
+						/>
 					</div>
 				</>
 			)}

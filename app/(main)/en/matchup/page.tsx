@@ -32,6 +32,23 @@ const EnglishMatchupPage = async () => {
 	if (!userProgress || !userProgress.activeCourse) {
 		redirect('/courses')
 	}
+	const title = userChallengeData?.activeLesson?.title ?? ''
+
+	const coursePrefixes: Record<number, string> = {
+		16: 'EfW',
+		13: 'EwB',
+		3: 'EC1',
+		4: 'EC2',
+		17: 'LR',
+	}
+	const activeCourseId = userProgress.activeCourseId
+
+	const prefix =
+		typeof activeCourseId === 'number'
+			? coursePrefixes[activeCourseId] ?? ''
+			: ''
+	const match = prefix ? title.match(new RegExp(`${prefix} (\\d{1,3})`)) : null
+	const currentLesson = match ? parseInt(match[1], 10) : undefined
 
 	const englishData: EnglishVocab[] =
 		userProgress.activeCourseId === 16
@@ -75,7 +92,11 @@ const EnglishMatchupPage = async () => {
 						drag and drop doesn&apos;t work on android devices.
 					</DismissibleAlert>
 
-					<EnglishMatchup data={englishData} userId={userProgress.userId} />
+					<EnglishMatchup
+						data={englishData}
+						userId={userProgress.userId}
+						currentLesson={currentLesson}
+					/>
 				</div>
 			</FeedWrapper>
 		</div>
