@@ -52,7 +52,8 @@ const HebrewScramblePage = async () => {
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">
 					<Image
-						src="/cooking-svgrepo-com.svg"
+						src="/icons/iconScrambled.png"
+						// src="/cooking-svgrepo-com.svg"
 						alt="Scramble"
 						height={90}
 						width={90}

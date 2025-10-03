@@ -16,7 +16,8 @@ const HebrewMusicPage = async () => {
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">
 					<Image
-						src="/musical-note-svgrepo-com.svg"
+						src="/icons/iconMusic.png"
+						// src="/musical-note-svgrepo-com.svg"
 						alt="Songs"
 						height={90}
 						width={90}

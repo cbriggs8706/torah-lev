@@ -41,7 +41,8 @@ const HebrewSentenceBuilderPage = async () => {
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">
 					<Image
-						src="/building-construction-svgrepo-com.svg"
+						src="/icons/iconBuilding.png"
+						// src="/building-construction-svgrepo-com.svg"
 						alt="Sentence Builder"
 						height={90}
 						width={90}

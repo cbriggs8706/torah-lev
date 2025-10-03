@@ -23,7 +23,8 @@ export default async function PrayerDetailPage({
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">
 					<Image
-						src="/folded-hands-medium-dark-skin-tone-svgrepo-com.svg"
+						src="/icons/iconPraying.png"
+						// src="/folded-hands-medium-dark-skin-tone-svgrepo-com.svg"
 						alt="Prayer"
 						height={90}
 						width={90}

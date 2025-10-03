@@ -80,7 +80,8 @@ const HebrewDictionaryPage = async () => {
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">
 					<Image
-						src="/open-book-svgrepo-com.svg"
+						src="/icons/iconDictionary.png"
+						// src="/open-book-svgrepo-com.svg"
 						alt="Dictionary"
 						height={90}
 						width={90}

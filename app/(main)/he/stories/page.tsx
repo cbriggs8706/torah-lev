@@ -22,7 +22,8 @@ const HebrewStoriesPage = async () => {
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">
 					<Image
-						src="/books-svgrepo-com.svg"
+						src="/icons/iconStories.png"
+						// src="/books-svgrepo-com.svg"
 						alt="Stories"
 						height={90}
 						width={90}

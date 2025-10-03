@@ -20,7 +20,8 @@ export default async function LessonScriptPage({
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">
 					<Image
-						src="/books-svgrepo-com.svg"
+						src="/icons/iconStories.png"
+						// src="/books-svgrepo-com.svg"
 						alt="Story"
 						height={90}
 						width={90}

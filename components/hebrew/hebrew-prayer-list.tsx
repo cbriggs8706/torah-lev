@@ -99,17 +99,15 @@ export default function PrayerList({ prayers }: { prayers: Prayer[] }) {
 								key={prayer.id}
 								className="rounded-lg border p-4 shadow hover:shadow-md transition"
 							>
-								<h3 className="text-xl font-semibold">{prayer.title}</h3>
-
-								{prayer.hebTitle && (
-									<p className="text-lg font-hebrew">{prayer.hebTitle}</p>
-								)}
+								<h3 className="text-3xl font-cardo">{prayer.hebTitle}</h3>
 
 								{prayer.titleTransliteration && (
 									<p className="italic text-gray-600">
 										{prayer.titleTransliteration}
 									</p>
 								)}
+
+								<p className="text-lg font-hebrew">{prayer.title}</p>
 
 								<Link
 									href={`/he/prayer/${prayer.id}`}

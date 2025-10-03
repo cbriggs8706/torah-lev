@@ -78,7 +78,8 @@ export default async function HebrewLeaderboard() {
 	return (
 		<div className="w-full flex flex-col items-center">
 			<Image
-				src="/trophy-svgrepo-com.svg"
+				src="/icons/iconTrophy.png"
+				// src="/trophy-svgrepo-com.svg"
 				alt="Leaderboard"
 				height={90}
 				width={90}

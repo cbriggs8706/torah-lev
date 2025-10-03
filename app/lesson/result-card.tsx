@@ -8,7 +8,9 @@ type Props = {
 }
 
 export const ResultCard = ({ value, variant, tribePointAdded }: Props) => {
-	const imageSrc = variant === 'hearts' ? '/heart.svg' : '/points.svg'
+	const imageSrc =
+		variant === 'hearts' ? '/icons/iconHeart.png' : '/icons/iconLightning.png'
+	// const imageSrc = variant === 'hearts' ? '/heart.svg' : '/points.svg'
 
 	return (
 		<div

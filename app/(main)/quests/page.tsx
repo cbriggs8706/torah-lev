@@ -93,7 +93,8 @@ const QuestsPage = async () => {
 											key={quest.title}
 										>
 											<Image
-												src="/points.svg"
+												src="/icons/iconLightning.png"
+												// src="/points.svg"
 												alt="Points"
 												width={60}
 												height={60}
@@ -147,7 +148,8 @@ const QuestsPage = async () => {
 										className="flex items-center w-full p-4 gap-x-4 border-t-2"
 									>
 										<Image
-											src="/points.svg"
+											src="/icons/iconLightning.png"
+											// src="/points.svg"
 											alt="Unit Progress"
 											width={60}
 											height={60}

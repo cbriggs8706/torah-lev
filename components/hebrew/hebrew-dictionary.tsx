@@ -411,7 +411,7 @@ export default function HebrewDictionary({ data }: DictionaryProps) {
 										id={`letter-${letter}`}
 										className="mb-4 scroll-mt-16"
 									>
-										<h2 className="text-3xl font-bold text-white text-right pr-4 rounded-md bg-sky-500 my-6">
+										<h2 className="text-3xl font-cardo text-white text-right pr-4 rounded-md bg-sky-500 my-6">
 											{letter}
 										</h2>
 										<div className="space-y-1">
@@ -471,7 +471,7 @@ export default function HebrewDictionary({ data }: DictionaryProps) {
 							<a
 								key={letter}
 								href={`#letter-${letter}`}
-								className={`px-2 py-1 rounded cursor-pointer font-serif text-3xl border
+								className={`px-2 py-1 rounded cursor-pointer font-cardo text-3xl border
 									${
 										activeLetter === letter
 											? 'bg-sky-500 text-white'

@@ -4,11 +4,11 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 1,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/1.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/1.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/1.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/1.mp3',
 			construct: null,
-			mOrdinal: '/hebrew/numbers/mOrdinal/1.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/1.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/1.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/1.mp3',
 		},
 		text: {
 			mCardinal: 'אֶחָד',
@@ -30,12 +30,12 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 2,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/2.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/2.mp3',
-			constructM: '/hebrew/numbers/construct/m/2.mp3',
-			constructF: '/hebrew/numbers/construct/f/2.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/2.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/2.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/2.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/2.mp3',
+			constructM: '/numbers/hebrew/construct/m/2.mp3',
+			constructF: '/numbers/hebrew/construct/f/2.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/2.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/2.mp3',
 		},
 		text: {
 			mCardinal: 'שְׁנַיִם',
@@ -60,11 +60,11 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 3,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/3.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/3.mp3',
-			construct: '/hebrew/numbers/construct/3.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/3.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/3.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/3.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/3.mp3',
+			construct: '/numbers/hebrew/construct/3.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/3.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/3.mp3',
 		},
 		text: {
 			mCardinal: 'שְׁלוֹשָׁה',
@@ -87,11 +87,11 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 4,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/4.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/4.mp3',
-			construct: '/hebrew/numbers/construct/4.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/4.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/4.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/4.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/4.mp3',
+			construct: '/numbers/hebrew/construct/4.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/4.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/4.mp3',
 		},
 		text: {
 			mCardinal: 'אַרְבָּעָה',
@@ -114,11 +114,11 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 5,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/5.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/5.mp3',
-			construct: '/hebrew/numbers/construct/5.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/5.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/5.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/5.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/5.mp3',
+			construct: '/numbers/hebrew/construct/5.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/5.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/5.mp3',
 		},
 		text: {
 			mCardinal: 'חֲמִשָּׁה',
@@ -141,11 +141,11 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 6,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/6.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/6.mp3',
-			construct: '/hebrew/numbers/construct/6.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/6.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/6.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/6.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/6.mp3',
+			construct: '/numbers/hebrew/construct/6.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/6.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/6.mp3',
 		},
 		text: {
 			mCardinal: 'שִׁשָּׁה',
@@ -168,11 +168,11 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 7,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/7.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/7.mp3',
-			construct: '/hebrew/numbers/construct/7.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/7.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/7.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/7.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/7.mp3',
+			construct: '/numbers/hebrew/construct/7.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/7.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/7.mp3',
 		},
 		text: {
 			mCardinal: 'שִׁבְעָה',
@@ -195,11 +195,11 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 8,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/8.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/8.mp3',
-			construct: '/hebrew/numbers/construct/8.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/8.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/8.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/8.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/8.mp3',
+			construct: '/numbers/hebrew/construct/8.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/8.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/8.mp3',
 		},
 		text: {
 			mCardinal: 'שְׁמֹנָה',
@@ -222,11 +222,11 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 9,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/9.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/9.mp3',
-			construct: '/hebrew/numbers/construct/9.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/9.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/9.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/9.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/9.mp3',
+			construct: '/numbers/hebrew/construct/9.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/9.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/9.mp3',
 		},
 		text: {
 			mCardinal: 'תִּשְׁעָה',
@@ -249,11 +249,11 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 10,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/10.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/10.mp3',
-			construct: '/hebrew/numbers/construct/10.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/10.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/10.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/10.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/10.mp3',
+			construct: '/numbers/hebrew/construct/10.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/10.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/10.mp3',
 		},
 		text: {
 			mCardinal: 'עֲשָׂרָה',
@@ -276,10 +276,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 11,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/11.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/11.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/11.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/11.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/11.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/11.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/11.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/11.mp3',
 		},
 		text: {
 			mCardinal: 'אַחַד עָשָׂר',
@@ -300,10 +300,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 12,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/12.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/12.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/12.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/12.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/12.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/12.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/12.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/12.mp3',
 		},
 		text: {
 			mCardinal: 'שְׁנֵים עָשָׂר',
@@ -324,10 +324,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 13,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/13.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/13.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/13.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/13.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/13.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/13.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/13.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/13.mp3',
 		},
 		text: {
 			mCardinal: 'שְׁלוֹשָׁה עָשָׂר',
@@ -348,10 +348,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 14,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/14.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/14.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/14.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/14.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/14.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/14.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/14.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/14.mp3',
 		},
 		text: {
 			mCardinal: 'אַרְבָּעָה עָשָׂר',
@@ -372,10 +372,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 15,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/15.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/15.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/15.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/15.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/15.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/15.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/15.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/15.mp3',
 		},
 		text: {
 			mCardinal: 'חֲמִשָּׁה עָשָׂר',
@@ -396,10 +396,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 16,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/16.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/16.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/16.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/16.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/16.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/16.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/16.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/16.mp3',
 		},
 		text: {
 			mCardinal: 'שִׁשָּׁה עָשָׂר',
@@ -420,10 +420,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 17,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/17.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/17.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/17.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/17.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/17.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/17.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/17.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/17.mp3',
 		},
 		text: {
 			mCardinal: 'שִׁבְעָה עָשָׂר',
@@ -444,10 +444,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 18,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/18.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/18.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/18.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/18.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/18.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/18.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/18.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/18.mp3',
 		},
 		text: {
 			mCardinal: 'שְׁמוֹנָה עָשָׂר',
@@ -468,10 +468,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 19,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/19.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/19.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/19.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/19.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/19.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/19.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/19.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/19.mp3',
 		},
 		text: {
 			mCardinal: 'תִּשְׁעָה עָשָׂר',
@@ -492,8 +492,8 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 20,
 		audio: {
-			cardinal: '/hebrew/numbers/cardinal/20.mp3',
-			ordinal: '/hebrew/numbers/ordinal/20.mp3',
+			cardinal: '/numbers/hebrew/cardinal/20.mp3',
+			ordinal: '/numbers/hebrew/ordinal/20.mp3',
 		},
 		text: {
 			cardinal: 'עֶשְׂרִים',
@@ -510,10 +510,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 21,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/21.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/21.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/21.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/21.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/21.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/21.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/21.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/21.mp3',
 		},
 		text: {
 			mCardinal: 'עֶשְׂרִים וְאֶחָד',
@@ -534,10 +534,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 22,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/22.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/22.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/22.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/22.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/22.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/22.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/22.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/22.mp3',
 		},
 		text: {
 			mCardinal: 'עֶשְׂרִים וּשְׁנַיִם',
@@ -558,10 +558,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 23,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/23.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/23.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/23.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/23.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/23.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/23.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/23.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/23.mp3',
 		},
 		text: {
 			mCardinal: 'עֶשְׂרִים וּשְׁלוֹשָׁה',
@@ -582,10 +582,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 24,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/24.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/24.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/24.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/24.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/24.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/24.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/24.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/24.mp3',
 		},
 		text: {
 			mCardinal: 'עֶשְׂרִים וְאַרְבָּעָה',
@@ -606,10 +606,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 25,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/25.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/25.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/25.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/25.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/25.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/25.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/25.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/25.mp3',
 		},
 		text: {
 			mCardinal: 'עֶשְׂרִים וַחֲמִשָּׁה',
@@ -630,10 +630,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 26,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/26.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/26.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/26.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/26.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/26.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/26.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/26.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/26.mp3',
 		},
 		text: {
 			mCardinal: 'עֶשְׂרִים וְשִׁשָּׁה',
@@ -654,10 +654,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 27,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/27.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/27.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/27.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/27.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/27.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/27.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/27.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/27.mp3',
 		},
 		text: {
 			mCardinal: 'עֶשְׂרִים וְשִׁבְעָה',
@@ -678,10 +678,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 28,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/28.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/28.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/28.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/28.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/28.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/28.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/28.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/28.mp3',
 		},
 		text: {
 			mCardinal: 'עֶשְׂרִים וּשְׁמוֹנָה',
@@ -702,10 +702,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 29,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/29.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/29.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/29.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/29.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/29.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/29.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/29.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/29.mp3',
 		},
 		text: {
 			mCardinal: 'עֶשְׂרִים וְתִּשְׁעָה',
@@ -726,8 +726,8 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 30,
 		audio: {
-			cardinal: '/hebrew/numbers/cardinal/30.mp3',
-			ordinal: '/hebrew/numbers/ordinal/30.mp3',
+			cardinal: '/numbers/hebrew/cardinal/30.mp3',
+			ordinal: '/numbers/hebrew/ordinal/30.mp3',
 		},
 		text: {
 			cardinal: 'שְׁלוֹשִׁים',
@@ -744,10 +744,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 31,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/31.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/31.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/31.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/31.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/31.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/31.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/31.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/31.mp3',
 		},
 		text: {
 			mCardinal: 'שְׁלוֹשִׁים וְאֶחָד',
@@ -768,10 +768,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 32,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/32.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/32.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/32.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/32.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/32.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/32.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/32.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/32.mp3',
 		},
 		text: {
 			mCardinal: 'שְׁלוֹשִׁים וּשְׁנַיִם',
@@ -792,10 +792,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 33,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/33.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/33.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/33.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/33.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/33.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/33.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/33.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/33.mp3',
 		},
 		text: {
 			mCardinal: 'שְׁלוֹשִׁים וּשְׁלוֹשָׁה',
@@ -816,10 +816,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 34,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/34.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/34.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/34.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/34.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/34.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/34.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/34.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/34.mp3',
 		},
 		text: {
 			mCardinal: 'שְׁלוֹשִׁים וְאַרְבָּעָה',
@@ -840,10 +840,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 35,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/35.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/35.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/35.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/35.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/35.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/35.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/35.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/35.mp3',
 		},
 		text: {
 			mCardinal: 'שְׁלוֹשִׁים וַחֲמִשָּׁה',
@@ -864,10 +864,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 36,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/36.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/36.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/36.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/36.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/36.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/36.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/36.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/36.mp3',
 		},
 		text: {
 			mCardinal: 'שְׁלוֹשִׁים וְשִׁשָּׁה',
@@ -888,10 +888,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 37,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/37.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/37.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/37.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/37.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/37.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/37.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/37.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/37.mp3',
 		},
 		text: {
 			mCardinal: 'שְׁלוֹשִׁים וְשִׁבְעָה',
@@ -912,10 +912,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 38,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/38.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/38.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/38.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/38.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/38.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/38.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/38.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/38.mp3',
 		},
 		text: {
 			mCardinal: 'שְׁלוֹשִׁים וּשְׁמוֹנָה',
@@ -936,10 +936,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 39,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/39.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/39.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/39.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/39.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/39.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/39.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/39.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/39.mp3',
 		},
 		text: {
 			mCardinal: 'שְׁלוֹשִׁים וְתִּשְׁעָה',
@@ -960,8 +960,8 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 40,
 		audio: {
-			cardinal: '/hebrew/numbers/cardinal/40.mp3',
-			ordinal: '/hebrew/numbers/ordinal/40.mp3',
+			cardinal: '/numbers/hebrew/cardinal/40.mp3',
+			ordinal: '/numbers/hebrew/ordinal/40.mp3',
 		},
 		text: {
 			cardinal: 'אַרְבָּעִים',
@@ -978,10 +978,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 41,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/41.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/41.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/41.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/41.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/41.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/41.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/41.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/41.mp3',
 		},
 		text: {
 			mCardinal: 'אַרְבָּעִים וְאֶחָד',
@@ -1002,10 +1002,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 42,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/42.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/42.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/42.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/42.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/42.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/42.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/42.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/42.mp3',
 		},
 		text: {
 			mCardinal: 'אַרְבָּעִים וּשְׁנַיִם',
@@ -1026,10 +1026,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 43,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/43.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/43.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/43.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/43.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/43.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/43.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/43.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/43.mp3',
 		},
 		text: {
 			mCardinal: 'אַרְבָּעִים וּשְׁלוֹשָׁה',
@@ -1050,10 +1050,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 44,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/44.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/44.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/44.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/44.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/44.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/44.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/44.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/44.mp3',
 		},
 		text: {
 			mCardinal: 'אַרְבָּעִים וְאַרְבָּעָה',
@@ -1074,10 +1074,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 45,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/45.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/45.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/45.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/45.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/45.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/45.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/45.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/45.mp3',
 		},
 		text: {
 			mCardinal: 'אַרְבָּעִים וַחֲמִשָּׁה',
@@ -1098,10 +1098,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 46,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/46.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/46.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/46.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/46.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/46.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/46.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/46.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/46.mp3',
 		},
 		text: {
 			mCardinal: 'אַרְבָּעִים וְשִׁשָּׁה',
@@ -1122,10 +1122,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 47,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/47.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/47.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/47.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/47.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/47.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/47.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/47.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/47.mp3',
 		},
 		text: {
 			mCardinal: 'אַרְבָּעִים וְשִׁבְעָה',
@@ -1146,10 +1146,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 48,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/48.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/48.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/48.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/48.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/48.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/48.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/48.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/48.mp3',
 		},
 		text: {
 			mCardinal: 'אַרְבָּעִים וּשְׁמוֹנָה',
@@ -1170,10 +1170,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 49,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/49.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/49.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/49.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/49.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/49.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/49.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/49.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/49.mp3',
 		},
 		text: {
 			mCardinal: 'אַרְבָּעִים וְתִּשְׁעָה',
@@ -1194,8 +1194,8 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 50,
 		audio: {
-			cardinal: '/hebrew/numbers/cardinal/50.mp3',
-			ordinal: '/hebrew/numbers/ordinal/50.mp3',
+			cardinal: '/numbers/hebrew/cardinal/50.mp3',
+			ordinal: '/numbers/hebrew/ordinal/50.mp3',
 		},
 		text: {
 			cardinal: 'חֲמִשִּׁים',
@@ -1212,10 +1212,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 51,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/51.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/51.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/51.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/51.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/51.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/51.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/51.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/51.mp3',
 		},
 		text: {
 			mCardinal: 'חֲמִשִּׁים וְאֶחָד',
@@ -1236,10 +1236,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 52,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/52.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/52.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/52.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/52.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/52.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/52.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/52.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/52.mp3',
 		},
 		text: {
 			mCardinal: 'חֲמִשִּׁים וּשְׁנַיִם',
@@ -1260,10 +1260,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 53,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/53.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/53.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/53.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/53.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/53.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/53.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/53.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/53.mp3',
 		},
 		text: {
 			mCardinal: 'חֲמִשִּׁים וּשְׁלוֹשָׁה',
@@ -1284,10 +1284,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 54,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/54.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/54.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/54.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/54.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/54.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/54.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/54.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/54.mp3',
 		},
 		text: {
 			mCardinal: 'חֲמִשִּׁים וְאַרְבָּעָה',
@@ -1308,10 +1308,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 55,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/55.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/55.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/55.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/55.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/55.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/55.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/55.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/55.mp3',
 		},
 		text: {
 			mCardinal: 'חֲמִשִּׁים וַחֲמִשָּׁה',
@@ -1332,10 +1332,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 56,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/56.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/56.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/56.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/56.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/56.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/56.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/56.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/56.mp3',
 		},
 		text: {
 			mCardinal: 'חֲמִשִּׁים וְשִׁשָּׁה',
@@ -1356,10 +1356,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 57,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/57.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/57.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/57.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/57.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/57.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/57.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/57.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/57.mp3',
 		},
 		text: {
 			mCardinal: 'חֲמִשִּׁים וְשִׁבְעָה',
@@ -1380,10 +1380,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 58,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/58.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/58.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/58.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/58.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/58.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/58.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/58.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/58.mp3',
 		},
 		text: {
 			mCardinal: 'חֲמִשִּׁים וּשְׁמוֹנָה',
@@ -1404,10 +1404,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 59,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/59.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/59.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/59.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/59.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/59.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/59.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/59.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/59.mp3',
 		},
 		text: {
 			mCardinal: 'חֲמִשִּׁים וְתִּשְׁעָה',
@@ -1428,8 +1428,8 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 60,
 		audio: {
-			cardinal: '/hebrew/numbers/cardinal/60.mp3',
-			ordinal: '/hebrew/numbers/ordinal/60.mp3',
+			cardinal: '/numbers/hebrew/cardinal/60.mp3',
+			ordinal: '/numbers/hebrew/ordinal/60.mp3',
 		},
 		text: {
 			cardinal: 'שִׁשִּׁים',
@@ -1446,10 +1446,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 61,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/61.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/61.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/61.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/61.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/61.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/61.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/61.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/61.mp3',
 		},
 		text: {
 			mCardinal: 'שִׁשִּׁים וְאֶחָד',
@@ -1470,10 +1470,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 62,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/62.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/62.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/62.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/62.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/62.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/62.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/62.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/62.mp3',
 		},
 		text: {
 			mCardinal: 'שִׁשִּׁים וּשְׁנַיִם',
@@ -1494,10 +1494,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 63,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/63.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/63.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/63.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/63.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/63.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/63.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/63.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/63.mp3',
 		},
 		text: {
 			mCardinal: 'שִׁשִּׁים וּשְׁלוֹשָׁה',
@@ -1518,10 +1518,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 64,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/64.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/64.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/64.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/64.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/64.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/64.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/64.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/64.mp3',
 		},
 		text: {
 			mCardinal: 'שִׁשִּׁים וְאַרְבָּעָה',
@@ -1542,10 +1542,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 65,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/65.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/65.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/65.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/65.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/65.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/65.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/65.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/65.mp3',
 		},
 		text: {
 			mCardinal: 'שִׁשִּׁים וַחֲמִשָּׁה',
@@ -1566,10 +1566,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 66,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/66.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/66.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/66.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/66.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/66.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/66.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/66.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/66.mp3',
 		},
 		text: {
 			mCardinal: 'שִׁשִּׁים וְשִׁשָּׁה',
@@ -1590,10 +1590,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 67,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/67.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/67.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/67.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/67.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/67.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/67.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/67.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/67.mp3',
 		},
 		text: {
 			mCardinal: 'שִׁשִּׁים וְשִׁבְעָה',
@@ -1614,10 +1614,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 68,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/68.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/68.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/68.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/68.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/68.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/68.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/68.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/68.mp3',
 		},
 		text: {
 			mCardinal: 'שִׁשִּׁים וּשְׁמוֹנָה',
@@ -1638,10 +1638,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 69,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/69.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/69.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/69.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/69.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/69.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/69.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/69.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/69.mp3',
 		},
 		text: {
 			mCardinal: 'שִׁשִּׁים וְתִּשְׁעָה',
@@ -1662,8 +1662,8 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 70,
 		audio: {
-			cardinal: '/hebrew/numbers/cardinal/70.mp3',
-			ordinal: '/hebrew/numbers/ordinal/70.mp3',
+			cardinal: '/numbers/hebrew/cardinal/70.mp3',
+			ordinal: '/numbers/hebrew/ordinal/70.mp3',
 		},
 		text: {
 			cardinal: 'שִׁבְעִים',
@@ -1680,10 +1680,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 71,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/71.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/71.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/71.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/71.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/71.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/71.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/71.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/71.mp3',
 		},
 		text: {
 			mCardinal: 'שִׁבְעִים וְאֶחָד',
@@ -1704,10 +1704,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 72,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/72.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/72.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/72.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/72.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/72.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/72.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/72.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/72.mp3',
 		},
 		text: {
 			mCardinal: 'שִׁבְעִים וּשְׁנַיִם',
@@ -1728,10 +1728,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 73,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/73.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/73.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/73.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/73.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/73.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/73.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/73.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/73.mp3',
 		},
 		text: {
 			mCardinal: 'שִׁבְעִים וּשְׁלוֹשָׁה',
@@ -1752,10 +1752,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 74,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/74.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/74.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/74.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/74.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/74.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/74.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/74.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/74.mp3',
 		},
 		text: {
 			mCardinal: 'שִׁבְעִים וְאַרְבָּעָה',
@@ -1776,10 +1776,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 75,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/75.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/75.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/75.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/75.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/75.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/75.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/75.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/75.mp3',
 		},
 		text: {
 			mCardinal: 'שִׁבְעִים וַחֲמִשָּׁה',
@@ -1800,10 +1800,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 76,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/76.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/76.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/76.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/76.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/76.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/76.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/76.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/76.mp3',
 		},
 		text: {
 			mCardinal: 'שִׁבְעִים וְשִׁשָּׁה',
@@ -1824,10 +1824,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 77,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/77.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/77.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/77.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/77.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/77.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/77.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/77.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/77.mp3',
 		},
 		text: {
 			mCardinal: 'שִׁבְעִים וְשִׁבְעָה',
@@ -1848,10 +1848,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 78,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/78.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/78.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/78.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/78.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/78.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/78.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/78.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/78.mp3',
 		},
 		text: {
 			mCardinal: 'שִׁבְעִים וּשְׁמוֹנָה',
@@ -1872,10 +1872,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 79,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/79.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/79.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/79.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/79.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/79.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/79.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/79.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/79.mp3',
 		},
 		text: {
 			mCardinal: 'שִׁבְעִים וְתִּשְׁעָה',
@@ -1896,8 +1896,8 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 80,
 		audio: {
-			cardinal: '/hebrew/numbers/cardinal/80.mp3',
-			ordinal: '/hebrew/numbers/ordinal/80.mp3',
+			cardinal: '/numbers/hebrew/cardinal/80.mp3',
+			ordinal: '/numbers/hebrew/ordinal/80.mp3',
 		},
 		text: {
 			cardinal: 'שְׁמוֹנִים',
@@ -1914,10 +1914,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 81,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/81.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/81.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/81.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/81.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/81.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/81.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/81.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/81.mp3',
 		},
 		text: {
 			mCardinal: 'שְׁמוֹנִים וְאֶחָד',
@@ -1938,10 +1938,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 82,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/82.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/82.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/82.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/82.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/82.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/82.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/82.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/82.mp3',
 		},
 		text: {
 			mCardinal: 'שְׁמוֹנִים וּשְׁנַיִם',
@@ -1962,10 +1962,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 83,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/83.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/83.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/83.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/83.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/83.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/83.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/83.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/83.mp3',
 		},
 		text: {
 			mCardinal: 'שְׁמוֹנִים וּשְׁלוֹשָׁה',
@@ -1986,10 +1986,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 84,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/84.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/84.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/84.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/84.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/84.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/84.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/84.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/84.mp3',
 		},
 		text: {
 			mCardinal: 'שְׁמוֹנִים וְאַרְבָּעָה',
@@ -2010,10 +2010,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 85,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/85.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/85.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/85.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/85.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/85.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/85.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/85.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/85.mp3',
 		},
 		text: {
 			mCardinal: 'שְׁמוֹנִים וַחֲמִשָּׁה',
@@ -2034,10 +2034,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 86,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/86.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/86.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/86.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/86.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/86.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/86.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/86.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/86.mp3',
 		},
 		text: {
 			mCardinal: 'שְׁמוֹנִים וְשִׁשָּׁה',
@@ -2058,10 +2058,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 87,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/87.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/87.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/87.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/87.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/87.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/87.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/87.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/87.mp3',
 		},
 		text: {
 			mCardinal: 'שְׁמוֹנִים וְשִׁבְעָה',
@@ -2082,10 +2082,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 88,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/88.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/88.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/88.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/88.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/88.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/88.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/88.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/88.mp3',
 		},
 		text: {
 			mCardinal: 'שְׁמוֹנִים וּשְׁמוֹנָה',
@@ -2106,10 +2106,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 89,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/89.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/89.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/89.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/89.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/89.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/89.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/89.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/89.mp3',
 		},
 		text: {
 			mCardinal: 'שְׁמוֹנִים וְתִּשְׁעָה',
@@ -2130,8 +2130,8 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 90,
 		audio: {
-			cardinal: '/hebrew/numbers/cardinal/90.mp3',
-			ordinal: '/hebrew/numbers/ordinal/90.mp3',
+			cardinal: '/numbers/hebrew/cardinal/90.mp3',
+			ordinal: '/numbers/hebrew/ordinal/90.mp3',
 		},
 		text: {
 			cardinal: 'תִּשְׁעִים',
@@ -2148,10 +2148,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 91,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/91.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/91.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/91.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/91.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/91.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/91.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/91.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/91.mp3',
 		},
 		text: {
 			mCardinal: 'תִּשְׁעִים וְאֶחָד',
@@ -2172,10 +2172,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 92,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/92.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/92.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/92.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/92.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/92.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/92.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/92.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/92.mp3',
 		},
 		text: {
 			mCardinal: 'תִּשְׁעִים וּשְׁנַיִם',
@@ -2196,10 +2196,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 93,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/93.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/93.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/93.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/93.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/93.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/93.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/93.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/93.mp3',
 		},
 		text: {
 			mCardinal: 'תִּשְׁעִים וּשְׁלוֹשָׁה',
@@ -2220,10 +2220,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 94,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/94.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/94.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/94.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/94.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/94.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/94.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/94.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/94.mp3',
 		},
 		text: {
 			mCardinal: 'תִּשְׁעִים וְאַרְבָּעָה',
@@ -2244,10 +2244,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 95,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/95.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/95.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/95.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/95.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/95.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/95.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/95.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/95.mp3',
 		},
 		text: {
 			mCardinal: 'תִּשְׁעִים וַחֲמִשָּׁה',
@@ -2268,10 +2268,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 96,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/96.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/96.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/96.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/96.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/96.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/96.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/96.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/96.mp3',
 		},
 		text: {
 			mCardinal: 'תִּשְׁעִים וְשִׁשָּׁה',
@@ -2292,10 +2292,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 97,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/97.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/97.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/97.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/97.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/97.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/97.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/97.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/97.mp3',
 		},
 		text: {
 			mCardinal: 'תִּשְׁעִים וְשִׁבְעָה',
@@ -2316,10 +2316,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 98,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/98.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/98.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/98.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/98.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/98.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/98.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/98.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/98.mp3',
 		},
 		text: {
 			mCardinal: 'תִּשְׁעִים וּשְׁמוֹנָה',
@@ -2340,10 +2340,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 99,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/99.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/99.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/99.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/99.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/99.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/99.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/99.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/99.mp3',
 		},
 		text: {
 			mCardinal: 'תִּשְׁעִים וְתִּשְׁעָה',
@@ -2364,8 +2364,8 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 100,
 		audio: {
-			cardinal: '/hebrew/numbers/cardinal/100.mp3',
-			ordinal: '/hebrew/numbers/ordinal/100.mp3',
+			cardinal: '/numbers/hebrew/cardinal/100.mp3',
+			ordinal: '/numbers/hebrew/ordinal/100.mp3',
 		},
 		text: {
 			cardinal: 'מֵאָה',
@@ -2382,10 +2382,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 101,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/101.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/101.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/101.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/101.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/101.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/101.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/101.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/101.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וְאֶחָד',
@@ -2406,10 +2406,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 102,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/102.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/102.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/102.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/102.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/102.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/102.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/102.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/102.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וּשְׁנַיִם',
@@ -2430,10 +2430,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 103,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/103.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/103.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/103.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/103.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/103.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/103.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/103.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/103.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וּשְׁלוֹשָׁה',
@@ -2454,10 +2454,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 104,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/104.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/104.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/104.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/104.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/104.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/104.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/104.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/104.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וְאַרְבָּעָה',
@@ -2478,10 +2478,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 105,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/105.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/105.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/105.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/105.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/105.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/105.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/105.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/105.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וַחֲמִשָּׁה',
@@ -2502,10 +2502,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 106,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/106.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/106.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/106.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/106.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/106.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/106.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/106.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/106.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וְשִׁשָּׁה',
@@ -2526,10 +2526,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 107,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/107.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/107.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/107.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/107.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/107.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/107.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/107.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/107.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וְשִׁבְעָה',
@@ -2550,10 +2550,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 108,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/108.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/108.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/108.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/108.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/108.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/108.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/108.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/108.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וּשְׁמוֹנָה',
@@ -2574,10 +2574,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 109,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/109.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/109.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/109.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/109.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/109.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/109.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/109.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/109.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וְתִּשְׁעָה',
@@ -2598,10 +2598,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 110,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/110.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/110.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/110.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/110.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/110.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/110.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/110.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/110.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וְעֶשֶׂר',
@@ -2622,10 +2622,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 111,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/111.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/111.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/111.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/111.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/111.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/111.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/111.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/111.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וְאַחַד עָשָׂר',
@@ -2646,10 +2646,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 112,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/112.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/112.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/112.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/112.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/112.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/112.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/112.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/112.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וּשְׁנֵים עָשָׂר',
@@ -2670,10 +2670,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 113,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/113.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/113.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/113.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/113.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/113.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/113.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/113.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/113.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וּשְׁלוֹשָׁה עָשָׂר',
@@ -2694,10 +2694,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 114,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/114.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/114.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/114.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/114.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/114.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/114.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/114.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/114.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וְאַרְבָּעָה עָשָׂר',
@@ -2718,10 +2718,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 115,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/115.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/115.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/115.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/115.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/115.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/115.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/115.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/115.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וַחֲמִשָּׁה עָשָׂר',
@@ -2742,10 +2742,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 116,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/116.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/116.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/116.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/116.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/116.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/116.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/116.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/116.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וְשִׁשָּׁה עָשָׂר',
@@ -2766,10 +2766,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 117,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/117.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/117.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/117.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/117.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/117.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/117.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/117.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/117.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וְשִׁבְעָה עָשָׂר',
@@ -2790,10 +2790,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 118,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/118.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/118.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/118.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/118.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/118.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/118.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/118.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/118.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וּשְׁמוֹנָה עָשָׂר',
@@ -2814,10 +2814,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 119,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/119.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/119.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/119.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/119.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/119.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/119.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/119.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/119.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וְתִּשְׁעָה עָשָׂר',
@@ -2838,10 +2838,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 120,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/120.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/120.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/120.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/120.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/120.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/120.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/120.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/120.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וְעֶשְׂרִים',
@@ -2862,10 +2862,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 121,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/121.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/121.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/121.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/121.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/121.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/121.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/121.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/121.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וְעֶשְׂרִים וְאֶחָד',
@@ -2886,10 +2886,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 122,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/122.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/122.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/122.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/122.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/122.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/122.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/122.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/122.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וְעֶשְׂרִים וּשְׁנַיִם',
@@ -2910,10 +2910,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 123,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/123.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/123.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/123.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/123.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/123.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/123.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/123.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/123.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וְעֶשְׂרִים וּשְׁלוֹשָׁה',
@@ -2934,10 +2934,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 124,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/124.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/124.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/124.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/124.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/124.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/124.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/124.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/124.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וְעֶשְׂרִים וְאַרְבָּעָה',
@@ -2958,10 +2958,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 125,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/125.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/125.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/125.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/125.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/125.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/125.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/125.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/125.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וְעֶשְׂרִים וַחֲמִשָּׁה',
@@ -2982,10 +2982,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 126,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/126.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/126.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/126.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/126.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/126.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/126.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/126.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/126.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וְעֶשְׂרִים וְשִׁשָּׁה',
@@ -3006,10 +3006,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 127,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/127.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/127.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/127.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/127.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/127.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/127.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/127.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/127.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וְעֶשְׂרִים וְשִׁבְעָה',
@@ -3030,10 +3030,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 128,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/128.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/128.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/128.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/128.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/128.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/128.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/128.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/128.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וְעֶשְׂרִים וּשְׁמוֹנָה',
@@ -3054,10 +3054,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 129,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/129.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/129.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/129.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/129.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/129.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/129.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/129.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/129.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וְעֶשְׂרִים וְתִּשְׁעָה',
@@ -3078,8 +3078,8 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 130,
 		audio: {
-			cardinal: '/hebrew/numbers/cardinal/130.mp3',
-			ordinal: '/hebrew/numbers/ordinal/130.mp3',
+			cardinal: '/numbers/hebrew/cardinal/130.mp3',
+			ordinal: '/numbers/hebrew/ordinal/130.mp3',
 		},
 		text: {
 			cardinal: 'מֵאָה וּשְׁלוֹשִׁים',
@@ -3096,10 +3096,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 131,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/131.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/131.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/131.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/131.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/131.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/131.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/131.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/131.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וּשְׁלוֹשִׁים וְאֶחָד',
@@ -3120,10 +3120,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 132,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/132.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/132.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/132.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/132.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/132.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/132.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/132.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/132.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וּשְׁלוֹשִׁים וּשְׁנַיִם',
@@ -3144,10 +3144,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 133,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/133.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/133.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/133.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/133.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/133.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/133.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/133.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/133.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וּשְׁלוֹשִׁים וּשְׁלוֹשָׁה',
@@ -3168,10 +3168,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 134,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/134.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/134.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/134.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/134.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/134.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/134.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/134.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/134.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וּשְׁלוֹשִׁים וְאַרְבָּעָה',
@@ -3192,10 +3192,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 135,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/135.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/135.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/135.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/135.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/135.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/135.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/135.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/135.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וּשְׁלוֹשִׁים וַחֲמִשָּׁה',
@@ -3216,10 +3216,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 136,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/136.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/136.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/136.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/136.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/136.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/136.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/136.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/136.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וּשְׁלוֹשִׁים וְשִׁשָּׁה',
@@ -3240,10 +3240,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 137,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/137.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/137.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/137.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/137.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/137.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/137.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/137.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/137.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וּשְׁלוֹשִׁים וְשִׁבְעָה',
@@ -3264,10 +3264,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 138,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/138.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/138.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/138.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/138.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/138.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/138.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/138.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/138.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וּשְׁלוֹשִׁים וּשְׁמוֹנָה',
@@ -3288,10 +3288,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 139,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/139.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/139.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/139.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/139.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/139.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/139.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/139.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/139.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וּשְׁלוֹשִׁים וְתִּשְׁעָה',
@@ -3312,8 +3312,8 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 140,
 		audio: {
-			cardinal: '/hebrew/numbers/cardinal/140.mp3',
-			ordinal: '/hebrew/numbers/ordinal/140.mp3',
+			cardinal: '/numbers/hebrew/cardinal/140.mp3',
+			ordinal: '/numbers/hebrew/ordinal/140.mp3',
 		},
 		text: {
 			cardinal: 'מֵאָה וְאַרְבָּעִים',
@@ -3330,10 +3330,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 141,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/141.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/141.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/141.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/141.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/141.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/141.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/141.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/141.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וְאַרְבָּעִים וְאֶחָד',
@@ -3354,10 +3354,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 142,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/142.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/142.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/142.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/142.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/142.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/142.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/142.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/142.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וְאַרְבָּעִים וּשְׁנַיִם',
@@ -3378,10 +3378,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 143,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/143.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/143.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/143.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/143.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/143.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/143.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/143.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/143.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וְאַרְבָּעִים וּשְׁלוֹשָׁה',
@@ -3402,10 +3402,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 144,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/144.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/144.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/144.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/144.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/144.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/144.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/144.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/144.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וְאַרְבָּעִים וְאַרְבָּעָה',
@@ -3426,10 +3426,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 145,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/145.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/145.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/145.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/145.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/145.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/145.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/145.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/145.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וְאַרְבָּעִים וַחֲמִשָּׁה',
@@ -3450,10 +3450,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 146,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/146.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/146.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/146.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/146.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/146.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/146.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/146.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/146.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וְאַרְבָּעִים וְשִׁשָּׁה',
@@ -3474,10 +3474,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 147,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/147.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/147.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/147.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/147.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/147.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/147.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/147.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/147.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וְאַרְבָּעִים וְשִׁבְעָה',
@@ -3498,10 +3498,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 148,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/148.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/148.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/148.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/148.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/148.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/148.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/148.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/148.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וְאַרְבָּעִים וּשְׁמוֹנָה',
@@ -3522,10 +3522,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 149,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/149.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/149.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/149.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/149.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/149.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/149.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/149.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/149.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וְאַרְבָּעִים וְתִּשְׁעָה',
@@ -3546,8 +3546,8 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 150,
 		audio: {
-			cardinal: '/hebrew/numbers/cardinal/150.mp3',
-			ordinal: '/hebrew/numbers/ordinal/150.mp3',
+			cardinal: '/numbers/hebrew/cardinal/150.mp3',
+			ordinal: '/numbers/hebrew/ordinal/150.mp3',
 		},
 		text: {
 			cardinal: 'מֵאָה וַחֲמִשִּׁים',
@@ -3564,10 +3564,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 151,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/151.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/151.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/151.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/151.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/151.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/151.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/151.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/151.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וַחֲמִשִּׁים וְאֶחָד',
@@ -3588,10 +3588,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 152,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/152.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/152.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/152.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/152.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/152.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/152.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/152.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/152.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וַחֲמִשִּׁים וּשְׁנַיִם',
@@ -3612,10 +3612,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 153,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/153.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/153.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/153.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/153.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/153.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/153.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/153.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/153.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וַחֲמִשִּׁים וּשְׁלוֹשָׁה',
@@ -3636,10 +3636,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 154,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/154.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/154.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/154.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/154.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/154.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/154.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/154.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/154.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וַחֲמִשִּׁים וְאַרְבָּעָה',
@@ -3660,10 +3660,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 155,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/155.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/155.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/155.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/155.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/155.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/155.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/155.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/155.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וַחֲמִשִּׁים וַחֲמִשָּׁה',
@@ -3684,10 +3684,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 156,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/156.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/156.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/156.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/156.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/156.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/156.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/156.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/156.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וַחֲמִשִּׁים וְשִׁשָּׁה',
@@ -3708,10 +3708,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 157,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/157.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/157.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/157.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/157.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/157.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/157.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/157.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/157.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וַחֲמִשִּׁים וְשִׁבְעָה',
@@ -3732,10 +3732,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 158,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/158.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/158.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/158.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/158.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/158.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/158.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/158.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/158.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וַחֲמִשִּׁים וּשְׁמוֹנָה',
@@ -3756,10 +3756,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 159,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/159.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/159.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/159.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/159.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/159.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/159.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/159.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/159.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וַחֲמִשִּׁים וְתִּשְׁעָה',
@@ -3780,8 +3780,8 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 160,
 		audio: {
-			cardinal: '/hebrew/numbers/cardinal/160.mp3',
-			ordinal: '/hebrew/numbers/ordinal/160.mp3',
+			cardinal: '/numbers/hebrew/cardinal/160.mp3',
+			ordinal: '/numbers/hebrew/ordinal/160.mp3',
 		},
 		text: {
 			cardinal: 'מֵאָה וְשִׁשִּׁים',
@@ -3798,10 +3798,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 161,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/161.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/161.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/161.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/161.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/161.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/161.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/161.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/161.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וְשִׁשִּׁים וְאֶחָד',
@@ -3822,10 +3822,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 162,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/162.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/162.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/162.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/162.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/162.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/162.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/162.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/162.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וְשִׁשִּׁים וּשְׁנַיִם',
@@ -3846,10 +3846,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 163,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/163.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/163.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/163.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/163.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/163.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/163.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/163.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/163.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וְשִׁשִּׁים וּשְׁלוֹשָׁה',
@@ -3870,10 +3870,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 164,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/164.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/164.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/164.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/164.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/164.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/164.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/164.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/164.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וְשִׁשִּׁים וְאַרְבָּעָה',
@@ -3894,10 +3894,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 165,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/165.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/165.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/165.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/165.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/165.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/165.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/165.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/165.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וְשִׁשִּׁים וַחֲמִשָּׁה',
@@ -3918,10 +3918,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 166,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/166.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/166.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/166.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/166.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/166.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/166.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/166.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/166.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וְשִׁשִּׁים וְשִׁשָּׁה',
@@ -3942,10 +3942,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 167,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/167.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/167.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/167.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/167.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/167.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/167.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/167.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/167.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וְשִׁשִּׁים וְשִׁבְעָה',
@@ -3966,10 +3966,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 168,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/168.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/168.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/168.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/168.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/168.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/168.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/168.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/168.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וְשִׁשִּׁים וּשְׁמוֹנָה',
@@ -3990,10 +3990,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 169,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/169.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/169.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/169.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/169.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/169.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/169.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/169.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/169.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וְשִׁשִּׁים וְתִּשְׁעָה',
@@ -4014,8 +4014,8 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 170,
 		audio: {
-			cardinal: '/hebrew/numbers/cardinal/170.mp3',
-			ordinal: '/hebrew/numbers/ordinal/170.mp3',
+			cardinal: '/numbers/hebrew/cardinal/170.mp3',
+			ordinal: '/numbers/hebrew/ordinal/170.mp3',
 		},
 		text: {
 			cardinal: 'מֵאָה וְשִׁבְעִים',
@@ -4032,10 +4032,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 171,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/171.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/171.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/171.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/171.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/171.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/171.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/171.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/171.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וְשִׁבְעִים וְאֶחָד',
@@ -4056,10 +4056,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 172,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/172.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/172.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/172.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/172.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/172.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/172.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/172.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/172.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וְשִׁבְעִים וּשְׁנַיִם',
@@ -4080,10 +4080,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 173,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/173.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/173.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/173.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/173.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/173.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/173.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/173.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/173.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וְשִׁבְעִים וּשְׁלוֹשָׁה',
@@ -4104,10 +4104,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 174,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/174.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/174.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/174.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/174.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/174.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/174.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/174.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/174.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וְשִׁבְעִים וְאַרְבָּעָה',
@@ -4128,10 +4128,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 175,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/175.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/175.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/175.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/175.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/175.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/175.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/175.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/175.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וְשִׁבְעִים וַחֲמִשָּׁה',
@@ -4152,10 +4152,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 176,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/176.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/176.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/176.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/176.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/176.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/176.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/176.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/176.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וְשִׁבְעִים וְשִׁשָּׁה',
@@ -4176,10 +4176,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 177,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/177.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/177.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/177.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/177.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/177.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/177.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/177.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/177.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וְשִׁבְעִים וְשִׁבְעָה',
@@ -4200,10 +4200,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 178,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/178.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/178.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/178.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/178.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/178.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/178.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/178.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/178.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וְשִׁבְעִים וּשְׁמוֹנָה',
@@ -4224,10 +4224,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 179,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/179.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/179.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/179.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/179.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/179.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/179.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/179.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/179.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וְשִׁבְעִים וְתִּשְׁעָה',
@@ -4248,8 +4248,8 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 180,
 		audio: {
-			cardinal: '/hebrew/numbers/cardinal/180.mp3',
-			ordinal: '/hebrew/numbers/ordinal/180.mp3',
+			cardinal: '/numbers/hebrew/cardinal/180.mp3',
+			ordinal: '/numbers/hebrew/ordinal/180.mp3',
 		},
 		text: {
 			cardinal: 'מֵאָה וּשְׁמוֹנִים',
@@ -4266,10 +4266,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 181,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/181.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/181.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/181.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/181.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/181.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/181.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/181.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/181.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וּשְׁמוֹנִים וְאֶחָד',
@@ -4290,10 +4290,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 182,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/182.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/182.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/182.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/182.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/182.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/182.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/182.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/182.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וּשְׁמוֹנִים וּשְׁנַיִם',
@@ -4314,10 +4314,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 183,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/183.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/183.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/183.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/183.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/183.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/183.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/183.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/183.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וּשְׁמוֹנִים וּשְׁלוֹשָׁה',
@@ -4338,10 +4338,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 184,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/184.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/184.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/184.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/184.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/184.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/184.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/184.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/184.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וּשְׁמוֹנִים וְאַרְבָּעָה',
@@ -4362,10 +4362,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 185,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/185.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/185.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/185.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/185.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/185.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/185.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/185.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/185.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וּשְׁמוֹנִים וַחֲמִשָּׁה',
@@ -4386,10 +4386,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 186,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/186.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/186.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/186.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/186.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/186.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/186.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/186.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/186.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וּשְׁמוֹנִים וְשִׁשָּׁה',
@@ -4410,10 +4410,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 187,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/187.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/187.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/187.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/187.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/187.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/187.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/187.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/187.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וּשְׁמוֹנִים וְשִׁבְעָה',
@@ -4434,10 +4434,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 188,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/188.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/188.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/188.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/188.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/188.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/188.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/188.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/188.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וּשְׁמוֹנִים וּשְׁמוֹנָה',
@@ -4458,10 +4458,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 189,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/189.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/189.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/189.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/189.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/189.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/189.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/189.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/189.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וּשְׁמוֹנִים וְתִּשְׁעָה',
@@ -4482,8 +4482,8 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 190,
 		audio: {
-			cardinal: '/hebrew/numbers/cardinal/190.mp3',
-			ordinal: '/hebrew/numbers/ordinal/190.mp3',
+			cardinal: '/numbers/hebrew/cardinal/190.mp3',
+			ordinal: '/numbers/hebrew/ordinal/190.mp3',
 		},
 		text: {
 			cardinal: 'מֵאָה וְתִשְׁעִים',
@@ -4500,10 +4500,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 191,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/191.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/191.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/191.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/191.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/191.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/191.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/191.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/191.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וְתִשְׁעִים וְאֶחָד',
@@ -4524,10 +4524,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 192,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/192.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/192.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/192.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/192.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/192.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/192.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/192.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/192.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וְתִשְׁעִים וּשְׁנַיִם',
@@ -4548,10 +4548,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 193,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/193.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/193.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/193.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/193.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/193.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/193.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/193.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/193.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וְתִשְׁעִים וּשְׁלוֹשָׁה',
@@ -4572,10 +4572,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 194,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/194.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/194.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/194.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/194.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/194.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/194.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/194.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/194.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וְתִשְׁעִים וְאַרְבָּעָה',
@@ -4596,10 +4596,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 195,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/195.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/195.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/195.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/195.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/195.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/195.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/195.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/195.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וְתִשְׁעִים וַחֲמִשָּׁה',
@@ -4620,10 +4620,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 196,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/196.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/196.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/196.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/196.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/196.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/196.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/196.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/196.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וְתִשְׁעִים וְשִׁשָּׁה',
@@ -4644,10 +4644,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 197,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/197.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/197.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/197.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/197.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/197.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/197.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/197.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/197.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וְתִשְׁעִים וְשִׁבְעָה',
@@ -4668,10 +4668,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 198,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/198.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/198.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/198.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/198.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/198.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/198.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/198.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/198.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וְתִשְׁעִים וּשְׁמוֹנָה',
@@ -4692,10 +4692,10 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 199,
 		audio: {
-			mCardinal: '/hebrew/numbers/mCardinal/199.mp3',
-			fCardinal: '/hebrew/numbers/fCardinal/199.mp3',
-			mOrdinal: '/hebrew/numbers/mOrdinal/199.mp3',
-			fOrdinal: '/hebrew/numbers/fOrdinal/199.mp3',
+			mCardinal: '/numbers/hebrew/mCardinal/199.mp3',
+			fCardinal: '/numbers/hebrew/fCardinal/199.mp3',
+			mOrdinal: '/numbers/hebrew/mOrdinal/199.mp3',
+			fOrdinal: '/numbers/hebrew/fOrdinal/199.mp3',
 		},
 		text: {
 			mCardinal: 'מֵאָה וְתִשְׁעִים וְתִּשְׁעָה',
@@ -4716,8 +4716,8 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 200,
 		audio: {
-			cardinal: '/hebrew/numbers/cardinal/200.mp3',
-			ordinal: '/hebrew/numbers/ordinal/200.mp3',
+			cardinal: '/numbers/hebrew/cardinal/200.mp3',
+			ordinal: '/numbers/hebrew/ordinal/200.mp3',
 		},
 		text: {
 			cardinal: 'מָאתָיִם',
@@ -4734,8 +4734,8 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 300,
 		audio: {
-			cardinal: '/hebrew/numbers/cardinal/300.mp3',
-			ordinal: '/hebrew/numbers/ordinal/300.mp3',
+			cardinal: '/numbers/hebrew/cardinal/300.mp3',
+			ordinal: '/numbers/hebrew/ordinal/300.mp3',
 		},
 		text: {
 			cardinal: 'שְׁלֹשׁ מֵאוֹת',
@@ -4752,8 +4752,8 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 400,
 		audio: {
-			cardinal: '/hebrew/numbers/cardinal/400.mp3',
-			ordinal: '/hebrew/numbers/ordinal/400.mp3',
+			cardinal: '/numbers/hebrew/cardinal/400.mp3',
+			ordinal: '/numbers/hebrew/ordinal/400.mp3',
 		},
 		text: {
 			cardinal: 'אַרְבַּע מֵאוֹת',
@@ -4770,8 +4770,8 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 500,
 		audio: {
-			cardinal: '/hebrew/numbers/cardinal/500.mp3',
-			ordinal: '/hebrew/numbers/ordinal/500.mp3',
+			cardinal: '/numbers/hebrew/cardinal/500.mp3',
+			ordinal: '/numbers/hebrew/ordinal/500.mp3',
 		},
 		text: {
 			cardinal: 'חֲמֵשׁ מֵאוֹת',
@@ -4788,8 +4788,8 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 600,
 		audio: {
-			cardinal: '/hebrew/numbers/cardinal/600.mp3',
-			ordinal: '/hebrew/numbers/ordinal/600.mp3',
+			cardinal: '/numbers/hebrew/cardinal/600.mp3',
+			ordinal: '/numbers/hebrew/ordinal/600.mp3',
 		},
 		text: {
 			cardinal: 'שֵׁשׁ מֵאוֹת',
@@ -4806,8 +4806,8 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 700,
 		audio: {
-			cardinal: '/hebrew/numbers/cardinal/700.mp3',
-			ordinal: '/hebrew/numbers/ordinal/700.mp3',
+			cardinal: '/numbers/hebrew/cardinal/700.mp3',
+			ordinal: '/numbers/hebrew/ordinal/700.mp3',
 		},
 		text: {
 			cardinal: 'שֶׁבַע מֵאוֹת',
@@ -4824,8 +4824,8 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 800,
 		audio: {
-			cardinal: '/hebrew/numbers/cardinal/800.mp3',
-			ordinal: '/hebrew/numbers/ordinal/800.mp3',
+			cardinal: '/numbers/hebrew/cardinal/800.mp3',
+			ordinal: '/numbers/hebrew/ordinal/800.mp3',
 		},
 		text: {
 			cardinal: 'שְׁמוֹנֶה מֵאוֹת',
@@ -4842,8 +4842,8 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 900,
 		audio: {
-			cardinal: '/hebrew/numbers/cardinal/900.mp3',
-			ordinal: '/hebrew/numbers/ordinal/900.mp3',
+			cardinal: '/numbers/hebrew/cardinal/900.mp3',
+			ordinal: '/numbers/hebrew/ordinal/900.mp3',
 		},
 		text: {
 			cardinal: 'תֵּשַׁע מֵאוֹת',
@@ -4860,8 +4860,8 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 1000,
 		audio: {
-			cardinal: '/hebrew/numbers/cardinal/1000.mp3',
-			ordinal: '/hebrew/numbers/ordinal/1000.mp3',
+			cardinal: '/numbers/hebrew/cardinal/1000.mp3',
+			ordinal: '/numbers/hebrew/ordinal/1000.mp3',
 		},
 		text: {
 			cardinal: 'אֶלֶף',
@@ -4880,8 +4880,8 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 2000,
 		audio: {
-			cardinal: '/hebrew/numbers/cardinal/2000.mp3',
-			ordinal: '/hebrew/numbers/ordinal/2000.mp3',
+			cardinal: '/numbers/hebrew/cardinal/2000.mp3',
+			ordinal: '/numbers/hebrew/ordinal/2000.mp3',
 		},
 		text: {
 			cardinal: 'אַלְפַּיִם',
@@ -4898,8 +4898,8 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 3000,
 		audio: {
-			cardinal: '/hebrew/numbers/cardinal/3000.mp3',
-			ordinal: '/hebrew/numbers/ordinal/3000.mp3',
+			cardinal: '/numbers/hebrew/cardinal/3000.mp3',
+			ordinal: '/numbers/hebrew/ordinal/3000.mp3',
 		},
 		text: {
 			cardinal: 'שְׁלֹשֶׁת אֲלָפִים',
@@ -4916,8 +4916,8 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 4000,
 		audio: {
-			cardinal: '/hebrew/numbers/cardinal/4000.mp3',
-			ordinal: '/hebrew/numbers/ordinal/4000.mp3',
+			cardinal: '/numbers/hebrew/cardinal/4000.mp3',
+			ordinal: '/numbers/hebrew/ordinal/4000.mp3',
 		},
 		text: {
 			cardinal: 'אַרְבַּעַת אֲלָפִים',
@@ -4934,8 +4934,8 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 5000,
 		audio: {
-			cardinal: '/hebrew/numbers/cardinal/5000.mp3',
-			ordinal: '/hebrew/numbers/ordinal/5000.mp3',
+			cardinal: '/numbers/hebrew/cardinal/5000.mp3',
+			ordinal: '/numbers/hebrew/ordinal/5000.mp3',
 		},
 		text: {
 			cardinal: 'חֲמֵשֶׁת אֲלָפִים',
@@ -4952,8 +4952,8 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 6000,
 		audio: {
-			cardinal: '/hebrew/numbers/cardinal/6000.mp3',
-			ordinal: '/hebrew/numbers/ordinal/6000.mp3',
+			cardinal: '/numbers/hebrew/cardinal/6000.mp3',
+			ordinal: '/numbers/hebrew/ordinal/6000.mp3',
 		},
 		text: {
 			cardinal: 'שֵׁשֶׁת אֲלָפִים',
@@ -4970,8 +4970,8 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 7000,
 		audio: {
-			cardinal: '/hebrew/numbers/cardinal/7000.mp3',
-			ordinal: '/hebrew/numbers/ordinal/7000.mp3',
+			cardinal: '/numbers/hebrew/cardinal/7000.mp3',
+			ordinal: '/numbers/hebrew/ordinal/7000.mp3',
 		},
 		text: {
 			cardinal: 'שִׁבְעַת אֲלָפִים',
@@ -4988,8 +4988,8 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 8000,
 		audio: {
-			cardinal: '/hebrew/numbers/cardinal/8000.mp3',
-			ordinal: '/hebrew/numbers/ordinal/8000.mp3',
+			cardinal: '/numbers/hebrew/cardinal/8000.mp3',
+			ordinal: '/numbers/hebrew/ordinal/8000.mp3',
 		},
 		text: {
 			cardinal: 'שְׁמוֹנַת אֲלָפִים',
@@ -5006,8 +5006,8 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 9000,
 		audio: {
-			cardinal: '/hebrew/numbers/cardinal/9000.mp3',
-			ordinal: '/hebrew/numbers/ordinal/9000.mp3',
+			cardinal: '/numbers/hebrew/cardinal/9000.mp3',
+			ordinal: '/numbers/hebrew/ordinal/9000.mp3',
 		},
 		text: {
 			cardinal: 'תִּשְׁעַת אֲלָפִים',
@@ -5024,8 +5024,8 @@ export const hebrewNumbers: HebrewNumber[] = [
 	{
 		number: 10000,
 		audio: {
-			cardinal: '/hebrew/numbers/cardinal/10000.mp3',
-			ordinal: '/hebrew/numbers/ordinal/10000.mp3',
+			cardinal: '/numbers/hebrew/cardinal/10000.mp3',
+			ordinal: '/numbers/hebrew/ordinal/10000.mp3',
 		},
 		text: {
 			cardinal: 'רִבּוֹ',

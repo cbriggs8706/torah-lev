@@ -36,7 +36,8 @@ export const UserProgress = ({
 			<Link href="/market" onClick={onClick}>
 				<Button variant="ghost" className="text-orange-500">
 					<Image
-						src="/points.svg"
+						src="/icons/iconLightning.png"
+						// src="/points.svg"
 						height={28}
 						width={28}
 						alt="Points"
@@ -48,7 +49,8 @@ export const UserProgress = ({
 			<Link href="/market" onClick={onClick}>
 				<Button variant="ghost" className="text-rose-500">
 					<Image
-						src="/heart.svg"
+						src="/icons/iconHeart.png"
+						// src="/heart.svg"
 						height={22}
 						width={22}
 						alt="Hearts"

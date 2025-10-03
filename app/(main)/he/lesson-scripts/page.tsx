@@ -51,7 +51,8 @@ const HebrewLessonScriptsPage = async () => {
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">
 					<Image
-						src="/spiral-notepad-svgrepo-com.svg"
+						src="/icons/iconNotebook.png"
+						// src="/spiral-notepad-svgrepo-com.svg"
 						alt="Lesson Scripts"
 						height={90}
 						width={90}

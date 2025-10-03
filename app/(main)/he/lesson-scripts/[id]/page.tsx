@@ -20,7 +20,8 @@ export default async function HebrewLessonScriptPage({
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">
 					<Image
-						src="/spiral-notepad-svgrepo-com.svg"
+						src="/icons/iconNotebook.png"
+						// src="/spiral-notepad-svgrepo-com.svg"
 						alt="Lesson Script"
 						height={90}
 						width={90}

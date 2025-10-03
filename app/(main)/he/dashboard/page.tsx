@@ -42,7 +42,13 @@ const Dashboard = async () => {
 		<div className="flex flex-row-reverse gap-[48px] px-6">
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">
-					<Image src="/mascot.svg" alt="Dashboard" height={90} width={90} />
+					<Image
+						src="/icons/iconName.png"
+						alt="Dashboard"
+						height={90}
+						width={90}
+					/>
+					{/* <Image src="/mascot.svg" alt="Dashboard" height={90} width={90} /> */}
 					<h1 className="text-center font-cardo text-neutral-800 text-6xl my-6">
 						לוּחַ הַבָּקָרָה שֶׁלִּי
 					</h1>

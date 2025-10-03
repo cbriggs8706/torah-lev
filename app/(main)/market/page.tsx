@@ -44,7 +44,13 @@ const MarketPage = async () => {
 			</StickyWrapper> */}
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">
-					<Image src="/points.svg" alt="Market" height={90} width={90} />
+					<Image
+						src="/icons/iconLightning.png"
+						alt="Market"
+						height={90}
+						width={90}
+					/>
+					{/* <Image src="/points.svg" alt="Market" height={90} width={90} /> */}
 					<h1 className="text-center font-bold text-neutral-800 text-2xl my-6">
 						Trade
 					</h1>
@@ -57,7 +63,8 @@ const MarketPage = async () => {
 						</span>
 						<Button variant="ghost" className="text-orange-500">
 							<Image
-								src="/points.svg"
+								src="/icons/iconLightning.png"
+								// src="/points.svg"
 								height={28}
 								width={28}
 								alt="Points"
@@ -67,7 +74,8 @@ const MarketPage = async () => {
 						</Button>
 						<Button variant="ghost" className="text-rose-500">
 							<Image
-								src="/heart.svg"
+								src="/icons/iconHeart.png"
+								// src="/heart.svg"
 								height={22}
 								width={22}
 								alt="Hearts"

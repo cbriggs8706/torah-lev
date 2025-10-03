@@ -51,7 +51,8 @@ const HebrewSpeedQuizPage = async () => {
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">
 					<Image
-						src="/man-juggling-medium-skin-tone-svgrepo-com.svg"
+						src="/icons/iconRunning.png"
+						// src="/man-juggling-medium-skin-tone-svgrepo-com.svg"
 						alt="Speed Quiz"
 						height={90}
 						width={90}

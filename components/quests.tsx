@@ -111,7 +111,13 @@ export const Quests = ({ points, userChallengeData }: Props) => {
 							className="flex items-center w-full gap-x-3"
 							key={firstIncompleteQuest.title}
 						>
-							<Image src="/points.svg" alt="Points" width={40} height={40} />
+							<Image
+								src="/icons/iconLightning.png"
+								alt="Points"
+								width={40}
+								height={40}
+							/>
+							{/* <Image src="/points.svg" alt="Points" width={40} height={40} /> */}
 							<div className="flex flex-col gap-y-2 w-full">
 								<p className="text-neutral-700 text-sm font-bold">
 									{firstIncompleteQuest.title}
@@ -149,7 +155,13 @@ export const Quests = ({ points, userChallengeData }: Props) => {
 
 						return (
 							<div key={unit.id} className="flex items-center w-full gap-x-3">
-								<Image src="/points.svg" alt="Unit" width={40} height={40} />
+								<Image
+									src="/icons/iconLightning.png"
+									alt="Unit"
+									width={40}
+									height={40}
+								/>
+								{/* <Image src="/points.svg" alt="Unit" width={40} height={40} /> */}
 								<div className="flex flex-col gap-y-2 w-full">
 									<p className="text-sm font-bold text-neutral-700">
 										Complete {unit.title.match(/Unit\s*\d+/)?.[0] ?? unit.title}
@@ -190,7 +202,13 @@ export const Quests = ({ points, userChallengeData }: Props) => {
 
 					return (
 						<div className="flex items-center w-full gap-x-3">
-							<Image src="/points.svg" alt="Course" width={40} height={40} />
+							<Image
+								src="/icons/iconLightning.png"
+								alt="Course"
+								width={40}
+								height={40}
+							/>
+							{/* <Image src="/points.svg" alt="Course" width={40} height={40} /> */}
 							<div className="flex flex-col gap-y-2 w-full">
 								<p className="text-sm font-bold text-neutral-700">
 									Complete All

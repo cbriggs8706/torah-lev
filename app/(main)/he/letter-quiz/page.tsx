@@ -46,7 +46,8 @@ const HebrewLetterQuizPage = async () => {
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">
 					<Image
-						src="/a-button-blood-type-svgrepo-com.svg"
+						src="/icons/iconLetter.png"
+						// src="/a-button-blood-type-svgrepo-com.svg"
 						alt="Letter Quiz"
 						height={90}
 						width={90}
