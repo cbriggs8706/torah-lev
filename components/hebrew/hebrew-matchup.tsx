@@ -607,8 +607,8 @@ function MatchContent({
 	// TEXT fallback
 	return (
 		<div
-			className="font-nunito"
-			style={{ fontSize: Math.max(14, Math.round(size * 0.22)) }}
+			className="font-nunito text-lg"
+			// style={{ fontSize: Math.max(14, Math.round(size * 0.22)) }}
 		>
 			{String(value)}
 		</div>
