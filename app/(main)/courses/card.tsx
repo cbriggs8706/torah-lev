@@ -20,7 +20,7 @@ const levelColors: Record<string, string> = {
 	B1: 'bg-green-600',
 	B2: 'bg-sky-600',
 	C1: 'bg-indigo-600',
-	C2: 'bg-purple-600',
+	C2: 'bg-violet-600',
 }
 
 export const Card = ({

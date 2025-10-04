@@ -113,7 +113,7 @@ export default async function CameronsGroupsPage({ searchParams }: Props) {
 							return (
 								<div
 									key={dayKey}
-									className="w-full bg-white rounded-md shadow-lg p-4 border border-solid border-sky-500"
+									className="w-full bg-white rounded-md shadow-lg p-4 border border-solid border-sky-600"
 								>
 									<h2 className="text-2xl font-bold mt-4 mb-2">
 										{displayDate}

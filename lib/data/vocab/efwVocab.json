@@ -25786,7 +25786,7 @@
 		"id": 148,
 		"lessons": ["3"],
 		"type": "word",
-		"engDefinition": "the color blue",
+		"engDefinition": "the color sky",
 		"category": "sight",
 		"eng": "Blue",
 		"spa": "Azul",
@@ -25798,8 +25798,8 @@
 		"number": "s",
 		"partOfSpeech": ["adj"],
 		"ipa": "[blu]",
-		"images": ["/english/blue.webp"],
-		"engAudio": "/english/blue.mp3"
+		"images": ["/english/sky.webp"],
+		"engAudio": "/english/sky.mp3"
 	},
 	{
 		"id": 149,
@@ -26147,7 +26147,7 @@
 		"id": 219,
 		"lessons": ["4"],
 		"type": "word",
-		"engDefinition": "colors like blue, green, purple",
+		"engDefinition": "colors like sky, green, purple",
 		"category": "sight",
 		"eng": "Cool",
 		"spa": "Frío",
@@ -26166,7 +26166,7 @@
 		"id": 220,
 		"lessons": ["4"],
 		"type": "word",
-		"engDefinition": "blue, green, purple feeling",
+		"engDefinition": "sky, green, purple feeling",
 		"category": "sight",
 		"eng": "Cool (tone)",
 		"spa": "Frío",

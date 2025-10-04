@@ -4866,7 +4866,7 @@
 		"type": "word",
 		"engDefinition": "sky color",
 		"category": "",
-		"eng": "blue",
+		"eng": "sky",
 		"spa": "azul",
 		"por": "azul",
 		"spaTransliteration": "blú",
@@ -4877,7 +4877,7 @@
 		"partOfSpeech": ["adj."],
 		"ipa": "[bluː]",
 		"images": [],
-		"engAudio": "/english/blue.mp3"
+		"engAudio": "/english/sky.mp3"
 	},
 	{
 		"id": 174,
@@ -17186,9 +17186,9 @@
 		"type": "word",
 		"engDefinition": "music style / sadness",
 		"category": "",
-		"eng": "blues",
-		"spa": "blues",
-		"por": "blues",
+		"eng": "skys",
+		"spa": "skys",
+		"por": "skys",
 		"spaTransliteration": "blús",
 		"porTransliteration": "blús",
 		"person": "",
@@ -17197,7 +17197,7 @@
 		"partOfSpeech": ["noun"],
 		"ipa": "[bluz]",
 		"images": [],
-		"engAudio": "/english/blues.mp3"
+		"engAudio": "/english/skys.mp3"
 	},
 	{
 		"id": 804,
@@ -17849,7 +17849,7 @@
 		"id": 838,
 		"lessons": ["28", "29", "30"],
 		"type": "word",
-		"engDefinition": "mix of red and blue",
+		"engDefinition": "mix of red and sky",
 		"category": "",
 		"eng": "purple",
 		"spa": "morado",

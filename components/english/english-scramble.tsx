@@ -172,7 +172,7 @@ export default function EnglishScramble({
 				<button
 					onClick={() => setShowFilter((prev) => !prev)}
 					className={`px-4 py-2 rounded shadow flex items-center justify-center gap-3 ${
-						showFilter ? 'bg-blue-600 text-white' : 'bg-gray-200'
+						showFilter ? 'bg-sky-600 text-white' : 'bg-gray-200'
 					}`}
 				>
 					<Image
@@ -199,7 +199,7 @@ export default function EnglishScramble({
 						<button
 							onClick={() => setLang('spa')}
 							className={`px-3 py-2 rounded shadow text-sm ${
-								lang === 'spa' ? 'bg-blue-600 text-white' : 'bg-gray-200'
+								lang === 'spa' ? 'bg-sky-600 text-white' : 'bg-gray-200'
 							}`}
 							aria-pressed={lang === 'spa'}
 						>
@@ -208,7 +208,7 @@ export default function EnglishScramble({
 						<button
 							onClick={() => setLang('por')}
 							className={`px-3 py-2 rounded shadow text-sm ${
-								lang === 'por' ? 'bg-blue-600 text-white' : 'bg-gray-200'
+								lang === 'por' ? 'bg-sky-600 text-white' : 'bg-gray-200'
 							}`}
 							aria-pressed={lang === 'por'}
 						>
@@ -282,7 +282,7 @@ export default function EnglishScramble({
 				</button>
 				<button
 					onClick={handleSubmit}
-					className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+					className="px-4 py-2 bg-sky-600 text-white rounded hover:bg-sky-700"
 				>
 					Submit
 				</button>

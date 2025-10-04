@@ -382,7 +382,7 @@ export default function HebrewSpelling({
 				<button
 					onClick={() => setShowFilter((prev) => !prev)}
 					className={`px-4 py-2 rounded shadow flex items-center justify-center gap-4 ${
-						showFilter ? 'bg-blue-600 text-white' : 'bg-gray-200'
+						showFilter ? 'bg-sky-600 text-white' : 'bg-gray-200'
 					}`}
 				>
 					<Image
@@ -409,6 +409,7 @@ export default function HebrewSpelling({
 								step="0.05"
 								value={audioVolume}
 								onChange={(e) => setAudioVolume(parseFloat(e.target.value))}
+								className="accent-sky-600"
 							/>
 							<div className="text-center">
 								{Math.round(audioVolume * 100)}%
@@ -423,6 +424,7 @@ export default function HebrewSpelling({
 								step="0.05"
 								value={audioSpeed}
 								onChange={(e) => setAudioSpeed(parseFloat(e.target.value))}
+								className="accent-sky-600"
 							/>
 							<div className="text-center">{audioSpeed.toFixed(2)}x</div>
 						</div>
@@ -451,7 +453,7 @@ export default function HebrewSpelling({
 			{currentCard && (
 				<div className="mb-6">
 					{formatType === 'translation' && (
-						<div className="mb-6 p-4 border-2 border-blue-300 bg-blue-50 rounded-xl shadow text-3xl font-bold">
+						<div className="mb-6 p-4 border-2 border-sky-300 bg-sky-50 rounded-xl shadow text-3xl font-bold">
 							{currentCard.eng}
 							{currentCard.genderPerson && (
 								<span className="text-xl font-medium text-gray-600">
@@ -474,7 +476,7 @@ export default function HebrewSpelling({
 					{formatType === 'audio' && currentCard.hebAudio && (
 						<>
 							<button
-								className="text-4xl mt-2 hover:text-blue-700"
+								className="text-4xl mt-2 hover:text-sky-700"
 								onClick={(e) => {
 									e.preventDefault()
 									smartPlayAudio(
@@ -491,7 +493,7 @@ export default function HebrewSpelling({
 					)}
 					{formatType === 'letter-by-letter' && currentCard.heb && (
 						<button
-							className="text-4xl mt-2 hover:text-blue-700"
+							className="text-4xl mt-2 hover:text-sky-700"
 							onClick={(e) => {
 								e.preventDefault()
 								playLetterByLetter(currentCard.heb)

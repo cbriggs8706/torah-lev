@@ -66,14 +66,14 @@ export const englishLetters = [
 					audio: '/phonemes/b.mp3',
 					nameAudio: '/alphabet/eng/b.mp3',
 					grapheme: 'b',
-					examples: ['bat', 'big', 'blue'],
+					examples: ['bat', 'big', 'sky'],
 				},
 			],
 			complex: [
 				{
 					ipa: '/b/',
 					audio: '/phonemes/b.mp3',
-					examples: ['bat', 'big', 'blue'],
+					examples: ['bat', 'big', 'sky'],
 				},
 				{
 					ipa: '∅',

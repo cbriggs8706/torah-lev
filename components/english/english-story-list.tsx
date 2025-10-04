@@ -140,7 +140,7 @@ export default function EnglishStoryList({
 									>
 										{/* Blue circle in upper-right */}
 										{story.lessonId && (
-											<div className="absolute top-2 right-2 bg-sky-500 text-white text-sm font-bold rounded-full w-8 h-8 flex items-center justify-center shadow">
+											<div className="absolute top-2 right-2 bg-sky-600 text-white text-sm font-bold rounded-full w-8 h-8 flex items-center justify-center shadow">
 												{story.lessonId}
 											</div>
 										)}
@@ -148,7 +148,7 @@ export default function EnglishStoryList({
 
 										<Link
 											href={`/en/stories/${story.id}`}
-											className="inline-block mt-3 px-3 py-1 bg-sky-500 text-white rounded hover:bg-sky-700 transition"
+											className="inline-block mt-3 px-3 py-1 bg-sky-600 text-white rounded hover:bg-sky-700 transition"
 										>
 											Read Story
 										</Link>
@@ -160,7 +160,7 @@ export default function EnglishStoryList({
       ) : (
         <Link
           href={`/stories/${story.id}`}
-          className="inline-block mt-3 px-3 py-1 bg-sky-500 text-white rounded hover:bg-sky-700 transition"
+          className="inline-block mt-3 px-3 py-1 bg-sky-600 text-white rounded hover:bg-sky-700 transition"
         >
           Read Story
         </Link>

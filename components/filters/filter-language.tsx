@@ -18,7 +18,7 @@ export default function LanguageFilter({
 				<button
 					onClick={() => setSelectedLang('spa')}
 					className={`px-3 py-1 border rounded-full text-xs ${
-						selectedLang === 'spa' ? 'bg-blue-500 text-white' : 'bg-gray-200'
+						selectedLang === 'spa' ? 'bg-sky-600 text-white' : 'bg-gray-200'
 					}`}
 				>
 					Spanish
@@ -26,7 +26,7 @@ export default function LanguageFilter({
 				<button
 					onClick={() => setSelectedLang('por')}
 					className={`px-3 py-1 border rounded-full text-xs ${
-						selectedLang === 'por' ? 'bg-blue-500 text-white' : 'bg-gray-200'
+						selectedLang === 'por' ? 'bg-sky-600 text-white' : 'bg-gray-200'
 					}`}
 				>
 					Portuguese

@@ -1,3 +1,11 @@
+export type VocabEntry = {
+	id: number
+	word: string
+	gender: 'm' | 'f' | 'mf' | string
+	quantity: 's' | 'p'
+	type: 'noun' | 'adjective' | 'demonstrative' | string
+}
+
 export const vocab = [
 	{ id: 1, word: 'אִישׁ', gender: 'm', quantity: 's', type: 'noun' },
 	{ id: 2, word: 'אֵלֶּה', gender: 'mf', quantity: 'p', type: 'demonstrative' },

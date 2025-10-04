@@ -377,7 +377,7 @@ export default function EnglishLetterQuiz({
 										onClick={() => setSelectedMode(mode)}
 										className={`px-4 py-2 border rounded-full ${
 											selectedMode === mode
-												? 'bg-blue-500 text-white'
+												? 'bg-sky-600 text-white'
 												: 'bg-gray-200'
 										}`}
 									>
@@ -436,7 +436,7 @@ export default function EnglishLetterQuiz({
 										onClick={() => setFontChoice(value)}
 										className={`px-3 py-1 border rounded-full ${
 											fontChoice === value
-												? 'bg-blue-600 text-white'
+												? 'bg-sky-600 text-white'
 												: 'bg-gray-200'
 										}`}
 									>
@@ -444,7 +444,7 @@ export default function EnglishLetterQuiz({
 									</button>
 									<div
 										className={`text-3xl mt-1 text-center ${className} ${
-											fontChoice === value ? 'text-blue-600' : 'text-gray-700'
+											fontChoice === value ? 'text-sky-600' : 'text-gray-700'
 										}`}
 									>
 										ABC
@@ -463,7 +463,7 @@ export default function EnglishLetterQuiz({
 									key={n}
 									onClick={() => setTimeLimit(n)}
 									className={`px-4 py-2 border rounded-full ${
-										timeLimit === n ? 'bg-blue-500 text-white' : 'bg-gray-200'
+										timeLimit === n ? 'bg-sky-600 text-white' : 'bg-gray-200'
 									}`}
 								>
 									{n}s
@@ -485,7 +485,7 @@ export default function EnglishLetterQuiz({
 							setStudyMode(true)
 							setGameStarted(true)
 						}}
-						className="mr-4 px-6 py-2 bg-purple-600 text-white rounded-lg"
+						className="mr-4 px-6 py-2 bg-violet-600 text-white rounded-lg"
 					>
 						Study Alphabet
 					</button>
@@ -560,7 +560,7 @@ export default function EnglishLetterQuiz({
 												)}
 												<button
 													onClick={() => new Audio(s.audio).play()}
-													className="mt-1 text-lg text-blue-600 hover:text-blue-800"
+													className="mt-1 text-lg text-sky-600 hover:text-sky-800"
 													aria-label="Play pronunciation"
 												>
 													🔊
@@ -599,7 +599,7 @@ export default function EnglishLetterQuiz({
 													)}
 													<button
 														onClick={() => new Audio(s.audio).play()}
-														className="mt-1 text-lg text-blue-600 hover:text-blue-800"
+														className="mt-1 text-lg text-sky-600 hover:text-sky-800"
 														aria-label="Play pronunciation"
 													>
 														🔊
@@ -665,7 +665,7 @@ export default function EnglishLetterQuiz({
 										{/* Replay the same audio clip that was used in the quiz */}
 										<button
 											onClick={() => new Audio(card.sound.audio).play()}
-											className="text-xl text-blue-600 hover:text-blue-800"
+											className="text-xl text-sky-600 hover:text-sky-800"
 											aria-label="Replay Audio"
 										>
 											🔊
@@ -678,7 +678,7 @@ export default function EnglishLetterQuiz({
 
 					<button
 						onClick={resetToStart}
-						className="mt-6 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+						className="mt-6 px-6 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700"
 					>
 						Start Over
 					</button>
@@ -714,7 +714,7 @@ export default function EnglishLetterQuiz({
 						) : (
 							<button
 								onClick={() => audioRef.current?.play()}
-								className="text-5xl text-blue-600 hover:text-blue-800"
+								className="text-5xl text-sky-600 hover:text-sky-800"
 							>
 								🔊
 							</button>
@@ -782,7 +782,7 @@ export default function EnglishLetterQuiz({
 						</p>
 						<div className="h-2 bg-gray-200 rounded-full overflow-hidden">
 							<div
-								className="bg-blue-500 h-full transition-all duration-300"
+								className="bg-sky-600 h-full transition-all duration-300"
 								style={{ width: `${((currentIndex + 1) / total) * 100}%` }}
 							/>
 						</div>

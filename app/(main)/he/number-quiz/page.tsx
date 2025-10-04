@@ -45,14 +45,18 @@ const HebrewNumberQuizPage = async () => {
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">
 					<Image
-						src="/input-numbers-svgrepo-com.svg"
-						alt="Number"
+						src="/icons/iconNumber.png"
+						// src="/input-numbers-svgrepo-com.svg"
+						alt="Number Quiz"
 						height={90}
 						width={90}
 					/>
-					<h1 className="text-center font-bold text-neutral-800 text-2xl my-6">
-						Number Quiz
+					<h1 className="text-center font-cardo text-neutral-800 text-6xl my-6">
+						חִידוֹן מִסְפָּרִים{' '}
 					</h1>
+					<p className="text-center font-bold text-neutral-800 mb-2">
+						Number Quiz
+					</p>
 					{/* <DismissibleAlert storageKey="letter1" className="mb-4">
 						Quiz yourself on letter names, letter sounds or syllable sounds.
 						Play around with different fonts. New Study Alphabet button! More

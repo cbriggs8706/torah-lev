@@ -18,7 +18,7 @@ export default async function MobileHeader() {
 	const isTester = userProgress?.isTester ?? false
 
 	return (
-		<nav className="lg:hidden px-6 h-[50px] flex items-center bg-sky-500 border-b fixed top-0 w-full z-50">
+		<nav className="lg:hidden px-6 h-[50px] flex items-center bg-sky-600 border-b fixed top-0 w-full z-50">
 			<MobileSidebar
 				userProgress={userProgress}
 				isPro={!!userSubscription?.isActive}

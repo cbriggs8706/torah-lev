@@ -119,7 +119,7 @@ const CoursesPage = async () => {
 				</div>
 
 				{/* C2 */}
-				<div className="w-full border-2 bg-purple-600 rounded-xl border-b-4 p-3 flex flex-col sm:flex-row gap-2 sm:gap-4">
+				<div className="w-full border-2 bg-violet-600 rounded-xl border-b-4 p-3 flex flex-col sm:flex-row gap-2 sm:gap-4">
 					<div className="text-white sm:w-1/6 font-bold text-center sm:text-left my-auto text-lg sm:text-xl md:text-2xl lg:text-3xl">
 						C2
 					</div>

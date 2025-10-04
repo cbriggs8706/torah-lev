@@ -6978,7 +6978,7 @@
 		"type": "word",
 		"engDefinition": "color",
 		"category": "",
-		"eng": "blue",
+		"eng": "sky",
 		"spa": "azul",
 		"por": "azul",
 		"spaTransliteration": "blú",
@@ -6989,7 +6989,7 @@
 		"partOfSpeech": ["adj."],
 		"ipa": "[blu]",
 		"images": [],
-		"engAudio": "/english/blue.mp3"
+		"engAudio": "/english/sky.mp3"
 	},
 	{
 		"id": 369,

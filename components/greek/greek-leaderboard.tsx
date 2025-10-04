@@ -39,7 +39,7 @@ export default async function GreekLeaderboard() {
 								<Ribbon rank={ranks[i]} />
 							</td>
 							<td className="px-4 py-2">
-								<Avatar className="h-12 w-12 border bg-sky-500">
+								<Avatar className="h-12 w-12 border bg-sky-600">
 									<AvatarImage className="object-cover" src={u.userImageSrc} />
 								</Avatar>
 							</td>

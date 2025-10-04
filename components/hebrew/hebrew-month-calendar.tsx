@@ -343,7 +343,7 @@ export default function HebrewMonthCalendar() {
 								className={clsx(
 									'border p-2 h-36 flex flex-col justify-between text-right',
 									!day && 'bg-gray-100',
-									day?.isToday && 'bg-sky-100 border-sky-500'
+									day?.isToday && 'bg-sky-100 border-sky-600'
 								)}
 							>
 								{day && (

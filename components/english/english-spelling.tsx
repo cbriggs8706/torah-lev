@@ -382,7 +382,7 @@ export default function EnglishSpelling({
 				<button
 					onClick={() => setShowFilter((prev) => !prev)}
 					className={`px-4 py-2 rounded shadow flex items-center justify-center gap-4 ${
-						showFilter ? 'bg-blue-600 text-white' : 'bg-gray-200'
+						showFilter ? 'bg-sky-600 text-white' : 'bg-gray-200'
 					}`}
 				>
 					<Image
@@ -455,7 +455,7 @@ export default function EnglishSpelling({
 			{currentCard && (
 				<div className="mb-6">
 					{formatType === 'translation' && (
-						<div className="mb-6 p-4 border-2 border-blue-300 bg-blue-50 rounded-xl shadow text-3xl font-bold">
+						<div className="mb-6 p-4 border-2 border-sky-300 bg-sky-50 rounded-xl shadow text-3xl font-bold">
 							{selectedLang === 'spa' ? currentCard.spa : currentCard.por}
 							{currentCard.gender && (
 								<span className="text-xl font-medium text-gray-600">
@@ -480,7 +480,7 @@ export default function EnglishSpelling({
 					{formatType === 'audio' && currentCard.engAudio && (
 						<>
 							<button
-								className="text-4xl mt-2 hover:text-blue-700"
+								className="text-4xl mt-2 hover:text-sky-700"
 								onClick={(e) => {
 									e.preventDefault()
 									smartPlayAudio(
@@ -497,7 +497,7 @@ export default function EnglishSpelling({
 					)}
 					{formatType === 'letter-by-letter' && currentCard.eng && (
 						<button
-							className="text-4xl mt-2 hover:text-blue-700"
+							className="text-4xl mt-2 hover:text-sky-700"
 							onClick={(e) => {
 								e.preventDefault()
 								playLetterByLetter(currentCard.eng)

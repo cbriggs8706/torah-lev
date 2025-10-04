@@ -150,7 +150,56 @@ export default function TorahScrollLoaderRTL({
 								alignItems: 'center',
 							}}
 						>
-							<motion.div
+							<div
+								style={{
+									overflow: 'hidden',
+									width: '100%',
+									height: '100%',
+								}}
+							>
+								<motion.div
+									className="flex"
+									initial={{ x: '-50%' }}
+									animate={{ x: '0%' }}
+									transition={{
+										duration: speedSec / 20,
+										ease: 'linear',
+										repeat: Infinity,
+									}}
+								>
+									<div
+										dir="rtl"
+										style={{
+											whiteSpace: 'nowrap',
+											fontFamily:
+												"'Frank Ruhl Libre', 'David', 'Noto Serif Hebrew', 'Cardo', serif",
+											fontSize,
+											lineHeight: 1,
+											color: '#5a3e28',
+											letterSpacing: '0.02em',
+											opacity: 0.95,
+										}}
+									>
+										{[0, 1].map((k) => (
+											<span key={k} className="pr-12">
+												{Array.from({ length: 24 })
+													.map(() => text)
+													.join('')}
+											</span>
+										))}
+									</div>
+								</motion.div>
+							</div>
+						</div>
+					</foreignObject>
+				</g>
+			</svg>
+		</div>
+	)
+}
+
+{
+	/* <motion.div
 								className="flex"
 								initial={{ x: '-50%' }}
 								animate={{ x: '0%' }} // move by exactly one copy width
@@ -174,10 +223,10 @@ export default function TorahScrollLoaderRTL({
 									opacity: 0.95,
 								}}
 							>
-								{/* Two identical copies -> -50% shift loops seamlessly */}
+								Two identical copies -> -50% shift loops seamlessly
 								{[0, 1].map((k) => (
 									<div key={k} className="flex-shrink-0 pr-12">
-										{/* Repeat the phrase enough times to exceed the viewport */}
+									Repeat the phrase enough times to exceed the viewport
 										<span>
 											{Array.from({ length: 24 })
 												.map(() => text)
@@ -185,11 +234,5 @@ export default function TorahScrollLoaderRTL({
 										</span>
 									</div>
 								))}
-							</motion.div>
-						</div>
-					</foreignObject>
-				</g>
-			</svg>
-		</div>
-	)
+							</motion.div> */
 }

@@ -24,8 +24,8 @@ export function GoalDisplayCard() {
 	}, [])
 
 	return (
-		<div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-xl shadow-sm">
-			<h3 className="text-lg font-semibold text-blue-800 mb-2">My Goal</h3>
+		<div className="mt-4 p-4 bg-sky-50 border border-sky-200 rounded-xl shadow-sm">
+			<h3 className="text-lg font-semibold text-sky-800 mb-2">My Goal</h3>
 
 			{goal ? (
 				<div className="mb-4">
@@ -39,7 +39,7 @@ export function GoalDisplayCard() {
 			)}
 
 			<Link href="/learn">
-				<button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+				<button className="px-4 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition">
 					{goal ? 'Update Goal' : 'Set Goal'}
 				</button>
 			</Link>

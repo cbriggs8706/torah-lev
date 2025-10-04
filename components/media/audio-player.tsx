@@ -276,7 +276,7 @@ const AudioPlayer = React.forwardRef<AudioPlayerHandle, AudioPlayerProps>(
 					onClick={onClick}
 					className={
 						`inline-flex flex-col items-center justify-center ${dim} rounded-full border border-white/50 bg-white/70 backdrop-blur-md shadow ` +
-						`active:scale-95 transition will-change-transform focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500`
+						`active:scale-95 transition will-change-transform focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-600`
 					}
 					aria-label={label}
 					title={title || label}
@@ -304,7 +304,7 @@ const AudioPlayer = React.forwardRef<AudioPlayerHandle, AudioPlayerProps>(
 		const wrapperInline = `rounded-2xl border border-sky-200/40 bg-sky-200/60 backdrop-blur-md shadow p-3`
 
 		// Hidden tab styles
-		const tabBtn = `fixed bottom-3 right-3 z-50 inline-flex items-center gap-2 rounded-full border border-sky-200/40 bg-sky-200/60 backdrop-blur-md shadow px-3 py-2 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500`
+		const tabBtn = `fixed bottom-3 right-3 z-50 inline-flex items-center gap-2 rounded-full border border-sky-200/40 bg-sky-200/60 backdrop-blur-md shadow px-3 py-2 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-600`
 
 		if (floating && isHidden) {
 			return (
@@ -396,7 +396,7 @@ const AudioPlayer = React.forwardRef<AudioPlayerHandle, AudioPlayerProps>(
 				<div className="mt-2 flex items-center justify-between gap-3">
 					<button
 						type="button"
-						className="inline-flex items-center gap-1 rounded-full border border-white/40 bg-white/60 backdrop-blur-md px-2 py-1 text-xs text-neutral-800 shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
+						className="inline-flex items-center gap-1 rounded-full border border-white/40 bg-white/60 backdrop-blur-md px-2 py-1 text-xs text-neutral-800 shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-600"
 						onClick={() => setIsHidden(true)}
 						aria-label="Hide player"
 						title="Hide player"
@@ -407,7 +407,7 @@ const AudioPlayer = React.forwardRef<AudioPlayerHandle, AudioPlayerProps>(
 					<button
 						type="button"
 						onClick={() => setShowSettings((s) => !s)}
-						className="sm:hidden inline-flex items-center gap-1 rounded-full border border-white/40 bg-white/60 backdrop-blur-md px-2 py-1 text-xs text-neutral-800 shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
+						className="sm:hidden inline-flex items-center gap-1 rounded-full border border-white/40 bg-white/60 backdrop-blur-md px-2 py-1 text-xs text-neutral-800 shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-600"
 						aria-expanded={showSettings}
 						aria-controls="ap-settings"
 					>

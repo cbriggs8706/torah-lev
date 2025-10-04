@@ -27,25 +27,25 @@ export default function HebrewScramble({
 	const { Confetti, celebrate } = useCelebration()
 	const [filteredCards, setFilteredCards] = useState<HebrewVocab[]>([])
 	const [cardsCompleted, setCardsCompleted] = useState(0)
+	const [finished, setFinished] = useState(false)
+	const [hasAwardedPoints, setHasAwardedPoints] = useState(false)
 
-	const MAX_CARDS = 25
+	const MAX_CARDS = 5
 
 	const cardsForPrefix = useMemo(() => {
 		return data.filter(
 			(card) =>
 				card.type === 'phrase' &&
-				card.lessons.some((l) => selectedLessons.includes(String(l)))
+				card.lessons?.some((l) => selectedLessons.includes(String(l)))
 		)
 	}, [data, selectedLessons])
 
 	useEffect(() => {
-		// phrases w/2+ words
 		const pool = cardsForPrefix.filter((card) => {
 			const wordCount = card.heb.trim().split(/\s+/).length
 			return card.type === 'phrase' && wordCount >= 2
 		})
 
-		// randomize order and take up to 25
 		const shuffled = [...pool].sort(() => Math.random() - 0.5)
 		const limited = shuffled.slice(0, Math.min(MAX_CARDS, shuffled.length))
 
@@ -53,19 +53,10 @@ export default function HebrewScramble({
 		setCurrentIndex(0)
 		setSelectedWords([])
 		setShowFeedback(null)
+		setFinished(false)
+		setHasAwardedPoints(false)
+		setCardsCompleted(0)
 	}, [cardsForPrefix, selectedLessons, setCurrentIndex])
-
-	// useEffect(() => {
-	// 	const newFiltered = cardsForPrefix.filter((card) => {
-	// 		const wordCount = card.heb.trim().split(/\s+/).length
-	// 		return wordCount >= 2
-	// 	})
-
-	// 	setFilteredCards([...newFiltered].sort(() => Math.random() - 0.5))
-	// 	setCurrentIndex(0)
-	// 	setSelectedWords([])
-	// 	setShowFeedback(null)
-	// }, [cardsForPrefix, selectedLessons, setCurrentIndex])
 
 	const currentCard = filteredCards[currentIndex]
 
@@ -84,40 +75,47 @@ export default function HebrewScramble({
 		setShowFeedback(null)
 	}, [currentCard])
 
-	function toggleWord(word: string) {
+	function toggleWord(uniqueId: string) {
 		setSelectedWords((prev) =>
-			prev.includes(word) ? prev.filter((w) => w !== word) : [...prev, word]
+			prev.includes(uniqueId)
+				? prev.filter((w) => w !== uniqueId)
+				: [...prev, uniqueId]
 		)
 	}
 
+	function normalize(text: string) {
+		return text.normalize('NFKC').replace(/[\u0591-\u05BD\u05BF-\u05C7]/g, '') // strip niqqud
+	}
+
 	function handleSubmit() {
-		const joined = selectedWords.join(' ')
+		const joined = selectedWords.map((id) => id.split('-')[0]).join(' ')
 		const correct = correctWords.join(' ')
 		const isCorrect = normalize(joined) === normalize(correct)
 		setShowFeedback(isCorrect)
 
 		if (isCorrect) {
 			setCardsCompleted((prev) => prev + 1)
-
 			const isLastCard = currentIndex === filteredCards.length - 1
 
 			if (isLastCard) {
+				setFinished(true)
 				celebrate()
+				const shofar = new Audio('/shofar.mp3')
+				shofar.play().catch(console.error)
+				if (!hasAwardedPoints) {
+					awardPoints(1)
+					setHasAwardedPoints(true)
+				}
 			}
 
 			setTimeout(() => {
 				setShowFeedback(null)
 				setSelectedWords([])
-
 				if (!isLastCard) {
 					setCurrentIndex((i) => (i + 1) % filteredCards.length)
 				}
 			}, 1000)
 		}
-	}
-
-	function normalize(text: string) {
-		return text.normalize('NFKC').replace(/[\u0591-\u05BD\u05BF-\u05C7]/g, '') // strip niqqud
 	}
 
 	const awardPoints = useCallback(
@@ -135,12 +133,52 @@ export default function HebrewScramble({
 		[userId]
 	)
 
-	useEffect(() => {
-		if (cardsCompleted > 0 && cardsCompleted % 25 === 0) {
-			const pointsToAward = cardsCompleted / 25
-			awardPoints(pointsToAward)
-		}
-	}, [cardsCompleted, awardPoints])
+	function handleRestart() {
+		const reshuffled = [...cardsForPrefix]
+			.filter((c) => c.heb.trim().split(/\s+/).length >= 2)
+			.sort(() => Math.random() - 0.5)
+			.slice(0, Math.min(MAX_CARDS, cardsForPrefix.length))
+
+		setFilteredCards(reshuffled)
+		setCurrentIndex(0)
+		setSelectedWords([])
+		setShowFeedback(null)
+		setFinished(false)
+		setCardsCompleted(0)
+		setHasAwardedPoints(false)
+	}
+
+	// ✅ Success Screen
+	if (finished) {
+		return (
+			<div className="p-8 max-w-4xl mx-auto text-center">
+				{Confetti}
+				<Image
+					src="/icons/iconShofar.png"
+					alt="Shofar Celebration"
+					width={100}
+					height={100}
+					className="mx-auto mb-6"
+				/>
+				<h1 className="text-5xl font-bold text-green-700 mb-6">
+					You finished all 25 phrases!
+				</h1>
+				<p className="text-2xl mb-6">
+					You’ve earned <strong>+1 point</strong>!
+				</p>
+				<p className="text-lg text-gray-700 mb-8">
+					Want to try another round? Click below to reshuffle and continue your
+					streak!
+				</p>
+				<button
+					onClick={handleRestart}
+					className="px-6 py-3 bg-sky-600 text-white text-2xl rounded hover:bg-sky-700"
+				>
+					Restart / Reshuffle
+				</button>
+			</div>
+		)
+	}
 
 	return (
 		<div className="p-4 max-w-3xl mx-auto text-center">
@@ -152,7 +190,7 @@ export default function HebrewScramble({
 				<button
 					onClick={() => setShowFilter((prev) => !prev)}
 					className={`px-4 py-2 rounded shadow flex items-center justify-center gap-3 ${
-						showFilter ? 'bg-blue-600 text-white' : 'bg-gray-200'
+						showFilter ? 'bg-sky-600 text-white' : 'bg-gray-200'
 					}`}
 				>
 					<Image
@@ -174,32 +212,45 @@ export default function HebrewScramble({
 				/>
 			)}
 
-			{/* Prompt */}
-			{/* <div className="mb-4 text-xl font-bold">{currentCard?.eng}</div> */}
-
-			{/* Word Choices */}
+			{/* Word bank */}
 			<div className="flex flex-wrap justify-center gap-2 mb-6" dir="rtl">
-				{shuffledWords.map((word, i) => (
-					<button
-						key={`${word}-${i}`}
-						onClick={() => toggleWord(word)}
-						className={`border px-3 py-1 rounded text-4xl font-serif ${
-							selectedWords.includes(word)
-								? 'bg-green-200'
-								: 'bg-gray-100 hover:bg-gray-300'
-						}`}
-					>
-						{word}
-					</button>
-				))}
+				{shuffledWords.map((word, i) => {
+					const uniqueId = `${word}-${i}`
+					const isSelected = selectedWords.some((w, idx) => w === uniqueId)
+					return (
+						<button
+							key={uniqueId}
+							onClick={() => toggleWord(uniqueId)}
+							className={`border px-3 py-1 rounded text-4xl font-serif ${
+								isSelected ? 'bg-green-200' : 'bg-gray-100 hover:bg-gray-300'
+							}`}
+						>
+							{word}
+						</button>
+					)
+				})}
 			</div>
 
-			{/* Selected Phrase */}
+			{/* Drop Target (updated style) */}
 			<div
-				className="mb-4 text-4xl font-serif border p-4 rounded min-h-[60px] bg-gray-50"
+				className="min-h-[100px] border-2 border-dashed border-gray-400 rounded-lg flex flex-wrap justify-center items-center p-4 mb-6 bg-gray-50"
 				dir="rtl"
 			>
-				{selectedWords.join(' ')}
+				{selectedWords.length === 0 ? (
+					<span className="text-gray-400 italic">Build the phrase here</span>
+				) : (
+					selectedWords.map((word, i) => (
+						<span
+							key={`${word}-${i}`}
+							onClick={() =>
+								setSelectedWords((prev) => prev.filter((_, idx) => idx !== i))
+							}
+							className="px-3 py-2 mx-1 my-1 bg-sky-100 border border-sky-500 rounded text-3xl font-times cursor-pointer hover:bg-sky-200"
+						>
+							{word.split('-')[0]}
+						</span>
+					))
+				)}
 			</div>
 
 			{/* Controls */}
@@ -215,29 +266,11 @@ export default function HebrewScramble({
 					←
 				</button>
 				<button
-					onClick={() => {
-						setFilteredCards((prev) => {
-							const reshuffled = [...cardsForPrefix]
-								.filter((c) => c.heb.trim().split(/\s+/).length >= 2)
-								.sort(() => Math.random() - 0.5)
-								.slice(0, Math.min(MAX_CARDS, cardsForPrefix.length))
-							setCurrentIndex(0)
-							setSelectedWords([])
-							setShowFeedback(null)
-							return reshuffled
-						})
-					}}
-					className="px-3 py-2 bg-gray-200 rounded"
-				>
-					Reshuffle 25
-				</button>
-				<button
 					onClick={handleSubmit}
-					className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+					className="px-4 py-2 bg-sky-600 text-white rounded hover:bg-sky-700"
 				>
 					Submit
 				</button>
-
 				<button
 					onClick={() => setCurrentIndex((i) => (i + 1) % filteredCards.length)}
 					className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
@@ -246,7 +279,7 @@ export default function HebrewScramble({
 				</button>
 			</div>
 
-			{/* Progress */}
+			{/* ✅ Progress Bar */}
 			{filteredCards.length > 0 && (
 				<ProgressBar currentIndex={currentIndex} total={filteredCards.length} />
 			)}
@@ -263,7 +296,7 @@ export default function HebrewScramble({
 					) : (
 						<>
 							Incorrect. Correct:{' '}
-							<span className="font-serif font-normal text-4xl">
+							<span className="font-times text-4xl font-medium">
 								{correctWords.join(' ')}
 							</span>
 						</>

@@ -24,7 +24,7 @@ export default function FormatFilter({
 						key={type}
 						onClick={() => setFormatType(type)}
 						className={`px-3 py-1 border rounded-full text-xs ${
-							formatType === type ? 'bg-blue-600 text-white' : 'bg-gray-200'
+							formatType === type ? 'bg-sky-600 text-white' : 'bg-gray-200'
 						}`}
 					>
 						{type.charAt(0).toUpperCase() + type.slice(1)}

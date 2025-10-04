@@ -95,7 +95,7 @@ export default function LessonFilter({
 					onClick={() => setSelectedLessons([...lessonOptions])}
 					className={`px-3 py-1 border rounded-full text-xs ${
 						selectedLessons.length === lessonOptions.length
-							? 'bg-blue-500 text-white'
+							? 'bg-sky-600 text-white'
 							: 'bg-gray-200'
 					}`}
 				>
@@ -118,7 +118,7 @@ export default function LessonFilter({
 						}
 						className={`px-3 py-1 border rounded-full text-xs ${
 							range.lessons.every((l) => selectedLessons.includes(l))
-								? 'bg-blue-500 text-white'
+								? 'bg-sky-600 text-white'
 								: 'bg-gray-200'
 						}`}
 					>
@@ -133,7 +133,7 @@ export default function LessonFilter({
 						onClick={() => toggleLesson(lesson)}
 						className={`px-3 py-1 border rounded-full text-xs ${
 							selectedLessons.includes(lesson)
-								? 'bg-blue-500 text-white'
+								? 'bg-sky-600 text-white'
 								: 'bg-gray-200'
 						}`}
 					>

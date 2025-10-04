@@ -50,6 +50,7 @@ type FontChoice =
 type FormType = 'cardinal' | 'ordinal' | 'construct'
 type GenderType = 'masculine' | 'feminine' | 'both'
 type DisplayType = 'number' | 'gematria'
+type PromptType = 'audio' | 'visual'
 
 interface HebrewNumberQuizProps {
 	numbers: HebrewNumber[]
@@ -138,7 +139,7 @@ export default function HebrewNumberQuiz({
 	filters = {
 		'1-10': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
 		Tens: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
-		Random: [2, 5, 7, 13, 21, 34],
+		// Random: [2, 5, 7, 13, 21, 34],
 	},
 }: HebrewNumberQuizProps) {
 	const [gameStarted, setGameStarted] = useState(false)
@@ -158,6 +159,7 @@ export default function HebrewNumberQuiz({
 	const [waiting, setWaiting] = useState(true)
 	const [paused, setPaused] = useState(false)
 	const [finishAudio] = useAudio({ src: '/shofar.mp3', autoPlay: true })
+	const [promptType, setPromptType] = useState<PromptType>('visual')
 
 	// NEW filters
 	const [formType, setFormType] = useState<FormType>('cardinal')
@@ -182,6 +184,11 @@ export default function HebrewNumberQuiz({
 
 	useEffect(() => {
 		if (gameStarted) {
+			if (audioRef.current) {
+				audioRef.current.pause()
+				audioRef.current.currentTime = 0
+				audioRef.current = null
+			}
 			const pool = buildPool()
 			const ordered = studyMode
 				? pool
@@ -197,6 +204,16 @@ export default function HebrewNumberQuiz({
 		}
 	}, [gameStarted, studyMode]) // 👈 removed waiting
 
+	useEffect(() => {
+		return () => {
+			if (audioRef.current) {
+				audioRef.current.pause()
+				audioRef.current.currentTime = 0
+				audioRef.current = null
+			}
+		}
+	}, [])
+
 	const currentCard = shuffled[currentIndex]
 	useEffect(() => {
 		console.log('📢 waiting changed:', waiting, ' currentIndex:', currentIndex)
@@ -204,20 +221,22 @@ export default function HebrewNumberQuiz({
 
 	useEffect(() => {
 		if (!gameStarted || finished || !currentCard || studyMode) return
-		if (waiting) return // 👈 skip while countdown running
 
 		const audioSrc = getAudioSrc(currentCard, formType, gender)
-		console.log('🔊 Playing audio for', currentCard.number, 'src:', audioSrc)
 
-		if (audioSrc) {
-			if (audioRef.current) {
-				audioRef.current.pause()
-				audioRef.current.currentTime = 0
+		if (promptType === 'audio') {
+			// play immediately on card load
+			if (audioSrc) {
+				if (audioRef.current) {
+					audioRef.current.pause()
+					audioRef.current.currentTime = 0
+				}
+				audioRef.current = new Audio(audioSrc)
+				audioRef.current.play().catch(() => {})
 			}
-			const audio = new Audio(audioSrc)
-			audioRef.current = audio
-			audio.play().catch(() => console.log('⚠️ Failed to play audio'))
 		}
+
+		// For visual-first: audio waits until countdown ends
 	}, [
 		gameStarted,
 		finished,
@@ -225,16 +244,27 @@ export default function HebrewNumberQuiz({
 		currentCard,
 		formType,
 		gender,
-		waiting,
+		promptType,
 		studyMode,
-	]) // 👈 include waiting
+	])
 
 	function handleCountdownComplete() {
-		console.log('⏳ Countdown complete for card', currentIndex)
 		setWaiting(false)
+		if (promptType === 'visual' && currentCard) {
+			const audioSrc = getAudioSrc(currentCard, formType, gender)
+			if (audioSrc) {
+				audioRef.current = new Audio(audioSrc)
+				audioRef.current.play().catch(() => {})
+			}
+		}
 	}
 
 	function reset() {
+		if (audioRef.current) {
+			audioRef.current.pause()
+			audioRef.current.currentTime = 0
+			audioRef.current = null
+		}
 		setGameStarted(false)
 		setStudyMode(false)
 		setFinished(false)
@@ -242,6 +272,11 @@ export default function HebrewNumberQuiz({
 	}
 
 	function handleResponse(correct: boolean, force = false) {
+		if (audioRef.current) {
+			audioRef.current.pause()
+			audioRef.current.currentTime = 0
+			audioRef.current = null
+		}
 		console.log(
 			'✅ handleResponse fired. correct:',
 			correct,
@@ -442,7 +477,7 @@ export default function HebrewNumberQuiz({
 					<h1 className="text-2xl font-bold mb-6">Customize Your Quiz</h1>
 					<div className="grid grid-cols-1 md:grid-cols-3">
 						{/* Number Set Filters */}
-						<div className="col-span-3 mb-6">
+						<div className="col-span-3 md:col-span-1 mb-6">
 							<p className="font-medium mb-2">Number Sets</p>
 							<div className="flex flex-wrap justify-center gap-2">
 								{['All', ...Object.keys(filters)].map((name) => (
@@ -451,11 +486,51 @@ export default function HebrewNumberQuiz({
 										onClick={() => setSelectedFilter(name)}
 										className={`px-3 py-1 border rounded-full text-xs ${
 											selectedFilter === name
-												? 'bg-blue-500 text-white'
+												? 'bg-sky-600 text-white'
 												: 'bg-gray-200'
 										}`}
 									>
 										{name}
+									</button>
+								))}
+							</div>
+						</div>
+
+						{/* Prompt Type */}
+						<div className="col-span-3 md:col-span-1 mb-6">
+							<p className="font-medium mb-2">Prompt Type</p>
+							<div className="flex justify-center gap-2">
+								{(['audio', 'visual'] as PromptType[]).map((type) => (
+									<button
+										key={type}
+										onClick={() => setPromptType(type)}
+										className={`px-3 py-1 border rounded-full text-xs ${
+											promptType === type
+												? 'bg-sky-600 text-white'
+												: 'bg-gray-200'
+										}`}
+									>
+										{type === 'audio' ? 'Audio First' : 'Visual First'}
+									</button>
+								))}
+							</div>
+						</div>
+
+						{/* Display Filter */}
+						<div className="col-span-3 md:col-span-1 mb-6">
+							<p className="font-medium mb-2">Display</p>
+							<div className="flex justify-center gap-2">
+								{(['number', 'gematria'] as DisplayType[]).map((d) => (
+									<button
+										key={d}
+										onClick={() => setDisplayType(d)}
+										className={`px-3 py-1 border rounded-full text-xs ${
+											displayType === d
+												? 'bg-sky-600 text-white'
+												: 'bg-gray-200'
+										}`}
+									>
+										{d}
 									</button>
 								))}
 							</div>
@@ -472,7 +547,7 @@ export default function HebrewNumberQuiz({
 											onClick={() => setFormType(form)}
 											className={`px-3 py-1 border rounded-full text-xs ${
 												formType === form
-													? 'bg-blue-500 text-white'
+													? 'bg-sky-600 text-white'
 													: 'bg-gray-200'
 											}`}
 										>
@@ -493,7 +568,7 @@ export default function HebrewNumberQuiz({
 											key={g}
 											onClick={() => setGender(g)}
 											className={`px-3 py-1 border rounded-full text-xs ${
-												gender === g ? 'bg-blue-500 text-white' : 'bg-gray-200'
+												gender === g ? 'bg-sky-600 text-white' : 'bg-gray-200'
 											}`}
 										>
 											{g}
@@ -503,28 +578,8 @@ export default function HebrewNumberQuiz({
 							</div>
 						</div>
 
-						{/* Display Filter */}
-						<div className="col-span-3 md:col-span-1 mb-6">
-							<p className="font-medium mb-2">Display</p>
-							<div className="flex justify-center gap-2">
-								{(['number', 'gematria'] as DisplayType[]).map((d) => (
-									<button
-										key={d}
-										onClick={() => setDisplayType(d)}
-										className={`px-3 py-1 border rounded-full text-xs ${
-											displayType === d
-												? 'bg-blue-500 text-white'
-												: 'bg-gray-200'
-										}`}
-									>
-										{d}
-									</button>
-								))}
-							</div>
-						</div>
-
 						{/* Seconds selector */}
-						<div className="col-span-3 mb-6">
+						<div className="col-span-3 md:col-span-1 mb-6">
 							<p className="font-medium mb-2">Seconds to Answer</p>
 							<div className="flex gap-2 justify-center">
 								{[1, 3, 5].map((n) => (
@@ -532,7 +587,7 @@ export default function HebrewNumberQuiz({
 										key={n}
 										onClick={() => setTimeLimit(n)}
 										className={`px-3 py-1 border rounded-full text-xs ${
-											timeLimit === n ? 'bg-blue-500 text-white' : 'bg-gray-200'
+											timeLimit === n ? 'bg-sky-600 text-white' : 'bg-gray-200'
 										}`}
 									>
 										{n}s
@@ -556,7 +611,7 @@ export default function HebrewNumberQuiz({
 								setStudyMode(true)
 								setGameStarted(true)
 							}}
-							className="px-6 py-2 bg-purple-600 text-white rounded-lg"
+							className="px-6 py-2 bg-violet-600 text-white rounded-lg"
 						>
 							Study Mode
 						</button>
@@ -615,7 +670,7 @@ export default function HebrewNumberQuiz({
 									{audio && (
 										<button
 											onClick={() => new Audio(audio).play()}
-											className="mt-2 text-blue-500 text-2xl"
+											className="mt-2 text-sky-600 text-2xl"
 										>
 											🔊
 										</button>
@@ -637,9 +692,68 @@ export default function HebrewNumberQuiz({
 					>
 						{passed ? '🎉 You Passed!' : '😞 Try again!'}
 					</p>
+
+					{/* 🔊 Show missed numbers for review */}
+					{wrongAnswers.length > 0 && (
+						<div className="mt-6">
+							<h3 className="font-medium text-lg mb-2">You missed:</h3>
+							<div className="flex flex-wrap justify-center gap-6">
+								{wrongAnswers.map((num, i) => {
+									const { text, translit, audio } = getFormFor(num)
+									return (
+										<div
+											key={i}
+											className="p-4 border rounded-lg flex flex-col items-center text-center w-28"
+										>
+											{/* number / gematria */}
+											<div
+												className={`text-4xl font-bold mb-1 ${fontClassNameFor(
+													fontChoice
+												)}`}
+											>
+												{displayType === 'number' ? num.number : num.gematria}
+											</div>
+											<div className="text-2xl font-cardo text-gray-600 mb-2">
+												{displayType === 'number' ? num.gematria : num.number}
+											</div>
+
+											{/* Hebrew word */}
+											<div
+												className={`text-2xl mb-1 ${fontClassNameFor(
+													fontChoice
+												)}`}
+											>
+												{text}
+											</div>
+
+											{/* Transliteration */}
+											<div className="text-sm italic text-gray-700 mb-2">
+												{translit}
+											</div>
+
+											{/* Replay audio */}
+											{audio && (
+												<button
+													onClick={() => {
+														const a = new Audio(audio)
+														a.play()
+													}}
+													className="text-xl text-sky-600 hover:text-sky-800"
+													aria-label="Replay Audio"
+												>
+													🔊
+												</button>
+											)}
+										</div>
+									)
+								})}
+							</div>
+						</div>
+					)}
+
 					<button
 						onClick={reset}
-						className="mt-6 px-6 py-2 bg-blue-500 text-white rounded-lg"
+						className="mt-6 px-6 py-2 bg-sky-600 text-white rounded-lg"
 					>
 						Start Over
 					</button>
@@ -652,11 +766,30 @@ export default function HebrewNumberQuiz({
 								fontChoice
 							)}`}
 						>
-							{displayType === 'number'
-								? currentCard?.number
-								: currentCard?.gematria}
-						</div>
+							<div
+								className={`text-7xl font-bold mb-4 ${fontClassNameFor(
+									fontChoice
+								)}`}
+							>
+								{promptType === 'audio'
+									? waiting
+										? '?' // hide number until after countdown
+										: displayType === 'number'
+										? currentCard?.number
+										: currentCard?.gematria
+									: displayType === 'number'
+									? currentCard?.number
+									: currentCard?.gematria}
+							</div>
 
+							{/* {displayType === 'number'
+								? currentCard?.number
+								: currentCard?.gematria} */}
+						</div>
+						<div className="text-lg font-medium text-gray-600 mb-4">
+							{formType.charAt(0).toUpperCase() + formType.slice(1)} (
+							{gender.charAt(0).toUpperCase() + gender.slice(1)})
+						</div>
 						{waiting && (
 							<CountdownCircle
 								key={`${currentIndex}-${waiting}`} // 🔑 force remount per card

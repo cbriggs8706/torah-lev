@@ -134,6 +134,13 @@ export default function WordMatchGame({
 		})
 	}, [data])
 
+	function playCardAudio(card: HebrewVocab) {
+		if (!card.hebAudio) return
+		const src = Array.isArray(card.hebAudio) ? card.hebAudio[0] : card.hebAudio
+		const audio = new Audio(toAbsoluteUrl(src))
+		audio.play().catch(() => {})
+	}
+
 	const allLessonsUpToCurrent = useMemo(() => {
 		if (currentLesson === undefined) return []
 
@@ -220,6 +227,14 @@ export default function WordMatchGame({
 				...prev,
 				[activeId]: overId,
 			}))
+
+			// NEW: play audio if matching in image mode
+			if (formatType === 'image') {
+				const matchedCard = shuffledTargets.find((c) => String(c.id) === overId)
+				if (matchedCard) {
+					playCardAudio(matchedCard)
+				}
+			}
 		}
 	}
 
@@ -330,7 +345,7 @@ export default function WordMatchGame({
 				<button
 					onClick={() => setShowFilter((prev) => !prev)}
 					className={`px-4 py-2 rounded shadow flex items-center justify-center gap-4 ${
-						showFilter ? 'bg-blue-600 text-white' : 'bg-gray-200'
+						showFilter ? 'bg-sky-600 text-white' : 'bg-gray-200'
 					}`}
 				>
 					<Image
@@ -341,6 +356,39 @@ export default function WordMatchGame({
 					/>
 					{showFilter ? 'Hide Filters' : 'Show Filters'}
 				</button>
+
+				{/* NEW: Size controls */}
+				<div className="flex items-center gap-2 px-3 py-2 rounded bg-gray-50 border">
+					<span className="text-sm text-gray-600">Card size</span>
+					<button
+						type="button"
+						onClick={() => bumpSize(-10)}
+						className="px-2 py-1 rounded border hover:bg-gray-100"
+						aria-label="Decrease card size"
+					>
+						−
+					</button>
+					<input
+						type="range"
+						min={80}
+						max={240}
+						step={10}
+						value={targetSize}
+						onChange={(e) => setTargetSize(parseInt(e.target.value, 10))}
+						className="w-32 accent-sky-600"
+					/>
+					<button
+						type="button"
+						onClick={() => bumpSize(+10)}
+						className="px-2 py-1 rounded border hover:bg-gray-100"
+						aria-label="Increase card size"
+					>
+						+
+					</button>
+					<span className="text-xs text-gray-500 w-10 text-right">
+						{targetSize}px
+					</span>
+				</div>
 				<button
 					onClick={() => {
 						if (filteredCards.length === 0) return
@@ -367,39 +415,6 @@ export default function WordMatchGame({
 				>
 					Reshuffle
 				</button>
-
-				{/* NEW: Size controls */}
-				<div className="flex items-center gap-2 px-3 py-2 rounded bg-gray-50 border">
-					<span className="text-sm text-gray-600">Card size</span>
-					<button
-						type="button"
-						onClick={() => bumpSize(-10)}
-						className="px-2 py-1 rounded border hover:bg-gray-100"
-						aria-label="Decrease card size"
-					>
-						−
-					</button>
-					<input
-						type="range"
-						min={80}
-						max={240}
-						step={10}
-						value={targetSize}
-						onChange={(e) => setTargetSize(parseInt(e.target.value, 10))}
-						className="w-32"
-					/>
-					<button
-						type="button"
-						onClick={() => bumpSize(+10)}
-						className="px-2 py-1 rounded border hover:bg-gray-100"
-						aria-label="Increase card size"
-					>
-						+
-					</button>
-					<span className="text-xs text-gray-500 w-10 text-right">
-						{targetSize}px
-					</span>
-				</div>
 			</div>
 			{showFilter && (
 				<>
@@ -530,7 +545,7 @@ function DraggableWord({
 			style={style}
 			{...listeners}
 			{...attributes}
-			className="px-4 py-2 bg-green-200 rounded shadow text-4xl font-serif cursor-grab touch-none select-none"
+			className="px-4 py-2 bg-teal-600 text-white rounded shadow text-4xl font-serif cursor-grab touch-none select-none"
 		>
 			{label}
 		</button>

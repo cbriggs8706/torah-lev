@@ -114,7 +114,7 @@ export default async function HebrewLeaderboard() {
 								</td>
 								<td className="px-4 py-2">
 									<div className="relative h-12 w-12">
-										<Avatar className="h-12 w-12 border bg-sky-500">
+										<Avatar className="h-12 w-12 border bg-sky-600">
 											<AvatarImage
 												className="object-cover"
 												src={user.userImageSrc}

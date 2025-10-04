@@ -30,9 +30,7 @@ export default function CategoryFilter({
 				<button
 					onClick={() => setSelectedCategory('all')}
 					className={`px-3 py-1 border rounded-full text-xs ${
-						selectedCategory === 'all'
-							? 'bg-blue-500 text-white'
-							: 'bg-gray-200'
+						selectedCategory === 'all' ? 'bg-sky-600 text-white' : 'bg-gray-200'
 					}`}
 				>
 					All
@@ -45,7 +43,7 @@ export default function CategoryFilter({
 						onClick={() => setSelectedCategory(category)}
 						className={`px-3 py-1 border rounded-full text-xs ${
 							selectedCategory === category
-								? 'bg-blue-500 text-white'
+								? 'bg-sky-600 text-white'
 								: 'bg-gray-200'
 						}`}
 					>

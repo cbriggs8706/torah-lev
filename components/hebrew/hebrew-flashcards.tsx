@@ -478,7 +478,7 @@ export default function HebrewFlashcards({
 		if (field === 'hebAudio' && typeof value === 'string') {
 			return (
 				<button
-					className="text-3xl text-blue-600 hover:text-blue-800"
+					className="text-3xl text-sky-600 hover:text-sky-800"
 					onClick={(e) => {
 						e.stopPropagation()
 						playWithBoostedVolume(
@@ -514,7 +514,7 @@ export default function HebrewFlashcards({
 				<button
 					onClick={() => setShowCustomize((prev) => !prev)}
 					className={`px-4 py-2 rounded shadow flex items-center justify-center gap-4 ${
-						showCustomize ? 'bg-blue-600 text-white' : 'bg-gray-200'
+						showCustomize ? 'bg-sky-600 text-white' : 'bg-gray-200'
 					}`}
 				>
 					<Image
@@ -529,7 +529,7 @@ export default function HebrewFlashcards({
 				<button
 					onClick={() => setShowFilter((prev) => !prev)}
 					className={`px-4 py-2 rounded shadow flex items-center justify-center gap-4 ${
-						showFilter ? 'bg-blue-600 text-white' : 'bg-gray-200'
+						showFilter ? 'bg-sky-600 text-white' : 'bg-gray-200'
 					}`}
 				>
 					<Image
@@ -553,6 +553,7 @@ export default function HebrewFlashcards({
 						step="0.05"
 						value={audioVolume}
 						onChange={(e) => setAudioVolume(parseFloat(e.target.value))}
+						className="accent-sky-600"
 					/>
 					<div className="text-center">{Math.round(audioVolume * 100)}%</div>
 				</div>
@@ -565,6 +566,7 @@ export default function HebrewFlashcards({
 						step="0.05"
 						value={audioSpeed}
 						onChange={(e) => setAudioSpeed(parseFloat(e.target.value))}
+						className="accent-sky-600"
 					/>
 					<div className="text-center">{audioSpeed.toFixed(1)}x</div>
 				</div>
@@ -579,7 +581,7 @@ export default function HebrewFlashcards({
 							<button
 								key={preset.label}
 								onClick={() => applyPreset(preset)}
-								className="px-3 py-2 bg-purple-500 text-white rounded shadow hover:bg-purple-600"
+								className="px-3 py-2 bg-violet-600 text-white rounded shadow hover:bg-violet-500"
 							>
 								{preset.label}
 							</button>
@@ -669,7 +671,7 @@ export default function HebrewFlashcards({
 										onClick={() => setFrontFont(value)}
 										className={`px-4 py-1 border rounded-full text-sm ${
 											frontFont === value
-												? 'bg-blue-500 text-white'
+												? 'bg-sky-600 text-white'
 												: 'bg-gray-100'
 										} ${className}`}
 									>
@@ -749,7 +751,7 @@ export default function HebrewFlashcards({
 								</select>
 							</div>
 						</div>
-						<div className="grid grid-cols-3 gap-4 bg-blue-100 p-4 rounded-md">
+						<div className="grid grid-cols-3 gap-4 bg-sky-100 p-4 rounded-md">
 							<div className="font-bold text-center col-span-3 text-xl">
 								Back of Card Customization
 							</div>
@@ -831,7 +833,7 @@ export default function HebrewFlashcards({
 										onClick={() => setBackFont(value)}
 										className={`px-4 py-1 border rounded-full text-sm ${
 											backFont === value
-												? 'bg-blue-500 text-white'
+												? 'bg-sky-600 text-white'
 												: 'bg-gray-100'
 										} ${className}`}
 									>
@@ -989,7 +991,7 @@ export default function HebrewFlashcards({
 						</div>
 
 						{/* Back */}
-						<div className="absolute w-full h-full backface-hidden rotate-y-180 bg-blue-100 border rounded-xl p-2 sm:p-6 grid grid-rows-3 grid-cols-3 gap-1">
+						<div className="absolute w-full h-full backface-hidden rotate-y-180 bg-sky-100 border rounded-xl p-2 sm:p-6 grid grid-rows-3 grid-cols-3 gap-1">
 							{/* Top Row */}
 							<div className="text-md font-nunito text-left">
 								{renderMiniContent(backTopLeft, false)}
@@ -1051,7 +1053,7 @@ export default function HebrewFlashcards({
 				</button>
 				<button
 					onClick={handleNextCard}
-					className="px-4 py-2 bg-blue-500 text-white rounded shadow"
+					className="px-4 py-2 bg-sky-600 text-white rounded shadow"
 				>
 					Next Card
 				</button>

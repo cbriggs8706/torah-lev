@@ -54,7 +54,7 @@ export default function LessonScriptList({
 						{/* Disable the link if the lesson is locked */}
 						<Link
 							href={`/en/lesson-scripts/${script.id}`}
-							className={`inline-block mt-3 px-3 py-1 bg-sky-500 text-white rounded hover:bg-sky-700 transition ${
+							className={`inline-block mt-3 px-3 py-1 bg-sky-600 text-white rounded hover:bg-sky-700 transition ${
 								isLocked ? 'pointer-events-none' : ''
 							}`}
 						>

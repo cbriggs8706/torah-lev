@@ -292,7 +292,7 @@ export default function EnglishNumberQuiz({
 									onClick={() => setSelectedFilter(name)}
 									className={`px-4 py-2 border rounded-full ${
 										selectedFilter === name
-											? 'bg-blue-500 text-white'
+											? 'bg-sky-600 text-white'
 											: 'bg-gray-200'
 									}`}
 								>
@@ -312,7 +312,7 @@ export default function EnglishNumberQuiz({
 									onClick={() => setPromptType(type)}
 									className={`px-4 py-2 border rounded-full ${
 										promptType === type
-											? 'bg-blue-500 text-white'
+											? 'bg-sky-600 text-white'
 											: 'bg-gray-200'
 									}`}
 								>
@@ -370,7 +370,7 @@ export default function EnglishNumberQuiz({
 										onClick={() => setFontChoice(value)}
 										className={`px-3 py-1 border rounded-full ${
 											fontChoice === value
-												? 'bg-blue-600 text-white'
+												? 'bg-sky-600 text-white'
 												: 'bg-gray-200'
 										}`}
 									>
@@ -378,7 +378,7 @@ export default function EnglishNumberQuiz({
 									</button>
 									<div
 										className={`text-3xl mt-1 text-center ${className} ${
-											fontChoice === value ? 'text-blue-600' : 'text-gray-700'
+											fontChoice === value ? 'text-sky-600' : 'text-gray-700'
 										}`}
 									>
 										ABC
@@ -397,7 +397,7 @@ export default function EnglishNumberQuiz({
 									key={n}
 									onClick={() => setTimeLimit(n)}
 									className={`px-4 py-2 border rounded-full ${
-										timeLimit === n ? 'bg-blue-500 text-white' : 'bg-gray-200'
+										timeLimit === n ? 'bg-sky-600 text-white' : 'bg-gray-200'
 									}`}
 								>
 									{n}s
@@ -421,7 +421,7 @@ export default function EnglishNumberQuiz({
 								setStudyMode(true)
 								setGameStarted(true)
 							}}
-							className="px-6 py-2 bg-purple-600 text-white rounded-lg"
+							className="px-6 py-2 bg-violet-600 text-white rounded-lg"
 						>
 							Study Mode
 						</button>
@@ -450,7 +450,7 @@ export default function EnglishNumberQuiz({
 								</div>
 								<button
 									onClick={() => new Audio(num.eng).play()}
-									className="mt-2 text-blue-500 text-2xl"
+									className="mt-2 text-sky-600 text-2xl"
 								>
 									🔊
 								</button>
@@ -492,7 +492,7 @@ export default function EnglishNumberQuiz({
 										</div>
 										<button
 											onClick={() => new Audio(num.eng).play()}
-											className="mt-2 text-blue-500 text-2xl"
+											className="mt-2 text-sky-600 text-2xl"
 										>
 											🔊
 										</button>
@@ -504,7 +504,7 @@ export default function EnglishNumberQuiz({
 
 					<button
 						onClick={reset}
-						className="mt-6 px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700"
+						className="mt-6 px-6 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700"
 					>
 						Start Over
 					</button>

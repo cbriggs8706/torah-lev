@@ -22,7 +22,7 @@ export default function NiqqudFilter({
 						key={field}
 						onClick={() => setHebrewField(field)}
 						className={`px-3 py-1 border rounded-full text-xs ${
-							hebrewField === field ? 'bg-blue-500 text-white' : 'bg-gray-200'
+							hebrewField === field ? 'bg-sky-600 text-white' : 'bg-gray-200'
 						}`}
 					>
 						{field === 'heb' ? 'Without Niqqud' : 'With Niqqud'}

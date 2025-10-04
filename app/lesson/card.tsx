@@ -89,7 +89,7 @@ export const Card = ({
 							controls.play()
 						}}
 						aria-label="Play audio"
-						className="text-xl text-blue-600 hover:text-blue-800"
+						className="text-xl text-sky-600 hover:text-sky-800"
 					>
 						🔊
 					</button>
@@ -101,7 +101,7 @@ export const Card = ({
 				<p
 					className={cn(
 						'text-neutral-600 text-4xl font-serif',
-						selected && 'text-sky-500',
+						selected && 'text-sky-600',
 						selected && status === 'correct' && 'text-green-500',
 						selected && status === 'wrong' && 'text-rose-500'
 					)}
@@ -114,7 +114,7 @@ export const Card = ({
 			<div
 				className={cn(
 					'lg:w-[30px] lg:h-[30px] w-[20px] h-[20px] border-2 flex items-center justify-center rounded-lg text-neutral-400 lg:text-[15px] text-xs font-semibold mt-2',
-					selected && 'border-sky-300 text-sky-500',
+					selected && 'border-sky-300 text-sky-600',
 					selected && status === 'correct' && 'border-green-500 text-green-500',
 					selected && status === 'wrong' && 'border-rose-500 text-rose-500'
 				)}

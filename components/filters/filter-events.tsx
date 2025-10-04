@@ -57,8 +57,8 @@ export default function EventsFilter({
 						onClick={() => toggle(cat)}
 						className={`px-3 py-1 rounded border text-sm ${
 							selected.includes(cat)
-								? 'bg-sky-500 text-white border-sky-500'
-								: 'bg-white text-sky-700 border-sky-500'
+								? 'bg-sky-600 text-white border-sky-600'
+								: 'bg-white text-sky-700 border-sky-600'
 						}`}
 					>
 						{cat}
@@ -87,7 +87,7 @@ export default function EventsFilter({
 				</label>
 				<button
 					onClick={apply}
-					className="px-3 py-1 rounded bg-sky-500 text-white"
+					className="px-3 py-1 rounded bg-sky-600 text-white"
 				>
 					Apply
 				</button>

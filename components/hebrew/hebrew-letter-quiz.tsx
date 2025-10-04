@@ -438,7 +438,7 @@ export default function HebrewLetterQuiz({
 										onClick={() => setSelectedMode(mode)}
 										className={`px-4 py-2 border rounded-full ${
 											selectedMode === mode
-												? 'bg-blue-500 text-white'
+												? 'bg-sky-600 text-white'
 												: 'bg-gray-200'
 										}`}
 									>
@@ -463,7 +463,7 @@ export default function HebrewLetterQuiz({
 									onClick={() => setPronunciation(p)}
 									className={`px-4 py-2 border rounded-full ${
 										pronunciation === p
-											? 'bg-blue-500 text-white'
+											? 'bg-sky-600 text-white'
 											: 'bg-gray-200'
 									}`}
 								>
@@ -506,7 +506,7 @@ export default function HebrewLetterQuiz({
 										}
 										className={`text-5xl font-times w-16 h-16 border rounded-full ${
 											selectedVowel.includes(key)
-												? 'bg-blue-600 text-white'
+												? 'bg-sky-600 text-white'
 												: 'bg-gray-200 text-black'
 										}`}
 									>
@@ -600,7 +600,7 @@ export default function HebrewLetterQuiz({
 										onClick={() => setFontChoice(value)}
 										className={`px-3 py-1 border rounded-full ${
 											fontChoice === value
-												? 'bg-blue-600 text-white'
+												? 'bg-sky-600 text-white'
 												: 'bg-gray-200'
 										}`}
 									>
@@ -617,7 +617,7 @@ export default function HebrewLetterQuiz({
 									) : (
 										<div
 											className={`text-5xl mt-1 text-center ${className} ${
-												fontChoice === value ? 'text-blue-600' : 'text-gray-700'
+												fontChoice === value ? 'text-sky-600' : 'text-gray-700'
 											}`}
 											dir="rtl"
 										>
@@ -682,7 +682,7 @@ export default function HebrewLetterQuiz({
 						className={`px-6 py-2 rounded-lg text-white transition-colors ${
 							isStartDisabled
 								? 'bg-gray-400 cursor-not-allowed'
-								: 'bg-purple-600 hover:bg-purple-700'
+								: 'bg-violet-600 hover:bg-purple-700'
 						} mr-4`}
 					>
 						Study Alphabet
@@ -750,7 +750,7 @@ export default function HebrewLetterQuiz({
 													  )
 											audio.play()
 										}}
-										className="text-xl text-blue-600 hover:text-blue-800"
+										className="text-xl text-sky-600 hover:text-sky-800"
 										aria-label="Replay Audio"
 									>
 										🔊
@@ -828,7 +828,7 @@ export default function HebrewLetterQuiz({
 												)
 												audio.play()
 											}}
-											className="text-xl text-blue-600 hover:text-blue-800"
+											className="text-xl text-sky-600 hover:text-sky-800"
 											aria-label="Replay Audio"
 										>
 											🔊
@@ -841,7 +841,7 @@ export default function HebrewLetterQuiz({
 
 					<button
 						onClick={() => resetToStart()}
-						className="mt-6 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+						className="mt-6 px-6 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700"
 					>
 						Start Over
 					</button>
@@ -875,7 +875,7 @@ export default function HebrewLetterQuiz({
 					) : (
 						<button
 							onClick={() => audioRef.current?.play()}
-							className="text-5xl text-blue-600 hover:text-blue-800 mb-4"
+							className="text-5xl text-sky-600 hover:text-sky-800 mb-4"
 							aria-label="Replay Audio"
 						>
 							🔊
@@ -941,7 +941,7 @@ export default function HebrewLetterQuiz({
 						</p>
 						<div className="h-2 bg-gray-200 rounded-full overflow-hidden">
 							<div
-								className="bg-blue-500 h-full transition-all duration-300"
+								className="bg-sky-600 h-full transition-all duration-300"
 								style={{ width: `${((currentIndex + 1) / total) * 100}%` }}
 							></div>
 						</div>

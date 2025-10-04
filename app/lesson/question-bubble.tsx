@@ -41,7 +41,7 @@ export const QuestionBubble = ({ audio, image, hebNiqqud }: Props) => {
 						{audioElement}
 						<button
 							onClick={controls.play}
-							className="text-xl text-blue-600 hover:text-blue-800"
+							className="text-xl text-sky-600 hover:text-sky-800"
 							aria-label="Play audio"
 						>
 							🔊

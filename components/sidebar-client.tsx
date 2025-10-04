@@ -49,7 +49,7 @@ export default function SidebarClient({
 				<div className="pt-8 pl-4 pb-7 flex items-center gap-x-3">
 					<Image src="/icons/iconBoy.png" height={40} width={40} alt="Mascot" />
 					{/* <Image src="/mascot.svg" height={40} width={40} alt="Mascot" /> */}
-					<h1 className="text-2xl font-extrabold text-sky-500 tracking-wide">
+					<h1 className="text-2xl font-extrabold text-sky-600 tracking-wide">
 						Idiom Go
 					</h1>
 				</div>
@@ -107,6 +107,14 @@ export default function SidebarClient({
 							href="/he/letter-quiz"
 							iconSrc="/icons/iconLetter.png"
 							// iconSrc="/a-button-blood-type-svgrepo-com.svg"
+							onClick={onItemClick}
+							className="font-cardo text-xl"
+						/>
+						<SidebarItem
+							label="חידון מספרים"
+							href="/he/number-quiz"
+							iconSrc="/icons/iconNumber.png"
+							// iconSrc="/input-numbers-svgrepo-com.svg"
 							onClick={onItemClick}
 							className="font-cardo text-xl"
 						/>

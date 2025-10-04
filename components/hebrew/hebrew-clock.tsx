@@ -308,7 +308,7 @@ export function HebrewClock({ onClick, isWidget }: HebrewClockProps) {
 		<div className="border rounded-xl shadow-md overflow-hidden max-w-md w-full bg-white mb-2">
 			{/* Blue Header with Big Month Name */}
 			<div
-				className={`bg-sky-500 text-white text-center py-3 px-4 font-semibold ${
+				className={`bg-sky-600 text-white text-center py-3 px-4 font-semibold ${
 					isWidget
 						? 'cursor-pointer flex justify-between items-center'
 						: 'cursor-default'

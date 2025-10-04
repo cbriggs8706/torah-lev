@@ -8,9 +8,12 @@ import { getUserProgress, getUserSubscription } from '@/db/queries'
 import dynamic from 'next/dynamic'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 
-const SentenceBuilder = dynamic(() => import('@/components/sentence-builder'), {
-	ssr: false,
-})
+const SentenceBuilder = dynamic(
+	() => import('@/components/hebrew/hebrew-sentence-builder'),
+	{
+		ssr: false,
+	}
+)
 
 const HebrewSentenceBuilderPage = async () => {
 	const userProgressData = getUserProgress()
@@ -53,12 +56,12 @@ const HebrewSentenceBuilderPage = async () => {
 					<p className="text-center font-bold text-neutral-800 mb-2">
 						Sentence Builder
 					</p>
-					<DismissibleAlert storageKey="sentenceBuilder" className="mb-4">
+					{/* <DismissibleAlert storageKey="sentenceBuilder" className="mb-4">
 						Known issues. This activity will be merged into the Scramble
 						activity and enhanced. Coming soon! For now when you drag words into
 						the bar in a correct order, the english equivalent will appear.
-					</DismissibleAlert>
-					<SentenceBuilder />
+					</DismissibleAlert> */}
+					<SentenceBuilder userId={userProgress.userId} />
 				</div>
 			</FeedWrapper>
 		</div>

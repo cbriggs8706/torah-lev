@@ -156,7 +156,7 @@ export default function HebrewSpeedQuiz({
 					<button
 						onClick={() => setShowFilter((prev) => !prev)}
 						className={`px-4 py-2 rounded shadow flex items-center justify-center gap-4 ${
-							showFilter ? 'bg-blue-600 text-white' : 'bg-gray-200'
+							showFilter ? 'bg-sky-600 text-white' : 'bg-gray-200'
 						}`}
 					>
 						<Image
@@ -210,7 +210,7 @@ export default function HebrewSpeedQuiz({
 									onClick={() => setActiveQuiz(quiz)}
 									className={`px-3 py-1 border rounded-full text-xs ${
 										activeQuiz === quiz
-											? 'bg-blue-500 text-white'
+											? 'bg-sky-600 text-white'
 											: 'bg-gray-200 hover:bg-gray-300'
 									}`}
 								>

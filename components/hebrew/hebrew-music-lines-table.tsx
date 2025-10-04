@@ -236,7 +236,7 @@ export default function MusicLinesTable({
 			<div className="hidden md:block overflow-x-auto">
 				<div className="border border-gray-300 rounded-t-md overflow-hidden">
 					<table className="min-w-full border-collapse">
-						<thead className="bg-sky-500 text-white">
+						<thead className="bg-sky-600 text-white">
 							<tr>
 								<th className="px-4 py-2 text-right">Hebrew</th>
 								<th className="px-4 py-2">Line</th>
@@ -282,7 +282,7 @@ export default function MusicLinesTable({
 					</table>
 					<button
 						onClick={scrollToTop}
-						className="fixed bottom-4 right-4 z-50 bg-sky-500 hover:bg-sky-600 text-white px-3 py-2 rounded-full shadow-lg transition"
+						className="fixed bottom-4 right-4 z-50 bg-sky-600 hover:bg-sky-600 text-white px-3 py-2 rounded-full shadow-lg transition"
 						aria-label="Scroll to top"
 					>
 						↑ Top
@@ -319,7 +319,7 @@ export default function MusicLinesTable({
 							onClick={() => playAudio(line.audioSrc)}
 							className={`flex items-center justify-center px-3 text-lg font-bold rounded-r-lg ${
 								line.audioSrc
-									? 'bg-sky-500 text-white hover:bg-sky-600 active:scale-95'
+									? 'bg-sky-600 text-white hover:bg-sky-600 active:scale-95'
 									: 'bg-gray-300 text-gray-600'
 							}`}
 						>
@@ -329,7 +329,7 @@ export default function MusicLinesTable({
 				))}
 				<button
 					onClick={scrollToTop}
-					className="fixed bottom-4 right-4 z-50 bg-sky-500 hover:bg-sky-600 text-white px-3 py-2 rounded-full shadow-lg transition"
+					className="fixed bottom-4 right-4 z-50 bg-sky-600 hover:bg-sky-600 text-white px-3 py-2 rounded-full shadow-lg transition"
 					aria-label="Scroll to top"
 				>
 					↑ Top

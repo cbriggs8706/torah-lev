@@ -148,7 +148,7 @@ export default function EnglishDictionary({ data }: DictionaryProps) {
 		audioRefs.current[id].play().catch(console.error)
 	}
 
-	// Observe ALPHABET sections to set active letter (blue button highlight)
+	// Observe ALPHABET sections to set active letter (sky button highlight)
 	useEffect(() => {
 		if (sortMode !== 'alphabetical') return
 		const observer = new IntersectionObserver(
@@ -172,7 +172,7 @@ export default function EnglishDictionary({ data }: DictionaryProps) {
 		return () => observer.disconnect()
 	}, [sortMode])
 
-	// Observe LESSON sections to set active lesson (blue button highlight)
+	// Observe LESSON sections to set active lesson (sky button highlight)
 	useEffect(() => {
 		if (sortMode !== 'lesson') return
 		const observer = new IntersectionObserver(
@@ -308,7 +308,7 @@ export default function EnglishDictionary({ data }: DictionaryProps) {
 	// Shared button classes for alphabet + lesson buttons
 	const getSideBtnClass = (active: boolean) =>
 		`px-2 py-1 rounded cursor-pointer font-nunito font-bold text-xl border ${
-			active ? 'bg-sky-500 text-white' : 'hover:bg-sky-200 text-sky-500'
+			active ? 'bg-sky-600 text-white' : 'hover:bg-sky-200 text-sky-600'
 		}`
 
 	return (
@@ -323,7 +323,7 @@ export default function EnglishDictionary({ data }: DictionaryProps) {
 							onClick={() => setSortMode(mode as 'alphabetical' | 'lesson')}
 							className={`px-3 py-1 border rounded-full text-sm font-semibold transition ${
 								sortMode === mode
-									? 'bg-blue-500 text-white border-blue-600'
+									? 'bg-sky-600 text-white border-sky-600'
 									: 'bg-gray-200 text-gray-700 hover:bg-gray-300'
 							}`}
 						>
@@ -343,7 +343,7 @@ export default function EnglishDictionary({ data }: DictionaryProps) {
 										id={`letter-${letter}`}
 										className="mb-4 scroll-mt-16"
 									>
-										<h2 className="text-3xl font-bold text-white text-right pr-4 rounded-md bg-sky-500 my-6">
+										<h2 className="text-3xl font-bold text-white text-right pr-4 rounded-md bg-sky-600 my-6">
 											{letter}
 										</h2>
 										<div className="space-y-1">
@@ -424,7 +424,7 @@ export default function EnglishDictionary({ data }: DictionaryProps) {
 
 			<button
 				onClick={scrollToTop}
-				className="fixed bottom-4 right-4 z-50 bg-sky-500 hover:bg-sky-600 text-white px-3 py-2 rounded-full shadow-lg transition"
+				className="fixed bottom-4 right-4 z-50 bg-sky-600 hover:bg-sky-600 text-white px-3 py-2 rounded-full shadow-lg transition"
 				aria-label="Scroll to top"
 			>
 				↑ Top

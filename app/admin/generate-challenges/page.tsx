@@ -158,7 +158,7 @@ export default function GenerateChallengesPage() {
 				<button
 					onClick={handleGenerate}
 					disabled={loading}
-					className="bg-blue-600 text-white px-4 py-2 rounded disabled:opacity-50"
+					className="bg-sky-600 text-white px-4 py-2 rounded disabled:opacity-50"
 				>
 					{loading ? 'Generating...' : 'Generate'}
 				</button>
@@ -260,7 +260,7 @@ export default function GenerateChallengesPage() {
 
 					<button
 						onClick={handleGenerate}
-						className="mt-4 bg-blue-600 text-white px-4 py-2 rounded"
+						className="mt-4 bg-sky-600 text-white px-4 py-2 rounded"
 					>
 						Commit {preview.length} Challenges
 					</button>

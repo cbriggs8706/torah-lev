@@ -84,7 +84,7 @@ function parseGenderPerson(code: string | undefined) {
 		elements.push(
 			// <span
 			// 	key="m"
-			// 	className="inline-block w-2 h-2 bg-sky-500 rounded-full"
+			// 	className="inline-block w-2 h-2 bg-sky-600 rounded-full"
 			// ></span>
 			<span key="m" title="male">
 				<Image
@@ -342,7 +342,7 @@ export default function HebrewDictionary({ data }: DictionaryProps) {
 								href={entry.dictionaryUrl}
 								target="_blank"
 								rel="noopener noreferrer"
-								className="text-sky-500 underline"
+								className="text-sky-600 underline"
 							>
 								View Full Entry on Marble ↗
 							</a>
@@ -391,7 +391,7 @@ export default function HebrewDictionary({ data }: DictionaryProps) {
 							onClick={() => setSortMode(mode as 'alphabetical' | 'lesson')}
 							className={`px-3 py-1 border rounded-full text-sm font-semibold transition ${
 								sortMode === mode
-									? 'bg-blue-500 text-white border-blue-600'
+									? 'bg-sky-600 text-white border-sky-600'
 									: 'bg-gray-200 text-gray-700 hover:bg-gray-300'
 							}`}
 						>
@@ -411,7 +411,7 @@ export default function HebrewDictionary({ data }: DictionaryProps) {
 										id={`letter-${letter}`}
 										className="mb-4 scroll-mt-16"
 									>
-										<h2 className="text-3xl font-cardo text-white text-right pr-4 rounded-md bg-sky-500 my-6">
+										<h2 className="text-3xl font-cardo text-white text-right pr-4 rounded-md bg-sky-600 my-6">
 											{letter}
 										</h2>
 										<div className="space-y-1">
@@ -443,7 +443,7 @@ export default function HebrewDictionary({ data }: DictionaryProps) {
 									id={`range-${range}`}
 									className="mb-4 scroll-mt-16"
 								>
-									<h2 className="text-3xl font-bold text-white text-right pr-4 rounded-md bg-sky-500 my-6">
+									<h2 className="text-3xl font-bold text-white text-right pr-4 rounded-md bg-sky-600 my-6">
 										Lessons {range}
 									</h2>
 
@@ -474,8 +474,8 @@ export default function HebrewDictionary({ data }: DictionaryProps) {
 								className={`px-2 py-1 rounded cursor-pointer font-cardo text-3xl border
 									${
 										activeLetter === letter
-											? 'bg-sky-500 text-white'
-											: 'hover:bg-sky-200 text-sky-500'
+											? 'bg-sky-600 text-white'
+											: 'hover:bg-sky-200 text-sky-600'
 									}`}
 							>
 								{letter}
@@ -495,7 +495,7 @@ export default function HebrewDictionary({ data }: DictionaryProps) {
 			</div>
 			<button
 				onClick={scrollToTop}
-				className="fixed bottom-4 right-4 z-50 bg-sky-500 hover:bg-sky-600 text-white px-3 py-2 rounded-full shadow-lg transition"
+				className="fixed bottom-4 right-4 z-50 bg-sky-600 hover:bg-sky-600 text-white px-3 py-2 rounded-full shadow-lg transition"
 				aria-label="Scroll to top"
 			>
 				↑ Top

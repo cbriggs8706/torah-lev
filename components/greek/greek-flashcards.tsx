@@ -549,7 +549,7 @@ export default function GreekGreekVocab({
 		if (field === 'grkAudio' && typeof value === 'string') {
 			return (
 				<button
-					className="text-3xl text-blue-600 hover:text-blue-800"
+					className="text-3xl text-sky-600 hover:text-sky-800"
 					onClick={(e) => {
 						e.stopPropagation()
 						playWithBoostedVolume(
@@ -627,7 +627,7 @@ export default function GreekGreekVocab({
 				<button
 					onClick={() => setShowCustomize((prev) => !prev)}
 					className={`px-4 py-2 rounded shadow flex items-center justify-center gap-4 ${
-						showCustomize ? 'bg-blue-600 text-white' : 'bg-gray-200'
+						showCustomize ? 'bg-sky-600 text-white' : 'bg-gray-200'
 					}`}
 				>
 					<Image
@@ -642,7 +642,7 @@ export default function GreekGreekVocab({
 				<button
 					onClick={() => setShowFilter((prev) => !prev)}
 					className={`px-4 py-2 rounded shadow flex items-center justify-center gap-4 ${
-						showFilter ? 'bg-blue-600 text-white' : 'bg-gray-200'
+						showFilter ? 'bg-sky-600 text-white' : 'bg-gray-200'
 					}`}
 				>
 					<Image
@@ -692,7 +692,7 @@ export default function GreekGreekVocab({
 							<button
 								key={preset.label}
 								onClick={() => applyPreset(preset)}
-								className="px-3 py-2 bg-purple-500 text-white rounded shadow hover:bg-purple-600"
+								className="px-3 py-2 bg-purple-500 text-white rounded shadow hover:bg-violet-600"
 							>
 								{preset.label}
 							</button>
@@ -782,7 +782,7 @@ export default function GreekGreekVocab({
 										onClick={() => setFrontFont(value)}
 										className={`px-4 py-1 border rounded-full text-sm ${
 											frontFont === value
-												? 'bg-blue-500 text-white'
+												? 'bg-sky-600 text-white'
 												: 'bg-gray-100'
 										} ${className}`}
 									>
@@ -862,7 +862,7 @@ export default function GreekGreekVocab({
 								</select>
 							</div>
 						</div>
-						<div className="grid grid-cols-3 gap-4 bg-blue-100 p-4 rounded-md">
+						<div className="grid grid-cols-3 gap-4 bg-sky-100 p-4 rounded-md">
 							<div className="font-bold text-center col-span-3 text-xl">
 								Back of Card Customization
 							</div>
@@ -944,7 +944,7 @@ export default function GreekGreekVocab({
 										onClick={() => setBackFont(value)}
 										className={`px-4 py-1 border rounded-full text-sm ${
 											backFont === value
-												? 'bg-blue-500 text-white'
+												? 'bg-sky-600 text-white'
 												: 'bg-gray-100'
 										} ${className}`}
 									>
@@ -1041,7 +1041,7 @@ export default function GreekGreekVocab({
 									}
 									className={`px-3 py-1 border rounded-full text-sm ${
 										selectedType === typeOption
-											? 'bg-blue-500 text-white'
+											? 'bg-sky-600 text-white'
 											: 'bg-gray-200'
 									}`}
 								>
@@ -1057,7 +1057,7 @@ export default function GreekGreekVocab({
 								onClick={() => setSelectedCategory('all')}
 								className={`px-3 py-1 border rounded-full text-sm ${
 									selectedCategory === 'all'
-										? 'bg-blue-500 text-white'
+										? 'bg-sky-600 text-white'
 										: 'bg-gray-200'
 								}`}
 							>
@@ -1069,7 +1069,7 @@ export default function GreekGreekVocab({
 									onClick={() => setSelectedCategory(pos)}
 									className={`px-3 py-1 border rounded-full text-sm ${
 										selectedCategory === pos
-											? 'bg-blue-500 text-white'
+											? 'bg-sky-600 text-white'
 											: 'bg-gray-200'
 									}`}
 								>
@@ -1096,7 +1096,7 @@ export default function GreekGreekVocab({
 								onClick={() => setSelectedLessons([...lessonOptions])}
 								className={`px-3 py-1 border rounded-full text-sm ${
 									selectedLessons.length === lessonOptions.length
-										? 'bg-blue-500 text-white'
+										? 'bg-sky-600 text-white'
 										: 'bg-gray-200'
 								}`}
 							>
@@ -1125,7 +1125,7 @@ export default function GreekGreekVocab({
 									}
 									className={`px-3 py-1 border rounded-full text-sm ${
 										range.lessons.every((l) => selectedLessons.includes(l))
-											? 'bg-blue-500 text-white'
+											? 'bg-sky-600 text-white'
 											: 'bg-gray-200'
 									}`}
 								>
@@ -1142,7 +1142,7 @@ export default function GreekGreekVocab({
 										key={lesson}
 										onClick={() => toggleLesson(lesson)}
 										className={`px-3 py-1 border rounded-full text-sm ${
-											isSelected ? 'bg-blue-500 text-white' : 'bg-gray-200'
+											isSelected ? 'bg-sky-600 text-white' : 'bg-gray-200'
 										}`}
 									>
 										{label}
@@ -1166,7 +1166,7 @@ export default function GreekGreekVocab({
                   }
                   className={`px-3 py-1 border rounded-full text-sm ${
                     stringLessons.every((l) => selectedLessons.includes(l))
-                      ? 'bg-blue-500 text-white'
+                      ? 'bg-sky-600 text-white'
                       : 'bg-gray-200'
                   }`}
                 >
@@ -1232,7 +1232,7 @@ export default function GreekGreekVocab({
 						</div>
 
 						{/* Back */}
-						<div className="absolute w-full h-full backface-hidden rotate-y-180 bg-blue-100 border rounded-xl p-2 sm:p-6 grid grid-rows-3 grid-cols-3 gap-1">
+						<div className="absolute w-full h-full backface-hidden rotate-y-180 bg-sky-100 border rounded-xl p-2 sm:p-6 grid grid-rows-3 grid-cols-3 gap-1">
 							{/* Top Row */}
 							<div className="text-md font-nunito text-left">
 								{renderMiniContent(backTopLeft, false)}
@@ -1288,7 +1288,7 @@ export default function GreekGreekVocab({
 					</div>
 					<div className="h-2 bg-gray-200 rounded-full overflow-hidden mb-6">
 						<div
-							className="bg-blue-500 h-full transition-all duration-300"
+							className="bg-sky-600 h-full transition-all duration-300"
 							style={{
 								width: `${((currentIndex + 1) / filteredCards.length) * 100}%`,
 							}}
@@ -1306,7 +1306,7 @@ export default function GreekGreekVocab({
 				</button>
 				<button
 					onClick={handleNextCard}
-					className="px-4 py-2 bg-blue-500 text-white rounded shadow"
+					className="px-4 py-2 bg-sky-600 text-white rounded shadow"
 				>
 					Next Card
 				</button>

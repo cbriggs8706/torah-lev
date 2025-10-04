@@ -22,7 +22,7 @@ export default function TypeFilter({
 						key={type}
 						onClick={() => setSelectedType(type)}
 						className={`px-3 py-1 border rounded-full text-xs ${
-							selectedType === type ? 'bg-blue-500 text-white' : 'bg-gray-200'
+							selectedType === type ? 'bg-sky-600 text-white' : 'bg-gray-200'
 						}`}
 					>
 						{type.charAt(0).toUpperCase() + type.slice(1)}

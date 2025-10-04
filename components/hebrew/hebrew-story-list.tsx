@@ -135,7 +135,7 @@ export default function StoryList({
 									>
 										{/* Lesson badge */}
 										{story.lessonId && (
-											<div className="absolute top-2 right-2 z-10 bg-sky-500 text-white text-sm font-bold rounded-full w-8 h-8 flex items-center justify-center shadow">
+											<div className="absolute top-2 right-2 z-10 bg-sky-600 text-white text-sm font-bold rounded-full w-8 h-8 flex items-center justify-center shadow">
 												{story.lessonId}
 											</div>
 										)}
@@ -184,7 +184,7 @@ export default function StoryList({
 											<div className="mt-3">
 												<Link
 													href={`/he/stories/${story.id}`}
-													className="inline-block px-3 py-1 bg-sky-500 text-white rounded hover:bg-sky-700 transition"
+													className="inline-block px-3 py-1 bg-sky-600 text-white rounded hover:bg-sky-700 transition"
 												>
 													קרא
 												</Link>
@@ -199,7 +199,7 @@ export default function StoryList({
 									// 	) : (
 									// 		<Link
 									// 			href={`/he/stories/${story.id}`}
-									// 			className="inline-block mt-3 px-3 py-1 bg-sky-500 text-white rounded hover:bg-sky-700 transition"
+									// 			className="inline-block mt-3 px-3 py-1 bg-sky-600 text-white rounded hover:bg-sky-700 transition"
 									// 		>
 									// 			Read Story
 									// 		</Link>

@@ -376,10 +376,10 @@ export default function HebrewKeyboard({
 						className={`text-center leading-none transition rounded shadow
     ${
 			char
-				? 'bg-white hover:bg-blue-100 active:bg-blue-200'
+				? 'bg-white hover:bg-sky-100 active:bg-sky-200'
 				: 'bg-transparent cursor-default shadow-none opacity-0 select-none'
 		}
-    w-8 h-12 text-2xl p-1
+    w-6 h-10 text-3xl p-0
     sm:w-10 sm:h-14 sm:text-3xl sm:p-2
     md:w-12 md:h-16 md:text-4xl md:p-3
   `}
@@ -404,7 +404,7 @@ export default function HebrewKeyboard({
 				<button
 					onClick={toggleShift}
 					className={`w-1/4 py-3 border rounded shadow ${
-						shiftActive ? 'bg-blue-300' : 'bg-gray-100 hover:bg-gray-200'
+						shiftActive ? 'bg-sky-300' : 'bg-gray-100 hover:bg-gray-200'
 					}`}
 				>
 					Shift
@@ -422,7 +422,7 @@ export default function HebrewKeyboard({
 				<button
 					onClick={toggleAlt}
 					className={`w-1/4 py-3 border rounded shadow ${
-						altActive ? 'bg-blue-300' : 'bg-gray-100 hover:bg-gray-200'
+						altActive ? 'bg-sky-300' : 'bg-gray-100 hover:bg-gray-200'
 					}`}
 				>
 					Alt/Opt

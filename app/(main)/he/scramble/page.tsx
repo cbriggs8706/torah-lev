@@ -64,13 +64,13 @@ const HebrewScramblePage = async () => {
 					<p className="text-center font-bold text-neutral-800 mb-2">
 						Scramble
 					</p>
-					<DismissibleAlert storageKey="scramble" className="mb-4">
+					{/* <DismissibleAlert storageKey="scramble" className="mb-4">
 						{' '}
 						Much more coming soon to this activity! Below is a scrambled up
 						sentence of 2-10 words. Click on them in order to unscramble. To
 						take a word out, tap on the corresponding green word again to
 						remove. Don&apos;t forget to go right to left!
-					</DismissibleAlert>
+					</DismissibleAlert> */}
 
 					<HebrewScramble
 						data={awbHebrewVocab}
