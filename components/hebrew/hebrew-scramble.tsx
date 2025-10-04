@@ -161,7 +161,7 @@ export default function HebrewScramble({
 					className="mx-auto mb-6"
 				/>
 				<h1 className="text-5xl font-bold text-green-700 mb-6">
-					You finished all 25 phrases!
+					You finished all 5 phrases!
 				</h1>
 				<p className="text-2xl mb-6">
 					You’ve earned <strong>+1 point</strong>!

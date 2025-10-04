@@ -6,7 +6,23 @@ import { phrases } from '@/lib/sentence-builder-phrases'
 import { vocab, VocabEntry } from '@/lib/sentence-builder-specifics'
 import { useCelebration } from '@/hooks/useCelebration'
 import Image from 'next/image'
+import {
+	closestCenter,
+	DndContext,
+	DragEndEvent,
+	PointerSensor,
+	useSensor,
+	useSensors,
+	useDroppable,
+} from '@dnd-kit/core'
 
+import {
+	SortableContext,
+	useSortable,
+	arrayMove,
+	verticalListSortingStrategy,
+} from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
 interface SentenceBuilderProps {
 	userId: string
 }
@@ -270,28 +286,13 @@ export default function SentenceBuilder({ userId }: SentenceBuilderProps) {
 					currentIndex={currentIndex} // ✅ NEW PROP
 				/>
 			) : (
-				<div
-					className="min-h-[100px] border-2 border-dashed border-gray-400 rounded-lg flex flex-wrap justify-center items-center p-4 mb-6"
-					dir="rtl"
-				>
-					{userOrder.length === 0 ? (
-						<span className="text-gray-400 italic">Build the phrase here</span>
-					) : (
-						userOrder.map((word, idx) => {
-							const vocabEntry = vocab.find((v) => v.word === word)
-							const color = vocabEntry ? getGenderColor(vocabEntry.gender) : ''
-							return (
-								<span
-									key={idx}
-									onClick={() => handleRemoveWord(idx)}
-									className={`px-3 py-2 mx-1 my-1 rounded text-2xl sm:text-3xl md:text-4xl font-times cursor-pointer hover:opacity-80 border-2 ${color}`}
-								>
-									{word}
-								</span>
-							)
-						})
-					)}
-				</div>
+				<DropAreaSingle
+					userOrder={userOrder}
+					handleRemoveWord={handleRemoveWord}
+					getGenderColor={getGenderColor}
+					vocab={[...vocab]}
+					setUserOrder={setUserOrder}
+				/>
 			)}
 
 			{/* Controls */}
@@ -339,37 +340,31 @@ export default function SentenceBuilder({ userId }: SentenceBuilderProps) {
 				</p>
 			)}
 
-			{/* Word bank (scrollable area) */}
-			<div className="mt-6 h-[45vh] overflow-y-auto border-t-2 border-gray-300 rounded-b-xl">
-				<h3 className="sticky top-0 z-10 bg-white text-2xl font-bold m-0 py-2 border-b border-gray-200">
-					Word Bank
-				</h3>
+			<h3 className="text-2xl font-bold mb-3">Word Bank</h3>
 
-				<div className="pt-2 px-2">
-					{renderSection('Masculine Nouns', masculineNouns)}
-					{renderSection('Feminine Nouns', feminineNouns)}
-					{renderSection('Adjectives', adjectives)}
-					{renderSection('Demonstratives', demonstratives)}
-				</div>
-			</div>
+			{/* Word bank sections */}
+			{renderSection('Masculine Nouns', masculineNouns)}
+			{renderSection('Feminine Nouns', feminineNouns)}
+			{renderSection('Adjectives', adjectives)}
+			{renderSection('Demonstratives', demonstratives)}
 		</div>
 	)
 }
 
-function DropAreaWithVerb({
+export function DropAreaWithVerb({
 	verbWord,
 	userOrder,
 	handleRemoveWord,
 	getGenderColor,
 	vocab,
-	currentIndex, // ✅ NEW
+	currentIndex,
 }: {
 	verbWord: string
 	userOrder: string[]
 	handleRemoveWord: (index: number) => void
 	getGenderColor: (gender: string) => string
 	vocab: readonly VocabEntry[]
-	currentIndex: number // ✅ NEW
+	currentIndex: number
 }) {
 	const [activeZone, setActiveZone] = useState<'first' | 'second'>('first')
 	const [zoneWords, setZoneWords] = useState<{
@@ -379,52 +374,50 @@ function DropAreaWithVerb({
 		first: [],
 		second: [],
 	})
+	const [hoveredZone, setHoveredZone] = useState<string | null>(null)
 
+	// reset on new phrase
 	useEffect(() => {
 		setZoneWords({ first: [], second: [] })
 		setActiveZone('first')
 	}, [currentIndex])
 
-	// Handle word selection from word bank
+	// sensors for drag
+	const sensors = useSensors(useSensor(PointerSensor))
+
+	// add word from word bank
 	const addWordToActiveZone = useCallback(
 		(word: string) => {
-			setZoneWords((prev) => {
-				const newZones = { ...prev }
-				newZones[activeZone] = [...newZones[activeZone], word]
-				return newZones
-			})
+			setZoneWords((prev) => ({
+				...prev,
+				[activeZone]: [...prev[activeZone], word],
+			}))
 		},
 		[activeZone]
 	)
 
-	// Listen for new words to add from main component
+	// listen for add requests
 	useEffect(() => {
-		function handleRequestAddWordToZone(e: CustomEvent<string>) {
-			addWordToActiveZone(e.detail)
+		function handleRequestAddWordToZone(e: Event) {
+			const custom = e as CustomEvent<string>
+			addWordToActiveZone(custom.detail)
 		}
-		window.addEventListener(
-			'requestAddWordToZone',
-			handleRequestAddWordToZone as EventListener
-		)
-		return () => {
+		window.addEventListener('requestAddWordToZone', handleRequestAddWordToZone)
+		return () =>
 			window.removeEventListener(
 				'requestAddWordToZone',
-				handleRequestAddWordToZone as EventListener
+				handleRequestAddWordToZone
 			)
-		}
 	}, [addWordToActiveZone])
 
-	// Sync main component’s userOrder with combined zones
+	// sync global userOrder
 	useEffect(() => {
 		const combined = [...zoneWords.first, ...zoneWords.second]
-		if (combined.join(' ') !== userOrder.join(' ')) {
-			// Reconstruct order to maintain global checking logic
-			const event = new CustomEvent('updateUserOrder', { detail: combined })
-			window.dispatchEvent(event)
-		}
-	}, [zoneWords, userOrder])
+		const event = new CustomEvent('updateUserOrder', { detail: combined })
+		window.dispatchEvent(event)
+	}, [zoneWords])
 
-	// Handle removing a word from one of the zones
+	// remove word on click
 	const removeWord = (zone: 'first' | 'second', idx: number) => {
 		setZoneWords((prev) => ({
 			...prev,
@@ -432,81 +425,269 @@ function DropAreaWithVerb({
 		}))
 	}
 
-	return (
-		<div
-			className="flex items-center justify-center gap-4 mb-6 flex-wrap"
-			dir="rtl"
-		>
-			{/* First zone */}
-			<div
-				onClick={() => setActiveZone('first')}
-				className={`min-h-[100px] border-2 border-dashed rounded-lg flex flex-wrap justify-center items-center p-4 flex-1 cursor-pointer transition-all ${
-					activeZone === 'first'
-						? 'border-sky-600 bg-sky-50'
-						: 'border-gray-400 bg-white'
-				}`}
-			>
-				{zoneWords.first.length === 0 ? (
-					<span className="text-gray-400 italic">
-						Click here to build first part
-					</span>
-				) : (
-					zoneWords.first.map((word, idx) => {
-						const vocabEntry = vocab.find((v) => v.word === word)
-						const color = vocabEntry ? getGenderColor(vocabEntry.gender) : ''
-						return (
-							<span
-								key={`first-${idx}`}
-								onClick={(e) => {
-									e.stopPropagation()
-									removeWord('first', idx)
-								}}
-								className={`px-3 py-2 mx-1 my-1 rounded text-3xl font-times cursor-pointer hover:opacity-80 border-2 ${color}`}
-							>
-								{word}
-							</span>
-						)
-					})
-				)}
-			</div>
+	function handleDragOver(event: any) {
+		const { over } = event
+		if (!over) {
+			setHoveredZone(null)
+			return
+		}
+		const zoneId = over.data?.current?.sortable?.containerId || over.id
+		setHoveredZone(zoneId)
+	}
 
-			{/* Verb display */}
-			<div className="flex flex-col">
-				<span className="text-3xl font-bold text-gray-600">({verbWord})</span>
-				<span className="text-xs">implied</span>
-			</div>
-			{/* Second zone */}
+	// handle drag
+	function handleDragEnd(event: DragEndEvent) {
+		setHoveredZone(null) // reset highlight
+
+		const { active, over } = event
+		if (!over) return
+
+		const [activeZoneId, activeIdx] = active.id.toString().split(':')
+		const overZoneId = over.data?.current?.sortable?.containerId || over.id // ✅ get true zone id
+
+		setZoneWords((prev) => {
+			const from = activeZoneId as 'first' | 'second'
+			const to = overZoneId as 'first' | 'second'
+			if (!['first', 'second'].includes(to)) return prev
+
+			const fromItems = [...prev[from]]
+			const toItems = [...prev[to]]
+			const [movedItem] = fromItems.splice(Number(activeIdx), 1)
+
+			if (from === to) {
+				// reorder within same zone
+				const targetIdx = over.id.toString().includes(':')
+					? Number(over.id.toString().split(':')[1])
+					: toItems.length
+				const reordered = arrayMove(toItems, Number(activeIdx), targetIdx)
+				return { ...prev, [to]: reordered }
+			} else {
+				// ✅ move across zones
+				const targetIdx = over.id.toString().includes(':')
+					? Number(over.id.toString().split(':')[1])
+					: toItems.length
+				toItems.splice(targetIdx, 0, movedItem)
+				return { ...prev, [from]: fromItems, [to]: toItems }
+			}
+		})
+	}
+
+	return (
+		<DndContext
+			sensors={sensors}
+			collisionDetection={closestCenter}
+			onDragEnd={handleDragEnd}
+		>
 			<div
-				onClick={() => setActiveZone('second')}
+				className="flex items-center justify-center gap-4 mb-6 flex-wrap"
+				dir="rtl"
+			>
+				<Zone
+					id="first"
+					title="Click here to build first part"
+					words={zoneWords.first}
+					vocab={vocab}
+					getGenderColor={getGenderColor}
+					active={activeZone === 'first'}
+					isHovered={hoveredZone === 'first'}
+					setActiveZone={setActiveZone}
+					removeWord={removeWord}
+				/>
+				<div className="flex flex-col">
+					<span className="text-3xl font-bold text-gray-600">({verbWord})</span>
+					<span className="text-xs">implied</span>
+				</div>
+				<Zone
+					id="second"
+					title="Click here to build second part"
+					words={zoneWords.second}
+					vocab={vocab}
+					getGenderColor={getGenderColor}
+					active={activeZone === 'second'}
+					isHovered={hoveredZone === 'second'}
+					setActiveZone={setActiveZone}
+					removeWord={removeWord}
+				/>
+			</div>
+		</DndContext>
+	)
+}
+
+function DropAreaSingle({
+	userOrder,
+	handleRemoveWord,
+	getGenderColor,
+	vocab,
+	setUserOrder,
+}: {
+	userOrder: string[]
+	handleRemoveWord: (index: number) => void
+	getGenderColor: (gender: string) => string
+	vocab: readonly VocabEntry[]
+	setUserOrder: React.Dispatch<React.SetStateAction<string[]>>
+}) {
+	const sensors = useSensors(useSensor(PointerSensor))
+
+	function handleDragEnd(event: DragEndEvent) {
+		const { active, over } = event
+		if (!over || active.id === over.id) return
+
+		const oldIndex = Number(active.id)
+		const newIndex = Number(over.id)
+		setUserOrder((items) => arrayMove(items, oldIndex, newIndex))
+	}
+
+	return (
+		<DndContext
+			sensors={sensors}
+			collisionDetection={closestCenter}
+			onDragEnd={handleDragEnd}
+		>
+			<SortableContext
+				id="single"
+				items={userOrder.map((_, idx) => `${idx}`)}
+				strategy={verticalListSortingStrategy}
+			>
+				<div
+					className="min-h-[100px] border-2 border-dashed border-gray-400 rounded-lg flex flex-wrap justify-center items-center p-4 mb-6"
+					dir="rtl"
+				>
+					{userOrder.length === 0 ? (
+						<span className="text-gray-400 italic">Build the phrase here</span>
+					) : (
+						userOrder.map((word, idx) => {
+							const vocabEntry = vocab.find((v) => v.word === word)
+							const color = vocabEntry ? getGenderColor(vocabEntry.gender) : ''
+							return (
+								<SortableWord
+									key={idx}
+									id={`${idx}`}
+									zone="single"
+									word={word}
+									color={color}
+									onRemove={() => handleRemoveWord(idx)}
+								/>
+							)
+						})
+					)}
+				</div>
+			</SortableContext>
+		</DndContext>
+	)
+}
+
+function Zone({
+	id,
+	title,
+	words,
+	vocab,
+	getGenderColor,
+	active,
+	isHovered,
+	setActiveZone,
+	removeWord,
+}: {
+	id: 'first' | 'second'
+	title: string
+	words: string[]
+	vocab: readonly VocabEntry[]
+	getGenderColor: (gender: string) => string
+	active: boolean
+	isHovered?: boolean
+	setActiveZone: (z: 'first' | 'second') => void
+	removeWord: (zone: 'first' | 'second', idx: number) => void
+}) {
+	const { setNodeRef } = useDroppable({ id })
+
+	return (
+		<SortableContext
+			id={id}
+			items={words.map((_, idx) => `${id}:${idx}`)}
+			strategy={verticalListSortingStrategy}
+		>
+			<div
+				ref={setNodeRef}
+				onClick={() => setActiveZone(id)}
 				className={`min-h-[100px] border-2 border-dashed rounded-lg flex flex-wrap justify-center items-center p-4 flex-1 cursor-pointer transition-all ${
-					activeZone === 'second'
+					isHovered
+						? 'border-green-500 bg-green-50'
+						: active
 						? 'border-sky-600 bg-sky-50'
 						: 'border-gray-400 bg-white'
 				}`}
 			>
-				{zoneWords.second.length === 0 ? (
-					<span className="text-gray-400 italic">
-						Click here to build second part
-					</span>
+				{words.length === 0 ? (
+					<span className="text-gray-400 italic">{title}</span>
 				) : (
-					zoneWords.second.map((word, idx) => {
+					words.map((word, idx) => {
 						const vocabEntry = vocab.find((v) => v.word === word)
 						const color = vocabEntry ? getGenderColor(vocabEntry.gender) : ''
 						return (
-							<span
-								key={`second-${idx}`}
-								onClick={(e) => {
-									e.stopPropagation()
-									removeWord('second', idx)
-								}}
-								className={`px-3 py-2 mx-1 my-1 rounded text-3xl font-times cursor-pointer hover:opacity-80 border-2 ${color}`}
-							>
-								{word}
-							</span>
+							<SortableWord
+								key={`${id}:${idx}`}
+								id={`${id}:${idx}`}
+								zone={id}
+								word={word}
+								color={color}
+								onRemove={() => removeWord(id, idx)}
+							/>
 						)
 					})
 				)}
 			</div>
-		</div>
+		</SortableContext>
+	)
+}
+
+function SortableWord({
+	id,
+	word,
+	color,
+	zone,
+	onRemove,
+}: {
+	id: string
+	word: string
+	color: string
+	zone: 'first' | 'second' | 'single'
+	onRemove: () => void
+}) {
+	const {
+		attributes,
+		listeners,
+		setNodeRef,
+		transform,
+		transition,
+		isOver,
+		isDragging,
+	} = useSortable({
+		id,
+	})
+
+	const style = {
+		transform: CSS.Transform.toString(transform),
+		transition: 'transform 150ms ease, box-shadow 150ms ease',
+		boxShadow: isDragging
+			? '0 0 10px rgba(0,0,0,0.2)'
+			: isOver
+			? 'inset 0 0 0 2px #22c55e' // tailwind green-500 border
+			: undefined,
+		opacity: isDragging ? 0.8 : 1,
+	}
+
+	return (
+		<span
+			ref={setNodeRef}
+			style={style}
+			{...attributes}
+			{...listeners}
+			onClick={(e) => {
+				e.stopPropagation()
+				onRemove()
+			}}
+			className={`px-3 py-2 mx-1 my-1 rounded text-3xl font-times cursor-move hover:opacity-80 border-2 ${color}`}
+		>
+			{word}
+		</span>
 	)
 }
