@@ -63,12 +63,18 @@ function CountdownCircle({
 	seconds,
 	paused,
 	onComplete,
+	resetKey,
 }: {
 	seconds: number
 	paused: boolean
 	onComplete: () => void
+	resetKey?: any
 }) {
 	const [progress, setProgress] = useState(0)
+
+	useEffect(() => {
+		setProgress(0)
+	}, [seconds, resetKey])
 
 	useEffect(() => {
 		if (paused) return
@@ -151,6 +157,7 @@ export default function HebrewNumberQuiz({
 	const audioRef = useRef<HTMLAudioElement | null>(null)
 	const [waiting, setWaiting] = useState(true)
 	const [paused, setPaused] = useState(false)
+	const [finishAudio] = useAudio({ src: '/shofar.mp3', autoPlay: true })
 
 	// NEW filters
 	const [formType, setFormType] = useState<FormType>('cardinal')
@@ -158,12 +165,20 @@ export default function HebrewNumberQuiz({
 	const [displayType, setDisplayType] = useState<DisplayType>('number')
 
 	// pool builder
+	// pool builder
 	const buildPool = useCallback((): HebrewNumber[] => {
-		if (selectedFilter !== 'All' && filters[selectedFilter]) {
-			return numbers.filter((n) => filters[selectedFilter].includes(n.number))
-		}
-		return numbers
-	}, [selectedFilter, filters, numbers])
+		// Start with filter logic
+		const base =
+			selectedFilter !== 'All' && filters[selectedFilter]
+				? numbers.filter((n) => filters[selectedFilter].includes(n.number))
+				: numbers
+
+		// Remove cards that don't have audio for the chosen form/gender
+		return base.filter((n) => {
+			const audioSrc = getAudioSrc(n, formType, gender)
+			return !!audioSrc
+		})
+	}, [selectedFilter, filters, numbers, formType, gender])
 
 	useEffect(() => {
 		if (gameStarted) {
@@ -177,63 +192,46 @@ export default function HebrewNumberQuiz({
 			setCorrectCount(0)
 			setWrongCount(0)
 			setWrongAnswers([])
-			setWaiting(true)
+			setWaiting(true) // 👈 always reset here, no conditional
 			setPaused(false)
 		}
-	}, [gameStarted, studyMode, buildPool])
+	}, [gameStarted, studyMode]) // 👈 removed waiting
 
 	const currentCard = shuffled[currentIndex]
+	useEffect(() => {
+		console.log('📢 waiting changed:', waiting, ' currentIndex:', currentIndex)
+	}, [waiting, currentIndex])
 
-	// play audio for current form/gender
 	useEffect(() => {
 		if (!gameStarted || finished || !currentCard || studyMode) return
-		let audioSrc: string | undefined | null
-		if (formType === 'cardinal') {
-			audioSrc =
-				gender === 'feminine'
-					? currentCard.audio.fCardinal
-					: currentCard.audio.mCardinal
-		} else if (formType === 'ordinal') {
-			audioSrc =
-				gender === 'feminine'
-					? currentCard.audio.fOrdinal
-					: currentCard.audio.mOrdinal
-		} else if (formType === 'construct') {
-			audioSrc =
-				gender === 'feminine'
-					? currentCard.audio.constructF || currentCard.audio.construct
-					: currentCard.audio.constructM || currentCard.audio.construct
-		}
+		if (waiting) return // 👈 skip while countdown running
+
+		const audioSrc = getAudioSrc(currentCard, formType, gender)
+		console.log('🔊 Playing audio for', currentCard.number, 'src:', audioSrc)
+
 		if (audioSrc) {
+			if (audioRef.current) {
+				audioRef.current.pause()
+				audioRef.current.currentTime = 0
+			}
 			const audio = new Audio(audioSrc)
-			audio.play().catch(() => {})
 			audioRef.current = audio
+			audio.play().catch(() => console.log('⚠️ Failed to play audio'))
 		}
 	}, [
 		gameStarted,
-		currentIndex,
-		studyMode,
 		finished,
+		currentIndex,
 		currentCard,
 		formType,
 		gender,
-	])
+		waiting,
+		studyMode,
+	]) // 👈 include waiting
 
-	function handleResponse(correct: boolean) {
-		if (waiting) return
-		if (correct) setCorrectCount((p) => p + 1)
-		else {
-			setWrongCount((p) => p + 1)
-			if (currentCard) setWrongAnswers((p) => [...p, currentCard])
-		}
-		const last = currentIndex === shuffled.length - 1
-		if (last) {
-			setFinished(true)
-			if (wrongCount + (correct ? 0 : 1) <= 2) setShowConfetti(true)
-		} else {
-			setCurrentIndex((i) => i + 1)
-			setWaiting(true)
-		}
+	function handleCountdownComplete() {
+		console.log('⏳ Countdown complete for card', currentIndex)
+		setWaiting(false)
 	}
 
 	function reset() {
@@ -241,6 +239,34 @@ export default function HebrewNumberQuiz({
 		setStudyMode(false)
 		setFinished(false)
 		setShowConfetti(false)
+	}
+
+	function handleResponse(correct: boolean, force = false) {
+		console.log(
+			'✅ handleResponse fired. correct:',
+			correct,
+			' waiting:',
+			waiting,
+			' index:',
+			currentIndex
+		)
+
+		if (waiting && !force) return
+
+		if (correct) setCorrectCount((p) => p + 1)
+		else {
+			setWrongCount((p) => p + 1)
+			if (currentCard) setWrongAnswers((p) => [...p, currentCard])
+		}
+
+		const last = currentIndex === shuffled.length - 1
+		if (last) {
+			setFinished(true)
+			if (wrongCount + (correct ? 0 : 1) <= 2) setShowConfetti(true)
+		} else {
+			setCurrentIndex((i) => i + 1)
+			setWaiting(true) // 👈 reset for next card
+		}
 	}
 
 	function fontClassNameFor(font: FontChoice) {
@@ -362,15 +388,43 @@ export default function HebrewNumberQuiz({
 		return { text, translit, audio }
 	}
 
+	function getAudioSrc(
+		num: HebrewNumber,
+		formType: FormType,
+		gender: GenderType
+	): string | null {
+		if (!num) return null
+		if (formType === 'cardinal') {
+			return gender === 'feminine'
+				? num.audio.fCardinal || num.audio.cardinal || null
+				: num.audio.mCardinal || num.audio.cardinal || null
+		}
+		if (formType === 'ordinal') {
+			return gender === 'feminine'
+				? num.audio.fOrdinal || num.audio.ordinal || null
+				: num.audio.mOrdinal || num.audio.ordinal || null
+		}
+		if (formType === 'construct') {
+			return gender === 'feminine'
+				? num.audio.constructF || num.audio.construct || null
+				: num.audio.constructM || num.audio.construct || null
+		}
+		return null
+	}
+
 	return (
 		<div className="w-full mx-auto p-6 text-center border rounded-lg shadow relative">
 			{showConfetti && passed && (
-				<ReactConfetti
-					width={width}
-					height={height}
-					recycle={false}
-					numberOfPieces={400}
-				/>
+				<>
+					<ReactConfetti
+						width={width}
+						height={height}
+						recycle={false}
+						numberOfPieces={500}
+						tweenDuration={10000}
+					/>
+					{finishAudio}
+				</>
 			)}
 
 			{/* Back button */}
@@ -603,7 +657,25 @@ export default function HebrewNumberQuiz({
 								: currentCard?.gematria}
 						</div>
 
-						{waiting ? (
+						{waiting && (
+							<CountdownCircle
+								key={`${currentIndex}-${waiting}`} // 🔑 force remount per card
+								seconds={timeLimit}
+								paused={paused}
+								onComplete={handleCountdownComplete}
+							/>
+						)}
+
+						{!waiting && (
+							<button
+								onClick={() => audioRef.current?.play()}
+								className="text-5xl mt-2"
+							>
+								🔊
+							</button>
+						)}
+
+						{/* {waiting ? (
 							<CountdownCircle
 								seconds={timeLimit}
 								paused={paused}
@@ -616,7 +688,7 @@ export default function HebrewNumberQuiz({
 							>
 								🔊
 							</button>
-						)}
+						)} */}
 					</div>
 
 					{/* Self assessment */}
@@ -652,79 +724,4 @@ export default function HebrewNumberQuiz({
 			)}
 		</div>
 	)
-}
-
-// export type GenderedForms = {
-// 	mCardinal?: string
-// 	fCardinal?: string
-// 	mOrdinal?: string
-// 	fOrdinal?: string
-// 	construct?: string | null
-// 	constructF?: string
-// 	constructM?: string
-// }
-
-// export interface HebrewNumber {
-// 	number: number
-// 	audio: GenderedForms & {
-// 		cardinal?: string
-// 		ordinal?: string
-// 	}
-// 	text: GenderedForms & {
-// 		cardinal?: string
-// 		ordinal?: string
-// 	}
-// 	translit: GenderedForms & {
-// 		cardinal?: string
-// 		ordinal?: string
-// 	}
-// 	gematria: string
-// 	categories: ('cardinal' | 'ordinal' | 'construct' | 'biblical')[]
-// 	irregular: {
-// 		hasConstruct: boolean
-// 		genderedConstruct: boolean
-// 	}
-// }
-
-{
-	/* <div>
-	<h2 className="text-xl font-bold mb-4">Study Numbers</h2>
-	<div className="grid grid-cols-2 sm:grid-cols-4 gap-4" dir="rtl">
-		{shuffled.map((num) => (
-			<div
-				key={num.number}
-				className="p-4 border rounded-lg flex flex-col items-center"
-			>
-				<div className="text-5xl font-bold mb-1">{num.number}</div>
-
-				<div
-					className={`text-4xl ${fontClassNameFor(
-						fontChoice
-					)} text-gray-600 mb-2`}
-				>
-					{num.gematria}
-				</div>
-
-				<div className={`text-4xl mb-1 ${fontClassNameFor(fontChoice)}`}>
-					{num.text.mCardinal || num.text.fCardinal || num.text.construct}
-				</div>
-
-				<div className="text-lg italic text-gray-700 mb-2">
-					{num.translit.mCardinal ||
-						num.translit.fCardinal ||
-						num.translit.construct}
-				</div>
-
-				{num.audio.mCardinal && (
-					<button
-						onClick={() => new Audio(num.audio.mCardinal!).play()}
-						className="mt-2 text-blue-500 text-2xl"
-					>
-						🔊
-					</button>
-				)}
-			</div>
-		))}
-	</div>
-</div> */
 }

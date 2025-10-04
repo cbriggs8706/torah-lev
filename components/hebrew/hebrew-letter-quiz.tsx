@@ -139,7 +139,7 @@ export default function HebrewLetterQuiz({
 	const [wrongCount, setWrongCount] = useState(0)
 	const [finished, setFinished] = useState(false)
 	const [wrongAnswers, setWrongAnswers] = useState<HebrewLetter[]>([])
-	const [finishAudio] = useAudio({ src: '/finish.mp3', autoPlay: true })
+	const [finishAudio] = useAudio({ src: '/shofar.mp3', autoPlay: true })
 	const { width, height } = useWindowSize()
 	const [selectedVowel, setSelectedVowels] = useState<string[]>([])
 	const [disabledButtons, setDisabledButtons] = useState(false)

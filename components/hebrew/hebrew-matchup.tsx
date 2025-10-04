@@ -68,7 +68,7 @@ export default function WordMatchGame({
 	)
 	const [showConfetti, setShowConfetti] = useState(false)
 	const [audioEl, state, controls] = useAudio({
-		src: '/finish.mp3',
+		src: '/shofar.mp3',
 		autoPlay: false,
 	})
 	const [shuffledDraggables, setShuffledDraggables] = useState<HebrewVocab[]>(

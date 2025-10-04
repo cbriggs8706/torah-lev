@@ -10,7 +10,7 @@ export function useCelebration() {
 	const audioRef = useRef<HTMLAudioElement | null>(null)
 
 	useEffect(() => {
-		audioRef.current = new Audio('/finish.mp3')
+		audioRef.current = new Audio('/shofar.mp3')
 	}, [])
 
 	function celebrate() {
