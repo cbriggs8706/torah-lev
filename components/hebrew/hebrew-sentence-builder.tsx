@@ -20,17 +20,60 @@ export default function SentenceBuilder({ userId }: SentenceBuilderProps) {
 	const timerRef = useRef<NodeJS.Timeout | null>(null)
 	const { Confetti, celebrate } = useCelebration()
 	const [hasAwardedPoints, setHasAwardedPoints] = useState(false)
+	const [showFilter, setShowFilter] = useState(false)
+	const [selectedLevels, setSelectedLevels] = useState<number[]>([1])
+	const [selectedQuantities, setSelectedQuantities] = useState<string[]>(['s'])
 
-	// --- shuffle phrases once and pick 5 ---
+	// Extract all available levels dynamically
+	const levelOptions = useMemo(
+		() =>
+			Array.from(new Set(phrases.map((p) => p.level))).sort((a, b) => a - b),
+		[]
+	)
+	// --- Filtered Phrase Pool ---
+	const filteredPhrases = useMemo(() => {
+		return phrases.filter((p) => {
+			const levelMatch =
+				selectedLevels.length === 0 || selectedLevels.includes(p.level)
+			const quantityMatch =
+				selectedQuantities.length === 0 ||
+				selectedQuantities.includes(p.quantity)
+			return levelMatch && quantityMatch
+		})
+	}, [selectedLevels, selectedQuantities])
+
+	// Shuffle and pick 5
 	const [phrasePool, setPhrasePool] = useState(() =>
 		[...phrases].sort(() => Math.random() - 0.5).slice(0, 5)
 	)
+
+	useEffect(() => {
+		setPhrasePool(
+			[...filteredPhrases].sort(() => Math.random() - 0.5).slice(0, 5)
+		)
+		setCurrentIndex(0)
+	}, [filteredPhrases])
+
 	const currentPhrase = phrasePool[currentIndex]
 	const verbMatch = currentPhrase.english.match(/\(([^)]+)\)/)
 	const verbWord = verbMatch ? verbMatch[1] : null
 	const displayEnglish = currentPhrase.english.replace(/\s*\([^)]+\)\s*/g, ' ')
-
 	const correctOrder = currentPhrase.hebrew.split(' ')
+
+	// --- Filtered Word Bank ---
+	const filteredVocab = useMemo(() => {
+		return vocab.filter((v) => {
+			const quantityMatch =
+				selectedQuantities.length === 0 ||
+				selectedQuantities.includes(v.quantity)
+
+			const levelMatch =
+				selectedLevels.length === 0 ||
+				(v.levels && v.levels.some((lvl) => selectedLevels.includes(lvl)))
+
+			return quantityMatch && levelMatch
+		})
+	}, [selectedQuantities, selectedLevels])
 
 	// --- Gender colors ---
 	function getGenderColor(gender: string) {
@@ -43,24 +86,35 @@ export default function SentenceBuilder({ userId }: SentenceBuilderProps) {
 	// --- Precompute vocab sections ---
 	const { masculineNouns, feminineNouns, adjectives, demonstratives } =
 		useMemo(() => {
-			const masculineNouns = vocab
+			const masculineNouns = filteredVocab
 				.filter((v) => v.type === 'noun' && v.gender === 'm')
 				.sort((a, b) => a.word.localeCompare(b.word, 'he'))
 
-			const feminineNouns = vocab
+			const feminineNouns = filteredVocab
 				.filter((v) => v.type === 'noun' && v.gender === 'f')
 				.sort((a, b) => a.word.localeCompare(b.word, 'he'))
 
-			const adjectives = vocab
+			const adjectives = filteredVocab
 				.filter((v) => v.type === 'adjective')
 				.sort((a, b) => a.word.localeCompare(b.word, 'he'))
 
-			const demonstratives = vocab
+			const demonstratives = filteredVocab
 				.filter((v) => v.type === 'demonstrative')
 				.sort((a, b) => a.word.localeCompare(b.word, 'he'))
 
 			return { masculineNouns, feminineNouns, adjectives, demonstratives }
-		}, [])
+		}, [filteredVocab])
+
+	const calculatePoints = useCallback(() => {
+		const maxLevel = Math.max(...selectedLevels, 1)
+		const pluralSelected = selectedQuantities.includes('p')
+
+		if (!pluralSelected && maxLevel <= 3) return 1 // single + levels 1-3
+		if (!pluralSelected && maxLevel >= 4) return 2 // single + levels 4-9
+		if (pluralSelected && maxLevel <= 3) return 2 // plural + levels 1-3
+		if (pluralSelected && maxLevel >= 4) return 5 // plural + levels 4-9
+		return 1
+	}, [selectedLevels, selectedQuantities])
 
 	// --- Award Points Helper ---
 	const awardPoints = useCallback(
@@ -87,9 +141,16 @@ export default function SentenceBuilder({ userId }: SentenceBuilderProps) {
 			const shofar = new Audio('/shofar.mp3')
 			shofar.play().catch(console.error)
 
-			awardPoints(1)
+			const points = calculatePoints()
+			awardPoints(points)
 		}
-	}, [completedCount, hasAwardedPoints, celebrate, awardPoints])
+	}, [
+		completedCount,
+		hasAwardedPoints,
+		celebrate,
+		awardPoints,
+		calculatePoints,
+	])
 
 	useEffect(() => {
 		function handleUpdateUserOrder(e: Event) {
@@ -178,6 +239,9 @@ export default function SentenceBuilder({ userId }: SentenceBuilderProps) {
 		setShowFeedback(null)
 		setUserOrder([])
 		setCurrentIndex(0)
+		setSelectedLevels([1])
+		setSelectedQuantities(['s'])
+		setShowFilter(true)
 		setPhrasePool([...phrases].sort(() => Math.random() - 0.5).slice(0, 5))
 	}
 
@@ -193,7 +257,6 @@ export default function SentenceBuilder({ userId }: SentenceBuilderProps) {
 							key={v.id}
 							onClick={() => {
 								if (verbWord) {
-									// Send event so DropAreaWithVerb catches it
 									const event = new CustomEvent('addWordToActiveZone', {
 										detail: v.word,
 									})
@@ -203,13 +266,78 @@ export default function SentenceBuilder({ userId }: SentenceBuilderProps) {
 								}
 							}}
 							disabled={userOrder.includes(v.word)}
-							className={`px-3 py-2 rounded text-2xl sm:text-3xl md:text-4xl font-times border-2 hover:opacity-80 ${
+							className={`px-3 py-2 rounded text-2xl font-times border-2 hover:opacity-80 ${
 								userOrder.includes(v.word)
 									? 'bg-gray-300 border-gray-400 cursor-not-allowed'
 									: getGenderColor(v.gender)
 							}`}
 						>
 							{v.word}
+						</button>
+					))}
+				</div>
+			</div>
+		)
+	}
+
+	// --- Filter UI ---
+	function renderFilters() {
+		return (
+			<div className="space-y-3 mb-4">
+				{/* Levels */}
+				<h2 className="text-xl font-semibold mb-2">Select Levels</h2>
+				<div className="flex flex-wrap justify-center gap-2">
+					<button
+						onClick={() => setSelectedLevels([])}
+						className="px-3 py-1 border rounded-full text-xs bg-red-100 hover:bg-red-200"
+					>
+						Clear All
+					</button>
+					{levelOptions.map((lvl) => (
+						<button
+							key={lvl}
+							onClick={() =>
+								setSelectedLevels((prev) =>
+									prev.includes(lvl)
+										? prev.filter((l) => l !== lvl)
+										: [...prev, lvl]
+								)
+							}
+							className={`px-3 py-1 border rounded-full text-xs ${
+								selectedLevels.includes(lvl)
+									? 'bg-sky-600 text-white'
+									: 'bg-gray-200'
+							}`}
+						>
+							Level {lvl}
+						</button>
+					))}
+				</div>
+
+				{/* Quantities */}
+				<h2 className="text-xl font-semibold mb-2 mt-4">Select Quantity</h2>
+				<div className="flex flex-wrap justify-center gap-2">
+					<button
+						onClick={() => setSelectedQuantities([])}
+						className="px-3 py-1 border rounded-full text-xs bg-red-100 hover:bg-red-200"
+					>
+						Clear All
+					</button>
+					{['s', 'p'].map((q) => (
+						<button
+							key={q}
+							onClick={() =>
+								setSelectedQuantities((prev) =>
+									prev.includes(q) ? prev.filter((x) => x !== q) : [...prev, q]
+								)
+							}
+							className={`px-3 py-1 border rounded-full text-xs ${
+								selectedQuantities.includes(q)
+									? 'bg-sky-600 text-white'
+									: 'bg-gray-200'
+							}`}
+						>
+							{q === 's' ? 'Singular' : 'Plural'}
 						</button>
 					))}
 				</div>
@@ -233,7 +361,11 @@ export default function SentenceBuilder({ userId }: SentenceBuilderProps) {
 					/>
 				</h1>
 				<p className="text-2xl mb-6">
-					You’ve earned <strong>+1 point</strong>!
+					You’ve earned{' '}
+					<strong>
+						+{calculatePoints()} point{calculatePoints() > 1 ? 's' : ''}
+					</strong>
+					!
 				</p>
 				<p className="text-lg text-gray-700 mb-8">
 					Want to try another round? Click below to reshuffle and continue your
@@ -253,9 +385,29 @@ export default function SentenceBuilder({ userId }: SentenceBuilderProps) {
 	return (
 		<div className="p-4 max-w-5xl mx-auto text-center">
 			{Confetti}
+			{/* 🔹 Filter Button */}
+			<div className="mb-6 flex justify-center">
+				<button
+					onClick={() => setShowFilter((prev) => !prev)}
+					className={`px-4 py-2 rounded shadow flex items-center justify-center gap-3 ${
+						showFilter ? 'bg-sky-600 text-white' : 'bg-gray-200'
+					}`}
+				>
+					<Image
+						src="/books-svgrepo-com.svg"
+						alt="Filter icon"
+						width={30}
+						height={30}
+					/>
+					Filter
+				</button>
+			</div>
+
+			{showFilter && renderFilters()}
 
 			{/* Prompt */}
 			<div className="mb-6 p-4 border-2 border-sky-300 bg-sky-50 rounded-xl shadow text-2xl font-bold">
+				{/* Target phrase: &apos;{displayEnglish}&apos; */}
 				Target phrase: &apos;{currentPhrase.english}&apos;
 			</div>
 
