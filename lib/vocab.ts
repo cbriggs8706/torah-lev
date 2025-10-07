@@ -19,6 +19,7 @@ export type HebrewVocab = {
 	strongs?: string
 	type?: string
 	category?: string
+	introduction?: string
 }
 
 export type GreekVocab = {

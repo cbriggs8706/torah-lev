@@ -60,6 +60,7 @@ const FIELD_LABELS: Partial<Record<keyof HebrewVocab, string>> = {
 	engTransliteration: 'English Transliteration',
 	images: 'Image',
 	hebAudio: 'Audio',
+	introduction: 'Video',
 }
 
 const FONT_CLASS_MAP: Record<FontChoice, string> = {
@@ -443,6 +444,57 @@ export default function HebrewFlashcards({
 		return text.replace(/\?/g, '؟') // Arabic-style RTL question mark
 	}
 
+	function convertToEmbedUrl(url: string): string {
+		try {
+			const parsed = new URL(url)
+			const videoId = parsed.pathname.split('/').pop()
+			const start = parsed.searchParams.get('t')?.replace(/\D/g, '') // extract seconds
+			return `https://www.youtube.com/embed/${videoId}?autoplay=1${
+				start ? `&start=${start}` : ''
+			}`
+		} catch {
+			return url
+		}
+	}
+
+	function InlineVideoPlayer({ url }: { url: string }) {
+		const [isPlaying, setIsPlaying] = useState(false)
+		const embedUrl = convertToEmbedUrl(url)
+
+		if (!isPlaying) {
+			return (
+				<button
+					onClick={(e) => {
+						e.stopPropagation()
+						setIsPlaying(true)
+					}}
+					className="flex flex-col items-center gap-1"
+				>
+					<Image
+						src={'/icons/iconYoutube.png'}
+						alt="Play video"
+						width={50}
+						height={50}
+						className="cursor-pointer hover:opacity-80"
+					/>
+					<span className="text-sky-600 text-sm font-semibold">Watch</span>
+				</button>
+			)
+		}
+
+		return (
+			<div className="w-full h-full flex justify-center items-center rounded overflow-hidden">
+				<iframe
+					src={embedUrl}
+					title="YouTube video"
+					className="w-full h-full border-0 rounded object-cover"
+					allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+					allowFullScreen
+				></iframe>
+			</div>
+		)
+	}
+
 	function renderMiniContent(
 		field: keyof HebrewVocab | 'none',
 		isMiddle = false
@@ -491,6 +543,10 @@ export default function HebrewFlashcards({
 					🔊
 				</button>
 			)
+		}
+
+		if (field === 'introduction' && typeof value === 'string') {
+			return <InlineVideoPlayer url={value} />
 		}
 
 		if (Array.isArray(value)) {
@@ -818,9 +874,21 @@ export default function HebrewFlashcards({
 									}
 								>
 									<option value="none">None</option>
-									{allDisplayFields.map((field) => (
+									{/* Explicit list so only these fields are allowed */}
+									{[
+										'heb',
+										'hebNiqqud',
+										'eng',
+										'genderPerson',
+										'partOfSpeech',
+										'ipa',
+										'engTransliteration',
+										'images',
+										'hebAudio',
+										'introduction',
+									].map((field) => (
 										<option key={field} value={field}>
-											{FIELD_LABELS[field] || field}
+											{FIELD_LABELS[field as keyof HebrewVocab] || field}
 										</option>
 									))}
 								</select>
@@ -991,7 +1059,7 @@ export default function HebrewFlashcards({
 						</div>
 
 						{/* Back */}
-						<div className="absolute w-full h-full backface-hidden rotate-y-180 bg-sky-100 border rounded-xl p-2 sm:p-6 grid grid-rows-3 grid-cols-3 gap-1">
+						<div className="absolute w-full h-full backface-hidden rotate-y-180 bg-sky-100 border rounded-xl p-2 sm:p-6 grid grid-rows-[auto,1fr,auto] grid-cols-[0.5fr,2fr,0.5fr] gap-1">
 							{/* Top Row */}
 							<div className="text-md font-nunito text-left">
 								{renderMiniContent(backTopLeft, false)}

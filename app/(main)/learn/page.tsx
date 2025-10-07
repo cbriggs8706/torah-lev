@@ -19,6 +19,7 @@ import { Header } from './header'
 import { Calendar } from '@/components/ui/calendar'
 import { GoalWrapper } from '@/components/goal-wrapper'
 import { DismissibleAlert } from '@/components/dismissible-alert'
+import FirstVisitModal from '@/components/first-visit-modal'
 
 const LearnPage = async () => {
 	const userProgressData = getUserProgress()
@@ -93,22 +94,19 @@ const LearnPage = async () => {
 					userChallengeData={userChallengeData}
 				/>
 			</StickyWrapper> */}
+			<FirstVisitModal />
+
 			<FeedWrapper>
 				<Header title={userProgress.activeCourse.title} />
 				<DismissibleAlert storageKey="learnpage-main-alert" className="mb-4">
-					This is the main section of the app. You could stay here and never do
-					the rest of the activities if you&apos;d like. There may be occasional
-					resets to lesson progress/points. Don&apos;t worry about marking off
-					all the previous lessons right now. I&apos;ll let you know when it is
-					clear. Click on the x in the upper right hand corner to dismiss any of
-					these notices across the site.
+					Click on the x in the upper right hand corner of this box to dismiss
+					any of these notices across the site.
 				</DismissibleAlert>
 
 				<DismissibleAlert storageKey="learnpage-lessons-alert" className="mb-4">
-					Each lesson will have 1-3 videos and some quiz questions to check
-					comprehension of new vocabulary and principles. For additional
-					practice tap the menu button in the upper left corner to view other
-					activities.
+					Each lesson in this main &apos;Learn&apos; section will have 1-3
+					videos and quick quizzes. For additional learning activities and games
+					tap the menu button in the upper left corner.
 				</DismissibleAlert>
 				<GoalWrapper
 					units={units}

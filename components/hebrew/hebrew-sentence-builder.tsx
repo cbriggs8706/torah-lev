@@ -291,7 +291,13 @@ export default function SentenceBuilder({ userId }: SentenceBuilderProps) {
 						onClick={() => setSelectedLevels([])}
 						className="px-3 py-1 border rounded-full text-xs bg-red-100 hover:bg-red-200"
 					>
-						Clear All
+						Clear
+					</button>
+					<button
+						onClick={() => setSelectedLevels(levelOptions)}
+						className="px-3 py-1 border rounded-full text-xs bg-green-100 hover:bg-green-200"
+					>
+						All
 					</button>
 					{levelOptions.map((lvl) => (
 						<button
@@ -321,7 +327,13 @@ export default function SentenceBuilder({ userId }: SentenceBuilderProps) {
 						onClick={() => setSelectedQuantities([])}
 						className="px-3 py-1 border rounded-full text-xs bg-red-100 hover:bg-red-200"
 					>
-						Clear All
+						Clear
+					</button>
+					<button
+						onClick={() => setSelectedQuantities(['s', 'p'])}
+						className="px-3 py-1 border rounded-full text-xs bg-green-100 hover:bg-green-200"
+					>
+						Both
 					</button>
 					{['s', 'p'].map((q) => (
 						<button

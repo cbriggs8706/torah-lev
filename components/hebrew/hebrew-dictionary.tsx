@@ -5,6 +5,7 @@ import { HebrewVocab } from '@/lib/vocab'
 import Image from 'next/image'
 import FemaleIcon from '@/public/female-sign-svgrepo-com.svg'
 import MaleIcon from '@/public/male-sign-svgrepo-com.svg'
+import { PlayCircle } from 'lucide-react'
 
 interface DictionaryProps {
 	data: HebrewVocab[]
@@ -134,6 +135,7 @@ export default function HebrewDictionary({ data }: DictionaryProps) {
 		'alphabetical'
 	)
 	const audioRefs = useRef<Record<number, HTMLAudioElement>>({})
+	const [videoUrl, setVideoUrl] = useState<string | null>(null)
 
 	const grouped = useMemo(() => {
 		const byLetter: Record<string, HebrewVocab[]> = {}
@@ -153,6 +155,20 @@ export default function HebrewDictionary({ data }: DictionaryProps) {
 
 		return byLetter
 	}, [data])
+
+	function convertToEmbedUrl(url: string): string {
+		try {
+			const parsed = new URL(url)
+			const videoId = parsed.pathname.split('/').pop()
+			const start = parsed.searchParams.get('t')?.replace(/\D/g, '') // extract seconds
+			return `https://www.youtube.com/embed/${videoId}?autoplay=1${
+				start ? `&start=${start}` : ''
+			}`
+		} catch {
+			return url
+		}
+	}
+
 	function getLessonRange(num: number): string {
 		const start = Math.floor((num - 1) / 10) * 10 + 1
 		const end = start + 9
@@ -160,53 +176,42 @@ export default function HebrewDictionary({ data }: DictionaryProps) {
 	}
 
 	const groupedByLessonRange = useMemo(() => {
-		const byRange: Record<string, HebrewVocab[]> = {}
+		const byRange: Record<string, Record<number, HebrewVocab[]>> = {}
 
 		for (const word of data) {
 			if (!Array.isArray(word.lessons)) continue
 
-			const validLessonNum = word.lessons
-				.map((lesson) => {
-					const n = getLessonNumberFromString(lesson)
-					if (n === null) console.warn('Unparsed lesson:', lesson)
-					return n
-				})
-				.filter((n): n is number => n !== null)
-				.sort((a, b) => b - a)[0]
+			for (const lessonStr of word.lessons) {
+				const n = getLessonNumberFromString(lessonStr)
+				if (n === null) continue
 
-			if (validLessonNum === undefined) continue
+				const range = getLessonRange(n)
+				if (!byRange[range]) byRange[range] = {}
+				if (!byRange[range][n]) byRange[range][n] = []
 
-			const range = getLessonRange(validLessonNum)
-			if (!byRange[range]) byRange[range] = []
-			byRange[range].push(word)
+				// Avoid duplicates (same word appearing twice in same lesson)
+				if (!byRange[range][n].some((w) => w.id === word.id)) {
+					byRange[range][n].push(word)
+				}
+			}
 		}
 
-		// Sort inside each range
-		// ✅ CORRECT
+		// Sort inside each lesson numerically & alphabetically
 		for (const range in byRange) {
-			byRange[range].sort((a, b) => {
-				const aNums =
-					a.lessons
-						?.map(getLessonNumberFromString)
-						.filter((n): n is number => n !== null) ?? []
-				const bNums =
-					b.lessons
-						?.map(getLessonNumberFromString)
-						.filter((n): n is number => n !== null) ?? []
-
-				const aMin = Math.min(...aNums)
-				const bMin = Math.min(...bNums)
-
-				if (aMin !== bMin) return aMin - bMin
-				return stripHebrewMarks(a.heb).localeCompare(
-					stripHebrewMarks(b.heb),
-					'he'
+			for (const lesson in byRange[range]) {
+				byRange[range][lesson].sort((a, b) =>
+					stripHebrewMarks(a.heb).localeCompare(stripHebrewMarks(b.heb), 'he')
 				)
-			})
+			}
 		}
 
 		return byRange
 	}, [data])
+
+	// Reset expandedId whenever visible lesson groups change
+	useEffect(() => {
+		setExpandedId(null)
+	}, [groupedByLessonRange, sortMode])
 
 	function playAudio(id: number, src: string | undefined) {
 		if (!src) return
@@ -248,6 +253,11 @@ export default function HebrewDictionary({ data }: DictionaryProps) {
 		return () => observer.disconnect()
 	}, [sortMode])
 
+	function sortLessonRanges(a: string, b: string) {
+		const getStart = (r: string) => parseInt(r.split('-')[0], 10)
+		return getStart(a) - getStart(b)
+	}
+
 	function renderEntry(entry: HebrewVocab) {
 		return (
 			<div
@@ -269,6 +279,24 @@ export default function HebrewDictionary({ data }: DictionaryProps) {
 								aria-label="Play Hebrew audio"
 							>
 								🔊
+							</button>
+						)}
+						{entry.introduction && (
+							<button
+								onClick={(e) => {
+									e.stopPropagation()
+									setVideoUrl(entry.introduction!)
+								}}
+								className="flex items-center gap-2 text-sky-600 hover:text-sky-800 transition"
+								aria-label="Watch Introduction"
+							>
+								<Image
+									src={'/icons/iconYoutube.png'}
+									alt="YouTube"
+									width={24}
+									height={24}
+									className="inline-block"
+								/>
 							</button>
 						)}
 						<div className="ml-auto flex items-center gap-6">
@@ -325,17 +353,14 @@ export default function HebrewDictionary({ data }: DictionaryProps) {
 							<strong>Strongs:</strong> {entry.strongs}
 						</p>
 					)}
-					{/* {entry.scriptures?.length > 0 && (
-						<p>
-							<strong>Scriptures:</strong> {entry.scriptures.join('; ')}
-						</p>
-					)} */}
+
 					{entry.lessons?.length > 0 && (
 						<p>
 							<strong>Lesson:</strong>{' '}
-							{entry.lessons.map((l) => l.slice(3)).join(', ')}
+							{entry.lessons.map((l) => l.replace(/\D+/g, '')).join(', ')}
 						</p>
 					)}
+
 					{entry.dictionaryUrl && (
 						<p>
 							<a
@@ -423,43 +448,36 @@ export default function HebrewDictionary({ data }: DictionaryProps) {
 					</>
 				) : (
 					<>
-						{Object.entries(groupedByLessonRange).map(([range, entries]) => {
-							// Group entries by individual lesson number
-							const byLesson: Record<number, HebrewVocab[]> = {}
-							for (const entry of entries) {
-								const num = getLessonNumberFromString(entry.lessons?.[0])
-								if (num === null) continue
-								if (!byLesson[num]) byLesson[num] = []
-								byLesson[num].push(entry)
-							}
+						{Object.entries(groupedByLessonRange)
+							.sort(([a], [b]) => sortLessonRanges(a, b))
+							.map(([range, lessons]) => {
+								const sortedLessons = Object.keys(lessons)
+									.map(Number)
+									.sort((a, b) => a - b)
 
-							const sortedLessons = Object.keys(byLesson)
-								.map(Number)
-								.sort((a, b) => a - b)
+								return (
+									<div
+										key={range}
+										id={`range-${range}`}
+										className="mb-4 scroll-mt-16"
+									>
+										<h2 className="text-3xl font-bold text-white text-right pr-4 rounded-md bg-sky-600 my-6">
+											Lessons {range}
+										</h2>
 
-							return (
-								<div
-									key={range}
-									id={`range-${range}`}
-									className="mb-4 scroll-mt-16"
-								>
-									<h2 className="text-3xl font-bold text-white text-right pr-4 rounded-md bg-sky-600 my-6">
-										Lessons {range}
-									</h2>
-
-									{sortedLessons.map((lessonNum) => (
-										<div key={lessonNum} className="mb-6">
-											<h3 className="text-2xl font-bold text-right pr-4 text-white bg-sky-400 rounded-t-md">
-												Lesson {lessonNum}
-											</h3>
-											<div className="space-y-1 bg-white rounded-b-md shadow">
-												{byLesson[lessonNum].map(renderEntry)}
+										{sortedLessons.map((lessonNum) => (
+											<div key={lessonNum} className="mb-6">
+												<h3 className="text-2xl font-bold text-right pr-4 text-white bg-sky-400 rounded-t-md">
+													Lesson {lessonNum}
+												</h3>
+												<div className="space-y-1 bg-white rounded-b-md shadow">
+													{lessons[lessonNum].map(renderEntry)}
+												</div>
 											</div>
-										</div>
-									))}
-								</div>
-							)
-						})}
+										))}
+									</div>
+								)
+							})}
 					</>
 				)}
 			</div>
@@ -482,7 +500,7 @@ export default function HebrewDictionary({ data }: DictionaryProps) {
 							</a>
 					  ))
 					: Object.keys(groupedByLessonRange)
-							.sort((a, b) => parseInt(a) - parseInt(b))
+							.sort(sortLessonRanges)
 							.map((range) => (
 								<a
 									key={range}
@@ -493,6 +511,34 @@ export default function HebrewDictionary({ data }: DictionaryProps) {
 								</a>
 							))}
 			</div>
+			{videoUrl && (
+				<div
+					className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50"
+					onClick={() => setVideoUrl(null)}
+				>
+					<div
+						className="relative bg-white rounded-lg shadow-lg w-[90%] max-w-3xl"
+						onClick={(e) => e.stopPropagation()}
+					>
+						<button
+							onClick={() => setVideoUrl(null)}
+							className="absolute top-2 right-2 text-gray-600 hover:text-black text-2xl"
+						>
+							✕
+						</button>
+						<div className="aspect-video w-full rounded-b-lg overflow-hidden">
+							<iframe
+								src={convertToEmbedUrl(videoUrl)}
+								title="YouTube video player"
+								className="w-full h-full border-0"
+								allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+								allowFullScreen
+							></iframe>
+						</div>
+					</div>
+				</div>
+			)}
+
 			<button
 				onClick={scrollToTop}
 				className="fixed bottom-4 right-4 z-50 bg-sky-600 hover:bg-sky-600 text-white px-3 py-2 rounded-full shadow-lg transition"
