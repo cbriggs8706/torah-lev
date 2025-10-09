@@ -95,6 +95,13 @@ export const englishLessonScripts = pgTable('english_lesson_scripts', {
 	audioSrc: text('audio_src'),
 })
 
+export const englishSlides = pgTable('english_slides', {
+	id: serial('id').primaryKey(),
+	lessonId: text('lesson_id').notNull().default(''),
+	googleUrl: text('google-url').notNull().default(''),
+	lessonNumber: text('lesson_number').notNull().default(''),
+})
+
 // export const lessonScriptsRelations = relations(lessonScripts, ({ one }) => ({
 // 	lesson: one(lessons, {
 // 		fields: [lessonScripts.lessonId],

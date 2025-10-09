@@ -227,6 +227,16 @@ export default function SidebarClient({
 						/>
 					</>
 				)}
+				{[3, 4, 16].includes(userProgress?.activeCourse.id) && (
+					<>
+						<SidebarItem
+							label="Slides"
+							href="/en/slides"
+							iconSrc="/input-latin-letters-svgrepo-com.svg"
+							onClick={onItemClick}
+						/>
+					</>
+				)}
 				{[13, 17].includes(userProgress?.activeCourse.id) && (
 					<>
 						<SidebarItem

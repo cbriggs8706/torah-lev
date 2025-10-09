@@ -24,6 +24,7 @@ import {
 	hebrewLessonScripts,
 	greekLessonScripts,
 	englishLessonScripts,
+	englishSlides,
 	grammarLessons,
 	tribes,
 	units,
@@ -317,6 +318,20 @@ export const getEnglishLessonScripts = async () => {
 
 	return rows
 }
+export const getEnglishSlideDecks = async () => {
+	const rows = await db
+		.select({
+			id: englishSlides.id,
+			lessonId: englishSlides.lessonId,
+			googleUrl: englishSlides.googleUrl,
+			lessonNumber: englishSlides.lessonNumber,
+			lessonTitle: lessons.title,
+		})
+		.from(englishSlides)
+		.innerJoin(lessons, sql`${englishSlides.lessonId}::int = ${lessons.id}`)
+
+	return rows
+}
 
 // export const getEnglishLessonScripts = async (prefix?: string) => {
 // 	const whereParts = [
@@ -348,6 +363,11 @@ export const getEnglishLessonScripts = async () => {
 export async function getEnglishLessonScript(lessonScriptId: number) {
 	return db.query.englishLessonScripts.findFirst({
 		where: eq(englishLessonScripts.id, lessonScriptId),
+	})
+}
+export async function getEnglishSlideDeck(slideDeckId: number) {
+	return db.query.englishSlides.findFirst({
+		where: eq(englishSlides.id, slideDeckId),
 	})
 }
 
