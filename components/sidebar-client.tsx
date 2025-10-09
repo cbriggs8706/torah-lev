@@ -232,7 +232,7 @@ export default function SidebarClient({
 						<SidebarItem
 							label="Slides"
 							href="/en/slides"
-							iconSrc="/input-latin-letters-svgrepo-com.svg"
+							iconSrc="/framed-picture-svgrepo-com.svg"
 							onClick={onItemClick}
 						/>
 					</>

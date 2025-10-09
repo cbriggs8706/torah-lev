@@ -5,8 +5,9 @@ import { Button } from '../ui/button'
 
 type SlideDeck = {
 	id: number
-	googleUrl: string | null
-	lessonId: string | null
+	googleUrl: string
+	lessonId: string
+	lessonNumber: string
 }
 
 export default function SlideDeckViewer({
@@ -25,6 +26,10 @@ export default function SlideDeckViewer({
 
 	return (
 		<div className="flex flex-col w-full h-[calc(100vh-4rem)]">
+			<h2 className="text-4xl font-bold text-center">
+				Lesson {slideDeck.lessonNumber} Slide Deck
+			</h2>
+
 			{/* Back Button */}
 			<div className="p-4 flex justify-center">
 				<Button

@@ -31,6 +31,8 @@ const EnglishLessonScriptsPage = async () => {
 		17: 'LR',
 		13: 'EwB',
 		16: 'EfW',
+		3: 'EC1',
+		4: 'EC2',
 	}
 
 	const prefix = coursePrefixes[userProgress.activeCourse.id] // may be undefined

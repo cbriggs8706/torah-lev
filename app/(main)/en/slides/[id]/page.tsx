@@ -20,7 +20,7 @@ export default async function EnglishSlideDeckPage({
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">
 					<Image
-						src="/spiral-notepad-svgrepo-com.svg"
+						src="/framed-picture-svgrepo-com.svg"
 						alt="Slide Deck"
 						height={90}
 						width={90}

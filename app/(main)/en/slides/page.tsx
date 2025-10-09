@@ -31,6 +31,8 @@ const EnglishSlideDecksPage = async () => {
 		17: 'LR',
 		13: 'EwB',
 		16: 'EfW',
+		3: 'EC1',
+		4: 'EC2',
 	}
 
 	const prefix = coursePrefixes[userProgress.activeCourse.id] // may be undefined
@@ -59,7 +61,7 @@ const EnglishSlideDecksPage = async () => {
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">
 					<Image
-						src="/spiral-notepad-svgrepo-com.svg"
+						src="/framed-picture-svgrepo-com.svg"
 						alt="Slide Decks"
 						height={90}
 						width={90}
