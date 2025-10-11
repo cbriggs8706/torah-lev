@@ -5,7 +5,7 @@ import {
 	getUserProgress,
 	getUserSubscription,
 } from '@/db/queries'
-import HebrewLeaderboard from '@/components/hebrew/hebrew-leaderboard'
+import EnglishLeaderboard from '@/components/english/english-leaderboard'
 
 export default async function LeaderboardPage() {
 	const [userProgress, userSubscription] = await Promise.all([
@@ -23,7 +23,7 @@ export default async function LeaderboardPage() {
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
 			<FeedWrapper>
-				<HebrewLeaderboard users={allUsers} />
+				<EnglishLeaderboard users={allUsers} />
 			</FeedWrapper>
 		</div>
 	)

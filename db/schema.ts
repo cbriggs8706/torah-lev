@@ -1,5 +1,5 @@
 import { relations } from 'drizzle-orm'
-import { index } from 'drizzle-orm/mysql-core'
+import { uniqueIndex, index } from 'drizzle-orm/pg-core'
 import {
 	boolean,
 	integer,
@@ -236,6 +236,55 @@ export const userProgressRelations = relations(userProgress, ({ one }) => ({
 		references: [tribes.id],
 	}),
 }))
+
+export const userCourseProgress = pgTable(
+	'user_course_progress',
+	{
+		id: serial('id').primaryKey(),
+
+		userId: text('user_id')
+			.references(() => userProgress.userId, { onDelete: 'cascade' })
+			.notNull(),
+
+		courseId: integer('course_id')
+			.references(() => courses.id, { onDelete: 'cascade' })
+			.notNull(),
+
+		activeLessonId: integer('active_lesson_id').references(() => lessons.id, {
+			onDelete: 'set null',
+		}),
+
+		points: integer('points').notNull().default(0),
+		hearts: integer('hearts').notNull().default(5),
+		completedLessons: integer('completed_lessons').notNull().default(0),
+		lastSeen: timestamp('last_seen').defaultNow().notNull(),
+	},
+	(table) => ({
+		userCourseIdx: index('idx_user_course').on(table.userId, table.courseId),
+		uniquePair: uniqueIndex('uniq_user_course').on(
+			table.userId,
+			table.courseId
+		),
+	})
+)
+
+export const userCourseProgressRelations = relations(
+	userCourseProgress,
+	({ one }) => ({
+		user: one(userProgress, {
+			fields: [userCourseProgress.userId],
+			references: [userProgress.userId],
+		}),
+		course: one(courses, {
+			fields: [userCourseProgress.courseId],
+			references: [courses.id],
+		}),
+		activeLesson: one(lessons, {
+			fields: [userCourseProgress.activeLessonId],
+			references: [lessons.id],
+		}),
+	})
+)
 
 export const userSubscription = pgTable('user_subscription', {
 	id: serial('id').primaryKey(),

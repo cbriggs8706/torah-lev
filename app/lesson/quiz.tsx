@@ -35,6 +35,7 @@ type Props = {
 		  })
 		| null
 	nextLessonId: number | null
+	activeCourseId: number | null
 }
 
 export const Quiz = ({
@@ -44,6 +45,7 @@ export const Quiz = ({
 	initialLessonChallenges,
 	userSubscription,
 	nextLessonId,
+	activeCourseId,
 }: Props) => {
 	const { open: openHeartsModal } = useHeartsModal()
 	const { open: openPracticeModal } = usePracticeModal()
@@ -285,7 +287,14 @@ export const Quiz = ({
 				<Footer
 					lessonId={lessonId}
 					status="completed"
-					onCheck={() => router.push('/learn')}
+					onCheck={() => {
+						if ([6, 11, 14].includes(activeCourseId ?? -1))
+							router.push('/he/learn')
+						else if ([3, 4, 13, 16, 17].includes(activeCourseId ?? -1))
+							router.push('/en/learn')
+						else if (activeCourseId === 2) router.push('/es/learn')
+						else if (activeCourseId === 12) router.push('/el/learn')
+					}}
 				/>
 			</>
 		)

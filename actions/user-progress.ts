@@ -18,69 +18,65 @@ import {
 	challenges,
 	tribes,
 	userProgress,
+	userCourseProgress,
 } from '@/db/schema'
 
 export const upsertUserProgress = async (courseId: number) => {
-	const { userId } = await auth()
-	const user = await currentUser()
+	try {
+		console.log('🟦 Upserting user progress for courseId:', courseId)
+		const { userId } = await auth()
+		const user = await currentUser()
+		if (!userId || !user) throw new Error('Unauthorized')
 
-	if (!userId || !user) {
-		throw new Error('Unauthorized')
-	}
+		const course = await getCourseById(courseId)
+		if (!course) throw new Error('Course not found')
+		if (!course.units?.length || !course.units[0]?.lessons?.length)
+			throw new Error('Course has no lessons yet')
 
-	const course = await getCourseById(courseId)
+		const existingUserProgress = await getUserProgress()
 
-	if (!course) {
-		throw new Error('Course not found')
-	}
+		const usernameToUse =
+			existingUserProgress?.userName && existingUserProgress.userName !== 'User'
+				? existingUserProgress.userName
+				: user.username || 'User'
 
-	if (!course.units.length || !course.units[0].lessons.length) {
-		throw new Error('Course is empty')
-	}
+		const avatarToUse =
+			existingUserProgress?.userImageSrc &&
+			existingUserProgress.userImageSrc !== '/mascot.svg'
+				? existingUserProgress.userImageSrc
+				: user.imageUrl || '/mascot.svg'
 
-	const existingUserProgress = await getUserProgress()
-
-	// Check if the username and avatar have been manually set
-	const currentUserProgress = existingUserProgress?.userName
-	const currentUserAvatar = existingUserProgress?.userImageSrc
-
-	// Determine the username to use
-	const usernameToUse =
-		currentUserProgress && currentUserProgress !== 'User'
-			? currentUserProgress // Keep the manually updated username
-			: user.username || 'User' // Default to Clerk's username if not manually updated
-
-	// Determine the avatar to use
-	const avatarToUse =
-		currentUserAvatar && currentUserAvatar !== '/mascot.svg'
-			? currentUserAvatar // Keep the manually updated avatar
-			: user.imageUrl || '/mascot.svg' // Default to Clerk's avatar if not manually updated
-
-	if (existingUserProgress) {
+		// 1️⃣ Update global user_progress (switch active course)
 		await db
 			.update(userProgress)
 			.set({
 				activeCourseId: courseId,
-				userName: usernameToUse, // Use the determined username
-				userImageSrc: avatarToUse, // Use the determined avatar
+				userName: usernameToUse,
+				userImageSrc: avatarToUse,
 			})
 			.where(eq(userProgress.userId, userId))
 
+		// 2️⃣ Ensure user_course_progress record exists
+		//    (but do NOT copy points/hearts from another course)
+		await db
+			.insert(userCourseProgress)
+			.values({
+				userId,
+				courseId,
+				activeLessonId: null,
+				points: 0,
+				hearts: 5,
+				lastSeen: new Date(),
+			})
+			.onConflictDoNothing() // if it already exists, leave it alone
+
 		revalidatePath('/courses')
 		revalidatePath('/learn')
-		redirect('/learn')
+		return redirect('/learn')
+	} catch (error) {
+		console.error('Error in upsertUserProgress:', error)
+		throw error
 	}
-
-	await db.insert(userProgress).values({
-		userId,
-		activeCourseId: courseId,
-		userName: usernameToUse, // Use the determined username
-		userImageSrc: avatarToUse, // Use the determined avatar
-	})
-
-	revalidatePath('/courses')
-	revalidatePath('/learn')
-	redirect('/learn')
 }
 
 export const reduceHearts = async (challengeId: number) => {

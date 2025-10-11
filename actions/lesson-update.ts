@@ -3,7 +3,12 @@
 import { auth } from '@clerk/nextjs/server'
 import { eq } from 'drizzle-orm'
 import db from '@/db/drizzle'
-import { userProgress, challengeProgress, units } from '@/db/schema'
+import {
+	userProgress,
+	userCourseProgress,
+	challengeProgress,
+	units,
+} from '@/db/schema'
 
 export const updateActiveLesson = async () => {
 	const { userId } = await auth()
@@ -14,7 +19,7 @@ export const updateActiveLesson = async () => {
 	})
 	if (!user?.activeCourseId) return
 
-	// Get all lessons ordered by unit.order + lesson.order
+	// 🧭 Get all lessons in the active course
 	const unitsInActiveCourse = await db.query.units.findMany({
 		where: eq(units.courseId, user.activeCourseId),
 		orderBy: (units, { asc }) => [asc(units.order)],
@@ -34,32 +39,47 @@ export const updateActiveLesson = async () => {
 		},
 	})
 
-	// Flatten and preserve lesson order
 	const allLessons = unitsInActiveCourse.flatMap((unit) => unit.lessons)
 
-	// Find first uncompleted lesson index
+	// 🧩 Determine which lesson to set as “active”
 	const firstUncompletedIndex = allLessons.findIndex((lesson) =>
 		lesson.challenges.some(
 			(challenge) =>
 				!challenge.challengeProgress ||
 				challenge.challengeProgress.length === 0 ||
-				challenge.challengeProgress.some((progress) => !progress.completed)
+				challenge.challengeProgress.some((p) => !p.completed)
 		)
 	)
 
 	let lessonIdToSet: number | null = null
 
 	if (firstUncompletedIndex === -1) {
-		// All lessons completed — set to last lesson
+		// all lessons done → last lesson
 		lessonIdToSet = allLessons.at(-1)?.id ?? null
 	} else if (firstUncompletedIndex > 0) {
-		// Set to lesson before the first uncompleted
+		// mark previous lesson as active
 		lessonIdToSet = allLessons[firstUncompletedIndex - 1].id
 	}
-	// Else: first lesson is uncompleted, so lessonIdToSet remains null
+	// else: leave null if very first lesson uncompleted
 
+	// ✅ Update only per-course table (not global user_progress)
 	await db
-		.update(userProgress)
-		.set({ activeLessonId: lessonIdToSet, lastSeen: new Date() })
-		.where(eq(userProgress.userId, userId))
+		.insert(userCourseProgress)
+		.values({
+			userId,
+			courseId: user.activeCourseId,
+			activeLessonId: lessonIdToSet,
+			lastSeen: new Date(),
+		})
+		.onConflictDoUpdate({
+			target: [userCourseProgress.userId, userCourseProgress.courseId],
+			set: {
+				activeLessonId: lessonIdToSet,
+				lastSeen: new Date(),
+			},
+		})
+
+	console.log(
+		`✅ Updated activeLessonId=${lessonIdToSet} for user ${userId}, course ${user.activeCourseId}`
+	)
 }

@@ -29,6 +29,7 @@ import {
 	tribes,
 	units,
 	userProgress,
+	userCourseProgress,
 	userSubscription,
 	hebrewMusicLibrary,
 	hebrewMusicLine,
@@ -37,45 +38,79 @@ import {
 } from '@/db/schema'
 import { tr } from 'date-fns/locale'
 
-export const getUserProgress = cache(async () => {
+export async function getUserProgress() {
 	const { userId } = await auth()
+	if (!userId) return null
 
-	if (!userId) {
-		console.warn('⚠️ No userId found in getUserProgress')
-
-		return null
-	}
-
-	// Try to get existing progress
-	let progress = await db.query.userProgress.findFirst({
+	// Pull their global progress (activeCourseId, profile info)
+	const baseProgress = await db.query.userProgress.findFirst({
 		where: eq(userProgress.userId, userId),
 		with: {
-			activeCourse: true,
+			activeCourse: true, // assuming you have relation set up
 		},
 	})
 
-	// If not found, seed default progress
-	if (!progress) {
-		const clerk = await clerkClient()
+	if (!baseProgress) return null
 
-		const user = await clerk.users.getUser(userId)
-		console.log('user', user)
-		await db.insert(userProgress).values({
-			userId,
-			userName: user?.username ?? 'Anonymous',
-			activeCourseId: 6,
-		})
-
-		progress = await db.query.userProgress.findFirst({
-			where: eq(userProgress.userId, userId),
-			with: {
-				activeCourse: true,
-			},
+	// Pull course-specific progress for activeCourseId
+	let courseProgress = null
+	if (baseProgress.activeCourseId) {
+		courseProgress = await db.query.userCourseProgress.findFirst({
+			where: and(
+				eq(userCourseProgress.userId, userId),
+				eq(userCourseProgress.courseId, baseProgress.activeCourseId)
+			),
 		})
 	}
 
-	return progress
-})
+	// Merge the data — fallback to zeros if no course row yet
+	return {
+		...baseProgress,
+		points: courseProgress?.points ?? 0,
+		hearts: courseProgress?.hearts ?? 5,
+		activeLessonId: courseProgress?.activeLessonId ?? null,
+		lastSeen: courseProgress?.lastSeen ?? null,
+	}
+}
+// export const getUserProgress = cache(async () => {
+// 	const { userId } = await auth()
+
+// 	if (!userId) {
+// 		console.warn('⚠️ No userId found in getUserProgress')
+
+// 		return null
+// 	}
+
+// 	// Try to get existing progress
+// 	let progress = await db.query.userProgress.findFirst({
+// 		where: eq(userProgress.userId, userId),
+// 		with: {
+// 			activeCourse: true,
+// 		},
+// 	})
+
+// 	// If not found, seed default progress
+// 	if (!progress) {
+// 		const clerk = await clerkClient()
+
+// 		const user = await clerk.users.getUser(userId)
+// 		console.log('user', user)
+// 		await db.insert(userProgress).values({
+// 			userId,
+// 			userName: user?.username ?? 'Anonymous',
+// 			activeCourseId: 6,
+// 		})
+
+// 		progress = await db.query.userProgress.findFirst({
+// 			where: eq(userProgress.userId, userId),
+// 			with: {
+// 				activeCourse: true,
+// 			},
+// 		})
+// 	}
+
+// 	return progress
+// })
 
 export const getUnits = cache(async () => {
 	const { userId } = await auth()
@@ -467,6 +502,27 @@ export const getTopTwentyUsers = cache(async () => {
 		.orderBy(desc(userProgress.points))
 		.limit(20)
 })
+
+// 🆕 NEW: Per-course leaderboard using user_course_progress
+export const getTopTwentyUsersByCourse = async (courseId: number) => {
+	return await db
+		.select({
+			userId: userCourseProgress.userId,
+			userName: userProgress.userName,
+			userImageSrc: userProgress.userImageSrc,
+			points: userCourseProgress.points,
+			hearts: userCourseProgress.hearts,
+			lastSeen: userCourseProgress.lastSeen,
+			activeLessonNumber: lessons.lessonNumber,
+			courseId: userCourseProgress.courseId,
+		})
+		.from(userCourseProgress)
+		.innerJoin(userProgress, eq(userCourseProgress.userId, userProgress.userId))
+		.leftJoin(lessons, eq(userCourseProgress.activeLessonId, lessons.id))
+		.where(eq(userCourseProgress.courseId, courseId))
+		.orderBy(desc(userCourseProgress.points))
+		.limit(20)
+}
 
 export async function getPrayerWithLines(prayerId: number) {
 	return db.query.hebrewPrayerLibrary.findFirst({

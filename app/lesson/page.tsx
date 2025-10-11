@@ -35,7 +35,7 @@ const LessonPage = async () => {
 	const currentIndex = allLessons.findIndex((l) => l.id === lesson.id)
 	const nextLesson = allLessons[currentIndex - 1]
 	// const nextLesson = allLessons[currentIndex + 1]
-
+	console.log('activeCourseId', userProgress?.activeCourseId)
 	return (
 		<Quiz
 			initialLessonId={lesson.id}
@@ -44,6 +44,7 @@ const LessonPage = async () => {
 			initialPercentage={initialPercentage}
 			userSubscription={userSubscription}
 			nextLessonId={nextLesson?.id ?? null}
+			activeCourseId={userProgress?.activeCourseId}
 		/>
 	)
 }

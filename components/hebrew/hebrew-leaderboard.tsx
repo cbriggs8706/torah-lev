@@ -19,12 +19,10 @@ const parseLessonNumber = (lesson: string | null): number => {
 	return base
 }
 
-export default async function HebrewLeaderboard() {
-	const [leaderboard, tribeLeaderboardData] = await Promise.all([
-		getTopTwentyUsers(),
-		getTribeLeaderboard(),
-	])
+export default async function HebrewLeaderboard({ users }: { users: any[] }) {
+	const [tribeLeaderboardData] = await Promise.all([getTribeLeaderboard()])
 
+	const leaderboard = users || []
 	// Guard: nothing to show
 	if (!leaderboard?.length) {
 		return (

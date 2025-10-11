@@ -16,8 +16,8 @@ const parseLessonNumber = (lesson: string | null): number => {
 	return base
 }
 
-export default async function EnglishLeaderboard() {
-	const leaderboard = await getTopTwentyUsers()
+export default async function EnglishLeaderboard({ users }: { users: any[] }) {
+	const leaderboard = users || []
 
 	const maxPoints = Math.max(...leaderboard.map((u: any) => u.points || 0), 0)
 	const maxLesson = Math.max(
