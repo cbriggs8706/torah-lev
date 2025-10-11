@@ -1,11 +1,5 @@
 import { redirect } from 'next/navigation'
-
-// import { Promo } from '@/components/promo'
-import { Quests } from '@/components/quests'
 import { FeedWrapper } from '@/components/feed-wrapper'
-import { UserProgress } from '@/components/user-progress'
-import { StickyWrapper } from '@/components/sticky-wrapper'
-import { lessons, units as unitsSchema } from '@/db/schema'
 import {
 	getCourseProgress,
 	getLessonPercentage,
@@ -14,12 +8,11 @@ import {
 	getUserSubscription,
 } from '@/db/queries'
 
-import { Unit } from './unit'
-import { Header } from './header'
 import { Calendar } from '@/components/ui/calendar'
 import { GoalWrapper } from '@/components/goal-wrapper'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 import FirstVisitModal from '@/components/first-visit-modal'
+import { HebrewHeader } from './header'
 
 const HebrewLearnPage = async () => {
 	const userProgressData = getUserProgress()
@@ -78,26 +71,10 @@ const HebrewLearnPage = async () => {
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
-			{/* <StickyWrapper>
-				<UserProgress
-					activeCourse={userProgress.activeCourse}
-					hearts={userProgress.hearts}
-					points={userProgress.points}
-					hasActiveSubscription={isPro}
-				/>
-				{!isPro && (
-          <Promo />
-        )}
-				<Calendar />
-				<Quests
-					points={userProgress.points}
-					userChallengeData={userChallengeData}
-				/>
-			</StickyWrapper> */}
 			<FirstVisitModal />
 
 			<FeedWrapper>
-				<Header title={userProgress.activeCourse.title} />
+				<HebrewHeader title={userProgress.activeCourse.title} />
 				<DismissibleAlert storageKey="learnpage-main-alert" className="mb-4">
 					Click on the x in the upper right hand corner of this box to dismiss
 					any of these notices across the site.
@@ -111,26 +88,8 @@ const HebrewLearnPage = async () => {
 					units={units}
 					courseProgress={userChallengeData}
 					lessonPercentage={lessonPercentage}
+					lang="he"
 				/>
-				{/* {units.map((unit) => (
-					<div key={unit.id} className="mb-10">
-						<Unit
-							id={unit.id}
-							order={unit.order}
-							description={unit.description}
-							title={unit.title}
-							lessons={unit.lessons}
-							activeLesson={
-								courseProgress.activeLesson as
-									| (typeof lessons.$inferSelect & {
-											unit: typeof unitsSchema.$inferSelect
-									  })
-									| undefined
-							}
-							activeLessonPercentage={lessonPercentage}
-						/>
-					</div>
-				))} */}
 			</FeedWrapper>
 		</div>
 	)

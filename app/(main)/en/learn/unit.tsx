@@ -1,8 +1,8 @@
 'use client'
 import { useEffect, useMemo, useState } from 'react'
-import { UnitBanner } from './unit-banner'
-import { LessonButton } from './lesson-button'
 import { lessons as lessonsTbl, units } from '@/db/schema'
+import { EnglishUnitBanner } from './unit-banner'
+import { EnglishLessonButton } from './lesson-button'
 
 type Props = {
 	id: number
@@ -28,7 +28,7 @@ const REVIEW_RANGE_KEY = 'reviewGoalRange'
 const NEW_GOAL_MAP_KEY = 'newGoalDatesByLessonNumber'
 const GOALS_EVENT = 'goals-updated'
 
-export const Unit = (props: Props) => {
+export const EnglishUnit = (props: Props) => {
 	const {
 		title,
 		description,
@@ -107,8 +107,8 @@ export const Unit = (props: Props) => {
 
 	return (
 		<>
-			<UnitBanner title={title} description={description} />
-			<div className="flex items-center flex-col relative mb-12">
+			<EnglishUnitBanner title={title} description={description} />
+			<div className="flex flex-wrap justify-center items-stretch gap-4 my-12 ">
 				{lessons.map((lesson, index) => {
 					const isCurrent = lesson.id === activeLesson?.id
 					const isLocked = false
@@ -135,7 +135,7 @@ export const Unit = (props: Props) => {
 					const targetDate = targetDateFromNew ?? targetDateFromSchedule
 
 					return (
-						<LessonButton
+						<EnglishLessonButton
 							key={lesson.id}
 							id={lesson.id}
 							title={lesson.title}

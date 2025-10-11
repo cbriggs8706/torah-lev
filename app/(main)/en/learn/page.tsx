@@ -14,14 +14,13 @@ import {
 	getUserSubscription,
 } from '@/db/queries'
 
-import { Unit } from './unit'
-import { Header } from './header'
 import { Calendar } from '@/components/ui/calendar'
 import { GoalWrapper } from '@/components/goal-wrapper'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 import FirstVisitModal from '@/components/first-visit-modal'
+import { EnglishHeader } from './header'
 
-const LearnPage = async () => {
+const EnglishLearnPage = async () => {
 	const userProgressData = getUserProgress()
 	const userChallengeData = await getCourseProgress()
 	const courseProgressData = getCourseProgress()
@@ -97,7 +96,7 @@ const LearnPage = async () => {
 			<FirstVisitModal />
 
 			<FeedWrapper>
-				<Header title={userProgress.activeCourse.title} />
+				<EnglishHeader title={userProgress.activeCourse.title} />
 				<DismissibleAlert storageKey="learnpage-main-alert" className="mb-4">
 					Click on the x in the upper right hand corner of this box to dismiss
 					any of these notices across the site.
@@ -112,6 +111,7 @@ const LearnPage = async () => {
 					units={units}
 					courseProgress={userChallengeData}
 					lessonPercentage={lessonPercentage}
+					lang="en"
 				/>
 
 				{/* {units.map((unit) => (
@@ -138,4 +138,4 @@ const LearnPage = async () => {
 	)
 }
 
-export default LearnPage
+export default EnglishLearnPage

@@ -8,7 +8,7 @@ type Props = {
 	description: string
 }
 
-export const UnitBanner = ({ title, description }: Props) => {
+export const HebrewUnitBanner = ({ title, description }: Props) => {
 	return (
 		<div className="w-full rounded-xl bg-sky-600 p-5 text-white flex items-center justify-between">
 			<div className="space-y-2.5">
