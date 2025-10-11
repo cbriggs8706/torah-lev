@@ -21,14 +21,38 @@ export const List = ({ courses, activeCourseId }: Props) => {
 	const onClick = (id: number) => {
 		if (pending) return
 
+		const getLearnPath = (courseId: number) => {
+			if ([6, 11, 14].includes(courseId)) return '/he/learn'
+			if ([3, 4, 13, 16, 17].includes(courseId)) return '/en/learn'
+			if (courseId === 2) return '/es/learn'
+			if (courseId === 12) return '/el/learn'
+			return '/learn'
+		}
+
 		if (id === activeCourseId) {
-			return router.push('/learn')
+			return router.push(getLearnPath(id))
 		}
 
 		startTransition(() => {
-			upsertUserProgress(id).catch(() => toast.error('Something went wrong.'))
+			upsertUserProgress(id)
+				.then(() => {
+					// Optionally redirect immediately after setting progress
+					router.push(getLearnPath(id))
+				})
+				.catch(() => toast.error('Something went wrong.'))
 		})
 	}
+	// const onClick = (id: number) => {
+	// 	if (pending) return
+
+	// 	if (id === activeCourseId) {
+	// 		return router.push('/learn')
+	// 	}
+
+	// 	startTransition(() => {
+	// 		upsertUserProgress(id).catch(() => toast.error('Something went wrong.'))
+	// 	})
+	// }
 
 	return (
 		<div className="pt-6 grid grid-cols-2 lg:grid-cols-[repeat(auto-fill,minmax(210px,1fr))] gap-4">
