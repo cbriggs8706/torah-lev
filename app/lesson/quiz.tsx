@@ -236,10 +236,13 @@ export const Quiz = ({
 		}
 	}
 
-	// TODO Change this to nextLessonId if you want
-	if (!challenge) {
-		updateActiveLesson()
+	useEffect(() => {
+		if (nextLessonId) {
+			updateActiveLesson(nextLessonId)
+		}
+	}, [nextLessonId])
 
+	if (!challenge) {
 		return (
 			<>
 				{finishAudio}

@@ -27,7 +27,7 @@ const EnglishLearnPage = async () => {
 	const lessonPercentageData = getLessonPercentage()
 	const unitsData = getUnits()
 	const userSubscriptionData = getUserSubscription()
-
+	console.log('activeLessonId>>>>>>', userChallengeData)
 	const [
 		userProgress,
 		units,

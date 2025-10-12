@@ -19,30 +19,45 @@ const parseLessonNumber = (lesson: string | null): number => {
 export default async function EnglishLeaderboard({ users }: { users: any[] }) {
 	const leaderboard = users || []
 
-	const maxPoints = Math.max(...leaderboard.map((u: any) => u.points || 0), 0)
-	const maxLesson = Math.max(
-		...leaderboard.map((u: any) =>
-			parseLessonNumber(u.activeLessonNumber || '0')
-		),
-		0
-	)
-
+	// Sort directly by points
 	const scored = leaderboard
-		.map((u: any) => {
-			const np = maxPoints ? (u.points || 0) / maxPoints : 0
-			const nl = maxLesson
-				? parseLessonNumber(u.activeLessonNumber || '0') / maxLesson
-				: 0
-			return { ...u, score: 0.5 * np + 0.5 * nl }
-		})
+		.map((u: any) => ({
+			...u,
+			score: u.points || 0,
+		}))
 		.sort((a: any, b: any) => b.score - a.score)
 
+	// Assign ranks (ties share rank)
 	const ranks: number[] = []
 	scored.forEach((u: any, i: number) => {
 		if (i === 0) ranks.push(1)
 		else if (u.score === scored[i - 1].score) ranks.push(ranks[i - 1])
 		else ranks.push(i + 1)
 	})
+	// const maxPoints = Math.max(...leaderboard.map((u: any) => u.points || 0), 0)
+	// const maxLesson = Math.max(
+	// 	...leaderboard.map((u: any) =>
+	// 		parseLessonNumber(u.activeLessonNumber || '0')
+	// 	),
+	// 	0
+	// )
+
+	// const scored = leaderboard
+	// 	.map((u: any) => {
+	// 		const np = maxPoints ? (u.points || 0) / maxPoints : 0
+	// 		const nl = maxLesson
+	// 			? parseLessonNumber(u.activeLessonNumber || '0') / maxLesson
+	// 			: 0
+	// 		return { ...u, score: 0.5 * np + 0.5 * nl }
+	// 	})
+	// 	.sort((a: any, b: any) => b.score - a.score)
+
+	// const ranks: number[] = []
+	// scored.forEach((u: any, i: number) => {
+	// 	if (i === 0) ranks.push(1)
+	// 	else if (u.score === scored[i - 1].score) ranks.push(ranks[i - 1])
+	// 	else ranks.push(i + 1)
+	// })
 
 	return (
 		<div className="w-full">
@@ -57,7 +72,7 @@ export default async function EnglishLeaderboard({ users }: { users: any[] }) {
 						<th className="px-4 py-2">Rank</th>
 						<th className="px-4 py-2">Avatar</th>
 						<th className="px-4 py-2">Username</th>
-						<th className="px-4 py-2 text-center w-[64px]">Lesson</th>
+						{/* <th className="px-4 py-2 text-center w-[64px]">Lesson</th> */}
 						<th className="px-4 py-2 text-right">Points</th>
 					</tr>
 				</thead>
@@ -73,9 +88,9 @@ export default async function EnglishLeaderboard({ users }: { users: any[] }) {
 								</Avatar>
 							</td>
 							<td className="px-4 py-2 text-neutral-800">{u.userName}</td>
-							<td className="px-4 py-2 text-center">
+							{/* <td className="px-4 py-2 text-center">
 								<Shield lessonNumber={u.activeLessonNumber} />
-							</td>
+							</td> */}
 							<td className="px-4 py-2 text-right text-muted-foreground">
 								{u.points} XP
 							</td>
@@ -97,9 +112,9 @@ export default async function EnglishLeaderboard({ users }: { users: any[] }) {
 						</Avatar>
 						<div className="flex flex-col flex-1">
 							<p className="font-bold">{u.userName}</p>
-							<p>
+							{/* <p>
 								Lesson: {u.activeLessonNumber} | {u.points} XP
-							</p>
+							</p> */}
 						</div>
 					</div>
 				))}

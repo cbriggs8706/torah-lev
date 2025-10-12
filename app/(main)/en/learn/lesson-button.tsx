@@ -38,13 +38,11 @@ export const EnglishLessonButton = ({
 	const isCompleted = !current && completed
 	const isIncompleted = !current && !completed
 
-	console.log('currentLesson', current)
-	console.log('title', title)
-	console.log('lessonNumber', lessonNumber)
 	let Icon
 	if (current) Icon = Star
 	else if (isCompleted) Icon = Check
-	else Icon = LockKeyhole
+	else if (locked) Icon = LockKeyhole
+	else Icon = Star
 
 	const href = `/lesson/${id}`
 	const rawDate = reviewDate ?? targetDate ?? null
@@ -54,7 +52,44 @@ export const EnglishLessonButton = ({
 
 	const displayTitle = title.replace(/^[A-Za-z]+\s*\d*:\s*/, '')
 
-	return (
+	return locked ? (
+		<div
+			className="relative flex flex-col items-center opacity-50 cursor-not-allowed select-none"
+			title="This lesson is locked because it has no activities yet."
+		>
+			<div
+				className={cn(
+					'flex flex-col rounded-xl border border-gray-200 w-[120px] min-h-[220px] text-center overflow-hidden bg-gray-100'
+				)}
+			>
+				<div className="flex flex-col items-center flex-grow p-4">
+					<Button
+						size="rounded"
+						variant="locked"
+						className="h-[70px] w-[70px] border-b-8"
+					>
+						<Icon
+							className={cn(
+								'h-10 w-10',
+								isIncompleted
+									? 'stroke-neutral-400 stroke-[2.5]'
+									: 'fill-primary-foreground text-primary-foreground',
+								isCompleted && 'fill-none stroke-[4]'
+							)}
+						/>
+					</Button>
+					<div className="flex items-baseline gap-1 mt-1 text-gray-800">
+						<span className="text-lg font-nunito">Lesson {lessonNumber}</span>
+					</div>
+
+					{/* TITLE */}
+					<span className="text-xs font-nunito font-semibold mt-1 leading-tight">
+						{displayTitle}
+					</span>
+				</div>
+			</div>
+		</div>
+	) : (
 		<Link href={href}>
 			<div className="relative flex flex-col items-center">
 				{/* Floating start banner */}
@@ -113,7 +148,7 @@ export const EnglishLessonButton = ({
 
 						{/* LESSON NUMBER */}
 						<div className="flex items-baseline gap-1 mt-1 text-gray-800">
-							<span className="text-xl font-nunito">Lesson {lessonNumber}</span>
+							<span className="text-lg font-nunito">Lesson {lessonNumber}</span>
 						</div>
 
 						{/* TITLE */}

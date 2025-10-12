@@ -37,7 +37,6 @@ export const EnglishUnit = (props: Props) => {
 		activeLessonPercentage,
 		schedule,
 	} = props
-
 	const [reviewRange, setReviewRange] = useState<ReviewRange>(null)
 	const [reviewMap, setReviewMap] = useState<Record<number, string>>({})
 	const [newMap, setNewMap] = useState<Record<number, string>>({})
@@ -111,7 +110,10 @@ export const EnglishUnit = (props: Props) => {
 			<div className="flex flex-wrap justify-center items-stretch gap-4 my-12 ">
 				{lessons.map((lesson, index) => {
 					const isCurrent = lesson.id === activeLesson?.id
-					const isLocked = false
+					const hasChallenges =
+						(lesson as any)?.challenges &&
+						(lesson as any)?.challenges.length > 0
+					const isLocked = !hasChallenges
 					// const isLocked = !lesson.completed && !isCurrent
 
 					// 👇 per-lesson review date (if any) from the map

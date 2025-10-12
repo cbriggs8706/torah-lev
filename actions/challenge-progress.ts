@@ -15,10 +15,12 @@ import {
 } from '@/db/schema'
 
 export const upsertChallengeProgress = async (challengeId: number) => {
+	console.log('challengeId', challengeId)
 	const { userId } = await auth()
 	if (!userId) throw new Error('Unauthorized')
 
 	const currentUserProgress = await getUserProgress()
+	console.log('currentUserProgress', currentUserProgress)
 	const userSubscription = await getUserSubscription()
 	if (!currentUserProgress) throw new Error('User progress not found')
 

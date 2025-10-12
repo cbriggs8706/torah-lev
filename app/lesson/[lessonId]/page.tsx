@@ -49,6 +49,7 @@ const LessonIdPage = async ({ params }: Props) => {
 			initialPercentage={initialPercentage}
 			userSubscription={userSubscription}
 			nextLessonId={nextLesson?.id ?? null}
+			activeCourseId={userProgress?.activeCourseId}
 		/>
 	)
 }

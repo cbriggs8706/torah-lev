@@ -225,6 +225,12 @@ export default function SidebarClient({
 							iconSrc="/input-latin-letters-svgrepo-com.svg"
 							onClick={onItemClick}
 						/>
+						<SidebarItem
+							label="Leaderboard"
+							href="/en/leaderboard"
+							iconSrc="/trophy-svgrepo-com.svg"
+							onClick={onItemClick}
+						/>
 					</>
 				)}
 				{[3, 4, 16].includes(userProgress?.activeCourse.id) && (
