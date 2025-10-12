@@ -92,6 +92,7 @@ const EnglishSpellingPage = async () => {
 						data={filteredData}
 						currentLesson={currentLesson ?? ''}
 						userId={userProgress.userId}
+						courseId={userProgress.activeCourseId}
 					/>
 				</div>
 			</FeedWrapper>

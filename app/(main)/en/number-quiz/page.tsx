@@ -63,7 +63,11 @@ const EnglishNumberQuizPage = async () => {
 						The goal is to say the correct answer in under 3 seconds with no
 						more than 2 mistakes per round in order to pass it off in class.
 					</DismissibleAlert> */}
-					<EnglishNumberQuiz numbers={numbers} userId={userProgress.userId} />
+					<EnglishNumberQuiz
+						numbers={numbers}
+						userId={userProgress.userId}
+						courseId={userProgress.activeCourseId}
+					/>
 				</div>
 			</FeedWrapper>
 		</div>

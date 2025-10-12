@@ -11,35 +11,29 @@ import {
 	getUserSubscription,
 } from '@/db/queries'
 
-import efwEnglishVocab from '@/lib/data/vocab/efwVocab.json'
-import ewbEnglishVocab from '@/lib/data/vocab/ewbVocab.json'
-import lrEnglishVocab from '@/lib/data/vocab/lrVocab.json'
-import ec1EnglishVocab from '@/lib/data/vocab/ec1Vocab.json'
-import ec2EnglishVocab from '@/lib/data/vocab/ec2Vocab.json'
-import { EnglishVocab } from '@/lib/vocab'
+import awaGreekVocab from '@/lib/data/vocab/awaVocab.json'
 
-const EnglishFlashcards = dynamic(
-	() => import('@/components/english/english-flashcards'),
-	{ ssr: false }
+import { GreekVocab } from '@/lib/vocab'
+import TorahScrollLoader from '@/components/hebrew/hebrew-loader'
+
+const GreekFlashcards = dynamic(
+	() => import('@/components/greek/greek-flashcards'),
+	{
+		ssr: false,
+	}
 )
 
-const allFieldsEnglish: (keyof EnglishVocab)[] = [
+const allFieldsGreek: (keyof GreekVocab)[] = [
+	'grk',
 	'eng',
-	'spa',
-	'por',
-	'engDefinition',
-	'gender',
-	'person',
-	'number',
+	'genderPerson',
 	'partOfSpeech',
 	'ipa',
-	'spaTransliteration',
-	'porTransliteration',
+	'engTransliteration',
 	'images',
-	'engAudio',
+	'grkAudio',
 ]
-
-export default async function EFWFlashcardPage({
+export default async function FlashcardPage({
 	params,
 }: {
 	params: { lang: string }
@@ -57,20 +51,16 @@ export default async function EFWFlashcardPage({
 		redirect('/courses')
 	}
 
+	{
+		;[12].includes(userProgress?.activeCourse.id ?? 0) && <TorahScrollLoader />
+	}
+
 	const currentLesson = userChallengeData?.activeLesson?.lessonNumber
 
-	const englishData: EnglishVocab[] =
-		userProgress.activeCourseId === 16
-			? (efwEnglishVocab as EnglishVocab[])
-			: userProgress.activeCourseId === 13
-			? (ewbEnglishVocab as EnglishVocab[])
-			: userProgress.activeCourseId === 17
-			? (lrEnglishVocab as EnglishVocab[])
-			: userProgress.activeCourseId === 3
-			? (ec1EnglishVocab as EnglishVocab[])
-			: userProgress.activeCourseId === 4
-			? (ec2EnglishVocab as EnglishVocab[])
-			: []
+	const greekData: GreekVocab[] =
+		userProgress.activeCourseId === 12 ? (awaGreekVocab as GreekVocab[]) : []
+
+	// console.log(userProgress.activeCourseId)
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
@@ -82,6 +72,7 @@ export default async function EFWFlashcardPage({
 						height={90}
 						width={90}
 					/>
+
 					<h1 className="text-center font-bold text-neutral-800 text-2xl my-6">
 						Flashcards
 					</h1>
@@ -92,13 +83,15 @@ export default async function EFWFlashcardPage({
 						front and back where you can place whatever you would like.
 					</DismissibleAlert>
 
-					<EnglishFlashcards
-						data={englishData}
-						allFields={allFieldsEnglish}
-						currentLesson={'1'}
-						courseId={userProgress.activeCourseId}
-						layout="english"
-					/>
+					{userProgress.activeCourseId === 12 && (
+						<GreekFlashcards
+							data={greekData}
+							allFields={allFieldsGreek}
+							courseId={userProgress.activeCourseId}
+							currentLesson={currentLesson ?? ''}
+							layout="greek"
+						/>
+					)}
 				</div>
 			</FeedWrapper>
 		</div>

@@ -76,6 +76,7 @@ const HebrewSpeedQuizPage = async () => {
 						// data={awbHebrewVocab}
 						userId={userProgress.userId}
 						currentLesson={currentLesson}
+						courseId={userProgress.activeCourseId}
 					/>
 				</div>
 			</FeedWrapper>

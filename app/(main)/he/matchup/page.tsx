@@ -94,6 +94,7 @@ const HebrewMatchupPage = async () => {
 					<HebrewMatchup
 						data={hebrewData}
 						currentLesson={currentLesson}
+						courseId={activeCourseId}
 						userId={userProgress.userId}
 					/>
 				</div>

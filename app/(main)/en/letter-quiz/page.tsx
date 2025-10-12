@@ -66,6 +66,7 @@ const EnglishLetterQuizPage = async () => {
 					<EnglishLetterQuiz
 						letters={englishLetters}
 						userId={userProgress.userId}
+						courseId={userProgress.activeCourseId}
 					/>
 				</div>
 			</FeedWrapper>

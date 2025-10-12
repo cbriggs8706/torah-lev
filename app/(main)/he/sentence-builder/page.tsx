@@ -61,7 +61,10 @@ const HebrewSentenceBuilderPage = async () => {
 						activity and enhanced. Coming soon! For now when you drag words into
 						the bar in a correct order, the english equivalent will appear.
 					</DismissibleAlert> */}
-					<SentenceBuilder userId={userProgress.userId} />
+					<SentenceBuilder
+						userId={userProgress.userId}
+						courseId={userProgress.activeCourseId}
+					/>
 				</div>
 			</FeedWrapper>
 		</div>

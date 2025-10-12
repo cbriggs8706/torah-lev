@@ -87,6 +87,7 @@ const EnglishScramblePage = async () => {
 						data={englishData}
 						currentLesson={'1'}
 						userId={userProgress.userId}
+						courseId={userProgress.activeCourseId}
 					/>
 				</div>
 			</FeedWrapper>

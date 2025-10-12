@@ -8,6 +8,7 @@ interface HebrewLetterQuizProps {
 	letters: HebrewLetter[]
 	niqqud: HebrewNiqqud[]
 	userId: string
+	courseId: number
 	pointsOnPass?: number
 }
 
@@ -123,6 +124,7 @@ export default function HebrewLetterQuiz({
 	letters,
 	niqqud,
 	userId,
+	courseId,
 	pointsOnPass,
 }: HebrewLetterQuizProps) {
 	const [gameStarted, setGameStarted] = useState(false)
@@ -361,7 +363,7 @@ export default function HebrewLetterQuiz({
 				const res = await fetch('/api/award-points', {
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify({ userId, points }),
+					body: JSON.stringify({ userId, courseId, points }),
 				})
 				if (!res.ok) throw new Error('Bad response')
 				setAwardedPoints(points)
@@ -369,7 +371,7 @@ export default function HebrewLetterQuiz({
 				console.error('Failed to award points', err)
 			}
 		},
-		[userId]
+		[userId, courseId]
 	)
 
 	useEffect(() => {

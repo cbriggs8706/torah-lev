@@ -13,27 +13,14 @@ import {
 
 import awbHebrewVocab from '@/lib/data/vocab/awbVocab.json'
 import hsVocab from '@/lib/data/vocab/hsVocab.json'
-import awaGreekVocab from '@/lib/data/vocab/awaVocab.json'
 import abcHebrewVocab from '@/lib/data/vocab/abcVocab.json'
-import efwEnglishVocab from '@/lib/data/vocab/efwVocab.json'
-import lrEnglishVocab from '@/lib/data/vocab/lrVocab.json'
 
-import { HebrewVocab, GreekVocab, EnglishVocab } from '@/lib/vocab'
+import { HebrewVocab } from '@/lib/vocab'
 import TorahScrollLoader from '@/components/hebrew/hebrew-loader'
 
 // ✅ Dynamic imports for each language
 const HebrewFlashcards = dynamic(
 	() => import('@/components/hebrew/hebrew-flashcards'),
-	{ ssr: false }
-)
-const GreekFlashcards = dynamic(
-	() => import('@/components/greek/greek-flashcards'),
-	{
-		ssr: false,
-	}
-)
-const EnglishFlashcards = dynamic(
-	() => import('@/components/english/english-flashcards'),
 	{ ssr: false }
 )
 
@@ -48,32 +35,6 @@ const allFieldsHebrew: (keyof HebrewVocab)[] = [
 	'engTransliteration',
 	'images',
 	'hebAudio',
-]
-
-const allFieldsGreek: (keyof GreekVocab)[] = [
-	'grk',
-	'eng',
-	'genderPerson',
-	'partOfSpeech',
-	'ipa',
-	'engTransliteration',
-	'images',
-	'grkAudio',
-]
-
-const allFieldsEnglish: (keyof EnglishVocab)[] = [
-	'eng',
-	'spa',
-	'por',
-	'engDefinition',
-	'gender',
-	'person',
-	'partOfSpeech',
-	'ipa',
-	'spaTransliteration',
-	'porTransliteration',
-	'images',
-	'engAudio',
 ]
 
 export default async function FlashcardPage({
@@ -112,16 +73,6 @@ export default async function FlashcardPage({
 			? (abcHebrewVocab as HebrewVocab[])
 			: []
 
-	const greekData: GreekVocab[] =
-		userProgress.activeCourseId === 12 ? (awaGreekVocab as GreekVocab[]) : []
-
-	const englishData: EnglishVocab[] =
-		userProgress.activeCourseId === 13
-			? (efwEnglishVocab as EnglishVocab[])
-			: userProgress.activeCourseId === 17
-			? (lrEnglishVocab as EnglishVocab[])
-			: []
-
 	// console.log(userProgress.activeCourseId)
 
 	return (
@@ -155,37 +106,11 @@ export default async function FlashcardPage({
 						front and back where you can place whatever you would like.
 					</DismissibleAlert>
 
-					{/* ✅ Conditional rendering – clean & type-safe */}
-					{userProgress.activeCourseId === 12 && (
-						<GreekFlashcards
-							data={greekData}
-							allFields={allFieldsGreek}
-							currentLesson={currentLesson ?? ''}
-							layout="greek"
-						/>
-					)}
-
-					{userProgress.activeCourseId === 16 && (
-						<EnglishFlashcards
-							data={englishData}
-							allFields={allFieldsEnglish}
-							currentLesson={currentLesson ?? ''}
-							layout="english"
-						/>
-					)}
-					{userProgress.activeCourseId === 17 && (
-						<EnglishFlashcards
-							data={englishData}
-							allFields={allFieldsEnglish}
-							currentLesson={currentLesson ?? ''}
-							layout="english"
-						/>
-					)}
-
 					{userProgress.activeCourseId === 6 && (
 						<HebrewFlashcards
 							data={hebrewData}
 							allFields={allFieldsHebrew}
+							courseId={userProgress.activeCourseId}
 							currentLesson={currentLesson ?? ''}
 							layout="hebrew"
 							userId={userProgress.userId}
@@ -195,6 +120,7 @@ export default async function FlashcardPage({
 						<HebrewFlashcards
 							data={hebrewData}
 							allFields={allFieldsHebrew}
+							courseId={userProgress.activeCourseId}
 							currentLesson={currentLesson ?? ''}
 							layout="hebrew"
 							userId={userProgress.userId}
@@ -204,6 +130,7 @@ export default async function FlashcardPage({
 						<HebrewFlashcards
 							data={hebrewData}
 							allFields={allFieldsHebrew}
+							courseId={userProgress.activeCourseId}
 							currentLesson={currentLesson ?? ''}
 							layout="hebrew"
 							userId={userProgress.userId}

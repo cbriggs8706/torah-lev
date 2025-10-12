@@ -125,7 +125,7 @@ export default async function FlashcardPage({
 						front and back where you can place whatever you would like.
 					</DismissibleAlert>
 
-					{userProgress.activeCourseId === 12 && (
+					{/* {userProgress.activeCourseId === 12 && (
 						<GreekFlashcards
 							data={greekData}
 							allFields={allFieldsGreek}
@@ -151,7 +151,7 @@ export default async function FlashcardPage({
 							layout="hebrew"
 							userId={userProgress.userId}
 						/>
-					)}
+					)} */}
 				</div>
 			</FeedWrapper>
 		</div>

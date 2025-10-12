@@ -80,7 +80,7 @@ export default function SidebarClient({
 						/>
 						<SidebarItem
 							label="כרטיסיות"
-							href="/flashcard"
+							href="/he/flashcards"
 							iconSrc="/icons/iconFlashcards.png"
 							// iconSrc="/card-file-box.svg"
 							onClick={onItemClick}
@@ -274,7 +274,7 @@ export default function SidebarClient({
 						/>
 						<SidebarItem
 							label="Flashcards"
-							href="/flashcard"
+							href="/el/flashcards"
 							iconSrc="/card-file-box.svg"
 							onClick={onItemClick}
 						/>

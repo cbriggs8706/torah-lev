@@ -18,6 +18,7 @@ interface HebrewSpellingProps {
 	data: HebrewVocab[]
 	currentLesson: string
 	userId: string
+	courseId: number | null
 }
 
 const formatOptions: FormatType[] = [
@@ -30,6 +31,7 @@ const formatOptions: FormatType[] = [
 export default function HebrewSpelling({
 	data,
 	currentLesson,
+	courseId,
 	userId,
 }: HebrewSpellingProps) {
 	const {
@@ -350,17 +352,21 @@ export default function HebrewSpelling({
 
 	const awardPoints = useCallback(
 		async (points: number) => {
+			if (!courseId) {
+				console.warn('Skipping award: no active courseId')
+				return
+			}
 			try {
 				await fetch('/api/award-points', {
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify({ userId, points }),
+					body: JSON.stringify({ userId, courseId, points }),
 				})
 			} catch (error) {
 				console.error('Failed to award points', error)
 			}
 		},
-		[userId]
+		[userId, courseId]
 	)
 
 	useEffect(() => {

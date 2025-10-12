@@ -70,6 +70,7 @@ const HebrewNumberQuizPage = async () => {
 					<HebrewNumberQuiz
 						numbers={hebrewNumbers}
 						userId={userProgress.userId}
+						courseId={userProgress.activeCourseId}
 					/>
 				</div>
 			</FeedWrapper>

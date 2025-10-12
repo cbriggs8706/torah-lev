@@ -6,6 +6,7 @@ import { useCallback, useEffect, useState } from 'react'
 interface HebrewSpeedQuizProps {
 	userId: string
 	currentLesson?: string
+	courseId: number
 }
 
 const AVAILABLE_QUIZZES = [
@@ -103,6 +104,7 @@ function buildUrl(quiz: string) {
 export default function HebrewSpeedQuiz({
 	userId,
 	currentLesson,
+	courseId,
 }: HebrewSpeedQuizProps) {
 	const [activeQuiz, setActiveQuiz] = useState<string>('1.1')
 	const [showFilter, setShowFilter] = useState(false)
@@ -126,13 +128,13 @@ export default function HebrewSpeedQuiz({
 				await fetch('/api/award-points', {
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify({ userId, points }),
+					body: JSON.stringify({ userId, courseId, points }),
 				})
 			} catch (error) {
 				console.error('Failed to award points', error)
 			}
 		},
-		[userId]
+		[userId, courseId]
 	)
 
 	useEffect(() => {

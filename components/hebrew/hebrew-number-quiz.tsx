@@ -57,6 +57,7 @@ interface HebrewNumberQuizProps {
 	userId: string
 	pointsOnPass?: number
 	filters?: Record<string, number[]>
+	courseId: number
 }
 
 // Circle timer
@@ -135,6 +136,7 @@ function CountdownCircle({
 export default function HebrewNumberQuiz({
 	numbers,
 	userId,
+	courseId,
 	pointsOnPass = 5,
 	filters = {
 		'1-10': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
@@ -160,6 +162,7 @@ export default function HebrewNumberQuiz({
 	const [paused, setPaused] = useState(false)
 	const [finishAudio] = useAudio({ src: '/shofar.mp3', autoPlay: true })
 	const [promptType, setPromptType] = useState<PromptType>('visual')
+	const [awardedPoints, setAwardedPoints] = useState<number>(0)
 
 	// NEW filters
 	const [formType, setFormType] = useState<FormType>('cardinal')
@@ -271,6 +274,24 @@ export default function HebrewNumberQuiz({
 		setShowConfetti(false)
 	}
 
+	const hasAwardedRef = useRef(false)
+
+	//TODO test new award points action
+	const awardPoints = useCallback(
+		async (points: number) => {
+			try {
+				await fetch('/api/award-points', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ userId, courseId, points }),
+				})
+			} catch (error) {
+				console.error('Failed to award points', error)
+			}
+		},
+		[userId, courseId]
+	)
+
 	function handleResponse(correct: boolean, force = false) {
 		if (audioRef.current) {
 			audioRef.current.pause()
@@ -320,6 +341,19 @@ export default function HebrewNumberQuiz({
 	}
 
 	const passed = wrongCount <= 2
+
+	useEffect(() => {
+		if (finished && !passed) setAwardedPoints(0)
+	}, [finished, passed])
+
+	useEffect(() => {
+		if (finished && passed && !hasAwardedRef.current) {
+			hasAwardedRef.current = true
+			// simple default: 5 points, or caller-specified
+			const pts = typeof pointsOnPass === 'number' ? pointsOnPass : 5
+			awardPoints(pts)
+		}
+	}, [finished, passed, pointsOnPass, awardPoints])
 
 	function getFormFor(num: HebrewNumber) {
 		let text: string | undefined

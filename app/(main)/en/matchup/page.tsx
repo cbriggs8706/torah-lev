@@ -96,6 +96,7 @@ const EnglishMatchupPage = async () => {
 						data={englishData}
 						userId={userProgress.userId}
 						currentLesson={currentLesson}
+						courseId={activeCourseId}
 					/>
 				</div>
 			</FeedWrapper>

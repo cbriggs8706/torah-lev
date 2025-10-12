@@ -28,6 +28,7 @@ interface NumberQuizProps {
 	numbers: EnglishNumber[]
 	userId: string
 	pointsOnPass?: number
+	courseId: number
 	filters?: Record<string, number[]>
 }
 
@@ -119,6 +120,7 @@ export default function EnglishNumberQuiz({
 	numbers,
 	userId,
 	pointsOnPass,
+	courseId,
 	filters = defaultFilters,
 }: NumberQuizProps) {
 	const [gameStarted, setGameStarted] = useState(false)
@@ -210,7 +212,7 @@ export default function EnglishNumberQuiz({
 				const res = await fetch('/api/award-points', {
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify({ userId, points }),
+					body: JSON.stringify({ userId, courseId, points }),
 				})
 				if (!res.ok) throw new Error('Bad response')
 				setAwardedPoints(points)
@@ -218,7 +220,7 @@ export default function EnglishNumberQuiz({
 				console.error('Failed to award points', err)
 			}
 		},
-		[userId]
+		[userId, courseId]
 	)
 
 	useEffect(() => {

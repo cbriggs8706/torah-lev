@@ -19,6 +19,7 @@ interface GreekGreekVocabProps {
 	data: GreekVocab[]
 	allFields: (keyof GreekVocab)[]
 	currentLesson: string
+	courseId: number
 	layout: string
 }
 
@@ -68,6 +69,7 @@ export default function GreekGreekVocab({
 	data,
 	allFields,
 	currentLesson,
+	courseId,
 	layout,
 }: GreekGreekVocabProps) {
 	const [selectedType, setSelectedType] = useState<'all' | 'word' | 'phrase'>(

@@ -8,6 +8,7 @@ interface EnglishLetterQuizProps {
 	letters: EnglishLetter[]
 	userId: string
 	pointsOnPass?: number
+	courseId: number
 }
 
 type SimplePhoneme = {
@@ -114,6 +115,7 @@ export default function EnglishLetterQuiz({
 	letters,
 	userId,
 	pointsOnPass,
+	courseId,
 }: EnglishLetterQuizProps) {
 	const [gameStarted, setGameStarted] = useState(false)
 	const [selectedMode, setSelectedMode] = useState<Mode>('name')
@@ -264,7 +266,7 @@ export default function EnglishLetterQuiz({
 				const res = await fetch('/api/award-points', {
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify({ userId, points }),
+					body: JSON.stringify({ userId, courseId, points }),
 				})
 				if (!res.ok) throw new Error('Bad response')
 				setAwardedPoints(points)
@@ -272,7 +274,7 @@ export default function EnglishLetterQuiz({
 				console.error('Failed to award points', err)
 			}
 		},
-		[userId]
+		[userId, courseId]
 	)
 
 	useEffect(() => {

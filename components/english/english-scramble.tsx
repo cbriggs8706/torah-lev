@@ -12,6 +12,7 @@ interface EnglishScrambleProps {
 	data: EnglishVocab[]
 	currentLesson: string
 	userId: string
+	courseId: number | null
 }
 
 type Lang = 'spa' | 'por'
@@ -19,6 +20,7 @@ type Lang = 'spa' | 'por'
 export default function EnglishScramble({
 	data,
 	currentLesson,
+	courseId,
 	userId,
 }: EnglishScrambleProps) {
 	const { selectedLessons, setSelectedLessons, currentIndex, setCurrentIndex } =
@@ -33,7 +35,7 @@ export default function EnglishScramble({
 	const [cardsCompleted, setCardsCompleted] = useState(0)
 	const [lang, setLang] = useState<Lang>('spa')
 
-	const MAX_CARDS = 25
+	const MAX_CARDS = 5
 
 	const cardsForPrefix = useMemo(() => {
 		return data.filter(
@@ -142,22 +144,26 @@ export default function EnglishScramble({
 
 	const awardPoints = useCallback(
 		async (points: number) => {
+			if (!courseId) {
+				console.warn('Skipping award: no active courseId')
+				return
+			}
 			try {
 				await fetch('/api/award-points', {
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify({ userId, points }),
+					body: JSON.stringify({ userId, courseId, points }),
 				})
 			} catch (error) {
 				console.error('Failed to award points', error)
 			}
 		},
-		[userId]
+		[userId, courseId]
 	)
 
 	useEffect(() => {
-		if (cardsCompleted > 0 && cardsCompleted % 25 === 0) {
-			const pointsToAward = cardsCompleted / 25
+		if (cardsCompleted > 0 && cardsCompleted % 5 === 0) {
+			const pointsToAward = cardsCompleted
 			awardPoints(pointsToAward)
 		}
 	}, [cardsCompleted, awardPoints])
@@ -278,7 +284,7 @@ export default function EnglishScramble({
 					}}
 					className="px-3 py-2 bg-gray-200 rounded"
 				>
-					Reshuffle 25
+					Reshuffle 5
 				</button>
 				<button
 					onClick={handleSubmit}

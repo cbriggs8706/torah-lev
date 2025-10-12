@@ -12,6 +12,7 @@ interface EnglishFlashcardsProps {
 	data: EnglishVocab[]
 	allFields: (keyof EnglishVocab)[]
 	currentLesson: string
+	courseId: number | null
 	layout: string
 }
 
@@ -60,6 +61,7 @@ export default function EnglishFlashcards({
 	data,
 	allFields,
 	currentLesson,
+	courseId,
 	layout,
 }: EnglishFlashcardsProps) {
 	console.log('Initial data count:', data.length)
@@ -323,6 +325,8 @@ export default function EnglishFlashcards({
 	])
 
 	const currentCard = filteredCards[currentIndex]
+
+	//TODO add award points
 
 	function playWithBoostedVolume(url: string, volume: number, speed: number) {
 		const audioContext = new (window.AudioContext ||

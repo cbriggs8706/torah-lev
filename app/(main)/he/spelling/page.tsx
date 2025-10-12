@@ -93,6 +93,7 @@ const HebrewSpellingPage = async () => {
 						data={hebrewData}
 						currentLesson={currentLesson ?? ''}
 						userId={userProgress.userId}
+						courseId={activeCourseId}
 					/>
 				</div>
 			</FeedWrapper>

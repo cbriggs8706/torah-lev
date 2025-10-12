@@ -27,6 +27,7 @@ interface HebrewVocabProps {
 	currentLesson: string
 	layout: string
 	userId: string
+	courseId: number
 }
 
 const FONT_SIZE_MAP = {
@@ -80,6 +81,7 @@ export default function HebrewFlashcards({
 	allFields,
 	currentLesson,
 	layout,
+	courseId,
 	userId,
 }: HebrewVocabProps) {
 	const {
@@ -382,13 +384,13 @@ export default function HebrewFlashcards({
 				await fetch('/api/award-points', {
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify({ userId, points }),
+					body: JSON.stringify({ userId, courseId, points }),
 				})
 			} catch (error) {
 				console.error('Failed to award points', error)
 			}
 		},
-		[userId]
+		[userId, courseId]
 	)
 
 	useEffect(() => {

@@ -9,9 +9,13 @@ import Image from 'next/image'
 
 interface SentenceBuilderProps {
 	userId: string
+	courseId: number | null
 }
 
-export default function SentenceBuilder({ userId }: SentenceBuilderProps) {
+export default function SentenceBuilder({
+	userId,
+	courseId,
+}: SentenceBuilderProps) {
 	const [currentIndex, setCurrentIndex] = useState(0)
 	const [userOrder, setUserOrder] = useState<string[]>([])
 	const [showFeedback, setShowFeedback] = useState<null | boolean>(null)
@@ -119,17 +123,21 @@ export default function SentenceBuilder({ userId }: SentenceBuilderProps) {
 	// --- Award Points Helper ---
 	const awardPoints = useCallback(
 		async (points: number) => {
+			if (!courseId) {
+				console.warn('Skipping award: no active courseId')
+				return
+			}
 			try {
 				await fetch('/api/award-points', {
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify({ userId, points }),
+					body: JSON.stringify({ userId, courseId, points }),
 				})
 			} catch (error) {
 				console.error('Failed to award points', error)
 			}
 		},
-		[userId]
+		[userId, courseId]
 	)
 
 	useEffect(() => {

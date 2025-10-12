@@ -72,6 +72,7 @@ const HebrewLetterQuizPage = async () => {
 						letters={hebrewLetters}
 						niqqud={hebrewNiqqud}
 						userId={userProgress.userId}
+						courseId={userProgress.activeCourseId}
 					/>
 				</div>
 			</FeedWrapper>
