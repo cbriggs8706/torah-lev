@@ -45,7 +45,7 @@ export default function SidebarClient({
 				className
 			)}
 		>
-			<Link href="/learn" onClick={onItemClick}>
+			<Link href="/courses" onClick={onItemClick}>
 				<div className="pt-8 pl-4 pb-7 flex items-center gap-x-3">
 					<Image src="/icons/iconBoy.png" height={40} width={40} alt="Mascot" />
 					{/* <Image src="/mascot.svg" height={40} width={40} alt="Mascot" /> */}
@@ -72,7 +72,7 @@ export default function SidebarClient({
 					<>
 						<SidebarItem
 							label="למד"
-							href="/learn"
+							href="/he/learn"
 							iconSrc="/icons/iconYoutube.png"
 							// iconSrc="/youtube.svg"
 							onClick={onItemClick}
@@ -179,7 +179,7 @@ export default function SidebarClient({
 					<>
 						<SidebarItem
 							label="Learn"
-							href="/learn"
+							href="/en/learn"
 							iconSrc="/youtube.svg"
 							onClick={onItemClick}
 						/>
@@ -268,7 +268,7 @@ export default function SidebarClient({
 					<>
 						<SidebarItem
 							label="Learn"
-							href="/learn"
+							href="/el/learn"
 							iconSrc="/youtube.svg"
 							onClick={onItemClick}
 						/>

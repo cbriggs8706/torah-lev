@@ -15,21 +15,42 @@ import {
 import { Button } from '@/components/ui/button'
 import { useHeartsModal } from '@/store/use-hearts-modal'
 
+const getLanguageRoute = (courseId: number | null): string => {
+	if (!courseId) return '/courses'
+	if ([6, 11, 14].includes(courseId)) return '/he/learn'
+	if ([3, 4, 13, 16, 17].includes(courseId)) return '/en/learn'
+	if (courseId === 2) return '/es/learn'
+	if (courseId === 12) return '/el/learn'
+	return '/courses'
+}
+
 export const HeartsModal = () => {
 	const router = useRouter()
 	const [isClient, setIsClient] = useState(false)
+	const [courseId, setCourseId] = useState<number | null>(null)
 	const { isOpen, close } = useHeartsModal()
 
-	useEffect(() => setIsClient(true), [])
+	useEffect(() => {
+		setIsClient(true)
+		try {
+			const savedProgress = localStorage.getItem('userProgress')
+			if (savedProgress) {
+				const parsed = JSON.parse(savedProgress)
+				setCourseId(parsed.activeCourseId ?? null)
+			}
+		} catch {
+			setCourseId(null)
+		}
+	}, [])
+
+	if (!isClient) return null
+
+	const learnRoute = getLanguageRoute(courseId)
 
 	const onClick = () => {
 		close()
-		router.push('/learn')
+		router.push(learnRoute)
 		router.push('/market')
-	}
-
-	if (!isClient) {
-		return null
 	}
 
 	return (
@@ -43,11 +64,11 @@ export const HeartsModal = () => {
 						You ran out of hearts!
 					</DialogTitle>
 					<DialogDescription className="text-center text-base">
-						Rewatch previous lessons or retake previous quizes to gain more
+						Rewatch previous lessons or retake previous quizzes to gain more
 						hearts.
-						{/* Get Pro for unlimited hearts, or purchase them in the store. */}
 					</DialogDescription>
 				</DialogHeader>
+
 				<DialogFooter className="mb-4">
 					<div className="flex flex-col gap-y-4 w-full">
 						<Button
@@ -57,7 +78,6 @@ export const HeartsModal = () => {
 							onClick={onClick}
 						>
 							Back to lesson menu
-							{/* Get unlimited hearts */}
 						</Button>
 						<Button
 							variant="primaryOutline"
@@ -66,7 +86,6 @@ export const HeartsModal = () => {
 							onClick={close}
 						>
 							Let me review this question before I leave
-							{/* No Thanks */}
 						</Button>
 					</div>
 				</DialogFooter>

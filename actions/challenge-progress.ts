@@ -145,7 +145,9 @@ export const upsertChallengeProgress = async (challengeId: number) => {
 
 // ✅ Small helper
 function revalidateAll(lessonId: number) {
-	revalidatePath('/learn')
+	revalidatePath('/he/learn')
+	revalidatePath('/el/learn')
+	revalidatePath('/en/learn')
 	revalidatePath('/lesson')
 	revalidatePath('/quests')
 	revalidatePath('/leaderboard')

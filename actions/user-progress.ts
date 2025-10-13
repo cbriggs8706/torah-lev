@@ -21,6 +21,14 @@ import {
 	userCourseProgress,
 } from '@/db/schema'
 
+const getLanguageRoute = (courseId: number): string => {
+	if ([6, 11, 14].includes(courseId)) return '/he/learn'
+	if ([3, 4, 13, 16, 17].includes(courseId)) return '/en/learn'
+	if (courseId === 2) return '/es/learn'
+	if (courseId === 12) return '/el/learn'
+	return '/courses' // fallback
+}
+
 export const upsertUserProgress = async (courseId: number) => {
 	try {
 		console.log('🟦 Upserting user progress for courseId:', courseId)
@@ -72,7 +80,9 @@ export const upsertUserProgress = async (courseId: number) => {
 
 		revalidatePath('/courses')
 		revalidatePath('/learn')
-		return redirect('/learn')
+
+		const targetPath = getLanguageRoute(courseId)
+		return redirect(targetPath)
 	} catch (error) {
 		console.error('Error in upsertUserProgress:', error)
 		throw error

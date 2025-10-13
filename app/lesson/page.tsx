@@ -21,7 +21,7 @@ const LessonPage = async () => {
 	])
 
 	if (!lesson || !userProgress) {
-		redirect('/learn')
+		redirect('/courses')
 	}
 
 	const initialPercentage =

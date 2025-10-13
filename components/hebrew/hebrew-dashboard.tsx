@@ -1,24 +1,44 @@
 'use client'
 
-import { useEffect, useState, useTransition } from 'react'
+import { useState, useTransition } from 'react'
 import Image from 'next/image'
-import { updateUserProfile } from '@/actions/user-progress'
+import Link from 'next/link'
+import { updateUserProfile, upsertUserProgress } from '@/actions/user-progress'
 import HebrewKeyboard from './hebrew-keyboard'
 import { UserProgress } from '../user-progress'
 import { Shield } from '../shield'
 import { Progress } from '../ui/progress'
 import { quests } from '@/constants'
-import { eq } from 'drizzle-orm'
-import { SignOutButton, UserButton } from '@clerk/nextjs'
-import Link from 'next/link'
 import { GoalDisplayCard } from './hebrew-goal-display-card'
+import { SignOutButton, UserButton } from '@clerk/nextjs'
+import { toast } from 'sonner'
+import { useRouter } from 'next/navigation'
+
+interface CourseProgress {
+	courseId: number
+	courseTitle: string
+	courseImage: string
+	points: number
+	hearts: number
+	activeLessonId: number | null
+	proficiencyLevel?: string | null
+	endingProficiencyLevel?: string | null
+
+	// 🔮 Future expansion
+	goalId?: number | null
+	goalTitle?: string | null
+	goalTarget?: number | null
+	tribeId?: number | null
+	tribeEngName?: string | null
+	tribeHebName?: string | null
+	tribeImage?: string | null
+}
 
 interface HebrewUserDashboardProps {
 	userName: string
 	userImageSrc: string
 	points: number
 	hearts: number
-	// TODO fix any typing
 	userUnitProgress: any[]
 	activeCourse: {
 		id: number
@@ -34,6 +54,7 @@ interface HebrewUserDashboardProps {
 		points: number
 		tribeImage: string
 	} | null
+	allCourseProgress?: CourseProgress[]
 }
 
 export default function HebrewUserDashboard({
@@ -45,12 +66,15 @@ export default function HebrewUserDashboard({
 	userUnitProgress,
 	tribe,
 	currentLesson,
+	allCourseProgress = [],
 }: HebrewUserDashboardProps) {
 	const [newName, setNewName] = useState(userName)
 	const [avatar, setAvatar] = useState(userImageSrc)
 	const [isEditing, setIsEditing] = useState(false)
 	const [isPending, startTransition] = useTransition()
+	const router = useRouter()
 
+	// 🧮 For unlock logic
 	const lessonValue = (() => {
 		if (!currentLesson) return 0
 		const match = currentLesson.match(/^(\d+)([a-z])?$/i)
@@ -74,48 +98,84 @@ export default function HebrewUserDashboard({
 		})
 	}
 
-	const handleAvatarChange = () => {
-		const newAvatar = '/new-avatar.svg'
-		startTransition(async () => {
-			try {
-				const updated = await updateUserProfile({ userImageSrc: newAvatar })
-				if (updated) setAvatar(updated.userImageSrc)
-			} catch (err) {
-				console.error('Failed to update avatar:', err)
-			}
+	const lessonMap = userUnitProgress
+		.flatMap((unit: any) => unit.lessons)
+		.reduce((map: Record<number, string>, lesson: any) => {
+			map[lesson.id] = lesson.lessonNumber
+			return map
+		}, {})
+
+	const activeCourseProgress = allCourseProgress.find(
+		(c) => c.courseId === activeCourse.id
+	)
+	const activeLesson = activeCourseProgress?.activeLessonId ?? null
+	const activeLessonNumber = (activeLesson && lessonMap[activeLesson]) || null
+
+	// const handleAvatarChange = () => {
+	// 	const newAvatar = '/new-avatar.svg'
+	// 	startTransition(async () => {
+	// 		try {
+	// 			const updated = await updateUserProfile({ userImageSrc: newAvatar })
+	// 			if (updated) setAvatar(updated.userImageSrc)
+	// 		} catch (err) {
+	// 			console.error('Failed to update avatar:', err)
+	// 		}
+	// 	})
+	// }
+
+	// 🗺️ Course → Path mapping
+	const getCoursePath = (courseId: number) => {
+		const map: Record<number, string> = {
+			6: '/he/learn',
+			11: '/he/learn',
+			14: '/he/learn',
+			13: '/en/learn',
+			16: '/en/learn',
+		}
+		return map[courseId] ?? `/course/${courseId}`
+	}
+
+	const handleCourseSwitch = (courseId: number) => {
+		if (isPending) return
+		startTransition(() => {
+			upsertUserProgress(courseId)
+				.then(() => {
+					toast.success('Course switched!')
+					router.push(getCoursePath(courseId))
+				})
+				.catch(() => toast.error('Something went wrong.'))
 		})
 	}
 
+	// 🧩 Sort so the current course comes first
+	const sortedCourses = [
+		...allCourseProgress.filter((c) => c.courseId === activeCourse.id),
+		...allCourseProgress.filter((c) => c.courseId !== activeCourse.id),
+	]
+
 	return (
-		<div className="max-w-md mx-auto bg-white rounded-2xl shadow-md p-6 space-y-6">
+		<div className="max-w-3xl mx-auto bg-white rounded-2xl shadow-md p-6 space-y-8">
 			{/* Avatar + Username */}
-			<div className="flex items-start gap-10">
-				{/* Avatar Section */}
+			<div className="flex flex-col items-center justify-center gap-10 w-full mx-auto md:flex-row md:justify-center md:items-center">
+				{/* Avatar */}
 				<div className="flex flex-col items-center">
 					<Image
-						src={avatar}
+						src={avatar || '/mascot.svg'}
 						alt="User Avatar"
 						width={80}
 						height={80}
-						className="rounded-full border shadow"
+						className="rounded-full border shadow object-cover"
+						unoptimized
+						onError={(e) => {
+							const target = e.target as HTMLImageElement
+							target.src = '/mascot.svg'
+						}}
 					/>
-					<button
-						onClick={handleAvatarChange}
-						disabled={isPending || lessonValue < 100}
-						className="mt-2 text-sm px-3 py-1 rounded-lg border hover:bg-gray-100 disabled:opacity-50"
-					>
-						Change Avatar
-					</button>
-					{lessonValue < 30 && (
-						<p className="text-xs text-gray-500 text-center mt-1">
-							🔒 Unlocks at lesson 30
-						</p>
-					)}
 				</div>
 
-				{/* Username Section */}
-				<div className="flex flex-col items-center flex-1">
-					<h2 className="text-6xl font-serif">{newName}</h2>
+				{/* Username */}
+				<div className="flex flex-col items-center text-center md:items-center md:text-left">
+					<h2 className="text-5xl md:text-6xl font-serif">{newName}</h2>
 					<label className="block text-sm font-semibold text-gray-700 mb-1">
 						Username
 					</label>
@@ -134,16 +194,75 @@ export default function HebrewUserDashboard({
 				</div>
 			</div>
 
-			{/* Points Section */}
-			<div className="p-3 rounded-lg bg-gray-50 flex flex-row gap-4">
-				<Shield lessonNumber={currentLesson || 1} />
-				<UserProgress
-					activeCourse={activeCourse}
-					hearts={hearts}
-					points={points}
-					hasActiveSubscription={false}
-				/>
-			</div>
+			{/* CURRENT COURSE HIGHLIGHT */}
+			{sortedCourses.length > 0 && (
+				<div className="p-5 border-2 border-amber-400 bg-gradient-to-br from-yellow-50 to-amber-100 rounded-2xl shadow-lg">
+					<div className="flex items-center gap-5 mb-4">
+						<Image
+							src={activeCourse.imageSrc || '/default-course.png'}
+							alt={activeCourse.title}
+							width={80}
+							height={80}
+							className="rounded-md border shadow"
+						/>
+						<div>
+							<h2 className="text-2xl font-bold text-gray-800">
+								{activeCourse.title}
+							</h2>
+							<p className="text-sm text-gray-600">
+								Level: {activeCourse.proficiencyLevel} →{' '}
+								{activeCourse.endingProficiencyLevel}
+							</p>
+						</div>
+					</div>
+
+					{/* Prominent stats */}
+					<div className="flex items-center justify-between">
+						<div className="flex flex-col items-center flex-1">
+							<Shield lessonNumber={activeLessonNumber || 1} />
+							<p className="mt-1 text-sm text-gray-700">
+								Current Lesson
+								{/* Current Lesson: {activeLessonNumber || '-'} */}
+							</p>
+						</div>
+
+						<div className="flex flex-col items-center flex-1">
+							<div className="flex items-center gap-2">
+								<Image
+									src="/icons/iconHeart.png"
+									alt="Hearts"
+									width={36}
+									height={36}
+								/>
+								<p className="text-4xl text-red-600 font-bold">{hearts ?? 0}</p>
+							</div>
+							<p className="text-gray-700 text-sm mt-1">Hearts</p>
+						</div>
+
+						<div className="flex flex-col items-center flex-1">
+							<div className="flex items-center gap-2">
+								<Image
+									src="/icons/iconLightning.png"
+									alt="Points"
+									width={36}
+									height={36}
+								/>
+								<p className="text-4xl text-amber-600 font-bold">
+									{points ?? 0}
+								</p>
+							</div>
+							<p className="text-gray-700 text-sm mt-1">Points</p>
+						</div>
+					</div>
+
+					<Link
+						href={getCoursePath(activeCourse.id)}
+						className="block mt-4 text-center bg-amber-500 hover:bg-amber-600 text-white font-semibold py-2 px-4 rounded-lg transition"
+					>
+						Continue Learning →
+					</Link>
+				</div>
+			)}
 
 			{/* Tribe Section */}
 			{tribe ? (
@@ -176,9 +295,67 @@ export default function HebrewUserDashboard({
 			)}
 
 			{/* Goal Section */}
-			<GoalDisplayCard />
+			<GoalDisplayCard userUnitProgress={userUnitProgress} />
 
-			{/* ✅ Full-Screen Overlay for Editing */}
+			{/* OTHER COURSES */}
+			{sortedCourses.length > 1 && (
+				<div className="mt-8 space-y-4">
+					<h2 className="text-xl font-semibold text-center">
+						Other Enrolled Courses
+					</h2>
+					<div className="grid sm:grid-cols-2 gap-4">
+						{sortedCourses
+							.filter((c) => c.courseId !== activeCourse.id)
+							.map((course) => (
+								<div
+									key={course.courseId}
+									className="border rounded-xl bg-white hover:bg-gray-50 shadow-sm p-4 flex flex-col items-center gap-3 transition"
+								>
+									<Image
+										src={course.courseImage || '/default-course.svg'}
+										alt={course.courseTitle}
+										width={64}
+										height={64}
+										className="rounded-md border"
+									/>
+									<h3 className="text-lg font-bold text-gray-800">
+										{course.courseTitle}
+									</h3>
+									<div className="flex items-center gap-3">
+										<div className="flex items-center gap-1 text-red-500 font-semibold">
+											<Image
+												src="/icons/iconHeart.png"
+												alt="Hearts"
+												width={20}
+												height={20}
+											/>
+											{course.hearts ?? 0}
+										</div>
+										<div className="flex items-center gap-1 text-amber-600 font-semibold">
+											<Image
+												src="/icons/iconLightning.png"
+												alt="Points"
+												width={20}
+												height={20}
+											/>
+											{course.points ?? 0}
+										</div>
+									</div>
+
+									<button
+										onClick={() => handleCourseSwitch(course.courseId)}
+										disabled={isPending}
+										className="mt-2 text-sm bg-sky-600 hover:bg-sky-700 text-white rounded-lg px-4 py-2 transition disabled:opacity-50"
+									>
+										Switch to this Course
+									</button>
+								</div>
+							))}
+					</div>
+				</div>
+			)}
+
+			{/* Edit Overlay */}
 			{isEditing && (
 				<div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
 					<div className="bg-white p-6 rounded-xl shadow-xl max-w-3xl w-full">
@@ -217,91 +394,7 @@ export default function HebrewUserDashboard({
 				</div>
 			)}
 
-			<h2 className="text-xl font-semibold mt-6">My Progress</h2>
-			{/* Quest Progress */}
-			<div className="w-full flex flex-col md:flex-row gap-4">
-				<div className="w-full">
-					<ul className="w-full">
-						{quests.map((quest) => {
-							const progress = (points / quest.value) * 100
-
-							return (
-								<div
-									className="flex items-center w-full p-4 gap-x-4 border-t-2"
-									key={quest.title}
-								>
-									<Image
-										src="/icons/iconLightning.png"
-										// src="/points.svg"
-										alt="Points"
-										width={60}
-										height={60}
-									/>
-									<div className="flex flex-col gap-y-2 w-full">
-										<p className="text-neutral-700 text-xl font-bold">
-											{quest.title}
-										</p>
-										<Progress value={progress} className="h-3" />
-									</div>
-								</div>
-							)
-						})}
-					</ul>
-				</div>
-				{/* Unit Progress Section */}
-				<div className="w-full">
-					<h2 className="flex md:hidden text-xl font-semibold mt-10 mb-4 text-neutral-800">
-						Unit Progress
-					</h2>
-					{userUnitProgress.map((unit) => {
-						const totalChallenges = unit.lessons.reduce(
-							(acc: any, lesson: any) => acc + lesson.challenges.length,
-							0
-						)
-
-						const completedChallenges = unit.lessons.reduce(
-							(acc: any, lesson: any) => {
-								return (
-									acc +
-									lesson.challenges.filter((challenge: any) =>
-										challenge.challengeProgress?.some((p: any) => p.completed)
-									).length
-								)
-							},
-							0
-						)
-
-						const progress =
-							totalChallenges > 0
-								? (completedChallenges / totalChallenges) * 100
-								: 0
-
-						const unitTitle = unit.title.match(/Unit\s*\d+/)?.[0] ?? unit.title
-
-						return (
-							<div
-								key={unit.id}
-								className="flex items-center w-full p-4 gap-x-4 border-t-2"
-							>
-								<Image
-									src="/icons/iconLightning.png"
-									// src="/points.svg"
-									alt="Unit Progress"
-									width={60}
-									height={60}
-								/>
-								<div className="flex flex-col gap-y-2 w-full">
-									<p className="text-neutral-700 text-xl font-bold">
-										{unitTitle}
-									</p>
-									<Progress value={progress} className="h-3" />
-								</div>
-							</div>
-						)
-					})}
-				</div>{' '}
-			</div>
-
+			{/* Account Settings */}
 			<div className="mt-6 p-4 bg-gray-50 border rounded-xl shadow-sm">
 				<h3 className="text-lg font-semibold text-gray-800 mb-2">
 					Account Settings

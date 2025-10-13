@@ -187,6 +187,30 @@ export const getCourseById = cache(async (courseId: number) => {
 	return data
 })
 
+export async function getAllUserCourseProgress() {
+	const { userId } = await auth()
+	if (!userId) return []
+
+	const results = await db
+		.select({
+			courseId: userCourseProgress.courseId,
+			points: userCourseProgress.points,
+			hearts: userCourseProgress.hearts,
+			activeLessonId: userCourseProgress.activeLessonId,
+			lastSeen: userCourseProgress.lastSeen,
+			courseTitle: courses.title,
+			courseImage: courses.imageSrc,
+			proficiencyLevel: courses.proficiencyLevel,
+			endingProficiencyLevel: courses.endingProficiencyLevel,
+		})
+		.from(userCourseProgress)
+		.innerJoin(courses, eq(userCourseProgress.courseId, courses.id))
+		.where(eq(userCourseProgress.userId, userId))
+		.orderBy(asc(courses.id))
+
+	return results
+}
+
 export const getCourseProgress = cache(async () => {
 	const { userId } = await auth()
 	const userProgress = await getUserProgress()

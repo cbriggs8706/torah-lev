@@ -112,6 +112,7 @@ export default async function EnglishLeaderboard({ users }: { users: any[] }) {
 						</Avatar>
 						<div className="flex flex-col flex-1">
 							<p className="font-bold">{u.userName}</p>
+							<p>{u.points} XP</p>
 							{/* <p>
 								Lesson: {u.activeLessonNumber} | {u.points} XP
 							</p> */}
