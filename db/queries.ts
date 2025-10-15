@@ -11,7 +11,9 @@ import {
 	lte,
 	sql,
 } from 'drizzle-orm'
-import { auth, clerkClient } from '@clerk/nextjs/server'
+import { auth } from '@clerk/nextjs/server'
+import { clerkClient } from '@clerk/clerk-sdk-node'
+
 import { events } from '@/db/schema'
 
 import db from '@/db/drizzle'
@@ -35,6 +37,8 @@ import {
 	hebrewMusicLine,
 	hebrewStories,
 	englishStories,
+	studyGroups,
+	studyGroupMembers,
 } from '@/db/schema'
 import { tr } from 'date-fns/locale'
 
@@ -52,6 +56,9 @@ export async function getUserProgress() {
 
 	if (!baseProgress) return null
 
+	const clerkUser = await clerkClient.users.getUser(userId)
+	const liveImage = clerkUser?.imageUrl || '/mascot.svg'
+
 	// Pull course-specific progress for activeCourseId
 	let courseProgress = null
 	if (baseProgress.activeCourseId) {
@@ -66,6 +73,7 @@ export async function getUserProgress() {
 	// Merge the data — fallback to zeros if no course row yet
 	return {
 		...baseProgress,
+		userImageSrc: liveImage, // ✅ override with live image
 		points: courseProgress?.points ?? 0,
 		hearts: courseProgress?.hearts ?? 5,
 		activeLessonId: courseProgress?.activeLessonId ?? null,
@@ -528,8 +536,8 @@ export const getTopTwentyUsers = cache(async () => {
 })
 
 // 🆕 NEW: Per-course leaderboard using user_course_progress
-export const getTopTwentyUsersByCourse = async (courseId: number) => {
-	return await db
+export async function getTopTwentyUsersByCourse(courseId: number) {
+	const rawUsers = await db
 		.select({
 			userId: userCourseProgress.userId,
 			userName: userProgress.userName,
@@ -546,6 +554,25 @@ export const getTopTwentyUsersByCourse = async (courseId: number) => {
 		.where(eq(userCourseProgress.courseId, courseId))
 		.orderBy(desc(userCourseProgress.points))
 		.limit(20)
+
+	// 🔄 refresh Clerk avatars
+	const updated = await Promise.all(
+		rawUsers.map(async (u) => {
+			let fresh = u.userImageSrc
+			try {
+				const clerkUser = await clerkClient.users.getUser(u.userId)
+				fresh = clerkUser?.imageUrl || '/mascot.svg'
+			} catch {
+				/* fallback to stored value */
+			}
+			return {
+				...u,
+				userImageSrc: fresh?.trim().replace(/\s|\n|\r/g, '') || '/mascot.svg',
+			}
+		})
+	)
+
+	return updated
 }
 
 export async function getPrayerWithLines(prayerId: number) {
@@ -646,10 +673,25 @@ export async function getUserProgressWithTribe() {
 		.from(userProgress)
 		.leftJoin(tribes, eq(userProgress.tribeId, tribes.id))
 		.leftJoin(lessons, eq(userProgress.activeLessonId, lessons.id))
-		.leftJoin(courses, eq(userProgress.activeCourseId, courses.id)) // ✅ join courses
+		.leftJoin(courses, eq(userProgress.activeCourseId, courses.id))
 		.where(eq(userProgress.userId, userId))
 
-	return result[0] || null
+	const base = result[0]
+	if (!base) return null
+
+	// 🧠 Always refresh from Clerk
+	let freshImage = base.userImageSrc
+	try {
+		const clerkUser = await clerkClient.users.getUser(userId)
+		freshImage = clerkUser?.imageUrl || '/mascot.svg'
+	} catch {
+		console.warn('Failed to refresh Clerk image, using fallback.')
+	}
+
+	return {
+		...base,
+		userImageSrc: freshImage.trim().replace(/\s|\n|\r/g, ''),
+	}
 }
 
 function parseLessonNumber(lesson: string | null) {
@@ -831,5 +873,91 @@ export async function getAllGreekLessonScripts(courseId?: number) {
 	return q.orderBy(
 		asc(greekLessonScripts.lessonId),
 		asc(greekLessonScripts.part)
+	)
+}
+
+export async function getUserStudyGroups(userId: string) {
+	return await db.query.studyGroupMembers.findMany({
+		where: eq(studyGroupMembers.userId, userId),
+		with: {
+			studyGroup: true,
+		},
+	})
+}
+
+export async function getStudyGroupWithMessages(studyGroupId: number) {
+	const group = await db.query.studyGroups.findFirst({
+		where: eq(studyGroups.id, studyGroupId),
+		with: {
+			teacher: true,
+			members: { with: { user: true } },
+			messages: {
+				with: { sender: true },
+				orderBy: (messages, { asc }) => [asc(messages.createdAt)],
+			},
+		},
+	})
+	if (!group) return null
+
+	// 🔄 Refresh avatars
+	const refreshImage = async (user: any) => {
+		try {
+			const clerkUser = await clerkClient.users.getUser(user.userId)
+			return clerkUser?.imageUrl || '/mascot.svg'
+		} catch {
+			return user.userImageSrc || '/mascot.svg'
+		}
+	}
+
+	group.teacher.userImageSrc = await refreshImage(group.teacher)
+	for (const m of group.members) {
+		m.user.userImageSrc = await refreshImage(m.user)
+	}
+
+	return group
+}
+
+export async function getUserStudyGroupsWithTeaching(userId: string) {
+	// Groups where the user is the teacher
+	const teachingGroups = await db.query.studyGroups.findMany({
+		where: eq(studyGroups.teacherId, userId),
+	})
+
+	// Groups where the user is a student
+	const memberGroups = await db.query.studyGroupMembers.findMany({
+		where: eq(studyGroupMembers.userId, userId),
+		with: { studyGroup: true },
+	})
+
+	// Combine both types, flatten, and normalize shape
+	const combined = [
+		...teachingGroups.map((g) => ({
+			id: g.id,
+			name: g.name,
+			organization: g.organization,
+			level: g.level,
+			section: g.section,
+			time: g.time,
+			zoomLink: g.zoomLink,
+			isTeacher: true,
+		})),
+		...memberGroups.map((m) => ({
+			id: m.studyGroup.id,
+			name: m.studyGroup.name,
+			organization: m.studyGroup.organization,
+			level: m.studyGroup.level,
+			section: m.studyGroup.section,
+			time: m.studyGroup.time,
+			zoomLink: m.studyGroup.zoomLink,
+			isTeacher: false,
+		})),
+	]
+
+	// Deduplicate by group id
+	return Object.values(
+		combined.reduce((acc, g) => {
+			acc[g.id] = g
+			return acc
+		}, {} as Record<number, any>)
 	)
 }

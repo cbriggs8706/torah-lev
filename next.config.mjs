@@ -1,10 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
 	images: {
+		domains: ['img.clerk.com', 'images.clerk.dev', 'supabase.co'],
 		remotePatterns: [
 			{
 				protocol: 'https',
-				hostname: 'img.clerk.com',
+				hostname: '**.clerk.com',
+			},
+			{
+				protocol: 'https',
+				hostname: '**.clerk.dev',
 			},
 		],
 	},

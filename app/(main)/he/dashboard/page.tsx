@@ -3,17 +3,22 @@ import { FeedWrapper } from '@/components/feed-wrapper'
 import {
 	getUserProgressWithTribe,
 	getAllUserCourseProgress,
+	getUserStudyGroups,
+	getUserStudyGroupsWithTeaching,
 } from '@/db/queries'
 import HebrewUserDashboard from '@/components/hebrew/hebrew-dashboard'
 import db from '@/db/drizzle'
 import { eq } from 'drizzle-orm'
 import { challengeProgress, units } from '@/db/schema'
+import { get } from 'http'
 
 const Dashboard = async () => {
 	const [userProgress, allCourseProgress] = await Promise.all([
 		getUserProgressWithTribe(),
 		getAllUserCourseProgress(),
 	])
+
+	// 🧩 Step 2: guard for login
 	if (!userProgress) {
 		return (
 			<div className="text-center text-red-500 mt-10">
@@ -21,6 +26,11 @@ const Dashboard = async () => {
 			</div>
 		)
 	}
+
+	// 🧩 Step 3: fetch study groups once we know the userId
+	const userStudyGroups = await getUserStudyGroupsWithTeaching(
+		userProgress.userId
+	)
 
 	const courseId = userProgress.activeCourse?.id ?? 6
 
@@ -42,7 +52,9 @@ const Dashboard = async () => {
 			},
 		},
 	})
+
 	console.log('User image:', userProgress.userImageSrc)
+
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
 			<FeedWrapper>
@@ -87,6 +99,7 @@ const Dashboard = async () => {
 								  }
 								: null
 						}
+						studyGroups={userStudyGroups}
 						allCourseProgress={allCourseProgress} // ✅ Pass the new array here
 					/>
 				</div>

@@ -54,6 +54,16 @@ interface HebrewUserDashboardProps {
 		points: number
 		tribeImage: string
 	} | null
+	studyGroups?: {
+		id: number
+		name: string
+		organization: string
+		level: string
+		section: string
+		time: string
+		zoomLink?: string | null
+		isTeacher?: boolean
+	}[]
 	allCourseProgress?: CourseProgress[]
 }
 
@@ -65,6 +75,7 @@ export default function HebrewUserDashboard({
 	activeCourse,
 	userUnitProgress,
 	tribe,
+	studyGroups,
 	currentLesson,
 	allCourseProgress = [],
 }: HebrewUserDashboardProps) {
@@ -152,6 +163,8 @@ export default function HebrewUserDashboard({
 		...allCourseProgress.filter((c) => c.courseId === activeCourse.id),
 		...allCourseProgress.filter((c) => c.courseId !== activeCourse.id),
 	]
+	const cleanSrc = (src?: string) =>
+		src?.replace(/\s|\n|\r/g, '')?.trim() || '/mascot.svg'
 
 	return (
 		<div className="max-w-3xl mx-auto bg-white rounded-2xl shadow-md p-6 space-y-8">
@@ -160,16 +173,15 @@ export default function HebrewUserDashboard({
 				{/* Avatar */}
 				<div className="flex flex-col items-center">
 					<Image
-						src={avatar || '/mascot.svg'}
+						src={cleanSrc(avatar)}
 						alt="User Avatar"
 						width={80}
 						height={80}
 						className="rounded-full border shadow object-cover"
 						unoptimized
-						onError={(e) => {
-							const target = e.target as HTMLImageElement
-							target.src = '/mascot.svg'
-						}}
+						onError={(e) =>
+							((e.target as HTMLImageElement).src = '/mascot.svg')
+						}
 					/>
 				</div>
 
@@ -291,6 +303,83 @@ export default function HebrewUserDashboard({
 				<div className="p-3 rounded-lg bg-gray-100 text-gray-500">
 					You have not been assigned to a tribe yet.
 					<p className="text-xs text-gray-500 mt-1">🔒 Unlocks at lesson 10</p>
+				</div>
+			)}
+
+			{/* Study Groups Section */}
+			{studyGroups && studyGroups.length > 0 ? (
+				<div className="p-4 rounded-xl bg-blue-50 border border-blue-200 mt-6">
+					<h3 className="text-xl font-semibold text-blue-700 mb-3 text-center">
+						My Study Groups
+					</h3>
+
+					{(() => {
+						// 🧩 Sort teachers first (true > false)
+						const sortedStudyGroups = [...studyGroups].sort(
+							(a, b) => Number(b.isTeacher) - Number(a.isTeacher)
+						)
+
+						return (
+							<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+								{/* {sortedStudyGroups.some((g) => g.isTeacher) && (
+									<h4 className="text-center text-sm text-blue-600 mb-2">
+										Teacher Groups
+									</h4>
+								)} */}
+								{sortedStudyGroups.map((group) => (
+									<div
+										key={group.id}
+										className="bg-white border border-blue-100 rounded-xl p-4 shadow-sm hover:shadow-md transition flex flex-col justify-between"
+									>
+										<div>
+											<p className="font-bold text-gray-800">
+												{group.name} with {group.organization}
+											</p>
+											<p className="text-sm text-gray-600 mt-1">
+												Level: {group.level} • Section: {group.section} • Time:{' '}
+												{group.time}
+											</p>
+
+											{group.isTeacher && (
+												<p className="text-xs text-blue-600 font-semibold mt-1">
+													You are the instructor
+												</p>
+											)}
+										</div>
+
+										<div className="flex flex-wrap justify-center gap-2 mt-3">
+											{/* <Link
+												href={`/study-group/${group.id}`}
+												className="px-3 py-1 text-sm bg-blue-500 hover:bg-blue-600 text-white rounded-md transition"
+											>
+												View Group
+											</Link> */}
+											<Link
+												href={`/study-group/${group.id}/messages`}
+												className="px-3 py-1 text-sm bg-green-500 hover:bg-green-600 text-white rounded-md transition"
+											>
+												Message Board
+											</Link>
+											{group.zoomLink && (
+												<a
+													href={group.zoomLink}
+													target="_blank"
+													rel="noopener noreferrer"
+													className="px-3 py-1 text-sm bg-indigo-500 hover:bg-indigo-600 text-white rounded-md transition"
+												>
+													Join Zoom
+												</a>
+											)}
+										</div>
+									</div>
+								))}
+							</div>
+						)
+					})()}
+				</div>
+			) : (
+				<div className="p-4 rounded-xl bg-gray-100 text-gray-500 mt-6 text-center">
+					You have not been assigned to any study groups yet.
 				</div>
 			)}
 

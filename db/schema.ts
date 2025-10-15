@@ -226,16 +226,21 @@ export const userProgress = pgTable('user_progress', {
 	lastSeen: timestamp('last_seen').defaultNow().notNull(),
 })
 
-export const userProgressRelations = relations(userProgress, ({ one }) => ({
-	activeCourse: one(courses, {
-		fields: [userProgress.activeCourseId],
-		references: [courses.id],
-	}),
-	tribe: one(tribes, {
-		fields: [userProgress.tribeId],
-		references: [tribes.id],
-	}),
-}))
+export const userProgressRelations = relations(
+	userProgress,
+	({ one, many }) => ({
+		activeCourse: one(courses, {
+			fields: [userProgress.activeCourseId],
+			references: [courses.id],
+		}),
+		tribe: one(tribes, {
+			fields: [userProgress.tribeId],
+			references: [tribes.id],
+		}),
+		houses: many(houses),
+		studyGroups: many(studyGroupMembers),
+	})
+)
 
 export const userCourseProgress = pgTable(
 	'user_course_progress',
@@ -293,6 +298,18 @@ export const userSubscription = pgTable('user_subscription', {
 	stripeSubscriptionId: text('stripe_subscription_id').notNull().unique(),
 	stripePriceId: text('stripe_price_id').notNull(),
 	stripeCurrentPeriodEnd: timestamp('stripe_current_period_end').notNull(),
+})
+
+export const userRoles = pgTable('user_roles', {
+	id: serial('id').primaryKey(),
+	userId: text('user_id')
+		.references(() => userProgress.userId, { onDelete: 'cascade' })
+		.notNull(),
+	isTeacher: boolean('is_teacher').notNull().default(false),
+	assignedBy: text('assigned_by').references(() => userProgress.userId, {
+		onDelete: 'set null',
+	}),
+	assignedAt: timestamp('assigned_at').defaultNow().notNull(),
 })
 
 // export const hebrewMusicLibrary = pgTable('hebrew_music_library', {
@@ -396,6 +413,41 @@ export const hebrewMusicLibraryRelations = relations(
 	})
 )
 
+export const houses = pgTable('houses', {
+	id: serial('id').primaryKey(),
+	engName: text('eng_name').notNull(),
+	points: integer('points').notNull().default(0),
+	imgSrc: text('img_src'),
+})
+
+// many-to-many pivot
+export const houseMembers = pgTable('house_members', {
+	id: serial('id').primaryKey(),
+	houseId: integer('house_id')
+		.references(() => houses.id, { onDelete: 'cascade' })
+		.notNull(),
+	userId: text('user_id')
+		.references(() => userProgress.userId, { onDelete: 'cascade' })
+		.notNull(),
+	isLeader: boolean('is_leader').notNull().default(false),
+	addedAt: timestamp('added_at').defaultNow().notNull(),
+})
+
+export const housesRelations = relations(houses, ({ many }) => ({
+	members: many(houseMembers),
+}))
+
+export const houseMembersRelations = relations(houseMembers, ({ one }) => ({
+	house: one(houses, {
+		fields: [houseMembers.houseId],
+		references: [houses.id],
+	}),
+	user: one(userProgress, {
+		fields: [houseMembers.userId],
+		references: [userProgress.userId],
+	}),
+}))
+
 export const tribes = pgTable('tribes', {
 	id: serial('id').primaryKey(),
 	engName: text('eng_name').notNull(),
@@ -409,6 +461,101 @@ export const tribes = pgTable('tribes', {
 export const tribesRelations = relations(tribes, ({ many }) => ({
 	members: many(userProgress),
 }))
+
+export const studyGroups = pgTable('study_groups', {
+	id: serial('id').primaryKey(),
+	name: text('name').notNull(),
+	time: text('time').notNull(), // simple string like "8pm"
+	level: text('level').notNull(),
+	organization: text('organization').notNull(),
+	section: text('section').notNull(),
+	zoomLink: text('zoom_link'),
+	teacherId: text('teacher_id')
+		.references(() => userProgress.userId, { onDelete: 'cascade' })
+		.notNull(),
+})
+
+export const studyGroupMembers = pgTable('study_group_members', {
+	id: serial('id').primaryKey(),
+	studyGroupId: integer('study_group_id')
+		.references(() => studyGroups.id, { onDelete: 'cascade' })
+		.notNull(),
+	userId: text('user_id')
+		.references(() => userProgress.userId, { onDelete: 'cascade' })
+		.notNull(),
+	addedAt: timestamp('added_at').defaultNow().notNull(),
+})
+
+export const studyGroupsRelations = relations(studyGroups, ({ one, many }) => ({
+	teacher: one(userProgress, {
+		fields: [studyGroups.teacherId],
+		references: [userProgress.userId],
+	}),
+	members: many(studyGroupMembers),
+	messages: many(messages),
+}))
+
+export const studyGroupMembersRelations = relations(
+	studyGroupMembers,
+	({ one }) => ({
+		studyGroup: one(studyGroups, {
+			fields: [studyGroupMembers.studyGroupId],
+			references: [studyGroups.id],
+		}),
+		user: one(userProgress, {
+			fields: [studyGroupMembers.userId],
+			references: [userProgress.userId],
+		}),
+	})
+)
+
+export const messages = pgTable('messages', {
+	id: serial('id').primaryKey(),
+	senderId: text('sender_id')
+		.references(() => userProgress.userId, { onDelete: 'cascade' })
+		.notNull(),
+	recipientId: text('recipient_id').references(() => userProgress.userId, {
+		onDelete: 'cascade',
+	}),
+	tribeId: integer('tribe_id').references(() => tribes.id, {
+		onDelete: 'cascade',
+	}),
+	studyGroupId: integer('study_group_id').references(() => studyGroups.id, {
+		onDelete: 'cascade',
+	}),
+	content: text('content').notNull(),
+	createdAt: timestamp('created_at').defaultNow().notNull(),
+	readAt: timestamp('read_at'),
+})
+
+export const messagesRelations = relations(messages, ({ one }) => ({
+	sender: one(userProgress, {
+		fields: [messages.senderId],
+		references: [userProgress.userId],
+	}),
+	recipient: one(userProgress, {
+		fields: [messages.recipientId],
+		references: [userProgress.userId],
+	}),
+	tribe: one(tribes, {
+		fields: [messages.tribeId],
+		references: [tribes.id],
+	}),
+	studyGroup: one(studyGroups, {
+		fields: [messages.studyGroupId],
+		references: [studyGroups.id],
+	}),
+}))
+
+export const messageThreads = pgTable('message_threads', {
+	id: serial('id').primaryKey(),
+	parentMessageId: integer('parent_message_id')
+		.references(() => messages.id, { onDelete: 'cascade' })
+		.notNull(),
+	replyMessageId: integer('reply_message_id')
+		.references(() => messages.id, { onDelete: 'cascade' })
+		.notNull(),
+})
 
 export const events = pgTable('events', {
 	id: serial('id').primaryKey(),

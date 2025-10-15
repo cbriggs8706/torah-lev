@@ -5,6 +5,7 @@ import { Ribbon } from '@/components/ribbon'
 import { Shield } from '@/components/shield'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 import { getTopTwentyUsers, getTribeLeaderboard } from '@/db/queries'
+import { AvatarImageSafe } from '../avatar-image-safe'
 
 const containsHebrew = (text: string) => /[\u0590-\u05FF]/.test(text)
 
@@ -113,9 +114,10 @@ export default async function HebrewLeaderboard({ users }: { users: any[] }) {
 								<td className="px-4 py-2">
 									<div className="relative h-12 w-12">
 										<Avatar className="h-12 w-12 border bg-sky-600">
-											<AvatarImage
-												className="object-cover"
+											<AvatarImageSafe
 												src={user.userImageSrc}
+												alt={user.userName}
+												size={48}
 											/>
 										</Avatar>
 										{isOnline && (
@@ -151,7 +153,11 @@ export default async function HebrewLeaderboard({ users }: { users: any[] }) {
 					>
 						<Ribbon rank={userRanks[index]} />
 						<Avatar className="h-10 w-10 mx-3">
-							<AvatarImage src={user.userImageSrc} />
+							<AvatarImageSafe
+								src={user.userImageSrc}
+								alt={user.userName}
+								size={48}
+							/>
 						</Avatar>
 						<div className="flex flex-col flex-1">
 							<p className="font-bold">{user.userName}</p>
