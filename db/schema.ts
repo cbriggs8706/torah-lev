@@ -465,6 +465,7 @@ export const tribesRelations = relations(tribes, ({ many }) => ({
 export const studyGroups = pgTable('study_groups', {
 	id: serial('id').primaryKey(),
 	name: text('name').notNull(),
+	current: boolean('current').notNull().default(true),
 	time: text('time').notNull(), // simple string like "8pm"
 	level: text('level').notNull(),
 	organization: text('organization').notNull(),

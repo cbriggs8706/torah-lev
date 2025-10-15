@@ -390,7 +390,7 @@ export default function HebrewUserDashboard({
 			{sortedCourses.length > 1 && (
 				<div className="mt-8 space-y-4">
 					<h2 className="text-xl font-semibold text-center">
-						Other Enrolled Courses
+						Self-Paced Courses
 					</h2>
 					<div className="grid sm:grid-cols-2 gap-4">
 						{sortedCourses
