@@ -158,6 +158,14 @@ export default function SidebarClient({
 							onClick={onItemClick}
 							className="font-cardo text-xl"
 						/>
+						<SidebarItem
+							label="זכר"
+							href="/he/memorize"
+							iconSrc="/brain-svgrepo-com.svg"
+							// iconSrc="/mascot.svg"
+							onClick={onItemClick}
+							className="font-cardo text-xl"
+						/>
 					</>
 				)}
 

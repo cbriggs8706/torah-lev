@@ -2,13 +2,13 @@
 
 import { useState, useEffect } from 'react'
 import dynamic from 'next/dynamic'
-import MemorizeModeMenu from './english-verse-mode-menu'
+import MemorizeModeMenu from './hebrew-verse-mode-menu'
 import MemorizeControls from '../memorize-controls'
 import { Button } from '../ui/button'
 
 type BookMeta = { bookId: string; bookName: string }
 
-export default function EnglishVerseSelector({
+export default function HebrewVerseSelector({
 	bookList,
 }: {
 	bookList: BookMeta[]
@@ -29,7 +29,7 @@ export default function EnglishVerseSelector({
 		if (!selectedBook) return
 		setBookData(null)
 
-		const path = `/data/english/books/${selectedBook.bookId.toLowerCase()}.json`
+		const path = `/data/hebrew/books/${selectedBook.bookId.toLowerCase()}.json`
 		console.log('📖 Fetching book data from:', path)
 
 		fetch(path)
@@ -45,9 +45,15 @@ export default function EnglishVerseSelector({
 	}, [selectedBook])
 
 	if (isStarted && selectedChapter && bookData) {
-		const verses = selectedChapter.verses.filter(
-			(v: any) => v.number >= range.start! && v.number <= range.end!
-		)
+		const verses = selectedChapter.verses
+			.filter(
+				(v: any) => v.verseNumber >= range.start! && v.verseNumber <= range.end!
+			)
+			.map((v: any) => ({
+				number: v.verseNumber,
+				text: v.verseText.hebrew,
+				audio: v.verseAudio.hebrew,
+			}))
 		return (
 			<MemorizeModeMenu verses={verses} onBack={() => setIsStarted(false)} />
 		)
@@ -68,8 +74,8 @@ export default function EnglishVerseSelector({
 					}}
 				>
 					<option value="">Select a Book</option>
-					{bookList.map((b) => (
-						<option key={b.bookId} value={b.bookId}>
+					{bookList.map((b, i) => (
+						<option key={`${b.bookId}-${i}`} value={b.bookId}>
 							{b.bookName}
 						</option>
 					))}
@@ -81,19 +87,22 @@ export default function EnglishVerseSelector({
 				<div className="flex justify-center">
 					<select
 						className="border rounded-lg px-3 py-2"
-						value={selectedChapter?.number || ''}
+						value={selectedChapter?.chapterNumber || ''}
 						onChange={(e) => {
 							const chapter = bookData.chapters.find(
-								(c: any) => c.number === Number(e.target.value)
+								(c: any) => c.chapterNumber === Number(e.target.value)
 							)
 							setSelectedChapter(chapter)
 							setRange({ start: null, end: null })
 						}}
 					>
 						<option value="">Select a Chapter</option>
-						{bookData.chapters.map((c: any) => (
-							<option key={c.number} value={c.number}>
-								{c.number}. {c.title}
+						{bookData.chapters.map((c: any, i: number) => (
+							<option
+								key={`${bookData.bookId}-${c.chapterNumber}-${i}`}
+								value={c.chapterNumber}
+							>
+								{c.chapterNumber}
 							</option>
 						))}
 					</select>
@@ -104,7 +113,7 @@ export default function EnglishVerseSelector({
 			{selectedChapter && (
 				<div className="border rounded-lg p-3 shadow-sm mb-20">
 					<h3 className="font-semibold mb-3">
-						Chapter {selectedChapter.number}: {selectedChapter.title}
+						Chapter {selectedChapter.chapterNumber}
 					</h3>
 
 					<div className="flex flex-col gap-2">
@@ -112,34 +121,37 @@ export default function EnglishVerseSelector({
 							const isSelected =
 								range.start !== null &&
 								range.end !== null &&
-								v.number >= range.start &&
-								v.number <= range.end
+								v.verseNumber >= range.start &&
+								v.verseNumber <= range.end
 
 							return (
 								<div
-									key={v.number}
+									key={`${selectedChapter.chapterNumber}-${v.verseNumber}`}
 									onClick={() => {
 										if (range.start === null) {
-											setRange({ start: v.number, end: v.number })
+											setRange({ start: v.verseNumber, end: v.verseNumber })
 										} else if (
 											range.start !== null &&
 											range.end === range.start
 										) {
-											const start = Math.min(range.start, v.number)
-											const end = Math.max(range.start, v.number)
+											const start = Math.min(range.start, v.verseNumber)
+											const end = Math.max(range.start, v.verseNumber)
 											setRange({ start, end })
 										} else {
-											setRange({ start: v.number, end: v.number })
+											setRange({ start: v.verseNumber, end: v.verseNumber })
 										}
 									}}
+									dir="rtl"
 									className={`p-2 rounded cursor-pointer transition border ${
 										isSelected
 											? 'bg-blue-100 border-blue-400'
 											: 'hover:bg-gray-50 border-transparent'
 									}`}
 								>
-									<span className="font-semibold mr-2">{v.number}.</span>{' '}
-									{v.text}
+									<span className="font-semibold ml-2">{v.verseNumber}.</span>
+									<span dir="rtl" className="font-serif text-right text-3xl">
+										{v.verseText?.hebrew || ''}
+									</span>
 								</div>
 							)
 						})}
@@ -163,7 +175,7 @@ export default function EnglishVerseSelector({
 						variant="secondary"
 						className="w-full max-w-md"
 					>
-						Memorize {selectedBook?.bookName} {selectedChapter.number}:
+						Memorize {selectedBook?.bookName} {selectedChapter.chapterNumber}:
 						{range.start}
 						{range.end !== range.start && `–${range.end}`}
 					</Button>

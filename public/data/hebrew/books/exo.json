@@ -1,0 +1,145 @@
+{
+	"bookId": "EXO",
+	"bookName": "Exodus",
+	"bookNameHebrew": "שמות",
+	"bookOrder": 2,
+	"chapters": [
+		{
+			"chapterNumber": 1,
+			"verses": [
+				{
+					"verseNumber": 1,
+					"verseText": {
+						"hebrew": "וְאֵ֗לֶּה שְׁמוֹת֙ בְּנֵ֣י יִשְׂרָאֵ֔ל הַבָּאִ֖ים מִצְרָ֑יְמָה אֵ֣ת יַעֲקֹ֔ב אִ֥ישׁ וּבֵית֖וֹ בָּֽאוּ׃",
+						"transliteration": "",
+						"english": ""
+					},
+					"verseAudio": {
+						"hebrew": "",
+						"english": ""
+					}
+				},
+				{
+					"verseNumber": 2,
+					"verseText": {
+						"hebrew": "רְאוּבֵ֣ן שִׁמְע֔וֹן לֵוִ֖י וִיהוּדָֽה׃",
+						"transliteration": "",
+						"english": ""
+					},
+					"verseAudio": {
+						"hebrew": "",
+						"english": ""
+					}
+				},
+				{
+					"verseNumber": 3,
+					"verseText": {
+						"hebrew": "יִשָּׂשכָ֥ר זְבוּלֻ֖ן וּבְנְיָמִֽן׃",
+						"transliteration": "",
+						"english": ""
+					},
+					"verseAudio": {
+						"hebrew": "",
+						"english": ""
+					}
+				},
+				{
+					"verseNumber": 4,
+					"verseText": {
+						"hebrew": "דָּ֥ן וְנַפְתָּלִ֖י גָּ֥ד וְאָשֵֽׁר׃",
+						"transliteration": "",
+						"english": ""
+					},
+					"verseAudio": {
+						"hebrew": "",
+						"english": ""
+					}
+				},
+				{
+					"verseNumber": 5,
+					"verseText": {
+						"hebrew": "וַֽיְהִ֗י כָּל־נֶ֛פֶשׁ יֹצְאֵ֥י יֶֽרֶךְ־יַעֲקֹ֖ב שִׁבְעִ֣ים נָ֑פֶשׁ וְיוֹסֵ֖ף הָיָ֥ה בְמִצְרָֽיִם׃",
+						"transliteration": "",
+						"english": ""
+					},
+					"verseAudio": {
+						"hebrew": "",
+						"english": ""
+					}
+				},
+				{
+					"verseNumber": 6,
+					"verseText": {
+						"hebrew": "וַיָּ֤מָת יוֹסֵף֙ וְכָל־אֶחָ֔יו וְכֹ֖ל הַדּ֥וֹר הַהֽוּא׃",
+						"transliteration": "",
+						"english": ""
+					},
+					"verseAudio": {
+						"hebrew": "",
+						"english": ""
+					}
+				},
+				{
+					"verseNumber": 7,
+					"verseText": {
+						"hebrew": "וּבְנֵ֣י יִשְׂרָאֵ֗ל פָּר֧וּ וַֽיִּשְׁרְצ֛וּ וַיִּרְבּ֥וּ וַיַּֽעַצְמ֖וּ בִּמְאֹ֣ד מְאֹ֑ד וַתִּמָּלֵ֥א הָאָ֖רֶץ אֹתָֽם׃",
+						"transliteration": "",
+						"english": ""
+					},
+					"verseAudio": {
+						"hebrew": "",
+						"english": ""
+					}
+				},
+				{
+					"verseNumber": 8,
+					"verseText": {
+						"hebrew": "וַיָּ֥קָם מֶֽלֶךְ־חָדָ֖שׁ עַל־מִצְרָ֑יִם אֲשֶׁ֥ר לֹֽא־יָדַ֖ע אֶת־יוֹסֵֽף׃",
+						"transliteration": "",
+						"english": ""
+					},
+					"verseAudio": {
+						"hebrew": "",
+						"english": ""
+					}
+				},
+				{
+					"verseNumber": 9,
+					"verseText": {
+						"hebrew": "וַיֹּ֖אמֶר אֶל־עַמּ֑וֹ הִנֵּ֗ה עַ֚ם בְּנֵ֣י יִשְׂרָאֵ֔ל רַ֥ב וְעָצ֖וּם מִמֶּֽנּוּ׃",
+						"transliteration": "",
+						"english": ""
+					},
+					"verseAudio": {
+						"hebrew": "",
+						"english": ""
+					}
+				},
+				{
+					"verseNumber": 10,
+					"verseText": {
+						"hebrew": "הָ֥בָה נִֽתְחַכְּמָ֖ה ל֑וֹ פֶּן־יִרְבֶּ֗ה וְהָיָ֞ה כִּֽי־תִקְרֶ֤אנָה מִלְחָמָה֙ וְנוֹסַ֤ף גַּם־הוּא֙ עַל־שֹׂ֣נְאֵ֔ינוּ וְנִלְחַם־בָּ֖נוּ וְעָלָ֥ה מִן־הָאָֽרֶץ׃",
+						"transliteration": "",
+						"english": ""
+					},
+					"verseAudio": {
+						"hebrew": "",
+						"english": ""
+					}
+				},
+				{
+					"verseNumber": 11,
+					"verseText": {
+						"hebrew": "",
+						"transliteration": "",
+						"english": ""
+					},
+					"verseAudio": {
+						"hebrew": "",
+						"english": ""
+					}
+				}
+			]
+		}
+	]
+}
