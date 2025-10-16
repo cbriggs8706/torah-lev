@@ -286,7 +286,16 @@ export default function SidebarClient({
 						/>
 					</>
 				)}
-
+				{userProgress?.activeCourse.id === 19 && (
+					<>
+						<SidebarItem
+							label="Memorize"
+							href="/en/memorize"
+							iconSrc="/brain-svgrepo-com.svg"
+							onClick={onItemClick}
+						/>
+					</>
+				)}
 				{/* Hebrew */}
 				{userProgress?.activeCourse.id === 6 && (
 					<>

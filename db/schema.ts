@@ -219,6 +219,7 @@ export const userProgress = pgTable('user_progress', {
 	isHebrewFriend: boolean('is_hebrew_friend').notNull().default(false),
 	isSpanishFriend: boolean('is_spanish_friend').notNull().default(false),
 	isEnglishFriend: boolean('is_english_friend').notNull().default(false),
+	isBookclubFriend: boolean('is_bookclub_friend').notNull().default(false),
 	isTester: boolean('is_tester').notNull().default(false),
 	activeLessonId: integer('active_lesson_id').references(() => lessons.id, {
 		onDelete: 'cascade',

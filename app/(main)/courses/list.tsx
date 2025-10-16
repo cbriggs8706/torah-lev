@@ -26,6 +26,7 @@ export const List = ({ courses, activeCourseId }: Props) => {
 			if ([3, 4, 13, 16, 17].includes(courseId)) return '/en/learn'
 			if (courseId === 2) return '/es/learn'
 			if (courseId === 12) return '/el/learn'
+			if (courseId === 19) return '/en/learn'
 			return '/courses'
 		}
 
