@@ -885,6 +885,14 @@ export async function getUserStudyGroups(userId: string) {
 	})
 }
 
+type ExtendedUser = {
+	userId: string
+	userName: string
+	userImageSrc: string
+	lastSeen?: Date | null
+	activeLessonNumber?: string | null
+}
+
 export async function getStudyGroupWithMessages(studyGroupId: number) {
 	const group = await db.query.studyGroups.findFirst({
 		where: eq(studyGroups.id, studyGroupId),
@@ -897,6 +905,7 @@ export async function getStudyGroupWithMessages(studyGroupId: number) {
 			},
 		},
 	})
+
 	if (!group) return null
 
 	// 🔄 Refresh avatars
@@ -912,6 +921,31 @@ export async function getStudyGroupWithMessages(studyGroupId: number) {
 	group.teacher.userImageSrc = await refreshImage(group.teacher)
 	for (const m of group.members) {
 		m.user.userImageSrc = await refreshImage(m.user)
+	}
+
+	// ✅ Collect all member IDs
+	const memberIds = group.members.map((m) => m.user.userId)
+	if (memberIds.length === 0) return group
+
+	// ✅ Fetch progress info joined to lessons
+	const progressRows = await db
+		.select({
+			userId: userCourseProgress.userId,
+			lastSeen: userCourseProgress.lastSeen,
+			lessonNumber: lessons.lessonNumber,
+		})
+		.from(userCourseProgress)
+		.leftJoin(lessons, eq(userCourseProgress.activeLessonId, lessons.id))
+		.where(inArray(userCourseProgress.userId, memberIds))
+
+	const progressMap = new Map(progressRows.map((r) => [r.userId, r]))
+
+	// ✅ Attach extended fields safely
+	for (const m of group.members) {
+		const row = progressMap.get(m.user.userId)
+		const user = m.user as ExtendedUser
+		user.lastSeen = row?.lastSeen ?? null
+		user.activeLessonNumber = row?.lessonNumber ?? null
 	}
 
 	return group
@@ -960,4 +994,46 @@ export async function getUserStudyGroupsWithTeaching(userId: string) {
 			return acc
 		}, {} as Record<number, any>)
 	)
+}
+
+export async function getStudyGroupWithCourses(studyGroupId: number) {
+	// 1️⃣ Get base group with teacher and members
+	const group = await db.query.studyGroups.findFirst({
+		where: eq(studyGroups.id, studyGroupId),
+		with: {
+			teacher: true,
+			members: { with: { user: true } },
+		},
+	})
+
+	if (!group) return null
+
+	// 2️⃣ Refresh avatars for everyone
+	const refreshImage = async (user: any) => {
+		try {
+			const clerkUser = await clerkClient.users.getUser(user.userId)
+			return clerkUser?.imageUrl || '/mascot.svg'
+		} catch {
+			return user.userImageSrc || '/mascot.svg'
+		}
+	}
+
+	group.teacher.userImageSrc = await refreshImage(group.teacher)
+	for (const m of group.members) {
+		m.user.userImageSrc = await refreshImage(m.user)
+	}
+
+	// 3️⃣ Add available courses (currently all courses)
+	const availableCourses = await db.query.courses.findMany({
+		orderBy: (courses, { asc }) => [asc(courses.id)],
+		columns: {
+			id: true,
+			title: true,
+		},
+	})
+
+	return {
+		...group,
+		availableCourses,
+	}
 }

@@ -6,7 +6,7 @@ import { FeedWrapper } from '@/components/feed-wrapper'
 import {
 	getUserProgress,
 	getUserSubscription,
-	getStudyGroupWithMessages,
+	getStudyGroupWithCourses,
 } from '@/db/queries'
 
 const StudyGroupLiveQuiz = dynamic(
@@ -29,7 +29,7 @@ export default async function StudyGroupLiveQuizPage({
 	}
 
 	const studyGroupId = Number(params.id)
-	const studyGroup = await getStudyGroupWithMessages(studyGroupId)
+	const studyGroup = await getStudyGroupWithCourses(studyGroupId)
 
 	if (!studyGroup) {
 		return (
@@ -43,14 +43,14 @@ export default async function StudyGroupLiveQuizPage({
 		<div className="flex flex-row-reverse gap-[48px] px-6">
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">
-					<Image
+					{/* <Image
 						src="/left-speech-bubble-svgrepo-com.svg"
 						alt="Study Group"
 						height={90}
 						width={90}
-					/>
+					/> */}
 					<h1 className="text-center font-bold text-neutral-800 text-2xl my-6">
-						{studyGroup.name} Study Group
+						Live Quiz
 					</h1>
 					<StudyGroupLiveQuiz
 						userId={userProgress.userId}

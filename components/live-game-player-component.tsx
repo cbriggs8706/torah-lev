@@ -50,8 +50,36 @@ export default function LiveGamePlayer({
 
 	// 🟢 Setup Realtime listener
 	useEffect(() => {
-		checkActiveSession() // Check if a game is already active on mount
-		const channel = supabase.channel(channelName)
+		// define inline so it doesn't change reference
+		const checkActiveSession = async () => {
+			const { data, error } = await supabase
+				.from('study_group_sessions')
+				.select('*')
+				.eq('study_group_id', studyGroupId)
+				.eq('is_active', true)
+				.limit(1)
+
+			if (error) {
+				console.error('❌ Error fetching session:', error)
+				return
+			}
+
+			const session = Array.isArray(data) ? data[0] : data
+			if (session) {
+				console.log('⚡ Found active quiz session:', session)
+				const res = await fetch(`/api/lessons/${session.lesson_id}/challenges`)
+				const challenges = await res.json()
+				setLessonData({ title: session.lesson_title, challenges })
+				setGameStarted(true)
+				setCurrentIndex(0)
+			} else {
+				console.log('ℹ️ No active quiz session found')
+			}
+		}
+
+		checkActiveSession() // ✅ now defined inside effect, so no external dep
+
+		const channel = supabase.channel(`group-${studyGroupId}`)
 
 		channel
 			.on('broadcast', { event: 'game-started' }, (payload) => {
@@ -74,7 +102,6 @@ export default function LiveGamePlayer({
 				setGameStarted(false)
 				setLessonData(null)
 
-				// 🎯 Confirm final score from DB
 				const { data } = await supabase
 					.from('game_results')
 					.select('points')
@@ -141,7 +168,7 @@ export default function LiveGamePlayer({
 		return (
 			<div className="text-center mt-8">
 				<h2 className="text-2xl font-bold text-green-700 mb-2">
-					Game Complete 🎉
+					Quiz Complete 🎉
 				</h2>
 				<p className="text-xl text-gray-800">
 					You scored <span className="font-semibold">{points}</span> point
@@ -154,11 +181,11 @@ export default function LiveGamePlayer({
 	if (!challenge)
 		return (
 			<p className="text-green-600 text-center mt-6 text-lg">
-				Game complete 🎉 Thanks for playing!
+				Quiz complete 🎉 Thanks for playing!
 			</p>
 		)
 
-	// 🎮 Game in progress
+	// 🎮 Quiz in progress
 	return (
 		<div className="text-center">
 			<h2 className="text-lg mb-4 font-semibold">

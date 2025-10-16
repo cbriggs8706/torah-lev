@@ -4,6 +4,9 @@ import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { supabase } from '@/lib/supabase-client'
 import { Button } from '@/components/ui/button'
+import { Lesson } from './course-lesson-selector'
+import { StudyGroupType } from '@/types/study-group'
+import CourseLessonSelector from './course-lesson-selector'
 
 type GameResultRow = {
 	id: number
@@ -21,27 +24,28 @@ type PlayerAnsweredEvent = {
 }
 
 export default function LiveGameInstructor({
-	studyGroupId,
+	studyGroup,
 }: {
-	studyGroupId: number
+	studyGroup: StudyGroupType
 }) {
 	const [lessons, setLessons] = useState<any[]>([])
 	const [selectedLesson, setSelectedLesson] = useState<any>(null)
 	const [lessonData, setLessonData] = useState<any>(null)
 	const [currentIndex, setCurrentIndex] = useState(0)
 	const [scores, setScores] = useState<Record<string, number>>({})
+	const [userAvatars, setUserAvatars] = useState<Record<string, string>>({})
 	const [gameOver, setGameOver] = useState(false)
-	const channelName = `group-${studyGroupId}`
+	const channelName = `group-${studyGroup.id}`
 
-	// 🔹 Load available lessons
+	// 🔹 Load lessons
 	useEffect(() => {
-		fetch(`/api/study-groups/${studyGroupId}/lessons`)
+		fetch(`/api/study-groups/${studyGroup.id}/lessons`)
 			.then((r) => r.json())
 			.then((data) => {
 				setLessons(Array.isArray(data) ? data : data.lessons || [])
 			})
 			.catch(console.error)
-	}, [studyGroupId])
+	}, [studyGroup.id])
 
 	// 🔹 Broadcast helper
 	const broadcast = async (event: string, payload: any) => {
@@ -52,17 +56,16 @@ export default function LiveGameInstructor({
 		})
 	}
 
-	// 🧩 Start Game — use existing challenges endpoint
+	// 🧩 Start Game
 	const startGame = async () => {
 		if (!selectedLesson) return alert('Select a lesson first')
-
 		const res = await fetch(`/api/lessons/${selectedLesson.id}/challenges`)
 		const challenges = await res.json()
 		const fullLesson = { ...selectedLesson, challenges }
 
 		await supabase.from('study_group_sessions').upsert(
 			{
-				study_group_id: studyGroupId,
+				study_group_id: studyGroup.id,
 				lesson_id: selectedLesson.id,
 				lesson_title: selectedLesson.title,
 				is_active: true,
@@ -76,15 +79,14 @@ export default function LiveGameInstructor({
 		await broadcast('game-started', fullLesson)
 	}
 
-	// 🔹 Go to next question or end game
+	// 🔹 Next question
 	const nextQuestion = async () => {
 		if (!lessonData) return
 		const next = currentIndex + 1
 
 		if (next >= lessonData.challenges.length) {
-			// End of lesson
 			setGameOver(true)
-			setLessonData(null) // hides question/media area
+			setLessonData(null)
 			await broadcast('game-ended', { scores })
 			return
 		}
@@ -93,11 +95,25 @@ export default function LiveGameInstructor({
 		await broadcast('show-question', { index: next })
 	}
 
-	// 🧹 Listen for answers and realtime DB updates
+	// 🧹 Listen for realtime updates
 	useEffect(() => {
 		const channel = supabase.channel(channelName)
 
 		channel
+			// Player joins (avatar + initial score)
+			.on('broadcast', { event: 'player-joined' }, (payload) => {
+				const { userName, userImageSrc } = payload.payload
+				setUserAvatars((prev) => ({
+					...prev,
+					[userName]: userImageSrc || '/mascot.svg',
+				}))
+				setScores((prev) => ({
+					...prev,
+					[userName]: prev[userName] || 0,
+				}))
+			})
+
+			// Player answers (increment score)
 			.on('broadcast', { event: 'player-answered' }, (payload) => {
 				const { userName, correct } = payload.payload as PlayerAnsweredEvent
 				setScores((prev) => ({
@@ -105,8 +121,10 @@ export default function LiveGameInstructor({
 					[userName]: (prev[userName] || 0) + (correct ? 1 : 0),
 				}))
 			})
+
 			.subscribe()
 
+		// Optional: still listening to Supabase DB table
 		const subscription = supabase
 			.channel('public:game_results')
 			.on(
@@ -127,141 +145,201 @@ export default function LiveGameInstructor({
 			channel.unsubscribe()
 			subscription.unsubscribe()
 		}
-	}, [studyGroupId])
+	}, [channelName])
 
-	// 🧩 Active challenge
 	const challenge = lessonData?.challenges?.[currentIndex]
 
-	// 🔄 Restart game — reset everything
 	const restartGame = async () => {
 		setLessonData(null)
 		setSelectedLesson(null)
 		setScores({})
 		setCurrentIndex(0)
 		setGameOver(false)
-		const { data, error } = await supabase
+		await supabase
 			.from('study_group_sessions')
-			.upsert(
-				{
-					study_group_id: studyGroupId,
-					lesson_id: selectedLesson.id,
-					lesson_title: selectedLesson.title,
-					is_active: true,
-				},
-				{ onConflict: 'study_group_id' }
-			)
-			.select()
-
-		if (error) console.error('❌ Supabase upsert error:', error)
-		else console.log('✅ Upsert success:', data)
+			.update({ is_active: false })
+			.eq('study_group_id', studyGroup.id)
 	}
 
 	return (
-		<div className="text-center">
-			<h2 className="text-xl font-bold mb-2">Instructor Dashboard</h2>
-
-			{/* If game not started yet */}
-			{!lessonData && !gameOver && (
-				<>
-					<select
-						className="border px-2 py-1"
-						onChange={(e) =>
-							setSelectedLesson(
-								lessons.find((l) => l.id === Number(e.target.value))
-							)
-						}
-					>
-						<option value="">Select lesson</option>
-						{Array.isArray(lessons) &&
-							lessons.map((l) => (
-								<option key={l.id} value={l.id}>
-									{l.title}
-								</option>
-							))}
-					</select>
-
-					<Button onClick={startGame} className="ml-2">
-						Start Game
-					</Button>
-				</>
-			)}
-
-			{/* Active Game in Progress */}
-			{lessonData && (
-				<div className="mt-6 flex flex-col items-center gap-4">
-					<h3 className="text-lg font-semibold">
-						Question {currentIndex + 1} / {lessonData?.challenges?.length || 0}
-					</h3>
-
-					{/* 🔹 Conditional media display */}
-					{challenge?.image ? (
-						<Image
-							src={challenge.image}
-							alt="Challenge Image"
-							width={400}
-							height={300}
-							className="rounded shadow-md"
+		<div className="w-full flex flex-col md:flex-row justify-center md:items-start gap-6 text-center relative">
+			{/* 🧭 MAIN CONTENT */}
+			<div className="flex-1">
+				{/* Show selector before game starts */}
+				{!lessonData && !gameOver && (
+					<div className="flex flex-col items-center gap-4">
+						<CourseLessonSelector
+							studyGroup={studyGroup}
+							onLessonSelect={(lesson: Lesson) => setSelectedLesson(lesson)}
 						/>
-					) : challenge?.audio ? (
-						<audio key={challenge.audio} controls autoPlay className="my-3">
-							<source src={challenge.audio} type="audio/mpeg" />
-						</audio>
-					) : challenge?.hebNiqqud ? (
-						<p className="text-4xl font-hebrew text-gray-800">
-							{challenge.hebNiqqud}
-						</p>
-					) : (
-						<p className="text-gray-500 italic">No media available</p>
-					)}
-
-					<Button onClick={nextQuestion}>Next Question</Button>
-				</div>
-			)}
-
-			{/* 🏁 End of Game */}
-			{gameOver && (
-				<div className="mt-8 flex flex-col items-center">
-					<h3 className="text-2xl font-bold text-green-700 mb-3">
-						Game Complete 🎉
-					</h3>
-					<div className="w-full max-w-md bg-gray-100 rounded-lg p-4 shadow text-left">
-						<h3 className="font-bold text-lg mb-3">🏆 Final Scores</h3>
-						<ul className="space-y-1">
-							{Object.entries(scores)
-								.sort((a, b) => b[1] - a[1])
-								.map(([name, points]) => (
-									<li
-										key={name}
-										className="flex justify-between border-b border-gray-200 py-1"
-									>
-										<span className="font-medium">{name}</span>
-										<span>{points}</span>
-									</li>
-								))}
-						</ul>
+						<Button
+							onClick={startGame}
+							className="ml-2"
+							disabled={!selectedLesson}
+						>
+							Start Game
+						</Button>
 					</div>
-					<Button onClick={restartGame} className="mt-6">
-						Restart Game
-					</Button>
-				</div>
-			)}
+				)}
 
-			{/* 🏆 Live Scoreboard (always visible during or after game) */}
-			{Object.keys(scores).length > 0 && !gameOver && (
-				<div className="mt-6 w-full max-w-md bg-gray-100 rounded-lg p-4 shadow text-left">
-					<h3 className="font-bold text-lg mb-3">🏆 Live Scores</h3>
-					<ul className="space-y-1">
+				{/* Active Game */}
+				{lessonData && (
+					<div className="mt-6 flex flex-col items-center gap-6">
+						{/* Compact header */}
+						<div className="flex flex-col sm:flex-row justify-between items-center w-full max-w-3xl border-b pb-2">
+							<h3 className="text-lg font-semibold text-gray-700">
+								Lesson:{' '}
+								<span className="text-blue-600">{lessonData.title}</span>
+							</h3>
+							<p className="text-gray-600">
+								Question {currentIndex + 1} /{' '}
+								{lessonData?.challenges?.length || 0}
+							</p>
+						</div>
+
+						{/* Question display */}
+						<div className="p-6 bg-gray-50 rounded-lg border shadow-sm w-full max-w-3xl min-h-[200px] flex justify-center items-center">
+							{challenge?.image ? (
+								<Image
+									src={challenge.image}
+									alt="Challenge Image"
+									width={400}
+									height={300}
+									className="rounded shadow-md"
+								/>
+							) : challenge?.audio ? (
+								<audio key={challenge.audio} controls autoPlay className="my-3">
+									<source src={challenge.audio} type="audio/mpeg" />
+								</audio>
+							) : challenge?.hebNiqqud ? (
+								<p className="text-4xl font-hebrew text-gray-800">
+									{challenge.hebNiqqud}
+								</p>
+							) : (
+								<p className="text-gray-500 italic">No media available</p>
+							)}
+						</div>
+
+						<Button onClick={nextQuestion}>
+							{currentIndex + 1 === lessonData.challenges.length
+								? 'End Game'
+								: 'Next Question'}
+						</Button>
+					</div>
+				)}
+
+				{/* 🏁 End of Game — show full-screen leaderboard */}
+				{gameOver && (
+					<div className="w-full flex flex-col items-center mt-10">
+						<h3 className="text-3xl font-bold text-green-700 mb-6">
+							Game Complete 🎉
+						</h3>
+
+						<div className="w-full max-w-2xl bg-gray-100 rounded-lg p-6 shadow-md text-left">
+							<h3 className="font-bold text-2xl mb-4 text-center">
+								🏆 Final Scores
+							</h3>
+							<ul className="space-y-2">
+								{Object.entries(scores)
+									.sort((a, b) => b[1] - a[1])
+									.map(([name, points], index) => {
+										const medal =
+											index === 0
+												? '🥇'
+												: index === 1
+												? '🥈'
+												: index === 2
+												? '🥉'
+												: ''
+										const bgColor =
+											index === 0
+												? 'bg-yellow-100'
+												: index === 1
+												? 'bg-gray-200'
+												: index === 2
+												? 'bg-amber-200'
+												: 'bg-white'
+										return (
+											<li
+												key={name}
+												className={`flex items-center justify-between border-b border-gray-200 py-2 px-3 rounded ${bgColor}`}
+											>
+												<div className="flex items-center gap-2">
+													<Image
+														src={userAvatars[name] || '/mascot.svg'}
+														alt={name}
+														width={36}
+														height={36}
+														className="rounded-full border shadow-sm object-cover"
+													/>
+													<span className="font-medium text-lg">
+														{medal && <span className="mr-1">{medal}</span>}
+														{name}
+													</span>
+												</div>
+												<span className="font-semibold text-blue-700 text-lg">
+													{points}
+												</span>
+											</li>
+										)
+									})}
+							</ul>
+						</div>
+
+						<Button onClick={restartGame} className="mt-8">
+							Restart Game
+						</Button>
+					</div>
+				)}
+			</div>
+			{/* 🏆 RIGHT SIDEBAR — Only visible DURING the game */}
+			{lessonData && !gameOver && Object.keys(scores).length > 0 && (
+				<div className="w-full md:w-[300px] bg-gray-100 rounded-lg p-4 shadow-md md:sticky md:top-6 self-start">
+					<h3 className="font-bold text-lg mb-3 text-left">🏆 Live Scores</h3>
+					<ul className="space-y-2 max-h-[400px] overflow-y-auto text-left">
 						{Object.entries(scores)
 							.sort((a, b) => b[1] - a[1])
-							.map(([name, points]) => (
-								<li
-									key={name}
-									className="flex justify-between border-b border-gray-200 py-1"
-								>
-									<span className="font-medium">{name}</span>
-									<span>{points}</span>
-								</li>
-							))}
+							.map(([name, points], index) => {
+								const medal =
+									index === 0
+										? '🥇'
+										: index === 1
+										? '🥈'
+										: index === 2
+										? '🥉'
+										: ''
+								const bgColor =
+									index === 0
+										? 'bg-yellow-100'
+										: index === 1
+										? 'bg-gray-200'
+										: index === 2
+										? 'bg-amber-200'
+										: 'bg-white'
+								return (
+									<li
+										key={name}
+										className={`flex items-center justify-between border-b border-gray-200 py-1 px-2 rounded ${bgColor}`}
+									>
+										<div className="flex items-center gap-2">
+											<Image
+												src={userAvatars[name] || '/mascot.svg'}
+												alt={name}
+												width={28}
+												height={28}
+												className="rounded-full border shadow-sm object-cover"
+											/>
+											<span className="font-medium">
+												{medal && <span className="mr-1">{medal}</span>}
+												{name}
+											</span>
+										</div>
+										<span className="font-semibold text-blue-600">
+											{points}
+										</span>
+									</li>
+								)
+							})}
 					</ul>
 				</div>
 			)}

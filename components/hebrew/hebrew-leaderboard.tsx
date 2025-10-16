@@ -113,7 +113,7 @@ export default async function HebrewLeaderboard({ users }: { users: any[] }) {
 								</td>
 								<td className="px-4 py-2">
 									<div className="relative h-12 w-12">
-										<Avatar className="h-12 w-12 border bg-sky-600">
+										<Avatar className="h-12 w-12">
 											<AvatarImageSafe
 												src={user.userImageSrc}
 												alt={user.userName}

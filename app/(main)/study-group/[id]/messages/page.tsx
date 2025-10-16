@@ -8,6 +8,8 @@ import {
 	getUserSubscription,
 	getStudyGroupWithMessages,
 } from '@/db/queries'
+import Link from 'next/link'
+import { Button } from '@/components/ui/button'
 
 const StudyGroupMessages = dynamic(
 	() => import('@/components/study-group-messages'),
@@ -60,7 +62,11 @@ export default async function MessageboardPage({
 					<h1 className="text-center font-bold text-neutral-800 text-2xl my-6">
 						{studyGroup.name} Messageboard
 					</h1>
-
+					<Link href={`/study-group/${studyGroup.id}`}>
+						<Button size="sm" className="mb-4">
+							Back to Dashboard
+						</Button>
+					</Link>
 					<StudyGroupMessages
 						currentUserId={userProgress.userId}
 						instructor={{
