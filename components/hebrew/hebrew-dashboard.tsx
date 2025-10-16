@@ -348,12 +348,12 @@ export default function HebrewUserDashboard({
 										</div>
 
 										<div className="flex flex-wrap justify-center gap-2 mt-3">
-											{/* <Link
+											<Link
 												href={`/study-group/${group.id}`}
 												className="px-3 py-1 text-sm bg-blue-500 hover:bg-blue-600 text-white rounded-md transition"
 											>
 												View Group
-											</Link> */}
+											</Link>
 											<Link
 												href={`/study-group/${group.id}/messages`}
 												className="px-3 py-1 text-sm bg-green-500 hover:bg-green-600 text-white rounded-md transition"
@@ -390,7 +390,7 @@ export default function HebrewUserDashboard({
 			{sortedCourses.length > 1 && (
 				<div className="mt-8 space-y-4">
 					<h2 className="text-xl font-semibold text-center">
-						Self-Paced Courses
+						My Self-Paced Courses
 					</h2>
 					<div className="grid sm:grid-cols-2 gap-4">
 						{sortedCourses
