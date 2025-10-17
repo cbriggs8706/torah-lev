@@ -16,7 +16,7 @@ export default async function SidebarServer({
 		getUserSubscription(),
 	])
 
-	const pathname = headers().get('x-pathname') || ''
+	const pathname = (await headers()).get('x-pathname') || ''
 	if (
 		(!userProgress || !userProgress.activeCourse) &&
 		!pathname.startsWith('/courses')

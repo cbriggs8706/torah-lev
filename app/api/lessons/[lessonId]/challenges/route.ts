@@ -5,7 +5,7 @@ import { eq, and, ne, inArray } from 'drizzle-orm'
 
 export async function GET(
 	req: Request,
-	{ params }: { params: { lessonId: string } }
+	{ params }: { params: Record<string, string> }
 ) {
 	const lessonId = Number(params.lessonId)
 

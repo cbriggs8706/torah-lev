@@ -9,17 +9,10 @@ import {
 	getUserProgress,
 	getUserSubscription,
 } from '@/db/queries'
-import dynamic from 'next/dynamic'
 
 import awbHebrewVocab from '@/lib/data/vocab/awbVocab.json'
 import { DismissibleAlert } from '@/components/dismissible-alert'
-
-const HebrewScramble = dynamic(
-	() => import('@/components/hebrew/hebrew-scramble'),
-	{
-		ssr: false,
-	}
-)
+import HebrewScramble from '@/components/hebrew/hebrew-scramble'
 
 const HebrewScramblePage = async () => {
 	const userProgressData = getUserProgress()

@@ -6,11 +6,7 @@ import SlideDeckViewer from '@/components/english/english-slide-deck-viewer'
 
 export const dynamic = 'force-dynamic' // 👈 ensures fresh fetch
 
-export default async function EnglishSlideDeckPage({
-	params,
-}: {
-	params: { id: string }
-}) {
+export default async function EnglishSlideDeckPage({ params }: any) {
 	const slideDeck = await getEnglishSlideDeck(Number(params.id))
 
 	if (!slideDeck) return notFound()

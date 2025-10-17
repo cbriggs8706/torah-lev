@@ -5,11 +5,7 @@ import { notFound } from 'next/navigation'
 import { HebrewMusicWithLines } from '@/db/types'
 import MusicLinesTable from '@/components/hebrew/hebrew-music-lines-table'
 
-export default async function MusicDetailPage({
-	params,
-}: {
-	params: { id: string }
-}) {
+export default async function MusicDetailPage({ params }: any) {
 	const songId = Number(params.id)
 	if (isNaN(songId)) return notFound()
 

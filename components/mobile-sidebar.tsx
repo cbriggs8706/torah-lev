@@ -34,7 +34,6 @@ export const MobileSidebar = ({
 	isTester,
 }: Props) => {
 	const [open, setOpen] = useState(false)
-	// const pathname = headers().get('x-pathname') || ''
 
 	// if (
 	// 	(!userProgress || !userProgress.activeCourse) &&

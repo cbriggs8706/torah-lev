@@ -5,16 +5,9 @@ import { FeedWrapper } from '@/components/feed-wrapper'
 import { UserProgress } from '@/components/user-progress'
 import { StickyWrapper } from '@/components/sticky-wrapper'
 import { getUserProgress, getUserSubscription } from '@/db/queries'
-import dynamic from 'next/dynamic'
 import { numbers } from '@/lib/numbers'
 import { DismissibleAlert } from '@/components/dismissible-alert'
-
-const EnglishNumberQuiz = dynamic(
-	() => import('@/components/english/english-number-quiz'),
-	{
-		ssr: false,
-	}
-)
+import EnglishNumberQuiz from '@/components/english/english-number-quiz'
 
 const EnglishNumberQuizPage = async () => {
 	const userProgressData = getUserProgress()

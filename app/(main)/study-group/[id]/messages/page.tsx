@@ -1,5 +1,4 @@
 import Image from 'next/image'
-import dynamic from 'next/dynamic'
 import { redirect } from 'next/navigation'
 
 import { FeedWrapper } from '@/components/feed-wrapper'
@@ -10,17 +9,9 @@ import {
 } from '@/db/queries'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
+import StudyGroupMessages from '@/components/study-group-messages'
 
-const StudyGroupMessages = dynamic(
-	() => import('@/components/study-group-messages'),
-	{ ssr: false }
-)
-
-export default async function MessageboardPage({
-	params,
-}: {
-	params: { id: string }
-}) {
+export default async function MessageboardPage({ params }: any) {
 	const [userProgress, userSubscription] = await Promise.all([
 		getUserProgress(),
 		getUserSubscription(),

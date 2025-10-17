@@ -7,14 +7,15 @@ import { isAdmin } from '@/lib/admin'
 
 export const GET = async (
 	req: Request,
-	{ params }: { params: { storyId: number } }
+	{ params }: { params: Record<string, string> }
 ) => {
 	if (!isAdmin()) {
 		return new NextResponse('Unauthorized', { status: 403 })
 	}
+	const id = Number(params.challengeOptionId)
 
 	const data = await db.query.hebrewStories.findFirst({
-		where: eq(hebrewStories.id, params.storyId),
+		where: eq(hebrewStories.id, id),
 	})
 
 	return NextResponse.json(data)

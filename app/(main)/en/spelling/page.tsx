@@ -10,7 +10,6 @@ import {
 	getUserProgress,
 	getUserSubscription,
 } from '@/db/queries'
-import dynamic from 'next/dynamic'
 
 import efwEnglishVocab from '@/lib/data/vocab/efwVocab.json'
 import ewbEnglishVocab from '@/lib/data/vocab/ewbVocab.json'
@@ -20,13 +19,7 @@ import ec2EnglishVocab from '@/lib/data/vocab/ec2Vocab.json'
 
 import { DismissibleAlert } from '@/components/dismissible-alert'
 import { EnglishVocab } from '@/lib/vocab'
-
-const SpellingPractice = dynamic(
-	() => import('@/components/english/english-spelling'),
-	{
-		ssr: false,
-	}
-)
+import EnglishSpelling from '@/components/english/english-spelling'
 
 const EnglishSpellingPage = async () => {
 	const userProgressData = getUserProgress()
@@ -88,7 +81,7 @@ const EnglishSpellingPage = async () => {
 						you need to have your cursor at the end/left of the word.
 					</DismissibleAlert>
 
-					<SpellingPractice
+					<EnglishSpelling
 						data={filteredData}
 						currentLesson={currentLesson ?? ''}
 						userId={userProgress.userId}

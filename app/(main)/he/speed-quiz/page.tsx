@@ -9,16 +9,8 @@ import {
 	getUserProgress,
 	getUserSubscription,
 } from '@/db/queries'
-import dynamic from 'next/dynamic'
-// import awbHebrewVocab from '@/lib/data/vocab/awbVocab.json'
 import { DismissibleAlert } from '@/components/dismissible-alert'
-
-const HebrewSpeedQuiz = dynamic(
-	() => import('@/components/hebrew/hebrew-speed-quiz'),
-	{
-		ssr: false,
-	}
-)
+import HebrewSpeedQuiz from '@/components/hebrew/hebrew-speed-quiz'
 
 const HebrewSpeedQuizPage = async () => {
 	const userProgressData = getUserProgress()

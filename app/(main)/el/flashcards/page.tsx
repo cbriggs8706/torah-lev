@@ -1,10 +1,8 @@
 import Image from 'next/image'
 import { redirect } from 'next/navigation'
-import dynamic from 'next/dynamic'
 
 import { FeedWrapper } from '@/components/feed-wrapper'
 import { DismissibleAlert } from '@/components/dismissible-alert'
-
 import {
 	getCourseProgress,
 	getUserProgress,
@@ -12,16 +10,9 @@ import {
 } from '@/db/queries'
 
 import awaGreekVocab from '@/lib/data/vocab/awaVocab.json'
-
 import { GreekVocab } from '@/lib/vocab'
 import TorahScrollLoader from '@/components/hebrew/hebrew-loader'
-
-const GreekFlashcards = dynamic(
-	() => import('@/components/greek/greek-flashcards'),
-	{
-		ssr: false,
-	}
-)
+import GreekFlashcards from '@/components/greek/greek-flashcards'
 
 const allFieldsGreek: (keyof GreekVocab)[] = [
 	'grk',
@@ -33,11 +24,7 @@ const allFieldsGreek: (keyof GreekVocab)[] = [
 	'images',
 	'grkAudio',
 ]
-export default async function FlashcardPage({
-	params,
-}: {
-	params: { lang: string }
-}) {
+export default async function FlashcardPage({ params }: any) {
 	const userProgressData = getUserProgress()
 	const userChallengeData = await getCourseProgress()
 	const userSubscriptionData = getUserSubscription()

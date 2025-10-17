@@ -5,17 +5,10 @@ import { FeedWrapper } from '@/components/feed-wrapper'
 import { UserProgress } from '@/components/user-progress'
 import { StickyWrapper } from '@/components/sticky-wrapper'
 import { getUserProgress, getUserSubscription } from '@/db/queries'
-import dynamic from 'next/dynamic'
 import { hebrewLetters } from '@/lib/hebrew-letters'
 import { hebrewNiqqud } from '@/lib/hebrew-niqqud'
 import { DismissibleAlert } from '@/components/dismissible-alert'
-
-const LetterQuiz = dynamic(
-	() => import('@/components/hebrew/hebrew-letter-quiz'),
-	{
-		ssr: false,
-	}
-)
+import HebrewLetterQuiz from '@/components/hebrew/hebrew-letter-quiz'
 
 const HebrewLetterQuizPage = async () => {
 	const userProgressData = getUserProgress()
@@ -68,7 +61,7 @@ const HebrewLetterQuizPage = async () => {
 						The goal is to say the correct answer in under 3 seconds with no
 						more than 2 mistakes per round in order to pass it off in class.
 					</DismissibleAlert>
-					<LetterQuiz
+					<HebrewLetterQuiz
 						letters={hebrewLetters}
 						niqqud={hebrewNiqqud}
 						userId={userProgress.userId}

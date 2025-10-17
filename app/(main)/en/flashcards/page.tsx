@@ -1,6 +1,5 @@
 import Image from 'next/image'
 import { redirect } from 'next/navigation'
-import dynamic from 'next/dynamic'
 
 import { FeedWrapper } from '@/components/feed-wrapper'
 import { DismissibleAlert } from '@/components/dismissible-alert'
@@ -17,11 +16,7 @@ import lrEnglishVocab from '@/lib/data/vocab/lrVocab.json'
 import ec1EnglishVocab from '@/lib/data/vocab/ec1Vocab.json'
 import ec2EnglishVocab from '@/lib/data/vocab/ec2Vocab.json'
 import { EnglishVocab } from '@/lib/vocab'
-
-const EnglishFlashcards = dynamic(
-	() => import('@/components/english/english-flashcards'),
-	{ ssr: false }
-)
+import EnglishFlashcards from '@/components/english/english-flashcards'
 
 const allFieldsEnglish: (keyof EnglishVocab)[] = [
 	'eng',
@@ -39,11 +34,7 @@ const allFieldsEnglish: (keyof EnglishVocab)[] = [
 	'engAudio',
 ]
 
-export default async function EFWFlashcardPage({
-	params,
-}: {
-	params: { lang: string }
-}) {
+export default async function EFWFlashcardPage({ params }: any) {
 	const userProgressData = getUserProgress()
 	const userChallengeData = await getCourseProgress()
 	const userSubscriptionData = getUserSubscription()

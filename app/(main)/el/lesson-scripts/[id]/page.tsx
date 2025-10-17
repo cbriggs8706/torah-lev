@@ -4,11 +4,7 @@ import { notFound } from 'next/navigation'
 import { getGreekLessonScript } from '@/db/queries'
 import GreekLessonScriptViewer from '@/components/greek/greek-lesson-script-viewer'
 
-export default async function GreekLessonScriptPage({
-	params,
-}: {
-	params: { id: string }
-}) {
+export default async function GreekLessonScriptPage({ params }: any) {
 	const lessonScript = await getGreekLessonScript(Number(params.id))
 
 	if (!lessonScript) return notFound()

@@ -4,11 +4,7 @@ import { notFound } from 'next/navigation'
 import { getHebrewLessonScript } from '@/db/queries'
 import LessonScriptViewer from '@/components/hebrew/hebrew-lesson-script-viewer'
 
-export default async function HebrewLessonScriptPage({
-	params,
-}: {
-	params: { id: string }
-}) {
+export default async function HebrewLessonScriptPage({ params }: any) {
 	const lessonScript = await getHebrewLessonScript(Number(params.id))
 
 	if (!lessonScript) return notFound()

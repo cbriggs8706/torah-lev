@@ -4,10 +4,7 @@ import db from '@/db/drizzle'
 import { lessons, studyGroups, units } from '@/db/schema'
 import { eq, asc } from 'drizzle-orm'
 
-export async function GET(
-	req: Request,
-	{ params }: { params: { id: string } }
-) {
+export async function GET(req: Request, { params }: any) {
 	try {
 		const groupId = Number(params.id)
 

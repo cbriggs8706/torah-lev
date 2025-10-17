@@ -403,14 +403,14 @@ export default function SidebarClient({
 								<span className="text-lg text-red-700 font-semibold text-center">
 									-- Locals --
 								</span>
-								<SidebarItem
+								{/* <SidebarItem
 									label="לוח זמנים"
 									href="/camerons-groups"
 									iconSrc="/icons/iconCalendar.png"
 									// iconSrc="/tear-off-calendar-svgrepo-com.svg"
 									onClick={onItemClick}
 									className="font-cardo text-xl"
-								/>
+								/> */}
 
 								<SidebarItem
 									label="תפילות"

@@ -7,7 +7,7 @@ import { isAdmin } from '@/lib/admin'
 
 export const GET = async (
 	req: Request,
-	{ params }: { params: { lessonScriptId: number } }
+	{ params }: { params: Record<string, string> }
 ) => {
 	const id = Number(params.lessonScriptId)
 	if (isNaN(id)) {

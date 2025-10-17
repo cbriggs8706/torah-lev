@@ -5,11 +5,7 @@ import { notFound } from 'next/navigation'
 import { HebrewPrayerWithLines } from '@/db/types'
 import PrayerLinesTable from '@/components/hebrew/hebrew-prayer-lines-table'
 
-export default async function PrayerDetailPage({
-	params,
-}: {
-	params: { id: string }
-}) {
+export default async function PrayerDetailPage({ params }: any) {
 	const prayerId = Number(params.id)
 	if (isNaN(prayerId)) return notFound()
 

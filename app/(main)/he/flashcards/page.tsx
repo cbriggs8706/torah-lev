@@ -1,6 +1,5 @@
 import Image from 'next/image'
 import { redirect } from 'next/navigation'
-import dynamic from 'next/dynamic'
 
 import { FeedWrapper } from '@/components/feed-wrapper'
 import { DismissibleAlert } from '@/components/dismissible-alert'
@@ -17,12 +16,7 @@ import abcHebrewVocab from '@/lib/data/vocab/abcVocab.json'
 
 import { HebrewVocab } from '@/lib/vocab'
 import TorahScrollLoader from '@/components/hebrew/hebrew-loader'
-
-// ✅ Dynamic imports for each language
-const HebrewFlashcards = dynamic(
-	() => import('@/components/hebrew/hebrew-flashcards'),
-	{ ssr: false }
-)
+import HebrewFlashcards from '@/components/hebrew/hebrew-flashcards'
 
 // ✅ allFields constants
 const allFieldsHebrew: (keyof HebrewVocab)[] = [
@@ -37,11 +31,7 @@ const allFieldsHebrew: (keyof HebrewVocab)[] = [
 	'hebAudio',
 ]
 
-export default async function FlashcardPage({
-	params,
-}: {
-	params: { lang: string }
-}) {
+export default async function FlashcardPage({ params }: any) {
 	const userProgressData = getUserProgress()
 	const userChallengeData = await getCourseProgress()
 	const userSubscriptionData = getUserSubscription()

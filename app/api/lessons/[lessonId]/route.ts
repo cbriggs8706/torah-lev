@@ -7,7 +7,7 @@ import { isAdmin } from '@/lib/admin'
 
 export const GET = async (
 	req: Request,
-	{ params }: { params: { lessonId: string } }
+	{ params }: { params: Record<string, string> }
 ) => {
 	if (!isAdmin()) {
 		return new NextResponse('Unauthorized', { status: 403 })

@@ -1,5 +1,4 @@
 import Image from 'next/image'
-import dynamic from 'next/dynamic'
 import { redirect } from 'next/navigation'
 
 import { FeedWrapper } from '@/components/feed-wrapper'
@@ -8,17 +7,9 @@ import {
 	getUserSubscription,
 	getStudyGroupWithCourses,
 } from '@/db/queries'
+import StudyGroupLiveQuiz from '@/components/study-group-live-quiz'
 
-const StudyGroupLiveQuiz = dynamic(
-	() => import('@/components/study-group-live-quiz'),
-	{ ssr: false }
-)
-
-export default async function StudyGroupLiveQuizPage({
-	params,
-}: {
-	params: { id: string }
-}) {
+export default async function StudyGroupLiveQuizPage({ params }: any) {
 	const [userProgress, userSubscription] = await Promise.all([
 		getUserProgress(),
 		getUserSubscription(),

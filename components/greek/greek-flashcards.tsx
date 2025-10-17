@@ -15,7 +15,7 @@ type FontChoice =
 	| 'eczar'
 	| 'garamond'
 
-interface GreekGreekVocabProps {
+interface GreekVocabProps {
 	data: GreekVocab[]
 	allFields: (keyof GreekVocab)[]
 	currentLesson: string
@@ -65,13 +65,13 @@ const FONT_CLASS_MAP: Record<FontChoice, string> = {
 	garamond: 'font-garamond',
 }
 
-export default function GreekGreekVocab({
+export default function GreekFlashcards({
 	data,
 	allFields,
 	currentLesson,
 	courseId,
 	layout,
-}: GreekGreekVocabProps) {
+}: GreekVocabProps) {
 	const [selectedType, setSelectedType] = useState<'all' | 'word' | 'phrase'>(
 		'word'
 	)

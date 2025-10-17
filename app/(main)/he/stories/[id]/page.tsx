@@ -4,11 +4,7 @@ import { notFound } from 'next/navigation'
 import { getHebrewStory } from '@/db/queries'
 import HebrewStoryViewer from '@/components/hebrew/hebrew-story-viewer'
 
-export default async function LessonScriptPage({
-	params,
-}: {
-	params: { id: string }
-}) {
+export default async function LessonScriptPage({ params }: any) {
 	const story = await getHebrewStory(Number(params.id))
 
 	if (!story) return notFound()

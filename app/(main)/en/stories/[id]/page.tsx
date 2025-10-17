@@ -4,11 +4,7 @@ import { notFound } from 'next/navigation'
 import { getEnglishStory } from '@/db/queries'
 import EnglishStoryViewer from '@/components/english/english-story-viewer'
 
-export default async function EnglishStoryPage({
-	params,
-}: {
-	params: { id: string }
-}) {
+export default async function EnglishStoryPage({ params }: any) {
 	const story = await getEnglishStory(Number(params.id))
 
 	if (!story) return notFound()

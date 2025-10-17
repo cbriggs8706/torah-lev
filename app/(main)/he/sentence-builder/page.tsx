@@ -5,15 +5,8 @@ import { FeedWrapper } from '@/components/feed-wrapper'
 import { UserProgress } from '@/components/user-progress'
 import { StickyWrapper } from '@/components/sticky-wrapper'
 import { getUserProgress, getUserSubscription } from '@/db/queries'
-import dynamic from 'next/dynamic'
 import { DismissibleAlert } from '@/components/dismissible-alert'
-
-const SentenceBuilder = dynamic(
-	() => import('@/components/hebrew/hebrew-sentence-builder'),
-	{
-		ssr: false,
-	}
-)
+import HebrewSentenceBuilder from '@/components/hebrew/hebrew-sentence-builder'
 
 const HebrewSentenceBuilderPage = async () => {
 	const userProgressData = getUserProgress()
@@ -61,7 +54,7 @@ const HebrewSentenceBuilderPage = async () => {
 						activity and enhanced. Coming soon! For now when you drag words into
 						the bar in a correct order, the english equivalent will appear.
 					</DismissibleAlert> */}
-					<SentenceBuilder
+					<HebrewSentenceBuilder
 						userId={userProgress.userId}
 						courseId={userProgress.activeCourseId}
 					/>

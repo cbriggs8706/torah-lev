@@ -9,7 +9,6 @@ import {
 	getUserProgress,
 	getUserSubscription,
 } from '@/db/queries'
-import dynamic from 'next/dynamic'
 
 import efwEnglishVocab from '@/lib/data/vocab/efwVocab.json'
 import ewbEnglishVocab from '@/lib/data/vocab/ewbVocab.json'
@@ -18,13 +17,7 @@ import ec1EnglishVocab from '@/lib/data/vocab/ec1Vocab.json'
 import ec2EnglishVocab from '@/lib/data/vocab/ec2Vocab.json'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 import { EnglishVocab } from '@/lib/vocab'
-
-const EnglishScramble = dynamic(
-	() => import('@/components/english/english-scramble'),
-	{
-		ssr: false,
-	}
-)
+import EnglishScramble from '@/components/english/english-scramble'
 
 const EnglishScramblePage = async () => {
 	const userProgressData = getUserProgress()

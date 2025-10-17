@@ -5,16 +5,9 @@ import { FeedWrapper } from '@/components/feed-wrapper'
 import { UserProgress } from '@/components/user-progress'
 import { StickyWrapper } from '@/components/sticky-wrapper'
 import { getUserProgress, getUserSubscription } from '@/db/queries'
-import dynamic from 'next/dynamic'
 import { hebrewNumbers } from '@/lib/hebrew-numbers'
 import { DismissibleAlert } from '@/components/dismissible-alert'
-
-const HebrewNumberQuiz = dynamic(
-	() => import('@/components/hebrew/hebrew-number-quiz'),
-	{
-		ssr: false,
-	}
-)
+import HebrewNumberQuiz from '@/components/hebrew/hebrew-number-quiz'
 
 const HebrewNumberQuizPage = async () => {
 	const userProgressData = getUserProgress()

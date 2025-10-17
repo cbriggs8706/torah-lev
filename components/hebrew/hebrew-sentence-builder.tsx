@@ -7,15 +7,15 @@ import { vocab, VocabEntry } from '@/lib/sentence-builder-specifics'
 import { useCelebration } from '@/hooks/useCelebration'
 import Image from 'next/image'
 
-interface SentenceBuilderProps {
+interface HebrewSentenceBuilderProps {
 	userId: string
 	courseId: number | null
 }
 
-export default function SentenceBuilder({
+export default function HebrewSentenceBuilder({
 	userId,
 	courseId,
-}: SentenceBuilderProps) {
+}: HebrewSentenceBuilderProps) {
 	const [currentIndex, setCurrentIndex] = useState(0)
 	const [userOrder, setUserOrder] = useState<string[]>([])
 	const [showFeedback, setShowFeedback] = useState<null | boolean>(null)

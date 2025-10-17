@@ -6,8 +6,8 @@ type Props = {
 	children: React.ReactNode
 }
 
-const MainLayout = ({ children }: Props) => {
-	const pathname = headers().get('x-pathname') || ''
+const MainLayout = async ({ children }: Props) => {
+	const pathname = (await headers()).get('x-pathname') || ''
 	const isCoursesPage = pathname.startsWith('/courses')
 	return (
 		<>

@@ -10,20 +10,13 @@ import {
 	getUserProgress,
 	getUserSubscription,
 } from '@/db/queries'
-import dynamic from 'next/dynamic'
 
 import awbHebrewVocab from '@/lib/data/vocab/awbVocab.json'
 import hsHebrewVocab from '@/lib/data/vocab/hsVocab.json'
 import abcHebrewVocab from '@/lib/data/vocab/abcVocab.json'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 import { HebrewVocab } from '@/lib/vocab'
-
-const SpellingPractice = dynamic(
-	() => import('@/components/hebrew/hebrew-spelling'),
-	{
-		ssr: false,
-	}
-)
+import HebrewSpelling from '@/components/hebrew/hebrew-spelling'
 
 const HebrewSpellingPage = async () => {
 	const userProgressData = getUserProgress()
@@ -89,7 +82,7 @@ const HebrewSpellingPage = async () => {
 						you need to have your cursor at the end/left of the word.
 					</DismissibleAlert>
 
-					<SpellingPractice
+					<HebrewSpelling
 						data={hebrewData}
 						currentLesson={currentLesson ?? ''}
 						userId={userProgress.userId}
