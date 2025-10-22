@@ -68,7 +68,7 @@ export const upsertChallengeProgress = async (challengeId: number) => {
 					courseId: currentUserProgress.activeCourseId,
 					points: pointsToAdd,
 					hearts: heartsToAdd,
-					activeLessonId: lessonId,
+					// activeLessonId: lessonId,
 					lastSeen: new Date(),
 				})
 				.onConflictDoUpdate({
@@ -76,7 +76,7 @@ export const upsertChallengeProgress = async (challengeId: number) => {
 					set: {
 						points: sql`${userCourseProgress.points} + ${pointsToAdd}`,
 						hearts: sql`LEAST(${userCourseProgress.hearts} + 1, 5)`,
-						activeLessonId: lessonId,
+						// activeLessonId: lessonId,
 						lastSeen: new Date(),
 					},
 				})

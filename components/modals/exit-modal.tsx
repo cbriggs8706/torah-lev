@@ -33,17 +33,23 @@ export const ExitModal = () => {
 	useEffect(() => {
 		setIsClient(true)
 
-		// ✅ Load activeCourseId from localStorage if available
-		try {
-			const savedProgress = localStorage.getItem('userProgress')
-			if (savedProgress) {
-				const parsed = JSON.parse(savedProgress)
-				setCourseId(parsed.activeCourseId ?? null)
+		// Re-read from localStorage whenever the modal opens
+		if (isOpen) {
+			try {
+				const savedProgress = localStorage.getItem('userProgress')
+				console.log('♻️ Reloaded userProgress on open:', savedProgress)
+				if (savedProgress) {
+					const parsed = JSON.parse(savedProgress)
+					setCourseId(parsed.activeCourseId ?? null)
+				} else {
+					setCourseId(null)
+				}
+			} catch (err) {
+				console.error('❌ Failed to parse userProgress:', err)
+				setCourseId(null)
 			}
-		} catch {
-			setCourseId(null)
 		}
-	}, [])
+	}, [isOpen])
 
 	if (!isClient) return null
 
