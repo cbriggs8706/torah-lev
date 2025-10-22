@@ -1,7 +1,7 @@
 [
 	{
 		"id": 1,
-		"lessons": ["1"],
+		"lessons": ["[1]"],
 		"type": "word",
 		"engDefinition": "the speaker",
 		"category": "",
@@ -15,12 +15,12 @@
 		"number": "",
 		"partOfSpeech": ["pronoun"],
 		"ipa": "[aɪ]",
-		"images": [],
+		"images": ["/english/i.webp"],
 		"engAudio": "/english/i.mp3"
 	},
 	{
 		"id": 2,
-		"lessons": ["1"],
+		"lessons": ["[1]"],
 		"type": "word",
 		"engDefinition": "belonging to me",
 		"category": "",
@@ -34,12 +34,12 @@
 		"number": "",
 		"partOfSpeech": ["pronoun"],
 		"ipa": "[maɪ]",
-		"images": [],
+		"images": ["/english/my.webp"],
 		"engAudio": "/english/my.mp3"
 	},
 	{
 		"id": 3,
-		"lessons": ["1"],
+		"lessons": ["[1]"],
 		"type": "word",
 		"engDefinition": "the person spoken to",
 		"category": "",
@@ -53,12 +53,12 @@
 		"number": "",
 		"partOfSpeech": ["pronoun"],
 		"ipa": "[juː]",
-		"images": [],
+		"images": ["/english/you.webp"],
 		"engAudio": "/english/you.mp3"
 	},
 	{
 		"id": 4,
-		"lessons": ["1"],
+		"lessons": ["[1]"],
 		"type": "word",
 		"engDefinition": "belonging to you",
 		"category": "",
@@ -72,12 +72,12 @@
 		"number": "",
 		"partOfSpeech": ["pronoun"],
 		"ipa": "[jʊr]",
-		"images": [],
+		"images": ["/english/your.webp"],
 		"engAudio": "/english/your.mp3"
 	},
 	{
 		"id": 5,
-		"lessons": ["1"],
+		"lessons": ["[1]"],
 		"type": "word",
 		"engDefinition": "a man/boy",
 		"category": "",
@@ -91,12 +91,12 @@
 		"number": "",
 		"partOfSpeech": ["pronoun"],
 		"ipa": "[hiː]",
-		"images": [],
+		"images": ["/english/he.webp"],
 		"engAudio": "/english/he.mp3"
 	},
 	{
 		"id": 6,
-		"lessons": ["1"],
+		"lessons": ["[1]"],
 		"type": "word",
 		"engDefinition": "belonging to him",
 		"category": "",
@@ -110,12 +110,12 @@
 		"number": "",
 		"partOfSpeech": ["pronoun"],
 		"ipa": "[hɪz]",
-		"images": [],
+		"images": ["/english/his.webp"],
 		"engAudio": "/english/his.mp3"
 	},
 	{
 		"id": 7,
-		"lessons": ["1"],
+		"lessons": ["[1]"],
 		"type": "word",
 		"engDefinition": "a woman/girl",
 		"category": "",
@@ -129,12 +129,12 @@
 		"number": "",
 		"partOfSpeech": ["pronoun"],
 		"ipa": "[ʃiː]",
-		"images": [],
+		"images": ["/english/she.webp"],
 		"engAudio": "/english/she.mp3"
 	},
 	{
 		"id": 8,
-		"lessons": ["1"],
+		"lessons": ["[1]"],
 		"type": "word",
 		"engDefinition": "belonging to her",
 		"category": "",
@@ -148,12 +148,12 @@
 		"number": "",
 		"partOfSpeech": ["pronoun"],
 		"ipa": "[hɜːr]",
-		"images": [],
+		"images": ["/english/her.webp"],
 		"engAudio": "/english/her.mp3"
 	},
 	{
 		"id": 9,
-		"lessons": ["1"],
+		"lessons": ["[1]"],
 		"type": "word",
 		"engDefinition": "asking for information",
 		"category": "",
@@ -167,12 +167,12 @@
 		"number": "",
 		"partOfSpeech": ["pronoun"],
 		"ipa": "[wʌt]",
-		"images": [],
+		"images": ["/english/what.webp"],
 		"engAudio": "/english/what.mp3"
 	},
 	{
 		"id": 10,
-		"lessons": ["1"],
+		"lessons": ["[1]"],
 		"type": "word",
 		"engDefinition": "opposite of yes",
 		"category": "",
@@ -186,12 +186,12 @@
 		"number": "",
 		"partOfSpeech": ["interj."],
 		"ipa": "[noʊ]",
-		"images": [],
+		"images": ["/english/no.webp"],
 		"engAudio": "/english/no.mp3"
 	},
 	{
 		"id": 11,
-		"lessons": ["1"],
+		"lessons": ["[1]"],
 		"type": "word",
 		"engDefinition": "agreement word",
 		"category": "",
@@ -205,12 +205,12 @@
 		"number": "",
 		"partOfSpeech": ["interj."],
 		"ipa": "[jɛs]",
-		"images": [],
+		"images": ["/english/yes.webp"],
 		"engAudio": "/english/yes.mp3"
 	},
 	{
 		"id": 12,
-		"lessons": ["1"],
+		"lessons": ["[1]"],
 		"type": "word",
 		"engDefinition": "what someone is called",
 		"category": "",
@@ -224,12 +224,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[neɪm]",
-		"images": [],
+		"images": ["/english/name.webp"],
 		"engAudio": "/english/name.mp3"
 	},
 	{
 		"id": 13,
-		"lessons": ["1"],
+		"lessons": ["[1]"],
 		"type": "word",
 		"engDefinition": "polite request word",
 		"category": "",
@@ -243,12 +243,12 @@
 		"number": "",
 		"partOfSpeech": ["interj."],
 		"ipa": "[pliːz]",
-		"images": [],
+		"images": ["/english/please.webp"],
 		"engAudio": "/english/please.mp3"
 	},
 	{
 		"id": 14,
-		"lessons": ["1"],
+		"lessons": ["[1]"],
 		"type": "word",
 		"engDefinition": "short for “thank you”",
 		"category": "",
@@ -262,12 +262,12 @@
 		"number": "",
 		"partOfSpeech": ["interj."],
 		"ipa": "[θæŋks]",
-		"images": [],
+		"images": ["/english/thanks.webp"],
 		"engAudio": "/english/thanks.mp3"
 	},
 	{
 		"id": 15,
-		"lessons": ["1"],
+		"lessons": ["[1]"],
 		"type": "word",
 		"engDefinition": "present of “be”",
 		"category": "",
@@ -281,12 +281,12 @@
 		"number": "",
 		"partOfSpeech": ["verb"],
 		"ipa": "[ɪz]",
-		"images": [],
+		"images": ["/english/is.webp"],
 		"engAudio": "/english/is.mp3"
 	},
 	{
 		"id": 16,
-		"lessons": ["1"],
+		"lessons": ["[1]"],
 		"type": "word",
 		"engDefinition": "polite gratitude",
 		"category": "",
@@ -300,12 +300,12 @@
 		"number": "",
 		"partOfSpeech": ["phrase"],
 		"ipa": "[ˈθæŋk ju]",
-		"images": [],
+		"images": ["/english/thank-you.webp"],
 		"engAudio": "/english/thank-you.mp3"
 	},
 	{
 		"id": 17,
-		"lessons": ["2"],
+		"lessons": ["[2]"],
 		"type": "word",
 		"engDefinition": "the speaker + others",
 		"category": "",
@@ -319,12 +319,12 @@
 		"number": "",
 		"partOfSpeech": ["pronoun"],
 		"ipa": "[wiː]",
-		"images": [],
+		"images": ["/english/we.webp"],
 		"engAudio": "/english/we.mp3"
 	},
 	{
 		"id": 18,
-		"lessons": ["2"],
+		"lessons": ["[2]"],
 		"type": "word",
 		"engDefinition": "other people/things",
 		"category": "",
@@ -338,12 +338,12 @@
 		"number": "",
 		"partOfSpeech": ["pronoun"],
 		"ipa": "[ðeɪ]",
-		"images": [],
+		"images": ["/english/they.webp"],
 		"engAudio": "/english/they.mp3"
 	},
 	{
 		"id": 19,
-		"lessons": ["2"],
+		"lessons": ["[2]"],
 		"type": "word",
 		"engDefinition": "first-person “be”",
 		"category": "",
@@ -357,16 +357,16 @@
 		"number": "",
 		"partOfSpeech": ["phrase"],
 		"ipa": "[aɪ æm]",
-		"images": [],
+		"images": ["/english/i-am.webp"],
 		"engAudio": "/english/i-am.mp3"
 	},
 	{
 		"id": 20,
-		"lessons": ["2"],
+		"lessons": ["[2]"],
 		"type": "word",
 		"engDefinition": "short for “I am”",
 		"category": "",
-		"eng": "I’m",
+		"eng": "I'm",
 		"spa": "yo soy / estoy",
 		"por": "eu sou / estou",
 		"spaTransliteration": "áim",
@@ -376,12 +376,12 @@
 		"number": "",
 		"partOfSpeech": ["contraction"],
 		"ipa": "[aɪm]",
-		"images": [],
+		"images": ["/english/im.webp"],
 		"engAudio": "/english/im.mp3"
 	},
 	{
 		"id": 21,
-		"lessons": ["2"],
+		"lessons": ["[2]"],
 		"type": "word",
 		"engDefinition": "second-person “be”",
 		"category": "",
@@ -395,12 +395,12 @@
 		"number": "",
 		"partOfSpeech": ["phrase"],
 		"ipa": "[ju ɑr]",
-		"images": [],
+		"images": ["/english/you-are.webp"],
 		"engAudio": "/english/you-are.mp3"
 	},
 	{
 		"id": 22,
-		"lessons": ["2"],
+		"lessons": ["[2]"],
 		"type": "word",
 		"engDefinition": "first-person plural “be”",
 		"category": "",
@@ -414,12 +414,12 @@
 		"number": "",
 		"partOfSpeech": ["phrase"],
 		"ipa": "[wi ɑr]",
-		"images": [],
+		"images": ["/english/we-are.webp"],
 		"engAudio": "/english/we-are.mp3"
 	},
 	{
 		"id": 23,
-		"lessons": ["2"],
+		"lessons": ["[2]"],
 		"type": "word",
 		"engDefinition": "third-person plural “be”",
 		"category": "",
@@ -433,12 +433,12 @@
 		"number": "",
 		"partOfSpeech": ["phrase"],
 		"ipa": "[ðeɪ ɑr]",
-		"images": [],
+		"images": ["/english/they-are.webp"],
 		"engAudio": "/english/they-are.mp3"
 	},
 	{
 		"id": 24,
-		"lessons": ["2"],
+		"lessons": ["[2]"],
 		"type": "word",
 		"engDefinition": "third-person singular “be”",
 		"category": "",
@@ -452,12 +452,12 @@
 		"number": "",
 		"partOfSpeech": ["phrase"],
 		"ipa": "[hi ɪz]",
-		"images": [],
+		"images": ["/english/he-is.webp"],
 		"engAudio": "/english/he-is.mp3"
 	},
 	{
 		"id": 25,
-		"lessons": ["2"],
+		"lessons": ["[2]"],
 		"type": "word",
 		"engDefinition": "third-person singular “be”",
 		"category": "",
@@ -471,12 +471,12 @@
 		"number": "",
 		"partOfSpeech": ["phrase"],
 		"ipa": "[ʃi ɪz]",
-		"images": [],
+		"images": ["/english/she-is.webp"],
 		"engAudio": "/english/she-is.mp3"
 	},
 	{
 		"id": 26,
-		"lessons": ["2"],
+		"lessons": ["[2]"],
 		"type": "word",
 		"engDefinition": "a nation",
 		"category": "",
@@ -490,12 +490,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈkʌntri]",
-		"images": [],
+		"images": ["/english/country.webp"],
 		"engAudio": "/english/country.mp3"
 	},
 	{
 		"id": 27,
-		"lessons": ["2"],
+		"lessons": ["[2]"],
 		"type": "word",
 		"engDefinition": "asks a place",
 		"category": "",
@@ -509,12 +509,12 @@
 		"number": "",
 		"partOfSpeech": ["pronoun"],
 		"ipa": "[wɛr]",
-		"images": [],
+		"images": ["/english/where.webp"],
 		"engAudio": "/english/where.mp3"
 	},
 	{
 		"id": 28,
-		"lessons": ["2"],
+		"lessons": ["[2]"],
 		"type": "word",
 		"engDefinition": "good / OK",
 		"category": "",
@@ -528,12 +528,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[faɪn]",
-		"images": [],
+		"images": ["/english/fine.webp"],
 		"engAudio": "/english/fine.mp3"
 	},
 	{
 		"id": 29,
-		"lessons": ["2"],
+		"lessons": ["[2]"],
 		"type": "word",
 		"engDefinition": "all right",
 		"category": "",
@@ -547,12 +547,12 @@
 		"number": "",
 		"partOfSpeech": ["interj."],
 		"ipa": "[oʊˈkeɪ]",
-		"images": [],
+		"images": ["/english/ok.webp"],
 		"engAudio": "/english/ok.mp3"
 	},
 	{
 		"id": 30,
-		"lessons": ["2"],
+		"lessons": ["[2]"],
 		"type": "word",
 		"engDefinition": "country in Asia",
 		"category": "",
@@ -566,12 +566,12 @@
 		"number": "",
 		"partOfSpeech": ["noun (place)"],
 		"ipa": "[dʒəˈpæn]",
-		"images": [],
+		"images": ["/english/japan.webp"],
 		"engAudio": "/english/japan.mp3"
 	},
 	{
 		"id": 31,
-		"lessons": ["2"],
+		"lessons": ["[2]"],
 		"type": "word",
 		"engDefinition": "country in Africa",
 		"category": "",
@@ -585,12 +585,12 @@
 		"number": "",
 		"partOfSpeech": ["noun (place)"],
 		"ipa": "[ˈkɛnjə]",
-		"images": [],
+		"images": ["/english/kenya.webp"],
 		"engAudio": "/english/kenya.mp3"
 	},
 	{
 		"id": 32,
-		"lessons": ["2"],
+		"lessons": ["[2]"],
 		"type": "word",
 		"engDefinition": "country in North America",
 		"category": "",
@@ -604,12 +604,12 @@
 		"number": "",
 		"partOfSpeech": ["noun (place)"],
 		"ipa": "[ˈmɛksɪkoʊ]",
-		"images": [],
+		"images": ["/english/mexico.webp"],
 		"engAudio": "/english/mexico.mp3"
 	},
 	{
 		"id": 33,
-		"lessons": ["3"],
+		"lessons": ["[3]"],
 		"type": "word",
 		"engDefinition": "belonging to them",
 		"category": "",
@@ -623,12 +623,12 @@
 		"number": "",
 		"partOfSpeech": ["pronoun"],
 		"ipa": "[ðɛr]",
-		"images": [],
+		"images": ["/english/their.webp"],
 		"engAudio": "/english/their.mp3"
 	},
 	{
 		"id": 34,
-		"lessons": ["3"],
+		"lessons": ["[3]"],
 		"type": "word",
 		"engDefinition": "",
 		"category": "",
@@ -642,12 +642,12 @@
 		"number": "",
 		"partOfSpeech": [],
 		"ipa": "",
-		"images": [],
+		"images": ["/english/at.webp"],
 		"engAudio": "/english/at.mp3"
 	},
 	{
 		"id": 35,
-		"lessons": ["3"],
+		"lessons": ["[3]"],
 		"type": "word",
 		"engDefinition": "",
 		"category": "",
@@ -661,12 +661,12 @@
 		"number": "",
 		"partOfSpeech": [],
 		"ipa": "",
-		"images": [],
+		"images": ["/english/dot.webp"],
 		"engAudio": "/english/dot.mp3"
 	},
 	{
 		"id": 36,
-		"lessons": ["3"],
+		"lessons": ["[3]"],
 		"type": "word",
 		"engDefinition": "special yearly date",
 		"category": "",
@@ -680,12 +680,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˌænɪˈvɜrsəri]",
-		"images": [],
+		"images": ["/english/anniversary.webp"],
 		"engAudio": "/english/anniversary.mp3"
 	},
 	{
 		"id": 37,
-		"lessons": ["3"],
+		"lessons": ["[3]"],
 		"type": "word",
 		"engDefinition": "day you were born",
 		"category": "",
@@ -699,12 +699,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈbɝθˌdeɪ]",
-		"images": [],
+		"images": ["/english/birthday.webp"],
 		"engAudio": "/english/birthday.mp3"
 	},
 	{
 		"id": 38,
-		"lessons": ["3"],
+		"lessons": ["[3]"],
 		"type": "word",
 		"engDefinition": "where you live",
 		"category": "",
@@ -718,12 +718,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈæˌdrɛs]",
-		"images": [],
+		"images": ["/english/address.webp"],
 		"engAudio": "/english/address.mp3"
 	},
 	{
 		"id": 39,
-		"lessons": ["3"],
+		"lessons": ["[3]"],
 		"type": "word",
 		"engDefinition": "electronic message",
 		"category": "",
@@ -737,12 +737,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈiːˌmeɪl]",
-		"images": [],
+		"images": ["/english/email.webp"],
 		"engAudio": "/english/email.mp3"
 	},
 	{
 		"id": 40,
-		"lessons": ["3"],
+		"lessons": ["[3]"],
 		"type": "word",
 		"engDefinition": "digits to call someone",
 		"category": "",
@@ -756,12 +756,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈfoʊn ˌnʌmbər]",
-		"images": [],
+		"images": ["/english/phone-number.webp"],
 		"engAudio": "/english/phone-number.mp3"
 	},
 	{
 		"id": 41,
-		"lessons": ["3"],
+		"lessons": ["[3]"],
 		"type": "word",
 		"engDefinition": "first day of January",
 		"category": "",
@@ -775,12 +775,12 @@
 		"number": "",
 		"partOfSpeech": ["date"],
 		"ipa": "[ˈʤænjuˌɛri fɜrst]",
-		"images": [],
+		"images": ["/english/january-first.webp"],
 		"engAudio": "/english/january-first.mp3"
 	},
 	{
 		"id": 42,
-		"lessons": ["3"],
+		"lessons": ["[3]"],
 		"type": "word",
 		"engDefinition": "second day of February",
 		"category": "",
@@ -794,12 +794,12 @@
 		"number": "",
 		"partOfSpeech": ["date"],
 		"ipa": "[ˈfɛbruˌɛri ˈsɛkənd]",
-		"images": [],
+		"images": ["/english/february-second.webp"],
 		"engAudio": "/english/february-second.mp3"
 	},
 	{
 		"id": 43,
-		"lessons": ["3"],
+		"lessons": ["[3]"],
 		"type": "word",
 		"engDefinition": "third day of March",
 		"category": "",
@@ -813,12 +813,12 @@
 		"number": "",
 		"partOfSpeech": ["date"],
 		"ipa": "[mɑrtʃ θɝd]",
-		"images": [],
+		"images": ["/english/march-third.webp"],
 		"engAudio": "/english/march-third.mp3"
 	},
 	{
 		"id": 44,
-		"lessons": ["3"],
+		"lessons": ["[3]"],
 		"type": "word",
 		"engDefinition": "fourth day of April",
 		"category": "",
@@ -832,12 +832,12 @@
 		"number": "",
 		"partOfSpeech": ["date"],
 		"ipa": "[ˈeɪprəl fɔrθ]",
-		"images": [],
+		"images": ["/english/april-fourth.webp"],
 		"engAudio": "/english/april-fourth.mp3"
 	},
 	{
 		"id": 45,
-		"lessons": ["3"],
+		"lessons": ["[3]"],
 		"type": "word",
 		"engDefinition": "fifth day of May",
 		"category": "",
@@ -851,12 +851,12 @@
 		"number": "",
 		"partOfSpeech": ["date"],
 		"ipa": "[meɪ fɪfθ]",
-		"images": [],
+		"images": ["/english/may-fifth.webp"],
 		"engAudio": "/english/may-fifth.mp3"
 	},
 	{
 		"id": 46,
-		"lessons": ["3"],
+		"lessons": ["[3]"],
 		"type": "word",
 		"engDefinition": "sixth day of June",
 		"category": "",
@@ -870,12 +870,12 @@
 		"number": "",
 		"partOfSpeech": ["date"],
 		"ipa": "[ʤun sɪksθ]",
-		"images": [],
+		"images": ["/english/june-sixth.webp"],
 		"engAudio": "/english/june-sixth.mp3"
 	},
 	{
 		"id": 47,
-		"lessons": ["4"],
+		"lessons": ["[4]"],
 		"type": "word",
 		"engDefinition": "make food",
 		"category": "",
@@ -889,12 +889,12 @@
 		"number": "",
 		"partOfSpeech": ["verb"],
 		"ipa": "[kʊk]",
-		"images": [],
+		"images": ["/english/cook.webp"],
 		"engAudio": "/english/cook.mp3"
 	},
 	{
 		"id": 48,
-		"lessons": ["4"],
+		"lessons": ["[4]"],
 		"type": "word",
 		"engDefinition": "move to music",
 		"category": "",
@@ -908,12 +908,12 @@
 		"number": "",
 		"partOfSpeech": ["verb"],
 		"ipa": "[dæns]",
-		"images": [],
+		"images": ["/english/dance.webp"],
 		"engAudio": "/english/dance.mp3"
 	},
 	{
 		"id": 49,
-		"lessons": ["4"],
+		"lessons": ["[4]"],
 		"type": "word",
 		"engDefinition": "grow plants",
 		"category": "",
@@ -927,12 +927,12 @@
 		"number": "",
 		"partOfSpeech": ["noun/verb"],
 		"ipa": "[ˈɡɑrdən]",
-		"images": [],
+		"images": ["/english/garden.webp"],
 		"engAudio": "/english/garden.mp3"
 	},
 	{
 		"id": 50,
-		"lessons": ["4"],
+		"lessons": ["[4]"],
 		"type": "word",
 		"engDefinition": "make color on something",
 		"category": "",
@@ -946,12 +946,12 @@
 		"number": "",
 		"partOfSpeech": ["verb"],
 		"ipa": "[peɪnt]",
-		"images": [],
+		"images": ["/english/paint.webp"],
 		"engAudio": "/english/paint.mp3"
 	},
 	{
 		"id": 51,
-		"lessons": ["4"],
+		"lessons": ["[4]"],
 		"type": "word",
 		"engDefinition": "look at and understand words",
 		"category": "",
@@ -965,12 +965,12 @@
 		"number": "",
 		"partOfSpeech": ["verb"],
 		"ipa": "[rid]",
-		"images": [],
+		"images": ["/english/read.webp"],
 		"engAudio": "/english/read.mp3"
 	},
 	{
 		"id": 52,
-		"lessons": ["4"],
+		"lessons": ["[4]"],
 		"type": "word",
 		"engDefinition": "move fast on feet",
 		"category": "",
@@ -984,12 +984,12 @@
 		"number": "",
 		"partOfSpeech": ["verb"],
 		"ipa": "[rʌn]",
-		"images": [],
+		"images": ["/english/run.webp"],
 		"engAudio": "/english/run.mp3"
 	},
 	{
 		"id": 53,
-		"lessons": ["4"],
+		"lessons": ["[4]"],
 		"type": "word",
 		"engDefinition": "buy things",
 		"category": "",
@@ -1003,12 +1003,12 @@
 		"number": "",
 		"partOfSpeech": ["verb"],
 		"ipa": "[ʃɑp]",
-		"images": [],
+		"images": ["/english/shop.webp"],
 		"engAudio": "/english/shop.mp3"
 	},
 	{
 		"id": 54,
-		"lessons": ["4"],
+		"lessons": ["[4]"],
 		"type": "word",
 		"engDefinition": "make music with voice",
 		"category": "",
@@ -1022,12 +1022,12 @@
 		"number": "",
 		"partOfSpeech": ["verb"],
 		"ipa": "[sɪŋ]",
-		"images": [],
+		"images": ["/english/sing.webp"],
 		"engAudio": "/english/sing.mp3"
 	},
 	{
 		"id": 55,
-		"lessons": ["4"],
+		"lessons": ["[4]"],
 		"type": "word",
 		"engDefinition": "rest with eyes closed",
 		"category": "",
@@ -1041,12 +1041,12 @@
 		"number": "",
 		"partOfSpeech": ["verb"],
 		"ipa": "[slip]",
-		"images": [],
+		"images": ["/english/sleep.webp"],
 		"engAudio": "/english/sleep.mp3"
 	},
 	{
 		"id": 56,
-		"lessons": ["4"],
+		"lessons": ["[4]"],
 		"type": "word",
 		"engDefinition": "learn by reading/working",
 		"category": "",
@@ -1060,12 +1060,12 @@
 		"number": "",
 		"partOfSpeech": ["verb"],
 		"ipa": "[ˈstʌdi]",
-		"images": [],
+		"images": ["/english/study.webp"],
 		"engAudio": "/english/study.mp3"
 	},
 	{
 		"id": 57,
-		"lessons": ["4"],
+		"lessons": ["[4]"],
 		"type": "word",
 		"engDefinition": "move in water",
 		"category": "",
@@ -1079,12 +1079,12 @@
 		"number": "",
 		"partOfSpeech": ["verb"],
 		"ipa": "[swɪm]",
-		"images": [],
+		"images": ["/english/swim.webp"],
 		"engAudio": "/english/swim.mp3"
 	},
 	{
 		"id": 58,
-		"lessons": ["4"],
+		"lessons": ["[4]"],
 		"type": "word",
 		"engDefinition": "go to new places",
 		"category": "",
@@ -1098,12 +1098,12 @@
 		"number": "",
 		"partOfSpeech": ["verb"],
 		"ipa": "[ˈtrævəl]",
-		"images": [],
+		"images": ["/english/travel.webp"],
 		"engAudio": "/english/travel.mp3"
 	},
 	{
 		"id": 59,
-		"lessons": ["5"],
+		"lessons": ["[5]"],
 		"type": "word",
 		"engDefinition": "gives a reason",
 		"category": "",
@@ -1117,12 +1117,12 @@
 		"number": "",
 		"partOfSpeech": ["conj."],
 		"ipa": "[bɪˈkɔz]",
-		"images": [],
+		"images": ["/english/because.webp"],
 		"engAudio": "/english/because.mp3"
 	},
 	{
 		"id": 60,
-		"lessons": ["5"],
+		"lessons": ["[5]"],
 		"type": "word",
 		"engDefinition": "physical activity",
 		"category": "",
@@ -1136,12 +1136,12 @@
 		"number": "",
 		"partOfSpeech": ["noun/verb"],
 		"ipa": "[ˈɛksərˌsaɪz]",
-		"images": [],
+		"images": ["/english/exercise.webp"],
 		"engAudio": "/english/exercise.mp3"
 	},
 	{
 		"id": 61,
-		"lessons": ["5"],
+		"lessons": ["[5]"],
 		"type": "word",
 		"engDefinition": "not fun",
 		"category": "",
@@ -1155,12 +1155,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[ˈbɔrɪŋ]",
-		"images": [],
+		"images": ["/english/boring.webp"],
 		"engAudio": "/english/boring.mp3"
 	},
 	{
 		"id": 62,
-		"lessons": ["5"],
+		"lessons": ["[5]"],
 		"type": "word",
 		"engDefinition": "not expensive",
 		"category": "",
@@ -1174,12 +1174,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[tʃip]",
-		"images": [],
+		"images": ["/english/cheap.webp"],
 		"engAudio": "/english/cheap.mp3"
 	},
 	{
 		"id": 63,
-		"lessons": ["5"],
+		"lessons": ["[5]"],
 		"type": "word",
 		"engDefinition": "not safe",
 		"category": "",
@@ -1193,12 +1193,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[ˈdeɪnʤərəs]",
-		"images": [],
+		"images": ["/english/dangerous.webp"],
 		"engAudio": "/english/dangerous.mp3"
 	},
 	{
 		"id": 64,
-		"lessons": ["5"],
+		"lessons": ["[5]"],
 		"type": "word",
 		"engDefinition": "not easy",
 		"category": "",
@@ -1212,12 +1212,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[ˈdɪfɪˌkʌlt]",
-		"images": [],
+		"images": ["/english/difficult.webp"],
 		"engAudio": "/english/difficult.mp3"
 	},
 	{
 		"id": 65,
-		"lessons": ["5"],
+		"lessons": ["[5]"],
 		"type": "word",
 		"engDefinition": "not hard",
 		"category": "",
@@ -1231,12 +1231,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[ˈizi]",
-		"images": [],
+		"images": ["/english/easy.webp"],
 		"engAudio": "/english/easy.mp3"
 	},
 	{
 		"id": 66,
-		"lessons": ["5"],
+		"lessons": ["[5]"],
 		"type": "word",
 		"engDefinition": "very fun",
 		"category": "",
@@ -1250,12 +1250,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[ɪkˈsaɪtɪŋ]",
-		"images": [],
+		"images": ["/english/exciting.webp"],
 		"engAudio": "/english/exciting.mp3"
 	},
 	{
 		"id": 67,
-		"lessons": ["5"],
+		"lessons": ["[5]"],
 		"type": "word",
 		"engDefinition": "costs a lot",
 		"category": "",
@@ -1269,12 +1269,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[ɪkˈspɛnsɪv]",
-		"images": [],
+		"images": ["/english/expensive.webp"],
 		"engAudio": "/english/expensive.mp3"
 	},
 	{
 		"id": 68,
-		"lessons": ["5"],
+		"lessons": ["[5]"],
 		"type": "word",
 		"engDefinition": "something enjoyable",
 		"category": "",
@@ -1288,12 +1288,12 @@
 		"number": "",
 		"partOfSpeech": ["adj./noun"],
 		"ipa": "[fʌn]",
-		"images": [],
+		"images": ["/english/fun.webp"],
 		"engAudio": "/english/fun.mp3"
 	},
 	{
 		"id": 69,
-		"lessons": ["5"],
+		"lessons": ["[5]"],
 		"type": "word",
 		"engDefinition": "matters a lot",
 		"category": "",
@@ -1307,12 +1307,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[ɪmˈpɔrtənt]",
-		"images": [],
+		"images": ["/english/important.webp"],
 		"engAudio": "/english/important.mp3"
 	},
 	{
 		"id": 70,
-		"lessons": ["5"],
+		"lessons": ["[5]"],
 		"type": "word",
 		"engDefinition": "holds attention",
 		"category": "",
@@ -1326,12 +1326,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[ˈɪntrəstɪŋ]",
-		"images": [],
+		"images": ["/english/interesting.webp"],
 		"engAudio": "/english/interesting.mp3"
 	},
 	{
 		"id": 71,
-		"lessons": ["5"],
+		"lessons": ["[5]"],
 		"type": "word",
 		"engDefinition": "helps you rest",
 		"category": "",
@@ -1345,12 +1345,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[rɪˈlæksɪŋ]",
-		"images": [],
+		"images": ["/english/relaxing.webp"],
 		"engAudio": "/english/relaxing.mp3"
 	},
 	{
 		"id": 72,
-		"lessons": ["5"],
+		"lessons": ["[5]"],
 		"type": "word",
 		"engDefinition": "makes you tired",
 		"category": "",
@@ -1364,12 +1364,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[ˈtaɪərɪŋ]",
-		"images": [],
+		"images": ["/english/tiring.webp"],
 		"engAudio": "/english/tiring.mp3"
 	},
 	{
 		"id": 73,
-		"lessons": ["5"],
+		"lessons": ["[5]"],
 		"type": "word",
 		"engDefinition": "helps you",
 		"category": "",
@@ -1383,12 +1383,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[ˈjusfəl]",
-		"images": [],
+		"images": ["/english/useful.webp"],
 		"engAudio": "/english/useful.mp3"
 	},
 	{
 		"id": 74,
-		"lessons": ["6"],
+		"lessons": ["[6]"],
 		"type": "word",
 		"engDefinition": "parents and children",
 		"category": "",
@@ -1402,12 +1402,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈfæməli]",
-		"images": [],
+		"images": ["/english/family.webp"],
 		"engAudio": "/english/family.mp3"
 	},
 	{
 		"id": 75,
-		"lessons": ["6"],
+		"lessons": ["[6]"],
 		"type": "word",
 		"engDefinition": "to own",
 		"category": "",
@@ -1421,12 +1421,12 @@
 		"number": "",
 		"partOfSpeech": ["verb"],
 		"ipa": "[hæv]",
-		"images": [],
+		"images": ["/english/have.webp"],
 		"engAudio": "/english/have.mp3"
 	},
 	{
 		"id": 76,
-		"lessons": ["6"],
+		"lessons": ["[6]"],
 		"type": "word",
 		"engDefinition": "owns (he, she)",
 		"category": "",
@@ -1440,12 +1440,12 @@
 		"number": "",
 		"partOfSpeech": ["verb"],
 		"ipa": "[hæz]",
-		"images": [],
+		"images": ["/english/has.webp"],
 		"engAudio": "/english/has.mp3"
 	},
 	{
 		"id": 77,
-		"lessons": ["6"],
+		"lessons": ["[6]"],
 		"type": "word",
 		"engDefinition": "1",
 		"category": "",
@@ -1459,12 +1459,12 @@
 		"number": "",
 		"partOfSpeech": ["number"],
 		"ipa": "[wʌn]",
-		"images": [],
+		"images": ["/english/one.webp"],
 		"engAudio": "/english/one.mp3"
 	},
 	{
 		"id": 78,
-		"lessons": ["6"],
+		"lessons": ["[6]"],
 		"type": "word",
 		"engDefinition": "2",
 		"category": "",
@@ -1478,12 +1478,12 @@
 		"number": "",
 		"partOfSpeech": ["number"],
 		"ipa": "[tuː]",
-		"images": [],
+		"images": ["/english/two.webp"],
 		"engAudio": "/english/two.mp3"
 	},
 	{
 		"id": 79,
-		"lessons": ["6"],
+		"lessons": ["[6]"],
 		"type": "word",
 		"engDefinition": "3",
 		"category": "",
@@ -1497,12 +1497,12 @@
 		"number": "",
 		"partOfSpeech": ["number"],
 		"ipa": "[θriː]",
-		"images": [],
+		"images": ["/english/three.webp"],
 		"engAudio": "/english/three.mp3"
 	},
 	{
 		"id": 80,
-		"lessons": ["6"],
+		"lessons": ["[6]"],
 		"type": "word",
 		"engDefinition": "married man",
 		"category": "",
@@ -1516,12 +1516,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈhʌzbənd]",
-		"images": [],
+		"images": ["/english/husband.webp"],
 		"engAudio": "/english/husband.mp3"
 	},
 	{
 		"id": 81,
-		"lessons": ["6"],
+		"lessons": ["[6]"],
 		"type": "word",
 		"engDefinition": "married woman",
 		"category": "",
@@ -1535,12 +1535,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[waɪf]",
-		"images": [],
+		"images": ["/english/wife.webp"],
 		"engAudio": "/english/wife.mp3"
 	},
 	{
 		"id": 82,
-		"lessons": ["6"],
+		"lessons": ["[6]"],
 		"type": "word",
 		"engDefinition": "male parent",
 		"category": "",
@@ -1554,12 +1554,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈfɑðər]",
-		"images": [],
+		"images": ["/english/father.webp"],
 		"engAudio": "/english/father.mp3"
 	},
 	{
 		"id": 83,
-		"lessons": ["6"],
+		"lessons": ["[6]"],
 		"type": "word",
 		"engDefinition": "female parent",
 		"category": "",
@@ -1573,12 +1573,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈmʌðər]",
-		"images": [],
+		"images": ["/english/mother.webp"],
 		"engAudio": "/english/mother.mp3"
 	},
 	{
 		"id": 84,
-		"lessons": ["6"],
+		"lessons": ["[6]"],
 		"type": "word",
 		"engDefinition": "informal for father",
 		"category": "",
@@ -1592,12 +1592,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[dæd]",
-		"images": [],
+		"images": ["/english/dad.webp"],
 		"engAudio": "/english/dad.mp3"
 	},
 	{
 		"id": 85,
-		"lessons": ["6"],
+		"lessons": ["[6]"],
 		"type": "word",
 		"engDefinition": "informal for mother",
 		"category": "",
@@ -1611,12 +1611,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[mɑm]",
-		"images": [],
+		"images": ["/english/mom.webp"],
 		"engAudio": "/english/mom.mp3"
 	},
 	{
 		"id": 86,
-		"lessons": ["6"],
+		"lessons": ["[6]"],
 		"type": "word",
 		"engDefinition": "male sibling",
 		"category": "",
@@ -1630,12 +1630,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈbrʌðər]",
-		"images": [],
+		"images": ["/english/brother.webp"],
 		"engAudio": "/english/brother.mp3"
 	},
 	{
 		"id": 87,
-		"lessons": ["6"],
+		"lessons": ["[6]"],
 		"type": "word",
 		"engDefinition": "more than one brother",
 		"category": "",
@@ -1649,12 +1649,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈbrʌðərz]",
-		"images": [],
+		"images": ["/english/brothers.webp"],
 		"engAudio": "/english/brothers.mp3"
 	},
 	{
 		"id": 88,
-		"lessons": ["6"],
+		"lessons": ["[6]"],
 		"type": "word",
 		"engDefinition": "female sibling",
 		"category": "",
@@ -1668,12 +1668,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈsɪstər]",
-		"images": [],
+		"images": ["/english/sister.webp"],
 		"engAudio": "/english/sister.mp3"
 	},
 	{
 		"id": 89,
-		"lessons": ["6"],
+		"lessons": ["[6]"],
 		"type": "word",
 		"engDefinition": "more than one sister",
 		"category": "",
@@ -1687,12 +1687,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈsɪstərz]",
-		"images": [],
+		"images": ["/english/sisters.webp"],
 		"engAudio": "/english/sisters.mp3"
 	},
 	{
 		"id": 90,
-		"lessons": ["6"],
+		"lessons": ["[6]"],
 		"type": "word",
 		"engDefinition": "a young person",
 		"category": "",
@@ -1706,12 +1706,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ʧaɪld]",
-		"images": [],
+		"images": ["/english/child.webp"],
 		"engAudio": "/english/child.mp3"
 	},
 	{
 		"id": 91,
-		"lessons": ["6"],
+		"lessons": ["[6]"],
 		"type": "word",
 		"engDefinition": "more than one child",
 		"category": "",
@@ -1725,12 +1725,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈʧɪldrən]",
-		"images": [],
+		"images": ["/english/children.webp"],
 		"engAudio": "/english/children.mp3"
 	},
 	{
 		"id": 92,
-		"lessons": ["6"],
+		"lessons": ["[6]"],
 		"type": "word",
 		"engDefinition": "female child",
 		"category": "",
@@ -1744,12 +1744,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈdɔtər]",
-		"images": [],
+		"images": ["/english/daughter.webp"],
 		"engAudio": "/english/daughter.mp3"
 	},
 	{
 		"id": 93,
-		"lessons": ["6"],
+		"lessons": ["[6]"],
 		"type": "word",
 		"engDefinition": "more than one daughter",
 		"category": "",
@@ -1763,12 +1763,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈdɔtərz]",
-		"images": [],
+		"images": ["/english/daughters.webp"],
 		"engAudio": "/english/daughters.mp3"
 	},
 	{
 		"id": 94,
-		"lessons": ["6"],
+		"lessons": ["[6]"],
 		"type": "word",
 		"engDefinition": "male child",
 		"category": "",
@@ -1782,12 +1782,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[sʌn]",
-		"images": [],
+		"images": ["/english/son.webp"],
 		"engAudio": "/english/son.mp3"
 	},
 	{
 		"id": 95,
-		"lessons": ["6"],
+		"lessons": ["[6]"],
 		"type": "word",
 		"engDefinition": "more than one son",
 		"category": "",
@@ -1801,12 +1801,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[sʌnz]",
-		"images": [],
+		"images": ["/english/sons.webp"],
 		"engAudio": "/english/sons.mp3"
 	},
 	{
 		"id": 96,
-		"lessons": ["6"],
+		"lessons": ["[6]"],
 		"type": "word",
 		"engDefinition": "male child",
 		"category": "",
@@ -1820,12 +1820,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[bɔɪ]",
-		"images": [],
+		"images": ["/english/boy.webp"],
 		"engAudio": "/english/boy.mp3"
 	},
 	{
 		"id": 97,
-		"lessons": ["6"],
+		"lessons": ["[6]"],
 		"type": "word",
 		"engDefinition": "more than one boy",
 		"category": "",
@@ -1839,12 +1839,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[bɔɪz]",
-		"images": [],
+		"images": ["/english/boys.webp"],
 		"engAudio": "/english/boys.mp3"
 	},
 	{
 		"id": 98,
-		"lessons": ["6"],
+		"lessons": ["[6]"],
 		"type": "word",
 		"engDefinition": "female child",
 		"category": "",
@@ -1858,12 +1858,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ɡɝl]",
-		"images": [],
+		"images": ["/english/girl.webp"],
 		"engAudio": "/english/girl.mp3"
 	},
 	{
 		"id": 99,
-		"lessons": ["6"],
+		"lessons": ["[6]"],
 		"type": "word",
 		"engDefinition": "more than one girl",
 		"category": "",
@@ -1877,12 +1877,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ɡɝlz]",
-		"images": [],
+		"images": ["/english/girls.webp"],
 		"engAudio": "/english/girls.mp3"
 	},
 	{
 		"id": 100,
-		"lessons": ["6"],
+		"lessons": ["[6]"],
 		"type": "word",
 		"engDefinition": "one human",
 		"category": "",
@@ -1896,12 +1896,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈpɝsən]",
-		"images": [],
+		"images": ["/english/person.webp"],
 		"engAudio": "/english/person.mp3"
 	},
 	{
 		"id": 101,
-		"lessons": ["6"],
+		"lessons": ["[6]"],
 		"type": "word",
 		"engDefinition": "more than one person",
 		"category": "",
@@ -1915,12 +1915,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈpipəl]",
-		"images": [],
+		"images": ["/english/people.webp"],
 		"engAudio": "/english/people.mp3"
 	},
 	{
 		"id": 102,
-		"lessons": ["7"],
+		"lessons": ["[7]"],
 		"type": "word",
 		"engDefinition": "you alone",
 		"category": "",
@@ -1934,12 +1934,12 @@
 		"number": "",
 		"partOfSpeech": ["pronoun"],
 		"ipa": "[jɔrˈsɛlf]",
-		"images": [],
+		"images": ["/english/yourself.webp"],
 		"engAudio": "/english/yourself.mp3"
 	},
 	{
 		"id": 103,
-		"lessons": ["7"],
+		"lessons": ["[7]"],
 		"type": "word",
 		"engDefinition": "child of your aunt/uncle",
 		"category": "",
@@ -1953,12 +1953,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈkʌzən]",
-		"images": [],
+		"images": ["/english/cousin.webp"],
 		"engAudio": "/english/cousin.mp3"
 	},
 	{
 		"id": 104,
-		"lessons": ["7"],
+		"lessons": ["[7]"],
 		"type": "word",
 		"engDefinition": "more than one cousin",
 		"category": "",
@@ -1972,12 +1972,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈkʌzənz]",
-		"images": [],
+		"images": ["/english/cousins.webp"],
 		"engAudio": "/english/cousins.mp3"
 	},
 	{
 		"id": 105,
-		"lessons": ["7"],
+		"lessons": ["[7]"],
 		"type": "word",
 		"engDefinition": "body parts for seeing",
 		"category": "",
@@ -1991,12 +1991,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[aɪz]",
-		"images": [],
+		"images": ["/english/eyes.webp"],
 		"engAudio": "/english/eyes.mp3"
 	},
 	{
 		"id": 106,
-		"lessons": ["7"],
+		"lessons": ["[7]"],
 		"type": "word",
 		"engDefinition": "lenses for vision",
 		"category": "",
@@ -2010,12 +2010,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈɡlæsɪz]",
-		"images": [],
+		"images": ["/english/glasses.webp"],
 		"engAudio": "/english/glasses.mp3"
 	},
 	{
 		"id": 107,
-		"lessons": ["7"],
+		"lessons": ["[7]"],
 		"type": "word",
 		"engDefinition": "grows on head",
 		"category": "",
@@ -2029,12 +2029,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[hɛr]",
-		"images": [],
+		"images": ["/english/hair.webp"],
 		"engAudio": "/english/hair.mp3"
 	},
 	{
 		"id": 108,
-		"lessons": ["7"],
+		"lessons": ["[7]"],
 		"type": "word",
 		"engDefinition": "hair above mouth",
 		"category": "",
@@ -2048,16 +2048,16 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈmʌstæʃ]",
-		"images": [],
+		"images": ["/english/mustache.webp"],
 		"engAudio": "/english/mustache.mp3"
 	},
 	{
 		"id": 109,
-		"lessons": ["7"],
+		"lessons": ["[7]"],
 		"type": "word",
 		"engDefinition": "color",
 		"category": "",
-		"eng": "sky",
+		"eng": "blue",
 		"spa": "azul",
 		"por": "azul",
 		"spaTransliteration": "blú",
@@ -2067,12 +2067,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[blu]",
-		"images": [],
-		"engAudio": "/english/sky.mp3"
+		"images": ["/english/blue.webp"],
+		"engAudio": "/english/blue.mp3"
 	},
 	{
 		"id": 110,
-		"lessons": ["7"],
+		"lessons": ["[7]"],
 		"type": "word",
 		"engDefinition": "color",
 		"category": "",
@@ -2086,12 +2086,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[braʊn]",
-		"images": [],
+		"images": ["/english/brown.webp"],
 		"engAudio": "/english/brown.mp3"
 	},
 	{
 		"id": 111,
-		"lessons": ["7"],
+		"lessons": ["[7]"],
 		"type": "word",
 		"engDefinition": "color",
 		"category": "",
@@ -2105,12 +2105,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[ɡrin]",
-		"images": [],
+		"images": ["/english/green.webp"],
 		"engAudio": "/english/green.mp3"
 	},
 	{
 		"id": 112,
-		"lessons": ["7"],
+		"lessons": ["[7]"],
 		"type": "word",
 		"engDefinition": "eye color, mix of brown/green",
 		"category": "",
@@ -2124,12 +2124,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[ˈheɪzəl]",
-		"images": [],
+		"images": ["/english/hazel.webp"],
 		"engAudio": "/english/hazel.mp3"
 	},
 	{
 		"id": 113,
-		"lessons": ["7"],
+		"lessons": ["[7]"],
 		"type": "word",
 		"engDefinition": "light yellow hair",
 		"category": "",
@@ -2143,12 +2143,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[blɑnd]",
-		"images": [],
+		"images": ["/english/blonde.webp"],
 		"engAudio": "/english/blonde.mp3"
 	},
 	{
 		"id": 114,
-		"lessons": ["7"],
+		"lessons": ["[7]"],
 		"type": "word",
 		"engDefinition": "very dark color",
 		"category": "",
@@ -2162,12 +2162,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[blæk]",
-		"images": [],
+		"images": ["/english/black.webp"],
 		"engAudio": "/english/black.mp3"
 	},
 	{
 		"id": 115,
-		"lessons": ["7"],
+		"lessons": ["[7]"],
 		"type": "word",
 		"engDefinition": "color between black and white",
 		"category": "",
@@ -2181,12 +2181,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[ɡreɪ]",
-		"images": [],
+		"images": ["/english/gray.webp"],
 		"engAudio": "/english/gray.mp3"
 	},
 	{
 		"id": 116,
-		"lessons": ["7"],
+		"lessons": ["[7]"],
 		"type": "word",
 		"engDefinition": "color",
 		"category": "",
@@ -2200,12 +2200,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[rɛd]",
-		"images": [],
+		"images": ["/english/red.webp"],
 		"engAudio": "/english/red.mp3"
 	},
 	{
 		"id": 117,
-		"lessons": ["7"],
+		"lessons": ["[7]"],
 		"type": "word",
 		"engDefinition": "color",
 		"category": "",
@@ -2219,12 +2219,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[waɪt]",
-		"images": [],
+		"images": ["/english/white.webp"],
 		"engAudio": "/english/white.mp3"
 	},
 	{
 		"id": 118,
-		"lessons": ["7"],
+		"lessons": ["[7]"],
 		"type": "word",
 		"engDefinition": "not short",
 		"category": "",
@@ -2238,12 +2238,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[lɔŋ]",
-		"images": [],
+		"images": ["/english/long.webp"],
 		"engAudio": "/english/long.mp3"
 	},
 	{
 		"id": 119,
-		"lessons": ["7"],
+		"lessons": ["[7]"],
 		"type": "word",
 		"engDefinition": "not long / not tall",
 		"category": "",
@@ -2257,12 +2257,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[ʃɔrt]",
-		"images": [],
+		"images": ["/english/short.webp"],
 		"engAudio": "/english/short.mp3"
 	},
 	{
 		"id": 120,
-		"lessons": ["7"],
+		"lessons": ["[7]"],
 		"type": "word",
 		"engDefinition": "high in height",
 		"category": "",
@@ -2276,12 +2276,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[tɔl]",
-		"images": [],
+		"images": ["/english/tall.webp"],
 		"engAudio": "/english/tall.mp3"
 	},
 	{
 		"id": 121,
-		"lessons": ["7"],
+		"lessons": ["[7]"],
 		"type": "word",
 		"engDefinition": "has a husband or wife",
 		"category": "",
@@ -2295,12 +2295,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[ˈmærid]",
-		"images": [],
+		"images": ["/english/married.webp"],
 		"engAudio": "/english/married.mp3"
 	},
 	{
 		"id": 122,
-		"lessons": ["7"],
+		"lessons": ["[7]"],
 		"type": "word",
 		"engDefinition": "not married",
 		"category": "",
@@ -2314,12 +2314,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[ˈsɪŋɡəl]",
-		"images": [],
+		"images": ["/english/single.webp"],
 		"engAudio": "/english/single.mp3"
 	},
 	{
 		"id": 123,
-		"lessons": ["7"],
+		"lessons": ["[7]"],
 		"type": "word",
 		"engDefinition": "no hair on head",
 		"category": "",
@@ -2333,12 +2333,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[bɔld]",
-		"images": [],
+		"images": ["/english/bald.webp"],
 		"engAudio": "/english/bald.mp3"
 	},
 	{
 		"id": 124,
-		"lessons": ["7"],
+		"lessons": ["[7]"],
 		"type": "word",
 		"engDefinition": "hair on chin/face",
 		"category": "",
@@ -2352,12 +2352,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[bɪrd]",
-		"images": [],
+		"images": ["/english/beard.webp"],
 		"engAudio": "/english/beard.mp3"
 	},
 	{
 		"id": 125,
-		"lessons": ["7"],
+		"lessons": ["[7]"],
 		"type": "word",
 		"engDefinition": "hair with curves",
 		"category": "",
@@ -2371,12 +2371,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[ˈkɝli]",
-		"images": [],
+		"images": ["/english/curly.webp"],
 		"engAudio": "/english/curly.mp3"
 	},
 	{
 		"id": 126,
-		"lessons": ["7"],
+		"lessons": ["[7]"],
 		"type": "word",
 		"engDefinition": "not curved",
 		"category": "",
@@ -2390,12 +2390,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[streɪt]",
-		"images": [],
+		"images": ["/english/straight.webp"],
 		"engAudio": "/english/straight.mp3"
 	},
 	{
 		"id": 127,
-		"lessons": ["7"],
+		"lessons": ["[7]"],
 		"type": "word",
 		"engDefinition": "not young",
 		"category": "",
@@ -2409,12 +2409,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[oʊld]",
-		"images": [],
+		"images": ["/english/old.webp"],
 		"engAudio": "/english/old.mp3"
 	},
 	{
 		"id": 128,
-		"lessons": ["7"],
+		"lessons": ["[7]"],
 		"type": "word",
 		"engDefinition": "not old",
 		"category": "",
@@ -2428,12 +2428,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[jʌŋ]",
-		"images": [],
+		"images": ["/english/young.webp"],
 		"engAudio": "/english/young.mp3"
 	},
 	{
 		"id": 129,
-		"lessons": ["8"],
+		"lessons": ["[8]"],
 		"type": "word",
 		"engDefinition": "makes negative",
 		"category": "",
@@ -2447,12 +2447,12 @@
 		"number": "",
 		"partOfSpeech": ["adv."],
 		"ipa": "[nɑt]",
-		"images": [],
+		"images": ["/english/not.webp"],
 		"engAudio": "/english/not.mp3"
 	},
 	{
 		"id": 130,
-		"lessons": ["8"],
+		"lessons": ["[8]"],
 		"type": "word",
 		"engDefinition": "near, singular",
 		"category": "",
@@ -2466,12 +2466,12 @@
 		"number": "",
 		"partOfSpeech": ["pronoun"],
 		"ipa": "[ðɪs]",
-		"images": [],
+		"images": ["/english/this.webp"],
 		"engAudio": "/english/this.mp3"
 	},
 	{
 		"id": 131,
-		"lessons": ["8"],
+		"lessons": ["[8]"],
 		"type": "word",
 		"engDefinition": "near, plural",
 		"category": "",
@@ -2485,12 +2485,12 @@
 		"number": "",
 		"partOfSpeech": ["pronoun"],
 		"ipa": "[ðiz]",
-		"images": [],
+		"images": ["/english/these.webp"],
 		"engAudio": "/english/these.mp3"
 	},
 	{
 		"id": 132,
-		"lessons": ["8"],
+		"lessons": ["[8]"],
 		"type": "word",
 		"engDefinition": "far, singular",
 		"category": "",
@@ -2504,12 +2504,12 @@
 		"number": "",
 		"partOfSpeech": ["pronoun"],
 		"ipa": "[ðæt]",
-		"images": [],
+		"images": ["/english/that.webp"],
 		"engAudio": "/english/that.mp3"
 	},
 	{
 		"id": 133,
-		"lessons": ["8"],
+		"lessons": ["[8]"],
 		"type": "word",
 		"engDefinition": "far, plural",
 		"category": "",
@@ -2523,12 +2523,12 @@
 		"number": "",
 		"partOfSpeech": ["pronoun"],
 		"ipa": "[ðoʊz]",
-		"images": [],
+		"images": ["/english/those.webp"],
 		"engAudio": "/english/those.mp3"
 	},
 	{
 		"id": 134,
-		"lessons": ["8"],
+		"lessons": ["[8]"],
 		"type": "word",
 		"engDefinition": "something to read",
 		"category": "",
@@ -2542,12 +2542,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[bʊk]",
-		"images": [],
+		"images": ["/english/book.webp"],
 		"engAudio": "/english/book.mp3"
 	},
 	{
 		"id": 135,
-		"lessons": ["8"],
+		"lessons": ["[8]"],
 		"type": "word",
 		"engDefinition": "more than one book",
 		"category": "",
@@ -2561,12 +2561,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[bʊks]",
-		"images": [],
+		"images": ["/english/books.webp"],
 		"engAudio": "/english/books.mp3"
 	},
 	{
 		"id": 136,
-		"lessons": ["8"],
+		"lessons": ["[8]"],
 		"type": "word",
 		"engDefinition": "seat with back",
 		"category": "",
@@ -2580,12 +2580,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ʧɛr]",
-		"images": [],
+		"images": ["/english/chair.webp"],
 		"engAudio": "/english/chair.mp3"
 	},
 	{
 		"id": 137,
-		"lessons": ["8"],
+		"lessons": ["[8]"],
 		"type": "word",
 		"engDefinition": "more than one chair",
 		"category": "",
@@ -2599,12 +2599,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ʧɛrz]",
-		"images": [],
+		"images": ["/english/chairs.webp"],
 		"engAudio": "/english/chairs.mp3"
 	},
 	{
 		"id": 138,
-		"lessons": ["8"],
+		"lessons": ["[8]"],
 		"type": "word",
 		"engDefinition": "shows time",
 		"category": "",
@@ -2618,12 +2618,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[klɑk]",
-		"images": [],
+		"images": ["/english/clock.webp"],
 		"engAudio": "/english/clock.mp3"
 	},
 	{
 		"id": 139,
-		"lessons": ["8"],
+		"lessons": ["[8]"],
 		"type": "word",
 		"engDefinition": "more than one clock",
 		"category": "",
@@ -2637,12 +2637,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[klɑks]",
-		"images": [],
+		"images": ["/english/clocks.webp"],
 		"engAudio": "/english/clocks.mp3"
 	},
 	{
 		"id": 140,
-		"lessons": ["8"],
+		"lessons": ["[8]"],
 		"type": "word",
 		"engDefinition": "electronic machine",
 		"category": "",
@@ -2656,12 +2656,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[kəmˈpjutər]",
-		"images": [],
+		"images": ["/english/computer.webp"],
 		"engAudio": "/english/computer.mp3"
 	},
 	{
 		"id": 141,
-		"lessons": ["8"],
+		"lessons": ["[8]"],
 		"type": "word",
 		"engDefinition": "more than one computer",
 		"category": "",
@@ -2675,12 +2675,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[kəmˈpjutərz]",
-		"images": [],
+		"images": ["/english/computers.webp"],
 		"engAudio": "/english/computers.mp3"
 	},
 	{
 		"id": 142,
-		"lessons": ["8"],
+		"lessons": ["[8]"],
 		"type": "word",
 		"engDefinition": "opens doors",
 		"category": "",
@@ -2694,12 +2694,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[kiː]",
-		"images": [],
+		"images": ["/english/key.webp"],
 		"engAudio": "/english/key.mp3"
 	},
 	{
 		"id": 143,
-		"lessons": ["8"],
+		"lessons": ["[8]"],
 		"type": "word",
 		"engDefinition": "more than one key",
 		"category": "",
@@ -2713,12 +2713,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[kiz]",
-		"images": [],
+		"images": ["/english/keys.webp"],
 		"engAudio": "/english/keys.mp3"
 	},
 	{
 		"id": 144,
-		"lessons": ["8"],
+		"lessons": ["[8]"],
 		"type": "word",
 		"engDefinition": "book for writing",
 		"category": "",
@@ -2732,12 +2732,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈnoʊtbʊk]",
-		"images": [],
+		"images": ["/english/notebook.webp"],
 		"engAudio": "/english/notebook.mp3"
 	},
 	{
 		"id": 145,
-		"lessons": ["8"],
+		"lessons": ["[8]"],
 		"type": "word",
 		"engDefinition": "more than one notebook",
 		"category": "",
@@ -2751,12 +2751,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈnoʊtbʊks]",
-		"images": [],
+		"images": ["/english/notebooks.webp"],
 		"engAudio": "/english/notebooks.mp3"
 	},
 	{
 		"id": 146,
-		"lessons": ["8"],
+		"lessons": ["[8]"],
 		"type": "word",
 		"engDefinition": "tool for writing",
 		"category": "",
@@ -2770,12 +2770,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[pɛn]",
-		"images": [],
+		"images": ["/english/pen.webp"],
 		"engAudio": "/english/pen.mp3"
 	},
 	{
 		"id": 147,
-		"lessons": ["8"],
+		"lessons": ["[8]"],
 		"type": "word",
 		"engDefinition": "more than one pen",
 		"category": "",
@@ -2789,12 +2789,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[pɛnz]",
-		"images": [],
+		"images": ["/english/pens.webp"],
 		"engAudio": "/english/pens.mp3"
 	},
 	{
 		"id": 148,
-		"lessons": ["8"],
+		"lessons": ["[8]"],
 		"type": "word",
 		"engDefinition": "writing tool with lead",
 		"category": "",
@@ -2808,12 +2808,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈpɛnsəl]",
-		"images": [],
+		"images": ["/english/pencil.webp"],
 		"engAudio": "/english/pencil.mp3"
 	},
 	{
 		"id": 149,
-		"lessons": ["8"],
+		"lessons": ["[8]"],
 		"type": "word",
 		"engDefinition": "more than one pencil",
 		"category": "",
@@ -2827,12 +2827,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈpɛnsəlz]",
-		"images": [],
+		"images": ["/english/pencils.webp"],
 		"engAudio": "/english/pencils.mp3"
 	},
 	{
 		"id": 150,
-		"lessons": ["8"],
+		"lessons": ["[8]"],
 		"type": "word",
 		"engDefinition": "device to call",
 		"category": "",
@@ -2846,12 +2846,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[foʊn]",
-		"images": [],
+		"images": ["/english/phone.webp"],
 		"engAudio": "/english/phone.mp3"
 	},
 	{
 		"id": 151,
-		"lessons": ["8"],
+		"lessons": ["[8]"],
 		"type": "word",
 		"engDefinition": "more than one phone",
 		"category": "",
@@ -2865,12 +2865,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[foʊnz]",
-		"images": [],
+		"images": ["/english/phones.webp"],
 		"engAudio": "/english/phones.mp3"
 	},
 	{
 		"id": 152,
-		"lessons": ["8"],
+		"lessons": ["[8]"],
 		"type": "word",
 		"engDefinition": "furniture with flat top",
 		"category": "",
@@ -2884,12 +2884,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈteɪbəl]",
-		"images": [],
+		"images": ["/english/table.webp"],
 		"engAudio": "/english/table.mp3"
 	},
 	{
 		"id": 153,
-		"lessons": ["8"],
+		"lessons": ["[8]"],
 		"type": "word",
 		"engDefinition": "more than one table",
 		"category": "",
@@ -2903,12 +2903,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈteɪbəlz]",
-		"images": [],
+		"images": ["/english/tables.webp"],
 		"engAudio": "/english/tables.mp3"
 	},
 	{
 		"id": 154,
-		"lessons": ["8"],
+		"lessons": ["[8]"],
 		"type": "word",
 		"engDefinition": "holds money/cards",
 		"category": "",
@@ -2922,12 +2922,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈwɑlɪt]",
-		"images": [],
+		"images": ["/english/wallet.webp"],
 		"engAudio": "/english/wallet.mp3"
 	},
 	{
 		"id": 155,
-		"lessons": ["8"],
+		"lessons": ["[8]"],
 		"type": "word",
 		"engDefinition": "more than one wallet",
 		"category": "",
@@ -2941,12 +2941,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈwɑlɪts]",
-		"images": [],
+		"images": ["/english/wallets.webp"],
 		"engAudio": "/english/wallets.mp3"
 	},
 	{
 		"id": 156,
-		"lessons": ["8"],
+		"lessons": ["[8]"],
 		"type": "word",
 		"engDefinition": "small clock for wrist",
 		"category": "",
@@ -2960,12 +2960,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[wɑʧ]",
-		"images": [],
+		"images": ["/english/watch.webp"],
 		"engAudio": "/english/watch.mp3"
 	},
 	{
 		"id": 157,
-		"lessons": ["8"],
+		"lessons": ["[8]"],
 		"type": "word",
 		"engDefinition": "more than one watch",
 		"category": "",
@@ -2979,16 +2979,16 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈwɑʧɪz]",
-		"images": [],
+		"images": ["/english/watches.webp"],
 		"engAudio": "/english/watches.mp3"
 	},
 	{
 		"id": 158,
-		"lessons": ["9"],
+		"lessons": ["[9]"],
 		"type": "word",
 		"engDefinition": "he is",
 		"category": "",
-		"eng": "he’s",
+		"eng": "he's",
 		"spa": "él es / está",
 		"por": "ele é / está",
 		"spaTransliteration": "jíis",
@@ -2998,16 +2998,16 @@
 		"number": "",
 		"partOfSpeech": ["contraction"],
 		"ipa": "[hiz]",
-		"images": [],
+		"images": ["/english/hes.webp"],
 		"engAudio": "/english/hes.mp3"
 	},
 	{
 		"id": 159,
-		"lessons": ["9"],
+		"lessons": ["[9]"],
 		"type": "word",
 		"engDefinition": "she is",
 		"category": "",
-		"eng": "she’s",
+		"eng": "she's",
 		"spa": "ella es / está",
 		"por": "ela é / está",
 		"spaTransliteration": "shíis",
@@ -3017,16 +3017,16 @@
 		"number": "",
 		"partOfSpeech": ["contraction"],
 		"ipa": "[ʃiz]",
-		"images": [],
+		"images": ["/english/shes.webp"],
 		"engAudio": "/english/shes.mp3"
 	},
 	{
 		"id": 160,
-		"lessons": ["9"],
+		"lessons": ["[9]"],
 		"type": "word",
 		"engDefinition": "they are",
 		"category": "",
-		"eng": "they’re",
+		"eng": "they're",
 		"spa": "ellos son / están",
 		"por": "eles são / estão",
 		"spaTransliteration": "dhéir",
@@ -3036,12 +3036,12 @@
 		"number": "",
 		"partOfSpeech": ["contraction"],
 		"ipa": "[ðɛr]",
-		"images": [],
+		"images": ["/english/theyre.webp"],
 		"engAudio": "/english/theyre.mp3"
 	},
 	{
 		"id": 161,
-		"lessons": ["9"],
+		"lessons": ["[9]"],
 		"type": "word",
 		"engDefinition": "having clothes on",
 		"category": "",
@@ -3055,12 +3055,12 @@
 		"number": "",
 		"partOfSpeech": ["verb"],
 		"ipa": "[ˈwɛrɪŋ]",
-		"images": [],
+		"images": ["/english/wearing.webp"],
 		"engAudio": "/english/wearing.mp3"
 	},
 	{
 		"id": 162,
-		"lessons": ["9"],
+		"lessons": ["[9]"],
 		"type": "word",
 		"engDefinition": "trying to find",
 		"category": "",
@@ -3074,12 +3074,12 @@
 		"number": "",
 		"partOfSpeech": ["phrase"],
 		"ipa": "[ˈlʊkɪŋ fɔr]",
-		"images": [],
+		"images": ["/english/looking-for.webp"],
 		"engAudio": "/english/looking-for.mp3"
 	},
 	{
 		"id": 163,
-		"lessons": ["9"],
+		"lessons": ["[9]"],
 		"type": "word",
 		"engDefinition": "clothes in general",
 		"category": "",
@@ -3093,12 +3093,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈkloʊðɪŋ]",
-		"images": [],
+		"images": ["/english/clothing.webp"],
 		"engAudio": "/english/clothing.mp3"
 	},
 	{
 		"id": 164,
-		"lessons": ["9"],
+		"lessons": ["[9]"],
 		"type": "word",
 		"engDefinition": "shade we see",
 		"category": "",
@@ -3112,12 +3112,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈkʌlər]",
-		"images": [],
+		"images": ["/english/color.webp"],
 		"engAudio": "/english/color.mp3"
 	},
 	{
 		"id": 165,
-		"lessons": ["9"],
+		"lessons": ["[9]"],
 		"type": "word",
 		"engDefinition": "more than one color",
 		"category": "",
@@ -3131,12 +3131,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈkʌlərz]",
-		"images": [],
+		"images": ["/english/colors.webp"],
 		"engAudio": "/english/colors.mp3"
 	},
 	{
 		"id": 166,
-		"lessons": ["9"],
+		"lessons": ["[9]"],
 		"type": "word",
 		"engDefinition": "outer jacket",
 		"category": "",
@@ -3150,12 +3150,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[koʊt]",
-		"images": [],
+		"images": ["/english/coat.webp"],
 		"engAudio": "/english/coat.mp3"
 	},
 	{
 		"id": 167,
-		"lessons": ["9"],
+		"lessons": ["[9]"],
 		"type": "word",
 		"engDefinition": "more than one coat",
 		"category": "",
@@ -3169,12 +3169,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[koʊts]",
-		"images": [],
+		"images": ["/english/coats.webp"],
 		"engAudio": "/english/coats.mp3"
 	},
 	{
 		"id": 168,
-		"lessons": ["9"],
+		"lessons": ["[9]"],
 		"type": "word",
 		"engDefinition": "one-piece clothing",
 		"category": "",
@@ -3188,12 +3188,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[drɛs]",
-		"images": [],
+		"images": ["/english/dress.webp"],
 		"engAudio": "/english/dress.mp3"
 	},
 	{
 		"id": 169,
-		"lessons": ["9"],
+		"lessons": ["[9]"],
 		"type": "word",
 		"engDefinition": "more than one dress",
 		"category": "",
@@ -3207,12 +3207,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈdrɛsɪz]",
-		"images": [],
+		"images": ["/english/dresses.webp"],
 		"engAudio": "/english/dresses.mp3"
 	},
 	{
 		"id": 170,
-		"lessons": ["9"],
+		"lessons": ["[9]"],
 		"type": "word",
 		"engDefinition": "clothing for legs",
 		"category": "",
@@ -3226,12 +3226,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[pænts]",
-		"images": [],
+		"images": ["/english/pants.webp"],
 		"engAudio": "/english/pants.mp3"
 	},
 	{
 		"id": 171,
-		"lessons": ["9"],
+		"lessons": ["[9]"],
 		"type": "word",
 		"engDefinition": "clothing for upper body",
 		"category": "",
@@ -3245,12 +3245,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ʃɜrt]",
-		"images": [],
+		"images": ["/english/shirt.webp"],
 		"engAudio": "/english/shirt.mp3"
 	},
 	{
 		"id": 172,
-		"lessons": ["9"],
+		"lessons": ["[9]"],
 		"type": "word",
 		"engDefinition": "more than one shirt",
 		"category": "",
@@ -3264,12 +3264,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ʃɜrts]",
-		"images": [],
+		"images": ["/english/shirts.webp"],
 		"engAudio": "/english/shirts.mp3"
 	},
 	{
 		"id": 173,
-		"lessons": ["9"],
+		"lessons": ["[9]"],
 		"type": "word",
 		"engDefinition": "clothing for feet",
 		"category": "",
@@ -3283,12 +3283,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ʃu]",
-		"images": [],
+		"images": ["/english/shoe.webp"],
 		"engAudio": "/english/shoe.mp3"
 	},
 	{
 		"id": 174,
-		"lessons": ["9"],
+		"lessons": ["[9]"],
 		"type": "word",
 		"engDefinition": "clothing for feet",
 		"category": "",
@@ -3302,14 +3302,14 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ʃuz]",
-		"images": [],
+		"images": ["/english/shoes.webp"],
 		"engAudio": "/english/shoes.mp3"
 	},
 	{
 		"id": 175,
-		"lessons": ["9"],
+		"lessons": ["[9]"],
 		"type": "word",
-		"engDefinition": "clothing for women’s lower body",
+		"engDefinition": "clothing for women's lower body",
 		"category": "",
 		"eng": "skirt",
 		"spa": "falda",
@@ -3321,12 +3321,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[skɜrt]",
-		"images": [],
+		"images": ["/english/skirt.webp"],
 		"engAudio": "/english/skirt.mp3"
 	},
 	{
 		"id": 176,
-		"lessons": ["9"],
+		"lessons": ["[9]"],
 		"type": "word",
 		"engDefinition": "more than one skirt",
 		"category": "",
@@ -3340,12 +3340,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[skɜrts]",
-		"images": [],
+		"images": ["/english/skirts.webp"],
 		"engAudio": "/english/skirts.mp3"
 	},
 	{
 		"id": 177,
-		"lessons": ["9"],
+		"lessons": ["[9]"],
 		"type": "word",
 		"engDefinition": "warm clothing for upper body",
 		"category": "",
@@ -3359,12 +3359,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈswɛtər]",
-		"images": [],
+		"images": ["/english/sweater.webp"],
 		"engAudio": "/english/sweater.mp3"
 	},
 	{
 		"id": 178,
-		"lessons": ["9"],
+		"lessons": ["[9]"],
 		"type": "word",
 		"engDefinition": "more than one sweater",
 		"category": "",
@@ -3378,12 +3378,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈswɛtərz]",
-		"images": [],
+		"images": ["/english/sweaters.webp"],
 		"engAudio": "/english/sweaters.mp3"
 	},
 	{
 		"id": 179,
-		"lessons": ["9"],
+		"lessons": ["[9]"],
 		"type": "word",
 		"engDefinition": "fruit / color",
 		"category": "",
@@ -3397,14 +3397,14 @@
 		"number": "",
 		"partOfSpeech": ["noun/adj."],
 		"ipa": "[ˈɔrɪndʒ]",
-		"images": [],
+		"images": ["/english/orange.webp"],
 		"engAudio": "/english/orange.mp3"
 	},
 	{
 		"id": 180,
-		"lessons": ["9"],
+		"lessons": ["[9]"],
 		"type": "word",
-		"engDefinition": "mix of red and sky",
+		"engDefinition": "mix of red and blue",
 		"category": "",
 		"eng": "purple",
 		"spa": "morado",
@@ -3416,12 +3416,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[ˈpɜrpəl]",
-		"images": [],
+		"images": ["/english/purple.webp"],
 		"engAudio": "/english/purple.mp3"
 	},
 	{
 		"id": 181,
-		"lessons": ["9"],
+		"lessons": ["[9]"],
 		"type": "word",
 		"engDefinition": "bright color like sun",
 		"category": "",
@@ -3435,12 +3435,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[ˈjɛloʊ]",
-		"images": [],
+		"images": ["/english/yellow.webp"],
 		"engAudio": "/english/yellow.mp3"
 	},
 	{
 		"id": 182,
-		"lessons": ["9"],
+		"lessons": ["[9]"],
 		"type": "word",
 		"engDefinition": "clothing around waist",
 		"category": "",
@@ -3454,12 +3454,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[bɛlt]",
-		"images": [],
+		"images": ["/english/belt.webp"],
 		"engAudio": "/english/belt.mp3"
 	},
 	{
 		"id": 183,
-		"lessons": ["9"],
+		"lessons": ["[9]"],
 		"type": "word",
 		"engDefinition": "clothing for feet",
 		"category": "",
@@ -3473,12 +3473,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[sɑk]",
-		"images": [],
+		"images": ["/english/sock.webp"],
 		"engAudio": "/english/sock.mp3"
 	},
 	{
 		"id": 184,
-		"lessons": ["9"],
+		"lessons": ["[9]"],
 		"type": "word",
 		"engDefinition": "formal jacket and pants",
 		"category": "",
@@ -3492,12 +3492,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[sut]",
-		"images": [],
+		"images": ["/english/suit.webp"],
 		"engAudio": "/english/suit.mp3"
 	},
 	{
 		"id": 185,
-		"lessons": ["9"],
+		"lessons": ["[9]"],
 		"type": "word",
 		"engDefinition": "clothing worn at the neck",
 		"category": "",
@@ -3511,12 +3511,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[taɪ]",
-		"images": [],
+		"images": ["/english/tie.webp"],
 		"engAudio": "/english/tie.mp3"
 	},
 	{
 		"id": 186,
-		"lessons": ["10"],
+		"lessons": ["[10]"],
 		"type": "word",
 		"engDefinition": "everyday activities",
 		"category": "",
@@ -3530,12 +3530,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈdeɪli ruˌtin]",
-		"images": [],
+		"images": ["/english/daily-routine.webp"],
 		"engAudio": "/english/daily-routine.mp3"
 	},
 	{
 		"id": 187,
-		"lessons": ["10"],
+		"lessons": ["[10]"],
 		"type": "word",
 		"engDefinition": "early part of the day",
 		"category": "",
@@ -3549,12 +3549,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈmɔrnɪŋ]",
-		"images": [],
+		"images": ["/english/morning.webp"],
 		"engAudio": "/english/morning.mp3"
 	},
 	{
 		"id": 188,
-		"lessons": ["10"],
+		"lessons": ["[10]"],
 		"type": "word",
 		"engDefinition": "time after noon",
 		"category": "",
@@ -3568,12 +3568,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˌæftərˈnun]",
-		"images": [],
+		"images": ["/english/afternoon.webp"],
 		"engAudio": "/english/afternoon.mp3"
 	},
 	{
 		"id": 189,
-		"lessons": ["10"],
+		"lessons": ["[10]"],
 		"type": "word",
 		"engDefinition": "time after afternoon",
 		"category": "",
@@ -3587,12 +3587,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈivnɪŋ]",
-		"images": [],
+		"images": ["/english/evening.webp"],
 		"engAudio": "/english/evening.mp3"
 	},
 	{
 		"id": 190,
-		"lessons": ["10"],
+		"lessons": ["[10]"],
 		"type": "word",
 		"engDefinition": "physical activities",
 		"category": "",
@@ -3606,12 +3606,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈɛksərˌsaɪzɪz]",
-		"images": [],
+		"images": ["/english/exercises.webp"],
 		"engAudio": "/english/exercises.mp3"
 	},
 	{
 		"id": 191,
-		"lessons": ["10"],
+		"lessons": ["[10]"],
 		"type": "word",
 		"engDefinition": "to cut hair from face/body",
 		"category": "",
@@ -3625,12 +3625,12 @@
 		"number": "",
 		"partOfSpeech": ["verb"],
 		"ipa": "[ʃeɪv]",
-		"images": [],
+		"images": ["/english/shave.webp"],
 		"engAudio": "/english/shave.mp3"
 	},
 	{
 		"id": 192,
-		"lessons": ["10"],
+		"lessons": ["[10]"],
 		"type": "word",
 		"engDefinition": "he/she cuts hair from face/body",
 		"category": "",
@@ -3644,12 +3644,12 @@
 		"number": "",
 		"partOfSpeech": ["verb"],
 		"ipa": "[ʃeɪvz]",
-		"images": [],
+		"images": ["/english/shaves.webp"],
 		"engAudio": "/english/shaves.mp3"
 	},
 	{
 		"id": 193,
-		"lessons": ["11"],
+		"lessons": ["[11]"],
 		"type": "word",
 		"engDefinition": "at this moment",
 		"category": "",
@@ -3663,12 +3663,12 @@
 		"number": "",
 		"partOfSpeech": ["adv."],
 		"ipa": "[naʊ]",
-		"images": [],
+		"images": ["/english/now.webp"],
 		"engAudio": "/english/now.mp3"
 	},
 	{
 		"id": 194,
-		"lessons": ["11"],
+		"lessons": ["[11]"],
 		"type": "word",
 		"engDefinition": "to talk to God",
 		"category": "",
@@ -3682,12 +3682,12 @@
 		"number": "",
 		"partOfSpeech": ["verb"],
 		"ipa": "[preɪ]",
-		"images": [],
+		"images": ["/english/pray.webp"],
 		"engAudio": "/english/pray.mp3"
 	},
 	{
 		"id": 195,
-		"lessons": ["11"],
+		"lessons": ["[11]"],
 		"type": "word",
 		"engDefinition": "talking to God now",
 		"category": "",
@@ -3701,12 +3701,12 @@
 		"number": "",
 		"partOfSpeech": ["verb"],
 		"ipa": "[ˈpreɪɪŋ]",
-		"images": [],
+		"images": ["/english/praying.webp"],
 		"engAudio": "/english/praying.mp3"
 	},
 	{
 		"id": 196,
-		"lessons": ["11"],
+		"lessons": ["[11]"],
 		"type": "word",
 		"engDefinition": "to rest",
 		"category": "",
@@ -3720,12 +3720,12 @@
 		"number": "",
 		"partOfSpeech": ["verb"],
 		"ipa": "[rɪˈlæks]",
-		"images": [],
+		"images": ["/english/relax.webp"],
 		"engAudio": "/english/relax.mp3"
 	},
 	{
 		"id": 197,
-		"lessons": ["11"],
+		"lessons": ["[11]"],
 		"type": "word",
 		"engDefinition": "job / to do a job",
 		"category": "",
@@ -3739,12 +3739,12 @@
 		"number": "",
 		"partOfSpeech": ["noun/verb"],
 		"ipa": "[wɝk]",
-		"images": [],
+		"images": ["/english/work.webp"],
 		"engAudio": "/english/work.mp3"
 	},
 	{
 		"id": 198,
-		"lessons": ["11"],
+		"lessons": ["[11]"],
 		"type": "word",
 		"engDefinition": "doing a job now",
 		"category": "",
@@ -3758,12 +3758,12 @@
 		"number": "",
 		"partOfSpeech": ["verb"],
 		"ipa": "[ˈwɝkɪŋ]",
-		"images": [],
+		"images": ["/english/working.webp"],
 		"engAudio": "/english/working.mp3"
 	},
 	{
 		"id": 199,
-		"lessons": ["12"],
+		"lessons": ["[12]"],
 		"type": "word",
 		"engDefinition": "day / romantic meeting",
 		"category": "",
@@ -3777,12 +3777,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[deɪt]",
-		"images": [],
+		"images": ["/english/date.webp"],
 		"engAudio": "/english/date.mp3"
 	},
 	{
 		"id": 200,
-		"lessons": ["12"],
+		"lessons": ["[12]"],
 		"type": "word",
 		"engDefinition": "24 hours",
 		"category": "",
@@ -3796,12 +3796,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[deɪ]",
-		"images": [],
+		"images": ["/english/day.webp"],
 		"engAudio": "/english/day.mp3"
 	},
 	{
 		"id": 201,
-		"lessons": ["12"],
+		"lessons": ["[12]"],
 		"type": "word",
 		"engDefinition": "when something happens",
 		"category": "",
@@ -3815,12 +3815,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[taɪm]",
-		"images": [],
+		"images": ["/english/time.webp"],
 		"engAudio": "/english/time.mp3"
 	},
 	{
 		"id": 202,
-		"lessons": ["12"],
+		"lessons": ["[12]"],
 		"type": "word",
 		"engDefinition": "shows time/place",
 		"category": "",
@@ -3834,12 +3834,12 @@
 		"number": "",
 		"partOfSpeech": ["prep."],
 		"ipa": "[æt]",
-		"images": [],
+		"images": ["/english/at.webp"],
 		"engAudio": "/english/at.mp3"
 	},
 	{
 		"id": 203,
-		"lessons": ["12"],
+		"lessons": ["[12]"],
 		"type": "word",
 		"engDefinition": "shows surface / day",
 		"category": "",
@@ -3853,12 +3853,12 @@
 		"number": "",
 		"partOfSpeech": ["prep."],
 		"ipa": "[ɑn]",
-		"images": [],
+		"images": ["/english/on.webp"],
 		"engAudio": "/english/on.mp3"
 	},
 	{
 		"id": 204,
-		"lessons": ["12"],
+		"lessons": ["[12]"],
 		"type": "word",
 		"engDefinition": "12:00 in the day",
 		"category": "",
@@ -3872,12 +3872,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[nun]",
-		"images": [],
+		"images": ["/english/noon.webp"],
 		"engAudio": "/english/noon.mp3"
 	},
 	{
 		"id": 205,
-		"lessons": ["12"],
+		"lessons": ["[12]"],
 		"type": "word",
 		"engDefinition": "12:00 at night",
 		"category": "",
@@ -3891,16 +3891,16 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈmɪdˌnaɪt]",
-		"images": [],
+		"images": ["/english/midnight.webp"],
 		"engAudio": "/english/midnight.mp3"
 	},
 	{
 		"id": 206,
-		"lessons": ["12"],
+		"lessons": ["[12]"],
 		"type": "word",
 		"engDefinition": "5:00",
 		"category": "",
-		"eng": "five o’clock",
+		"eng": "five o'clock",
 		"spa": "las cinco",
 		"por": "cinco horas",
 		"spaTransliteration": "fáiv oclók",
@@ -3910,12 +3910,12 @@
 		"number": "",
 		"partOfSpeech": ["time"],
 		"ipa": "[faɪv əˈklɑk]",
-		"images": [],
+		"images": ["/english/five-oclock.webp"],
 		"engAudio": "/english/five-oclock.mp3"
 	},
 	{
 		"id": 207,
-		"lessons": ["12"],
+		"lessons": ["[12]"],
 		"type": "word",
 		"engDefinition": "five in the morning",
 		"category": "",
@@ -3929,12 +3929,12 @@
 		"number": "",
 		"partOfSpeech": ["time"],
 		"ipa": "[faɪv eɪˈɛm]",
-		"images": [],
+		"images": ["/english/5:00-am.webp"],
 		"engAudio": "/english/5:00-am.mp3"
 	},
 	{
 		"id": 208,
-		"lessons": ["12"],
+		"lessons": ["[12]"],
 		"type": "word",
 		"engDefinition": "5:30",
 		"category": "",
@@ -3948,12 +3948,12 @@
 		"number": "",
 		"partOfSpeech": ["time"],
 		"ipa": "[faɪv ˈθɜrti]",
-		"images": [],
+		"images": ["/english/five-thirty.webp"],
 		"engAudio": "/english/five-thirty.mp3"
 	},
 	{
 		"id": 209,
-		"lessons": ["12"],
+		"lessons": ["[12]"],
 		"type": "word",
 		"engDefinition": "five thirty in the evening",
 		"category": "",
@@ -3967,12 +3967,12 @@
 		"number": "",
 		"partOfSpeech": ["time"],
 		"ipa": "[faɪv ˈθɜrti piːɛm]",
-		"images": [],
+		"images": ["/english/5:30-pm.webp"],
 		"engAudio": "/english/5:30-pm.mp3"
 	},
 	{
 		"id": 210,
-		"lessons": ["12"],
+		"lessons": ["[12]"],
 		"type": "word",
 		"engDefinition": "day of the week",
 		"category": "",
@@ -3986,12 +3986,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈsʌnˌdeɪ]",
-		"images": [],
+		"images": ["/english/sunday.webp"],
 		"engAudio": "/english/sunday.mp3"
 	},
 	{
 		"id": 211,
-		"lessons": ["12"],
+		"lessons": ["[12]"],
 		"type": "word",
 		"engDefinition": "day of the week",
 		"category": "",
@@ -4005,12 +4005,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈmʌnˌdeɪ]",
-		"images": [],
+		"images": ["/english/monday.webp"],
 		"engAudio": "/english/monday.mp3"
 	},
 	{
 		"id": 212,
-		"lessons": ["12"],
+		"lessons": ["[12]"],
 		"type": "word",
 		"engDefinition": "day of the week",
 		"category": "",
@@ -4024,12 +4024,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈtuzˌdeɪ]",
-		"images": [],
+		"images": ["/english/tuesday.webp"],
 		"engAudio": "/english/tuesday.mp3"
 	},
 	{
 		"id": 213,
-		"lessons": ["12"],
+		"lessons": ["[12]"],
 		"type": "word",
 		"engDefinition": "day of the week",
 		"category": "",
@@ -4043,12 +4043,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈwɛnzˌdeɪ]",
-		"images": [],
+		"images": ["/english/wednesday.webp"],
 		"engAudio": "/english/wednesday.mp3"
 	},
 	{
 		"id": 214,
-		"lessons": ["12"],
+		"lessons": ["[12]"],
 		"type": "word",
 		"engDefinition": "day of the week",
 		"category": "",
@@ -4062,12 +4062,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈθɜrzˌdeɪ]",
-		"images": [],
+		"images": ["/english/thursday.webp"],
 		"engAudio": "/english/thursday.mp3"
 	},
 	{
 		"id": 215,
-		"lessons": ["12"],
+		"lessons": ["[12]"],
 		"type": "word",
 		"engDefinition": "day of the week",
 		"category": "",
@@ -4081,12 +4081,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈfraɪˌdeɪ]",
-		"images": [],
+		"images": ["/english/friday.webp"],
 		"engAudio": "/english/friday.mp3"
 	},
 	{
 		"id": 216,
-		"lessons": ["12"],
+		"lessons": ["[12]"],
 		"type": "word",
 		"engDefinition": "day of the week",
 		"category": "",
@@ -4100,12 +4100,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈsætərˌdeɪ]",
-		"images": [],
+		"images": ["/english/saturday.webp"],
 		"engAudio": "/english/saturday.mp3"
 	},
 	{
 		"id": 217,
-		"lessons": ["12"],
+		"lessons": ["[12]"],
 		"type": "word",
 		"engDefinition": "full date example",
 		"category": "",
@@ -4119,12 +4119,12 @@
 		"number": "",
 		"partOfSpeech": ["date"],
 		"ipa": "[ˈsætərˌdeɪ ˈʤænjuˌɛri fɜrst]",
-		"images": [],
+		"images": ["/english/saturday", "-january-1st.webp"],
 		"engAudio": "/english/saturday,-january-1st.mp3"
 	},
 	{
 		"id": 218,
-		"lessons": ["12"],
+		"lessons": ["[12]"],
 		"type": "word",
 		"engDefinition": "to honor with fun/party",
 		"category": "",
@@ -4138,12 +4138,12 @@
 		"number": "",
 		"partOfSpeech": ["verb"],
 		"ipa": "[ˈsɛləˌbreɪt]",
-		"images": [],
+		"images": ["/english/celebrate.webp"],
 		"engAudio": "/english/celebrate.mp3"
 	},
 	{
 		"id": 219,
-		"lessons": ["12"],
+		"lessons": ["[12]"],
 		"type": "word",
 		"engDefinition": "special day / day off",
 		"category": "",
@@ -4157,12 +4157,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈhɑləˌdeɪ]",
-		"images": [],
+		"images": ["/english/holiday.webp"],
 		"engAudio": "/english/holiday.mp3"
 	},
 	{
 		"id": 220,
-		"lessons": ["13"],
+		"lessons": ["[13]"],
 		"type": "word",
 		"engDefinition": "this day",
 		"category": "",
@@ -4176,12 +4176,12 @@
 		"number": "",
 		"partOfSpeech": ["adv."],
 		"ipa": "[təˈdeɪ]",
-		"images": [],
+		"images": ["/english/today.webp"],
 		"engAudio": "/english/today.mp3"
 	},
 	{
 		"id": 221,
-		"lessons": ["13"],
+		"lessons": ["[13]"],
 		"type": "word",
 		"engDefinition": "the next day",
 		"category": "",
@@ -4195,12 +4195,12 @@
 		"number": "",
 		"partOfSpeech": ["adv."],
 		"ipa": "[təˈmɑroʊ]",
-		"images": [],
+		"images": ["/english/tomorrow.webp"],
 		"engAudio": "/english/tomorrow.mp3"
 	},
 	{
 		"id": 222,
-		"lessons": ["13"],
+		"lessons": ["[13]"],
 		"type": "word",
 		"engDefinition": "happening Monday",
 		"category": "",
@@ -4214,12 +4214,12 @@
 		"number": "",
 		"partOfSpeech": ["phrase"],
 		"ipa": "[ɑn ˈmʌnˌdeɪ]",
-		"images": [],
+		"images": ["/english/on-monday.webp"],
 		"engAudio": "/english/on-monday.mp3"
 	},
 	{
 		"id": 223,
-		"lessons": ["13"],
+		"lessons": ["[13]"],
 		"type": "word",
 		"engDefinition": "ice falling from sky",
 		"category": "",
@@ -4233,12 +4233,12 @@
 		"number": "",
 		"partOfSpeech": ["noun/verb"],
 		"ipa": "[heɪl]",
-		"images": [],
+		"images": ["/english/hail.webp"],
 		"engAudio": "/english/hail.mp3"
 	},
 	{
 		"id": 224,
-		"lessons": ["13"],
+		"lessons": ["[13]"],
 		"type": "word",
 		"engDefinition": "hail is falling",
 		"category": "",
@@ -4252,12 +4252,12 @@
 		"number": "",
 		"partOfSpeech": ["verb"],
 		"ipa": "[ˈheɪlɪŋ]",
-		"images": [],
+		"images": ["/english/hailing.webp"],
 		"engAudio": "/english/hailing.mp3"
 	},
 	{
 		"id": 225,
-		"lessons": ["13"],
+		"lessons": ["[13]"],
 		"type": "word",
 		"engDefinition": "water falling from sky",
 		"category": "",
@@ -4271,12 +4271,12 @@
 		"number": "",
 		"partOfSpeech": ["noun/verb"],
 		"ipa": "[reɪn]",
-		"images": [],
+		"images": ["/english/rain.webp"],
 		"engAudio": "/english/rain.mp3"
 	},
 	{
 		"id": 226,
-		"lessons": ["13"],
+		"lessons": ["[13]"],
 		"type": "word",
 		"engDefinition": "rain is falling",
 		"category": "",
@@ -4290,12 +4290,12 @@
 		"number": "",
 		"partOfSpeech": ["verb"],
 		"ipa": "[ˈreɪnɪŋ]",
-		"images": [],
+		"images": ["/english/raining.webp"],
 		"engAudio": "/english/raining.mp3"
 	},
 	{
 		"id": 227,
-		"lessons": ["13"],
+		"lessons": ["[13]"],
 		"type": "word",
 		"engDefinition": "frozen water falling",
 		"category": "",
@@ -4309,12 +4309,12 @@
 		"number": "",
 		"partOfSpeech": ["noun/verb"],
 		"ipa": "[snoʊ]",
-		"images": [],
+		"images": ["/english/snow.webp"],
 		"engAudio": "/english/snow.mp3"
 	},
 	{
 		"id": 228,
-		"lessons": ["13"],
+		"lessons": ["[13]"],
 		"type": "word",
 		"engDefinition": "snow is falling",
 		"category": "",
@@ -4328,12 +4328,12 @@
 		"number": "",
 		"partOfSpeech": ["verb"],
 		"ipa": "[ˈsnoʊɪŋ]",
-		"images": [],
+		"images": ["/english/snowing.webp"],
 		"engAudio": "/english/snowing.mp3"
 	},
 	{
 		"id": 229,
-		"lessons": ["13"],
+		"lessons": ["[13]"],
 		"type": "word",
 		"engDefinition": "good / pleasant",
 		"category": "",
@@ -4347,12 +4347,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[naɪs]",
-		"images": [],
+		"images": ["/english/nice.webp"],
 		"engAudio": "/english/nice.mp3"
 	},
 	{
 		"id": 230,
-		"lessons": ["13"],
+		"lessons": ["[13]"],
 		"type": "word",
 		"engDefinition": "not warm",
 		"category": "",
@@ -4366,12 +4366,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[koʊld]",
-		"images": [],
+		"images": ["/english/cold.webp"],
 		"engAudio": "/english/cold.mp3"
 	},
 	{
 		"id": 231,
-		"lessons": ["13"],
+		"lessons": ["[13]"],
 		"type": "word",
 		"engDefinition": "high temperature",
 		"category": "",
@@ -4385,12 +4385,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[hɑt]",
-		"images": [],
+		"images": ["/english/hot.webp"],
 		"engAudio": "/english/hot.mp3"
 	},
 	{
 		"id": 232,
-		"lessons": ["13"],
+		"lessons": ["[13]"],
 		"type": "word",
 		"engDefinition": "full of clouds",
 		"category": "",
@@ -4404,12 +4404,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[ˈklaʊdi]",
-		"images": [],
+		"images": ["/english/cloudy.webp"],
 		"engAudio": "/english/cloudy.mp3"
 	},
 	{
 		"id": 233,
-		"lessons": ["13"],
+		"lessons": ["[13]"],
 		"type": "word",
 		"engDefinition": "full of fog",
 		"category": "",
@@ -4423,12 +4423,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[ˈfɑɡi]",
-		"images": [],
+		"images": ["/english/foggy.webp"],
 		"engAudio": "/english/foggy.mp3"
 	},
 	{
 		"id": 234,
-		"lessons": ["13"],
+		"lessons": ["[13]"],
 		"type": "word",
 		"engDefinition": "with a lot of rain",
 		"category": "",
@@ -4442,12 +4442,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[ˈreɪni]",
-		"images": [],
+		"images": ["/english/rainy.webp"],
 		"engAudio": "/english/rainy.mp3"
 	},
 	{
 		"id": 235,
-		"lessons": ["13"],
+		"lessons": ["[13]"],
 		"type": "word",
 		"engDefinition": "with a lot of snow",
 		"category": "",
@@ -4461,12 +4461,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[ˈsnoʊi]",
-		"images": [],
+		"images": ["/english/snowy.webp"],
 		"engAudio": "/english/snowy.mp3"
 	},
 	{
 		"id": 236,
-		"lessons": ["13"],
+		"lessons": ["[13]"],
 		"type": "word",
 		"engDefinition": "with strong wind/rain",
 		"category": "",
@@ -4480,12 +4480,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[ˈstɔrmi]",
-		"images": [],
+		"images": ["/english/stormy.webp"],
 		"engAudio": "/english/stormy.mp3"
 	},
 	{
 		"id": 237,
-		"lessons": ["13"],
+		"lessons": ["[13]"],
 		"type": "word",
 		"engDefinition": "with sun shining",
 		"category": "",
@@ -4499,12 +4499,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[ˈsʌni]",
-		"images": [],
+		"images": ["/english/sunny.webp"],
 		"engAudio": "/english/sunny.mp3"
 	},
 	{
 		"id": 238,
-		"lessons": ["13"],
+		"lessons": ["[13]"],
 		"type": "word",
 		"engDefinition": "with much wind",
 		"category": "",
@@ -4518,12 +4518,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[ˈwɪndi]",
-		"images": [],
+		"images": ["/english/windy.webp"],
 		"engAudio": "/english/windy.mp3"
 	},
 	{
 		"id": 239,
-		"lessons": ["14"],
+		"lessons": ["[14]"],
 		"type": "word",
 		"engDefinition": "work you do",
 		"category": "",
@@ -4537,12 +4537,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ʤɑb]",
-		"images": [],
+		"images": ["/english/job.webp"],
 		"engAudio": "/english/job.mp3"
 	},
 	{
 		"id": 240,
-		"lessons": ["14"],
+		"lessons": ["[14]"],
 		"type": "word",
 		"engDefinition": "place where things are made",
 		"category": "",
@@ -4556,12 +4556,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈfæktəri]",
-		"images": [],
+		"images": ["/english/factory.webp"],
 		"engAudio": "/english/factory.mp3"
 	},
 	{
 		"id": 241,
-		"lessons": ["14"],
+		"lessons": ["[14]"],
 		"type": "word",
 		"engDefinition": "place for sick people",
 		"category": "",
@@ -4575,12 +4575,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈhɑspɪtl]",
-		"images": [],
+		"images": ["/english/hospital.webp"],
 		"engAudio": "/english/hospital.mp3"
 	},
 	{
 		"id": 242,
-		"lessons": ["14"],
+		"lessons": ["[14]"],
 		"type": "word",
 		"engDefinition": "place where people work",
 		"category": "",
@@ -4594,12 +4594,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈɑfəs]",
-		"images": [],
+		"images": ["/english/office.webp"],
 		"engAudio": "/english/office.mp3"
 	},
 	{
 		"id": 243,
-		"lessons": ["14"],
+		"lessons": ["[14]"],
 		"type": "word",
 		"engDefinition": "place to eat",
 		"category": "",
@@ -4613,12 +4613,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈrɛstərənt]",
-		"images": [],
+		"images": ["/english/restaurant.webp"],
 		"engAudio": "/english/restaurant.mp3"
 	},
 	{
 		"id": 244,
-		"lessons": ["14"],
+		"lessons": ["[14]"],
 		"type": "word",
 		"engDefinition": "place to study",
 		"category": "",
@@ -4632,12 +4632,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[skul]",
-		"images": [],
+		"images": ["/english/school.webp"],
 		"engAudio": "/english/school.mp3"
 	},
 	{
 		"id": 245,
-		"lessons": ["14"],
+		"lessons": ["[14]"],
 		"type": "word",
 		"engDefinition": "place to buy things",
 		"category": "",
@@ -4651,12 +4651,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[stɔr]",
-		"images": [],
+		"images": ["/english/store.webp"],
 		"engAudio": "/english/store.mp3"
 	},
 	{
 		"id": 246,
-		"lessons": ["14"],
+		"lessons": ["[14]"],
 		"type": "word",
 		"engDefinition": "person who works with money records",
 		"category": "",
@@ -4670,12 +4670,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[əˈkaʊntənt]",
-		"images": [],
+		"images": ["/english/accountant.webp"],
 		"engAudio": "/english/accountant.mp3"
 	},
 	{
 		"id": 247,
-		"lessons": ["14"],
+		"lessons": ["[14]"],
 		"type": "word",
 		"engDefinition": "person who makes art",
 		"category": "",
@@ -4689,12 +4689,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈɑrtɪst]",
-		"images": [],
+		"images": ["/english/artist.webp"],
 		"engAudio": "/english/artist.mp3"
 	},
 	{
 		"id": 248,
-		"lessons": ["14"],
+		"lessons": ["[14]"],
 		"type": "word",
 		"engDefinition": "person who takes money in store",
 		"category": "",
@@ -4708,12 +4708,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[kæˈʃɪr]",
-		"images": [],
+		"images": ["/english/cashier.webp"],
 		"engAudio": "/english/cashier.mp3"
 	},
 	{
 		"id": 249,
-		"lessons": ["14"],
+		"lessons": ["[14]"],
 		"type": "word",
 		"engDefinition": "person who writes computer code",
 		"category": "",
@@ -4727,12 +4727,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[kəmˈpjutər ˈproʊˌɡræmər]",
-		"images": [],
+		"images": ["/english/computer-programmer.webp"],
 		"engAudio": "/english/computer-programmer.mp3"
 	},
 	{
 		"id": 250,
-		"lessons": ["14"],
+		"lessons": ["[14]"],
 		"type": "word",
 		"engDefinition": "person who cleans buildings",
 		"category": "",
@@ -4746,12 +4746,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[kəˈstoʊdiən]",
-		"images": [],
+		"images": ["/english/custodian.webp"],
 		"engAudio": "/english/custodian.mp3"
 	},
 	{
 		"id": 251,
-		"lessons": ["14"],
+		"lessons": ["[14]"],
 		"type": "word",
 		"engDefinition": "person who helps sick people",
 		"category": "",
@@ -4765,12 +4765,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈdɑktər]",
-		"images": [],
+		"images": ["/english/doctor.webp"],
 		"engAudio": "/english/doctor.mp3"
 	},
 	{
 		"id": 252,
-		"lessons": ["14"],
+		"lessons": ["[14]"],
 		"type": "word",
 		"engDefinition": "person who works with electricity",
 		"category": "",
@@ -4784,12 +4784,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ɪˌlɛkˈtrɪʃən]",
-		"images": [],
+		"images": ["/english/electrician.webp"],
 		"engAudio": "/english/electrician.mp3"
 	},
 	{
 		"id": 253,
-		"lessons": ["14"],
+		"lessons": ["[14]"],
 		"type": "word",
 		"engDefinition": "person who works in a factory",
 		"category": "",
@@ -4803,12 +4803,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈfæktəri ˈwɝkər]",
-		"images": [],
+		"images": ["/english/factory-worker.webp"],
 		"engAudio": "/english/factory-worker.mp3"
 	},
 	{
 		"id": 254,
-		"lessons": ["14"],
+		"lessons": ["[14]"],
 		"type": "word",
 		"engDefinition": "person who grows food/animals",
 		"category": "",
@@ -4822,12 +4822,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈfɑrmər]",
-		"images": [],
+		"images": ["/english/farmer.webp"],
 		"engAudio": "/english/farmer.mp3"
 	},
 	{
 		"id": 255,
-		"lessons": ["14"],
+		"lessons": ["[14]"],
 		"type": "word",
 		"engDefinition": "person who works with law",
 		"category": "",
@@ -4841,12 +4841,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈlɔjər]",
-		"images": [],
+		"images": ["/english/lawyer.webp"],
 		"engAudio": "/english/lawyer.mp3"
 	},
 	{
 		"id": 256,
-		"lessons": ["14"],
+		"lessons": ["[14]"],
 		"type": "word",
 		"engDefinition": "person who fixes machines",
 		"category": "",
@@ -4860,12 +4860,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[məˈkænɪk]",
-		"images": [],
+		"images": ["/english/mechanic.webp"],
 		"engAudio": "/english/mechanic.mp3"
 	},
 	{
 		"id": 257,
-		"lessons": ["14"],
+		"lessons": ["[14]"],
 		"type": "word",
 		"engDefinition": "person who helps doctors and patients",
 		"category": "",
@@ -4879,12 +4879,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[nɜrs]",
-		"images": [],
+		"images": ["/english/nurse.webp"],
 		"engAudio": "/english/nurse.mp3"
 	},
 	{
 		"id": 258,
-		"lessons": ["14"],
+		"lessons": ["[14]"],
 		"type": "word",
 		"engDefinition": "person who works in an office",
 		"category": "",
@@ -4898,12 +4898,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈɑfəs ˈwɝkər]",
-		"images": [],
+		"images": ["/english/office-worker.webp"],
 		"engAudio": "/english/office-worker.mp3"
 	},
 	{
 		"id": 259,
-		"lessons": ["14"],
+		"lessons": ["[14]"],
 		"type": "word",
 		"engDefinition": "person who sells things",
 		"category": "",
@@ -4917,12 +4917,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈseɪlzˌpɝsən]",
-		"images": [],
+		"images": ["/english/salesperson.webp"],
 		"engAudio": "/english/salesperson.mp3"
 	},
 	{
 		"id": 260,
-		"lessons": ["14"],
+		"lessons": ["[14]"],
 		"type": "word",
 		"engDefinition": "person who serves food",
 		"category": "",
@@ -4936,12 +4936,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈsɝvər]",
-		"images": [],
+		"images": ["/english/server.webp"],
 		"engAudio": "/english/server.mp3"
 	},
 	{
 		"id": 261,
-		"lessons": ["14"],
+		"lessons": ["[14]"],
 		"type": "word",
 		"engDefinition": "person who teaches",
 		"category": "",
@@ -4955,12 +4955,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈtiʧər]",
-		"images": [],
+		"images": ["/english/teacher.webp"],
 		"engAudio": "/english/teacher.mp3"
 	},
 	{
 		"id": 262,
-		"lessons": ["14"],
+		"lessons": ["[14]"],
 		"type": "word",
 		"engDefinition": "place where you live",
 		"category": "",
@@ -4974,12 +4974,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[hoʊm]",
-		"images": [],
+		"images": ["/english/home.webp"],
 		"engAudio": "/english/home.mp3"
 	},
 	{
 		"id": 263,
-		"lessons": ["14"],
+		"lessons": ["[14]"],
 		"type": "word",
 		"engDefinition": "person who studies",
 		"category": "",
@@ -4993,12 +4993,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈstudənt]",
-		"images": [],
+		"images": ["/english/student.webp"],
 		"engAudio": "/english/student.mp3"
 	},
 	{
 		"id": 264,
-		"lessons": ["14"],
+		"lessons": ["[14]"],
 		"type": "word",
 		"engDefinition": "school after high school",
 		"category": "",
@@ -5012,12 +5012,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˌjunəˈvɜrsəti]",
-		"images": [],
+		"images": ["/english/university.webp"],
 		"engAudio": "/english/university.mp3"
 	},
 	{
 		"id": 265,
-		"lessons": ["15"],
+		"lessons": ["[15]"],
 		"type": "word",
 		"engDefinition": "to make something",
 		"category": "",
@@ -5031,12 +5031,12 @@
 		"number": "",
 		"partOfSpeech": ["verb"],
 		"ipa": "[bɪld]",
-		"images": [],
+		"images": ["/english/build.webp"],
 		"engAudio": "/english/build.mp3"
 	},
 	{
 		"id": 266,
-		"lessons": ["15"],
+		"lessons": ["[15]"],
 		"type": "word",
 		"engDefinition": "to make not dirty",
 		"category": "",
@@ -5050,12 +5050,12 @@
 		"number": "",
 		"partOfSpeech": ["verb"],
 		"ipa": "[klin]",
-		"images": [],
+		"images": ["/english/clean.webp"],
 		"engAudio": "/english/clean.mp3"
 	},
 	{
 		"id": 267,
-		"lessons": ["15"],
+		"lessons": ["[15]"],
 		"type": "word",
 		"engDefinition": "to bring to someone",
 		"category": "",
@@ -5069,12 +5069,12 @@
 		"number": "",
 		"partOfSpeech": ["verb"],
 		"ipa": "[dɪˈlɪvər]",
-		"images": [],
+		"images": ["/english/deliver.webp"],
 		"engAudio": "/english/deliver.mp3"
 	},
 	{
 		"id": 268,
-		"lessons": ["15"],
+		"lessons": ["[15]"],
 		"type": "word",
 		"engDefinition": "to plan / create",
 		"category": "",
@@ -5088,12 +5088,12 @@
 		"number": "",
 		"partOfSpeech": ["verb/noun"],
 		"ipa": "[dɪˈzaɪn]",
-		"images": [],
+		"images": ["/english/design.webp"],
 		"engAudio": "/english/design.mp3"
 	},
 	{
 		"id": 269,
-		"lessons": ["15"],
+		"lessons": ["[15]"],
 		"type": "word",
 		"engDefinition": "to make easier for someone",
 		"category": "",
@@ -5107,12 +5107,12 @@
 		"number": "",
 		"partOfSpeech": ["verb"],
 		"ipa": "[hɛlp]",
-		"images": [],
+		"images": ["/english/help.webp"],
 		"engAudio": "/english/help.mp3"
 	},
 	{
 		"id": 270,
-		"lessons": ["15"],
+		"lessons": ["[15]"],
 		"type": "word",
 		"engDefinition": "to be in charge of",
 		"category": "",
@@ -5126,12 +5126,12 @@
 		"number": "",
 		"partOfSpeech": ["verb"],
 		"ipa": "[ˈmænɪʤ]",
-		"images": [],
+		"images": ["/english/manage.webp"],
 		"engAudio": "/english/manage.mp3"
 	},
 	{
 		"id": 271,
-		"lessons": ["15"],
+		"lessons": ["[15]"],
 		"type": "word",
 		"engDefinition": "to have something",
 		"category": "",
@@ -5145,12 +5145,12 @@
 		"number": "",
 		"partOfSpeech": ["verb"],
 		"ipa": "[oʊn]",
-		"images": [],
+		"images": ["/english/own.webp"],
 		"engAudio": "/english/own.mp3"
 	},
 	{
 		"id": 272,
-		"lessons": ["15"],
+		"lessons": ["[15]"],
 		"type": "word",
 		"engDefinition": "to give for money",
 		"category": "",
@@ -5164,12 +5164,12 @@
 		"number": "",
 		"partOfSpeech": ["verb"],
 		"ipa": "[sɛl]",
-		"images": [],
+		"images": ["/english/sell.webp"],
 		"engAudio": "/english/sell.mp3"
 	},
 	{
 		"id": 273,
-		"lessons": ["15"],
+		"lessons": ["[15]"],
 		"type": "word",
 		"engDefinition": "to give food / help people",
 		"category": "",
@@ -5183,12 +5183,12 @@
 		"number": "",
 		"partOfSpeech": ["verb"],
 		"ipa": "[sɜrv]",
-		"images": [],
+		"images": ["/english/serve.webp"],
 		"engAudio": "/english/serve.mp3"
 	},
 	{
 		"id": 274,
-		"lessons": ["15"],
+		"lessons": ["[15]"],
 		"type": "word",
 		"engDefinition": "company or work",
 		"category": "",
@@ -5202,12 +5202,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈbɪznɪs]",
-		"images": [],
+		"images": ["/english/business.webp"],
 		"engAudio": "/english/business.mp3"
 	},
 	{
 		"id": 275,
-		"lessons": ["15"],
+		"lessons": ["[15]"],
 		"type": "word",
 		"engDefinition": "more than one business",
 		"category": "",
@@ -5221,12 +5221,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈbɪznɪsɪz]",
-		"images": [],
+		"images": ["/english/businesses.webp"],
 		"engAudio": "/english/businesses.mp3"
 	},
 	{
 		"id": 276,
-		"lessons": ["15"],
+		"lessons": ["[15]"],
 		"type": "word",
 		"engDefinition": "structure for people/work",
 		"category": "",
@@ -5240,12 +5240,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈbɪldɪŋ]",
-		"images": [],
+		"images": ["/english/building.webp"],
 		"engAudio": "/english/building.mp3"
 	},
 	{
 		"id": 277,
-		"lessons": ["15"],
+		"lessons": ["[15]"],
 		"type": "word",
 		"engDefinition": "more than one building",
 		"category": "",
@@ -5259,12 +5259,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈbɪldɪŋz]",
-		"images": [],
+		"images": ["/english/buildings.webp"],
 		"engAudio": "/english/buildings.mp3"
 	},
 	{
 		"id": 278,
-		"lessons": ["15"],
+		"lessons": ["[15]"],
 		"type": "word",
 		"engDefinition": "person who buys something",
 		"category": "",
@@ -5278,12 +5278,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈkʌstəmər]",
-		"images": [],
+		"images": ["/english/customer.webp"],
 		"engAudio": "/english/customer.mp3"
 	},
 	{
 		"id": 279,
-		"lessons": ["15"],
+		"lessons": ["[15]"],
 		"type": "word",
 		"engDefinition": "more than one customer",
 		"category": "",
@@ -5297,12 +5297,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈkʌstəmərz]",
-		"images": [],
+		"images": ["/english/customers.webp"],
 		"engAudio": "/english/customers.mp3"
 	},
 	{
 		"id": 280,
-		"lessons": ["15"],
+		"lessons": ["[15]"],
 		"type": "word",
 		"engDefinition": "person who works for a company",
 		"category": "",
@@ -5316,12 +5316,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ɛmˈplɔɪi]",
-		"images": [],
+		"images": ["/english/employee.webp"],
 		"engAudio": "/english/employee.mp3"
 	},
 	{
 		"id": 281,
-		"lessons": ["15"],
+		"lessons": ["[15]"],
 		"type": "word",
 		"engDefinition": "more than one employee",
 		"category": "",
@@ -5335,12 +5335,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ɛmˈplɔɪiz]",
-		"images": [],
+		"images": ["/english/employees.webp"],
 		"engAudio": "/english/employees.mp3"
 	},
 	{
 		"id": 282,
-		"lessons": ["15"],
+		"lessons": ["[15]"],
 		"type": "word",
 		"engDefinition": "something made or sold",
 		"category": "",
@@ -5354,12 +5354,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈprɑdəkt]",
-		"images": [],
+		"images": ["/english/product.webp"],
 		"engAudio": "/english/product.mp3"
 	},
 	{
 		"id": 283,
-		"lessons": ["15"],
+		"lessons": ["[15]"],
 		"type": "word",
 		"engDefinition": "more than one product",
 		"category": "",
@@ -5373,12 +5373,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈprɑdəkts]",
-		"images": [],
+		"images": ["/english/products.webp"],
 		"engAudio": "/english/products.mp3"
 	},
 	{
 		"id": 284,
-		"lessons": ["15"],
+		"lessons": ["[15]"],
 		"type": "word",
 		"engDefinition": "big storage building",
 		"category": "",
@@ -5392,12 +5392,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈwɛrˌhaʊs]",
-		"images": [],
+		"images": ["/english/warehouse.webp"],
 		"engAudio": "/english/warehouse.mp3"
 	},
 	{
 		"id": 285,
-		"lessons": ["15"],
+		"lessons": ["[15]"],
 		"type": "word",
 		"engDefinition": "more than one warehouse",
 		"category": "",
@@ -5411,12 +5411,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈwɛrˌhaʊzɪz]",
-		"images": [],
+		"images": ["/english/warehouses.webp"],
 		"engAudio": "/english/warehouses.mp3"
 	},
 	{
 		"id": 286,
-		"lessons": ["15"],
+		"lessons": ["[15]"],
 		"type": "word",
 		"engDefinition": "hard but interesting",
 		"category": "",
@@ -5430,12 +5430,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[ˈʧælɪnʤɪŋ]",
-		"images": [],
+		"images": ["/english/challenging.webp"],
 		"engAudio": "/english/challenging.mp3"
 	},
 	{
 		"id": 287,
-		"lessons": ["15"],
+		"lessons": ["[15]"],
 		"type": "word",
 		"engDefinition": "interesting, keeps attention",
 		"category": "",
@@ -5449,12 +5449,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[ɪnˈɡeɪʤɪŋ]",
-		"images": [],
+		"images": ["/english/engaging.webp"],
 		"engAudio": "/english/engaging.mp3"
 	},
 	{
 		"id": 288,
-		"lessons": ["15"],
+		"lessons": ["[15]"],
 		"type": "word",
 		"engDefinition": "moving quickly",
 		"category": "",
@@ -5468,12 +5468,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[fæst peɪst]",
-		"images": [],
+		"images": ["/english/fast-paced.webp"],
 		"engAudio": "/english/fast-paced.mp3"
 	},
 	{
 		"id": 289,
-		"lessons": ["15"],
+		"lessons": ["[15]"],
 		"type": "word",
 		"engDefinition": "important, with value",
 		"category": "",
@@ -5487,12 +5487,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[ˈminɪŋfəl]",
-		"images": [],
+		"images": ["/english/meaningful.webp"],
 		"engAudio": "/english/meaningful.mp3"
 	},
 	{
 		"id": 290,
-		"lessons": ["15"],
+		"lessons": ["[15]"],
 		"type": "word",
 		"engDefinition": "makes you worried",
 		"category": "",
@@ -5506,12 +5506,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[ˈstrɛsfəl]",
-		"images": [],
+		"images": ["/english/stressful.webp"],
 		"engAudio": "/english/stressful.mp3"
 	},
 	{
 		"id": 291,
-		"lessons": ["15"],
+		"lessons": ["[15]"],
 		"type": "word",
 		"engDefinition": "to repair",
 		"category": "",
@@ -5525,12 +5525,12 @@
 		"number": "",
 		"partOfSpeech": ["verb"],
 		"ipa": "[fɪks]",
-		"images": [],
+		"images": ["/english/fix.webp"],
 		"engAudio": "/english/fix.mp3"
 	},
 	{
 		"id": 292,
-		"lessons": ["15"],
+		"lessons": ["[15]"],
 		"type": "word",
 		"engDefinition": "flying vehicle",
 		"category": "",
@@ -5544,12 +5544,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈɛrˌpleɪn]",
-		"images": [],
+		"images": ["/english/airplane.webp"],
 		"engAudio": "/english/airplane.mp3"
 	},
 	{
 		"id": 293,
-		"lessons": ["15"],
+		"lessons": ["[15]"],
 		"type": "word",
 		"engDefinition": "place for airplanes",
 		"category": "",
@@ -5563,12 +5563,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈɛrˌpɔrt]",
-		"images": [],
+		"images": ["/english/airport.webp"],
 		"engAudio": "/english/airport.mp3"
 	},
 	{
 		"id": 294,
-		"lessons": ["16"],
+		"lessons": ["[16]"],
 		"type": "word",
 		"engDefinition": "things to eat",
 		"category": "",
@@ -5582,12 +5582,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[fud]",
-		"images": [],
+		"images": ["/english/food.webp"],
 		"engAudio": "/english/food.mp3"
 	},
 	{
 		"id": 295,
-		"lessons": ["16"],
+		"lessons": ["[16]"],
 		"type": "word",
 		"engDefinition": "different kinds of food",
 		"category": "",
@@ -5601,12 +5601,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[fudz]",
-		"images": [],
+		"images": ["/english/foods.webp"],
 		"engAudio": "/english/foods.mp3"
 	},
 	{
 		"id": 296,
-		"lessons": ["16"],
+		"lessons": ["[16]"],
 		"type": "word",
 		"engDefinition": "to take food",
 		"category": "",
@@ -5620,12 +5620,12 @@
 		"number": "",
 		"partOfSpeech": ["verb"],
 		"ipa": "[it]",
-		"images": [],
+		"images": ["/english/eat.webp"],
 		"engAudio": "/english/eat.mp3"
 	},
 	{
 		"id": 297,
-		"lessons": ["16"],
+		"lessons": ["[16]"],
 		"type": "word",
 		"engDefinition": "he/she eats",
 		"category": "",
@@ -5639,12 +5639,12 @@
 		"number": "",
 		"partOfSpeech": ["verb"],
 		"ipa": "[its]",
-		"images": [],
+		"images": ["/english/eats.webp"],
 		"engAudio": "/english/eats.mp3"
 	},
 	{
 		"id": 298,
-		"lessons": ["16"],
+		"lessons": ["[16]"],
 		"type": "word",
 		"engDefinition": "morning meal",
 		"category": "",
@@ -5658,12 +5658,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈbrɛkfəst]",
-		"images": [],
+		"images": ["/english/breakfast.webp"],
 		"engAudio": "/english/breakfast.mp3"
 	},
 	{
 		"id": 299,
-		"lessons": ["16"],
+		"lessons": ["[16]"],
 		"type": "word",
 		"engDefinition": "midday meal",
 		"category": "",
@@ -5677,12 +5677,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[lʌnʧ]",
-		"images": [],
+		"images": ["/english/lunch.webp"],
 		"engAudio": "/english/lunch.mp3"
 	},
 	{
 		"id": 300,
-		"lessons": ["16"],
+		"lessons": ["[16]"],
 		"type": "word",
 		"engDefinition": "evening meal",
 		"category": "",
@@ -5696,12 +5696,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈdɪnər]",
-		"images": [],
+		"images": ["/english/dinner.webp"],
 		"engAudio": "/english/dinner.mp3"
 	},
 	{
 		"id": 301,
-		"lessons": ["16"],
+		"lessons": ["[16]"],
 		"type": "word",
 		"engDefinition": "sweet food from plants",
 		"category": "",
@@ -5715,12 +5715,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[frut]",
-		"images": [],
+		"images": ["/english/fruit.webp"],
 		"engAudio": "/english/fruit.mp3"
 	},
 	{
 		"id": 302,
-		"lessons": ["16"],
+		"lessons": ["[16]"],
 		"type": "word",
 		"engDefinition": "more than one apple",
 		"category": "",
@@ -5734,12 +5734,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈæpəlz]",
-		"images": [],
+		"images": ["/english/apples.webp"],
 		"engAudio": "/english/apples.mp3"
 	},
 	{
 		"id": 303,
-		"lessons": ["16"],
+		"lessons": ["[16]"],
 		"type": "word",
 		"engDefinition": "food from plants",
 		"category": "",
@@ -5753,12 +5753,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈvɛʤtəbəlz]",
-		"images": [],
+		"images": ["/english/vegetables.webp"],
 		"engAudio": "/english/vegetables.mp3"
 	},
 	{
 		"id": 304,
-		"lessons": ["16"],
+		"lessons": ["[16]"],
 		"type": "word",
 		"engDefinition": "orange vegetable",
 		"category": "",
@@ -5772,12 +5772,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈkærət]",
-		"images": [],
+		"images": ["/english/carrot.webp"],
 		"engAudio": "/english/carrot.mp3"
 	},
 	{
 		"id": 305,
-		"lessons": ["16"],
+		"lessons": ["[16]"],
 		"type": "word",
 		"engDefinition": "more than one carrot",
 		"category": "",
@@ -5791,12 +5791,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈkærəts]",
-		"images": [],
+		"images": ["/english/carrots.webp"],
 		"engAudio": "/english/carrots.mp3"
 	},
 	{
 		"id": 306,
-		"lessons": ["16"],
+		"lessons": ["[16]"],
 		"type": "word",
 		"engDefinition": "animal food",
 		"category": "",
@@ -5810,12 +5810,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[mit]",
-		"images": [],
+		"images": ["/english/meat.webp"],
 		"engAudio": "/english/meat.mp3"
 	},
 	{
 		"id": 307,
-		"lessons": ["16"],
+		"lessons": ["[16]"],
 		"type": "word",
 		"engDefinition": "bird meat",
 		"category": "",
@@ -5829,12 +5829,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈʧɪkən]",
-		"images": [],
+		"images": ["/english/chicken.webp"],
 		"engAudio": "/english/chicken.mp3"
 	},
 	{
 		"id": 308,
-		"lessons": ["16"],
+		"lessons": ["[16]"],
 		"type": "word",
 		"engDefinition": "food from a bird",
 		"category": "",
@@ -5848,12 +5848,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ɛɡ]",
-		"images": [],
+		"images": ["/english/egg.webp"],
 		"engAudio": "/english/egg.mp3"
 	},
 	{
 		"id": 309,
-		"lessons": ["16"],
+		"lessons": ["[16]"],
 		"type": "word",
 		"engDefinition": "more than one egg",
 		"category": "",
@@ -5867,12 +5867,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ɛɡz]",
-		"images": [],
+		"images": ["/english/eggs.webp"],
 		"engAudio": "/english/eggs.mp3"
 	},
 	{
 		"id": 310,
-		"lessons": ["16"],
+		"lessons": ["[16]"],
 		"type": "word",
 		"engDefinition": "pig meat",
 		"category": "",
@@ -5886,12 +5886,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[pɔrk]",
-		"images": [],
+		"images": ["/english/pork.webp"],
 		"engAudio": "/english/pork.mp3"
 	},
 	{
 		"id": 311,
-		"lessons": ["16"],
+		"lessons": ["[16]"],
 		"type": "word",
 		"engDefinition": "small seeds for food",
 		"category": "",
@@ -5905,12 +5905,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[binz]",
-		"images": [],
+		"images": ["/english/beans.webp"],
 		"engAudio": "/english/beans.mp3"
 	},
 	{
 		"id": 312,
-		"lessons": ["16"],
+		"lessons": ["[16]"],
 		"type": "word",
 		"engDefinition": "baked food from flour",
 		"category": "",
@@ -5924,12 +5924,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[brɛd]",
-		"images": [],
+		"images": ["/english/bread.webp"],
 		"engAudio": "/english/bread.mp3"
 	},
 	{
 		"id": 313,
-		"lessons": ["16"],
+		"lessons": ["[16]"],
 		"type": "word",
 		"engDefinition": "small white grain, food",
 		"category": "",
@@ -5943,12 +5943,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[raɪs]",
-		"images": [],
+		"images": ["/english/rice.webp"],
 		"engAudio": "/english/rice.mp3"
 	},
 	{
 		"id": 314,
-		"lessons": ["16"],
+		"lessons": ["[16]"],
 		"type": "word",
 		"engDefinition": "with little taste",
 		"category": "",
@@ -5962,12 +5962,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[blænd]",
-		"images": [],
+		"images": ["/english/bland.webp"],
 		"engAudio": "/english/bland.mp3"
 	},
 	{
 		"id": 315,
-		"lessons": ["16"],
+		"lessons": ["[16]"],
 		"type": "word",
 		"engDefinition": "very tasty",
 		"category": "",
@@ -5981,12 +5981,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[dɪˈlɪʃəs]",
-		"images": [],
+		"images": ["/english/delicious.webp"],
 		"engAudio": "/english/delicious.mp3"
 	},
 	{
 		"id": 316,
-		"lessons": ["16"],
+		"lessons": ["[16]"],
 		"type": "word",
 		"engDefinition": "with sugar taste",
 		"category": "",
@@ -6000,12 +6000,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[swit]",
-		"images": [],
+		"images": ["/english/sweet.webp"],
 		"engAudio": "/english/sweet.mp3"
 	},
 	{
 		"id": 317,
-		"lessons": ["16"],
+		"lessons": ["[16]"],
 		"type": "word",
 		"engDefinition": "makes you feel full",
 		"category": "",
@@ -6019,12 +6019,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[ˈfɪlɪŋ]",
-		"images": [],
+		"images": ["/english/filling.webp"],
 		"engAudio": "/english/filling.mp3"
 	},
 	{
 		"id": 318,
-		"lessons": ["16"],
+		"lessons": ["[16]"],
 		"type": "word",
 		"engDefinition": "very bad taste",
 		"category": "",
@@ -6038,12 +6038,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[ɡroʊs]",
-		"images": [],
+		"images": ["/english/gross.webp"],
 		"engAudio": "/english/gross.mp3"
 	},
 	{
 		"id": 319,
-		"lessons": ["16"],
+		"lessons": ["[16]"],
 		"type": "word",
 		"engDefinition": "with much salt",
 		"category": "",
@@ -6057,12 +6057,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[ˈsɔlti]",
-		"images": [],
+		"images": ["/english/salty.webp"],
 		"engAudio": "/english/salty.mp3"
 	},
 	{
 		"id": 320,
-		"lessons": ["16"],
+		"lessons": ["[16]"],
 		"type": "word",
 		"engDefinition": "hot flavor",
 		"category": "",
@@ -6076,12 +6076,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[ˈspaɪsi]",
-		"images": [],
+		"images": ["/english/spicy.webp"],
 		"engAudio": "/english/spicy.mp3"
 	},
 	{
 		"id": 321,
-		"lessons": ["16"],
+		"lessons": ["[16]"],
 		"type": "word",
 		"engDefinition": "food from milk",
 		"category": "",
@@ -6095,12 +6095,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ʧiz]",
-		"images": [],
+		"images": ["/english/cheese.webp"],
 		"engAudio": "/english/cheese.mp3"
 	},
 	{
 		"id": 322,
-		"lessons": ["16"],
+		"lessons": ["[16]"],
 		"type": "word",
 		"engDefinition": "animal that swims, food",
 		"category": "",
@@ -6114,12 +6114,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[fɪʃ]",
-		"images": [],
+		"images": ["/english/fish.webp"],
 		"engAudio": "/english/fish.mp3"
 	},
 	{
 		"id": 323,
-		"lessons": ["17"],
+		"lessons": ["[17]"],
 		"type": "word",
 		"engDefinition": "inside",
 		"category": "",
@@ -6133,12 +6133,12 @@
 		"number": "",
 		"partOfSpeech": ["prep."],
 		"ipa": "[ɪn]",
-		"images": [],
+		"images": ["/english/in.webp"],
 		"engAudio": "/english/in.mp3"
 	},
 	{
 		"id": 324,
-		"lessons": ["17"],
+		"lessons": ["[17]"],
 		"type": "word",
 		"engDefinition": "together",
 		"category": "",
@@ -6152,12 +6152,12 @@
 		"number": "",
 		"partOfSpeech": ["prep."],
 		"ipa": "[wɪð]",
-		"images": [],
+		"images": ["/english/with.webp"],
 		"engAudio": "/english/with.mp3"
 	},
 	{
 		"id": 325,
-		"lessons": ["17"],
+		"lessons": ["[17]"],
 		"type": "word",
 		"engDefinition": "sweet food after meal",
 		"category": "",
@@ -6171,12 +6171,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[dɪˈzɜrt]",
-		"images": [],
+		"images": ["/english/dessert.webp"],
 		"engAudio": "/english/dessert.mp3"
 	},
 	{
 		"id": 326,
-		"lessons": ["17"],
+		"lessons": ["[17]"],
 		"type": "word",
 		"engDefinition": "liquid / to take liquid",
 		"category": "",
@@ -6190,12 +6190,12 @@
 		"number": "",
 		"partOfSpeech": ["noun/verb"],
 		"ipa": "[drɪŋk]",
-		"images": [],
+		"images": ["/english/drink.webp"],
 		"engAudio": "/english/drink.mp3"
 	},
 	{
 		"id": 327,
-		"lessons": ["17"],
+		"lessons": ["[17]"],
 		"type": "word",
 		"engDefinition": "fried potatoes",
 		"category": "",
@@ -6209,12 +6209,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[fraɪz]",
-		"images": [],
+		"images": ["/english/fries.webp"],
 		"engAudio": "/english/fries.mp3"
 	},
 	{
 		"id": 328,
-		"lessons": ["17"],
+		"lessons": ["[17]"],
 		"type": "word",
 		"engDefinition": "meat sandwich",
 		"category": "",
@@ -6228,12 +6228,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈhæmbɝɡɚ]",
-		"images": [],
+		"images": ["/english/hamburger.webp"],
 		"engAudio": "/english/hamburger.mp3"
 	},
 	{
 		"id": 329,
-		"lessons": ["17"],
+		"lessons": ["[17]"],
 		"type": "word",
 		"engDefinition": "frozen water",
 		"category": "",
@@ -6247,12 +6247,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[aɪs]",
-		"images": [],
+		"images": ["/english/ice.webp"],
 		"engAudio": "/english/ice.mp3"
 	},
 	{
 		"id": 330,
-		"lessons": ["17"],
+		"lessons": ["[17]"],
 		"type": "word",
 		"engDefinition": "long pasta",
 		"category": "",
@@ -6266,12 +6266,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈnudəlz]",
-		"images": [],
+		"images": ["/english/noodles.webp"],
 		"engAudio": "/english/noodles.mp3"
 	},
 	{
 		"id": 331,
-		"lessons": ["17"],
+		"lessons": ["[17]"],
 		"type": "word",
 		"engDefinition": "vegetable with strong flavor",
 		"category": "",
@@ -6285,12 +6285,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈʌnjən]",
-		"images": [],
+		"images": ["/english/onion.webp"],
 		"engAudio": "/english/onion.mp3"
 	},
 	{
 		"id": 332,
-		"lessons": ["17"],
+		"lessons": ["[17]"],
 		"type": "word",
 		"engDefinition": "baked bread with toppings",
 		"category": "",
@@ -6304,12 +6304,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈpitsə]",
-		"images": [],
+		"images": ["/english/pizza.webp"],
 		"engAudio": "/english/pizza.mp3"
 	},
 	{
 		"id": 333,
-		"lessons": ["17"],
+		"lessons": ["[17]"],
 		"type": "word",
 		"engDefinition": "mixed vegetables, food",
 		"category": "",
@@ -6323,12 +6323,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈsæləd]",
-		"images": [],
+		"images": ["/english/salad.webp"],
 		"engAudio": "/english/salad.mp3"
 	},
 	{
 		"id": 334,
-		"lessons": ["17"],
+		"lessons": ["[17]"],
 		"type": "word",
 		"engDefinition": "food with bread and filling",
 		"category": "",
@@ -6342,12 +6342,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈsændwɪʧ]",
-		"images": [],
+		"images": ["/english/sandwich.webp"],
 		"engAudio": "/english/sandwich.mp3"
 	},
 	{
 		"id": 335,
-		"lessons": ["17"],
+		"lessons": ["[17]"],
 		"type": "word",
 		"engDefinition": "liquid flavoring",
 		"category": "",
@@ -6361,12 +6361,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[sɔs]",
-		"images": [],
+		"images": ["/english/sauce.webp"],
 		"engAudio": "/english/sauce.mp3"
 	},
 	{
 		"id": 336,
-		"lessons": ["17"],
+		"lessons": ["[17]"],
 		"type": "word",
 		"engDefinition": "hot liquid food",
 		"category": "",
@@ -6380,12 +6380,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[sup]",
-		"images": [],
+		"images": ["/english/soup.webp"],
 		"engAudio": "/english/soup.mp3"
 	},
 	{
 		"id": 337,
-		"lessons": ["17"],
+		"lessons": ["[17]"],
 		"type": "word",
 		"engDefinition": "strong food seasonings",
 		"category": "",
@@ -6399,12 +6399,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈspaɪsɪz]",
-		"images": [],
+		"images": ["/english/spices.webp"],
 		"engAudio": "/english/spices.mp3"
 	},
 	{
 		"id": 338,
-		"lessons": ["17"],
+		"lessons": ["[17]"],
 		"type": "word",
 		"engDefinition": "red vegetable/fruit",
 		"category": "",
@@ -6418,12 +6418,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[təˈmeɪtoʊ]",
-		"images": [],
+		"images": ["/english/tomato.webp"],
 		"engAudio": "/english/tomato.mp3"
 	},
 	{
 		"id": 339,
-		"lessons": ["17"],
+		"lessons": ["[17]"],
 		"type": "word",
 		"engDefinition": "more than one tomato",
 		"category": "",
@@ -6437,12 +6437,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[təˈmeɪtoʊz]",
-		"images": [],
+		"images": ["/english/tomatoes.webp"],
 		"engAudio": "/english/tomatoes.mp3"
 	},
 	{
 		"id": 340,
-		"lessons": ["18"],
+		"lessons": ["[18]"],
 		"type": "word",
 		"engDefinition": "before all others",
 		"category": "",
@@ -6456,12 +6456,12 @@
 		"number": "",
 		"partOfSpeech": ["adv."],
 		"ipa": "[fɝst]",
-		"images": [],
+		"images": ["/english/first.webp"],
 		"engAudio": "/english/first.mp3"
 	},
 	{
 		"id": 341,
-		"lessons": ["18"],
+		"lessons": ["[18]"],
 		"type": "word",
 		"engDefinition": "after the first",
 		"category": "",
@@ -6475,12 +6475,12 @@
 		"number": "",
 		"partOfSpeech": ["adv."],
 		"ipa": "[nɛkst]",
-		"images": [],
+		"images": ["/english/next.webp"],
 		"engAudio": "/english/next.mp3"
 	},
 	{
 		"id": 342,
-		"lessons": ["18"],
+		"lessons": ["[18]"],
 		"type": "word",
 		"engDefinition": "after that",
 		"category": "",
@@ -6494,12 +6494,12 @@
 		"number": "",
 		"partOfSpeech": ["adv."],
 		"ipa": "[ðɛn]",
-		"images": [],
+		"images": ["/english/then.webp"],
 		"engAudio": "/english/then.mp3"
 	},
 	{
 		"id": 343,
-		"lessons": ["18"],
+		"lessons": ["[18]"],
 		"type": "word",
 		"engDefinition": "final one",
 		"category": "",
@@ -6513,12 +6513,12 @@
 		"number": "",
 		"partOfSpeech": ["adj./adv."],
 		"ipa": "[læst]",
-		"images": [],
+		"images": ["/english/last.webp"],
 		"engAudio": "/english/last.mp3"
 	},
 	{
 		"id": 344,
-		"lessons": ["18"],
+		"lessons": ["[18]"],
 		"type": "word",
 		"engDefinition": "foods used to cook",
 		"category": "",
@@ -6532,12 +6532,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ɪnˈɡridiənts]",
-		"images": [],
+		"images": ["/english/ingredients.webp"],
 		"engAudio": "/english/ingredients.mp3"
 	},
 	{
 		"id": 345,
-		"lessons": ["18"],
+		"lessons": ["[18]"],
 		"type": "word",
 		"engDefinition": "fat food from milk",
 		"category": "",
@@ -6551,12 +6551,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈbʌtər]",
-		"images": [],
+		"images": ["/english/butter.webp"],
 		"engAudio": "/english/butter.mp3"
 	},
 	{
 		"id": 346,
-		"lessons": ["18"],
+		"lessons": ["[18]"],
 		"type": "word",
 		"engDefinition": "bread with cheese",
 		"category": "",
@@ -6570,12 +6570,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ʧiz ˈsændwɪʧ]",
-		"images": [],
+		"images": ["/english/cheese-sandwich.webp"],
 		"engAudio": "/english/cheese-sandwich.mp3"
 	},
 	{
 		"id": 347,
-		"lessons": ["18"],
+		"lessons": ["[18]"],
 		"type": "word",
 		"engDefinition": "powder from wheat",
 		"category": "",
@@ -6589,12 +6589,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈflaʊər]",
-		"images": [],
+		"images": ["/english/flour.webp"],
 		"engAudio": "/english/flour.mp3"
 	},
 	{
 		"id": 348,
-		"lessons": ["18"],
+		"lessons": ["[18]"],
 		"type": "word",
 		"engDefinition": "liquid fat for cooking",
 		"category": "",
@@ -6608,12 +6608,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ɔɪl]",
-		"images": [],
+		"images": ["/english/oil.webp"],
 		"engAudio": "/english/oil.mp3"
 	},
 	{
 		"id": 349,
-		"lessons": ["18"],
+		"lessons": ["[18]"],
 		"type": "word",
 		"engDefinition": "machine to bake food",
 		"category": "",
@@ -6627,12 +6627,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈʌvən]",
-		"images": [],
+		"images": ["/english/oven.webp"],
 		"engAudio": "/english/oven.mp3"
 	},
 	{
 		"id": 350,
-		"lessons": ["18"],
+		"lessons": ["[18]"],
 		"type": "word",
 		"engDefinition": "dish for cooking",
 		"category": "",
@@ -6646,12 +6646,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[pæn]",
-		"images": [],
+		"images": ["/english/pan.webp"],
 		"engAudio": "/english/pan.mp3"
 	},
 	{
 		"id": 351,
-		"lessons": ["18"],
+		"lessons": ["[18]"],
 		"type": "word",
 		"engDefinition": "cooking surface with heat",
 		"category": "",
@@ -6665,12 +6665,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[stoʊv]",
-		"images": [],
+		"images": ["/english/stove.webp"],
 		"engAudio": "/english/stove.mp3"
 	},
 	{
 		"id": 352,
-		"lessons": ["18"],
+		"lessons": ["[18]"],
 		"type": "word",
 		"engDefinition": "liquid we drink",
 		"category": "",
@@ -6684,12 +6684,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈwɔtər]",
-		"images": [],
+		"images": ["/english/water.webp"],
 		"engAudio": "/english/water.mp3"
 	},
 	{
 		"id": 353,
-		"lessons": ["18"],
+		"lessons": ["[18]"],
 		"type": "word",
 		"engDefinition": "to put in",
 		"category": "",
@@ -6703,12 +6703,12 @@
 		"number": "",
 		"partOfSpeech": ["verb"],
 		"ipa": "[æd]",
-		"images": [],
+		"images": ["/english/add.webp"],
 		"engAudio": "/english/add.mp3"
 	},
 	{
 		"id": 354,
-		"lessons": ["18"],
+		"lessons": ["[18]"],
 		"type": "word",
 		"engDefinition": "cook in oven",
 		"category": "",
@@ -6722,12 +6722,12 @@
 		"number": "",
 		"partOfSpeech": ["verb"],
 		"ipa": "[beɪk]",
-		"images": [],
+		"images": ["/english/bake.webp"],
 		"engAudio": "/english/bake.mp3"
 	},
 	{
 		"id": 355,
-		"lessons": ["18"],
+		"lessons": ["[18]"],
 		"type": "word",
 		"engDefinition": "cook in hot water",
 		"category": "",
@@ -6741,12 +6741,12 @@
 		"number": "",
 		"partOfSpeech": ["verb"],
 		"ipa": "[bɔɪl]",
-		"images": [],
+		"images": ["/english/boil.webp"],
 		"engAudio": "/english/boil.mp3"
 	},
 	{
 		"id": 356,
-		"lessons": ["18"],
+		"lessons": ["[18]"],
 		"type": "word",
 		"engDefinition": "to make hot",
 		"category": "",
@@ -6760,12 +6760,12 @@
 		"number": "",
 		"partOfSpeech": ["verb"],
 		"ipa": "[hit]",
-		"images": [],
+		"images": ["/english/heat.webp"],
 		"engAudio": "/english/heat.mp3"
 	},
 	{
 		"id": 357,
-		"lessons": ["18"],
+		"lessons": ["[18]"],
 		"type": "word",
 		"engDefinition": "to combine",
 		"category": "",
@@ -6779,12 +6779,12 @@
 		"number": "",
 		"partOfSpeech": ["verb"],
 		"ipa": "[mɪks]",
-		"images": [],
+		"images": ["/english/mix.webp"],
 		"engAudio": "/english/mix.mp3"
 	},
 	{
 		"id": 358,
-		"lessons": ["18"],
+		"lessons": ["[18]"],
 		"type": "word",
 		"engDefinition": "to place something",
 		"category": "",
@@ -6798,12 +6798,12 @@
 		"number": "",
 		"partOfSpeech": ["verb"],
 		"ipa": "[pʊt]",
-		"images": [],
+		"images": ["/english/put.webp"],
 		"engAudio": "/english/put.mp3"
 	},
 	{
 		"id": 359,
-		"lessons": ["18"],
+		"lessons": ["[18]"],
 		"type": "word",
 		"engDefinition": "shows direction/purpose",
 		"category": "",
@@ -6817,12 +6817,12 @@
 		"number": "",
 		"partOfSpeech": ["prep."],
 		"ipa": "[tuː]",
-		"images": [],
+		"images": ["/english/to.webp"],
 		"engAudio": "/english/to.mp3"
 	},
 	{
 		"id": 360,
-		"lessons": ["18"],
+		"lessons": ["[18]"],
 		"type": "word",
 		"engDefinition": "to divide with knife",
 		"category": "",
@@ -6836,12 +6836,12 @@
 		"number": "",
 		"partOfSpeech": ["verb"],
 		"ipa": "[kʌt]",
-		"images": [],
+		"images": ["/english/cut.webp"],
 		"engAudio": "/english/cut.mp3"
 	},
 	{
 		"id": 361,
-		"lessons": ["18"],
+		"lessons": ["[18]"],
 		"type": "word",
 		"engDefinition": "to mix in circles",
 		"category": "",
@@ -6855,12 +6855,12 @@
 		"number": "",
 		"partOfSpeech": ["verb"],
 		"ipa": "[stɜr]",
-		"images": [],
+		"images": ["/english/stir.webp"],
 		"engAudio": "/english/stir.mp3"
 	},
 	{
 		"id": 362,
-		"lessons": ["18"],
+		"lessons": ["[18]"],
 		"type": "word",
 		"engDefinition": "yellow fruit",
 		"category": "",
@@ -6874,12 +6874,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[bəˈnænə]",
-		"images": [],
+		"images": ["/english/banana.webp"],
 		"engAudio": "/english/banana.mp3"
 	},
 	{
 		"id": 363,
-		"lessons": ["18"],
+		"lessons": ["[18]"],
 		"type": "word",
 		"engDefinition": "white drink from cows",
 		"category": "",
@@ -6893,12 +6893,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[mɪlk]",
-		"images": [],
+		"images": ["/english/milk.webp"],
 		"engAudio": "/english/milk.mp3"
 	},
 	{
 		"id": 364,
-		"lessons": ["18"],
+		"lessons": ["[18]"],
 		"type": "word",
 		"engDefinition": "deep dish for cooking",
 		"category": "",
@@ -6912,12 +6912,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[pɑt]",
-		"images": [],
+		"images": ["/english/pot.webp"],
 		"engAudio": "/english/pot.mp3"
 	},
 	{
 		"id": 365,
-		"lessons": ["18"],
+		"lessons": ["[18]"],
 		"type": "word",
 		"engDefinition": "white seasoning",
 		"category": "",
@@ -6931,12 +6931,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[sɔlt]",
-		"images": [],
+		"images": ["/english/salt.webp"],
 		"engAudio": "/english/salt.mp3"
 	},
 	{
 		"id": 366,
-		"lessons": ["18"],
+		"lessons": ["[18]"],
 		"type": "word",
 		"engDefinition": "sweet seasoning",
 		"category": "",
@@ -6950,12 +6950,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈʃʊɡər]",
-		"images": [],
+		"images": ["/english/sugar.webp"],
 		"engAudio": "/english/sugar.mp3"
 	},
 	{
 		"id": 367,
-		"lessons": ["18"],
+		"lessons": ["[18]"],
 		"type": "word",
 		"engDefinition": "cook over fire",
 		"category": "",
@@ -6969,12 +6969,12 @@
 		"number": "",
 		"partOfSpeech": ["noun/verb"],
 		"ipa": "[ɡrɪl]",
-		"images": [],
+		"images": ["/english/grill.webp"],
 		"engAudio": "/english/grill.mp3"
 	},
 	{
 		"id": 368,
-		"lessons": ["18"],
+		"lessons": ["[18]"],
 		"type": "word",
 		"engDefinition": "flat bread (Mexican)",
 		"category": "",
@@ -6988,12 +6988,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[tɔrˈtiːjəz]",
-		"images": [],
+		"images": ["/english/tortillas.webp"],
 		"engAudio": "/english/tortillas.mp3"
 	},
 	{
 		"id": 369,
-		"lessons": ["19"],
+		"lessons": ["[19]"],
 		"type": "word",
 		"engDefinition": "to get with money",
 		"category": "",
@@ -7007,12 +7007,12 @@
 		"number": "",
 		"partOfSpeech": ["verb"],
 		"ipa": "[baɪ]",
-		"images": [],
+		"images": ["/english/buy.webp"],
 		"engAudio": "/english/buy.mp3"
 	},
 	{
 		"id": 370,
-		"lessons": ["19"],
+		"lessons": ["[19]"],
 		"type": "word",
 		"engDefinition": "price of something",
 		"category": "",
@@ -7026,12 +7026,12 @@
 		"number": "",
 		"partOfSpeech": ["verb"],
 		"ipa": "[kɔst]",
-		"images": [],
+		"images": ["/english/cost.webp"],
 		"engAudio": "/english/cost.mp3"
 	},
 	{
 		"id": 371,
-		"lessons": ["19"],
+		"lessons": ["[19]"],
 		"type": "word",
 		"engDefinition": "third-person form of cost",
 		"category": "",
@@ -7045,12 +7045,12 @@
 		"number": "",
 		"partOfSpeech": ["verb"],
 		"ipa": "[kɔsts]",
-		"images": [],
+		"images": ["/english/costs.webp"],
 		"engAudio": "/english/costs.mp3"
 	},
 	{
 		"id": 372,
-		"lessons": ["19"],
+		"lessons": ["[19]"],
 		"type": "word",
 		"engDefinition": "to desire something",
 		"category": "",
@@ -7064,12 +7064,12 @@
 		"number": "",
 		"partOfSpeech": ["verb"],
 		"ipa": "[wɑnt]",
-		"images": [],
+		"images": ["/english/want.webp"],
 		"engAudio": "/english/want.mp3"
 	},
 	{
 		"id": 373,
-		"lessons": ["19"],
+		"lessons": ["[19]"],
 		"type": "word",
 		"engDefinition": "cloth worn on neck",
 		"category": "",
@@ -7083,12 +7083,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[taɪz]",
-		"images": [],
+		"images": ["/english/ties.webp"],
 		"engAudio": "/english/ties.mp3"
 	},
 	{
 		"id": 374,
-		"lessons": ["19"],
+		"lessons": ["[19]"],
 		"type": "word",
 		"engDefinition": "vehicle",
 		"category": "",
@@ -7102,12 +7102,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[kɑr]",
-		"images": [],
+		"images": ["/english/car.webp"],
 		"engAudio": "/english/car.mp3"
 	},
 	{
 		"id": 375,
-		"lessons": ["19"],
+		"lessons": ["[19]"],
 		"type": "word",
 		"engDefinition": "more than one car",
 		"category": "",
@@ -7121,12 +7121,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[kɑrz]",
-		"images": [],
+		"images": ["/english/cars.webp"],
 		"engAudio": "/english/cars.mp3"
 	},
 	{
 		"id": 376,
-		"lessons": ["19"],
+		"lessons": ["[19]"],
 		"type": "word",
 		"engDefinition": "money amount",
 		"category": "",
@@ -7140,12 +7140,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈfɪfti ˈdɑlərz]",
-		"images": [],
+		"images": ["/english/fifty-dollars.webp"],
 		"engAudio": "/english/fifty-dollars.mp3"
 	},
 	{
 		"id": 377,
-		"lessons": ["19"],
+		"lessons": ["[19]"],
 		"type": "word",
 		"engDefinition": "money amount",
 		"category": "",
@@ -7159,12 +7159,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈfɪfti ˈdɑlərz]",
-		"images": [],
+		"images": ["/english/fifty-dollars.webp"],
 		"engAudio": "/english/fifty-dollars.mp3"
 	},
 	{
 		"id": 378,
-		"lessons": ["19"],
+		"lessons": ["[19]"],
 		"type": "word",
 		"engDefinition": "nice / positive",
 		"category": "",
@@ -7178,12 +7178,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[ɡʊd]",
-		"images": [],
+		"images": ["/english/good.webp"],
 		"engAudio": "/english/good.mp3"
 	},
 	{
 		"id": 379,
-		"lessons": ["19"],
+		"lessons": ["[19]"],
 		"type": "word",
 		"engDefinition": "not good",
 		"category": "",
@@ -7197,12 +7197,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[bæd]",
-		"images": [],
+		"images": ["/english/bad.webp"],
 		"engAudio": "/english/bad.mp3"
 	},
 	{
 		"id": 380,
-		"lessons": ["19"],
+		"lessons": ["[19]"],
 		"type": "word",
 		"engDefinition": "round fruit",
 		"category": "",
@@ -7216,12 +7216,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈæpəl]",
-		"images": [],
+		"images": ["/english/apple.webp"],
 		"engAudio": "/english/apple.mp3"
 	},
 	{
 		"id": 381,
-		"lessons": ["19"],
+		"lessons": ["[19]"],
 		"type": "word",
 		"engDefinition": "two-wheeled vehicle",
 		"category": "",
@@ -7235,12 +7235,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈmoʊtərˌsaɪkəl]",
-		"images": [],
+		"images": ["/english/motorcycle.webp"],
 		"engAudio": "/english/motorcycle.mp3"
 	},
 	{
 		"id": 382,
-		"lessons": ["19"],
+		"lessons": ["[19]"],
 		"type": "word",
 		"engDefinition": "nice to look at",
 		"category": "",
@@ -7254,12 +7254,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[ˈprɪti]",
-		"images": [],
+		"images": ["/english/pretty.webp"],
 		"engAudio": "/english/pretty.mp3"
 	},
 	{
 		"id": 383,
-		"lessons": ["19"],
+		"lessons": ["[19]"],
 		"type": "word",
 		"engDefinition": "not nice to look at",
 		"category": "",
@@ -7273,12 +7273,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[ˈʌɡli]",
-		"images": [],
+		"images": ["/english/ugly.webp"],
 		"engAudio": "/english/ugly.mp3"
 	},
 	{
 		"id": 384,
-		"lessons": ["20"],
+		"lessons": ["[20]"],
 		"type": "word",
 		"engDefinition": "place to live (part of building)",
 		"category": "",
@@ -7292,12 +7292,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[əˈpɑrtmənt]",
-		"images": [],
+		"images": ["/english/apartment.webp"],
 		"engAudio": "/english/apartment.mp3"
 	},
 	{
 		"id": 385,
-		"lessons": ["20"],
+		"lessons": ["[20]"],
 		"type": "word",
 		"engDefinition": "building to live in",
 		"category": "",
@@ -7311,12 +7311,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[haʊs]",
-		"images": [],
+		"images": ["/english/house.webp"],
 		"engAudio": "/english/house.mp3"
 	},
 	{
 		"id": 386,
-		"lessons": ["20"],
+		"lessons": ["[20]"],
 		"type": "word",
 		"engDefinition": "room with toilet/shower",
 		"category": "",
@@ -7330,12 +7330,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈbæθˌrum]",
-		"images": [],
+		"images": ["/english/bathroom.webp"],
 		"engAudio": "/english/bathroom.mp3"
 	},
 	{
 		"id": 387,
-		"lessons": ["20"],
+		"lessons": ["[20]"],
 		"type": "word",
 		"engDefinition": "more than one bathroom",
 		"category": "",
@@ -7349,12 +7349,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈbæθˌrumz]",
-		"images": [],
+		"images": ["/english/bathrooms.webp"],
 		"engAudio": "/english/bathrooms.mp3"
 	},
 	{
 		"id": 388,
-		"lessons": ["20"],
+		"lessons": ["[20]"],
 		"type": "word",
 		"engDefinition": "room to sleep",
 		"category": "",
@@ -7368,12 +7368,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈbɛdˌrum]",
-		"images": [],
+		"images": ["/english/bedroom.webp"],
 		"engAudio": "/english/bedroom.mp3"
 	},
 	{
 		"id": 389,
-		"lessons": ["20"],
+		"lessons": ["[20]"],
 		"type": "word",
 		"engDefinition": "more than one bedroom",
 		"category": "",
@@ -7387,12 +7387,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈbɛdˌrumz]",
-		"images": [],
+		"images": ["/english/bedrooms.webp"],
 		"engAudio": "/english/bedrooms.mp3"
 	},
 	{
 		"id": 390,
-		"lessons": ["20"],
+		"lessons": ["[20]"],
 		"type": "word",
 		"engDefinition": "small room to keep clothes",
 		"category": "",
@@ -7406,12 +7406,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈklɑzət]",
-		"images": [],
+		"images": ["/english/closet.webp"],
 		"engAudio": "/english/closet.mp3"
 	},
 	{
 		"id": 391,
-		"lessons": ["20"],
+		"lessons": ["[20]"],
 		"type": "word",
 		"engDefinition": "more than one closet",
 		"category": "",
@@ -7425,12 +7425,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈklɑzəts]",
-		"images": [],
+		"images": ["/english/closets.webp"],
 		"engAudio": "/english/closets.mp3"
 	},
 	{
 		"id": 392,
-		"lessons": ["20"],
+		"lessons": ["[20]"],
 		"type": "word",
 		"engDefinition": "room to eat",
 		"category": "",
@@ -7444,12 +7444,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈdaɪnɪŋ rum]",
-		"images": [],
+		"images": ["/english/dining-room.webp"],
 		"engAudio": "/english/dining-room.mp3"
 	},
 	{
 		"id": 393,
-		"lessons": ["20"],
+		"lessons": ["[20]"],
 		"type": "word",
 		"engDefinition": "room to relax with family",
 		"category": "",
@@ -7463,12 +7463,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈfæməli rum]",
-		"images": [],
+		"images": ["/english/family-room.webp"],
 		"engAudio": "/english/family-room.mp3"
 	},
 	{
 		"id": 394,
-		"lessons": ["20"],
+		"lessons": ["[20]"],
 		"type": "word",
 		"engDefinition": "room to cook",
 		"category": "",
@@ -7482,12 +7482,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈkɪʧən]",
-		"images": [],
+		"images": ["/english/kitchen.webp"],
 		"engAudio": "/english/kitchen.mp3"
 	},
 	{
 		"id": 395,
-		"lessons": ["20"],
+		"lessons": ["[20]"],
 		"type": "word",
 		"engDefinition": "main room for relaxing",
 		"category": "",
@@ -7501,12 +7501,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈlɪvɪŋ rum]",
-		"images": [],
+		"images": ["/english/living-room.webp"],
 		"engAudio": "/english/living-room.mp3"
 	},
 	{
 		"id": 396,
-		"lessons": ["20"],
+		"lessons": ["[20]"],
 		"type": "word",
 		"engDefinition": "part of a house",
 		"category": "",
@@ -7520,12 +7520,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[rum]",
-		"images": [],
+		"images": ["/english/room.webp"],
 		"engAudio": "/english/room.mp3"
 	},
 	{
 		"id": 397,
-		"lessons": ["20"],
+		"lessons": ["[20]"],
 		"type": "word",
 		"engDefinition": "more than one room",
 		"category": "",
@@ -7539,12 +7539,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[rumz]",
-		"images": [],
+		"images": ["/english/rooms.webp"],
 		"engAudio": "/english/rooms.mp3"
 	},
 	{
 		"id": 398,
-		"lessons": ["20"],
+		"lessons": ["[20]"],
 		"type": "word",
 		"engDefinition": "steps to go up/down",
 		"category": "",
@@ -7558,12 +7558,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[stɛrz]",
-		"images": [],
+		"images": ["/english/stairs.webp"],
 		"engAudio": "/english/stairs.mp3"
 	},
 	{
 		"id": 399,
-		"lessons": ["20"],
+		"lessons": ["[20]"],
 		"type": "word",
 		"engDefinition": "higher than",
 		"category": "",
@@ -7577,12 +7577,12 @@
 		"number": "",
 		"partOfSpeech": ["prep."],
 		"ipa": "[əˈbʌv]",
-		"images": [],
+		"images": ["/english/above.webp"],
 		"engAudio": "/english/above.mp3"
 	},
 	{
 		"id": 400,
-		"lessons": ["20"],
+		"lessons": ["[20]"],
 		"type": "word",
 		"engDefinition": "opposite side",
 		"category": "",
@@ -7596,12 +7596,12 @@
 		"number": "",
 		"partOfSpeech": ["phrase"],
 		"ipa": "[əˈkrɔs frʌm]",
-		"images": [],
+		"images": ["/english/across-from.webp"],
 		"engAudio": "/english/across-from.mp3"
 	},
 	{
 		"id": 401,
-		"lessons": ["20"],
+		"lessons": ["[20]"],
 		"type": "word",
 		"engDefinition": "lower than",
 		"category": "",
@@ -7615,12 +7615,12 @@
 		"number": "",
 		"partOfSpeech": ["prep."],
 		"ipa": "[bɪˈloʊ]",
-		"images": [],
+		"images": ["/english/below.webp"],
 		"engAudio": "/english/below.mp3"
 	},
 	{
 		"id": 402,
-		"lessons": ["20"],
+		"lessons": ["[20]"],
 		"type": "word",
 		"engDefinition": "beside",
 		"category": "",
@@ -7634,12 +7634,12 @@
 		"number": "",
 		"partOfSpeech": ["phrase"],
 		"ipa": "[ˈnɛkst tu]",
-		"images": [],
+		"images": ["/english/next-to.webp"],
 		"engAudio": "/english/next-to.mp3"
 	},
 	{
 		"id": 403,
-		"lessons": ["20"],
+		"lessons": ["[20]"],
 		"type": "word",
 		"engDefinition": "on the left side",
 		"category": "",
@@ -7653,12 +7653,12 @@
 		"number": "",
 		"partOfSpeech": ["phrase"],
 		"ipa": "[lɛft əv]",
-		"images": [],
+		"images": ["/english/left-of.webp"],
 		"engAudio": "/english/left-of.mp3"
 	},
 	{
 		"id": 404,
-		"lessons": ["20"],
+		"lessons": ["[20]"],
 		"type": "word",
 		"engDefinition": "on the right side",
 		"category": "",
@@ -7672,12 +7672,12 @@
 		"number": "",
 		"partOfSpeech": ["phrase"],
 		"ipa": "[raɪt əv]",
-		"images": [],
+		"images": ["/english/right-of.webp"],
 		"engAudio": "/english/right-of.mp3"
 	},
 	{
 		"id": 405,
-		"lessons": ["21"],
+		"lessons": ["[21]"],
 		"type": "word",
 		"engDefinition": "tub for bathing",
 		"category": "",
@@ -7691,12 +7691,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈbæθˌtʌb]",
-		"images": [],
+		"images": ["/english/bathtub.webp"],
 		"engAudio": "/english/bathtub.mp3"
 	},
 	{
 		"id": 406,
-		"lessons": ["21"],
+		"lessons": ["[21]"],
 		"type": "word",
 		"engDefinition": "more than one bathtub",
 		"category": "",
@@ -7710,12 +7710,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈbæθˌtʌbz]",
-		"images": [],
+		"images": ["/english/bathtubs.webp"],
 		"engAudio": "/english/bathtubs.mp3"
 	},
 	{
 		"id": 407,
-		"lessons": ["21"],
+		"lessons": ["[21]"],
 		"type": "word",
 		"engDefinition": "furniture for sleeping",
 		"category": "",
@@ -7729,12 +7729,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[bɛd]",
-		"images": [],
+		"images": ["/english/bed.webp"],
 		"engAudio": "/english/bed.mp3"
 	},
 	{
 		"id": 408,
-		"lessons": ["21"],
+		"lessons": ["[21]"],
 		"type": "word",
 		"engDefinition": "more than one bed",
 		"category": "",
@@ -7748,12 +7748,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[bɛdz]",
-		"images": [],
+		"images": ["/english/beds.webp"],
 		"engAudio": "/english/beds.mp3"
 	},
 	{
 		"id": 409,
-		"lessons": ["21"],
+		"lessons": ["[21]"],
 		"type": "word",
 		"engDefinition": "cloth for warmth",
 		"category": "",
@@ -7767,12 +7767,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈblæŋkət]",
-		"images": [],
+		"images": ["/english/blanket.webp"],
 		"engAudio": "/english/blanket.mp3"
 	},
 	{
 		"id": 410,
-		"lessons": ["21"],
+		"lessons": ["[21]"],
 		"type": "word",
 		"engDefinition": "more than one blanket",
 		"category": "",
@@ -7786,12 +7786,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈblæŋkəts]",
-		"images": [],
+		"images": ["/english/blankets.webp"],
 		"engAudio": "/english/blankets.mp3"
 	},
 	{
 		"id": 411,
-		"lessons": ["21"],
+		"lessons": ["[21]"],
 		"type": "word",
 		"engDefinition": "furniture for dishes/food",
 		"category": "",
@@ -7805,12 +7805,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈkʌbərd]",
-		"images": [],
+		"images": ["/english/cupboard.webp"],
 		"engAudio": "/english/cupboard.mp3"
 	},
 	{
 		"id": 412,
-		"lessons": ["21"],
+		"lessons": ["[21]"],
 		"type": "word",
 		"engDefinition": "more than one cupboard",
 		"category": "",
@@ -7824,12 +7824,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈkʌbərdz]",
-		"images": [],
+		"images": ["/english/cupboards.webp"],
 		"engAudio": "/english/cupboards.mp3"
 	},
 	{
 		"id": 413,
-		"lessons": ["21"],
+		"lessons": ["[21]"],
 		"type": "word",
 		"engDefinition": "way to enter/exit",
 		"category": "",
@@ -7843,12 +7843,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[dɔr]",
-		"images": [],
+		"images": ["/english/door.webp"],
 		"engAudio": "/english/door.mp3"
 	},
 	{
 		"id": 414,
-		"lessons": ["21"],
+		"lessons": ["[21]"],
 		"type": "word",
 		"engDefinition": "more than one door",
 		"category": "",
@@ -7862,12 +7862,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[dɔrz]",
-		"images": [],
+		"images": ["/english/doors.webp"],
 		"engAudio": "/english/doors.mp3"
 	},
 	{
 		"id": 415,
-		"lessons": ["21"],
+		"lessons": ["[21]"],
 		"type": "word",
 		"engDefinition": "ground of a room",
 		"category": "",
@@ -7881,12 +7881,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[flɔr]",
-		"images": [],
+		"images": ["/english/floor.webp"],
 		"engAudio": "/english/floor.mp3"
 	},
 	{
 		"id": 416,
-		"lessons": ["21"],
+		"lessons": ["[21]"],
 		"type": "word",
 		"engDefinition": "light device",
 		"category": "",
@@ -7900,12 +7900,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[læmp]",
-		"images": [],
+		"images": ["/english/lamp.webp"],
 		"engAudio": "/english/lamp.mp3"
 	},
 	{
 		"id": 417,
-		"lessons": ["21"],
+		"lessons": ["[21]"],
 		"type": "word",
 		"engDefinition": "more than one lamp",
 		"category": "",
@@ -7919,12 +7919,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[læmps]",
-		"images": [],
+		"images": ["/english/lamps.webp"],
 		"engAudio": "/english/lamps.mp3"
 	},
 	{
 		"id": 418,
-		"lessons": ["21"],
+		"lessons": ["[21]"],
 		"type": "word",
 		"engDefinition": "glass that reflects",
 		"category": "",
@@ -7938,12 +7938,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈmɪrər]",
-		"images": [],
+		"images": ["/english/mirror.webp"],
 		"engAudio": "/english/mirror.mp3"
 	},
 	{
 		"id": 419,
-		"lessons": ["21"],
+		"lessons": ["[21]"],
 		"type": "word",
 		"engDefinition": "more than one mirror",
 		"category": "",
@@ -7957,12 +7957,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈmɪrərz]",
-		"images": [],
+		"images": ["/english/mirrors.webp"],
 		"engAudio": "/english/mirrors.mp3"
 	},
 	{
 		"id": 420,
-		"lessons": ["21"],
+		"lessons": ["[21]"],
 		"type": "word",
 		"engDefinition": "soft head rest",
 		"category": "",
@@ -7976,12 +7976,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈpɪloʊ]",
-		"images": [],
+		"images": ["/english/pillow.webp"],
 		"engAudio": "/english/pillow.mp3"
 	},
 	{
 		"id": 421,
-		"lessons": ["21"],
+		"lessons": ["[21]"],
 		"type": "word",
 		"engDefinition": "more than one pillow",
 		"category": "",
@@ -7995,12 +7995,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈpɪloʊz]",
-		"images": [],
+		"images": ["/english/pillows.webp"],
 		"engAudio": "/english/pillows.mp3"
 	},
 	{
 		"id": 422,
-		"lessons": ["21"],
+		"lessons": ["[21]"],
 		"type": "word",
 		"engDefinition": "water spray for washing",
 		"category": "",
@@ -8014,12 +8014,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈʃaʊər]",
-		"images": [],
+		"images": ["/english/shower.webp"],
 		"engAudio": "/english/shower.mp3"
 	},
 	{
 		"id": 423,
-		"lessons": ["21"],
+		"lessons": ["[21]"],
 		"type": "word",
 		"engDefinition": "more than one shower",
 		"category": "",
@@ -8033,12 +8033,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈʃaʊərz]",
-		"images": [],
+		"images": ["/english/showers.webp"],
 		"engAudio": "/english/showers.mp3"
 	},
 	{
 		"id": 424,
-		"lessons": ["21"],
+		"lessons": ["[21]"],
 		"type": "word",
 		"engDefinition": "bowl for washing",
 		"category": "",
@@ -8052,12 +8052,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[sɪŋk]",
-		"images": [],
+		"images": ["/english/sink.webp"],
 		"engAudio": "/english/sink.mp3"
 	},
 	{
 		"id": 425,
-		"lessons": ["21"],
+		"lessons": ["[21]"],
 		"type": "word",
 		"engDefinition": "more than one sink",
 		"category": "",
@@ -8071,12 +8071,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[sɪŋks]",
-		"images": [],
+		"images": ["/english/sinks.webp"],
 		"engAudio": "/english/sinks.mp3"
 	},
 	{
 		"id": 426,
-		"lessons": ["21"],
+		"lessons": ["[21]"],
 		"type": "word",
 		"engDefinition": "seat for bathroom use",
 		"category": "",
@@ -8090,12 +8090,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈtɔɪlət]",
-		"images": [],
+		"images": ["/english/toilet.webp"],
 		"engAudio": "/english/toilet.mp3"
 	},
 	{
 		"id": 427,
-		"lessons": ["21"],
+		"lessons": ["[21]"],
 		"type": "word",
 		"engDefinition": "more than one toilet",
 		"category": "",
@@ -8109,12 +8109,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈtɔɪləts]",
-		"images": [],
+		"images": ["/english/toilets.webp"],
 		"engAudio": "/english/toilets.mp3"
 	},
 	{
 		"id": 428,
-		"lessons": ["21"],
+		"lessons": ["[21]"],
 		"type": "word",
 		"engDefinition": "cloth for drying",
 		"category": "",
@@ -8128,12 +8128,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈtaʊəl]",
-		"images": [],
+		"images": ["/english/towel.webp"],
 		"engAudio": "/english/towel.mp3"
 	},
 	{
 		"id": 429,
-		"lessons": ["21"],
+		"lessons": ["[21]"],
 		"type": "word",
 		"engDefinition": "more than one towel",
 		"category": "",
@@ -8147,12 +8147,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈtaʊəlz]",
-		"images": [],
+		"images": ["/english/towels.webp"],
 		"engAudio": "/english/towels.mp3"
 	},
 	{
 		"id": 430,
-		"lessons": ["21"],
+		"lessons": ["[21]"],
 		"type": "word",
 		"engDefinition": "glass opening in wall",
 		"category": "",
@@ -8166,12 +8166,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈwɪndoʊ]",
-		"images": [],
+		"images": ["/english/window.webp"],
 		"engAudio": "/english/window.mp3"
 	},
 	{
 		"id": 431,
-		"lessons": ["21"],
+		"lessons": ["[21]"],
 		"type": "word",
 		"engDefinition": "more than one window",
 		"category": "",
@@ -8185,12 +8185,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈwɪndoʊz]",
-		"images": [],
+		"images": ["/english/windows.webp"],
 		"engAudio": "/english/windows.mp3"
 	},
 	{
 		"id": 432,
-		"lessons": ["21"],
+		"lessons": ["[21]"],
 		"type": "word",
 		"engDefinition": "lower than",
 		"category": "",
@@ -8204,12 +8204,12 @@
 		"number": "",
 		"partOfSpeech": ["prep."],
 		"ipa": "[ˈʌndər]",
-		"images": [],
+		"images": ["/english/under.webp"],
 		"engAudio": "/english/under.mp3"
 	},
 	{
 		"id": 433,
-		"lessons": ["21"],
+		"lessons": ["[21]"],
 		"type": "word",
 		"engDefinition": "large size",
 		"category": "",
@@ -8223,12 +8223,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[bɪɡ]",
-		"images": [],
+		"images": ["/english/big.webp"],
 		"engAudio": "/english/big.mp3"
 	},
 	{
 		"id": 434,
-		"lessons": ["21"],
+		"lessons": ["[21]"],
 		"type": "word",
 		"engDefinition": "little size",
 		"category": "",
@@ -8242,12 +8242,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[smɔl]",
-		"images": [],
+		"images": ["/english/small.webp"],
 		"engAudio": "/english/small.mp3"
 	},
 	{
 		"id": 435,
-		"lessons": ["21"],
+		"lessons": ["[21]"],
 		"type": "word",
 		"engDefinition": "not clean/tidy",
 		"category": "",
@@ -8261,12 +8261,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[ˈmɛsi]",
-		"images": [],
+		"images": ["/english/messy.webp"],
 		"engAudio": "/english/messy.mp3"
 	},
 	{
 		"id": 436,
-		"lessons": ["22"],
+		"lessons": ["[22]"],
 		"type": "word",
 		"engDefinition": "to move",
 		"category": "",
@@ -8280,12 +8280,12 @@
 		"number": "",
 		"partOfSpeech": ["verb"],
 		"ipa": "[ɡoʊ]",
-		"images": [],
+		"images": ["/english/go.webp"],
 		"engAudio": "/english/go.mp3"
 	},
 	{
 		"id": 437,
-		"lessons": ["22"],
+		"lessons": ["[22]"],
 		"type": "word",
 		"engDefinition": "to change direction",
 		"category": "",
@@ -8299,12 +8299,12 @@
 		"number": "",
 		"partOfSpeech": ["verb"],
 		"ipa": "[tɜrn]",
-		"images": [],
+		"images": ["/english/turn.webp"],
 		"engAudio": "/english/turn.mp3"
 	},
 	{
 		"id": 438,
-		"lessons": ["22"],
+		"lessons": ["[22]"],
 		"type": "word",
 		"engDefinition": "place for money",
 		"category": "",
@@ -8318,12 +8318,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[bæŋk]",
-		"images": [],
+		"images": ["/english/bank.webp"],
 		"engAudio": "/english/bank.mp3"
 	},
 	{
 		"id": 439,
-		"lessons": ["22"],
+		"lessons": ["[22]"],
 		"type": "word",
 		"engDefinition": "place to buy food",
 		"category": "",
@@ -8337,12 +8337,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈɡroʊsəri stɔr]",
-		"images": [],
+		"images": ["/english/grocery-store.webp"],
 		"engAudio": "/english/grocery-store.mp3"
 	},
 	{
 		"id": 440,
-		"lessons": ["22"],
+		"lessons": ["[22]"],
 		"type": "word",
 		"engDefinition": "place for trains",
 		"category": "",
@@ -8356,12 +8356,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈtreɪn ˌsteɪʃən]",
-		"images": [],
+		"images": ["/english/train-station.webp"],
 		"engAudio": "/english/train-station.mp3"
 	},
 	{
 		"id": 441,
-		"lessons": ["22"],
+		"lessons": ["[22]"],
 		"type": "word",
 		"engDefinition": "street name",
 		"category": "",
@@ -8375,12 +8375,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[fɜrst strit]",
-		"images": [],
+		"images": ["/english/first-street.webp"],
 		"engAudio": "/english/first-street.mp3"
 	},
 	{
 		"id": 442,
-		"lessons": ["22"],
+		"lessons": ["[22]"],
 		"type": "word",
 		"engDefinition": "street name",
 		"category": "",
@@ -8394,12 +8394,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[fɜrst strit]",
-		"images": [],
+		"images": ["/english/1st-street.webp"],
 		"engAudio": "/english/1st-street.mp3"
 	},
 	{
 		"id": 443,
-		"lessons": ["22"],
+		"lessons": ["[22]"],
 		"type": "word",
 		"engDefinition": "street name",
 		"category": "",
@@ -8413,12 +8413,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ɡrin leɪn]",
-		"images": [],
+		"images": ["/english/green-lane.webp"],
 		"engAudio": "/english/green-lane.mp3"
 	},
 	{
 		"id": 444,
-		"lessons": ["22"],
+		"lessons": ["[22]"],
 		"type": "word",
 		"engDefinition": "direction",
 		"category": "",
@@ -8432,12 +8432,12 @@
 		"number": "",
 		"partOfSpeech": ["noun/adj."],
 		"ipa": "[nɔrθ]",
-		"images": [],
+		"images": ["/english/north.webp"],
 		"engAudio": "/english/north.mp3"
 	},
 	{
 		"id": 445,
-		"lessons": ["22"],
+		"lessons": ["[22]"],
 		"type": "word",
 		"engDefinition": "direction",
 		"category": "",
@@ -8451,12 +8451,12 @@
 		"number": "",
 		"partOfSpeech": ["noun/adj."],
 		"ipa": "[saʊθ]",
-		"images": [],
+		"images": ["/english/south.webp"],
 		"engAudio": "/english/south.mp3"
 	},
 	{
 		"id": 446,
-		"lessons": ["22"],
+		"lessons": ["[22]"],
 		"type": "word",
 		"engDefinition": "direction",
 		"category": "",
@@ -8470,12 +8470,12 @@
 		"number": "",
 		"partOfSpeech": ["noun/adj."],
 		"ipa": "[ist]",
-		"images": [],
+		"images": ["/english/east.webp"],
 		"engAudio": "/english/east.mp3"
 	},
 	{
 		"id": 447,
-		"lessons": ["22"],
+		"lessons": ["[22]"],
 		"type": "word",
 		"engDefinition": "direction",
 		"category": "",
@@ -8489,12 +8489,12 @@
 		"number": "",
 		"partOfSpeech": ["noun/adj."],
 		"ipa": "[wɛst]",
-		"images": [],
+		"images": ["/english/west.webp"],
 		"engAudio": "/english/west.mp3"
 	},
 	{
 		"id": 448,
-		"lessons": ["22"],
+		"lessons": ["[22]"],
 		"type": "word",
 		"engDefinition": "opposite of right",
 		"category": "",
@@ -8508,12 +8508,12 @@
 		"number": "",
 		"partOfSpeech": ["adj./noun"],
 		"ipa": "[lɛft]",
-		"images": [],
+		"images": ["/english/left.webp"],
 		"engAudio": "/english/left.mp3"
 	},
 	{
 		"id": 449,
-		"lessons": ["22"],
+		"lessons": ["[22]"],
 		"type": "word",
 		"engDefinition": "opposite of left",
 		"category": "",
@@ -8527,12 +8527,12 @@
 		"number": "",
 		"partOfSpeech": ["adj./noun"],
 		"ipa": "[raɪt]",
-		"images": [],
+		"images": ["/english/right.webp"],
 		"engAudio": "/english/right.mp3"
 	},
 	{
 		"id": 450,
-		"lessons": ["22"],
+		"lessons": ["[22]"],
 		"type": "word",
 		"engDefinition": "in the middle of two",
 		"category": "",
@@ -8546,12 +8546,12 @@
 		"number": "",
 		"partOfSpeech": ["prep."],
 		"ipa": "[bɪˈtwin]",
-		"images": [],
+		"images": ["/english/between.webp"],
 		"engAudio": "/english/between.mp3"
 	},
 	{
 		"id": 451,
-		"lessons": ["22"],
+		"lessons": ["[22]"],
 		"type": "word",
 		"engDefinition": "before, facing",
 		"category": "",
@@ -8565,12 +8565,12 @@
 		"number": "",
 		"partOfSpeech": ["phrase"],
 		"ipa": "[ɪn ˈfrʌnt əv]",
-		"images": [],
+		"images": ["/english/in-front-of.webp"],
 		"engAudio": "/english/in-front-of.mp3"
 	},
 	{
 		"id": 452,
-		"lessons": ["22"],
+		"lessons": ["[22]"],
 		"type": "word",
 		"engDefinition": "place to buy bread",
 		"category": "",
@@ -8584,12 +8584,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈbeɪkəri]",
-		"images": [],
+		"images": ["/english/bakery.webp"],
 		"engAudio": "/english/bakery.mp3"
 	},
 	{
 		"id": 453,
-		"lessons": ["22"],
+		"lessons": ["[22]"],
 		"type": "word",
 		"engDefinition": "place to buy books",
 		"category": "",
@@ -8603,12 +8603,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈbʊkˌstɔr]",
-		"images": [],
+		"images": ["/english/bookstore.webp"],
 		"engAudio": "/english/bookstore.mp3"
 	},
 	{
 		"id": 454,
-		"lessons": ["22"],
+		"lessons": ["[22]"],
 		"type": "word",
 		"engDefinition": "place to pray",
 		"category": "",
@@ -8622,12 +8622,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ʧɝʧ]",
-		"images": [],
+		"images": ["/english/church.webp"],
 		"engAudio": "/english/church.mp3"
 	},
 	{
 		"id": 455,
-		"lessons": ["22"],
+		"lessons": ["[22]"],
 		"type": "word",
 		"engDefinition": "place to borrow books",
 		"category": "",
@@ -8641,12 +8641,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈlaɪˌbrɛri]",
-		"images": [],
+		"images": ["/english/library.webp"],
 		"engAudio": "/english/library.mp3"
 	},
 	{
 		"id": 456,
-		"lessons": ["22"],
+		"lessons": ["[22]"],
 		"type": "word",
 		"engDefinition": "green place for play",
 		"category": "",
@@ -8660,12 +8660,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[pɑrk]",
-		"images": [],
+		"images": ["/english/park.webp"],
 		"engAudio": "/english/park.mp3"
 	},
 	{
 		"id": 457,
-		"lessons": ["22"],
+		"lessons": ["[22]"],
 		"type": "word",
 		"engDefinition": "place to send mail",
 		"category": "",
@@ -8679,12 +8679,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈpoʊst ˌɑfəs]",
-		"images": [],
+		"images": ["/english/post-office.webp"],
 		"engAudio": "/english/post-office.mp3"
 	},
 	{
 		"id": 458,
-		"lessons": ["23"],
+		"lessons": ["[23]"],
 		"type": "word",
 		"engDefinition": "part of body",
 		"category": "",
@@ -8698,12 +8698,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ɑrm]",
-		"images": [],
+		"images": ["/english/arm.webp"],
 		"engAudio": "/english/arm.mp3"
 	},
 	{
 		"id": 459,
-		"lessons": ["23"],
+		"lessons": ["[23]"],
 		"type": "word",
 		"engDefinition": "more than one arm",
 		"category": "",
@@ -8717,12 +8717,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ɑrmz]",
-		"images": [],
+		"images": ["/english/arms.webp"],
 		"engAudio": "/english/arms.mp3"
 	},
 	{
 		"id": 460,
-		"lessons": ["23"],
+		"lessons": ["[23]"],
 		"type": "word",
 		"engDefinition": "part behind body",
 		"category": "",
@@ -8736,12 +8736,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[bæk]",
-		"images": [],
+		"images": ["/english/back.webp"],
 		"engAudio": "/english/back.mp3"
 	},
 	{
 		"id": 461,
-		"lessons": ["23"],
+		"lessons": ["[23]"],
 		"type": "word",
 		"engDefinition": "part to hear",
 		"category": "",
@@ -8755,12 +8755,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ɪr]",
-		"images": [],
+		"images": ["/english/ear.webp"],
 		"engAudio": "/english/ear.mp3"
 	},
 	{
 		"id": 462,
-		"lessons": ["23"],
+		"lessons": ["[23]"],
 		"type": "word",
 		"engDefinition": "more than one ear",
 		"category": "",
@@ -8774,12 +8774,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ɪrz]",
-		"images": [],
+		"images": ["/english/ears.webp"],
 		"engAudio": "/english/ears.mp3"
 	},
 	{
 		"id": 463,
-		"lessons": ["23"],
+		"lessons": ["[23]"],
 		"type": "word",
 		"engDefinition": "part to see",
 		"category": "",
@@ -8793,12 +8793,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[aɪ]",
-		"images": [],
+		"images": ["/english/eye.webp"],
 		"engAudio": "/english/eye.mp3"
 	},
 	{
 		"id": 464,
-		"lessons": ["23"],
+		"lessons": ["[23]"],
 		"type": "word",
 		"engDefinition": "part of hand",
 		"category": "",
@@ -8812,12 +8812,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈfɪŋɡər]",
-		"images": [],
+		"images": ["/english/finger.webp"],
 		"engAudio": "/english/finger.mp3"
 	},
 	{
 		"id": 465,
-		"lessons": ["23"],
+		"lessons": ["[23]"],
 		"type": "word",
 		"engDefinition": "more than one finger",
 		"category": "",
@@ -8831,12 +8831,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈfɪŋɡərz]",
-		"images": [],
+		"images": ["/english/fingers.webp"],
 		"engAudio": "/english/fingers.mp3"
 	},
 	{
 		"id": 466,
-		"lessons": ["23"],
+		"lessons": ["[23]"],
 		"type": "word",
 		"engDefinition": "part you stand on",
 		"category": "",
@@ -8850,12 +8850,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[fʊt]",
-		"images": [],
+		"images": ["/english/foot.webp"],
 		"engAudio": "/english/foot.mp3"
 	},
 	{
 		"id": 467,
-		"lessons": ["23"],
+		"lessons": ["[23]"],
 		"type": "word",
 		"engDefinition": "more than one foot",
 		"category": "",
@@ -8869,12 +8869,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[fit]",
-		"images": [],
+		"images": ["/english/feet.webp"],
 		"engAudio": "/english/feet.mp3"
 	},
 	{
 		"id": 468,
-		"lessons": ["23"],
+		"lessons": ["[23]"],
 		"type": "word",
 		"engDefinition": "part you use to hold",
 		"category": "",
@@ -8888,12 +8888,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[hænd]",
-		"images": [],
+		"images": ["/english/hand.webp"],
 		"engAudio": "/english/hand.mp3"
 	},
 	{
 		"id": 469,
-		"lessons": ["23"],
+		"lessons": ["[23]"],
 		"type": "word",
 		"engDefinition": "more than one hand",
 		"category": "",
@@ -8907,12 +8907,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[hændz]",
-		"images": [],
+		"images": ["/english/hands.webp"],
 		"engAudio": "/english/hands.mp3"
 	},
 	{
 		"id": 470,
-		"lessons": ["23"],
+		"lessons": ["[23]"],
 		"type": "word",
 		"engDefinition": "top part of body",
 		"category": "",
@@ -8926,12 +8926,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[hɛd]",
-		"images": [],
+		"images": ["/english/head.webp"],
 		"engAudio": "/english/head.mp3"
 	},
 	{
 		"id": 471,
-		"lessons": ["23"],
+		"lessons": ["[23]"],
 		"type": "word",
 		"engDefinition": "joint in leg",
 		"category": "",
@@ -8945,12 +8945,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ni]",
-		"images": [],
+		"images": ["/english/knee.webp"],
 		"engAudio": "/english/knee.mp3"
 	},
 	{
 		"id": 472,
-		"lessons": ["23"],
+		"lessons": ["[23]"],
 		"type": "word",
 		"engDefinition": "more than one knee",
 		"category": "",
@@ -8964,12 +8964,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[niz]",
-		"images": [],
+		"images": ["/english/knees.webp"],
 		"engAudio": "/english/knees.mp3"
 	},
 	{
 		"id": 473,
-		"lessons": ["23"],
+		"lessons": ["[23]"],
 		"type": "word",
 		"engDefinition": "body part for walking",
 		"category": "",
@@ -8983,12 +8983,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[lɛɡ]",
-		"images": [],
+		"images": ["/english/leg.webp"],
 		"engAudio": "/english/leg.mp3"
 	},
 	{
 		"id": 474,
-		"lessons": ["23"],
+		"lessons": ["[23]"],
 		"type": "word",
 		"engDefinition": "more than one leg",
 		"category": "",
@@ -9002,12 +9002,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[lɛɡz]",
-		"images": [],
+		"images": ["/english/legs.webp"],
 		"engAudio": "/english/legs.mp3"
 	},
 	{
 		"id": 475,
-		"lessons": ["23"],
+		"lessons": ["[23]"],
 		"type": "word",
 		"engDefinition": "part for eating/talking",
 		"category": "",
@@ -9021,12 +9021,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[maʊθ]",
-		"images": [],
+		"images": ["/english/mouth.webp"],
 		"engAudio": "/english/mouth.mp3"
 	},
 	{
 		"id": 476,
-		"lessons": ["23"],
+		"lessons": ["[23]"],
 		"type": "word",
 		"engDefinition": "between head and body",
 		"category": "",
@@ -9040,12 +9040,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[nɛk]",
-		"images": [],
+		"images": ["/english/neck.webp"],
 		"engAudio": "/english/neck.mp3"
 	},
 	{
 		"id": 477,
-		"lessons": ["23"],
+		"lessons": ["[23]"],
 		"type": "word",
 		"engDefinition": "inside body, digests food",
 		"category": "",
@@ -9059,12 +9059,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈstʌmək]",
-		"images": [],
+		"images": ["/english/stomach.webp"],
 		"engAudio": "/english/stomach.mp3"
 	},
 	{
 		"id": 478,
-		"lessons": ["23"],
+		"lessons": ["[23]"],
 		"type": "word",
 		"engDefinition": "one white part in mouth",
 		"category": "",
@@ -9078,12 +9078,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[tuθ]",
-		"images": [],
+		"images": ["/english/tooth.webp"],
 		"engAudio": "/english/tooth.mp3"
 	},
 	{
 		"id": 479,
-		"lessons": ["23"],
+		"lessons": ["[23]"],
 		"type": "word",
 		"engDefinition": "more than one tooth",
 		"category": "",
@@ -9097,12 +9097,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[tiθ]",
-		"images": [],
+		"images": ["/english/teeth.webp"],
 		"engAudio": "/english/teeth.mp3"
 	},
 	{
 		"id": 480,
-		"lessons": ["23"],
+		"lessons": ["[23]"],
 		"type": "word",
 		"engDefinition": "to separate into pieces",
 		"category": "",
@@ -9116,12 +9116,12 @@
 		"number": "",
 		"partOfSpeech": ["verb"],
 		"ipa": "[breɪk]",
-		"images": [],
+		"images": ["/english/break.webp"],
 		"engAudio": "/english/break.mp3"
 	},
 	{
 		"id": 481,
-		"lessons": ["23"],
+		"lessons": ["[23]"],
 		"type": "word",
 		"engDefinition": "past of break",
 		"category": "",
@@ -9135,12 +9135,12 @@
 		"number": "",
 		"partOfSpeech": ["verb"],
 		"ipa": "[broʊk]",
-		"images": [],
+		"images": ["/english/broke.webp"],
 		"engAudio": "/english/broke.mp3"
 	},
 	{
 		"id": 482,
-		"lessons": ["23"],
+		"lessons": ["[23]"],
 		"type": "word",
 		"engDefinition": "to hurt with fire/heat",
 		"category": "",
@@ -9154,12 +9154,12 @@
 		"number": "",
 		"partOfSpeech": ["verb"],
 		"ipa": "[bɜrn]",
-		"images": [],
+		"images": ["/english/burn.webp"],
 		"engAudio": "/english/burn.mp3"
 	},
 	{
 		"id": 483,
-		"lessons": ["23"],
+		"lessons": ["[23]"],
 		"type": "word",
 		"engDefinition": "past of burn",
 		"category": "",
@@ -9173,12 +9173,12 @@
 		"number": "",
 		"partOfSpeech": ["verb"],
 		"ipa": "[bɜrnd]",
-		"images": [],
+		"images": ["/english/burned.webp"],
 		"engAudio": "/english/burned.mp3"
 	},
 	{
 		"id": 484,
-		"lessons": ["23"],
+		"lessons": ["[23]"],
 		"type": "word",
 		"engDefinition": "to cause pain",
 		"category": "",
@@ -9192,12 +9192,12 @@
 		"number": "",
 		"partOfSpeech": ["verb"],
 		"ipa": "[hɜrt]",
-		"images": [],
+		"images": ["/english/hurt.webp"],
 		"engAudio": "/english/hurt.mp3"
 	},
 	{
 		"id": 485,
-		"lessons": ["23"],
+		"lessons": ["[23]"],
 		"type": "word",
 		"engDefinition": "to strike",
 		"category": "",
@@ -9211,12 +9211,12 @@
 		"number": "",
 		"partOfSpeech": ["verb"],
 		"ipa": "[hɪt]",
-		"images": [],
+		"images": ["/english/hit.webp"],
 		"engAudio": "/english/hit.mp3"
 	},
 	{
 		"id": 486,
-		"lessons": ["24"],
+		"lessons": ["[24]"],
 		"type": "word",
 		"engDefinition": "pain in the back",
 		"category": "",
@@ -9230,12 +9230,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈbækˌeɪk]",
-		"images": [],
+		"images": ["/english/backache.webp"],
 		"engAudio": "/english/backache.mp3"
 	},
 	{
 		"id": 487,
-		"lessons": ["24"],
+		"lessons": ["[24]"],
 		"type": "word",
 		"engDefinition": "frequent loose stool",
 		"category": "",
@@ -9249,12 +9249,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˌdaɪəˈriə]",
-		"images": [],
+		"images": ["/english/diarrhea.webp"],
 		"engAudio": "/english/diarrhea.mp3"
 	},
 	{
 		"id": 488,
-		"lessons": ["24"],
+		"lessons": ["[24]"],
 		"type": "word",
 		"engDefinition": "pain in ear",
 		"category": "",
@@ -9268,12 +9268,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈɪrˌeɪk]",
-		"images": [],
+		"images": ["/english/earache.webp"],
 		"engAudio": "/english/earache.mp3"
 	},
 	{
 		"id": 489,
-		"lessons": ["24"],
+		"lessons": ["[24]"],
 		"type": "word",
 		"engDefinition": "pain in head",
 		"category": "",
@@ -9287,12 +9287,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈhɛdˌeɪk]",
-		"images": [],
+		"images": ["/english/headache.webp"],
 		"engAudio": "/english/headache.mp3"
 	},
 	{
 		"id": 490,
-		"lessons": ["24"],
+		"lessons": ["[24]"],
 		"type": "word",
 		"engDefinition": "pain in throat",
 		"category": "",
@@ -9306,12 +9306,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[sɔr θroʊt]",
-		"images": [],
+		"images": ["/english/sore-throat.webp"],
 		"engAudio": "/english/sore-throat.mp3"
 	},
 	{
 		"id": 491,
-		"lessons": ["24"],
+		"lessons": ["[24]"],
 		"type": "word",
 		"engDefinition": "pain in stomach",
 		"category": "",
@@ -9325,12 +9325,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈstʌməkˌeɪk]",
-		"images": [],
+		"images": ["/english/stomachache.webp"],
 		"engAudio": "/english/stomachache.mp3"
 	},
 	{
 		"id": 492,
-		"lessons": ["24"],
+		"lessons": ["[24]"],
 		"type": "word",
 		"engDefinition": "pain in tooth",
 		"category": "",
@@ -9344,12 +9344,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈtuθˌeɪk]",
-		"images": [],
+		"images": ["/english/toothache.webp"],
 		"engAudio": "/english/toothache.mp3"
 	},
 	{
 		"id": 493,
-		"lessons": ["24"],
+		"lessons": ["[24]"],
 		"type": "word",
 		"engDefinition": "blocked nose",
 		"category": "",
@@ -9363,12 +9363,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[kənˈʤɛstəd]",
-		"images": [],
+		"images": ["/english/congested.webp"],
 		"engAudio": "/english/congested.mp3"
 	},
 	{
 		"id": 494,
-		"lessons": ["24"],
+		"lessons": ["[24]"],
 		"type": "word",
 		"engDefinition": "feeling like spinning",
 		"category": "",
@@ -9382,12 +9382,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[ˈdɪzi]",
-		"images": [],
+		"images": ["/english/dizzy.webp"],
 		"engAudio": "/english/dizzy.mp3"
 	},
 	{
 		"id": 495,
-		"lessons": ["24"],
+		"lessons": ["[24]"],
 		"type": "word",
 		"engDefinition": "feeling sick to stomach",
 		"category": "",
@@ -9401,12 +9401,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[ˈnɔziˌeɪtəd]",
-		"images": [],
+		"images": ["/english/nauseated.webp"],
 		"engAudio": "/english/nauseated.mp3"
 	},
 	{
 		"id": 496,
-		"lessons": ["24"],
+		"lessons": ["[24]"],
 		"type": "word",
 		"engDefinition": "not healthy",
 		"category": "",
@@ -9420,12 +9420,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[sɪk]",
-		"images": [],
+		"images": ["/english/sick.webp"],
 		"engAudio": "/english/sick.mp3"
 	},
 	{
 		"id": 497,
-		"lessons": ["24"],
+		"lessons": ["[24]"],
 		"type": "word",
 		"engDefinition": "needing rest",
 		"category": "",
@@ -9439,12 +9439,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[ˈtaɪərd]",
-		"images": [],
+		"images": ["/english/tired.webp"],
 		"engAudio": "/english/tired.mp3"
 	},
 	{
 		"id": 498,
-		"lessons": ["24"],
+		"lessons": ["[24]"],
 		"type": "word",
 		"engDefinition": "not strong",
 		"category": "",
@@ -9458,12 +9458,12 @@
 		"number": "",
 		"partOfSpeech": ["adj."],
 		"ipa": "[wik]",
-		"images": [],
+		"images": ["/english/weak.webp"],
 		"engAudio": "/english/weak.mp3"
 	},
 	{
 		"id": 499,
-		"lessons": ["24"],
+		"lessons": ["[24]"],
 		"type": "word",
 		"engDefinition": "to take air in/out",
 		"category": "",
@@ -9477,12 +9477,12 @@
 		"number": "",
 		"partOfSpeech": ["verb"],
 		"ipa": "[brið]",
-		"images": [],
+		"images": ["/english/breathe.webp"],
 		"engAudio": "/english/breathe.mp3"
 	},
 	{
 		"id": 500,
-		"lessons": ["24"],
+		"lessons": ["[24]"],
 		"type": "word",
 		"engDefinition": "to eat nuts",
 		"category": "",
@@ -9496,12 +9496,12 @@
 		"number": "",
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[it nʌts]",
-		"images": [],
+		"images": ["/english/eat-nuts.webp"],
 		"engAudio": "/english/eat-nuts.mp3"
 	},
 	{
 		"id": 501,
-		"lessons": ["24"],
+		"lessons": ["[24]"],
 		"type": "word",
 		"engDefinition": "to rise on feet",
 		"category": "",
@@ -9515,12 +9515,12 @@
 		"number": "",
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[stænd ʌp]",
-		"images": [],
+		"images": ["/english/stand-up.webp"],
 		"engAudio": "/english/stand-up.mp3"
 	},
 	{
 		"id": 502,
-		"lessons": ["24"],
+		"lessons": ["[24]"],
 		"type": "word",
 		"engDefinition": "push air from throat",
 		"category": "",
@@ -9534,12 +9534,12 @@
 		"number": "",
 		"partOfSpeech": ["verb/noun"],
 		"ipa": "[kɑf]",
-		"images": [],
+		"images": ["/english/cough.webp"],
 		"engAudio": "/english/cough.mp3"
 	},
 	{
 		"id": 503,
-		"lessons": ["24"],
+		"lessons": ["[24]"],
 		"type": "word",
 		"engDefinition": "hot body temperature",
 		"category": "",
@@ -9553,12 +9553,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈfivər]",
-		"images": [],
+		"images": ["/english/fever.webp"],
 		"engAudio": "/english/fever.mp3"
 	},
 	{
 		"id": 504,
-		"lessons": ["24"],
+		"lessons": ["[24]"],
 		"type": "word",
 		"engDefinition": "nose with liquid",
 		"category": "",
@@ -9572,12 +9572,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈrʌni noʊz]",
-		"images": [],
+		"images": ["/english/runny-nose.webp"],
 		"engAudio": "/english/runny-nose.mp3"
 	},
 	{
 		"id": 505,
-		"lessons": ["24"],
+		"lessons": ["[24]"],
 		"type": "word",
 		"engDefinition": "air out of nose suddenly",
 		"category": "",
@@ -9591,12 +9591,12 @@
 		"number": "",
 		"partOfSpeech": ["verb/noun"],
 		"ipa": "[sniz]",
-		"images": [],
+		"images": ["/english/sneeze.webp"],
 		"engAudio": "/english/sneeze.mp3"
 	},
 	{
 		"id": 506,
-		"lessons": ["24"],
+		"lessons": ["[24]"],
 		"type": "word",
 		"engDefinition": "to vomit",
 		"category": "",
@@ -9610,12 +9610,12 @@
 		"number": "",
 		"partOfSpeech": ["verb phrase"],
 		"ipa": "[θroʊ ʌp]",
-		"images": [],
+		"images": ["/english/throw-up.webp"],
 		"engAudio": "/english/throw-up.mp3"
 	},
 	{
 		"id": 507,
-		"lessons": ["25"],
+		"lessons": ["[25]"],
 		"type": "word",
 		"engDefinition": "machine to mix food",
 		"category": "",
@@ -9629,12 +9629,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈblɛndər]",
-		"images": [],
+		"images": ["/english/blender.webp"],
 		"engAudio": "/english/blender.mp3"
 	},
 	{
 		"id": 508,
-		"lessons": ["25"],
+		"lessons": ["[25]"],
 		"type": "word",
 		"engDefinition": "soft fruit with pit",
 		"category": "",
@@ -9648,12 +9648,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[piʧ]",
-		"images": [],
+		"images": ["/english/peach.webp"],
 		"engAudio": "/english/peach.mp3"
 	},
 	{
 		"id": 509,
-		"lessons": ["25"],
+		"lessons": ["[25]"],
 		"type": "word",
 		"engDefinition": "blended fruit drink",
 		"category": "",
@@ -9667,12 +9667,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈsmuːði]",
-		"images": [],
+		"images": ["/english/smoothie.webp"],
 		"engAudio": "/english/smoothie.mp3"
 	},
 	{
 		"id": 510,
-		"lessons": ["25"],
+		"lessons": ["[25]"],
 		"type": "word",
 		"engDefinition": "small red fruit",
 		"category": "",
@@ -9686,12 +9686,12 @@
 		"number": "",
 		"partOfSpeech": ["noun"],
 		"ipa": "[ˈstrɔˌbɛri]",
-		"images": [],
+		"images": ["/english/strawberry.webp"],
 		"engAudio": "/english/strawberry.mp3"
 	},
 	{
 		"id": 511,
-		"lessons": ["1"],
+		"lessons": ["[1]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -9710,7 +9710,7 @@
 	},
 	{
 		"id": 512,
-		"lessons": ["1"],
+		"lessons": ["[1]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -9729,7 +9729,7 @@
 	},
 	{
 		"id": 513,
-		"lessons": ["2"],
+		"lessons": ["[2]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -9748,7 +9748,7 @@
 	},
 	{
 		"id": 514,
-		"lessons": ["2"],
+		"lessons": ["[2]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -9767,7 +9767,7 @@
 	},
 	{
 		"id": 515,
-		"lessons": ["2"],
+		"lessons": ["[2]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -9786,7 +9786,7 @@
 	},
 	{
 		"id": 516,
-		"lessons": ["2"],
+		"lessons": ["[2]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -9805,7 +9805,7 @@
 	},
 	{
 		"id": 517,
-		"lessons": ["2"],
+		"lessons": ["[2]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -9824,7 +9824,7 @@
 	},
 	{
 		"id": 518,
-		"lessons": ["2"],
+		"lessons": ["[2]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -9843,7 +9843,7 @@
 	},
 	{
 		"id": 519,
-		"lessons": ["3"],
+		"lessons": ["[3]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -9862,7 +9862,7 @@
 	},
 	{
 		"id": 520,
-		"lessons": ["3"],
+		"lessons": ["[3]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -9881,7 +9881,7 @@
 	},
 	{
 		"id": 521,
-		"lessons": ["3"],
+		"lessons": ["[3]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -9900,7 +9900,7 @@
 	},
 	{
 		"id": 522,
-		"lessons": ["3"],
+		"lessons": ["[3]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -9919,7 +9919,7 @@
 	},
 	{
 		"id": 523,
-		"lessons": ["3"],
+		"lessons": ["[3]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -9938,7 +9938,7 @@
 	},
 	{
 		"id": 524,
-		"lessons": ["4"],
+		"lessons": ["[4]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -9957,7 +9957,7 @@
 	},
 	{
 		"id": 525,
-		"lessons": ["4"],
+		"lessons": ["[4]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -9976,7 +9976,7 @@
 	},
 	{
 		"id": 526,
-		"lessons": ["4"],
+		"lessons": ["[4]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -9995,7 +9995,7 @@
 	},
 	{
 		"id": 527,
-		"lessons": ["4"],
+		"lessons": ["[4]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -10014,7 +10014,7 @@
 	},
 	{
 		"id": 528,
-		"lessons": ["4"],
+		"lessons": ["[4]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -10033,7 +10033,7 @@
 	},
 	{
 		"id": 529,
-		"lessons": ["4"],
+		"lessons": ["[4]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -10052,7 +10052,7 @@
 	},
 	{
 		"id": 530,
-		"lessons": ["4"],
+		"lessons": ["[4]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -10071,7 +10071,7 @@
 	},
 	{
 		"id": 531,
-		"lessons": ["4"],
+		"lessons": ["[4]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -10090,7 +10090,7 @@
 	},
 	{
 		"id": 532,
-		"lessons": ["4"],
+		"lessons": ["[4]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -10109,7 +10109,7 @@
 	},
 	{
 		"id": 533,
-		"lessons": ["4"],
+		"lessons": ["[4]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -10128,7 +10128,7 @@
 	},
 	{
 		"id": 534,
-		"lessons": ["5"],
+		"lessons": ["[5]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -10147,7 +10147,7 @@
 	},
 	{
 		"id": 535,
-		"lessons": ["5"],
+		"lessons": ["[5]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -10166,7 +10166,7 @@
 	},
 	{
 		"id": 536,
-		"lessons": ["5"],
+		"lessons": ["[5]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -10185,7 +10185,7 @@
 	},
 	{
 		"id": 537,
-		"lessons": ["6"],
+		"lessons": ["[6]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -10204,7 +10204,7 @@
 	},
 	{
 		"id": 538,
-		"lessons": ["6"],
+		"lessons": ["[6]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -10223,7 +10223,7 @@
 	},
 	{
 		"id": 539,
-		"lessons": ["6"],
+		"lessons": ["[6]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -10242,7 +10242,7 @@
 	},
 	{
 		"id": 540,
-		"lessons": ["6"],
+		"lessons": ["[6]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -10261,7 +10261,7 @@
 	},
 	{
 		"id": 541,
-		"lessons": ["6"],
+		"lessons": ["[6]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -10280,7 +10280,7 @@
 	},
 	{
 		"id": 542,
-		"lessons": ["6"],
+		"lessons": ["[6]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -10299,7 +10299,7 @@
 	},
 	{
 		"id": 543,
-		"lessons": ["6"],
+		"lessons": ["[6]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -10318,7 +10318,7 @@
 	},
 	{
 		"id": 544,
-		"lessons": ["7"],
+		"lessons": ["[7]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -10337,7 +10337,7 @@
 	},
 	{
 		"id": 545,
-		"lessons": ["7"],
+		"lessons": ["[7]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -10356,7 +10356,7 @@
 	},
 	{
 		"id": 546,
-		"lessons": ["7"],
+		"lessons": ["[7]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -10375,7 +10375,7 @@
 	},
 	{
 		"id": 547,
-		"lessons": ["7"],
+		"lessons": ["[7]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -10394,7 +10394,7 @@
 	},
 	{
 		"id": 548,
-		"lessons": ["7"],
+		"lessons": ["[7]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -10413,7 +10413,7 @@
 	},
 	{
 		"id": 549,
-		"lessons": ["8"],
+		"lessons": ["[8]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -10432,7 +10432,7 @@
 	},
 	{
 		"id": 550,
-		"lessons": ["8"],
+		"lessons": ["[8]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -10451,7 +10451,7 @@
 	},
 	{
 		"id": 551,
-		"lessons": ["8"],
+		"lessons": ["[8]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -10470,7 +10470,7 @@
 	},
 	{
 		"id": 552,
-		"lessons": ["8"],
+		"lessons": ["[8]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -10489,7 +10489,7 @@
 	},
 	{
 		"id": 553,
-		"lessons": ["9"],
+		"lessons": ["[9]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -10508,7 +10508,7 @@
 	},
 	{
 		"id": 554,
-		"lessons": ["9"],
+		"lessons": ["[9]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -10527,7 +10527,7 @@
 	},
 	{
 		"id": 555,
-		"lessons": ["9"],
+		"lessons": ["[9]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -10546,7 +10546,7 @@
 	},
 	{
 		"id": 556,
-		"lessons": ["9"],
+		"lessons": ["[9]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -10565,7 +10565,7 @@
 	},
 	{
 		"id": 557,
-		"lessons": ["10"],
+		"lessons": ["[10]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -10584,7 +10584,7 @@
 	},
 	{
 		"id": 558,
-		"lessons": ["10"],
+		"lessons": ["[10]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -10603,7 +10603,7 @@
 	},
 	{
 		"id": 559,
-		"lessons": ["10"],
+		"lessons": ["[10]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -10622,7 +10622,7 @@
 	},
 	{
 		"id": 560,
-		"lessons": ["10"],
+		"lessons": ["[10]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -10641,7 +10641,7 @@
 	},
 	{
 		"id": 561,
-		"lessons": ["10"],
+		"lessons": ["[10]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -10660,7 +10660,7 @@
 	},
 	{
 		"id": 562,
-		"lessons": ["10"],
+		"lessons": ["[10]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -10679,7 +10679,7 @@
 	},
 	{
 		"id": 563,
-		"lessons": ["10"],
+		"lessons": ["[10]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -10698,7 +10698,7 @@
 	},
 	{
 		"id": 564,
-		"lessons": ["10"],
+		"lessons": ["[10]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -10717,7 +10717,7 @@
 	},
 	{
 		"id": 565,
-		"lessons": ["10"],
+		"lessons": ["[10]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -10736,7 +10736,7 @@
 	},
 	{
 		"id": 566,
-		"lessons": ["10"],
+		"lessons": ["[10]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -10755,7 +10755,7 @@
 	},
 	{
 		"id": 567,
-		"lessons": ["10"],
+		"lessons": ["[10]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -10774,7 +10774,7 @@
 	},
 	{
 		"id": 568,
-		"lessons": ["10"],
+		"lessons": ["[10]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -10793,7 +10793,7 @@
 	},
 	{
 		"id": 569,
-		"lessons": ["10"],
+		"lessons": ["[10]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -10812,7 +10812,7 @@
 	},
 	{
 		"id": 570,
-		"lessons": ["10"],
+		"lessons": ["[10]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -10831,7 +10831,7 @@
 	},
 	{
 		"id": 571,
-		"lessons": ["10"],
+		"lessons": ["[10]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -10850,7 +10850,7 @@
 	},
 	{
 		"id": 572,
-		"lessons": ["10"],
+		"lessons": ["[10]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -10869,7 +10869,7 @@
 	},
 	{
 		"id": 573,
-		"lessons": ["10"],
+		"lessons": ["[10]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -10888,7 +10888,7 @@
 	},
 	{
 		"id": 574,
-		"lessons": ["10"],
+		"lessons": ["[10]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -10907,7 +10907,7 @@
 	},
 	{
 		"id": 575,
-		"lessons": ["10"],
+		"lessons": ["[10]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -10926,7 +10926,7 @@
 	},
 	{
 		"id": 576,
-		"lessons": ["10"],
+		"lessons": ["[10]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -10945,7 +10945,7 @@
 	},
 	{
 		"id": 577,
-		"lessons": ["10"],
+		"lessons": ["[10]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -10964,7 +10964,7 @@
 	},
 	{
 		"id": 578,
-		"lessons": ["10"],
+		"lessons": ["[10]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -10983,7 +10983,7 @@
 	},
 	{
 		"id": 579,
-		"lessons": ["10"],
+		"lessons": ["[10]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -11002,7 +11002,7 @@
 	},
 	{
 		"id": 580,
-		"lessons": ["10"],
+		"lessons": ["[10]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -11021,7 +11021,7 @@
 	},
 	{
 		"id": 581,
-		"lessons": ["10"],
+		"lessons": ["[10]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -11040,7 +11040,7 @@
 	},
 	{
 		"id": 582,
-		"lessons": ["10"],
+		"lessons": ["[10]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -11059,7 +11059,7 @@
 	},
 	{
 		"id": 583,
-		"lessons": ["10"],
+		"lessons": ["[10]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -11078,7 +11078,7 @@
 	},
 	{
 		"id": 584,
-		"lessons": ["10"],
+		"lessons": ["[10]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -11097,7 +11097,7 @@
 	},
 	{
 		"id": 585,
-		"lessons": ["10"],
+		"lessons": ["[10]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -11116,7 +11116,7 @@
 	},
 	{
 		"id": 586,
-		"lessons": ["10"],
+		"lessons": ["[10]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -11135,7 +11135,7 @@
 	},
 	{
 		"id": 587,
-		"lessons": ["11"],
+		"lessons": ["[11]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -11154,7 +11154,7 @@
 	},
 	{
 		"id": 588,
-		"lessons": ["11"],
+		"lessons": ["[11]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -11173,7 +11173,7 @@
 	},
 	{
 		"id": 589,
-		"lessons": ["11"],
+		"lessons": ["[11]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -11192,7 +11192,7 @@
 	},
 	{
 		"id": 590,
-		"lessons": ["11"],
+		"lessons": ["[11]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -11211,7 +11211,7 @@
 	},
 	{
 		"id": 591,
-		"lessons": ["11"],
+		"lessons": ["[11]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -11230,7 +11230,7 @@
 	},
 	{
 		"id": 592,
-		"lessons": ["11"],
+		"lessons": ["[11]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -11249,7 +11249,7 @@
 	},
 	{
 		"id": 593,
-		"lessons": ["11"],
+		"lessons": ["[11]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -11268,7 +11268,7 @@
 	},
 	{
 		"id": 594,
-		"lessons": ["11"],
+		"lessons": ["[11]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -11287,7 +11287,7 @@
 	},
 	{
 		"id": 595,
-		"lessons": ["11"],
+		"lessons": ["[11]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -11306,7 +11306,7 @@
 	},
 	{
 		"id": 596,
-		"lessons": ["11"],
+		"lessons": ["[11]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -11325,7 +11325,7 @@
 	},
 	{
 		"id": 597,
-		"lessons": ["11"],
+		"lessons": ["[11]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -11344,7 +11344,7 @@
 	},
 	{
 		"id": 598,
-		"lessons": ["11"],
+		"lessons": ["[11]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -11363,7 +11363,7 @@
 	},
 	{
 		"id": 599,
-		"lessons": ["11"],
+		"lessons": ["[11]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -11382,7 +11382,7 @@
 	},
 	{
 		"id": 600,
-		"lessons": ["11"],
+		"lessons": ["[11]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -11401,7 +11401,7 @@
 	},
 	{
 		"id": 601,
-		"lessons": ["11"],
+		"lessons": ["[11]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -11420,7 +11420,7 @@
 	},
 	{
 		"id": 602,
-		"lessons": ["11"],
+		"lessons": ["[11]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -11439,7 +11439,7 @@
 	},
 	{
 		"id": 603,
-		"lessons": ["11"],
+		"lessons": ["[11]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -11458,7 +11458,7 @@
 	},
 	{
 		"id": 604,
-		"lessons": ["11"],
+		"lessons": ["[11]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -11477,7 +11477,7 @@
 	},
 	{
 		"id": 605,
-		"lessons": ["11"],
+		"lessons": ["[11]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -11496,7 +11496,7 @@
 	},
 	{
 		"id": 606,
-		"lessons": ["11"],
+		"lessons": ["[11]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -11515,7 +11515,7 @@
 	},
 	{
 		"id": 607,
-		"lessons": ["11"],
+		"lessons": ["[11]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -11534,7 +11534,7 @@
 	},
 	{
 		"id": 608,
-		"lessons": ["11"],
+		"lessons": ["[11]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -11553,7 +11553,7 @@
 	},
 	{
 		"id": 609,
-		"lessons": ["11"],
+		"lessons": ["[11]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -11572,7 +11572,7 @@
 	},
 	{
 		"id": 610,
-		"lessons": ["12"],
+		"lessons": ["[12]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -11591,7 +11591,7 @@
 	},
 	{
 		"id": 611,
-		"lessons": ["12"],
+		"lessons": ["[12]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -11610,7 +11610,7 @@
 	},
 	{
 		"id": 612,
-		"lessons": ["12"],
+		"lessons": ["[12]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -11629,7 +11629,7 @@
 	},
 	{
 		"id": 613,
-		"lessons": ["12"],
+		"lessons": ["[12]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -11648,7 +11648,7 @@
 	},
 	{
 		"id": 614,
-		"lessons": ["12"],
+		"lessons": ["[12]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -11667,7 +11667,7 @@
 	},
 	{
 		"id": 615,
-		"lessons": ["12"],
+		"lessons": ["[12]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -11686,7 +11686,7 @@
 	},
 	{
 		"id": 616,
-		"lessons": ["13"],
+		"lessons": ["[13]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -11705,7 +11705,7 @@
 	},
 	{
 		"id": 617,
-		"lessons": ["13"],
+		"lessons": ["[13]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -11724,7 +11724,7 @@
 	},
 	{
 		"id": 618,
-		"lessons": ["13"],
+		"lessons": ["[13]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -11743,7 +11743,7 @@
 	},
 	{
 		"id": 619,
-		"lessons": ["13"],
+		"lessons": ["[13]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -11762,7 +11762,7 @@
 	},
 	{
 		"id": 620,
-		"lessons": ["13"],
+		"lessons": ["[13]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -11781,7 +11781,7 @@
 	},
 	{
 		"id": 621,
-		"lessons": ["13"],
+		"lessons": ["[13]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -11800,7 +11800,7 @@
 	},
 	{
 		"id": 622,
-		"lessons": ["14"],
+		"lessons": ["[14]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -11819,7 +11819,7 @@
 	},
 	{
 		"id": 623,
-		"lessons": ["14"],
+		"lessons": ["[14]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -11838,7 +11838,7 @@
 	},
 	{
 		"id": 624,
-		"lessons": ["14"],
+		"lessons": ["[14]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -11857,7 +11857,7 @@
 	},
 	{
 		"id": 625,
-		"lessons": ["14"],
+		"lessons": ["[14]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -11876,7 +11876,7 @@
 	},
 	{
 		"id": 626,
-		"lessons": ["15"],
+		"lessons": ["[15]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -11895,7 +11895,7 @@
 	},
 	{
 		"id": 627,
-		"lessons": ["15"],
+		"lessons": ["[15]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -11914,7 +11914,7 @@
 	},
 	{
 		"id": 628,
-		"lessons": ["15"],
+		"lessons": ["[15]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -11933,7 +11933,7 @@
 	},
 	{
 		"id": 629,
-		"lessons": ["15"],
+		"lessons": ["[15]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -11952,7 +11952,7 @@
 	},
 	{
 		"id": 630,
-		"lessons": ["16"],
+		"lessons": ["[16]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -11971,7 +11971,7 @@
 	},
 	{
 		"id": 631,
-		"lessons": ["16"],
+		"lessons": ["[16]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -11990,7 +11990,7 @@
 	},
 	{
 		"id": 632,
-		"lessons": ["16"],
+		"lessons": ["[16]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -12009,7 +12009,7 @@
 	},
 	{
 		"id": 633,
-		"lessons": ["16"],
+		"lessons": ["[16]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -12028,7 +12028,7 @@
 	},
 	{
 		"id": 634,
-		"lessons": ["17"],
+		"lessons": ["[17]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -12047,7 +12047,7 @@
 	},
 	{
 		"id": 635,
-		"lessons": ["17"],
+		"lessons": ["[17]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -12066,7 +12066,7 @@
 	},
 	{
 		"id": 636,
-		"lessons": ["17"],
+		"lessons": ["[17]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -12085,7 +12085,7 @@
 	},
 	{
 		"id": 637,
-		"lessons": ["17"],
+		"lessons": ["[17]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -12104,7 +12104,7 @@
 	},
 	{
 		"id": 638,
-		"lessons": ["17"],
+		"lessons": ["[17]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -12123,7 +12123,7 @@
 	},
 	{
 		"id": 639,
-		"lessons": ["17"],
+		"lessons": ["[17]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -12142,7 +12142,7 @@
 	},
 	{
 		"id": 640,
-		"lessons": ["17"],
+		"lessons": ["[17]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -12161,7 +12161,7 @@
 	},
 	{
 		"id": 641,
-		"lessons": ["18"],
+		"lessons": ["[18]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -12180,7 +12180,7 @@
 	},
 	{
 		"id": 642,
-		"lessons": ["18"],
+		"lessons": ["[18]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -12199,7 +12199,7 @@
 	},
 	{
 		"id": 643,
-		"lessons": ["18"],
+		"lessons": ["[18]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -12218,7 +12218,7 @@
 	},
 	{
 		"id": 644,
-		"lessons": ["18"],
+		"lessons": ["[18]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -12237,7 +12237,7 @@
 	},
 	{
 		"id": 645,
-		"lessons": ["18"],
+		"lessons": ["[18]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -12256,7 +12256,7 @@
 	},
 	{
 		"id": 646,
-		"lessons": ["18"],
+		"lessons": ["[18]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -12275,7 +12275,7 @@
 	},
 	{
 		"id": 647,
-		"lessons": ["18"],
+		"lessons": ["[18]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -12294,7 +12294,7 @@
 	},
 	{
 		"id": 648,
-		"lessons": ["18"],
+		"lessons": ["[18]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -12313,7 +12313,7 @@
 	},
 	{
 		"id": 649,
-		"lessons": ["19"],
+		"lessons": ["[19]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -12332,7 +12332,7 @@
 	},
 	{
 		"id": 650,
-		"lessons": ["19"],
+		"lessons": ["[19]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -12351,7 +12351,7 @@
 	},
 	{
 		"id": 651,
-		"lessons": ["19"],
+		"lessons": ["[19]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -12370,7 +12370,7 @@
 	},
 	{
 		"id": 652,
-		"lessons": ["19"],
+		"lessons": ["[19]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -12389,7 +12389,7 @@
 	},
 	{
 		"id": 653,
-		"lessons": ["19"],
+		"lessons": ["[19]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -12408,7 +12408,7 @@
 	},
 	{
 		"id": 654,
-		"lessons": ["19"],
+		"lessons": ["[19]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -12427,7 +12427,7 @@
 	},
 	{
 		"id": 655,
-		"lessons": ["19"],
+		"lessons": ["[19]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -12446,7 +12446,7 @@
 	},
 	{
 		"id": 656,
-		"lessons": ["19"],
+		"lessons": ["[19]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -12465,7 +12465,7 @@
 	},
 	{
 		"id": 657,
-		"lessons": ["19"],
+		"lessons": ["[19]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -12484,7 +12484,7 @@
 	},
 	{
 		"id": 658,
-		"lessons": ["19"],
+		"lessons": ["[19]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -12503,7 +12503,7 @@
 	},
 	{
 		"id": 659,
-		"lessons": ["20"],
+		"lessons": ["[20]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -12522,7 +12522,7 @@
 	},
 	{
 		"id": 660,
-		"lessons": ["20"],
+		"lessons": ["[20]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -12541,7 +12541,7 @@
 	},
 	{
 		"id": 661,
-		"lessons": ["20"],
+		"lessons": ["[20]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -12560,7 +12560,7 @@
 	},
 	{
 		"id": 662,
-		"lessons": ["20"],
+		"lessons": ["[20]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -12579,7 +12579,7 @@
 	},
 	{
 		"id": 663,
-		"lessons": ["20"],
+		"lessons": ["[20]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -12598,7 +12598,7 @@
 	},
 	{
 		"id": 664,
-		"lessons": ["20"],
+		"lessons": ["[20]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -12617,7 +12617,7 @@
 	},
 	{
 		"id": 665,
-		"lessons": ["20"],
+		"lessons": ["[20]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -12636,7 +12636,7 @@
 	},
 	{
 		"id": 666,
-		"lessons": ["21"],
+		"lessons": ["[21]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -12655,7 +12655,7 @@
 	},
 	{
 		"id": 667,
-		"lessons": ["21"],
+		"lessons": ["[21]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -12674,7 +12674,7 @@
 	},
 	{
 		"id": 668,
-		"lessons": ["21"],
+		"lessons": ["[21]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -12693,7 +12693,7 @@
 	},
 	{
 		"id": 669,
-		"lessons": ["21"],
+		"lessons": ["[21]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -12712,7 +12712,7 @@
 	},
 	{
 		"id": 670,
-		"lessons": ["21"],
+		"lessons": ["[21]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -12731,7 +12731,7 @@
 	},
 	{
 		"id": 671,
-		"lessons": ["21"],
+		"lessons": ["[21]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -12750,7 +12750,7 @@
 	},
 	{
 		"id": 672,
-		"lessons": ["22"],
+		"lessons": ["[22]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -12769,7 +12769,7 @@
 	},
 	{
 		"id": 673,
-		"lessons": ["22"],
+		"lessons": ["[22]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -12788,7 +12788,7 @@
 	},
 	{
 		"id": 674,
-		"lessons": ["22"],
+		"lessons": ["[22]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -12807,7 +12807,7 @@
 	},
 	{
 		"id": 675,
-		"lessons": ["22"],
+		"lessons": ["[22]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -12826,7 +12826,7 @@
 	},
 	{
 		"id": 676,
-		"lessons": ["22"],
+		"lessons": ["[22]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -12845,7 +12845,7 @@
 	},
 	{
 		"id": 677,
-		"lessons": ["23"],
+		"lessons": ["[23]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -12864,7 +12864,7 @@
 	},
 	{
 		"id": 678,
-		"lessons": ["23"],
+		"lessons": ["[23]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -12883,7 +12883,7 @@
 	},
 	{
 		"id": 679,
-		"lessons": ["23"],
+		"lessons": ["[23]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -12902,7 +12902,7 @@
 	},
 	{
 		"id": 680,
-		"lessons": ["23"],
+		"lessons": ["[23]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -12921,7 +12921,7 @@
 	},
 	{
 		"id": 681,
-		"lessons": ["23"],
+		"lessons": ["[23]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -12940,7 +12940,7 @@
 	},
 	{
 		"id": 682,
-		"lessons": ["23"],
+		"lessons": ["[23]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -12959,7 +12959,7 @@
 	},
 	{
 		"id": 683,
-		"lessons": ["24"],
+		"lessons": ["[24]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -12978,7 +12978,7 @@
 	},
 	{
 		"id": 684,
-		"lessons": ["24"],
+		"lessons": ["[24]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -12997,7 +12997,7 @@
 	},
 	{
 		"id": 685,
-		"lessons": ["24"],
+		"lessons": ["[24]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -13016,7 +13016,7 @@
 	},
 	{
 		"id": 686,
-		"lessons": ["24"],
+		"lessons": ["[24]"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",

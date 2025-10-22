@@ -14,7 +14,7 @@ import {
 import { auth } from '@clerk/nextjs/server'
 import { clerkClient } from '@clerk/clerk-sdk-node'
 
-import { events } from '@/db/schema'
+// import { events } from '@/db/schema'
 
 import db from '@/db/drizzle'
 import {
