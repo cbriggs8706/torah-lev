@@ -205,6 +205,7 @@ export default function HebrewNumberQuiz({
 			setWaiting(true) // 👈 always reset here, no conditional
 			setPaused(false)
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [gameStarted, studyMode]) // 👈 removed waiting
 
 	useEffect(() => {

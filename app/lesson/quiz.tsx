@@ -236,11 +236,18 @@ export const Quiz = ({
 		}
 	}
 
+	// This updates the user's current lesson even on practice lessons which we don't want, keeping for reference
+	// useEffect(() => {
+	// 	if (nextLessonId) {
+	// 		updateActiveLesson(nextLessonId)
+	// 	}
+	// }, [nextLessonId])
+
 	useEffect(() => {
-		if (nextLessonId) {
+		if (nextLessonId && initialPercentage !== 100) {
 			updateActiveLesson(nextLessonId)
 		}
-	}, [nextLessonId])
+	}, [nextLessonId, initialPercentage])
 
 	if (!challenge) {
 		return (
