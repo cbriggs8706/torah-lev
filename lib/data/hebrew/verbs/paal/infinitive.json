@@ -1,0 +1,53 @@
+[
+	{
+		"strongs": 1980,
+		"tense": "Infinitive",
+		"rows": [
+			{
+				"person": "inf",
+				"hebrew": [
+					{ "char": "ל", "class": "" },
+					{ "char": "ָ", "class": "" },
+					{ "char": "ל", "class": "" },
+					{ "char": "ֵ", "class": "" },
+					{ "char": "ך", "class": "" }
+				],
+				"translit": [
+					{ "text": "la", "class": "" },
+					{ "text": "lech", "class": "" }
+				],
+				"english": [
+					{ "text": "to ", "class": "" },
+					{ "text": "go", "class": "font-bold" }
+				]
+			}
+		]
+	},
+	{
+		"strongs": 3789,
+		"tense": "Infinitive",
+		"rows": [
+			{
+				"person": "inf",
+				"hebrew": [
+					{ "char": "ל", "class": "" },
+					{ "char": "ָ", "class": "" },
+					{ "char": "ל", "class": "" },
+					{ "char": "ַ", "class": "" },
+					{ "char": "כ", "class": "" },
+					{ "char": "ְ", "class": "" },
+					{ "char": "ת", "class": "" },
+					{ "char": "ב", "class": "" }
+				],
+				"translit": [
+					{ "text": "la", "class": "" },
+					{ "text": "tav", "class": "" }
+				],
+				"english": [
+					{ "text": "to ", "class": "" },
+					{ "text": "write", "class": "font-bold" }
+				]
+			}
+		]
+	}
+]

@@ -1,0 +1,117 @@
+[
+	{
+		"strongs": 1980,
+		"tense": "Imperative",
+		"rows": [
+			{
+				"person": "2ms",
+				"hebrew": [
+					{ "char": "ל", "class": "" },
+					{ "char": "ֵ", "class": "" },
+					{ "char": "ך", "class": "" }
+				],
+				"translit": [{ "text": "lech", "class": "" }],
+				"english": [{ "text": "go!", "class": "font-bold" }]
+			},
+			{
+				"person": "2fs",
+				"hebrew": [
+					{ "char": "ל", "class": "" },
+					{ "char": "ְ", "class": "" },
+					{ "char": "כ", "class": "" },
+					{ "char": "ִ", "class": "" },
+					{ "char": "י", "class": "" }
+				],
+				"translit": [{ "text": "lechi", "class": "" }],
+				"english": [{ "text": "go! (to a woman)", "class": "font-bold" }]
+			},
+			{
+				"person": "2mp",
+				"hebrew": [
+					{ "char": "ל", "class": "" },
+					{ "char": "ְ", "class": "" },
+					{ "char": "כ", "class": "" },
+					{ "char": "ו", "class": "" },
+					{ "char": "ּ", "class": "" }
+				],
+				"translit": [{ "text": "lechu", "class": "" }],
+				"english": [{ "text": "go! (to men)", "class": "font-bold" }]
+			},
+			{
+				"person": "2fp",
+				"hebrew": [
+					{ "char": "ל", "class": "" },
+					{ "char": "ֵ", "class": "" },
+					{ "char": "כ", "class": "" },
+					{ "char": "ְ", "class": "" },
+					{ "char": "נ", "class": "" },
+					{ "char": "ָ", "class": "" }
+				],
+				"translit": [{ "text": "lechna", "class": "" }],
+				"english": [{ "text": "go! (to women)", "class": "font-bold" }]
+			}
+		]
+	},
+	{
+		"strongs": 3789,
+		"tense": "Imperative",
+		"rows": [
+			{
+				"person": "2ms",
+				"hebrew": [
+					{ "char": "ל", "class": "" },
+					{ "char": "ָ", "class": "" },
+					{ "char": "ת", "class": "" },
+					{ "char": "ָ", "class": "" },
+					{ "char": "ב", "class": "" }
+				],
+				"translit": [
+					{ "text": "le", "class": "" },
+					{ "text": "tav", "class": "" }
+				],
+				"english": [{ "text": "write!", "class": "font-bold" }]
+			},
+			{
+				"person": "2fs",
+				"hebrew": [
+					{ "char": "ל", "class": "" },
+					{ "char": "ָ", "class": "" },
+					{ "char": "ת", "class": "" },
+					{ "char": "ְ", "class": "" },
+					{ "char": "כ", "class": "" },
+					{ "char": "ִ", "class": "" },
+					{ "char": "י", "class": "" }
+				],
+				"translit": [{ "text": "lechi", "class": "" }],
+				"english": [{ "text": "write! (to a woman)", "class": "font-bold" }]
+			},
+			{
+				"person": "2mp",
+				"hebrew": [
+					{ "char": "ל", "class": "" },
+					{ "char": "ְ", "class": "" },
+					{ "char": "כ", "class": "" },
+					{ "char": "ו", "class": "" },
+					{ "char": "ּ", "class": "" },
+					{ "char": "ב", "class": "" }
+				],
+				"translit": [{ "text": "lechu", "class": "" }],
+				"english": [{ "text": "write! (to men)", "class": "font-bold" }]
+			},
+			{
+				"person": "2fp",
+				"hebrew": [
+					{ "char": "ל", "class": "" },
+					{ "char": "ֵ", "class": "" },
+					{ "char": "כ", "class": "" },
+					{ "char": "ְ", "class": "" },
+					{ "char": "נ", "class": "" },
+					{ "char": "ָ", "class": "" },
+					{ "char": "ב", "class": "" }
+				],
+				"translit": [{ "text": "lechna", "class": "" }],
+				"english": [{ "text": "write! (to women)", "class": "font-bold" }]
+			}
+		]
+	}
+]

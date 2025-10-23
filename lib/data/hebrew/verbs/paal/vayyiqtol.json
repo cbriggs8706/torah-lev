@@ -1,0 +1,190 @@
+[
+	{
+		"strongs": 1980,
+		"tense": "Vayyiqtol (Biblical Narrative)",
+		"rows": [
+			{
+				"person": "3ms",
+				"hebrew": [
+					{ "char": "ו", "class": "" },
+					{ "char": "ַ", "class": "" },
+					{ "char": "י", "class": "" },
+					{ "char": "ֵ", "class": "" },
+					{ "char": "ל", "class": "" },
+					{ "char": "ֶ", "class": "" },
+					{ "char": "ך", "class": "" }
+				],
+				"translit": [
+					{ "text": "va", "class": "" },
+					{ "text": "ye", "class": "" },
+					{ "text": "lech", "class": "" }
+				],
+				"english": [
+					{ "text": "and he ", "class": "" },
+					{ "text": "went", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "3fs",
+				"hebrew": [
+					{ "char": "ו", "class": "" },
+					{ "char": "ַ", "class": "" },
+					{ "char": "ת", "class": "" },
+					{ "char": "ֵ", "class": "" },
+					{ "char": "ל", "class": "" },
+					{ "char": "ֶ", "class": "" },
+					{ "char": "ך", "class": "" }
+				],
+				"translit": [
+					{ "text": "va", "class": "" },
+					{ "text": "te", "class": "" },
+					{ "text": "lech", "class": "" }
+				],
+				"english": [
+					{ "text": "and she ", "class": "" },
+					{ "text": "went", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "3mp",
+				"hebrew": [
+					{ "char": "ו", "class": "" },
+					{ "char": "ַ", "class": "" },
+					{ "char": "י", "class": "" },
+					{ "char": "ֵ", "class": "" },
+					{ "char": "ל", "class": "" },
+					{ "char": "ְ", "class": "" },
+					{ "char": "כ", "class": "" },
+					{ "char": "וּ", "class": "" }
+				],
+				"translit": [
+					{ "text": "va", "class": "" },
+					{ "text": "ye", "class": "" },
+					{ "text": "lchu", "class": "" }
+				],
+				"english": [
+					{ "text": "and they (m.) ", "class": "" },
+					{ "text": "went", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "3fp",
+				"hebrew": [
+					{ "char": "ו", "class": "" },
+					{ "char": "ַ", "class": "" },
+					{ "char": "ת", "class": "" },
+					{ "char": "ֵ", "class": "" },
+					{ "char": "ל", "class": "" },
+					{ "char": "ַ", "class": "" },
+					{ "char": "כ", "class": "" },
+					{ "char": "ְ", "class": "" }
+				],
+				"translit": [
+					{ "text": "va", "class": "" },
+					{ "text": "te", "class": "" },
+					{ "text": "lachna", "class": "" }
+				],
+				"english": [
+					{ "text": "and they (f.) ", "class": "" },
+					{ "text": "went", "class": "font-bold" }
+				]
+			}
+		]
+	},
+	{
+		"strongs": 3789,
+		"tense": "Vayyiqtol (Biblical Narrative)",
+		"rows": [
+			{
+				"person": "3ms",
+				"hebrew": [
+					{ "char": "ו", "class": "" },
+					{ "char": "ַ", "class": "" },
+					{ "char": "י", "class": "" },
+					{ "char": "ֵ", "class": "" },
+					{ "char": "כ", "class": "" },
+					{ "char": "ַ", "class": "" },
+					{ "char": "ת", "class": "" },
+					{ "char": "ְ", "class": "" },
+					{ "char": "ב", "class": "" }
+				],
+				"translit": [
+					{ "text": "va", "class": "" },
+					{ "text": "ye", "class": "" },
+					{ "text": "khet", "class": "" }
+				],
+				"english": [
+					{ "text": "and he ", "class": "" },
+					{ "text": "wrote", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "3fs",
+				"hebrew": [
+					{ "char": "ו", "class": "" },
+					{ "char": "ַ", "class": "" },
+					{ "char": "ת", "class": "" },
+					{ "char": "ֵ", "class": "" },
+					{ "char": "כ", "class": "" },
+					{ "char": "ַ", "class": "" },
+					{ "char": "ת", "class": "" },
+					{ "char": "ְ", "class": "" },
+					{ "char": "ב", "class": "" }
+				],
+				"translit": [
+					{ "text": "va", "class": "" },
+					{ "text": "te", "class": "" },
+					{ "text": "khet", "class": "" }
+				],
+				"english": [
+					{ "text": "and she ", "class": "" },
+					{ "text": "wrote", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "3mp",
+				"hebrew": [
+					{ "char": "ו", "class": "" },
+					{ "char": "ַ", "class": "" },
+					{ "char": "י", "class": "" },
+					{ "char": "ֵ", "class": "" },
+					{ "char": "כ", "class": "" },
+					{ "char": "ְ", "class": "" },
+					{ "char": "ת", "class": "" },
+					{ "char": "וּ", "class": "" }
+				],
+				"translit": [
+					{ "text": "va", "class": "" },
+					{ "text": "ye", "class": "" },
+					{ "text": "lchu", "class": "" }
+				],
+				"english": [
+					{ "text": "and they (m.) ", "class": "" },
+					{ "text": "wrote", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "3fp",
+				"hebrew": [
+					{ "char": "ו", "class": "" },
+					{ "char": "ַ", "class": "" },
+					{ "char": "ת", "class": "" },
+					{ "char": "ֵ", "class": "" },
+					{ "char": "כ", "class": "" },
+					{ "char": "ַ", "class": "" },
+					{ "char": "ת", "class": "" },
+					{ "char": "ְ", "class": "" }
+				],
+				"translit": [
+					{ "text": "va", "class": "" },
+					{ "text": "te", "class": "" },
+					{ "text": "lachna", "class": "" }
+				],
+				"english": [
+					{ "text": "and they (f.) ", "class": "" },
+					{ "text": "wrote", "class": "font-bold" }
+				]
+			}
+		]
+	}
+]

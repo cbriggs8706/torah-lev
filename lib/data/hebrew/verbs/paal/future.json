@@ -1,0 +1,325 @@
+[
+	{
+		"strongs": 1980,
+		"tense": "Future (Yiqtol)",
+		"rows": [
+			{
+				"person": "1sc",
+				"hebrew": [
+					{ "char": "א", "class": "" },
+					{ "char": "ֵ", "class": "" },
+					{ "char": "ל", "class": "" },
+					{ "char": "ֵ", "class": "" },
+					{ "char": "ך", "class": "" }
+				],
+				"translit": [
+					{ "text": "e", "class": "" },
+					{ "text": "lech", "class": "" }
+				],
+				"english": [
+					{ "text": "I will ", "class": "" },
+					{ "text": "go", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "1pc",
+				"hebrew": [
+					{ "char": "נ", "class": "" },
+					{ "char": "ֵ", "class": "" },
+					{ "char": "ל", "class": "" },
+					{ "char": "ֵ", "class": "" },
+					{ "char": "ך", "class": "" }
+				],
+				"translit": [
+					{ "text": "ne", "class": "" },
+					{ "text": "lech", "class": "" }
+				],
+				"english": [
+					{ "text": "we will ", "class": "" },
+					{ "text": "go", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "2ms",
+				"hebrew": [
+					{ "char": "ת", "class": "" },
+					{ "char": "ּ", "class": "" },
+					{ "char": "ֵ", "class": "" },
+					{ "char": "ל", "class": "" },
+					{ "char": "ֵ", "class": "" },
+					{ "char": "ך", "class": "" }
+				],
+				"translit": [
+					{ "text": "te", "class": "" },
+					{ "text": "lech", "class": "" }
+				],
+				"english": [
+					{ "text": "you (m. sg.) will ", "class": "" },
+					{ "text": "go", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "2fs",
+				"hebrew": [
+					{ "char": "ת", "class": "" },
+					{ "char": "ּ", "class": "" },
+					{ "char": "ֵ", "class": "" },
+					{ "char": "ל", "class": "" },
+					{ "char": "כ", "class": "" },
+					{ "char": "ִ", "class": "" },
+					{ "char": "י", "class": "" }
+				],
+				"translit": [
+					{ "text": "ti", "class": "" },
+					{ "text": "lech", "class": "" }
+				],
+				"english": [
+					{ "text": "you (f. sg.) will ", "class": "" },
+					{ "text": "go", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "2mp",
+				"hebrew": [
+					{ "char": "ת", "class": "" },
+					{ "char": "ּ", "class": "" },
+					{ "char": "ֵ", "class": "" },
+					{ "char": "ל", "class": "" },
+					{ "char": "ו", "class": "" },
+					{ "char": "ּ", "class": "" }
+				],
+				"translit": [
+					{ "text": "te", "class": "" },
+					{ "text": "lech", "class": "" }
+				],
+				"english": [
+					{ "text": "you (m. pl.) will ", "class": "" },
+					{ "text": "go", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "2fp",
+				"hebrew": [
+					{ "char": "ת", "class": "" },
+					{ "char": "ּ", "class": "" },
+					{ "char": "ֵ", "class": "" },
+					{ "char": "ל", "class": "" },
+					{ "char": "כ", "class": "" },
+					{ "char": "ִ", "class": "" },
+					{ "char": "נ", "class": "" },
+					{ "char": "ָ", "class": "" }
+				],
+				"translit": [
+					{ "text": "te", "class": "" },
+					{ "text": "lech", "class": "" }
+				],
+				"english": [
+					{ "text": "you (f. pl.) will ", "class": "" },
+					{ "text": "go", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "3ms",
+				"hebrew": [
+					{ "char": "י", "class": "" },
+					{ "char": "ֵ", "class": "" },
+					{ "char": "ל", "class": "" },
+					{ "char": "ֵ", "class": "" },
+					{ "char": "ך", "class": "" }
+				],
+				"translit": [
+					{ "text": "ye", "class": "" },
+					{ "text": "lech", "class": "" }
+				],
+				"english": [
+					{ "text": "he/it will ", "class": "" },
+					{ "text": "go", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "3fs",
+				"hebrew": [
+					{ "char": "ת", "class": "" },
+					{ "char": "ּ", "class": "" },
+					{ "char": "ֵ", "class": "" },
+					{ "char": "ל", "class": "" },
+					{ "char": "ַ", "class": "" },
+					{ "char": "ך", "class": "" }
+				],
+				"translit": [
+					{ "text": "ti", "class": "" },
+					{ "text": "lech", "class": "" }
+				],
+				"english": [
+					{ "text": "she/it will ", "class": "" },
+					{ "text": "go", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "3mp",
+				"hebrew": [
+					{ "char": "י", "class": "" },
+					{ "char": "ֵ", "class": "" },
+					{ "char": "ל", "class": "" },
+					{ "char": "ו", "class": "" },
+					{ "char": "ּ", "class": "" }
+				],
+				"translit": [
+					{ "text": "ye", "class": "" },
+					{ "text": "lech", "class": "" }
+				],
+				"english": [
+					{ "text": "they (m.) will ", "class": "" },
+					{ "text": "go", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "3fp",
+				"hebrew": [
+					{ "char": "י", "class": "" },
+					{ "char": "ֵ", "class": "" },
+					{ "char": "ל", "class": "" },
+					{ "char": "כ", "class": "" },
+					{ "char": "ְ", "class": "" },
+					{ "char": "ת", "class": "" }
+				],
+				"translit": [
+					{ "text": "ye", "class": "" },
+					{ "text": "lech", "class": "" }
+				],
+				"english": [
+					{ "text": "they (f.) will ", "class": "" },
+					{ "text": "go", "class": "font-bold" }
+				]
+			}
+		]
+	},
+	{
+		"strongs": 3789,
+		"tense": "Future (Yiqtol)",
+		"rows": [
+			{
+				"person": "1sc",
+				"hebrew": [
+					{ "char": "א", "class": "" },
+					{ "char": "ֶ", "class": "" },
+					{ "char": "כ", "class": "" },
+					{ "char": "ּ", "class": "" },
+					{ "char": "ת", "class": "" },
+					{ "char": "ָ", "class": "" },
+					{ "char": "ב", "class": "" }
+				],
+				"translit": [
+					{ "text": "e", "class": "" },
+					{ "text": "chtov", "class": "" }
+				],
+				"english": [
+					{ "text": "I will ", "class": "" },
+					{ "text": "write", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "1pc",
+				"hebrew": [
+					{ "char": "נ", "class": "" },
+					{ "char": "ֵ", "class": "" },
+					{ "char": "ל", "class": "" },
+					{ "char": "ֵ", "class": "" },
+					{ "char": "ך", "class": "" }
+				],
+				"translit": [
+					{ "text": "ne", "class": "" },
+					{ "text": "chtov", "class": "" }
+				],
+				"english": [
+					{ "text": "we will ", "class": "" },
+					{ "text": "write", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "2ms",
+				"hebrew": [
+					{ "char": "ת", "class": "" },
+					{ "char": "ּ", "class": "" },
+					{ "char": "ֶ", "class": "" },
+					{ "char": "כ", "class": "" },
+					{ "char": "ּ", "class": "" },
+					{ "char": "ת", "class": "" },
+					{ "char": "ָ", "class": "" },
+					{ "char": "ב", "class": "" }
+				],
+				"translit": [
+					{ "text": "te", "class": "" },
+					{ "text": "chtov", "class": "" }
+				],
+				"english": [
+					{ "text": "you (m. sg.) will ", "class": "" },
+					{ "text": "write", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "2fs",
+				"hebrew": [
+					{ "char": "ת", "class": "" },
+					{ "char": "ּ", "class": "" },
+					{ "char": "ֶ", "class": "" },
+					{ "char": "כ", "class": "" },
+					{ "char": "ּ", "class": "" },
+					{ "char": "ת", "class": "" },
+					{ "char": "ָ", "class": "" },
+					{ "char": "ב", "class": "" }
+				],
+				"translit": [
+					{ "text": "ti", "class": "" },
+					{ "text": "chtov", "class": "" }
+				],
+				"english": [
+					{ "text": "you (f. sg.) will ", "class": "" },
+					{ "text": "write", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "2mp",
+				"hebrew": [
+					{ "char": "ת", "class": "" },
+					{ "char": "ּ", "class": "" },
+					{ "char": "ֶ", "class": "" },
+					{ "char": "כ", "class": "" },
+					{ "char": "ּ", "class": "" },
+					{ "char": "ת", "class": "" },
+					{ "char": "ָ", "class": "" },
+					{ "char": "ב", "class": "" }
+				],
+				"translit": [
+					{ "text": "te", "class": "" },
+					{ "text": "chtov", "class": "" }
+				],
+				"english": [
+					{ "text": "you (m. pl.) will ", "class": "" },
+					{ "text": "write", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "2fp",
+				"hebrew": [
+					{ "char": "ת", "class": "" },
+					{ "char": "ּ", "class": "" },
+					{ "char": "ֶ", "class": "" },
+					{ "char": "כ", "class": "" },
+					{ "char": "ּ", "class": "" },
+					{ "char": "ת", "class": "" },
+					{ "char": "ָ", "class": "" },
+					{ "char": "ב", "class": "" }
+				],
+				"translit": [
+					{ "text": "te", "class": "" },
+					{ "text": "chtov", "class": "" }
+				],
+				"english": [
+					{ "text": "you (f. pl.) will ", "class": "" },
+					{ "text": "write", "class": "font-bold" }
+				]
+			}
+		]
+	}
+]
