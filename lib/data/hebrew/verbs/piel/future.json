@@ -1,0 +1,284 @@
+[
+	{
+		"strongs": 1288,
+		"tense": "Future (Yiqtol)",
+		"rows": [
+			{
+				"person": "1sc",
+				"hebrew": [
+					{ "char": "אֲ", "class": "" },
+					{ "char": "בָרֵךְ", "class": "" }
+				],
+				"translit": [{ "text": "avarekh", "class": "" }],
+				"english": [
+					{ "text": "I will ", "class": "" },
+					{ "text": "bless", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "1pc",
+				"hebrew": [
+					{ "char": "נְ", "class": "" },
+					{ "char": "בָרֵךְ", "class": "" }
+				],
+				"translit": [{ "text": "nevarekh", "class": "" }],
+				"english": [
+					{ "text": "we will ", "class": "" },
+					{ "text": "bless", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "2ms",
+				"hebrew": [
+					{ "char": "תְ", "class": "" },
+					{ "char": "בָרֵךְ", "class": "" }
+				],
+				"translit": [{ "text": "tevarekh", "class": "" }],
+				"english": [
+					{ "text": "you (m. sg.) will ", "class": "" },
+					{ "text": "bless", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "2fs",
+				"hebrew": [
+					{ "char": "תְ", "class": "" },
+					{ "char": "בָרְכִי", "class": "" }
+				],
+				"translit": [{ "text": "tevarkhi", "class": "" }],
+				"english": [
+					{ "text": "you (f. sg.) will ", "class": "" },
+					{ "text": "bless", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "2mp",
+				"hebrew": [
+					{ "char": "תְ", "class": "" },
+					{ "char": "בָרְכוּ", "class": "" }
+				],
+				"translit": [{ "text": "tevarkhu", "class": "" }],
+				"english": [
+					{ "text": "you (m. pl.) will ", "class": "" },
+					{ "text": "bless", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "2fp",
+				"hebrew": [
+					{ "char": "תְ", "class": "" },
+					{ "char": "בָרֵכְנָה", "class": "" }
+				],
+				"translit": [{ "text": "tevarekh’nah", "class": "" }],
+				"english": [
+					{ "text": "you (f. pl.) will ", "class": "" },
+					{ "text": "bless", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "3ms",
+				"hebrew": [
+					{ "char": "יְ", "class": "" },
+					{ "char": "בָרֵךְ", "class": "" }
+				],
+				"translit": [{ "text": "yevarekh", "class": "" }],
+				"english": [
+					{ "text": "he/it will ", "class": "" },
+					{ "text": "bless", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "3fs",
+				"hebrew": [
+					{ "char": "תְ", "class": "" },
+					{ "char": "בָרֵךְ", "class": "" }
+				],
+				"translit": [{ "text": "tevarekh", "class": "" }],
+				"english": [
+					{ "text": "she/it will ", "class": "" },
+					{ "text": "bless", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "3mp",
+				"hebrew": [
+					{ "char": "יְ", "class": "" },
+					{ "char": "בָרְכוּ", "class": "" }
+				],
+				"translit": [{ "text": "yevarkhu", "class": "" }],
+				"english": [
+					{ "text": "they (m.) will ", "class": "" },
+					{ "text": "bless", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "3fp",
+				"hebrew": [
+					{ "char": "תְ", "class": "" },
+					{ "char": "בָרֵכְנָה", "class": "" }
+				],
+				"translit": [{ "text": "tevarekh’nah", "class": "" }],
+				"english": [
+					{ "text": "they (f.) will ", "class": "" },
+					{ "text": "bless", "class": "font-bold" }
+				]
+			}
+		]
+	},
+	{
+		"strongs": 1696,
+		"tense": "Future (Yiqtol)",
+		"rows": [
+			{
+				"person": "1sc",
+				"hebrew": [
+					{ "char": "אֲ", "class": "" },
+					{ "char": "דַבֵּר", "class": "" }
+				],
+				"translit": [
+					{ "text": "a", "class": "" },
+					{ "text": "daber", "class": "" }
+				],
+				"english": [
+					{ "text": "I will ", "class": "" },
+					{ "text": "speak", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "1pc",
+				"hebrew": [
+					{ "char": "נְ", "class": "" },
+					{ "char": "דַבֵּר", "class": "" }
+				],
+				"translit": [
+					{ "text": "ne", "class": "" },
+					{ "text": "daber", "class": "" }
+				],
+				"english": [
+					{ "text": "we will ", "class": "" },
+					{ "text": "speak", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "2ms",
+				"hebrew": [
+					{ "char": "תְ", "class": "" },
+					{ "char": "דַבֵּר", "class": "" }
+				],
+				"translit": [
+					{ "text": "te", "class": "" },
+					{ "text": "daber", "class": "" }
+				],
+				"english": [
+					{ "text": "you (m. sg.) will ", "class": "" },
+					{ "text": "speak", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "2fs",
+				"hebrew": [
+					{ "char": "תְ", "class": "" },
+					{ "char": "דַבְּרִי", "class": "" }
+				],
+				"translit": [
+					{ "text": "te", "class": "" },
+					{ "text": "dabri", "class": "" }
+				],
+				"english": [
+					{ "text": "you (f. sg.) will ", "class": "" },
+					{ "text": "speak", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "2mp",
+				"hebrew": [
+					{ "char": "תְ", "class": "" },
+					{ "char": "דַבְּרוּ", "class": "" }
+				],
+				"translit": [
+					{ "text": "te", "class": "" },
+					{ "text": "dabru", "class": "" }
+				],
+				"english": [
+					{ "text": "you (m. pl.) will ", "class": "" },
+					{ "text": "speak", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "2fp",
+				"hebrew": [
+					{ "char": "תְ", "class": "" },
+					{ "char": "דַבֵּרְנָה", "class": "" }
+				],
+				"translit": [
+					{ "text": "te", "class": "" },
+					{ "text": "dabernah", "class": "" }
+				],
+				"english": [
+					{ "text": "you (f. pl.) will ", "class": "" },
+					{ "text": "speak", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "3ms",
+				"hebrew": [
+					{ "char": "יְ", "class": "" },
+					{ "char": "דַבֵּר", "class": "" }
+				],
+				"translit": [
+					{ "text": "ye", "class": "" },
+					{ "text": "daber", "class": "" }
+				],
+				"english": [
+					{ "text": "he/it will ", "class": "" },
+					{ "text": "speak", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "3fs",
+				"hebrew": [
+					{ "char": "תְ", "class": "" },
+					{ "char": "דַבֵּר", "class": "" }
+				],
+				"translit": [
+					{ "text": "te", "class": "" },
+					{ "text": "daber", "class": "" }
+				],
+				"english": [
+					{ "text": "she/it will ", "class": "" },
+					{ "text": "speak", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "3mp",
+				"hebrew": [
+					{ "char": "יְ", "class": "" },
+					{ "char": "דַבְּרוּ", "class": "" }
+				],
+				"translit": [
+					{ "text": "ye", "class": "" },
+					{ "text": "dabru", "class": "" }
+				],
+				"english": [
+					{ "text": "they (m.) will ", "class": "" },
+					{ "text": "speak", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "3fp",
+				"hebrew": [
+					{ "char": "תְ", "class": "" },
+					{ "char": "דַבֵּרְנָה", "class": "" }
+				],
+				"translit": [
+					{ "text": "te", "class": "" },
+					{ "text": "dabernah", "class": "" }
+				],
+				"english": [
+					{ "text": "they (f.) will ", "class": "" },
+					{ "text": "speak", "class": "font-bold" }
+				]
+			}
+		]
+	}
+]

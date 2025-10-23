@@ -1,0 +1,52 @@
+[
+	{
+		"strongs": 1288,
+		"tense": "Infinitive",
+		"rows": [
+			{
+				"person": "inf",
+				"hebrew": [
+					{ "char": "ל", "class": "" },
+					{ "char": "ְ", "class": "" },
+					{ "char": "בָּ", "class": "" },
+					{ "char": "רֵ", "class": "" },
+					{ "char": "ךְ", "class": "" }
+				],
+				"translit": [
+					{ "text": "le", "class": "" },
+					{ "text": "varekh", "class": "" }
+				],
+				"english": [
+					{ "text": "to ", "class": "" },
+					{ "text": "bless", "class": "font-bold" }
+				]
+			}
+		]
+	},
+	{
+		"strongs": 1696,
+		"tense": "Infinitive",
+		"rows": [
+			{
+				"person": "inf",
+				"hebrew": [
+					{ "char": "ל", "class": "" },
+					{ "char": "ְ", "class": "" },
+					{ "char": "ד", "class": "" },
+					{ "char": "ַ", "class": "" },
+					{ "char": "ב", "class": "" },
+					{ "char": "ֵ", "class": "" },
+					{ "char": "ר", "class": "" }
+				],
+				"translit": [
+					{ "text": "le", "class": "" },
+					{ "text": "daber", "class": "" }
+				],
+				"english": [
+					{ "text": "to ", "class": "" },
+					{ "text": "speak", "class": "font-bold" }
+				]
+			}
+		]
+	}
+]

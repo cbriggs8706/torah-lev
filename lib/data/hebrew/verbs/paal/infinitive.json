@@ -49,5 +49,326 @@
 				]
 			}
 		]
+	},
+	{
+		"strongs": 7760,
+		"tense": "Infinitive",
+		"rows": [
+			{
+				"person": "inf",
+				"hebrew": [
+					{ "char": "ל", "class": "" },
+					{ "char": "ָ", "class": "" },
+					{ "char": "שׂ", "class": "" },
+					{ "char": "ִ", "class": "" },
+					{ "char": "י", "class": "" },
+					{ "char": "ם", "class": "" }
+				],
+				"translit": [
+					{ "text": "la", "class": "" },
+					{ "text": "sim", "class": "" }
+				],
+				"english": [
+					{ "text": "to ", "class": "" },
+					{ "text": "put / place", "class": "font-bold" }
+				]
+			}
+		]
+	},
+	{
+		"strongs": 935,
+		"tense": "Infinitive",
+		"rows": [
+			{
+				"person": "inf",
+				"hebrew": [
+					{ "char": "ל", "class": "" },
+					{ "char": "ָ", "class": "" },
+					{ "char": "ב", "class": "" },
+					{ "char": "ו", "class": "" },
+					{ "char": "א", "class": "" }
+				],
+				"translit": [
+					{ "text": "la", "class": "" },
+					{ "text": "vo", "class": "" }
+				],
+				"english": [
+					{ "text": "to ", "class": "" },
+					{ "text": "come", "class": "font-bold" }
+				]
+			}
+		]
+	},
+	{
+		"strongs": 5414,
+		"tense": "Infinitive",
+		"rows": [
+			{
+				"person": "inf",
+				"hebrew": [
+					{ "char": "ל", "class": "" },
+					{ "char": "ָ", "class": "" },
+					{ "char": "ת", "class": "" },
+					{ "char": "ֵ", "class": "" },
+					{ "char": "ת", "class": "" },
+					{ "char": "נ", "class": "" }
+				],
+				"translit": [
+					{ "text": "la", "class": "" },
+					{ "text": "tet", "class": "" },
+					{ "text": "n", "class": "" }
+				],
+				"english": [
+					{ "text": "to ", "class": "" },
+					{ "text": "give", "class": "font-bold" }
+				]
+			}
+		]
+	},
+
+	{
+		"strongs": 3427,
+		"tense": "Infinitive",
+		"rows": [
+			{
+				"person": "inf",
+				"hebrew": [
+					{ "char": "ל", "class": "" },
+					{ "char": "ֵ", "class": "" },
+					{ "char": "שׁ", "class": "" },
+					{ "char": "ׇ", "class": "" },
+					{ "char": "ב", "class": "" }
+				],
+				"translit": [
+					{ "text": "le", "class": "" },
+					{ "text": "shevet", "class": "" }
+				],
+				"english": [
+					{ "text": "to ", "class": "" },
+					{ "text": "sit / dwell", "class": "font-bold" }
+				]
+			}
+		]
+	},
+	{
+		"strongs": 6965,
+		"tense": "Infinitive",
+		"rows": [
+			{
+				"person": "inf",
+				"hebrew": [
+					{ "char": "ל", "class": "" },
+					{ "char": "ָ", "class": "" },
+					{ "char": "ק", "class": "" },
+					{ "char": "ו", "class": "" },
+					{ "char": "ם", "class": "" }
+				],
+				"translit": [
+					{ "text": "la", "class": "" },
+					{ "text": "kum", "class": "" }
+				],
+				"english": [
+					{ "text": "to ", "class": "" },
+					{ "text": "arise / stand", "class": "font-bold" }
+				]
+			}
+		]
+	},
+	{
+		"strongs": 7200,
+		"tense": "Infinitive",
+		"rows": [
+			{
+				"person": "inf",
+				"hebrew": [
+					{ "char": "ל", "class": "" },
+					{ "char": "ִ", "class": "" },
+					{ "char": "ר", "class": "" },
+					{ "char": "ְ", "class": "" },
+					{ "char": "א", "class": "" },
+					{ "char": "ו", "class": "" },
+					{ "char": "ת", "class": "" }
+				],
+				"translit": [
+					{ "text": "li", "class": "" },
+					{ "text": "rot", "class": "" }
+				],
+				"english": [
+					{ "text": "to ", "class": "" },
+					{ "text": "see", "class": "font-bold" }
+				]
+			}
+		]
+	},
+	{
+		"strongs": 7121,
+		"tense": "Infinitive",
+		"rows": [
+			{
+				"person": "inf",
+				"hebrew": [
+					{ "char": "ל", "class": "" },
+					{ "char": "ִ", "class": "" },
+					{ "char": "ק", "class": "" },
+					{ "char": "ְ", "class": "" },
+					{ "char": "ר", "class": "" },
+					{ "char": "א", "class": "" },
+					{ "char": "ו", "class": "" },
+					{ "char": "ת", "class": "" }
+				],
+				"translit": [
+					{ "text": "li", "class": "" },
+					{ "text": "qro", "class": "" }
+				],
+				"english": [
+					{ "text": "to ", "class": "" },
+					{ "text": "call / proclaim", "class": "font-bold" }
+				]
+			}
+		]
+	},
+	{
+		"strongs": 3947,
+		"tense": "Infinitive",
+		"rows": [
+			{
+				"person": "inf",
+				"hebrew": [
+					{ "char": "ל", "class": "" },
+					{ "char": "ָ", "class": "" },
+					{ "char": "ק", "class": "" },
+					{ "char": "ַ", "class": "" },
+					{ "char": "ח", "class": "" },
+					{ "char": "ַ", "class": "" },
+					{ "char": "ת", "class": "" }
+				],
+				"translit": [
+					{ "text": "la", "class": "" },
+					{ "text": "kach", "class": "" }
+				],
+				"english": [
+					{ "text": "to ", "class": "" },
+					{ "text": "take", "class": "font-bold" }
+				]
+			}
+		]
+	},
+	{
+		"strongs": 6213,
+		"tense": "Infinitive",
+		"rows": [
+			{
+				"person": "inf",
+				"hebrew": [
+					{ "char": "ל", "class": "" },
+					{ "char": "ַ", "class": "" },
+					{ "char": "עֲ", "class": "" },
+					{ "char": "שׂוֹת", "class": "" }
+				],
+				"translit": [
+					{ "text": "la", "class": "" },
+					{ "text": "asot", "class": "" }
+				],
+				"english": [
+					{ "text": "to ", "class": "" },
+					{ "text": "do / make", "class": "font-bold" }
+				]
+			}
+		]
+	},
+	{
+		"strongs": 559,
+		"tense": "Infinitive",
+		"rows": [
+			{
+				"person": "inf",
+				"hebrew": [
+					{ "char": "ל", "class": "" },
+					{ "char": "ֵ", "class": "" },
+					{ "char": "אמ", "class": "" },
+					{ "char": "ֹר", "class": "" }
+				],
+				"translit": [
+					{ "text": "le", "class": "" },
+					{ "text": "emor", "class": "" }
+				],
+				"english": [
+					{ "text": "to ", "class": "" },
+					{ "text": "say", "class": "font-bold" }
+				]
+			}
+		]
+	},
+	{
+		"strongs": 8085,
+		"tense": "Infinitive",
+		"rows": [
+			{
+				"person": "inf",
+				"hebrew": [
+					{ "char": "ל", "class": "" },
+					{ "char": "ִ", "class": "" },
+					{ "char": "שְׁ", "class": "" },
+					{ "char": "מוֹ", "class": "" },
+					{ "char": "עַ", "class": "" }
+				],
+				"translit": [
+					{ "text": "lish", "class": "" },
+					{ "text": "moa", "class": "" }
+				],
+				"english": [
+					{ "text": "to ", "class": "" },
+					{ "text": "hear / listen", "class": "font-bold" }
+				]
+			}
+		]
+	},
+	{
+		"strongs": 1961,
+		"tense": "Infinitive",
+		"rows": [
+			{
+				"person": "inf",
+				"hebrew": [
+					{ "char": "ל", "class": "" },
+					{ "char": "ִ", "class": "" },
+					{ "char": "הְ", "class": "" },
+					{ "char": "יוֹ", "class": "" },
+					{ "char": "ת", "class": "" }
+				],
+				"translit": [
+					{ "text": "lih", "class": "" },
+					{ "text": "yot", "class": "" }
+				],
+				"english": [
+					{ "text": "to ", "class": "" },
+					{ "text": "be / become", "class": "font-bold" }
+				]
+			}
+		]
+	},
+	{
+		"strongs": 4886,
+		"tense": "Infinitive",
+		"rows": [
+			{
+				"person": "inf",
+				"hebrew": [
+					{ "char": "ל", "class": "" },
+					{ "char": "ִ", "class": "" },
+					{ "char": "זְ", "class": "" },
+					{ "char": "כֹּ", "class": "" },
+					{ "char": "ר", "class": "" }
+				],
+				"translit": [
+					{ "text": "liz", "class": "" },
+					{ "text": "kor", "class": "" }
+				],
+				"english": [
+					{ "text": "to ", "class": "" },
+					{ "text": "remember", "class": "font-bold" }
+				]
+			}
+		]
 	}
 ]

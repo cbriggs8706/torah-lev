@@ -111,6 +111,14 @@ export default function SidebarClient({
 							className="font-cardo text-xl"
 						/>
 						<SidebarItem
+							label="פעלים"
+							href="/he/verbs"
+							iconSrc="/icons/iconDictionary.png"
+							// iconSrc="/a-button-blood-type-svgrepo-com.svg"
+							onClick={onItemClick}
+							className="font-cardo text-xl"
+						/>
+						<SidebarItem
 							label="חידון מספרים"
 							href="/he/number-quiz"
 							iconSrc="/icons/iconNumber.png"

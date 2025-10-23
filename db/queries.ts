@@ -67,6 +67,9 @@ export async function getUserProgress() {
 				eq(userCourseProgress.userId, userId),
 				eq(userCourseProgress.courseId, baseProgress.activeCourseId)
 			),
+			with: {
+				activeLesson: true, // 👈 this pulls in lesson info (including lessonNumber)
+			},
 		})
 	}
 
@@ -77,6 +80,7 @@ export async function getUserProgress() {
 		points: courseProgress?.points ?? 0,
 		hearts: courseProgress?.hearts ?? 5,
 		activeLessonId: courseProgress?.activeLessonId ?? null,
+		activeLessonNumber: courseProgress?.activeLesson?.lessonNumber ?? null, // 👈 added
 		lastSeen: courseProgress?.lastSeen ?? null,
 	}
 }
@@ -787,37 +791,37 @@ export type EventsFilter = {
 	toStr?: string // 'YYYY-MM-DD' (local day end)
 }
 
-export async function listEvents(filter: EventsFilter = {}) {
-	const { categories, fromStr, toStr } = filter
+// export async function listEvents(filter: EventsFilter = {}) {
+// 	const { categories, fromStr, toStr } = filter
 
-	// Build Postgres-side timestamp (naive) boundaries
-	const fromExpr = fromStr ? sql`${fromStr}::date::timestamp` : undefined
-	const toExpr = toStr
-		? sql`${toStr}::date::timestamp + interval '1 day' - interval '1 millisecond'`
-		: undefined
+// 	// Build Postgres-side timestamp (naive) boundaries
+// 	const fromExpr = fromStr ? sql`${fromStr}::date::timestamp` : undefined
+// 	const toExpr = toStr
+// 		? sql`${toStr}::date::timestamp + interval '1 day' - interval '1 millisecond'`
+// 		: undefined
 
-	return db
-		.select({
-			id: events.id,
-			name: events.name,
-			category: events.category,
-			startTime: events.startTime,
-			endTime: events.endTime,
-			zoomUrl: events.zoomUrl,
-			recordingUrl: events.recordingUrl,
-			address: events.address,
-			notes: events.notes,
-		})
-		.from(events)
-		.where(
-			and(
-				categories?.length ? inArray(events.category, categories) : undefined,
-				fromExpr ? gte(events.startTime, fromExpr) : undefined,
-				toExpr ? lte(events.startTime, toExpr) : undefined
-			)
-		)
-		.orderBy(events.startTime)
-}
+// 	return db
+// 		.select({
+// 			id: events.id,
+// 			name: events.name,
+// 			category: events.category,
+// 			startTime: events.startTime,
+// 			endTime: events.endTime,
+// 			zoomUrl: events.zoomUrl,
+// 			recordingUrl: events.recordingUrl,
+// 			address: events.address,
+// 			notes: events.notes,
+// 		})
+// 		.from(events)
+// 		.where(
+// 			and(
+// 				categories?.length ? inArray(events.category, categories) : undefined,
+// 				fromExpr ? gte(events.startTime, fromExpr) : undefined,
+// 				toExpr ? lte(events.startTime, toExpr) : undefined
+// 			)
+// 		)
+// 		.orderBy(events.startTime)
+// }
 
 export async function getAllHebrewStories(courseId?: number) {
 	return db.query.hebrewStories.findMany({
