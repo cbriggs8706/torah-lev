@@ -1,11 +1,13 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import HebrewFutureVerbChart from './hebrew-verb-chart-future'
 import HebrewImperativeVerbChart from './hebrew-verb-chart-imperative'
 import HebrewInfinitiveVerbChart from './hebrew-verb-chart-infinitive'
 import HebrewPastVerbChart from './hebrew-verb-chart-past'
 import HebrewPresentVerbChart from './hebrew-verb-chart-present'
 import HebrewVayyiqtolVerbChart from './hebrew-verb-chart-vayyiqtol'
+import HebrewVerbPastCard from './hebrew-verb-card-past'
 
 type HebrewVerbChartsProps = {
 	binyan: string
@@ -30,6 +32,18 @@ export default function HebrewVerbCharts({
 	verb,
 	conjugations,
 }: HebrewVerbChartsProps) {
+	const [isMobile, setIsMobile] = useState(false)
+
+	// Detect screen width changes
+	useEffect(() => {
+		const handleResize = () => {
+			setIsMobile(window.innerWidth < 640) // Change breakpoint as needed
+		}
+		handleResize() // Set initial state
+		window.addEventListener('resize', handleResize)
+		return () => window.removeEventListener('resize', handleResize)
+	}, [])
+
 	const pastData =
 		conjugations.past && conjugations.past.length > 0
 			? conjugations.past[0]
@@ -71,53 +85,91 @@ export default function HebrewVerbCharts({
 				</p>
 			</div>
 
-			{/* Infinitive Chart */}
-			<div className="mb-12">
-				<h3 className="text-2xl font-bold text-sky-800 mb-3 text-center">
-					Infinitive
-				</h3>
-				<HebrewInfinitiveVerbChart data={infinitiveData} />
-			</div>
-
-			{/* Vayyiqtol Chart */}
-			<div className="mb-12">
-				<h3 className="text-2xl font-bold text-sky-800 mb-3 text-center">
-					Vayyiqtol (Perfect)
-				</h3>
-				<HebrewVayyiqtolVerbChart data={vayyiqtolData} />
-			</div>
-
-			{/* Past Chart */}
-			<div className="mb-12">
-				<h3 className="text-2xl font-bold text-sky-800 mb-3 text-center">
-					Past Tense (Perfect)
-				</h3>
-				<HebrewPastVerbChart data={pastData} />
-			</div>
-
-			{/* Present Chart */}
-			<div className="mb-12">
-				<h3 className="text-2xl font-bold text-sky-800 mb-3 text-center">
-					Present Tense
-				</h3>
-				<HebrewPresentVerbChart data={presentData} />
-			</div>
-
-			{/* Future Chart */}
-			<div className="mb-12">
-				<h3 className="text-2xl font-bold text-sky-800 mb-3 text-center">
-					Future Tense (Imperfect)
-				</h3>
-				<HebrewFutureVerbChart data={futureData} />
-			</div>
-
-			{/* Imperative Chart */}
-			<div className="mb-12">
-				<h3 className="text-2xl font-bold text-sky-800 mb-3 text-center">
-					Imperative
-				</h3>
-				<HebrewImperativeVerbChart data={imperativeData} />
-			</div>
+			{/* Conditional Rendering */}
+			{isMobile ? (
+				// Render card layout for mobile
+				<>
+					{/* <div className="mb-12">
+						<h3 className="text-2xl font-bold text-sky-800 mb-3 text-center">
+							Infinitive
+						</h3>
+						<HebrewInfinitiveVerbChart data={infinitiveData} />
+					</div>
+					<div className="mb-12">
+						<h3 className="text-2xl font-bold text-sky-800 mb-3 text-center">
+							Vayyiqtol (Perfect)
+						</h3>
+						<HebrewVayyiqtolVerbChart data={vayyiqtolData} />
+					</div> */}
+					<div className="mb-12">
+						<h3 className="text-2xl font-bold text-sky-800 mb-3 text-center">
+							Past Tense (Perfect)
+						</h3>
+						<HebrewVerbPastCard
+							title={'Past Tense (Perfect)'}
+							data={pastData}
+						/>
+					</div>
+					{/* <div className="mb-12">
+						<h3 className="text-2xl font-bold text-sky-800 mb-3 text-center">
+							Present Tense
+						</h3>
+						<HebrewPresentVerbChart data={presentData} />
+					</div>
+					<div className="mb-12">
+						<h3 className="text-2xl font-bold text-sky-800 mb-3 text-center">
+							Future Tense (Imperfect)
+						</h3>
+						<HebrewFutureVerbChart data={futureData} />
+					</div>
+					<div className="mb-12">
+						<h3 className="text-2xl font-bold text-sky-800 mb-3 text-center">
+							Imperative
+						</h3>
+						<HebrewImperativeVerbChart data={imperativeData} />
+					</div> */}
+				</>
+			) : (
+				// Render table layout for desktop
+				<>
+					<div className="mb-12">
+						<h3 className="text-2xl font-bold text-sky-800 mb-3 text-center">
+							Infinitive
+						</h3>
+						<HebrewInfinitiveVerbChart data={infinitiveData} />
+					</div>
+					<div className="mb-12">
+						<h3 className="text-2xl font-bold text-sky-800 mb-3 text-center">
+							Vayyiqtol (Perfect)
+						</h3>
+						<HebrewVayyiqtolVerbChart data={vayyiqtolData} />
+					</div>
+					<div className="mb-12">
+						<h3 className="text-2xl font-bold text-sky-800 mb-3 text-center">
+							Past Tense (Perfect)
+						</h3>
+						<HebrewPastVerbChart data={pastData} />
+					</div>
+					<div className="mb-12">
+						<h3 className="text-2xl font-bold text-sky-800 mb-3 text-center">
+							Present Tense
+						</h3>
+						<HebrewPresentVerbChart data={presentData} />
+					</div>
+					<div className="mb-12">
+						<h3 className="text-2xl font-bold text-sky-800 mb-3 text-center">
+							Future Tense (Imperfect)
+						</h3>
+						<HebrewFutureVerbChart data={futureData} />
+					</div>
+					<div className="mb-12">
+						<h3 className="text-2xl font-bold text-sky-800 mb-3 text-center">
+							Imperative
+						</h3>
+						<HebrewImperativeVerbChart data={imperativeData} />
+					</div>
+				</>
+			)}
 		</div>
 	)
 }
