@@ -111,6 +111,14 @@ export default function SidebarClient({
 							className="font-cardo text-xl"
 						/>
 						<SidebarItem
+							label="פעלים"
+							href="/he/verbs"
+							iconSrc="/icons/iconRunning.png"
+							// iconSrc="/a-button-blood-type-svgrepo-com.svg"
+							onClick={onItemClick}
+							className="font-cardo text-xl"
+						/>
+						<SidebarItem
 							label="חידון מספרים"
 							href="/he/number-quiz"
 							iconSrc="/icons/iconNumber.png"
@@ -324,8 +332,8 @@ export default function SidebarClient({
 						<SidebarItem
 							label="חידון מהיר"
 							href="/he/speed-quiz"
-							iconSrc="/icons/iconRunning.png"
-							// iconSrc="/man-juggling-medium-skin-tone-svgrepo-com.svg"
+							// iconSrc="/icons/iconRunning.png"
+							iconSrc="/man-juggling-medium-skin-tone-svgrepo-com.svg"
 							onClick={onItemClick}
 							className="font-cardo text-xl"
 						/>

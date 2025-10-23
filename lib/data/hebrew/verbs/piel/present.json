@@ -1,0 +1,94 @@
+[
+	{
+		"strongs": 1288,
+		"tense": "Present (Participle)",
+		"rows": [
+			{
+				"number": "s",
+				"gender": "m",
+				"hebrew": [{ "char": "מְבָרֵךְ", "class": "" }],
+				"translit": [{ "text": "mevarekh", "class": "" }],
+				"english": [
+					{ "text": "I ", "class": "" },
+					{ "text": "bless", "class": "font-bold" }
+				]
+			},
+			{
+				"number": "s",
+				"gender": "f",
+				"hebrew": [{ "char": "מְבָרֶכֶת", "class": "" }],
+				"translit": [{ "text": "mevarekhet", "class": "" }],
+				"english": [
+					{ "text": "I (f.) ", "class": "" },
+					{ "text": "bless", "class": "font-bold" }
+				]
+			},
+			{
+				"number": "p",
+				"gender": "m",
+				"hebrew": [{ "char": "מְבָרְכִים", "class": "" }],
+				"translit": [{ "text": "mevarkhim", "class": "" }],
+				"english": [
+					{ "text": "we / you m. pl. / they m. ", "class": "" },
+					{ "text": "bless", "class": "font-bold" }
+				]
+			},
+			{
+				"number": "p",
+				"gender": "f",
+				"hebrew": [{ "char": "מְבָרְכוֹת", "class": "" }],
+				"translit": [{ "text": "mevarkhot", "class": "" }],
+				"english": [
+					{ "text": "we / you f. pl. / they f. ", "class": "" },
+					{ "text": "bless", "class": "font-bold" }
+				]
+			}
+		]
+	},
+	{
+		"strongs": 1696,
+		"tense": "Present (Participle)",
+		"rows": [
+			{
+				"number": "s",
+				"gender": "m",
+				"hebrew": [{ "char": "מְדַבֵּר", "class": "" }],
+				"translit": [{ "text": "medaber", "class": "" }],
+				"english": [
+					{ "text": "I ", "class": "" },
+					{ "text": "speak", "class": "font-bold" }
+				]
+			},
+			{
+				"number": "s",
+				"gender": "f",
+				"hebrew": [{ "char": "מְדַבֶּרֶת", "class": "" }],
+				"translit": [{ "text": "medaberet", "class": "" }],
+				"english": [
+					{ "text": "I (f.) ", "class": "" },
+					{ "text": "speak", "class": "font-bold" }
+				]
+			},
+			{
+				"number": "p",
+				"gender": "m",
+				"hebrew": [{ "char": "מְדַבְּרִים", "class": "" }],
+				"translit": [{ "text": "medabrim", "class": "" }],
+				"english": [
+					{ "text": "we / you m. pl. / they m. ", "class": "" },
+					{ "text": "speak", "class": "font-bold" }
+				]
+			},
+			{
+				"number": "p",
+				"gender": "f",
+				"hebrew": [{ "char": "מְדַבְּרוֹת", "class": "" }],
+				"translit": [{ "text": "medabrot", "class": "" }],
+				"english": [
+					{ "text": "we / you f. pl. / they f. ", "class": "" },
+					{ "text": "speak", "class": "font-bold" }
+				]
+			}
+		]
+	}
+]

@@ -1,0 +1,162 @@
+[
+	{
+		"strongs": 1288,
+		"tense": "Vayyiqtol (Biblical Narrative)",
+		"rows": [
+			{
+				"person": "3ms",
+				"hebrew": [
+					{ "char": "ו", "class": "" },
+					{ "char": "ַ", "class": "" },
+					{ "char": "י", "class": "" },
+					{ "char": "ְ", "class": "" },
+					{ "char": "בָרֶךְ", "class": "" }
+				],
+				"translit": [
+					{ "text": "va", "class": "" },
+					{ "text": "ye", "class": "" },
+					{ "text": "varekh", "class": "" }
+				],
+				"english": [
+					{ "text": "and he ", "class": "" },
+					{ "text": "blessed", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "3fs",
+				"hebrew": [
+					{ "char": "ו", "class": "" },
+					{ "char": "ַ", "class": "" },
+					{ "char": "תְּ", "class": "" },
+					{ "char": "בָרֶךְ", "class": "" }
+				],
+				"translit": [
+					{ "text": "va", "class": "" },
+					{ "text": "te", "class": "" },
+					{ "text": "varekh", "class": "" }
+				],
+				"english": [
+					{ "text": "and she ", "class": "" },
+					{ "text": "blessed", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "3mp",
+				"hebrew": [
+					{ "char": "ו", "class": "" },
+					{ "char": "ַ", "class": "" },
+					{ "char": "י", "class": "" },
+					{ "char": "ְ", "class": "" },
+					{ "char": "בָרְכוּ", "class": "" }
+				],
+				"translit": [
+					{ "text": "va", "class": "" },
+					{ "text": "ye", "class": "" },
+					{ "text": "varkhu", "class": "" }
+				],
+				"english": [
+					{ "text": "and they (m.) ", "class": "" },
+					{ "text": "blessed", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "3fp",
+				"hebrew": [
+					{ "char": "ו", "class": "" },
+					{ "char": "ַ", "class": "" },
+					{ "char": "תְּ", "class": "" },
+					{ "char": "בָרֵכְנָה", "class": "" }
+				],
+				"translit": [
+					{ "text": "va", "class": "" },
+					{ "text": "te", "class": "" },
+					{ "text": "varekh’nah", "class": "" }
+				],
+				"english": [
+					{ "text": "and they (f.) ", "class": "" },
+					{ "text": "blessed", "class": "font-bold" }
+				]
+			}
+		]
+	},
+	{
+		"strongs": 1696,
+		"tense": "Vayyiqtol (Biblical Narrative)",
+		"rows": [
+			{
+				"person": "3ms",
+				"hebrew": [
+					{ "char": "ו", "class": "" },
+					{ "char": "ַ", "class": "" },
+					{ "char": "י", "class": "" },
+					{ "char": "ְ", "class": "" },
+					{ "char": "דַּבֵּר", "class": "" }
+				],
+				"translit": [
+					{ "text": "va", "class": "" },
+					{ "text": "ye", "class": "" },
+					{ "text": "daber", "class": "" }
+				],
+				"english": [
+					{ "text": "and he ", "class": "" },
+					{ "text": "spoke", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "3fs",
+				"hebrew": [
+					{ "char": "ו", "class": "" },
+					{ "char": "ַ", "class": "" },
+					{ "char": "תְּ", "class": "" },
+					{ "char": "דַּבֵּר", "class": "" }
+				],
+				"translit": [
+					{ "text": "va", "class": "" },
+					{ "text": "te", "class": "" },
+					{ "text": "daber", "class": "" }
+				],
+				"english": [
+					{ "text": "and she ", "class": "" },
+					{ "text": "spoke", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "3mp",
+				"hebrew": [
+					{ "char": "ו", "class": "" },
+					{ "char": "ַ", "class": "" },
+					{ "char": "י", "class": "" },
+					{ "char": "ְ", "class": "" },
+					{ "char": "דִּבְּרוּ", "class": "" }
+				],
+				"translit": [
+					{ "text": "va", "class": "" },
+					{ "text": "ye", "class": "" },
+					{ "text": "dibru", "class": "" }
+				],
+				"english": [
+					{ "text": "and they (m.) ", "class": "" },
+					{ "text": "spoke", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "3fp",
+				"hebrew": [
+					{ "char": "ו", "class": "" },
+					{ "char": "ַ", "class": "" },
+					{ "char": "תְּ", "class": "" },
+					{ "char": "דַּבֵּרְנָה", "class": "" }
+				],
+				"translit": [
+					{ "text": "va", "class": "" },
+					{ "text": "te", "class": "" },
+					{ "text": "dabber’nah", "class": "" }
+				],
+				"english": [
+					{ "text": "and they (f.) ", "class": "" },
+					{ "text": "spoke", "class": "font-bold" }
+				]
+			}
+		]
+	}
+]

@@ -1,0 +1,322 @@
+[
+	{
+		"strongs": 1696,
+		"tense": "Past (Qatal)",
+		"rows": [
+			{
+				"person": "1sc",
+				"hebrew": [
+					{ "char": "דִּ", "class": "" },
+					{ "char": "בַּ", "class": "" },
+					{ "char": "רְ", "class": "" },
+					{ "char": "תִּי", "class": "" }
+				],
+				"translit": [
+					{ "text": "di", "class": "" },
+					{ "text": "barti", "class": "" }
+				],
+				"english": [
+					{ "text": "I ", "class": "" },
+					{ "text": "spoke", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "1pc",
+				"hebrew": [
+					{ "char": "דִּ", "class": "" },
+					{ "char": "בַּ", "class": "" },
+					{ "char": "רְ", "class": "" },
+					{ "char": "נוּ", "class": "" }
+				],
+				"translit": [
+					{ "text": "di", "class": "" },
+					{ "text": "barnu", "class": "" }
+				],
+				"english": [
+					{ "text": "we ", "class": "" },
+					{ "text": "spoke", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "2ms",
+				"hebrew": [
+					{ "char": "דִּ", "class": "" },
+					{ "char": "בַּ", "class": "" },
+					{ "char": "רְ", "class": "" },
+					{ "char": "תָּ", "class": "" }
+				],
+				"translit": [
+					{ "text": "di", "class": "" },
+					{ "text": "barta", "class": "" }
+				],
+				"english": [
+					{ "text": "you (m. sg.) ", "class": "" },
+					{ "text": "spoke", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "2fs",
+				"hebrew": [
+					{ "char": "דִּ", "class": "" },
+					{ "char": "בַּ", "class": "" },
+					{ "char": "רְ", "class": "" },
+					{ "char": "תְּ", "class": "" }
+				],
+				"translit": [
+					{ "text": "di", "class": "" },
+					{ "text": "bart", "class": "" }
+				],
+				"english": [
+					{ "text": "you (f. sg.) ", "class": "" },
+					{ "text": "spoke", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "2mp",
+				"hebrew": [
+					{ "char": "דִּ", "class": "" },
+					{ "char": "בַּ", "class": "" },
+					{ "char": "רְ", "class": "" },
+					{ "char": "תֶּם", "class": "" }
+				],
+				"translit": [
+					{ "text": "di", "class": "" },
+					{ "text": "bartem", "class": "" }
+				],
+				"english": [
+					{ "text": "you (m. pl.) ", "class": "" },
+					{ "text": "spoke", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "2fp",
+				"hebrew": [
+					{ "char": "דִּ", "class": "" },
+					{ "char": "בַּ", "class": "" },
+					{ "char": "רְ", "class": "" },
+					{ "char": "תֶּן", "class": "" }
+				],
+				"translit": [
+					{ "text": "di", "class": "" },
+					{ "text": "barten", "class": "" }
+				],
+				"english": [
+					{ "text": "you (f. pl.) ", "class": "" },
+					{ "text": "spoke", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "3ms",
+				"hebrew": [
+					{ "char": "דִּ", "class": "" },
+					{ "char": "בֵּ", "class": "" },
+					{ "char": "ר", "class": "" }
+				],
+				"translit": [{ "text": "diber", "class": "" }],
+				"english": [
+					{ "text": "he/it ", "class": "" },
+					{ "text": "spoke", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "3fs",
+				"hebrew": [
+					{ "char": "דִּ", "class": "" },
+					{ "char": "בְּ", "class": "" },
+					{ "char": "רָה", "class": "" }
+				],
+				"translit": [{ "text": "dibrah", "class": "" }],
+				"english": [
+					{ "text": "she/it ", "class": "" },
+					{ "text": "spoke", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "3mp",
+				"hebrew": [
+					{ "char": "דִּ", "class": "" },
+					{ "char": "בְּ", "class": "" },
+					{ "char": "רוּ", "class": "" }
+				],
+				"translit": [{ "text": "diberu", "class": "" }],
+				"english": [
+					{ "text": "they (m.) ", "class": "" },
+					{ "text": "spoke", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "3fp",
+				"hebrew": [
+					{ "char": "דִּ", "class": "" },
+					{ "char": "בְּ", "class": "" },
+					{ "char": "רוּ", "class": "" }
+				],
+				"translit": [{ "text": "diberu", "class": "" }],
+				"english": [
+					{ "text": "they (f.) ", "class": "" },
+					{ "text": "spoke", "class": "font-bold" }
+				]
+			}
+		]
+	},
+	{
+		"strongs": 1288,
+		"tense": "Past (Qatal)",
+		"rows": [
+			{
+				"person": "1sc",
+				"hebrew": [
+					{ "char": "בֵּ", "class": "" },
+					{ "char": "רַ", "class": "" },
+					{ "char": "כְ", "class": "" },
+					{ "char": "תִּי", "class": "" }
+				],
+				"translit": [
+					{ "text": "be", "class": "" },
+					{ "text": "rachtí", "class": "" }
+				],
+				"english": [
+					{ "text": "I ", "class": "" },
+					{ "text": "blessed", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "1pc",
+				"hebrew": [
+					{ "char": "בֵּ", "class": "" },
+					{ "char": "רַ", "class": "" },
+					{ "char": "כְ", "class": "" },
+					{ "char": "נוּ", "class": "" }
+				],
+				"translit": [
+					{ "text": "be", "class": "" },
+					{ "text": "rachnu", "class": "" }
+				],
+				"english": [
+					{ "text": "we ", "class": "" },
+					{ "text": "blessed", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "2ms",
+				"hebrew": [
+					{ "char": "בֵּ", "class": "" },
+					{ "char": "רַ", "class": "" },
+					{ "char": "כְ", "class": "" },
+					{ "char": "תָּ", "class": "" }
+				],
+				"translit": [
+					{ "text": "be", "class": "" },
+					{ "text": "rakhta", "class": "" }
+				],
+				"english": [
+					{ "text": "you (m. sg.) ", "class": "" },
+					{ "text": "blessed", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "2fs",
+				"hebrew": [
+					{ "char": "בֵּ", "class": "" },
+					{ "char": "רַ", "class": "" },
+					{ "char": "כְ", "class": "" },
+					{ "char": "תְּ", "class": "" }
+				],
+				"translit": [
+					{ "text": "be", "class": "" },
+					{ "text": "rakht", "class": "" }
+				],
+				"english": [
+					{ "text": "you (f. sg.) ", "class": "" },
+					{ "text": "blessed", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "2mp",
+				"hebrew": [
+					{ "char": "בֵּ", "class": "" },
+					{ "char": "רַ", "class": "" },
+					{ "char": "כְ", "class": "" },
+					{ "char": "תֶּם", "class": "" }
+				],
+				"translit": [
+					{ "text": "be", "class": "" },
+					{ "text": "rakhtem", "class": "" }
+				],
+				"english": [
+					{ "text": "you (m. pl.) ", "class": "" },
+					{ "text": "blessed", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "2fp",
+				"hebrew": [
+					{ "char": "בֵּ", "class": "" },
+					{ "char": "רַ", "class": "" },
+					{ "char": "כְ", "class": "" },
+					{ "char": "תֶּן", "class": "" }
+				],
+				"translit": [
+					{ "text": "be", "class": "" },
+					{ "text": "rakhten", "class": "" }
+				],
+				"english": [
+					{ "text": "you (f. pl.) ", "class": "" },
+					{ "text": "blessed", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "3ms",
+				"hebrew": [
+					{ "char": "בֵּ", "class": "" },
+					{ "char": "רַ", "class": "" },
+					{ "char": "ךְ", "class": "" }
+				],
+				"translit": [{ "text": "berach", "class": "" }],
+				"english": [
+					{ "text": "he/it ", "class": "" },
+					{ "text": "blessed", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "3fs",
+				"hebrew": [
+					{ "char": "בֵּ", "class": "" },
+					{ "char": "רְ", "class": "" },
+					{ "char": "כָה", "class": "" }
+				],
+				"translit": [{ "text": "berchah", "class": "" }],
+				"english": [
+					{ "text": "she/it ", "class": "" },
+					{ "text": "blessed", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "3mp",
+				"hebrew": [
+					{ "char": "בֵּ", "class": "" },
+					{ "char": "רְ", "class": "" },
+					{ "char": "כוּ", "class": "" }
+				],
+				"translit": [{ "text": "berchu", "class": "" }],
+				"english": [
+					{ "text": "they (m.) ", "class": "" },
+					{ "text": "blessed", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "3fp",
+				"hebrew": [
+					{ "char": "בֵּ", "class": "" },
+					{ "char": "רַ", "class": "" },
+					{ "char": "כוּ", "class": "" }
+				],
+				"translit": [{ "text": "berchu", "class": "" }],
+				"english": [
+					{ "text": "they (f.) ", "class": "" },
+					{ "text": "blessed", "class": "font-bold" }
+				]
+			}
+		]
+	}
+]

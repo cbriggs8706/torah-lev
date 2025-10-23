@@ -1,0 +1,676 @@
+[
+	{
+		"strongs": 1980,
+		"tense": "Imperative",
+		"rows": [
+			{
+				"number": "s",
+				"gender": "m",
+				"hebrew": [
+					{ "char": "ל", "class": "" },
+					{ "char": "ֵ", "class": "" },
+					{ "char": "ך", "class": "" }
+				],
+				"translit": [{ "text": "lech", "class": "" }],
+				"english": [{ "text": "go!", "class": "font-bold" }]
+			},
+			{
+				"number": "s",
+				"gender": "f",
+				"hebrew": [
+					{ "char": "ל", "class": "" },
+					{ "char": "ְ", "class": "" },
+					{ "char": "כ", "class": "" },
+					{ "char": "ִ", "class": "" },
+					{ "char": "י", "class": "" }
+				],
+				"translit": [{ "text": "lechi", "class": "" }],
+				"english": [{ "text": "go! (to a woman)", "class": "font-bold" }]
+			},
+			{
+				"number": "p",
+				"gender": "m",
+				"hebrew": [
+					{ "char": "ל", "class": "" },
+					{ "char": "ְ", "class": "" },
+					{ "char": "כ", "class": "" },
+					{ "char": "ו", "class": "" },
+					{ "char": "ּ", "class": "" }
+				],
+				"translit": [{ "text": "lechu", "class": "" }],
+				"english": [{ "text": "go! (to men)", "class": "font-bold" }]
+			},
+			{
+				"number": "p",
+				"gender": "f",
+				"hebrew": [
+					{ "char": "ל", "class": "" },
+					{ "char": "ֵ", "class": "" },
+					{ "char": "כ", "class": "" },
+					{ "char": "ְ", "class": "" },
+					{ "char": "נ", "class": "" },
+					{ "char": "ָ", "class": "" }
+				],
+				"translit": [{ "text": "lechna", "class": "" }],
+				"english": [{ "text": "go! (to women)", "class": "font-bold" }]
+			}
+		]
+	},
+	{
+		"strongs": 3789,
+		"tense": "Imperative",
+		"rows": [
+			{
+				"person": "2ms",
+				"number": "s",
+				"gender": "m",
+				"hebrew": [
+					{ "char": "ל", "class": "" },
+					{ "char": "ָ", "class": "" },
+					{ "char": "ת", "class": "" },
+					{ "char": "ָ", "class": "" },
+					{ "char": "ב", "class": "" }
+				],
+				"translit": [
+					{ "text": "le", "class": "" },
+					{ "text": "tav", "class": "" }
+				],
+				"english": [{ "text": "write!", "class": "font-bold" }]
+			},
+			{
+				"person": "2fs",
+				"number": "s",
+				"gender": "m",
+				"hebrew": [
+					{ "char": "ל", "class": "" },
+					{ "char": "ָ", "class": "" },
+					{ "char": "ת", "class": "" },
+					{ "char": "ְ", "class": "" },
+					{ "char": "כ", "class": "" },
+					{ "char": "ִ", "class": "" },
+					{ "char": "י", "class": "" }
+				],
+				"translit": [{ "text": "lechi", "class": "" }],
+				"english": [{ "text": "write! (to a woman)", "class": "font-bold" }]
+			},
+			{
+				"person": "2mp",
+				"number": "s",
+				"gender": "m",
+				"hebrew": [
+					{ "char": "ל", "class": "" },
+					{ "char": "ְ", "class": "" },
+					{ "char": "כ", "class": "" },
+					{ "char": "ו", "class": "" },
+					{ "char": "ּ", "class": "" },
+					{ "char": "ב", "class": "" }
+				],
+				"translit": [{ "text": "lechu", "class": "" }],
+				"english": [{ "text": "write! (to men)", "class": "font-bold" }]
+			},
+			{
+				"person": "2fp",
+				"number": "s",
+				"gender": "m",
+				"hebrew": [
+					{ "char": "ל", "class": "" },
+					{ "char": "ֵ", "class": "" },
+					{ "char": "כ", "class": "" },
+					{ "char": "ְ", "class": "" },
+					{ "char": "נ", "class": "" },
+					{ "char": "ָ", "class": "" },
+					{ "char": "ב", "class": "" }
+				],
+				"translit": [{ "text": "lechna", "class": "" }],
+				"english": [{ "text": "write! (to women)", "class": "font-bold" }]
+			}
+		]
+	},
+
+	{
+		"strongs": 3947,
+		"tense": "Imperative",
+		"rows": [
+			{
+				"number": "s",
+				"gender": "m",
+				"hebrew": [
+					{ "char": "ק", "class": "" },
+					{ "char": "ַ", "class": "" },
+					{ "char": "ח", "class": "" }
+				],
+				"translit": [{ "text": "kach", "class": "" }],
+				"english": [{ "text": "take!", "class": "font-bold" }]
+			},
+			{
+				"number": "s",
+				"gender": "f",
+				"hebrew": [
+					{ "char": "ק", "class": "" },
+					{ "char": "ְ", "class": "" },
+					{ "char": "ח", "class": "" },
+					{ "char": "ִ", "class": "" },
+					{ "char": "י", "class": "" }
+				],
+				"translit": [{ "text": "kechi", "class": "" }],
+				"english": [{ "text": "take! (to a woman)", "class": "font-bold" }]
+			},
+			{
+				"number": "p",
+				"gender": "m",
+				"hebrew": [
+					{ "char": "ק", "class": "" },
+					{ "char": "ְ", "class": "" },
+					{ "char": "ח", "class": "" },
+					{ "char": "ו", "class": "" },
+					{ "char": "ּ", "class": "" }
+				],
+				"translit": [{ "text": "kechu", "class": "" }],
+				"english": [{ "text": "take! (to men)", "class": "font-bold" }]
+			},
+			{
+				"number": "p",
+				"gender": "f",
+				"hebrew": [
+					{ "char": "ק", "class": "" },
+					{ "char": "ַ", "class": "" },
+					{ "char": "ח", "class": "" },
+					{ "char": "ְ", "class": "" },
+					{ "char": "נ", "class": "" },
+					{ "char": "ָ", "class": "" }
+				],
+				"translit": [{ "text": "kachna", "class": "" }],
+				"english": [{ "text": "take! (to women)", "class": "font-bold" }]
+			}
+		]
+	},
+	{
+		"strongs": 7121,
+		"tense": "Imperative",
+		"rows": [
+			{
+				"number": "s",
+				"gender": "m",
+				"hebrew": [
+					{ "char": "ק", "class": "" },
+					{ "char": "ְ", "class": "" },
+					{ "char": "רָ", "class": "" },
+					{ "char": "א", "class": "" }
+				],
+				"translit": [{ "text": "kra", "class": "" }],
+				"english": [{ "text": "call!", "class": "font-bold" }]
+			},
+			{
+				"number": "s",
+				"gender": "f",
+				"hebrew": [
+					{ "char": "ק", "class": "" },
+					{ "char": "ִ", "class": "" },
+					{ "char": "רְ", "class": "" },
+					{ "char": "אִ", "class": "" },
+					{ "char": "י", "class": "" }
+				],
+				"translit": [{ "text": "kiri’i", "class": "" }],
+				"english": [{ "text": "call! (to a woman)", "class": "font-bold" }]
+			},
+			{
+				"number": "p",
+				"gender": "m",
+				"hebrew": [
+					{ "char": "ק", "class": "" },
+					{ "char": "ִ", "class": "" },
+					{ "char": "רְ", "class": "" },
+					{ "char": "אוּ", "class": "" }
+				],
+				"translit": [{ "text": "kir’u", "class": "" }],
+				"english": [{ "text": "call! (to men)", "class": "font-bold" }]
+			},
+			{
+				"number": "p",
+				"gender": "f",
+				"hebrew": [
+					{ "char": "ק", "class": "" },
+					{ "char": "ְ", "class": "" },
+					{ "char": "רַ", "class": "" },
+					{ "char": "אְ", "class": "" },
+					{ "char": "נָ", "class": "" }
+				],
+				"translit": [{ "text": "kr’na", "class": "" }],
+				"english": [{ "text": "call! (to women)", "class": "font-bold" }]
+			}
+		]
+	},
+	{
+		"strongs": 7200,
+		"tense": "Imperative",
+		"rows": [
+			{
+				"number": "s",
+				"gender": "m",
+				"hebrew": [
+					{ "char": "ר", "class": "" },
+					{ "char": "ְ", "class": "" },
+					{ "char": "אֵ", "class": "" },
+					{ "char": "ה", "class": "" }
+				],
+				"translit": [{ "text": "re’eh", "class": "" }],
+				"english": [{ "text": "see!", "class": "font-bold" }]
+			},
+			{
+				"number": "s",
+				"gender": "f",
+				"hebrew": [
+					{ "char": "ר", "class": "" },
+					{ "char": "ְ", "class": "" },
+					{ "char": "אִ", "class": "" },
+					{ "char": "י", "class": "" }
+				],
+				"translit": [{ "text": "re’i", "class": "" }],
+				"english": [{ "text": "see! (to a woman)", "class": "font-bold" }]
+			},
+			{
+				"number": "p",
+				"gender": "m",
+				"hebrew": [
+					{ "char": "ר", "class": "" },
+					{ "char": "ְ", "class": "" },
+					{ "char": "אוּ", "class": "" }
+				],
+				"translit": [{ "text": "re’u", "class": "" }],
+				"english": [{ "text": "see! (to men)", "class": "font-bold" }]
+			},
+			{
+				"number": "p",
+				"gender": "f",
+				"hebrew": [
+					{ "char": "ר", "class": "" },
+					{ "char": "ְ", "class": "" },
+					{ "char": "אֵ", "class": "" },
+					{ "char": "נָ", "class": "" }
+				],
+				"translit": [{ "text": "re’enah", "class": "" }],
+				"english": [{ "text": "see! (to women)", "class": "font-bold" }]
+			}
+		]
+	},
+	{
+		"strongs": 6965,
+		"tense": "Imperative",
+		"rows": [
+			{
+				"number": "s",
+				"gender": "m",
+				"hebrew": [{ "char": "קוּם", "class": "" }],
+				"translit": [{ "text": "qum", "class": "" }],
+				"english": [{ "text": "arise!", "class": "font-bold" }]
+			},
+			{
+				"number": "s",
+				"gender": "f",
+				"hebrew": [
+					{ "char": "קוּ", "class": "" },
+					{ "char": "מִ", "class": "" },
+					{ "char": "י", "class": "" }
+				],
+				"translit": [{ "text": "qumi", "class": "" }],
+				"english": [{ "text": "arise! (to a woman)", "class": "font-bold" }]
+			},
+			{
+				"number": "p",
+				"gender": "m",
+				"hebrew": [{ "char": "קוּמוּ", "class": "" }],
+				"translit": [{ "text": "qumu", "class": "" }],
+				"english": [{ "text": "arise! (to men)", "class": "font-bold" }]
+			},
+			{
+				"number": "p",
+				"gender": "f",
+				"hebrew": [{ "char": "קוּמְנָה", "class": "" }],
+				"translit": [{ "text": "qumnah", "class": "" }],
+				"english": [{ "text": "arise! (to women)", "class": "font-bold" }]
+			}
+		]
+	},
+	{
+		"strongs": 3427,
+		"tense": "Imperative",
+		"rows": [
+			{
+				"number": "s",
+				"gender": "m",
+				"hebrew": [{ "char": "שֵׁב", "class": "" }],
+				"translit": [{ "text": "shev", "class": "" }],
+				"english": [{ "text": "sit / dwell!", "class": "font-bold" }]
+			},
+			{
+				"number": "s",
+				"gender": "f",
+				"hebrew": [{ "char": "שְׁבִי", "class": "" }],
+				"translit": [{ "text": "shevi", "class": "" }],
+				"english": [{ "text": "sit! (to a woman)", "class": "font-bold" }]
+			},
+			{
+				"number": "p",
+				"gender": "m",
+				"hebrew": [{ "char": "שְׁבוּ", "class": "" }],
+				"translit": [{ "text": "shevu", "class": "" }],
+				"english": [{ "text": "sit! (to men)", "class": "font-bold" }]
+			},
+			{
+				"number": "p",
+				"gender": "f",
+				"hebrew": [{ "char": "שְׁבֶינָה", "class": "" }],
+				"translit": [{ "text": "shevenah", "class": "" }],
+				"english": [{ "text": "sit! (to women)", "class": "font-bold" }]
+			}
+		]
+	},
+	{
+		"strongs": 7760,
+		"tense": "Imperative",
+		"rows": [
+			{
+				"number": "s",
+				"gender": "m",
+				"hebrew": [{ "char": "שִׂים", "class": "" }],
+				"translit": [{ "text": "sim", "class": "" }],
+				"english": [{ "text": "set / place!", "class": "font-bold" }]
+			},
+			{
+				"number": "s",
+				"gender": "f",
+				"hebrew": [{ "char": "שִׂימִי", "class": "" }],
+				"translit": [{ "text": "simi", "class": "" }],
+				"english": [{ "text": "set! (to a woman)", "class": "font-bold" }]
+			},
+			{
+				"number": "p",
+				"gender": "m",
+				"hebrew": [{ "char": "שִׂימוּ", "class": "" }],
+				"translit": [{ "text": "simu", "class": "" }],
+				"english": [{ "text": "set! (to men)", "class": "font-bold" }]
+			},
+			{
+				"number": "p",
+				"gender": "f",
+				"hebrew": [{ "char": "שִׂימְנָה", "class": "" }],
+				"translit": [{ "text": "simnah", "class": "" }],
+				"english": [{ "text": "set! (to women)", "class": "font-bold" }]
+			}
+		]
+	},
+	{
+		"strongs": 935,
+		"tense": "Imperative",
+		"rows": [
+			{
+				"number": "s",
+				"gender": "m",
+				"hebrew": [{ "char": "בּוֹא", "class": "" }],
+				"translit": [{ "text": "bo", "class": "" }],
+				"english": [{ "text": "come!", "class": "font-bold" }]
+			},
+			{
+				"number": "s",
+				"gender": "f",
+				"hebrew": [{ "char": "בּוֹאִי", "class": "" }],
+				"translit": [{ "text": "bo’i", "class": "" }],
+				"english": [{ "text": "come! (to a woman)", "class": "font-bold" }]
+			},
+			{
+				"number": "p",
+				"gender": "m",
+				"hebrew": [{ "char": "בּוֹאוּ", "class": "" }],
+				"translit": [{ "text": "bo’u", "class": "" }],
+				"english": [{ "text": "come! (to men)", "class": "font-bold" }]
+			},
+			{
+				"number": "p",
+				"gender": "f",
+				"hebrew": [{ "char": "בּוֹאָנָה", "class": "" }],
+				"translit": [{ "text": "bo’nah", "class": "" }],
+				"english": [{ "text": "come! (to women)", "class": "font-bold" }]
+			}
+		]
+	},
+	{
+		"strongs": 5414,
+		"tense": "Imperative",
+		"rows": [
+			{
+				"number": "s",
+				"gender": "m",
+				"hebrew": [{ "char": "תֵּן", "class": "" }],
+				"translit": [{ "text": "ten", "class": "" }],
+				"english": [{ "text": "give!", "class": "font-bold" }]
+			},
+			{
+				"number": "s",
+				"gender": "f",
+				"hebrew": [{ "char": "תְּנִי", "class": "" }],
+				"translit": [{ "text": "teni", "class": "" }],
+				"english": [{ "text": "give! (to a woman)", "class": "font-bold" }]
+			},
+			{
+				"number": "p",
+				"gender": "m",
+				"hebrew": [{ "char": "תְּנוּ", "class": "" }],
+				"translit": [{ "text": "tenu", "class": "" }],
+				"english": [{ "text": "give! (to men)", "class": "font-bold" }]
+			},
+			{
+				"number": "p",
+				"gender": "f",
+				"hebrew": [{ "char": "תֵּנָה", "class": "" }],
+				"translit": [{ "text": "tenah", "class": "" }],
+				"english": [{ "text": "give! (to women)", "class": "font-bold" }]
+			}
+		]
+	},
+
+	{
+		"strongs": 559,
+		"tense": "Imperative",
+		"rows": [
+			{
+				"number": "s",
+				"gender": "m",
+				"hebrew": [{ "char": "אֱמֹר", "class": "" }],
+				"translit": [{ "text": "emor", "class": "" }],
+				"english": [{ "text": "say!", "class": "font-bold" }]
+			},
+			{
+				"number": "s",
+				"gender": "f",
+				"hebrew": [{ "char": "אִמְרִי", "class": "" }],
+				"translit": [{ "text": "imri", "class": "" }],
+				"english": [{ "text": "say! (to a woman)", "class": "font-bold" }]
+			},
+			{
+				"number": "p",
+				"gender": "m",
+				"hebrew": [{ "char": "אִמְרוּ", "class": "" }],
+				"translit": [{ "text": "imru", "class": "" }],
+				"english": [{ "text": "say! (to men)", "class": "font-bold" }]
+			},
+			{
+				"number": "p",
+				"gender": "f",
+				"hebrew": [{ "char": "אֱמֹרְנָה", "class": "" }],
+				"translit": [{ "text": "emor’nah", "class": "" }],
+				"english": [{ "text": "say! (to women)", "class": "font-bold" }]
+			}
+		]
+	},
+	{
+		"strongs": 6213,
+		"tense": "Imperative",
+		"rows": [
+			{
+				"number": "s",
+				"gender": "m",
+				"hebrew": [{ "char": "עֲשֵׂה", "class": "" }],
+				"translit": [{ "text": "aseh", "class": "" }],
+				"english": [{ "text": "do / make!", "class": "font-bold" }]
+			},
+			{
+				"number": "s",
+				"gender": "f",
+				"hebrew": [{ "char": "עֲשִׂי", "class": "" }],
+				"translit": [{ "text": "asi", "class": "" }],
+				"english": [{ "text": "do! (to a woman)", "class": "font-bold" }]
+			},
+			{
+				"number": "p",
+				"gender": "m",
+				"hebrew": [{ "char": "עֲשׂוּ", "class": "" }],
+				"translit": [{ "text": "asu", "class": "" }],
+				"english": [{ "text": "do! (to men)", "class": "font-bold" }]
+			},
+			{
+				"number": "p",
+				"gender": "f",
+				"hebrew": [{ "char": "עֲשֶׂינָה", "class": "" }],
+				"translit": [{ "text": "asenah", "class": "" }],
+				"english": [{ "text": "do! (to women)", "class": "font-bold" }]
+			}
+		]
+	},
+	{
+		"strongs": 3045,
+		"tense": "Imperative",
+		"rows": [
+			{
+				"number": "s",
+				"gender": "m",
+				"hebrew": [{ "char": "דְּעָה", "class": "" }],
+				"translit": [{ "text": "de’a", "class": "" }],
+				"english": [{ "text": "know!", "class": "font-bold" }]
+			},
+			{
+				"number": "s",
+				"gender": "f",
+				"hebrew": [{ "char": "דְּעִי", "class": "" }],
+				"translit": [{ "text": "de’i", "class": "" }],
+				"english": [{ "text": "know! (to a woman)", "class": "font-bold" }]
+			},
+			{
+				"number": "p",
+				"gender": "m",
+				"hebrew": [{ "char": "דְּעוּ", "class": "" }],
+				"translit": [{ "text": "de’u", "class": "" }],
+				"english": [{ "text": "know! (to men)", "class": "font-bold" }]
+			},
+			{
+				"number": "p",
+				"gender": "f",
+				"hebrew": [{ "char": "דְּעֶינָה", "class": "" }],
+				"translit": [{ "text": "de’enah", "class": "" }],
+				"english": [{ "text": "know! (to women)", "class": "font-bold" }]
+			}
+		]
+	},
+	{
+		"strongs": 8085,
+		"tense": "Imperative",
+		"rows": [
+			{
+				"number": "s",
+				"gender": "m",
+				"hebrew": [{ "char": "שְׁמַע", "class": "" }],
+				"translit": [{ "text": "sh’ma", "class": "" }],
+				"english": [{ "text": "hear!", "class": "font-bold" }]
+			},
+			{
+				"number": "s",
+				"gender": "f",
+				"hebrew": [{ "char": "שִׁמְעִי", "class": "" }],
+				"translit": [{ "text": "shim’i", "class": "" }],
+				"english": [{ "text": "hear! (to a woman)", "class": "font-bold" }]
+			},
+			{
+				"number": "p",
+				"gender": "m",
+				"hebrew": [{ "char": "שִׁמְעוּ", "class": "" }],
+				"translit": [{ "text": "shim’u", "class": "" }],
+				"english": [{ "text": "hear! (to men)", "class": "font-bold" }]
+			},
+			{
+				"number": "p",
+				"gender": "f",
+				"hebrew": [{ "char": "שְׁמַעְנָה", "class": "" }],
+				"translit": [{ "text": "sh’ma’nah", "class": "" }],
+				"english": [{ "text": "hear! (to women)", "class": "font-bold" }]
+			}
+		]
+	},
+	{
+		"strongs": 1961,
+		"tense": "Imperative",
+		"rows": [
+			{
+				"number": "s",
+				"gender": "m",
+				"hebrew": [{ "char": "הְיֵה", "class": "" }],
+				"translit": [{ "text": "heyeh", "class": "" }],
+				"english": [{ "text": "be!", "class": "font-bold" }]
+			},
+			{
+				"number": "s",
+				"gender": "f",
+				"hebrew": [{ "char": "הֱיִי", "class": "" }],
+				"translit": [{ "text": "heyi", "class": "" }],
+				"english": [{ "text": "be! (to a woman)", "class": "font-bold" }]
+			},
+			{
+				"number": "p",
+				"gender": "m",
+				"hebrew": [{ "char": "הְיוּ", "class": "" }],
+				"translit": [{ "text": "hey’u", "class": "" }],
+				"english": [{ "text": "be! (to men)", "class": "font-bold" }]
+			},
+			{
+				"number": "p",
+				"gender": "f",
+				"hebrew": [{ "char": "הְיֶינָה", "class": "" }],
+				"translit": [{ "text": "heyenah", "class": "" }],
+				"english": [{ "text": "be! (to women)", "class": "font-bold" }]
+			}
+		]
+	},
+
+	{
+		"strongs": 4886,
+		"tense": "Imperative",
+		"rows": [
+			{
+				"number": "s",
+				"gender": "m",
+				"hebrew": [{ "char": "זְכֹר", "class": "" }],
+				"translit": [{ "text": "zekhor", "class": "" }],
+				"english": [{ "text": "remember!", "class": "font-bold" }]
+			},
+			{
+				"number": "s",
+				"gender": "f",
+				"hebrew": [{ "char": "זִכְרִי", "class": "" }],
+				"translit": [{ "text": "zikhri", "class": "" }],
+				"english": [{ "text": "remember! (to a woman)", "class": "font-bold" }]
+			},
+			{
+				"number": "p",
+				"gender": "m",
+				"hebrew": [{ "char": "זִכְרוּ", "class": "" }],
+				"translit": [{ "text": "zikhru", "class": "" }],
+				"english": [{ "text": "remember! (to men)", "class": "font-bold" }]
+			},
+			{
+				"number": "p",
+				"gender": "f",
+				"hebrew": [{ "char": "זְכֹרְנָה", "class": "" }],
+				"translit": [{ "text": "zekhor’nah", "class": "" }],
+				"english": [{ "text": "remember! (to women)", "class": "font-bold" }]
+			}
+		]
+	}
+]

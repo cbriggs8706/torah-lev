@@ -1,0 +1,70 @@
+[
+	{
+		"strongs": 1696,
+		"tense": "Imperative",
+		"rows": [
+			{
+				"number": "s",
+				"gender": "m",
+				"hebrew": [{ "char": "דַּבֵּר", "class": "" }],
+				"translit": [{ "text": "dabber", "class": "" }],
+				"english": [{ "text": "speak!", "class": "font-bold" }]
+			},
+			{
+				"number": "s",
+				"gender": "f",
+				"hebrew": [{ "char": "דַּבְּרִי", "class": "" }],
+				"translit": [{ "text": "dabberi", "class": "" }],
+				"english": [{ "text": "speak! (to a woman)", "class": "font-bold" }]
+			},
+			{
+				"number": "p",
+				"gender": "m",
+				"hebrew": [{ "char": "דַּבְּרוּ", "class": "" }],
+				"translit": [{ "text": "dabberu", "class": "" }],
+				"english": [{ "text": "speak! (to men)", "class": "font-bold" }]
+			},
+			{
+				"number": "p",
+				"gender": "f",
+				"hebrew": [{ "char": "דַּבֵּרְנָה", "class": "" }],
+				"translit": [{ "text": "dabbernah", "class": "" }],
+				"english": [{ "text": "speak! (to women)", "class": "font-bold" }]
+			}
+		]
+	},
+	{
+		"strongs": 1288,
+		"tense": "Imperative",
+		"rows": [
+			{
+				"number": "s",
+				"gender": "m",
+				"hebrew": [{ "char": "בָּרֵךְ", "class": "" }],
+				"translit": [{ "text": "barekh", "class": "" }],
+				"english": [{ "text": "bless!", "class": "font-bold" }]
+			},
+			{
+				"number": "s",
+				"gender": "f",
+				"hebrew": [{ "char": "בָּרְכִי", "class": "" }],
+				"translit": [{ "text": "borkhi", "class": "" }],
+				"english": [{ "text": "bless! (to a woman)", "class": "font-bold" }]
+			},
+			{
+				"number": "p",
+				"gender": "m",
+				"hebrew": [{ "char": "בָּרְכוּ", "class": "" }],
+				"translit": [{ "text": "borkhu", "class": "" }],
+				"english": [{ "text": "bless! (to men)", "class": "font-bold" }]
+			},
+			{
+				"number": "p",
+				"gender": "f",
+				"hebrew": [{ "char": "בָּרֵכְנָה", "class": "" }],
+				"translit": [{ "text": "barekhna", "class": "" }],
+				"english": [{ "text": "bless! (to women)", "class": "font-bold" }]
+			}
+		]
+	}
+]
