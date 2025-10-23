@@ -276,8 +276,12 @@ export const Quiz = ({
 						width={50}
 					/>
 					<h1 className="text-xl lg:text-3xl font-bold text-neutral-700">
-						Great job! <br /> You&apos;ve completed the lesson.
+						Great job! <br /> You&apos;ve completed this lesson.
 					</h1>
+					<h2 className="text-lg lg:text-2xl font-bold text-neutral-700">
+						Make sure to go review the flashcards and all other games for this
+						lesson to really cement in your learning!
+					</h2>
 					<div className="flex items-center gap-x-4 w-full">
 						<ResultCard
 							variant="points"
