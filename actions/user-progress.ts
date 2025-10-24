@@ -3,7 +3,7 @@
 import { and, eq, sql } from 'drizzle-orm'
 import { redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
-import { auth, currentUser } from '@clerk/nextjs/server'
+import { getSession, getUserId } from '@/lib/auth'
 import { z } from 'zod'
 
 import db from '@/db/drizzle'
@@ -32,8 +32,9 @@ const getLanguageRoute = (courseId: number): string => {
 export const upsertUserProgress = async (courseId: number) => {
 	try {
 		console.log('🟦 Upserting user progress for courseId:', courseId)
-		const { userId } = await auth()
-		const user = await currentUser()
+		const session = await getSession()
+		const userId = session?.user?.id
+		const user = session?.user
 		if (!userId || !user) throw new Error('Unauthorized')
 
 		const course = await getCourseById(courseId)
@@ -46,13 +47,13 @@ export const upsertUserProgress = async (courseId: number) => {
 		const usernameToUse =
 			existingUserProgress?.userName && existingUserProgress.userName !== 'User'
 				? existingUserProgress.userName
-				: user.username || 'User'
+				: user.name || 'User'
 
 		const avatarToUse =
 			existingUserProgress?.userImageSrc &&
 			existingUserProgress.userImageSrc !== '/mascot.svg'
 				? existingUserProgress.userImageSrc
-				: user.imageUrl || '/mascot.svg'
+				: user.image || '/mascot.svg'
 
 		// 1️⃣ Update global user_progress (switch active course)
 		await db
@@ -90,11 +91,8 @@ export const upsertUserProgress = async (courseId: number) => {
 }
 
 export const reduceHearts = async (challengeId: number) => {
-	const { userId } = await auth()
-
-	if (!userId) {
-		throw new Error('Unauthorized')
-	}
+	const userId = await getUserId()
+	if (!userId) throw new Error('Unauthorized')
 
 	const currentUserProgress = await getUserProgress()
 	const userSubscription = await getUserSubscription()
@@ -186,7 +184,7 @@ export const updateUserProfile = async (data: {
 	userName?: string
 	userImageSrc?: string
 }) => {
-	const { userId } = await auth()
+	const userId = await getUserId()
 
 	if (!userId) {
 		throw new Error('Unauthorized')
@@ -228,7 +226,7 @@ export const updateUserProfile = async (data: {
 }
 
 export const exchangePointsForTribe = async () => {
-	const { userId } = await auth()
+	const userId = await getUserId()
 	if (!userId) throw new Error('Unauthorized')
 
 	const currentUserProgress = await getUserProgress()

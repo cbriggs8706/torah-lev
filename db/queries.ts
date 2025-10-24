@@ -11,8 +11,7 @@ import {
 	lte,
 	sql,
 } from 'drizzle-orm'
-import { auth } from '@clerk/nextjs/server'
-import { clerkClient } from '@clerk/clerk-sdk-node'
+import { getUserId } from '@/lib/auth'
 
 // import { events } from '@/db/schema'
 
@@ -43,7 +42,7 @@ import {
 import { tr } from 'date-fns/locale'
 
 export async function getUserProgress() {
-	const { userId } = await auth()
+	const userId = await getUserId()
 	if (!userId) return null
 
 	// Pull their global progress (activeCourseId, profile info)
@@ -55,9 +54,6 @@ export async function getUserProgress() {
 	})
 
 	if (!baseProgress) return null
-
-	const clerkUser = await clerkClient.users.getUser(userId)
-	const liveImage = clerkUser?.imageUrl || '/mascot.svg'
 
 	// Pull course-specific progress for activeCourseId
 	let courseProgress = null
@@ -76,7 +72,7 @@ export async function getUserProgress() {
 	// Merge the data — fallback to zeros if no course row yet
 	return {
 		...baseProgress,
-		userImageSrc: liveImage, // ✅ override with live image
+		// userImageSrc: liveImage, // ✅ override with live image
 		points: courseProgress?.points ?? 0,
 		hearts: courseProgress?.hearts ?? 5,
 		activeLessonId: courseProgress?.activeLessonId ?? null,
@@ -84,48 +80,9 @@ export async function getUserProgress() {
 		lastSeen: courseProgress?.lastSeen ?? null,
 	}
 }
-// export const getUserProgress = cache(async () => {
-// 	const { userId } = await auth()
-
-// 	if (!userId) {
-// 		console.warn('⚠️ No userId found in getUserProgress')
-
-// 		return null
-// 	}
-
-// 	// Try to get existing progress
-// 	let progress = await db.query.userProgress.findFirst({
-// 		where: eq(userProgress.userId, userId),
-// 		with: {
-// 			activeCourse: true,
-// 		},
-// 	})
-
-// 	// If not found, seed default progress
-// 	if (!progress) {
-// 		const clerk = await clerkClient()
-
-// 		const user = await clerk.users.getUser(userId)
-// 		console.log('user', user)
-// 		await db.insert(userProgress).values({
-// 			userId,
-// 			userName: user?.username ?? 'Anonymous',
-// 			activeCourseId: 6,
-// 		})
-
-// 		progress = await db.query.userProgress.findFirst({
-// 			where: eq(userProgress.userId, userId),
-// 			with: {
-// 				activeCourse: true,
-// 			},
-// 		})
-// 	}
-
-// 	return progress
-// })
 
 export const getUnits = cache(async () => {
-	const { userId } = await auth()
+	const userId = await getUserId()
 	const userProgress = await getUserProgress()
 
 	if (!userId || !userProgress?.activeCourseId) {
@@ -200,7 +157,7 @@ export const getCourseById = cache(async (courseId: number) => {
 })
 
 export async function getAllUserCourseProgress() {
-	const { userId } = await auth()
+	const userId = await getUserId()
 	if (!userId) return []
 
 	const results = await db
@@ -224,7 +181,7 @@ export async function getAllUserCourseProgress() {
 }
 
 export const getCourseProgress = cache(async () => {
-	const { userId } = await auth()
+	const userId = await getUserId()
 	const userProgress = await getUserProgress()
 
 	if (!userId || !userProgress?.activeCourseId) {
@@ -273,7 +230,7 @@ export const getCourseProgress = cache(async () => {
 })
 
 export const getLesson = cache(async (id?: number) => {
-	const { userId } = await auth()
+	const userId = await getUserId()
 
 	if (!userId) {
 		return null
@@ -482,7 +439,7 @@ export const getLessonPercentage = cache(async () => {
 
 const DAY_IN_MS = 86_400_000
 export const getUserSubscription = cache(async () => {
-	const { userId } = await auth()
+	const userId = await getUserId()
 
 	if (!userId) return null
 
@@ -503,7 +460,7 @@ export const getUserSubscription = cache(async () => {
 })
 
 export const getTopTenUsers = cache(async () => {
-	const { userId } = await auth()
+	const userId = await getUserId()
 
 	if (!userId) {
 		return []
@@ -559,24 +516,7 @@ export async function getTopTwentyUsersByCourse(courseId: number) {
 		.orderBy(desc(userCourseProgress.points))
 		.limit(20)
 
-	// 🔄 refresh Clerk avatars
-	const updated = await Promise.all(
-		rawUsers.map(async (u) => {
-			let fresh = u.userImageSrc
-			try {
-				const clerkUser = await clerkClient.users.getUser(u.userId)
-				fresh = clerkUser?.imageUrl || '/mascot.svg'
-			} catch {
-				/* fallback to stored value */
-			}
-			return {
-				...u,
-				userImageSrc: fresh?.trim().replace(/\s|\n|\r/g, '') || '/mascot.svg',
-			}
-		})
-	)
-
-	return updated
+	return rawUsers
 }
 
 export async function getPrayerWithLines(prayerId: number) {
@@ -650,7 +590,7 @@ export async function getSongLines(prayerId: number) {
 }
 
 export async function getUserProgressWithTribe() {
-	const { userId } = await auth()
+	const userId = await getUserId()
 	if (!userId) return null
 
 	const result = await db
@@ -683,18 +623,8 @@ export async function getUserProgressWithTribe() {
 	const base = result[0]
 	if (!base) return null
 
-	// 🧠 Always refresh from Clerk
-	let freshImage = base.userImageSrc
-	try {
-		const clerkUser = await clerkClient.users.getUser(userId)
-		freshImage = clerkUser?.imageUrl || '/mascot.svg'
-	} catch {
-		console.warn('Failed to refresh Clerk image, using fallback.')
-	}
-
 	return {
 		...base,
-		userImageSrc: freshImage.trim().replace(/\s|\n|\r/g, ''),
 	}
 }
 
@@ -912,21 +842,6 @@ export async function getStudyGroupWithMessages(studyGroupId: number) {
 
 	if (!group) return null
 
-	// 🔄 Refresh avatars
-	const refreshImage = async (user: any) => {
-		try {
-			const clerkUser = await clerkClient.users.getUser(user.userId)
-			return clerkUser?.imageUrl || '/mascot.svg'
-		} catch {
-			return user.userImageSrc || '/mascot.svg'
-		}
-	}
-
-	group.teacher.userImageSrc = await refreshImage(group.teacher)
-	for (const m of group.members) {
-		m.user.userImageSrc = await refreshImage(m.user)
-	}
-
 	// ✅ Collect all member IDs
 	const memberIds = group.members.map((m) => m.user.userId)
 	if (memberIds.length === 0) return group
@@ -1011,21 +926,6 @@ export async function getStudyGroupWithCourses(studyGroupId: number) {
 	})
 
 	if (!group) return null
-
-	// 2️⃣ Refresh avatars for everyone
-	const refreshImage = async (user: any) => {
-		try {
-			const clerkUser = await clerkClient.users.getUser(user.userId)
-			return clerkUser?.imageUrl || '/mascot.svg'
-		} catch {
-			return user.userImageSrc || '/mascot.svg'
-		}
-	}
-
-	group.teacher.userImageSrc = await refreshImage(group.teacher)
-	for (const m of group.members) {
-		m.user.userImageSrc = await refreshImage(m.user)
-	}
 
 	// 3️⃣ Add available courses (currently all courses)
 	const availableCourses = await db.query.courses.findMany({

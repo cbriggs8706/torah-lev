@@ -1,6 +1,6 @@
 'use server'
 
-import { auth, currentUser } from '@clerk/nextjs/server'
+import { getSession, getUserId } from '@/lib/auth'
 
 import { stripe } from '@/lib/stripe'
 import { absoluteUrl } from '@/lib/utils'
@@ -9,10 +9,11 @@ import { getUserSubscription } from '@/db/queries'
 const returnUrl = absoluteUrl('/market')
 
 export const createStripeUrl = async () => {
-	const { userId } = await auth()
-	const user = await currentUser()
+	const session = await getSession()
+	const userId = session?.user?.id
+	const userEmail = session?.user?.email
 
-	if (!userId || !user) {
+	if (!userId || !userEmail) {
 		throw new Error('Unauthorized')
 	}
 
@@ -30,7 +31,7 @@ export const createStripeUrl = async () => {
 	const stripeSession = await stripe.checkout.sessions.create({
 		mode: 'subscription',
 		payment_method_types: ['card'],
-		customer_email: user.emailAddresses[0].emailAddress,
+		customer_email: userEmail,
 		line_items: [
 			{
 				quantity: 1,

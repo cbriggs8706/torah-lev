@@ -1,6 +1,5 @@
 'use server'
 
-import { auth } from '@clerk/nextjs/server'
 import { eq } from 'drizzle-orm'
 import db from '@/db/drizzle'
 import {
@@ -9,9 +8,12 @@ import {
 	challengeProgress,
 	units,
 } from '@/db/schema'
+import { getSession } from '@/lib/auth'
 
 export const updateActiveLesson = async (lessonId?: number | null) => {
-	const { userId } = await auth()
+	const session = await getSession()
+	const userId = session?.user?.id
+
 	if (!userId) return
 
 	const user = await db.query.userProgress.findFirst({

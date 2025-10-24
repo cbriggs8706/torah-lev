@@ -1,9 +1,10 @@
-import { auth } from '@clerk/nextjs/server'
+import { getUserId } from '@/lib/auth'
 
+// TODO update with nextauth userId from clerk userID
 const adminIds = ['user_2kaRJOK3LURBbcyO1pusrktbcqx']
 
 export const isAdmin = async () => {
-	const { userId } = await auth() // Ensure that auth() is awaited
+	const userId = await getUserId()
 
 	if (!userId) {
 		return false

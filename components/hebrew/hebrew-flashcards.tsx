@@ -154,6 +154,7 @@ HebrewVocabProps) {
 	>('engTransliteration')
 	const [cardsCompleted, setCardsCompleted] = useState(0)
 	const userId = useUserId()
+	console.log('newUserId in local', userId)
 
 	const PRESETS = [
 		{

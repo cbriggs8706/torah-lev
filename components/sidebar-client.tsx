@@ -2,12 +2,13 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { ClerkLoading, ClerkLoaded, UserButton } from '@clerk/nextjs'
 import { Loader } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { SidebarItem } from './sidebar-item'
 import { UserProgress } from './user-progress'
 import { HebrewClock } from './hebrew/hebrew-clock'
+import { Button } from '@/components/ui/button'
+import { signOut, useSession } from 'next-auth/react'
 
 type Props = {
 	className?: string
@@ -38,6 +39,9 @@ export default function SidebarClient({
 	isEnglishFriend,
 	isTester,
 }: Props) {
+	const { data: session, status } = useSession()
+	const isLoading = status === 'loading'
+	const isSignedIn = !!session?.user
 	return (
 		<div
 			className={cn(
@@ -440,30 +444,44 @@ export default function SidebarClient({
 				/>
 			</div>
 			<div className="p-4">
-				<ClerkLoading>
+				{isLoading && (
 					<Loader className="h-5 w-5 text-muted-foreground animate-spin" />
-				</ClerkLoading>
-				<ClerkLoaded>
-					<div className="flex flex-row gap-4">
-						<UserButton afterSignOutUrl="/" />
-						{/* {isFriend && (
-							<Link
-								href="/camerons-groups"
-								className="mr-3 inline-flex items-center align-middle gap-2 border border-solid border-green-500 rounded-md px-2 py-1"
-								title="Cameron's Groups"
-								onClick={onItemClick}
+				)}
+
+				{!isLoading && (
+					<div className="flex flex-row gap-4 items-center">
+						{isSignedIn ? (
+							<>
+								{session.user?.image && (
+									<Image
+										src={session.user.image}
+										alt={session.user.name || 'User'}
+										width={40}
+										height={40}
+										className="rounded-full border"
+									/>
+								)}
+								<Button
+									variant="ghost"
+									size="sm"
+									onClick={() => signOut({ callbackUrl: '/' })}
+								>
+									Log out
+								</Button>
+							</>
+						) : (
+							<Button
+								variant="ghost"
+								size="sm"
+								onClick={() =>
+									window.location.assign('/auth/signin?callbackUrl=/courses')
+								}
 							>
-								<Image
-									src="/boy.svg"
-									alt=""
-									width={24}
-									height={24}
-								/>
-								<span className="flex text-green-500 font-bold">Schedule</span>
-							</Link>
-						)} */}
+								Log in
+							</Button>
+						)}
 					</div>
-				</ClerkLoaded>
+				)}
 			</div>
 		</div>
 	)
