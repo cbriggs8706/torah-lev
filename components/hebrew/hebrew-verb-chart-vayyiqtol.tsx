@@ -5,6 +5,7 @@ import {
 	VayyiqtolConjugationTable,
 	VayyiqtolConjugationRow,
 } from '@/types/hebrew/verbs'
+import { Female, Male } from '@mui/icons-material'
 
 type Props = {
 	data: VayyiqtolConjugationTable | null
@@ -63,7 +64,7 @@ export default function HebrewVayyiqtolVerbChart({ data }: Props) {
 	const findRow = (person: string) => data.rows.find((r) => r.person === person)
 
 	return (
-		<div className="overflow-x-auto mt-6 border border-neutral-300 rounded-lg bg-white shadow-sm">
+		<div className="overflow-x-auto mt-6 border border-neutral-300 rounded-lg bg-white shadow-xl">
 			<table className="w-full text-center border-collapse">
 				<thead className="bg-orange-600 text-white">
 					<tr>
@@ -77,10 +78,20 @@ export default function HebrewVayyiqtolVerbChart({ data }: Props) {
 					</tr>
 					<tr className="bg-orange-400">
 						<th className="border p-2 text-sm font-semibold">Person</th>
-						<th className="border p-2 text-sm font-semibold">Masc</th>
-						<th className="border p-2 text-sm font-semibold">Fem</th>
-						<th className="border p-2 text-sm font-semibold">Masc</th>
-						<th className="border p-2 text-sm font-semibold">Fem</th>
+						<th className="border p-2 text-sm font-semibold">
+							<Male />
+						</th>
+						<th className="border p-2 text-sm font-semibold">
+							<Female />
+						</th>
+						<th className="border p-2 text-sm font-semibold">
+							<Male />
+							<Male />
+						</th>
+						<th className="border p-2 text-sm font-semibold">
+							<Female />
+							<Female />
+						</th>
 					</tr>
 				</thead>
 				<tbody>

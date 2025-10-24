@@ -6,6 +6,8 @@ import {
 } from '@/types/hebrew/verbs'
 import React from 'react'
 
+import { Male, Female } from '@mui/icons-material'
+
 type Props = {
 	data: FutureConjugationTable | null
 }
@@ -63,7 +65,7 @@ export default function FutureVerbChart({ data }: Props) {
 	const findRow = (prefix: string) => data.rows.find((r) => r.person === prefix)
 
 	return (
-		<div className="overflow-x-auto mt-6 border border-neutral-300 rounded-lg bg-white shadow-sm">
+		<div className="overflow-x-auto mt-6 border border-neutral-300 rounded-lg bg-white shadow-xl">
 			<table className="w-full text-center border-collapse">
 				<thead className="bg-sky-600 text-white">
 					<tr>
@@ -77,10 +79,18 @@ export default function FutureVerbChart({ data }: Props) {
 					</tr>
 					<tr className="bg-sky-400">
 						<th className="border p-2 text-sm font-semibold">Person</th>
-						<th className="border p-2 text-sm font-semibold">Masc</th>
-						<th className="border p-2 text-sm font-semibold">Fem</th>
-						<th className="border p-2 text-sm font-semibold">Masc</th>
-						<th className="border p-2 text-sm font-semibold">Fem</th>
+						<th className="border p-2 text-sm font-semibold">
+							<Male />
+						</th>
+						<th className="border p-2 text-sm font-semibold">
+							<Female />
+						</th>
+						<th className="border p-2 text-sm font-semibold">
+							<Male />
+						</th>
+						<th className="border p-2 text-sm font-semibold">
+							<Female />
+						</th>
 					</tr>
 				</thead>
 				<tbody>
