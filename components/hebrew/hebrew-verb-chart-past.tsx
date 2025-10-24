@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { PastConjugationTable, PastConjugationRow } from '@/types/hebrew/verbs'
+import { Male, Female } from '@mui/icons-material'
 
 type Props = {
 	data: PastConjugationTable | null
@@ -60,7 +61,7 @@ export default function HebrewPastVerbChart({ data }: Props) {
 	const findRow = (person: string) => data.rows.find((r) => r.person === person)
 
 	return (
-		<div className="w-full overflow-x-auto mt-6 border border-neutral-300 rounded-lg bg-white shadow-sm">
+		<div className="w-full overflow-x-auto mt-6 border border-neutral-300 rounded-lg bg-white shadow-xl">
 			<div className="min-w-[640px] sm:min-w-0">
 				{' '}
 				{/* Ensures scrollable width on very small screens */}
@@ -85,10 +86,20 @@ export default function HebrewPastVerbChart({ data }: Props) {
 							<th className="border p-1 sm:p-2 font-semibold whitespace-nowrap">
 								Person
 							</th>
-							<th className="border p-1 sm:p-2 font-semibold">Masc</th>
-							<th className="border p-1 sm:p-2 font-semibold">Fem</th>
-							<th className="border p-1 sm:p-2 font-semibold">Masc</th>
-							<th className="border p-1 sm:p-2 font-semibold">Fem</th>
+							<th className="border p-2 text-sm font-semibold">
+								<Male />
+							</th>
+							<th className="border p-2 text-sm font-semibold">
+								<Female />
+							</th>
+							<th className="border p-2 text-sm font-semibold">
+								<Male />
+								<Male />
+							</th>
+							<th className="border p-2 text-sm font-semibold">
+								<Female />
+								<Female />
+							</th>
 						</tr>
 					</thead>
 					<tbody className="text-xs sm:text-sm">

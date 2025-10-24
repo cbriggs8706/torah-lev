@@ -1,16 +1,19 @@
 'use client'
 
 import React from 'react'
-import { PastConjugationTable, PastConjugationRow } from '@/types/hebrew/verbs'
+import {
+	VayyiqtolConjugationTable,
+	VayyiqtolConjugationRow,
+} from '@/types/hebrew/verbs'
 
-type Props = { data: PastConjugationTable | null; title: string }
+type Props = { data: VayyiqtolConjugationTable | null; title: string }
 
-export default function HebrewVerbPastCard({ data, title }: Props) {
+export default function HebrewVerbVayyiqtolCard({ data, title }: Props) {
 	if (!data || !data.rows?.length) return null
 
 	const find = (p: string) => data.rows.find((r) => r.person === p)
 
-	const renderCell = (row?: PastConjugationRow) =>
+	const renderCell = (row?: VayyiqtolConjugationRow) =>
 		row ? (
 			<div className="flex flex-col items-center">
 				<div className="font-serif text-3xl sm:text-4xl text-center">
@@ -34,9 +37,9 @@ export default function HebrewVerbPastCard({ data, title }: Props) {
 		)
 
 	return (
-		<div className="bg-yellow-50 rounded-xl shadow-xl p-4 mb-6 border-4 border-yellow-500">
+		<div className="bg-orange-50 rounded-xl shadow-xl p-4 mb-6 border-4 border-orange-600">
 			<div className="grid grid-cols-2 sm:grid-cols-4 gap-y-4 text-center">
-				{/* Example Past-Tense layout */}
+				{/* Example Vayyiqtol-Tense layout */}
 				<div>{renderCell(find('1sc'))}</div>
 				<div>{renderCell(find('1pc'))}</div>
 				<div>{renderCell(find('2ms'))}</div>

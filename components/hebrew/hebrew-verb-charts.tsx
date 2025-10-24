@@ -8,6 +8,13 @@ import HebrewPastVerbChart from './hebrew-verb-chart-past'
 import HebrewPresentVerbChart from './hebrew-verb-chart-present'
 import HebrewVayyiqtolVerbChart from './hebrew-verb-chart-vayyiqtol'
 import HebrewVerbPastCard from './hebrew-verb-card-past'
+import HebrewVerbVayyiqtolCard from './hebrew-verb-card-vayyiqtol'
+import HebrewVerbFutureCard from './hebrew-verb-card-future'
+import HebrewVerbPresentCard from './hebrew-verb-card-present'
+import HebrewVerbImperativeCard from './hebrew-verb-card-imperative'
+import HebrewVerbInfinitiveCard from './hebrew-verb-card-infinitive'
+import { Button } from '../ui/button'
+import { useRouter } from 'next/navigation'
 
 type HebrewVerbChartsProps = {
 	binyan: string
@@ -33,6 +40,7 @@ export default function HebrewVerbCharts({
 	conjugations,
 }: HebrewVerbChartsProps) {
 	const [isMobile, setIsMobile] = useState(false)
+	const router = useRouter()
 
 	// Detect screen width changes
 	useEffect(() => {
@@ -83,24 +91,37 @@ export default function HebrewVerbCharts({
 					Binyan: <span className="font-semibold">{binyan}</span> • Strong’s:{' '}
 					{verb.strongs}
 				</p>
+			</div>{' '}
+			<div className="text-center mb-6">
+				<Button
+					variant={'default'}
+					onClick={() => {
+						router.push('/he/verbs')
+						router.refresh() // revalidate the next route after the push
+					}}
+				>
+					Back to Verb List
+				</Button>
 			</div>
-
 			{/* Conditional Rendering */}
 			{isMobile ? (
 				// Render card layout for mobile
 				<>
-					{/* <div className="mb-12">
+					<div className="mb-12">
 						<h3 className="text-2xl font-bold text-sky-800 mb-3 text-center">
 							Infinitive
 						</h3>
-						<HebrewInfinitiveVerbChart data={infinitiveData} />
+						<HebrewVerbInfinitiveCard
+							title={'Infinitive'}
+							data={infinitiveData}
+						/>
 					</div>
 					<div className="mb-12">
 						<h3 className="text-2xl font-bold text-sky-800 mb-3 text-center">
-							Vayyiqtol (Perfect)
+							Vayyiqtol
 						</h3>
-						<HebrewVayyiqtolVerbChart data={vayyiqtolData} />
-					</div> */}
+						<HebrewVerbVayyiqtolCard title={'Vayyiqtol'} data={vayyiqtolData} />
+					</div>
 					<div className="mb-12">
 						<h3 className="text-2xl font-bold text-sky-800 mb-3 text-center">
 							Past Tense (Perfect)
@@ -110,24 +131,30 @@ export default function HebrewVerbCharts({
 							data={pastData}
 						/>
 					</div>
-					{/* <div className="mb-12">
+					<div className="mb-12">
 						<h3 className="text-2xl font-bold text-sky-800 mb-3 text-center">
 							Present Tense
 						</h3>
-						<HebrewPresentVerbChart data={presentData} />
+						<HebrewVerbPresentCard title={'Present Tense'} data={presentData} />
 					</div>
 					<div className="mb-12">
 						<h3 className="text-2xl font-bold text-sky-800 mb-3 text-center">
 							Future Tense (Imperfect)
 						</h3>
-						<HebrewFutureVerbChart data={futureData} />
+						<HebrewVerbFutureCard
+							title={'Future Tense (Imperfect)'}
+							data={futureData}
+						/>
 					</div>
 					<div className="mb-12">
 						<h3 className="text-2xl font-bold text-sky-800 mb-3 text-center">
-							Imperative
+							Imperative Tense
 						</h3>
-						<HebrewImperativeVerbChart data={imperativeData} />
-					</div> */}
+						<HebrewVerbImperativeCard
+							title={'Imperative Tense'}
+							data={imperativeData}
+						/>
+					</div>
 				</>
 			) : (
 				// Render table layout for desktop
