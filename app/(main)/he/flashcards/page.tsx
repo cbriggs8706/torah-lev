@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import { redirect } from 'next/navigation'
+import { useUserId } from '@/hooks/useUserId'
 
 import { FeedWrapper } from '@/components/feed-wrapper'
 import { DismissibleAlert } from '@/components/dismissible-alert'
@@ -43,12 +44,6 @@ export default async function FlashcardPage({ params }: any) {
 
 	if (!userProgress || !userProgress.activeCourse) {
 		redirect('/courses')
-	}
-
-	{
-		;[6, 11, 14].includes(userProgress?.activeCourse.id ?? 0) && (
-			<TorahScrollLoader />
-		)
 	}
 
 	const currentLesson = userChallengeData?.activeLesson?.lessonNumber
@@ -103,7 +98,7 @@ export default async function FlashcardPage({ params }: any) {
 							courseId={userProgress.activeCourseId}
 							currentLesson={currentLesson ?? ''}
 							layout="hebrew"
-							userId={userProgress.userId}
+							// userId={userProgress.userId}
 						/>
 					)}
 					{userProgress.activeCourseId === 11 && (
@@ -113,7 +108,7 @@ export default async function FlashcardPage({ params }: any) {
 							courseId={userProgress.activeCourseId}
 							currentLesson={currentLesson ?? ''}
 							layout="hebrew"
-							userId={userProgress.userId}
+							// userId={userProgress.userId}
 						/>
 					)}
 					{userProgress.activeCourseId === 14 && (
@@ -123,7 +118,7 @@ export default async function FlashcardPage({ params }: any) {
 							courseId={userProgress.activeCourseId}
 							currentLesson={currentLesson ?? ''}
 							layout="hebrew"
-							userId={userProgress.userId}
+							// userId={userProgress.userId}
 						/>
 					)}
 				</div>
