@@ -1,32 +1,35 @@
 import Image from 'next/image'
-import { redirect } from 'next/navigation'
-
+import { getServerSession } from 'next-auth'
+import { options } from '@/app/api/auth/[...nextauth]/options'
 import { FeedWrapper } from '@/components/feed-wrapper'
-import { UserProgress } from '@/components/user-progress'
-import { StickyWrapper } from '@/components/sticky-wrapper'
 import {
 	getCourseProgress,
 	getEnglishSlideDecks,
 	getUserProgress,
 	getUserSubscription,
 } from '@/db/queries'
-import { DismissibleAlert } from '@/components/dismissible-alert'
 import SlideDeckList from '@/components/english/english-slide-deck-list'
 
-const EnglishSlideDecksPage = async () => {
-	const userProgressData = getUserProgress()
-	const userChallengeData = await getCourseProgress()
-	const userSubscriptionData = getUserSubscription()
+export default async function EnglishSlideDecksPage() {
+	const session = await getServerSession(options)
+	const userId = session?.user?.id ?? null
 
-	const [userProgress, userSubscription] = await Promise.all([
-		userProgressData,
-		userSubscriptionData,
-	])
+	// Only query DB if user is logged in
+	const [userProgress, userSubscription, userChallengeData] = userId
+		? await Promise.all([
+				getUserProgress(),
+				getUserSubscription(),
+				getCourseProgress(),
+		  ])
+		: [null, null, null]
 
-	if (!userProgress || !userProgress.activeCourse) {
-		redirect('/courses')
-	}
+	// Fallback for guests
+	const activeCourseId = userProgress?.activeCourseId ?? 3 // default EC1
+	const currentLesson = userProgress?.activeLessonId ?? null
+	const isPro = !!userSubscription?.isActive
+	const isEnglishFriend = !!userProgress?.isEnglishFriend
 
+	// Identify prefix for course type
 	const coursePrefixes: Record<number, string> = {
 		17: 'LR',
 		13: 'EwB',
@@ -34,30 +37,16 @@ const EnglishSlideDecksPage = async () => {
 		3: 'EC1',
 		4: 'EC2',
 	}
+	const prefix = coursePrefixes[activeCourseId]
 
-	const prefix = coursePrefixes[userProgress.activeCourse.id] // may be undefined
-
-	// Get everything, then conditionally filter in memory
+	// Get all decks then filter by prefix
 	const slideDecks = await getEnglishSlideDecks()
 	const filteredSlideDecks = prefix
-		? slideDecks.filter((script) => script.lessonTitle?.startsWith(prefix))
+		? slideDecks.filter((deck) => deck.lessonTitle?.startsWith(prefix))
 		: slideDecks
-
-	const isPro = !!userSubscription?.isActive
-	const isEnglishFriend = !!userProgress?.isEnglishFriend
-	const currentLesson = userProgress.activeLessonId
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
-			{/* <StickyWrapper>
-				<UserProgress
-					activeCourse={userProgress.activeCourse}
-					hearts={userProgress.hearts}
-					points={userProgress.points}
-					hasActiveSubscription={isPro}
-				/>
-				{!isPro && <Promo />}
-			</StickyWrapper> */}
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">
 					<Image
@@ -69,15 +58,16 @@ const EnglishSlideDecksPage = async () => {
 					<h1 className="text-center font-bold text-neutral-800 text-2xl my-6">
 						Slide Decks
 					</h1>
-					{/* <DismissibleAlert storageKey="scripts" className="mb-4">
-						Lessons 1-100 are loaded. Most have audio where you can click the
-						play button to listen while you read. Some browsers are having
-						trouble displaying images nicely.
-					</DismissibleAlert> */}
+
+					{!userId && (
+						<p className="text-gray-500 italic mb-3">
+							You’re using guest mode — progress won’t be saved.
+						</p>
+					)}
 
 					<SlideDeckList
 						slideDecks={filteredSlideDecks}
-						isFriend={isEnglishFriend}
+						isFriend={isEnglishFriend ?? false}
 						currentLesson={currentLesson}
 					/>
 				</div>
@@ -85,5 +75,3 @@ const EnglishSlideDecksPage = async () => {
 		</div>
 	)
 }
-
-export default EnglishSlideDecksPage

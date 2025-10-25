@@ -11,8 +11,7 @@ import {
 	lte,
 	sql,
 } from 'drizzle-orm'
-import { auth } from '@clerk/nextjs/server'
-import { clerkClient } from '@clerk/clerk-sdk-node'
+import { getActiveCourseId, getUserId } from '@/lib/auth'
 
 // import { events } from '@/db/schema'
 
@@ -42,24 +41,65 @@ import {
 } from '@/db/schema'
 import { tr } from 'date-fns/locale'
 
-export async function getUserProgress() {
-	const { userId } = await auth()
-	if (!userId) return null
+export async function getUserProgress(userIdOverride?: string | null) {
+	const userId = userIdOverride ?? (await getUserId())
 
-	// Pull their global progress (activeCourseId, profile info)
+	// ✅ Handle guests gracefully
+	if (!userId || userId.startsWith('guest')) {
+		return {
+			userId: userId ?? 'guest',
+			userName: 'Guest',
+			userImageSrc: '/icons/iconBoy.png',
+			activeCourseId: null,
+			activeCourse: null,
+			points: 0,
+			hearts: 5,
+			activeLessonId: null,
+			activeLessonNumber: null,
+			lastSeen: null,
+			isHebrewFriend: false,
+			isSpanishFriend: false,
+			isEnglishFriend: false,
+			isTester: false,
+			isBookclubFriend: false,
+		}
+	}
+
+	// ✅ Pull base user progress (profile, activeCourseId, etc.)
 	const baseProgress = await db.query.userProgress.findFirst({
 		where: eq(userProgress.userId, userId),
 		with: {
-			activeCourse: true, // assuming you have relation set up
+			activeCourse: {
+				columns: {
+					id: true,
+					title: true,
+					imageSrc: true,
+				},
+			},
 		},
 	})
 
-	if (!baseProgress) return null
+	if (!baseProgress) {
+		return {
+			userId,
+			userName: 'Unknown User',
+			userImageSrc: '/icons/iconBoy.png',
+			activeCourseId: null,
+			activeCourse: null,
+			points: 0,
+			hearts: 5,
+			activeLessonId: null,
+			activeLessonNumber: null,
+			lastSeen: null,
+			isHebrewFriend: false,
+			isSpanishFriend: false,
+			isEnglishFriend: false,
+			isTester: false,
+			isBookclubFriend: false,
+		}
+	}
 
-	const clerkUser = await clerkClient.users.getUser(userId)
-	const liveImage = clerkUser?.imageUrl || '/mascot.svg'
-
-	// Pull course-specific progress for activeCourseId
+	// ✅ Fetch their course progress for the active course
 	let courseProgress = null
 	if (baseProgress.activeCourseId) {
 		courseProgress = await db.query.userCourseProgress.findFirst({
@@ -68,112 +108,134 @@ export async function getUserProgress() {
 				eq(userCourseProgress.courseId, baseProgress.activeCourseId)
 			),
 			with: {
-				activeLesson: true, // 👈 this pulls in lesson info (including lessonNumber)
+				activeLesson: {
+					columns: { id: true, lessonNumber: true },
+				},
 			},
 		})
 	}
 
-	// Merge the data — fallback to zeros if no course row yet
 	return {
 		...baseProgress,
-		userImageSrc: liveImage, // ✅ override with live image
 		points: courseProgress?.points ?? 0,
 		hearts: courseProgress?.hearts ?? 5,
 		activeLessonId: courseProgress?.activeLessonId ?? null,
-		activeLessonNumber: courseProgress?.activeLesson?.lessonNumber ?? null, // 👈 added
+		activeLessonNumber: courseProgress?.activeLesson?.lessonNumber ?? null,
 		lastSeen: courseProgress?.lastSeen ?? null,
+		isHebrewFriend: baseProgress.isHebrewFriend ?? false,
+		isSpanishFriend: baseProgress.isSpanishFriend ?? false,
+		isEnglishFriend: baseProgress.isEnglishFriend ?? false,
+		isBookclubFriend: baseProgress.isBookclubFriend ?? false,
+		isTester: baseProgress.isTester ?? false,
 	}
 }
-// export const getUserProgress = cache(async () => {
-// 	const { userId } = await auth()
 
-// 	if (!userId) {
-// 		console.warn('⚠️ No userId found in getUserProgress')
+export const getUnits = cache(async (userIdOverride?: string | null) => {
+	const userId = userIdOverride ?? (await getUserId())
+	const userProg = await getUserProgress(userId)
+	const activeCourseId =
+		userProg?.activeCourseId ?? (await getActiveCourseId()) ?? null
 
-// 		return null
-// 	}
+	if (!activeCourseId) return []
 
-// 	// Try to get existing progress
-// 	let progress = await db.query.userProgress.findFirst({
-// 		where: eq(userProgress.userId, userId),
-// 		with: {
-// 			activeCourse: true,
-// 		},
-// 	})
-
-// 	// If not found, seed default progress
-// 	if (!progress) {
-// 		const clerk = await clerkClient()
-
-// 		const user = await clerk.users.getUser(userId)
-// 		console.log('user', user)
-// 		await db.insert(userProgress).values({
-// 			userId,
-// 			userName: user?.username ?? 'Anonymous',
-// 			activeCourseId: 6,
-// 		})
-
-// 		progress = await db.query.userProgress.findFirst({
-// 			where: eq(userProgress.userId, userId),
-// 			with: {
-// 				activeCourse: true,
-// 			},
-// 		})
-// 	}
-
-// 	return progress
-// })
-
-export const getUnits = cache(async () => {
-	const { userId } = await auth()
-	const userProgress = await getUserProgress()
-
-	if (!userId || !userProgress?.activeCourseId) {
-		return []
-	}
-
+	// ✅ Drizzle uses `(table, helpers)` callback args; no named alias needed
 	const data = await db.query.units.findMany({
-		orderBy: (units, { asc }) => [asc(units.order)],
-		where: eq(units.courseId, userProgress.activeCourseId),
+		where: eq(units.courseId, activeCourseId),
+		orderBy: (tbl, { asc }) => [asc(tbl.order)],
 		with: {
 			lessons: {
-				orderBy: (lessons, { asc }) => [asc(lessons.order)],
+				orderBy: (tbl, { asc }) => [asc(tbl.order)],
 				with: {
 					challenges: {
-						orderBy: (challenges, { asc }) => [asc(challenges.order)],
-						with: {
-							challengeProgress: {
-								where: eq(challengeProgress.userId, userId),
-							},
-						},
+						orderBy: (tbl, { asc }) => [asc(tbl.order)],
+						with:
+							userId && !userId.startsWith('guest')
+								? {
+										challengeProgress: {
+											where: eq(challengeProgress.userId, userId),
+										},
+								  }
+								: undefined,
 					},
 				},
 			},
 		},
 	})
 
-	const normalizedData = data.map((unit) => {
-		const lessonsWithCompletedStatus = unit.lessons.map((lesson) => {
-			if (lesson.challenges.length === 0) {
+	// 🧠 Normalize completed flag safely for both guests and users
+	const normalizedData = data.map((unit) => ({
+		...unit,
+		lessons: unit.lessons.map((lesson) => {
+			if (!userId || userId.startsWith('guest')) {
 				return { ...lesson, completed: false }
 			}
 
-			const allCompletedChallenges = lesson.challenges.every((challenge) => {
-				return (
-					challenge.challengeProgress &&
-					challenge.challengeProgress.length > 0 &&
-					challenge.challengeProgress.every((progress) => progress.completed)
-				)
-			})
+			const allCompletedChallenges =
+				lesson.challenges.length > 0 &&
+				lesson.challenges.every((ch) => {
+					const progressList = (ch as any).challengeProgress ?? []
+					return (
+						progressList.length > 0 &&
+						progressList.every((p: any) => p.completed)
+					)
+				})
 
 			return { ...lesson, completed: allCompletedChallenges }
-		})
-
-		return { ...unit, lessons: lessonsWithCompletedStatus }
-	})
+		}),
+	}))
 
 	return normalizedData
 })
+// export const getUnits = cache(async () => {
+// 	const userId = await getUserId()
+// 	const userProgress = await getUserProgress()
+
+// 	if (!userId || !userProgress?.activeCourseId) {
+// 		return []
+// 	}
+
+// 	const data = await db.query.units.findMany({
+// 		orderBy: (units, { asc }) => [asc(units.order)],
+// 		where: eq(units.courseId, userProgress.activeCourseId),
+// 		with: {
+// 			lessons: {
+// 				orderBy: (lessons, { asc }) => [asc(lessons.order)],
+// 				with: {
+// 					challenges: {
+// 						orderBy: (challenges, { asc }) => [asc(challenges.order)],
+// 						with: {
+// 							challengeProgress: {
+// 								where: eq(challengeProgress.userId, userId),
+// 							},
+// 						},
+// 					},
+// 				},
+// 			},
+// 		},
+// 	})
+
+// 	const normalizedData = data.map((unit) => {
+// 		const lessonsWithCompletedStatus = unit.lessons.map((lesson) => {
+// 			if (lesson.challenges.length === 0) {
+// 				return { ...lesson, completed: false }
+// 			}
+
+// 			const allCompletedChallenges = lesson.challenges.every((challenge) => {
+// 				return (
+// 					challenge.challengeProgress &&
+// 					challenge.challengeProgress.length > 0 &&
+// 					challenge.challengeProgress.every((progress) => progress.completed)
+// 				)
+// 			})
+
+// 			return { ...lesson, completed: allCompletedChallenges }
+// 		})
+
+// 		return { ...unit, lessons: lessonsWithCompletedStatus }
+// 	})
+
+// 	return normalizedData
+// })
 
 export const getCourses = cache(async () => {
 	const data = await db.query.courses.findMany()
@@ -200,7 +262,7 @@ export const getCourseById = cache(async (courseId: number) => {
 })
 
 export async function getAllUserCourseProgress() {
-	const { userId } = await auth()
+	const userId = await getUserId()
 	if (!userId) return []
 
 	const results = await db
@@ -223,100 +285,166 @@ export async function getAllUserCourseProgress() {
 	return results
 }
 
-export const getCourseProgress = cache(async () => {
-	const { userId } = await auth()
-	const userProgress = await getUserProgress()
+//TODO replace
+export const getCourseProgress = cache(
+	async (userIdOverride?: string | null) => {
+		const userId = userIdOverride ?? (await getUserId())
+		const userProg = await getUserProgress(userId)
+		const activeCourseId =
+			userProg?.activeCourseId ?? (await getActiveCourseId()) ?? null
 
-	if (!userId || !userProgress?.activeCourseId) {
-		return null
-	}
+		// 👇 Guest or no active course
+		if (!activeCourseId) {
+			return {
+				activeLesson: null,
+				activeLessonId: null,
+				unitsInActiveCourse: [],
+			}
+		}
 
-	const unitsInActiveCourse = await db.query.units.findMany({
-		orderBy: (units, { asc }) => [asc(units.order)],
-		where: eq(units.courseId, userProgress.activeCourseId),
-		with: {
-			lessons: {
-				orderBy: (lessons, { asc }) => [asc(lessons.order)],
-				with: {
-					unit: true,
-					challenges: {
-						with: {
-							challengeProgress: {
-								where: eq(challengeProgress.userId, userId),
-							},
+		const unitsInActiveCourse = await db.query.units.findMany({
+			where: eq(units.courseId, activeCourseId),
+			orderBy: (tbl, { asc }) => [asc(tbl.order)],
+			with: {
+				lessons: {
+					orderBy: (tbl, { asc }) => [asc(tbl.order)],
+					with: {
+						unit: true,
+						challenges: {
+							orderBy: (tbl, { asc }) => [asc(tbl.order)],
+							with:
+								userId && !userId.startsWith('guest')
+									? {
+											challengeProgress: {
+												where: eq(challengeProgress.userId, userId),
+											},
+									  }
+									: undefined,
 						},
 					},
 				},
 			},
-		},
-	})
-
-	const firstUncompletedLesson = unitsInActiveCourse
-		.flatMap((unit) => unit.lessons)
-		.find((lesson) => {
-			return lesson.challenges.some((challenge) => {
-				return (
-					!challenge.challengeProgress ||
-					challenge.challengeProgress.length === 0 ||
-					challenge.challengeProgress.some(
-						(progress) => progress.completed === false
-					)
-				)
-			})
 		})
 
-	return {
-		activeLesson: firstUncompletedLesson,
-		activeLessonId: firstUncompletedLesson?.id,
-		unitsInActiveCourse,
+		// ✅ Compute the first uncompleted lesson
+		let firstUncompletedLesson:
+			| (typeof unitsInActiveCourse)[number]['lessons'][number]
+			| null = null
+
+		if (userId && !userId.startsWith('guest')) {
+			for (const unit of unitsInActiveCourse) {
+				for (const lesson of unit.lessons) {
+					const isUncompleted = lesson.challenges.some((ch) => {
+						const progressList = (ch as any).challengeProgress ?? []
+						return (
+							progressList.length === 0 ||
+							progressList.some((p: any) => !p.completed)
+						)
+					})
+					if (isUncompleted) {
+						firstUncompletedLesson = lesson
+						break
+					}
+				}
+				if (firstUncompletedLesson) break
+			}
+		} else {
+			// 👇 For guests, just pick the very first lesson
+			firstUncompletedLesson = unitsInActiveCourse[0]?.lessons?.[0] ?? null
+		}
+
+		return {
+			activeLesson: firstUncompletedLesson,
+			activeLessonId: firstUncompletedLesson?.id ?? null,
+			unitsInActiveCourse,
+		}
 	}
-})
+)
+// export const getCourseProgress = cache(async () => {
+// 	const userId = await getUserId()
+// 	const userProgress = await getUserProgress()
 
-export const getLesson = cache(async (id?: number) => {
-	const { userId } = await auth()
+// 	if (!userId || !userProgress?.activeCourseId) {
+// 		return null
+// 	}
 
-	if (!userId) {
-		return null
-	}
+// 	const unitsInActiveCourse = await db.query.units.findMany({
+// 		orderBy: (units, { asc }) => [asc(units.order)],
+// 		where: eq(units.courseId, userProgress.activeCourseId),
+// 		with: {
+// 			lessons: {
+// 				orderBy: (lessons, { asc }) => [asc(lessons.order)],
+// 				with: {
+// 					unit: true,
+// 					challenges: {
+// 						with: {
+// 							challengeProgress: {
+// 								where: eq(challengeProgress.userId, userId),
+// 							},
+// 						},
+// 					},
+// 				},
+// 			},
+// 		},
+// 	})
 
-	const courseProgress = await getCourseProgress()
+// 	const firstUncompletedLesson = unitsInActiveCourse
+// 		.flatMap((unit) => unit.lessons)
+// 		.find((lesson) => {
+// 			return lesson.challenges.some((challenge) => {
+// 				return (
+// 					!challenge.challengeProgress ||
+// 					challenge.challengeProgress.length === 0 ||
+// 					challenge.challengeProgress.some(
+// 						(progress) => progress.completed === false
+// 					)
+// 				)
+// 			})
+// 		})
 
-	const lessonId = id || courseProgress?.activeLessonId
+// 	return {
+// 		activeLesson: firstUncompletedLesson,
+// 		activeLessonId: firstUncompletedLesson?.id,
+// 		unitsInActiveCourse,
+// 	}
+// })
 
-	if (!lessonId) {
-		return null
-	}
+export const getLesson = cache(
+	async (id?: number, userIdOverride?: string | null) => {
+		const userId = userIdOverride ?? (await getUserId())
+		const courseProgress = await getCourseProgress(userId)
+		const lessonId = id || courseProgress?.activeLessonId
+		if (!lessonId) return null
 
-	const data = await db.query.lessons.findFirst({
-		where: eq(lessons.id, lessonId),
-		with: {
-			challenges: {
-				orderBy: (challenges, { asc }) => [asc(challenges.order)],
-				with: {
-					challengeOptions: true,
-					challengeProgress: {
-						where: eq(challengeProgress.userId, userId),
+		const data = await db.query.lessons.findFirst({
+			where: eq(lessons.id, lessonId),
+			with: {
+				challenges: {
+					orderBy: (ch, { asc }) => [asc(ch.order)],
+					with: {
+						challengeOptions: true,
+						challengeProgress:
+							userId && !userId.startsWith('guest')
+								? { where: eq(challengeProgress.userId, userId) }
+								: undefined,
 					},
 				},
 			},
-		},
-	})
+		})
 
-	if (!data || !data.challenges) {
-		return null
+		if (!data) return null
+
+		const normalizedChallenges = data.challenges.map((ch) => {
+			const completed =
+				userId && !userId.startsWith('guest')
+					? ch.challengeProgress?.every((p) => p.completed)
+					: false
+			return { ...ch, completed }
+		})
+
+		return { ...data, challenges: normalizedChallenges }
 	}
-
-	const normalizedChallenges = data.challenges.map((challenge) => {
-		const completed =
-			challenge.challengeProgress &&
-			challenge.challengeProgress.length > 0 &&
-			challenge.challengeProgress.every((progress) => progress.completed)
-
-		return { ...challenge, completed }
-	})
-
-	return { ...data, challenges: normalizedChallenges }
-})
+)
 
 export async function getAllHebrewLessonScripts(courseId?: number) {
 	const base = db
@@ -372,6 +500,31 @@ export async function getHebrewLessonScript(lessonScriptId: number) {
 	})
 }
 
+// TODO fix to match hebrew
+// export async function getAllEnglishLessonScripts(courseId?: number) {
+// 	const base = db
+// 		.select({
+// 			id: englishLessonScripts.id,
+// 			courseId: englishLessonScripts.courseId,
+// 			lessonId: englishLessonScripts.lessonId,
+// 			content: englishLessonScripts.content,
+// 			audioSrc: englishLessonScripts.audioSrc,
+// 			// 👇 from lessons
+// 			title: lessons.title,
+// 		})
+// 		.from(englishLessonScripts)
+// 		.innerJoin(lessons, eq(englishLessonScripts.lessonId, lessons.id))
+
+// 	const q =
+// 		courseId != null
+// 			? base.where(sql`${courseId} = ANY(${englishLessonScripts.courseId})`)
+// 			: base
+
+// 	return q.orderBy(
+// 		asc(englishLessonScripts.lessonId),
+// 	)
+// }
+
 export const getEnglishLessonScripts = async () => {
 	const rows = await db
 		.select({
@@ -389,6 +542,7 @@ export const getEnglishLessonScripts = async () => {
 
 	return rows
 }
+
 export const getEnglishSlideDecks = async () => {
 	const rows = await db
 		.select({
@@ -457,32 +611,25 @@ export const getGrammarLessons = async () => {
 	return results
 }
 
-export const getLessonPercentage = cache(async () => {
-	const courseProgress = await getCourseProgress()
+export const getLessonPercentage = cache(
+	async (userIdOverride?: string | null) => {
+		const userId = userIdOverride ?? (await getUserId())
+		const courseProg = await getCourseProgress(userId)
+		if (!courseProg?.activeLessonId) return 0
 
-	if (!courseProgress?.activeLessonId) {
-		return 0
+		const lesson = await getLesson(courseProg.activeLessonId, userId)
+		if (!lesson) return 0
+
+		if (userId?.startsWith('guest')) return 0 // guests show 0%
+
+		const completed = lesson.challenges.filter((c) => c.completed)
+		return Math.round((completed.length / lesson.challenges.length) * 100)
 	}
-
-	const lesson = await getLesson(courseProgress.activeLessonId)
-
-	if (!lesson) {
-		return 0
-	}
-
-	const completedChallenges = lesson.challenges.filter(
-		(challenge) => challenge.completed
-	)
-	const percentage = Math.round(
-		(completedChallenges.length / lesson.challenges.length) * 100
-	)
-
-	return percentage
-})
+)
 
 const DAY_IN_MS = 86_400_000
 export const getUserSubscription = cache(async () => {
-	const { userId } = await auth()
+	const userId = await getUserId()
 
 	if (!userId) return null
 
@@ -503,7 +650,7 @@ export const getUserSubscription = cache(async () => {
 })
 
 export const getTopTenUsers = cache(async () => {
-	const { userId } = await auth()
+	const userId = await getUserId()
 
 	if (!userId) {
 		return []
@@ -559,24 +706,7 @@ export async function getTopTwentyUsersByCourse(courseId: number) {
 		.orderBy(desc(userCourseProgress.points))
 		.limit(20)
 
-	// 🔄 refresh Clerk avatars
-	const updated = await Promise.all(
-		rawUsers.map(async (u) => {
-			let fresh = u.userImageSrc
-			try {
-				const clerkUser = await clerkClient.users.getUser(u.userId)
-				fresh = clerkUser?.imageUrl || '/mascot.svg'
-			} catch {
-				/* fallback to stored value */
-			}
-			return {
-				...u,
-				userImageSrc: fresh?.trim().replace(/\s|\n|\r/g, '') || '/mascot.svg',
-			}
-		})
-	)
-
-	return updated
+	return rawUsers
 }
 
 export async function getPrayerWithLines(prayerId: number) {
@@ -650,7 +780,7 @@ export async function getSongLines(prayerId: number) {
 }
 
 export async function getUserProgressWithTribe() {
-	const { userId } = await auth()
+	const userId = await getUserId()
 	if (!userId) return null
 
 	const result = await db
@@ -683,18 +813,8 @@ export async function getUserProgressWithTribe() {
 	const base = result[0]
 	if (!base) return null
 
-	// 🧠 Always refresh from Clerk
-	let freshImage = base.userImageSrc
-	try {
-		const clerkUser = await clerkClient.users.getUser(userId)
-		freshImage = clerkUser?.imageUrl || '/mascot.svg'
-	} catch {
-		console.warn('Failed to refresh Clerk image, using fallback.')
-	}
-
 	return {
 		...base,
-		userImageSrc: freshImage.trim().replace(/\s|\n|\r/g, ''),
 	}
 }
 
@@ -912,21 +1032,6 @@ export async function getStudyGroupWithMessages(studyGroupId: number) {
 
 	if (!group) return null
 
-	// 🔄 Refresh avatars
-	const refreshImage = async (user: any) => {
-		try {
-			const clerkUser = await clerkClient.users.getUser(user.userId)
-			return clerkUser?.imageUrl || '/mascot.svg'
-		} catch {
-			return user.userImageSrc || '/mascot.svg'
-		}
-	}
-
-	group.teacher.userImageSrc = await refreshImage(group.teacher)
-	for (const m of group.members) {
-		m.user.userImageSrc = await refreshImage(m.user)
-	}
-
 	// ✅ Collect all member IDs
 	const memberIds = group.members.map((m) => m.user.userId)
 	if (memberIds.length === 0) return group
@@ -1011,21 +1116,6 @@ export async function getStudyGroupWithCourses(studyGroupId: number) {
 	})
 
 	if (!group) return null
-
-	// 2️⃣ Refresh avatars for everyone
-	const refreshImage = async (user: any) => {
-		try {
-			const clerkUser = await clerkClient.users.getUser(user.userId)
-			return clerkUser?.imageUrl || '/mascot.svg'
-		} catch {
-			return user.userImageSrc || '/mascot.svg'
-		}
-	}
-
-	group.teacher.userImageSrc = await refreshImage(group.teacher)
-	for (const m of group.members) {
-		m.user.userImageSrc = await refreshImage(m.user)
-	}
 
 	// 3️⃣ Add available courses (currently all courses)
 	const availableCourses = await db.query.courses.findMany({

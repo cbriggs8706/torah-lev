@@ -14,7 +14,6 @@ import {
 	UnifrakturMaguntia,
 	Reenie_Beanie,
 } from 'next/font/google'
-import { ClerkProvider } from '@clerk/nextjs'
 import { Toaster } from '@/components/ui/sonner'
 import { ExitModal } from '@/components/modals/exit-modal'
 import { HeartsModal } from '@/components/modals/hearts-modal'
@@ -24,6 +23,8 @@ import { Analytics } from '@vercel/analytics/next'
 import { updateLastSeen } from '@/actions/update-last-seen'
 import Script from 'next/script'
 import NextAuthProvider from '@/components/providers/session-provider'
+import { getServerSession } from 'next-auth'
+import { options } from './api/auth/[...nextauth]/options'
 
 const frank = Frank_Ruhl_Libre({
 	subsets: ['hebrew'],
@@ -97,54 +98,56 @@ export default async function RootLayout({
 }: Readonly<{
 	children: React.ReactNode
 }>) {
-	await updateLastSeen()
+	const session = await getServerSession(options)
+
+	if (session?.user?.id) {
+		await updateLastSeen()
+	}
 	return (
-		<ClerkProvider>
-			<NextAuthProvider>
-				<html lang="en">
-					<head>
-						<Script
-							src={`https://cdn.tiny.cloud/1/${process.env.NEXT_PUBLIC_TINYMCE_API_KEY}/tinymce/6/tinymce.min.js`}
-							referrerPolicy="origin"
-							strategy="afterInteractive"
-						/>
-						<Analytics />
-						<link rel="icon" href="/favicon.ico" />
-						<link
-							rel="android-chrome"
-							sizes="192x192"
-							href="/android-chrome-192x192.png"
-						/>
-						<link
-							rel="android-chrome"
-							sizes="512x512"
-							href="/android-chrome-512x512.png"
-						/>
-						<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-						<link
-							rel="icon"
-							type="image/png"
-							sizes="16x16"
-							href="/favicon-16x16.png"
-						/>
-						<link
-							rel="icon"
-							type="image/png"
-							sizes="32x32"
-							href="/favicon-32x32.png"
-						/>
-					</head>
-					<body
-						className={`${font.className} ${frank.variable}  ${tinos.variable} ${cardo.variable} ${rashi.variable} ${suez.variable} ${garamond.variable} ${eczar.variable} ${manslava.variable} ${alegreya.variable} ${montecarlo.variable} ${maguntia.variable} ${reeniebeanie.variable}`}
-					>
-						<Toaster />
-						<ExitModal />
-						<HeartsModal />
-						<PracticeModal />
-						{children}
-					</body>
-				</html>
-			</NextAuthProvider>
-		</ClerkProvider>
+		<NextAuthProvider>
+			<html lang="en">
+				<head>
+					<Script
+						src={`https://cdn.tiny.cloud/1/${process.env.NEXT_PUBLIC_TINYMCE_API_KEY}/tinymce/6/tinymce.min.js`}
+						referrerPolicy="origin"
+						strategy="afterInteractive"
+					/>
+					<Analytics />
+					<link rel="icon" href="/favicon.ico" />
+					<link
+						rel="android-chrome"
+						sizes="192x192"
+						href="/android-chrome-192x192.png"
+					/>
+					<link
+						rel="android-chrome"
+						sizes="512x512"
+						href="/android-chrome-512x512.png"
+					/>
+					<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+					<link
+						rel="icon"
+						type="image/png"
+						sizes="16x16"
+						href="/favicon-16x16.png"
+					/>
+					<link
+						rel="icon"
+						type="image/png"
+						sizes="32x32"
+						href="/favicon-32x32.png"
+					/>
+				</head>
+				<body
+					className={`${font.className} ${frank.variable}  ${tinos.variable} ${cardo.variable} ${rashi.variable} ${suez.variable} ${garamond.variable} ${eczar.variable} ${manslava.variable} ${alegreya.variable} ${montecarlo.variable} ${maguntia.variable} ${reeniebeanie.variable}`}
+				>
+					<Toaster />
+					<ExitModal />
+					<HeartsModal />
+					<PracticeModal />
+					{children}
+				</body>
+			</html>
+		</NextAuthProvider>
 	)
 }

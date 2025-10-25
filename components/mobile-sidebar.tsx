@@ -39,7 +39,7 @@ export const MobileSidebar = ({
 	// 	(!userProgress || !userProgress.activeCourse) &&
 	// 	!pathname.startsWith('/courses')
 	// ) {
-	// 	redirect('/courses')
+	// 			return <div>Protected content</div>
 	// }
 
 	return (

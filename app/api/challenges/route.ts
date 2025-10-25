@@ -9,15 +9,31 @@ export const GET = async (req: Request) => {
 
 	const { searchParams } = new URL(req.url)
 
-	const sort = JSON.parse(searchParams.get('sort') || `["id","ASC"]`)
-	const range = JSON.parse(searchParams.get('range') || '[0,9]')
-	const filter = JSON.parse(searchParams.get('filter') || '{}')
+	// 🧩 Parse safely
+	let sort: [string, string] = ['id', 'ASC']
+	let range: [number, number] = [0, 9]
+	let filter: Record<string, unknown> = {}
+
+	try {
+		if (searchParams.get('sort')) {
+			sort = JSON.parse(searchParams.get('sort') as string)
+		}
+		if (searchParams.get('range')) {
+			range = JSON.parse(searchParams.get('range') as string)
+		}
+		if (searchParams.get('filter')) {
+			filter = JSON.parse(searchParams.get('filter') as string)
+		}
+	} catch {
+		return new NextResponse('Invalid query parameters', { status: 400 })
+	}
 
 	const [sortField, sortOrder] = sort
 	const [start, end] = range
 	const perPage = end - start + 1
 	const offset = start
 
+	// 🧭 Column map for sorting
 	const columnMap = {
 		id: challenges.id,
 		question: challenges.question,
@@ -31,19 +47,29 @@ export const GET = async (req: Request) => {
 	} as const
 
 	const sortColumn =
-		columnMap[sortField as keyof typeof columnMap] || challenges.id
-	const sortDirection = sortOrder === 'DESC' ? desc : asc
+		columnMap[sortField as keyof typeof columnMap] ?? challenges.id
+	const sortDirection = sortOrder?.toUpperCase() === 'DESC' ? desc : asc
 
-	// ✅ Filtering logic
+	// 🧠 Filter handling
 	let whereClause = sql`TRUE`
+
 	if (filter.id && Array.isArray(filter.id)) {
-		whereClause = inArray(challenges.id, filter.id) // ✅ getMany support
-	} else if (filter.question) {
+		// Support React-Admin "getMany" queries
+		whereClause = inArray(challenges.id, filter.id.map(Number).filter(Boolean))
+	} else if (
+		typeof filter.question === 'string' &&
+		filter.question.trim() !== ''
+	) {
 		whereClause = sql`${challenges.question} ILIKE ${
 			'%' + filter.question + '%'
 		}`
+	} else if (filter.lessonId && !isNaN(Number(filter.lessonId))) {
+		whereClause = sql`${challenges.lessonId} = ${Number(filter.lessonId)}`
+	} else if (filter.type && typeof filter.type === 'string') {
+		whereClause = sql`${challenges.type} = ${filter.type}`
 	}
 
+	// 📋 Query data
 	const rows = await db.query.challenges.findMany({
 		where: whereClause,
 		orderBy: sortDirection(sortColumn),
@@ -51,6 +77,7 @@ export const GET = async (req: Request) => {
 		offset: filter.id ? undefined : offset,
 	})
 
+	// 📊 Total count (for pagination header)
 	const [{ count }] = await db
 		.select({ count: sql<number>`count(*)` })
 		.from(challenges)

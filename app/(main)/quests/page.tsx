@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import { redirect } from 'next/navigation'
-
+import { getServerSession } from 'next-auth'
+import { options } from '@/app/api/auth/[...nextauth]/options'
 import { FeedWrapper } from '@/components/feed-wrapper'
 import { UserProgress } from '@/components/user-progress'
 import { StickyWrapper } from '@/components/sticky-wrapper'
@@ -13,12 +14,14 @@ import { Progress } from '@/components/ui/progress'
 // import { Promo } from '@/components/promo'
 import { quests } from '@/constants'
 import { challengeProgress, units } from '@/db/schema'
-import { auth } from '@clerk/nextjs/server'
+import { getUserId } from '@/lib/auth'
 import db from '@/db/drizzle'
 import { eq } from 'drizzle-orm'
 
 const QuestsPage = async () => {
-	const { userId } = await auth()
+	const session = await getServerSession(options)
+	if (!session?.user) redirect('/') // or your landing page
+	const userId = await getUserId()
 	if (!userId) redirect('/')
 
 	const userProgressData = getUserProgress()
@@ -26,7 +29,7 @@ const QuestsPage = async () => {
 	const userSubscriptionData = getUserSubscription()
 	const courseId = userChallengeData?.activeLesson?.unit.courseId
 	if (!courseId) {
-		redirect('/courses') // or return null / handle error
+		return <div>Protected content</div> // or return null / handle error
 	}
 	const [userProgress, userSubscription] = await Promise.all([
 		userProgressData,
@@ -34,7 +37,7 @@ const QuestsPage = async () => {
 	])
 
 	if (!userProgress || !userProgress.activeCourse || !userChallengeData) {
-		redirect('/courses')
+		return <div>Protected content</div>
 	}
 
 	const isPro = !!userSubscription?.isActive

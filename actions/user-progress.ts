@@ -3,9 +3,8 @@
 import { and, eq, sql } from 'drizzle-orm'
 import { redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
-import { auth, currentUser } from '@clerk/nextjs/server'
+import { getSession, getUserId } from '@/lib/auth'
 import { z } from 'zod'
-
 import db from '@/db/drizzle'
 import { POINTS_TO_REFILL } from '@/constants'
 import {
@@ -21,6 +20,13 @@ import {
 	userCourseProgress,
 } from '@/db/schema'
 
+// -----------------------------
+// 🔧 Helpers
+// -----------------------------
+
+const isGuestId = (id?: string | null): boolean =>
+	!id || id.startsWith('guest-') || id.length < 10
+
 const getLanguageRoute = (courseId: number): string => {
 	if ([6, 11, 14].includes(courseId)) return '/he/learn'
 	if ([3, 4, 13, 16, 17].includes(courseId)) return '/en/learn'
@@ -29,12 +35,23 @@ const getLanguageRoute = (courseId: number): string => {
 	return '/courses' // fallback
 }
 
+// -----------------------------
+// 🟦 upsertUserProgress
+// -----------------------------
+
 export const upsertUserProgress = async (courseId: number) => {
 	try {
 		console.log('🟦 Upserting user progress for courseId:', courseId)
-		const { userId } = await auth()
-		const user = await currentUser()
-		if (!userId || !user) throw new Error('Unauthorized')
+		const session = await getSession()
+		const userId = session?.user?.id || null
+		const user = session?.user
+
+		// 🧭 Guest support
+		if (isGuestId(userId)) {
+			console.log('👋 Guest mode: skipping DB writes in upsertUserProgress')
+			// For guests, we could set localStorage in client side code only
+			return redirect(getLanguageRoute(courseId))
+		}
 
 		const course = await getCourseById(courseId)
 		if (!course) throw new Error('Course not found')
@@ -46,15 +63,15 @@ export const upsertUserProgress = async (courseId: number) => {
 		const usernameToUse =
 			existingUserProgress?.userName && existingUserProgress.userName !== 'User'
 				? existingUserProgress.userName
-				: user.username || 'User'
+				: user?.name || 'User'
 
 		const avatarToUse =
 			existingUserProgress?.userImageSrc &&
 			existingUserProgress.userImageSrc !== '/mascot.svg'
 				? existingUserProgress.userImageSrc
-				: user.imageUrl || '/mascot.svg'
+				: user?.image || '/mascot.svg'
 
-		// 1️⃣ Update global user_progress (switch active course)
+		// 1️⃣ Update global user_progress
 		await db
 			.update(userProgress)
 			.set({
@@ -62,38 +79,42 @@ export const upsertUserProgress = async (courseId: number) => {
 				userName: usernameToUse,
 				userImageSrc: avatarToUse,
 			})
-			.where(eq(userProgress.userId, userId))
+			.where(eq(userProgress.userId, userId!))
 
-		// 2️⃣ Ensure user_course_progress record exists
-		//    (but do NOT copy points/hearts from another course)
+		// 2️⃣ Ensure user_course_progress exists
 		await db
 			.insert(userCourseProgress)
 			.values({
-				userId,
+				userId: userId!,
 				courseId,
 				activeLessonId: null,
 				points: 0,
 				hearts: 5,
 				lastSeen: new Date(),
 			})
-			.onConflictDoNothing() // if it already exists, leave it alone
+			.onConflictDoNothing()
 
 		revalidatePath('/courses')
 		revalidatePath('/learn')
 
-		const targetPath = getLanguageRoute(courseId)
-		return redirect(targetPath)
+		return redirect(getLanguageRoute(courseId))
 	} catch (error) {
 		console.error('Error in upsertUserProgress:', error)
 		throw error
 	}
 }
 
-export const reduceHearts = async (challengeId: number) => {
-	const { userId } = await auth()
+// -----------------------------
+// 💔 reduceHearts
+// -----------------------------
 
-	if (!userId) {
-		throw new Error('Unauthorized')
+export const reduceHearts = async (challengeId: number) => {
+	const userId = await getUserId()
+
+	// Guest-safe
+	if (isGuestId(userId)) {
+		console.log('❤️ Guest mode: reduceHearts skipped DB writes')
+		return { guest: true }
 	}
 
 	const currentUserProgress = await getUserProgress()
@@ -103,43 +124,25 @@ export const reduceHearts = async (challengeId: number) => {
 		where: eq(challenges.id, challengeId),
 	})
 
-	if (!challenge) {
-		throw new Error('Challenge not found')
-	}
-
+	if (!challenge) throw new Error('Challenge not found')
 	const lessonId = challenge.lessonId
 
 	const existingChallengeProgress = await db.query.challengeProgress.findFirst({
 		where: and(
-			eq(challengeProgress.userId, userId),
+			eq(challengeProgress.userId, userId!),
 			eq(challengeProgress.challengeId, challengeId)
 		),
 	})
 
-	const isPractice = !!existingChallengeProgress
-
-	if (isPractice) {
-		return { error: 'practice' }
-	}
-
-	if (!currentUserProgress) {
-		throw new Error('User progress not found')
-	}
-
-	if (userSubscription?.isActive) {
-		return { error: 'subscription' }
-	}
-
-	if (currentUserProgress.hearts === 0) {
-		return { error: 'hearts' }
-	}
+	if (existingChallengeProgress) return { error: 'practice' }
+	if (!currentUserProgress) throw new Error('User progress not found')
+	if (userSubscription?.isActive) return { error: 'subscription' }
+	if (currentUserProgress.hearts === 0) return { error: 'hearts' }
 
 	await db
 		.update(userProgress)
-		.set({
-			hearts: Math.max(currentUserProgress.hearts - 1, 0),
-		})
-		.where(eq(userProgress.userId, userId))
+		.set({ hearts: Math.max(currentUserProgress.hearts - 1, 0) })
+		.where(eq(userProgress.userId, userId!))
 
 	revalidatePath('/market')
 	revalidatePath('/learn')
@@ -148,20 +151,24 @@ export const reduceHearts = async (challengeId: number) => {
 	revalidatePath(`/lesson/${lessonId}`)
 }
 
+// -----------------------------
+// 💖 refillHearts
+// -----------------------------
+
 export const refillHearts = async () => {
 	const currentUserProgress = await getUserProgress()
+	const userId = currentUserProgress?.userId
 
-	if (!currentUserProgress) {
-		throw new Error('User progress not found')
+	if (isGuestId(userId)) {
+		console.log('💖 Guest mode: refillHearts skipped DB writes')
+		return { guest: true }
 	}
 
-	if (currentUserProgress.hearts === 5) {
+	if (!currentUserProgress) throw new Error('User progress not found')
+	if (currentUserProgress.hearts === 5)
 		throw new Error('Hearts are already full')
-	}
-
-	if (currentUserProgress.points < POINTS_TO_REFILL) {
+	if (currentUserProgress.points < POINTS_TO_REFILL)
 		throw new Error('Not enough points')
-	}
 
 	await db
 		.update(userProgress)
@@ -169,13 +176,17 @@ export const refillHearts = async () => {
 			hearts: 5,
 			points: currentUserProgress.points - POINTS_TO_REFILL,
 		})
-		.where(eq(userProgress.userId, currentUserProgress.userId))
+		.where(eq(userProgress.userId, userId!))
 
 	revalidatePath('/market')
 	revalidatePath('/learn')
 	revalidatePath('/quests')
 	revalidatePath('/leaderboard')
 }
+
+// -----------------------------
+// ✏️ updateUserProfile
+// -----------------------------
 
 const updateUserSchema = z.object({
 	userName: z.string().min(2, 'Name must be at least 2 characters').optional(),
@@ -186,24 +197,22 @@ export const updateUserProfile = async (data: {
 	userName?: string
 	userImageSrc?: string
 }) => {
-	const { userId } = await auth()
+	const userId = await getUserId()
 
-	if (!userId) {
-		throw new Error('Unauthorized')
+	if (isGuestId(userId)) {
+		console.log('👤 Guest mode: updateUserProfile skipped DB writes')
+		return { guest: true }
 	}
 
-	// ✅ Validate input
+	if (!userId) throw new Error('Unauthorized')
+
 	const parsed = updateUserSchema.safeParse(data)
-	if (!parsed.success) {
+	if (!parsed.success)
 		throw new Error(JSON.stringify(parsed.error.flatten().fieldErrors))
-	}
 
 	const currentUserProgress = await getUserProgress()
-	if (!currentUserProgress) {
-		throw new Error('User progress not found')
-	}
+	if (!currentUserProgress) throw new Error('User progress not found')
 
-	// ✅ Only update provided fields
 	await db
 		.update(userProgress)
 		.set({
@@ -212,14 +221,13 @@ export const updateUserProfile = async (data: {
 				userImageSrc: parsed.data.userImageSrc,
 			}),
 		})
-		.where(eq(userProgress.userId, userId))
+		.where(eq(userProgress.userId, userId!))
 
 	const [updatedUser] = await db
 		.select()
 		.from(userProgress)
-		.where(eq(userProgress.userId, userId))
+		.where(eq(userProgress.userId, userId!))
 
-	// ✅ Revalidate relevant pages
 	revalidatePath('/learn')
 	revalidatePath('/leaderboard')
 	revalidatePath('/profile')
@@ -227,25 +235,31 @@ export const updateUserProfile = async (data: {
 	return updatedUser
 }
 
+// -----------------------------
+// 🪙 exchangePointsForTribe
+// -----------------------------
+
 export const exchangePointsForTribe = async () => {
-	const { userId } = await auth()
-	if (!userId) throw new Error('Unauthorized')
+	const userId = await getUserId()
+
+	if (isGuestId(userId)) {
+		console.log('🪙 Guest mode: exchangePointsForTribe skipped DB writes')
+		return { guest: true }
+	}
 
 	const currentUserProgress = await getUserProgress()
 	if (!currentUserProgress) throw new Error('User not found')
 	if (!currentUserProgress.tribeId) throw new Error('No tribe assigned')
 	if (currentUserProgress.points < 100) throw new Error('Not enough points')
 
-	// ✅ Deduct user points
 	await db
 		.update(userProgress)
 		.set({ points: currentUserProgress.points - 100 })
-		.where(eq(userProgress.userId, userId))
+		.where(eq(userProgress.userId, userId!))
 
-	// ✅ Increment tribe points
 	await db
 		.update(tribes)
-		.set({ points: sql`${tribes.points} + 1` }) // ✅ safer increment
+		.set({ points: sql`${tribes.points} + 1` })
 		.where(eq(tribes.id, currentUserProgress.tribeId))
 
 	revalidatePath('/market')

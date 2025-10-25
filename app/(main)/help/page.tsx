@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import { redirect } from 'next/navigation'
-
+import { getServerSession } from 'next-auth'
+import { options } from '@/app/api/auth/[...nextauth]/options'
 import { FeedWrapper } from '@/components/feed-wrapper'
 import { UserProgress } from '@/components/user-progress'
 import { StickyWrapper } from '@/components/sticky-wrapper'
@@ -10,6 +11,8 @@ import { Progress } from '@/components/ui/progress'
 import { quests } from '@/constants'
 
 const QuestsPage = async () => {
+	const session = await getServerSession(options)
+	if (!session?.user) redirect('/') // or your landing page
 	const userProgressData = getUserProgress()
 	const userSubscriptionData = getUserSubscription()
 
@@ -19,7 +22,7 @@ const QuestsPage = async () => {
 	])
 
 	if (!userProgress || !userProgress.activeCourse) {
-		redirect('/courses')
+		return <div>Protected content</div>
 	}
 
 	const isPro = !!userSubscription?.isActive

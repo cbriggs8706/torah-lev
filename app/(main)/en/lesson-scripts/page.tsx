@@ -1,32 +1,35 @@
 import Image from 'next/image'
-import { redirect } from 'next/navigation'
-
+import { getServerSession } from 'next-auth'
+import { options } from '@/app/api/auth/[...nextauth]/options'
 import { FeedWrapper } from '@/components/feed-wrapper'
-import { UserProgress } from '@/components/user-progress'
-import { StickyWrapper } from '@/components/sticky-wrapper'
+import { DismissibleAlert } from '@/components/dismissible-alert'
 import {
 	getCourseProgress,
 	getEnglishLessonScripts,
 	getUserProgress,
 	getUserSubscription,
 } from '@/db/queries'
-import { DismissibleAlert } from '@/components/dismissible-alert'
 import LessonScriptList from '@/components/english/english-lesson-script-list'
+import { FileX } from 'lucide-react'
 
 const EnglishLessonScriptsPage = async () => {
-	const userProgressData = getUserProgress()
-	const userChallengeData = await getCourseProgress()
-	const userSubscriptionData = getUserSubscription()
+	// 🧠 Session may be null for guests
+	const session = await getServerSession(options)
 
-	const [userProgress, userSubscription] = await Promise.all([
-		userProgressData,
-		userSubscriptionData,
+	// Fetch data safely (works for guests too)
+	const [userProgress, userSubscription, courseProgress] = await Promise.all([
+		getUserProgress(),
+		getUserSubscription(),
+		getCourseProgress(),
 	])
 
-	if (!userProgress || !userProgress.activeCourse) {
-		redirect('/courses')
-	}
+	const isPro = !!userSubscription?.isActive
 
+	// ✅ Fallback for guests — default to EC1 (courseId 3)
+	const activeCourseId = userProgress?.activeCourseId ?? 3
+	const currentLesson = courseProgress?.activeLesson?.id ?? null
+
+	// Match prefix by courseId
 	const coursePrefixes: Record<number, string> = {
 		17: 'LR',
 		13: 'EwB',
@@ -34,30 +37,25 @@ const EnglishLessonScriptsPage = async () => {
 		3: 'EC1',
 		4: 'EC2',
 	}
+	const prefix = coursePrefixes[activeCourseId]
 
-	const prefix = coursePrefixes[userProgress.activeCourse.id] // may be undefined
-
-	// Get everything, then conditionally filter in memory
+	// Load all scripts and filter by prefix
 	const lessonScripts = await getEnglishLessonScripts()
-	const filteredLessonScripts = prefix
-		? lessonScripts.filter((script) => script.lessonTitle?.startsWith(prefix))
-		: lessonScripts
+	// const lessonScripts = await getEnglishLessonScripts(prefix)
 
-	const isPro = !!userSubscription?.isActive
+	// TODO Fix
+	const filteredLessonScripts = lessonScripts
+	// const filteredLessonScripts = prefix
+	// 	? lessonScripts.filter((script) => script.lessonTitle?.startsWith(prefix))
+	// 	: lessonScripts
+
+	console.log('Fetched scripts:', lessonScripts.length)
+	console.log('Filtered scripts:', filteredLessonScripts.length)
+	// For guests, mark isEnglishFriend as false
 	const isEnglishFriend = !!userProgress?.isEnglishFriend
-	const currentLesson = userProgress.activeLessonId
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
-			{/* <StickyWrapper>
-				<UserProgress
-					activeCourse={userProgress.activeCourse}
-					hearts={userProgress.hearts}
-					points={userProgress.points}
-					hasActiveSubscription={isPro}
-				/>
-				{!isPro && <Promo />}
-			</StickyWrapper> */}
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">
 					<Image
@@ -69,10 +67,17 @@ const EnglishLessonScriptsPage = async () => {
 					<h1 className="text-center font-bold text-neutral-800 text-2xl my-6">
 						Lesson Scripts
 					</h1>
+
+					{/* Optional note for guests */}
+					{!session?.user && (
+						<p className="text-gray-500 text-center mb-4">
+							You’re browsing as a guest. Your progress won’t be saved.
+						</p>
+					)}
+
+					{/* Optional alert if you want */}
 					{/* <DismissibleAlert storageKey="scripts" className="mb-4">
-						Lessons 1-100 are loaded. Most have audio where you can click the
-						play button to listen while you read. Some browsers are having
-						trouble displaying images nicely.
+						Lessons 1–100 are loaded. Most have audio you can play while reading.
 					</DismissibleAlert> */}
 
 					<LessonScriptList

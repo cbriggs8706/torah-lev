@@ -1,8 +1,8 @@
-// Server Component
 import { getUserProgress, getUserSubscription } from '@/db/queries'
-import { redirect } from 'next/navigation'
+import { getServerSession } from 'next-auth'
+import { options } from '@/app/api/auth/[...nextauth]/options'
 import SidebarClient from './sidebar-client'
-import { headers } from 'next/headers'
+import { cookies, headers } from 'next/headers'
 
 export default async function SidebarServer({
 	className,
@@ -11,23 +11,39 @@ export default async function SidebarServer({
 	className?: string
 	onItemClick?: () => void
 }) {
-	const [userProgress, userSubscription] = await Promise.all([
-		getUserProgress(),
-		getUserSubscription(),
-	])
+	const session = await getServerSession(options)
+	const userId = session?.user?.id ?? null
+	const cookieStore = cookies()
+	const guestCourseId = cookieStore.get('guestActiveCourseId')?.value
+	const guestId = cookieStore.get('guestId')?.value
 
-	const pathname = (await headers()).get('x-pathname') || ''
-	if (
-		(!userProgress || !userProgress.activeCourse) &&
-		!pathname.startsWith('/courses')
-	) {
-		redirect('/courses')
+	let userProgress = null
+	let userSubscription = null
+
+	if (userId) {
+		// Signed-in user
+		;[userProgress, userSubscription] = await Promise.all([
+			getUserProgress(),
+			getUserSubscription(),
+		])
 	}
 
-	// Optional dev-only safeguard
-	if (typeof window !== 'undefined') {
-		console.error('❌ SidebarServer is being run on the client!')
+	// 🧩 Build fallback for guest users
+	const fallbackProgress = {
+		userId: guestId || 'guest',
+		userName: 'Guest',
+		userImageSrc: '/mascot.svg',
+		activeCourseId: guestCourseId ? Number(guestCourseId) : 6, // default Hebrew
+		activeCourse: {
+			id: guestCourseId ? Number(guestCourseId) : 6,
+			title: 'Guest Course',
+			imageSrc: '/mascot.svg', // ✅ <-- add this line
+		},
+		hearts: 0,
+		points: 0,
 	}
+
+	const displayProgress = userProgress ?? fallbackProgress
 
 	const isHebrewFriend = userProgress?.isHebrewFriend ?? false
 	const isSpanishFriend = userProgress?.isSpanishFriend ?? false
@@ -38,17 +54,7 @@ export default async function SidebarServer({
 		<SidebarClient
 			className={className}
 			onItemClick={onItemClick}
-			userProgress={
-				userProgress ?? {
-					userId: '',
-					userName: '',
-					userImageSrc: '',
-					activeCourseId: null,
-					activeCourse: null,
-					hearts: 0,
-					points: 0,
-				}
-			}
+			userProgress={displayProgress}
 			isPro={!!userSubscription?.isActive}
 			isHebrewFriend={isHebrewFriend}
 			isSpanishFriend={isSpanishFriend}

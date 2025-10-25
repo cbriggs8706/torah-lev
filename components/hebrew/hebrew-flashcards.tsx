@@ -9,6 +9,7 @@ import TypeFilter from '../filters/filter-type'
 import CategoryFilter from '../filters/filter-category'
 import LessonFilter from '../filters/filter-lesson'
 import ProgressBar from '../progress-bar'
+import { useUserId } from '@/hooks/useUserId'
 
 type FontChoice =
 	| 'arial'
@@ -26,7 +27,7 @@ interface HebrewVocabProps {
 	allFields: (keyof HebrewVocab)[]
 	currentLesson: string
 	layout: string
-	userId: string
+	// userId: string
 	courseId: number
 }
 
@@ -82,8 +83,8 @@ export default function HebrewFlashcards({
 	currentLesson,
 	layout,
 	courseId,
-	userId,
-}: HebrewVocabProps) {
+}: // userId,
+HebrewVocabProps) {
 	const {
 		selectedLessons,
 		setSelectedLessons,
@@ -152,6 +153,8 @@ export default function HebrewFlashcards({
 		keyof HebrewVocab | 'engTransliteration'
 	>('engTransliteration')
 	const [cardsCompleted, setCardsCompleted] = useState(0)
+	const userId = useUserId()
+	// console.log('newUserId in local', userId)
 
 	const PRESETS = [
 		{

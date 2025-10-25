@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import { redirect } from 'next/navigation'
-
+import { getServerSession } from 'next-auth'
+import { options } from '@/app/api/auth/[...nextauth]/options'
 // import { Promo } from '@/components/promo'
 import { FeedWrapper } from '@/components/feed-wrapper'
 import { UserProgress } from '@/components/user-progress'
@@ -15,6 +16,8 @@ import { Quests } from '@/components/quests'
 import { Items } from '../market/items'
 
 const ProgressPage = async () => {
+	const session = await getServerSession(options)
+	if (!session?.user) redirect('/') // or your landing page
 	const userProgressData = getUserProgress()
 	const userChallengeData = await getCourseProgress()
 	const userSubscriptionData = getUserSubscription()
@@ -25,7 +28,7 @@ const ProgressPage = async () => {
 	])
 
 	if (!userProgress || !userProgress.activeCourse) {
-		redirect('/courses')
+		return <div>Protected content</div>
 	}
 
 	const isPro = !!userSubscription?.isActive

@@ -1,10 +1,9 @@
 'use server'
-import Image from 'next/image'
-import { redirect } from 'next/navigation'
 
+import Image from 'next/image'
+import { getServerSession } from 'next-auth'
+import { options } from '@/app/api/auth/[...nextauth]/options'
 import { FeedWrapper } from '@/components/feed-wrapper'
-import { UserProgress } from '@/components/user-progress'
-import { StickyWrapper } from '@/components/sticky-wrapper'
 import {
 	getCourseProgress,
 	getUserProgress,
@@ -21,48 +20,42 @@ import { DismissibleAlert } from '@/components/dismissible-alert'
 import { EnglishVocab } from '@/lib/vocab'
 import EnglishSpelling from '@/components/english/english-spelling'
 
-const EnglishSpellingPage = async () => {
-	const userProgressData = getUserProgress()
-	const userChallengeData = await getCourseProgress()
-	const userSubscriptionData = getUserSubscription()
+export default async function EnglishSpellingPage() {
+	const session = await getServerSession(options)
+	const userId = session?.user?.id ?? null
 
-	const [userProgress, userSubscription] = await Promise.all([
-		userProgressData,
-		userSubscriptionData,
-	])
+	// Fetch only when signed in
+	const [userProgress, userSubscription, userChallengeData] = userId
+		? await Promise.all([
+				getUserProgress(),
+				getUserSubscription(),
+				getCourseProgress(),
+		  ])
+		: [null, null, null]
 
-	if (!userProgress || !userProgress.activeCourse) {
-		redirect('/courses')
-	}
+	// Fallback defaults for guests
+	const activeCourseId = userProgress?.activeCourseId ?? 3 // Default EC1
+	const currentLesson = userChallengeData?.activeLesson?.lessonNumber ?? ''
+	const isPro = !!userSubscription?.isActive
 
+	// Choose vocab data by course
 	const englishData: EnglishVocab[] =
-		userProgress.activeCourseId === 16
+		activeCourseId === 16
 			? (efwEnglishVocab as EnglishVocab[])
-			: userProgress.activeCourseId === 13
+			: activeCourseId === 13
 			? (ewbEnglishVocab as EnglishVocab[])
-			: userProgress.activeCourseId === 17
+			: activeCourseId === 17
 			? (lrEnglishVocab as EnglishVocab[])
-			: userProgress.activeCourseId === 3
+			: activeCourseId === 3
 			? (ec1EnglishVocab as EnglishVocab[])
-			: userProgress.activeCourseId === 4
+			: activeCourseId === 4
 			? (ec2EnglishVocab as EnglishVocab[])
 			: []
-	const filteredData = englishData.filter((entry) => entry.type === 'word')
 
-	const isPro = !!userSubscription?.isActive
-	const currentLesson = userChallengeData?.activeLesson?.lessonNumber
+	const filteredData = englishData.filter((entry) => entry.type === 'word')
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
-			{/* <StickyWrapper>
-				<UserProgress
-					activeCourse={userProgress.activeCourse}
-					hearts={userProgress.hearts}
-					points={userProgress.points}
-					hasActiveSubscription={isPro}
-				/>
-				{!isPro && <Promo />}
-			</StickyWrapper> */}
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">
 					<Image
@@ -74,6 +67,13 @@ const EnglishSpellingPage = async () => {
 					<h1 className="text-center font-bold text-neutral-800 text-2xl my-6">
 						Spelling
 					</h1>
+
+					{!userId && (
+						<p className="text-gray-500 italic mb-3">
+							You’re using guest mode — progress won’t be saved.
+						</p>
+					)}
+
 					<DismissibleAlert storageKey="spelling" className="mb-4">
 						Customize your prompt type. My favorite is letter-by-letter. For
 						sofit ending letters tap the Alt/Opt button. For additional vowels
@@ -83,14 +83,12 @@ const EnglishSpellingPage = async () => {
 
 					<EnglishSpelling
 						data={filteredData}
-						currentLesson={currentLesson ?? ''}
-						userId={userProgress.userId}
-						courseId={userProgress.activeCourseId}
+						currentLesson={currentLesson}
+						userId={userId ?? 'guest'}
+						courseId={activeCourseId}
 					/>
 				</div>
 			</FeedWrapper>
 		</div>
 	)
 }
-
-export default EnglishSpellingPage

@@ -1,5 +1,6 @@
 import { redirect } from 'next/navigation'
-
+import { getServerSession } from 'next-auth'
+import { options } from '@/app/api/auth/[...nextauth]/options'
 import {
 	getCourseProgress,
 	getLesson,
@@ -16,6 +17,8 @@ type Props = {
 }
 
 const LessonIdPage = async ({ params }: Props) => {
+	const session = await getServerSession(options)
+	if (!session?.user) redirect('/') // or your landing page
 	const lessonData = getLesson(params.lessonId)
 	const userProgressData = getUserProgress()
 	const userSubscriptionData = getUserSubscription()
@@ -27,7 +30,7 @@ const LessonIdPage = async ({ params }: Props) => {
 	])
 
 	if (!lesson || !userProgress) {
-		redirect('/courses')
+		return <div>Protected content</div>
 	}
 
 	const initialPercentage =

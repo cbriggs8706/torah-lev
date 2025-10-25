@@ -11,6 +11,24 @@ import {
 	varchar,
 } from 'drizzle-orm/pg-core'
 
+export const users = pgTable('users', {
+	id: text('id').primaryKey(), // this will match NextAuth `user.id` or your UUID
+	username: varchar('username', { length: 100 }).notNull().unique(),
+	email: varchar('email', { length: 255 }),
+	passwordHash: text('password_hash').notNull(),
+	image: text('image'),
+	role: varchar('role').default('user').notNull(),
+	createdAt: timestamp('created_at').defaultNow().notNull(),
+	updatedAt: timestamp('updated_at').defaultNow().notNull(),
+})
+
+export const usersRelations = relations(users, ({ one, many }) => ({
+	progress: one(userProgress, {
+		fields: [users.id],
+		references: [userProgress.userId],
+	}),
+}))
+
 export const courses = pgTable('courses', {
 	id: serial('id').primaryKey(),
 	title: text('title').notNull(),
@@ -205,9 +223,15 @@ export const challengeProgressRelations = relations(
 )
 
 export const userProgress = pgTable('user_progress', {
-	userId: text('user_id').primaryKey(),
+	userId: text('user_id')
+		.references(() => users.id, { onDelete: 'cascade' })
+		.primaryKey(),
 	userName: text('user_name').notNull().default('User'),
+	hebrewName: text('hebrew_name').notNull().default('אני'),
+	spanishName: text('spanish_name').notNull().default('nombre'),
 	userImageSrc: text('user_image_src').notNull().default('/mascot.svg'),
+	hebrewImageSrc: text('hebrew_image_src').notNull().default('/mascot.svg'),
+	email: text('email').notNull().default(''),
 	activeCourseId: integer('active_course_id').references(() => courses.id, {
 		onDelete: 'cascade',
 	}),
@@ -230,6 +254,10 @@ export const userProgress = pgTable('user_progress', {
 export const userProgressRelations = relations(
 	userProgress,
 	({ one, many }) => ({
+		user: one(users, {
+			fields: [userProgress.userId],
+			references: [users.id],
+		}),
 		activeCourse: one(courses, {
 			fields: [userProgress.activeCourseId],
 			references: [courses.id],

@@ -1,25 +1,26 @@
 import Image from 'next/image'
-import { redirect } from 'next/navigation'
-
+import { requireAuth } from '@/lib/require-auth'
+import { getServerSession } from 'next-auth'
+import { options } from '@/app/api/auth/[...nextauth]/options'
 import { FeedWrapper } from '@/components/feed-wrapper'
 import { UserProgress } from '@/components/user-progress'
 import { StickyWrapper } from '@/components/sticky-wrapper'
 import { getUserProgress, getUserSubscription } from '@/db/queries'
 
 import HebrewMonthCalendar from '@/components/hebrew/hebrew-month-calendar'
+import { redirect } from 'next/navigation'
 
-const HebrewFlashcardPage = async () => {
-	const userProgressData = getUserProgress()
-	const userSubscriptionData = getUserSubscription()
+const HebrewCalendarPage = async () => {
+	const session = await getServerSession(options)
 
+	// Get user progress (returns a valid guest object if not signed in)
 	const [userProgress, userSubscription] = await Promise.all([
-		userProgressData,
-		userSubscriptionData,
+		getUserProgress(),
+		getUserSubscription(),
 	])
 
-	if (!userProgress || !userProgress.activeCourse) {
-		redirect('/courses')
-	}
+	// Logged-in users only: still allow personalized info
+	const userName = session?.user?.name ?? 'Guest'
 
 	const isPro = !!userSubscription?.isActive
 
@@ -53,4 +54,4 @@ const HebrewFlashcardPage = async () => {
 	)
 }
 
-export default HebrewFlashcardPage
+export default HebrewCalendarPage

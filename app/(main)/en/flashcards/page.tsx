@@ -1,22 +1,22 @@
 import Image from 'next/image'
-import { redirect } from 'next/navigation'
-
+import { getServerSession } from 'next-auth'
+import { options } from '@/app/api/auth/[...nextauth]/options'
 import { FeedWrapper } from '@/components/feed-wrapper'
 import { DismissibleAlert } from '@/components/dismissible-alert'
-
 import {
 	getCourseProgress,
 	getUserProgress,
 	getUserSubscription,
 } from '@/db/queries'
+import { EnglishVocab } from '@/lib/vocab'
+import EnglishFlashcards from '@/components/english/english-flashcards'
 
+// --- vocab sets ---
 import efwEnglishVocab from '@/lib/data/vocab/efwVocab.json'
 import ewbEnglishVocab from '@/lib/data/vocab/ewbVocab.json'
 import lrEnglishVocab from '@/lib/data/vocab/lrVocab.json'
 import ec1EnglishVocab from '@/lib/data/vocab/ec1Vocab.json'
 import ec2EnglishVocab from '@/lib/data/vocab/ec2Vocab.json'
-import { EnglishVocab } from '@/lib/vocab'
-import EnglishFlashcards from '@/components/english/english-flashcards'
 
 const allFieldsEnglish: (keyof EnglishVocab)[] = [
 	'eng',
@@ -34,34 +34,36 @@ const allFieldsEnglish: (keyof EnglishVocab)[] = [
 	'engAudio',
 ]
 
-export default async function EFWFlashcardPage({ params }: any) {
-	const userProgressData = getUserProgress()
-	const userChallengeData = await getCourseProgress()
-	const userSubscriptionData = getUserSubscription()
+export default async function EFWFlashcardPage() {
+	// Session may be null for guests
+	const session = await getServerSession(options)
 
-	const [userProgress, userSubscription] = await Promise.all([
-		userProgressData,
-		userSubscriptionData,
+	// Fetch user + course info (safe for guests)
+	const [userProgress, userSubscription, courseProgress] = await Promise.all([
+		getUserProgress(),
+		getUserSubscription(),
+		getCourseProgress(),
 	])
 
-	if (!userProgress || !userProgress.activeCourse) {
-		redirect('/courses')
-	}
+	const isPro = !!userSubscription?.isActive
 
-	const currentLesson = userChallengeData?.activeLesson?.lessonNumber
+	// ✅ Default courseId for guests (EFW)
+	const activeCourseId = userProgress?.activeCourseId ?? 16
+	const currentLesson = courseProgress?.activeLesson?.lessonNumber ?? '1'
 
+	// ✅ Always load the proper dataset
 	const englishData: EnglishVocab[] =
-		userProgress.activeCourseId === 16
+		activeCourseId === 16
 			? (efwEnglishVocab as EnglishVocab[])
-			: userProgress.activeCourseId === 13
+			: activeCourseId === 13
 			? (ewbEnglishVocab as EnglishVocab[])
-			: userProgress.activeCourseId === 17
+			: activeCourseId === 17
 			? (lrEnglishVocab as EnglishVocab[])
-			: userProgress.activeCourseId === 3
+			: activeCourseId === 3
 			? (ec1EnglishVocab as EnglishVocab[])
-			: userProgress.activeCourseId === 4
+			: activeCourseId === 4
 			? (ec2EnglishVocab as EnglishVocab[])
-			: []
+			: (efwEnglishVocab as EnglishVocab[]) // ✅ default fallback
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
@@ -79,15 +81,15 @@ export default async function EFWFlashcardPage({ params }: any) {
 
 					<DismissibleAlert storageKey="flashcard" className="mb-4">
 						These will default to your current lesson in the Learn section. You
-						can customize the cards to your hearts desire. There are 7 spots on
-						front and back where you can place whatever you would like.
+						can customize the cards to your heart’s desire. There are 7 spots on
+						front and back where you can place whatever you’d like.
 					</DismissibleAlert>
 
 					<EnglishFlashcards
 						data={englishData}
 						allFields={allFieldsEnglish}
-						currentLesson={'1'}
-						courseId={userProgress.activeCourseId}
+						currentLesson={currentLesson}
+						courseId={activeCourseId}
 						layout="english"
 					/>
 				</div>

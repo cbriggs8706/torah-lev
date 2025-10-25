@@ -10,7 +10,7 @@ import { Shield } from '../shield'
 import { Progress } from '../ui/progress'
 import { quests } from '@/constants'
 import { GoalDisplayCard } from './hebrew-goal-display-card'
-import { SignOutButton, UserButton } from '@clerk/nextjs'
+import { signOut, useSession } from 'next-auth/react'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
 
@@ -84,6 +84,7 @@ export default function HebrewUserDashboard({
 	const [isEditing, setIsEditing] = useState(false)
 	const [isPending, startTransition] = useTransition()
 	const router = useRouter()
+	const { data: session } = useSession()
 
 	// 🧮 For unlock logic
 	const lessonValue = (() => {
@@ -495,15 +496,24 @@ export default function HebrewUserDashboard({
 
 				<div className="flex flex-wrap items-center gap-4">
 					<div className="flex items-center gap-2">
-						<UserButton afterSignOutUrl="/" />
-						<span className="text-sm text-gray-700">Profile Menu</span>
+						<Image
+							src={session?.user?.image || '/mascot.svg'}
+							alt="Profile"
+							width={40}
+							height={40}
+							className="rounded-full border"
+						/>
+						<span className="text-sm text-gray-700">
+							{session?.user?.name || 'My Account'}
+						</span>
 					</div>
 
-					<SignOutButton>
-						<button className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition">
-							Sign Out
-						</button>
-					</SignOutButton>
+					<button
+						onClick={() => signOut({ callbackUrl: '/' })}
+						className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
+					>
+						Sign Out
+					</button>
 				</div>
 			</div>
 		</div>

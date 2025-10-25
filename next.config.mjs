@@ -5,17 +5,23 @@ const nextConfig = {
 		ignoreBuildErrors: true,
 	},
 	images: {
-		domains: ['img.clerk.com', 'images.clerk.dev', 'supabase.co'],
-		remotePatterns: [
-			{
-				protocol: 'https',
-				hostname: '**.clerk.com',
-			},
-			{
-				protocol: 'https',
-				hostname: '**.clerk.dev',
-			},
+		domains: [
+			'supabase.co',
+			'lh3.googleusercontent.com', // ✅ Google profile photos
+			'avatars.githubusercontent.com', // optional (GitHub)
+			'pbs.twimg.com', // optional (Twitter)
+			'platform-lookaside.fbsbx.com', // optional (Facebook)
 		],
+		// remotePatterns: [
+		// 	{
+		// 		protocol: 'https',
+		// 		hostname: '**.clerk.com',
+		// 	},
+		// 	{
+		// 		protocol: 'https',
+		// 		hostname: '**.clerk.dev',
+		// 	},
+		// ],
 	},
 	async headers() {
 		return [

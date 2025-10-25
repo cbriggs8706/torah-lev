@@ -1,48 +1,50 @@
 import Image from 'next/image'
-import { redirect } from 'next/navigation'
+import { getServerSession } from 'next-auth'
+import { options } from '@/app/api/auth/[...nextauth]/options'
 import { FeedWrapper } from '@/components/feed-wrapper'
 import { getUserProgress } from '@/db/queries'
 import HebrewVerbList from '@/components/hebrew/hebrew-verb-list'
 import allVerbs from '@/lib/data/hebrew/verbs/index.json'
 
-const HebrewVerbsPage = async () => {
-	const userProgress = await getUserProgress()
+export default async function HebrewVerbsPage() {
+	const session = await getServerSession(options)
+	const userId = session?.user?.id ?? null
 
-	if (!userProgress || !userProgress.activeCourse) {
-		redirect('/courses')
-	}
+	// ✅ Only fetch progress if logged in
+	const userProgress = userId ? await getUserProgress() : null
 
+	// ✅ Fallbacks for guests
+	const currentLessonNumber = userProgress?.activeLessonNumber ?? 1
 	const isHebrewFriend = !!userProgress?.isHebrewFriend
-	const currentLessonNumber = userProgress.activeLessonNumber
-	const currentCourse = userProgress.activeCourse.id
+
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">
 					<Image
-						src="/icons/iconStories.png"
-						// TODO swap out
-						// src="/books-svgrepo-com.svg"
+						src="/icons/iconStories.png" // TODO: swap with verb-specific icon
 						alt="Verbs"
 						height={90}
 						width={90}
 					/>
+
 					<h1 className="text-center font-cardo text-neutral-800 text-6xl my-6">
 						פְּעָלִים
 					</h1>
 					<p className="text-center font-bold text-neutral-800 mb-2">Verbs</p>
-					{/* <DismissibleAlert storageKey="matchup" className="mb-4">
-            {' '}
-            Musics
-          </DismissibleAlert> */}
+
+					{!userId && (
+						<p className="text-gray-500 italic mb-3">
+							You’re using guest mode — progress will not be saved.
+						</p>
+					)}
 				</div>
+
 				<div className="space-y-4">
 					<HebrewVerbList
 						allVerbs={allVerbs}
 						currentLesson={
-							userProgress.activeLessonNumber
-								? Number(userProgress.activeLessonNumber)
-								: null
+							currentLessonNumber ? Number(currentLessonNumber) : null
 						}
 					/>
 				</div>
@@ -50,5 +52,3 @@ const HebrewVerbsPage = async () => {
 		</div>
 	)
 }
-
-export default HebrewVerbsPage
