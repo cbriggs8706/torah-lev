@@ -7,7 +7,7 @@ import {
 	getUserSubscription,
 	getStudyGroupWithMessages,
 } from '@/db/queries'
-import StudyGroupDashboard from '@/components/study-group-dashboard'
+import StudyGroupDashboard from '@/components/dashboard/study-group-dashboard'
 
 export default async function StudyGroupDashboardPage({ params }: any) {
 	const [userProgress, userSubscription] = await Promise.all([

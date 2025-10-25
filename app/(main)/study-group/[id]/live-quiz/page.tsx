@@ -7,7 +7,7 @@ import {
 	getUserSubscription,
 	getStudyGroupWithCourses,
 } from '@/db/queries'
-import StudyGroupLiveQuiz from '@/components/study-group-live-quiz'
+import StudyGroupLiveQuiz from '@/components/dashboard/study-group-live-quiz'
 
 export default async function StudyGroupLiveQuizPage({ params }: any) {
 	const [userProgress, userSubscription] = await Promise.all([

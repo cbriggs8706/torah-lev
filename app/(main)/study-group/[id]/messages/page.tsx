@@ -9,7 +9,7 @@ import {
 } from '@/db/queries'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import StudyGroupMessages from '@/components/study-group-messages'
+import StudyGroupMessages from '@/components/dashboard/study-group-messages'
 
 export default async function MessageboardPage({ params }: any) {
 	const [userProgress, userSubscription] = await Promise.all([

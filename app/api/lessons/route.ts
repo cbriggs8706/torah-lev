@@ -7,7 +7,12 @@ import { isAdmin } from '@/lib/admin'
 export const GET = async (req: Request) => {
 	console.log('API /api/lessons called with method:', req.method)
 
-	if (!isAdmin()) return new NextResponse('Unauthorized', { status: 401 })
+	const url = new URL(req.url)
+	const isPublic = url.pathname.includes('/public')
+
+	if (!isPublic && !isAdmin()) {
+		return new NextResponse('Unauthorized', { status: 401 })
+	}
 
 	const { searchParams } = new URL(req.url)
 

@@ -1,7 +1,7 @@
 'use client'
 import { StudyGroupType } from '@/types/study-group'
-import LiveGameInstructor from './live-game-instructor-component'
-import LiveGamePlayer from './live-game-player-component'
+import LiveGameInstructor from '../live-game-instructor-component'
+import LiveGamePlayer from '../live-game-player-component'
 
 export default function StudyGroupLiveQuiz({
 	userId,

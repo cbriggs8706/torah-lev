@@ -539,6 +539,122 @@ export const studyGroupMembersRelations = relations(
 	})
 )
 
+export const locationTypeEnum = pgEnum('location_type', [
+	'in_person',
+	'zoom',
+	'hybrid',
+])
+
+export const studyGroupSchedule = pgTable('study_group_schedule', {
+	id: serial('id').primaryKey(),
+	studyGroupId: integer('study_group_id')
+		.references(() => studyGroups.id, { onDelete: 'cascade' })
+		.notNull(),
+	recurringId: integer('recurring_id').references(
+		() => studyGroupRecurringSchedule.id,
+		{
+			onDelete: 'set null',
+		}
+	),
+
+	classDate: timestamp('class_date').notNull(),
+	isCanceled: boolean('is_canceled').notNull().default(false),
+
+	locationType: locationTypeEnum('location_type').default('zoom'),
+	locationName: text('location_name'),
+	locationAddress: text('location_address'),
+	zoomLink: text('zoom_link'),
+
+	notes: text('notes'),
+	homeworkInstructions: text('homework_instructions'),
+	homeworkLinks: text('homework_links').array(),
+
+	createdAt: timestamp('created_at').defaultNow().notNull(),
+	updatedAt: timestamp('updated_at').defaultNow().notNull(),
+})
+
+export const studyGroupScheduleLessons = pgTable(
+	'study_group_schedule_lessons',
+	{
+		id: serial('id').primaryKey(),
+		scheduleId: integer('schedule_id')
+			.references(() => studyGroupSchedule.id, { onDelete: 'cascade' })
+			.notNull(),
+		lessonId: integer('lesson_id')
+			.references(() => lessons.id, { onDelete: 'cascade' })
+			.notNull(),
+		order: integer('order').notNull().default(1),
+	}
+)
+
+export const studyGroupRecurringSchedule = pgTable(
+	'study_group_recurring_schedule',
+	{
+		id: serial('id').primaryKey(),
+		studyGroupId: integer('study_group_id')
+			.references(() => studyGroups.id, { onDelete: 'cascade' })
+			.notNull(),
+
+		daysOfWeek: text('days_of_week').array().notNull(), // ['Tuesday', 'Thursday']
+		startTime: text('start_time').notNull(), // '19:00'
+		timezone: text('timezone').default('America/Chicago'),
+
+		startDate: timestamp('start_date'),
+		endDate: timestamp('end_date'),
+
+		locationType: locationTypeEnum('location_type').notNull().default('zoom'),
+		locationName: text('location_name'), // "Room 201" or "Community Center"
+		locationAddress: text('location_address'), // optional full address
+		zoomLink: text('zoom_link'),
+
+		isActive: boolean('is_active').notNull().default(true),
+		notes: text('notes'),
+
+		createdAt: timestamp('created_at').defaultNow().notNull(),
+		updatedAt: timestamp('updated_at').defaultNow().notNull(),
+	}
+)
+
+export const studyGroupScheduleRelations = relations(
+	studyGroupSchedule,
+	({ one, many }) => ({
+		studyGroup: one(studyGroups, {
+			fields: [studyGroupSchedule.studyGroupId],
+			references: [studyGroups.id],
+		}),
+		recurringTemplate: one(studyGroupRecurringSchedule, {
+			fields: [studyGroupSchedule.recurringId],
+			references: [studyGroupRecurringSchedule.id],
+		}),
+		lessons: many(studyGroupScheduleLessons),
+	})
+)
+
+export const studyGroupScheduleLessonsRelations = relations(
+	studyGroupScheduleLessons,
+	({ one }) => ({
+		schedule: one(studyGroupSchedule, {
+			fields: [studyGroupScheduleLessons.scheduleId],
+			references: [studyGroupSchedule.id],
+		}),
+		lesson: one(lessons, {
+			fields: [studyGroupScheduleLessons.lessonId],
+			references: [lessons.id],
+		}),
+	})
+)
+
+export const studyGroupRecurringScheduleRelations = relations(
+	studyGroupRecurringSchedule,
+	({ one, many }) => ({
+		studyGroup: one(studyGroups, {
+			fields: [studyGroupRecurringSchedule.studyGroupId],
+			references: [studyGroups.id],
+		}),
+		scheduleInstances: many(studyGroupSchedule),
+	})
+)
+
 export const messages = pgTable('messages', {
 	id: serial('id').primaryKey(),
 	senderId: text('sender_id')
