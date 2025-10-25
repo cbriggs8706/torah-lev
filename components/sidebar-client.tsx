@@ -438,12 +438,12 @@ export default function SidebarClient({
 						)}
 					</>
 				)}
-				<SidebarItem
+				{/* <SidebarItem
 					label="Dev Roadmap"
 					href="/dev-roadmap"
 					iconSrc="/world-map-svgrepo-com.svg"
 					onClick={onItemClick}
-				/>
+				/> */}
 			</div>
 			<div className="p-4">
 				{isLoading && (
