@@ -1,9 +1,7 @@
 import Image from 'next/image'
-import { redirect } from 'next/navigation'
-
+import { getServerSession } from 'next-auth'
+import { options } from '@/app/api/auth/[...nextauth]/options'
 import { FeedWrapper } from '@/components/feed-wrapper'
-import { UserProgress } from '@/components/user-progress'
-import { StickyWrapper } from '@/components/sticky-wrapper'
 import {
 	getCourseProgress,
 	getUserProgress,
@@ -12,68 +10,60 @@ import {
 import { DismissibleAlert } from '@/components/dismissible-alert'
 import HebrewSpeedQuiz from '@/components/hebrew/hebrew-speed-quiz'
 
-const HebrewSpeedQuizPage = async () => {
-	const userProgressData = getUserProgress()
-	const userChallengeData = await getCourseProgress()
-	const userSubscriptionData = getUserSubscription()
+export default async function HebrewSpeedQuizPage() {
+	const session = await getServerSession(options)
+	const userId = session?.user?.id ?? null
 
-	const [userProgress, userSubscription] = await Promise.all([
-		userProgressData,
-		userSubscriptionData,
-	])
+	// ✅ Only query database when user is logged in
+	const [userProgress, userSubscription, userChallengeData] = userId
+		? await Promise.all([
+				getUserProgress(),
+				getUserSubscription(),
+				getCourseProgress(),
+		  ])
+		: [null, null, null]
 
-	if (!userProgress || !userProgress.activeCourseId) {
-		redirect('/courses')
-	}
-
+	// ✅ Safe defaults for guests
+	const courseId = userProgress?.activeCourseId ?? 6 // default to AwB
+	const currentLesson = userChallengeData?.activeLesson?.lessonNumber ?? '1'
 	const isPro = !!userSubscription?.isActive
-	const currentLesson = userChallengeData?.activeLesson?.lessonNumber
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
-			{/* <StickyWrapper>
-				<UserProgress
-					activeCourse={userProgress.activeCourse}
-					hearts={userProgress.hearts}
-					points={userProgress.points}
-					hasActiveSubscription={isPro}
-				/>
-				{!isPro && <Promo />}
-			</StickyWrapper> */}
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">
 					<Image
 						src="/icons/iconRunning.png"
-						// src="/man-juggling-medium-skin-tone-svgrepo-com.svg"
 						alt="Speed Quiz"
 						height={90}
 						width={90}
 					/>
+
 					<h1 className="text-center font-cardo text-neutral-800 text-6xl my-6">
 						חִידוֹן מָהִיר
 					</h1>
 					<p className="text-center font-bold text-neutral-800 mb-2">
 						Speed Quiz
 					</p>
-					<DismissibleAlert storageKey="letter1" className="mb-4">
-						Takes a second to load even though it appears blank at first. Click
-						filter to select a different lesson.
+
+					{!userId && (
+						<p className="text-gray-500 italic mb-3">
+							You’re using guest mode — progress will not be saved.
+						</p>
+					)}
+
+					<DismissibleAlert storageKey="speedquiz" className="mb-4">
+						It may take a few seconds to load even if it looks blank at first.
+						Click the filter to select a different lesson or category.
 					</DismissibleAlert>
-					{/*<DismissibleAlert storageKey="letter2" className="mb-4">
-						{' '}
-						The goal is to say the correct answer in under 3 seconds with no
-						more than 2 mistakes per round in order to pass it off in class.
-					</DismissibleAlert> */}
+
 					<HebrewSpeedQuiz
-						// data={awbHebrewVocab}
-						userId={userProgress.userId}
+						userId={userId ?? 'guest'}
 						currentLesson={currentLesson}
-						courseId={userProgress.activeCourseId}
+						courseId={courseId}
 					/>
 				</div>
 			</FeedWrapper>
 		</div>
 	)
 }
-
-export default HebrewSpeedQuizPage

@@ -37,16 +37,7 @@ export default function Home() {
 								className="w-full"
 								onClick={() => signIn(undefined, { callbackUrl: '/courses' })}
 							>
-								Get Started
-							</Button>
-
-							<Button
-								size="lg"
-								variant="primaryOutline"
-								className="w-full"
-								onClick={() => signIn(undefined, { callbackUrl: '/courses' })}
-							>
-								I already have an account
+								Start Learning{' '}
 							</Button>
 						</>
 					) : (

@@ -16,7 +16,11 @@ export default async function StudyGroupLiveQuizPage({ params }: any) {
 	])
 
 	if (!userProgress) {
-		redirect('/login')
+		return (
+			<div className="text-center text-red-500 mt-10">
+				You must be logged in to view the dashboard.
+			</div>
+		)
 	}
 
 	const studyGroupId = Number(params.id)

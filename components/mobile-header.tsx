@@ -1,16 +1,33 @@
 import { MobileSidebar } from './mobile-sidebar'
 import { getUserProgress, getUserSubscription } from '@/db/queries'
-import { redirect } from 'next/navigation'
+import { getServerSession } from 'next-auth'
+import { options } from '@/app/api/auth/[...nextauth]/options'
 
 export default async function MobileHeader() {
-	const [userProgress, userSubscription] = await Promise.all([
-		getUserProgress(),
-		getUserSubscription(),
-	])
+	const session = await getServerSession(options)
+	const userId = session?.user?.id ?? null
 
-	if (!userProgress || !userProgress.activeCourse) {
-		redirect('/courses')
+	let userProgress = null
+	let userSubscription = null
+
+	if (userId) {
+		;[userProgress, userSubscription] = await Promise.all([
+			getUserProgress(),
+			getUserSubscription(),
+		])
 	}
+
+	const fallbackProgress = {
+		userId: 'guest',
+		userName: 'Guest',
+		userImageSrc: '/mascot.svg',
+		activeCourseId: null,
+		activeCourse: null,
+		hearts: 0,
+		points: 0,
+	}
+
+	const displayProgress = userProgress ?? fallbackProgress
 
 	const isHebrewFriend = userProgress?.isHebrewFriend ?? false
 	const isSpanishFriend = userProgress?.isSpanishFriend ?? false
@@ -20,7 +37,7 @@ export default async function MobileHeader() {
 	return (
 		<nav className="lg:hidden px-6 h-[50px] flex items-center bg-sky-600 border-b fixed top-0 w-full z-50">
 			<MobileSidebar
-				userProgress={userProgress}
+				userProgress={displayProgress}
 				isPro={!!userSubscription?.isActive}
 				isHebrewFriend={isHebrewFriend}
 				isSpanishFriend={isSpanishFriend}

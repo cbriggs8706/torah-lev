@@ -1,6 +1,6 @@
 import Image from 'next/image'
-import { redirect } from 'next/navigation'
-
+import { getServerSession } from 'next-auth'
+import { options } from '@/app/api/auth/[...nextauth]/options'
 import { FeedWrapper } from '@/components/feed-wrapper'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 import {
@@ -8,10 +8,8 @@ import {
 	getUserProgress,
 	getUserSubscription,
 } from '@/db/queries'
-
 import awaGreekVocab from '@/lib/data/vocab/awaVocab.json'
 import { GreekVocab } from '@/lib/vocab'
-import TorahScrollLoader from '@/components/hebrew/hebrew-loader'
 import GreekFlashcards from '@/components/greek/greek-flashcards'
 
 const allFieldsGreek: (keyof GreekVocab)[] = [
@@ -24,30 +22,22 @@ const allFieldsGreek: (keyof GreekVocab)[] = [
 	'images',
 	'grkAudio',
 ]
-export default async function FlashcardPage({ params }: any) {
-	const userProgressData = getUserProgress()
-	const userChallengeData = await getCourseProgress()
-	const userSubscriptionData = getUserSubscription()
 
-	const [userProgress, userSubscription] = await Promise.all([
-		userProgressData,
-		userSubscriptionData,
+export default async function FlashcardPage() {
+	const session = await getServerSession(options)
+
+	const [userProgress, userSubscription, courseProgress] = await Promise.all([
+		getUserProgress(),
+		getUserSubscription(),
+		getCourseProgress(),
 	])
 
-	if (!userProgress || !userProgress.activeCourse) {
-		redirect('/courses')
-	}
+	const isPro = !!userSubscription?.isActive
+	const currentLesson = courseProgress?.activeLesson?.lessonNumber ?? ''
+	const activeCourseId = userProgress?.activeCourseId ?? 12 // ✅ default to Greek
 
-	{
-		;[12].includes(userProgress?.activeCourse.id ?? 0) && <TorahScrollLoader />
-	}
-
-	const currentLesson = userChallengeData?.activeLesson?.lessonNumber
-
-	const greekData: GreekVocab[] =
-		userProgress.activeCourseId === 12 ? (awaGreekVocab as GreekVocab[]) : []
-
-	// console.log(userProgress.activeCourseId)
+	// Always load the Greek vocab
+	const greekData = awaGreekVocab as GreekVocab[]
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
@@ -59,26 +49,23 @@ export default async function FlashcardPage({ params }: any) {
 						height={90}
 						width={90}
 					/>
-
 					<h1 className="text-center font-bold text-neutral-800 text-2xl my-6">
 						Flashcards
 					</h1>
 
 					<DismissibleAlert storageKey="flashcard" className="mb-4">
 						These will default to your current lesson in the Learn section. You
-						can customize the cards to your hearts desire. There are 7 spots on
-						front and back where you can place whatever you would like.
+						can customize the cards however you’d like. There are 7 fields on
+						front and back for maximum flexibility.
 					</DismissibleAlert>
 
-					{userProgress.activeCourseId === 12 && (
-						<GreekFlashcards
-							data={greekData}
-							allFields={allFieldsGreek}
-							courseId={userProgress.activeCourseId}
-							currentLesson={currentLesson ?? ''}
-							layout="greek"
-						/>
-					)}
+					<GreekFlashcards
+						data={greekData}
+						allFields={allFieldsGreek}
+						courseId={activeCourseId}
+						currentLesson={currentLesson}
+						layout="greek"
+					/>
 				</div>
 			</FeedWrapper>
 		</div>

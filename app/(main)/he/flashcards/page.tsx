@@ -1,10 +1,8 @@
 import Image from 'next/image'
-import { redirect } from 'next/navigation'
-import { useUserId } from '@/hooks/useUserId'
-
+import { getServerSession } from 'next-auth'
+import { options } from '@/app/api/auth/[...nextauth]/options'
 import { FeedWrapper } from '@/components/feed-wrapper'
 import { DismissibleAlert } from '@/components/dismissible-alert'
-
 import {
 	getCourseProgress,
 	getUserProgress,
@@ -16,7 +14,6 @@ import hsVocab from '@/lib/data/vocab/hsVocab.json'
 import abcHebrewVocab from '@/lib/data/vocab/abcVocab.json'
 
 import { HebrewVocab } from '@/lib/vocab'
-import TorahScrollLoader from '@/components/hebrew/hebrew-loader'
 import HebrewFlashcards from '@/components/hebrew/hebrew-flashcards'
 
 // ✅ allFields constants
@@ -32,33 +29,36 @@ const allFieldsHebrew: (keyof HebrewVocab)[] = [
 	'hebAudio',
 ]
 
-export default async function FlashcardPage({ params }: any) {
-	const userProgressData = getUserProgress()
-	const userChallengeData = await getCourseProgress()
-	const userSubscriptionData = getUserSubscription()
+export default async function HebrewFlashcardPage() {
+	const session = await getServerSession(options)
+	const userId = session?.user?.id ?? null
 
-	const [userProgress, userSubscription] = await Promise.all([
-		userProgressData,
-		userSubscriptionData,
-	])
+	// Fetch data only for logged-in users
+	const [userProgress, userSubscription, userChallengeData] = userId
+		? await Promise.all([
+				getUserProgress(),
+				getUserSubscription(),
+				getCourseProgress(),
+		  ])
+		: [null, null, null]
 
-	if (!userProgress || !userProgress.activeCourse) {
-		redirect('/courses')
-	}
+	// ✅ Guest fallback values
+	const activeCourseId = userProgress?.activeCourseId ?? 6 // Default: AwB
+	const currentLesson = userChallengeData?.activeLesson?.lessonNumber ?? ''
+	const isPro = !!userSubscription?.isActive
 
-	const currentLesson = userChallengeData?.activeLesson?.lessonNumber
-
-	// ✅ Prepare vocab data
+	// ✅ Select vocab set
 	const hebrewData: HebrewVocab[] =
-		userProgress.activeCourseId === 6
+		activeCourseId === 6
 			? (awbHebrewVocab as HebrewVocab[])
-			: userProgress.activeCourseId === 11
+			: activeCourseId === 11
 			? (hsVocab as HebrewVocab[])
-			: userProgress.activeCourseId === 14
+			: activeCourseId === 14
 			? (abcHebrewVocab as HebrewVocab[])
 			: []
 
-	// console.log(userProgress.activeCourseId)
+	const displayTitle =
+		activeCourseId === 6 || activeCourseId === 11 || activeCourseId === 14
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
@@ -70,7 +70,7 @@ export default async function FlashcardPage({ params }: any) {
 						height={90}
 						width={90}
 					/>
-					{[6, 11, 14].includes(userProgress.activeCourseId ?? 0) ? (
+					{displayTitle ? (
 						<>
 							<h1 className="text-center font-cardo text-neutral-800 text-6xl my-6">
 								כַּרְטִיסִיּוֹת
@@ -85,42 +85,25 @@ export default async function FlashcardPage({ params }: any) {
 						</h1>
 					)}
 
+					{!userId && (
+						<p className="text-gray-500 italic mb-3">
+							You’re using guest mode — progress won’t be saved.
+						</p>
+					)}
+
 					<DismissibleAlert storageKey="flashcard" className="mb-4">
 						These will default to your current lesson in the Learn section. You
-						can customize the cards to your hearts desire. There are 7 spots on
+						can customize the cards to your heart’s desire. There are 7 spots on
 						front and back where you can place whatever you would like.
 					</DismissibleAlert>
 
-					{userProgress.activeCourseId === 6 && (
-						<HebrewFlashcards
-							data={hebrewData}
-							allFields={allFieldsHebrew}
-							courseId={userProgress.activeCourseId}
-							currentLesson={currentLesson ?? ''}
-							layout="hebrew"
-							// userId={userProgress.userId}
-						/>
-					)}
-					{userProgress.activeCourseId === 11 && (
-						<HebrewFlashcards
-							data={hebrewData}
-							allFields={allFieldsHebrew}
-							courseId={userProgress.activeCourseId}
-							currentLesson={currentLesson ?? ''}
-							layout="hebrew"
-							// userId={userProgress.userId}
-						/>
-					)}
-					{userProgress.activeCourseId === 14 && (
-						<HebrewFlashcards
-							data={hebrewData}
-							allFields={allFieldsHebrew}
-							courseId={userProgress.activeCourseId}
-							currentLesson={currentLesson ?? ''}
-							layout="hebrew"
-							// userId={userProgress.userId}
-						/>
-					)}
+					<HebrewFlashcards
+						data={hebrewData}
+						allFields={allFieldsHebrew}
+						courseId={activeCourseId}
+						currentLesson={currentLesson}
+						layout="hebrew"
+					/>
 				</div>
 			</FeedWrapper>
 		</div>

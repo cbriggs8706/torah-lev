@@ -1,9 +1,7 @@
 import Image from 'next/image'
-import { redirect } from 'next/navigation'
-
+import { getServerSession } from 'next-auth'
+import { options } from '@/app/api/auth/[...nextauth]/options'
 import { FeedWrapper } from '@/components/feed-wrapper'
-import { UserProgress } from '@/components/user-progress'
-import { StickyWrapper } from '@/components/sticky-wrapper'
 import {
 	getCourseProgress,
 	getGrammarLessons,
@@ -13,36 +11,28 @@ import {
 import GrammarLessonViewer from '@/components/hebrew/hebrew-grammar-lessons'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 
-const HebrewGrammarLessonsPage = async () => {
+export default async function HebrewGrammarLessonsPage() {
+	const session = await getServerSession(options)
+	const userId = session?.user?.id ?? null
+
+	// ✅ Fetch grammar lessons (available to everyone)
 	const lessons = await getGrammarLessons()
-	const userProgressData = getUserProgress()
-	const userChallengeData = await getCourseProgress()
-	const userSubscriptionData = getUserSubscription()
 
-	const [userProgress, userSubscription] = await Promise.all([
-		userProgressData,
-		userSubscriptionData,
-	])
+	// ✅ Fetch progress info only for authenticated users
+	const [userProgress, userSubscription, userChallengeData] = userId
+		? await Promise.all([
+				getUserProgress(),
+				getUserSubscription(),
+				getCourseProgress(),
+		  ])
+		: [null, null, null]
 
-	if (!userProgress || !userProgress.activeCourse) {
-		redirect('/courses')
-	}
-
+	// ✅ Fallbacks for guests
 	const isPro = !!userSubscription?.isActive
-
-	const currentLesson = userChallengeData?.activeLesson?.lessonNumber
+	const currentLesson = userChallengeData?.activeLesson?.lessonNumber ?? ''
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
-			{/* <StickyWrapper>
-        <UserProgress
-          activeCourse={userProgress.activeCourse}
-          hearts={userProgress.hearts}
-          points={userProgress.points}
-          hasActiveSubscription={isPro}
-        />
-        {!isPro && <Promo />}
-      </StickyWrapper> */}
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">
 					<Image
@@ -52,25 +42,30 @@ const HebrewGrammarLessonsPage = async () => {
 						width={90}
 					/>
 					<h1 className="text-center text-neutral-800 text-6xl font-cardo my-4">
-						שִׁעוּרֵי דִּקְדּוּק{' '}
+						שִׁעוּרֵי דִּקְדּוּק
 					</h1>
 					<p className="text-center font-bold text-neutral-800 mb-2">
 						Grammar Lessons
 					</p>
-					{/* <DismissibleAlert storageKey="scripts" className="mb-4">
-            Lessons 1-100 are loaded. Most have audio where you can click the
-            play button to listen while you read. Some browsers are having
-            trouble displaying images nicely.
-          </DismissibleAlert> */}
+
+					{!userId && (
+						<p className="text-gray-500 italic mb-3">
+							You’re using guest mode — progress will not be saved.
+						</p>
+					)}
+
+					<DismissibleAlert storageKey="grammar-lessons" className="mb-4">
+						Study Hebrew grammar by lesson number or topic. Lessons may include
+						tables, explanations, and examples. Feel free to explore at your own
+						pace.
+					</DismissibleAlert>
 
 					<GrammarLessonViewer
 						lessons={lessons}
-						currentLesson={currentLesson ?? ''}
+						currentLesson={currentLesson}
 					/>
 				</div>
 			</FeedWrapper>
 		</div>
 	)
 }
-
-export default HebrewGrammarLessonsPage

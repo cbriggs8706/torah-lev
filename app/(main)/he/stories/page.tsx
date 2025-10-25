@@ -1,20 +1,23 @@
 import Image from 'next/image'
-import { redirect } from 'next/navigation'
+import { getServerSession } from 'next-auth'
+import { options } from '@/app/api/auth/[...nextauth]/options'
 import { FeedWrapper } from '@/components/feed-wrapper'
 import { getAllHebrewStories, getUserProgress } from '@/db/queries'
 import StoryList from '@/components/hebrew/hebrew-story-list'
 
-const HebrewStoriesPage = async () => {
-	const userProgress = await getUserProgress()
+export default async function HebrewStoriesPage() {
+	const session = await getServerSession(options)
+	const userId = session?.user?.id ?? null
 
-	if (!userProgress || !userProgress.activeCourse) {
-		redirect('/courses')
-	}
+	// ✅ Only query when logged in
+	const userProgress = userId ? await getUserProgress() : null
 
+	// ✅ Fallback defaults for guests
 	const isHebrewFriend = !!userProgress?.isHebrewFriend
-	const currentLesson = userProgress.activeLessonId
-	const currentCourse = userProgress.activeCourse.id
+	const currentLesson = userProgress?.activeLessonId ?? 1
+	const currentCourse = userProgress?.activeCourse?.id ?? 6 // Default to AwB (Alef with Bet)
 
+	// ✅ Fetch stories (always available)
 	const stories = await getAllHebrewStories(currentCourse)
 
 	return (
@@ -23,20 +26,23 @@ const HebrewStoriesPage = async () => {
 				<div className="w-full flex flex-col items-center">
 					<Image
 						src="/icons/iconStories.png"
-						// src="/books-svgrepo-com.svg"
 						alt="Stories"
 						height={90}
 						width={90}
 					/>
+
 					<h1 className="text-center font-cardo text-neutral-800 text-6xl my-6">
 						סִפּוּרִים
 					</h1>
 					<p className="text-center font-bold text-neutral-800 mb-2">Stories</p>
-					{/* <DismissibleAlert storageKey="matchup" className="mb-4">
-            {' '}
-            Musics
-          </DismissibleAlert> */}
+
+					{!userId && (
+						<p className="text-gray-500 italic mb-3">
+							You’re using guest mode — progress will not be saved.
+						</p>
+					)}
 				</div>
+
 				<div className="space-y-4">
 					<StoryList
 						stories={stories}
@@ -48,5 +54,3 @@ const HebrewStoriesPage = async () => {
 		</div>
 	)
 }
-
-export default HebrewStoriesPage

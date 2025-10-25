@@ -1,21 +1,22 @@
 import Image from 'next/image'
-import { redirect } from 'next/navigation'
+import { getServerSession } from 'next-auth'
+import { options } from '@/app/api/auth/[...nextauth]/options'
 import { FeedWrapper } from '@/components/feed-wrapper'
 import { getAllEnglishStories, getUserProgress } from '@/db/queries'
 import StoryList from '@/components/english/english-story-list'
 
-const EnglishStoriesPage = async () => {
-	const [stories, userProgress] = await Promise.all([
-		getAllEnglishStories(),
-		getUserProgress(),
-	])
+export default async function EnglishStoriesPage() {
+	const session = await getServerSession(options)
+	const userId = session?.user?.id ?? null
 
-	if (!userProgress || !userProgress.activeCourse) {
-		redirect('/courses')
-	}
+	// Fetch user data only if signed in
+	const [stories, userProgress] = userId
+		? await Promise.all([getAllEnglishStories(), getUserProgress()])
+		: [await getAllEnglishStories(), null]
 
+	// Guest fallback values
+	const currentLesson = userProgress?.activeLessonId ?? null
 	const isEnglishFriend = !!userProgress?.isEnglishFriend
-	const currentLesson = userProgress.activeLessonId
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
@@ -30,11 +31,14 @@ const EnglishStoriesPage = async () => {
 					<h1 className="text-center font-bold text-neutral-800 text-2xl my-6">
 						Stories
 					</h1>
-					{/* <DismissibleAlert storageKey="matchup" className="mb-4">
-            {' '}
-            Musics
-          </DismissibleAlert> */}
+
+					{!userId && (
+						<p className="text-gray-500 italic mb-3">
+							You’re using guest mode — progress won’t be saved.
+						</p>
+					)}
 				</div>
+
 				<div className="space-y-4">
 					<StoryList
 						stories={stories}
@@ -46,5 +50,3 @@ const EnglishStoriesPage = async () => {
 		</div>
 	)
 }
-
-export default EnglishStoriesPage

@@ -1,25 +1,60 @@
 'use client'
 
+import { useEffect, useState } from 'react'
+import { v4 as uuidv4 } from 'uuid'
 import { useSession } from 'next-auth/react'
 
+/**
+ * Unified user identification hook.
+ * - Returns a stable ID for either a signed-in user or a guest.
+ * - Tracks if the current visitor is a guest.
+ * - Ensures guest data (id, points, etc.) persists in localStorage.
+ */
 export function useUserId() {
-	const { data: session } = useSession()
+	const { data: session, status } = useSession()
+	const [guestId, setGuestId] = useState<string | null>(null)
+	const [isGuest, setIsGuest] = useState(false)
+	const [ready, setReady] = useState(false)
 
-	// If the session and user are defined, return the user ID
-	if (session?.user?.id) {
-		return session.user.id
-	}
-
-	// If no session, use a guest ID from localStorage
-	if (typeof window !== 'undefined') {
-		let guestId = localStorage.getItem('guestId')
-		if (!guestId) {
-			// Generate a new guest ID (UUID)
-			guestId = crypto.randomUUID()
-			localStorage.setItem('guestId', guestId)
+	useEffect(() => {
+		// 🧩 If user is authenticated, clear any guest state
+		if (session?.user?.id) {
+			setGuestId(null)
+			setIsGuest(false)
+			setReady(true)
+			return
 		}
-		return guestId
-	}
 
-	return null
+		// 🧭 Guest logic
+		try {
+			let stored = localStorage.getItem('guestId')
+			if (!stored) {
+				stored = uuidv4()
+				localStorage.setItem('guestId', stored)
+				localStorage.setItem('guestPoints', '0')
+				localStorage.setItem('guestActive', 'true')
+			} else {
+				localStorage.setItem('guestActive', 'true')
+			}
+			setGuestId(stored)
+			setIsGuest(true)
+		} catch (err) {
+			console.warn('⚠️ Failed to access localStorage:', err)
+		} finally {
+			setReady(true)
+		}
+	}, [session])
+
+	const userId = session?.user?.id ?? guestId
+	const isAuthenticated = !!session?.user?.id
+
+	return {
+		userId, // string | null
+		isGuest, // boolean
+		isAuthenticated, // boolean
+		guestId, // string | null (for debugging or guest logic)
+		session,
+		status, // "loading" | "authenticated" | "unauthenticated"
+		ready, // boolean – hook initialization complete
+	}
 }

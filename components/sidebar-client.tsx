@@ -65,9 +65,11 @@ export default function SidebarClient({
 					hearts={userProgress.hearts}
 					points={userProgress.points}
 					hasActiveSubscription={isPro}
+					isGuest={userProgress.userId === 'guest'}
 					onClick={onItemClick}
 				/>
 			)}
+
 			{[6, 11, 14].includes(userProgress?.activeCourse.id ?? 0) && (
 				<HebrewClock onClick={onItemClick} isWidget={true} />
 			)}

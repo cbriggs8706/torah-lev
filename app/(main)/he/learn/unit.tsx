@@ -114,7 +114,7 @@ export const HebrewUnit = (props: Props) => {
 				dir="rtl"
 			>
 				{lessons.map((lesson, index) => {
-					console.log(lesson.lessonNumber, lesson.completed)
+					// console.log(lesson.lessonNumber, lesson.completed)
 					const isCurrent = lesson.id === activeLesson?.id
 					const isLocked = false
 					// const isLocked = !lesson.completed && !isCurrent

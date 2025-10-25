@@ -1,58 +1,43 @@
 import Image from 'next/image'
-import { redirect } from 'next/navigation'
-
+import { getServerSession } from 'next-auth'
+import { options } from '@/app/api/auth/[...nextauth]/options'
 import { FeedWrapper } from '@/components/feed-wrapper'
-import { UserProgress } from '@/components/user-progress'
-import { StickyWrapper } from '@/components/sticky-wrapper'
 import {
 	getAllHebrewLessonScripts,
 	getCourseProgress,
-	getHebrewLessonScripts,
 	getUserProgress,
 	getUserSubscription,
 } from '@/db/queries'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 import LessonScriptList from '@/components/hebrew/hebrew-lesson-script-list'
 
-const HebrewLessonScriptsPage = async () => {
-	const userProgressData = getUserProgress()
-	const userChallengeData = await getCourseProgress()
-	const userSubscriptionData = getUserSubscription()
+export default async function HebrewLessonScriptsPage() {
+	const session = await getServerSession(options)
+	const userId = session?.user?.id ?? null
 
-	const [userProgress, userSubscription] = await Promise.all([
-		userProgressData,
-		userSubscriptionData,
+	// ✅ Always load scripts (guest access allowed)
+	const lessonScripts = await getAllHebrewLessonScripts(6) // default course for guest (AwB)
+
+	// ✅ Fetch user-related data only if signed in
+	const [userProgress, userSubscription, courseProgress] = await Promise.all([
+		getUserProgress(),
+		getUserSubscription(),
+		getCourseProgress(),
 	])
 
-	if (!userProgress || !userProgress.activeCourse) {
-		redirect('/courses')
-	}
-
-	const isPro = !!userSubscription?.isActive
-
+	// ✅ Handle guest fallbacks
+	const activeCourseId = userProgress?.activeCourseId ?? 6
 	const isHebrewFriend = !!userProgress?.isHebrewFriend
-
-	const currentLesson = userProgress.activeLessonId
-	const currentCourse = userProgress.activeCourse.id
-	const lessonScripts = await getAllHebrewLessonScripts(currentCourse)
-	// const lessonScripts = await getHebrewLessonScripts(currentCourse)
+	const isPro = !!userSubscription?.isActive
+	// const currentLesson = userChallengeData?.activeLesson?.lessonNumber ?? null
+	const currentLesson = courseProgress?.activeLesson?.id ?? null
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
-			{/* <StickyWrapper>
-				<UserProgress
-					activeCourse={userProgress.activeCourse}
-					hearts={userProgress.hearts}
-					points={userProgress.points}
-					hasActiveSubscription={isPro}
-				/>
-				{!isPro && <Promo />}
-			</StickyWrapper> */}
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">
 					<Image
 						src="/icons/iconNotebook.png"
-						// src="/spiral-notepad-svgrepo-com.svg"
 						alt="Lesson Scripts"
 						height={90}
 						width={90}
@@ -63,10 +48,17 @@ const HebrewLessonScriptsPage = async () => {
 					<p className="text-center font-bold text-neutral-800 mb-2">
 						Lesson Scripts
 					</p>
+
+					{!userId && (
+						<p className="text-gray-500 italic mb-3">
+							You’re using guest mode — progress will not be saved.
+						</p>
+					)}
+
 					<DismissibleAlert storageKey="scripts" className="mb-4">
-						Lessons 1-100 are loaded. Most have audio where you can click the
-						play button to listen while you read. Some browsers are having
-						trouble displaying images nicely.
+						Lessons 1–100 are available. Most have audio where you can click the
+						play button to listen while you read. Some browsers may display
+						images differently.
 					</DismissibleAlert>
 
 					<LessonScriptList
@@ -79,5 +71,3 @@ const HebrewLessonScriptsPage = async () => {
 		</div>
 	)
 }
-
-export default HebrewLessonScriptsPage

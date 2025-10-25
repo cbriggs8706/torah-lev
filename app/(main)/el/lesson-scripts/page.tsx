@@ -1,52 +1,38 @@
 import Image from 'next/image'
-import { redirect } from 'next/navigation'
-
+import { getServerSession } from 'next-auth'
+import { options } from '@/app/api/auth/[...nextauth]/options'
 import { FeedWrapper } from '@/components/feed-wrapper'
-import { UserProgress } from '@/components/user-progress'
-import { StickyWrapper } from '@/components/sticky-wrapper'
+import { DismissibleAlert } from '@/components/dismissible-alert'
+import GreekLessonScriptList from '@/components/greek/greek-lesson-script-list'
 import {
 	getAllGreekLessonScripts,
 	getCourseProgress,
 	getUserProgress,
 	getUserSubscription,
 } from '@/db/queries'
-import { DismissibleAlert } from '@/components/dismissible-alert'
-import GreekLessonScriptList from '@/components/greek/greek-lesson-script-list'
 
 const GreekLessonScriptsPage = async () => {
-	const userProgressData = getUserProgress()
-	const userChallengeData = await getCourseProgress()
-	const userSubscriptionData = getUserSubscription()
+	// Session may be null for guests
+	const session = await getServerSession(options)
 
-	const [userProgress, userSubscription] = await Promise.all([
-		userProgressData,
-		userSubscriptionData,
+	// Always try to get user data, safe for guests
+	const [userProgress, userSubscription, courseProgress] = await Promise.all([
+		getUserProgress(),
+		getUserSubscription(),
+		getCourseProgress(),
 	])
-
-	if (!userProgress || !userProgress.activeCourse) {
-		redirect('/courses')
-	}
 
 	const isPro = !!userSubscription?.isActive
 
-	// const isGreekFriend = !!userProgress?.isGreekFriend
+	// ✅ Use a default Greek course if userProgress doesn’t have one
+	const activeCourseId = userProgress?.activeCourseId ?? 12
+	const currentLesson = courseProgress?.activeLesson?.id ?? null
 
-	const currentLesson = userProgress.activeLessonId
-	const currentCourse = userProgress.activeCourse.id
-	const lessonScripts = await getAllGreekLessonScripts(currentCourse)
-	// const lessonScripts = await getGreekLessonScripts(currentCourse)
+	// ✅ Always get Greek scripts for the course
+	const lessonScripts = await getAllGreekLessonScripts(activeCourseId)
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
-			{/* <StickyWrapper>
-				<UserProgress
-					activeCourse={userProgress.activeCourse}
-					hearts={userProgress.hearts}
-					points={userProgress.points}
-					hasActiveSubscription={isPro}
-				/>
-				{!isPro && <Promo />}
-			</StickyWrapper> */}
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">
 					<Image
@@ -58,15 +44,15 @@ const GreekLessonScriptsPage = async () => {
 					<h1 className="text-center font-bold text-neutral-800 text-2xl my-6">
 						Lesson Scripts
 					</h1>
-					{/* <DismissibleAlert storageKey="scripts" className="mb-4">
-						Lessons 1-100 are loaded. Most have audio where you can click the
-						play button to listen while you read. Some browsers are having
-						trouble displaying images nicely.
-					</DismissibleAlert> */}
+
+					<DismissibleAlert storageKey="scripts" className="mb-4">
+						Lessons 1–100 are loaded. Most include audio playback so you can
+						listen while you read. Guests can explore freely, but progress is
+						not saved.
+					</DismissibleAlert>
 
 					<GreekLessonScriptList
 						lessonScripts={lessonScripts}
-						// isFriend={isGreekFriend}
 						currentLesson={currentLesson}
 					/>
 				</div>

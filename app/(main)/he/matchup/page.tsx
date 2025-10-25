@@ -1,9 +1,7 @@
 import Image from 'next/image'
-import { redirect } from 'next/navigation'
-
+import { getServerSession } from 'next-auth'
+import { options } from '@/app/api/auth/[...nextauth]/options'
 import { FeedWrapper } from '@/components/feed-wrapper'
-import { UserProgress } from '@/components/user-progress'
-import { StickyWrapper } from '@/components/sticky-wrapper'
 import {
 	getCourseProgress,
 	getUserProgress,
@@ -17,32 +15,31 @@ import hsHebrewVocab from '@/lib/data/vocab/hsVocab.json'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 import { HebrewVocab } from '@/lib/vocab'
 
-const HebrewMatchupPage = async () => {
-	const userProgressData = getUserProgress()
-	const userChallengeData = await getCourseProgress()
-	const userSubscriptionData = getUserSubscription()
+export default async function HebrewMatchupPage() {
+	const session = await getServerSession(options)
+	const userId = session?.user?.id ?? null
 
-	const [userProgress, userSubscription] = await Promise.all([
-		userProgressData,
-		userSubscriptionData,
-	])
+	// ✅ Fetch user-related data only for authenticated users
+	const [userProgress, userSubscription, userChallengeData] = userId
+		? await Promise.all([
+				getUserProgress(),
+				getUserSubscription(),
+				getCourseProgress(),
+		  ])
+		: [null, null, null]
 
-	if (!userProgress || !userProgress.activeCourse) {
-		redirect('/courses')
-	}
-
+	// ✅ Guest-safe fallbacks
+	const activeCourseId = userProgress?.activeCourseId ?? 6 // Default to AwB
+	const title = userChallengeData?.activeLesson?.title ?? ''
 	const isPro = !!userSubscription?.isActive
 
-	const title = userChallengeData?.activeLesson?.title ?? ''
+	// ✅ Course prefix map
 	const coursePrefixes: Record<number, string> = {
 		6: 'AwB',
 		11: 'HS',
 		14: 'ABC',
 	}
 
-	const activeCourseId = userProgress.activeCourseId
-
-	// Only try to look up if it's not null
 	const prefix =
 		typeof activeCourseId === 'number'
 			? coursePrefixes[activeCourseId] ?? ''
@@ -51,6 +48,7 @@ const HebrewMatchupPage = async () => {
 	const match = prefix ? title.match(new RegExp(`${prefix} (\\d{1,3})`)) : null
 	const currentLesson = match ? parseInt(match[1], 10) : undefined
 
+	// ✅ Select vocab source based on course (guest or user)
 	const hebrewData: HebrewVocab[] =
 		activeCourseId === 6
 			? (awbHebrewVocab as HebrewVocab[])
@@ -62,20 +60,10 @@ const HebrewMatchupPage = async () => {
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
-			{/* <StickyWrapper>
-				<UserProgress
-					activeCourse={userProgress.activeCourse}
-					hearts={userProgress.hearts}
-					points={userProgress.points}
-					hasActiveSubscription={isPro}
-				/>
-				{!isPro && <Promo />}
-			</StickyWrapper> */}
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">
 					<Image
 						src="/icons/iconSocks.png"
-						// src="/socks-svgrepo-com.svg"
 						alt="Matchup"
 						height={90}
 						width={90}
@@ -84,23 +72,27 @@ const HebrewMatchupPage = async () => {
 						הִתְאָמָה
 					</h1>
 					<p className="text-center font-bold text-neutral-800 mb-2">Matchup</p>
+
+					{!userId && (
+						<p className="text-gray-500 italic mb-3">
+							You’re using guest mode — progress will not be saved.
+						</p>
+					)}
+
 					<DismissibleAlert storageKey="matchup" className="mb-4">
-						{' '}
 						It will load up to 12 words from your current lesson by default. You
 						can change between text, images and audio in the filters. Known bug:
-						drag and drop doesn&apos;t work on android devices.
+						drag and drop doesn&apos;t work on Android devices.
 					</DismissibleAlert>
 
 					<HebrewMatchup
 						data={hebrewData}
 						currentLesson={currentLesson}
 						courseId={activeCourseId}
-						userId={userProgress.userId}
+						userId={userId ?? 'guest'}
 					/>
 				</div>
 			</FeedWrapper>
 		</div>
 	)
 }
-
-export default HebrewMatchupPage

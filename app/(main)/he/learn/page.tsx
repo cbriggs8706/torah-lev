@@ -1,5 +1,8 @@
+import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
-import { FeedWrapper } from '@/components/feed-wrapper'
+import { getServerSession } from 'next-auth'
+import { options } from '@/app/api/auth/[...nextauth]/options'
+
 import {
 	getCourseProgress,
 	getLessonPercentage,
@@ -8,49 +11,116 @@ import {
 	getUserSubscription,
 } from '@/db/queries'
 
-import { Calendar } from '@/components/ui/calendar'
+import { FeedWrapper } from '@/components/feed-wrapper'
 import { GoalWrapper } from '@/components/goal-wrapper'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 import FirstVisitModal from '@/components/first-visit-modal'
 import { HebrewHeader } from './header'
 
+// 🧩 Minimal guest type fallback
+interface GuestUserProgress {
+	userId: string
+	userName: string
+	userImageSrc: string
+	activeCourseId: number
+	activeCourse: {
+		id: number
+		title: string
+	}
+	hearts: number
+	points: number
+}
+
 const HebrewLearnPage = async () => {
-	const userProgressData = getUserProgress()
-	const userChallengeData = await getCourseProgress()
-	const courseProgressData = getCourseProgress()
-	const lessonPercentageData = getLessonPercentage()
-	const unitsData = getUnits()
-	const userSubscriptionData = getUserSubscription()
+	const session = await getServerSession(options)
+	const cookieStore = cookies()
 
-	const [
-		userProgress,
-		units,
-		courseProgress,
-		lessonPercentage,
-		userSubscription,
-	] = await Promise.all([
-		userProgressData,
-		unitsData,
-		courseProgressData,
-		lessonPercentageData,
-		userSubscriptionData,
-	])
+	// ✅ Guest cookie support
+	const guestId = cookieStore.get('guestId')?.value ?? null
+	const guestCourseId = Number(
+		cookieStore.get('guestActiveCourseId')?.value ?? 6
+	)
 
-	if (!userProgress || !userProgress.activeCourse) {
-		redirect('/courses')
+	// 🚫 If no user or guest at all, redirect home
+	if (!session?.user && !guestId) {
+		redirect('/')
 	}
 
-	if (!courseProgress) {
-		redirect('/courses')
+	// 🧠 Prepare shared vars
+	let userProgress:
+		| Awaited<ReturnType<typeof getUserProgress>>
+		| GuestUserProgress
+		| null = null
+	let units: Awaited<ReturnType<typeof getUnits>> = []
+	let courseProgress: Awaited<ReturnType<typeof getCourseProgress>> | null =
+		null
+	let lessonPercentage: Awaited<ReturnType<typeof getLessonPercentage>> | null =
+		null
+	let userSubscription: Awaited<ReturnType<typeof getUserSubscription>> | null =
+		null
+
+	if (session?.user) {
+		// ✅ Authenticated user
+		const [
+			userProgressData,
+			unitsData,
+			courseProgressData,
+			lessonPercentageData,
+			userSubscriptionData,
+		] = await Promise.all([
+			getUserProgress(),
+			getUnits(),
+			getCourseProgress(),
+			getLessonPercentage(),
+			getUserSubscription(),
+		])
+
+		userProgress = userProgressData
+		units = unitsData
+		courseProgress = courseProgressData
+		lessonPercentage = lessonPercentageData
+		userSubscription = userSubscriptionData
+	} else {
+		// ✅ Guest path: still load real content, but no DB writes
+		const [unitsData, courseProgressData, lessonPercentageData] =
+			await Promise.all([
+				getUnits(), // guests can safely read units
+				getCourseProgress(), // shows lessons for the active course
+				getLessonPercentage(), // harmless read
+			])
+
+		userProgress = {
+			userId: guestId || 'guest',
+			userName: 'Guest',
+			userImageSrc: '/mascot.svg',
+			activeCourseId: guestCourseId,
+			activeCourse: {
+				id: guestCourseId,
+				title: 'Guest Hebrew Course',
+			},
+			hearts: 0,
+			points: 0,
+		}
+
+		units = unitsData
+		courseProgress = courseProgressData
+		lessonPercentage = lessonPercentageData
+		userSubscription = null
 	}
 
 	const isPro = !!userSubscription?.isActive
 
+	// ✅ Guard: if no course selected
+	if (!userProgress?.activeCourse) {
+		return <div>Protected content</div>
+	}
+
+	// 🧮 Optional helper — still available if needed
 	function getLessonSchedule(
 		lessons: { id: number }[],
 		goalLesson: number,
 		goalDate: Date
-	) {
+	): Record<number, Date> {
 		const goalIndex = lessons.findIndex((l) => l.id === goalLesson)
 		if (goalIndex === -1) return {}
 
@@ -75,19 +145,22 @@ const HebrewLearnPage = async () => {
 
 			<FeedWrapper>
 				<HebrewHeader title={userProgress.activeCourse.title} />
+
 				<DismissibleAlert storageKey="learnpage-main-alert" className="mb-4">
 					Click on the x in the upper right hand corner of this box to dismiss
 					any of these notices across the site.
 				</DismissibleAlert>
+
 				<DismissibleAlert storageKey="learnpage-lessons-alert" className="mb-4">
 					Each lesson in this main &apos;Learn&apos; section will have 1-3
 					videos and quick quizzes. For additional learning activities and games
 					tap the menu button in the upper left corner.
 				</DismissibleAlert>
+
 				<GoalWrapper
-					units={units}
-					courseProgress={userChallengeData}
-					lessonPercentage={lessonPercentage}
+					units={units ?? []}
+					courseProgress={courseProgress ?? undefined}
+					lessonPercentage={lessonPercentage ?? 0}
 					lang="he"
 				/>
 			</FeedWrapper>

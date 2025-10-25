@@ -23,6 +23,8 @@ import { Analytics } from '@vercel/analytics/next'
 import { updateLastSeen } from '@/actions/update-last-seen'
 import Script from 'next/script'
 import NextAuthProvider from '@/components/providers/session-provider'
+import { getServerSession } from 'next-auth'
+import { options } from './api/auth/[...nextauth]/options'
 
 const frank = Frank_Ruhl_Libre({
 	subsets: ['hebrew'],
@@ -96,7 +98,11 @@ export default async function RootLayout({
 }: Readonly<{
 	children: React.ReactNode
 }>) {
-	await updateLastSeen()
+	const session = await getServerSession(options)
+
+	if (session?.user?.id) {
+		await updateLastSeen()
+	}
 	return (
 		<NextAuthProvider>
 			<html lang="en">

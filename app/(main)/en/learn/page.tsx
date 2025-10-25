@@ -1,5 +1,6 @@
 import { redirect } from 'next/navigation'
-
+import { getServerSession } from 'next-auth'
+import { options } from '@/app/api/auth/[...nextauth]/options'
 // import { Promo } from '@/components/promo'
 import { Quests } from '@/components/quests'
 import { FeedWrapper } from '@/components/feed-wrapper'
@@ -19,38 +20,104 @@ import { GoalWrapper } from '@/components/goal-wrapper'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 import FirstVisitModal from '@/components/first-visit-modal'
 import { EnglishHeader } from './header'
+import { cookies } from 'next/headers'
+
+interface GuestUserProgress {
+	userId: string
+	userName: string
+	userImageSrc: string
+	activeCourseId: number
+	activeCourse: {
+		id: number
+		title: string
+	}
+	hearts: number
+	points: number
+}
 
 const EnglishLearnPage = async () => {
-	const userProgressData = getUserProgress()
-	const userChallengeData = await getCourseProgress()
-	const courseProgressData = getCourseProgress()
-	const lessonPercentageData = getLessonPercentage()
-	const unitsData = getUnits()
-	const userSubscriptionData = getUserSubscription()
-	console.log('activeLessonId>>>>>>', userChallengeData)
-	const [
-		userProgress,
-		units,
-		courseProgress,
-		lessonPercentage,
-		userSubscription,
-	] = await Promise.all([
-		userProgressData,
-		unitsData,
-		courseProgressData,
-		lessonPercentageData,
-		userSubscriptionData,
-	])
+	const session = await getServerSession(options)
+	const cookieStore = cookies()
 
-	if (!userProgress || !userProgress.activeCourse) {
-		redirect('/courses')
+	// ✅ Guest cookie support
+	const guestId = cookieStore.get('guestId')?.value ?? null
+	const guestCourseId = Number(
+		cookieStore.get('guestActiveCourseId')?.value ?? 6
+	)
+
+	// 🚫 If no user or guest at all, redirect home
+	if (!session?.user && !guestId) {
+		redirect('/')
 	}
 
-	if (!courseProgress) {
-		redirect('/courses')
+	// 🧠 Prepare shared vars
+	let userProgress:
+		| Awaited<ReturnType<typeof getUserProgress>>
+		| GuestUserProgress
+		| null = null
+	let units: Awaited<ReturnType<typeof getUnits>> = []
+	let courseProgress: Awaited<ReturnType<typeof getCourseProgress>> | null =
+		null
+	let lessonPercentage: Awaited<ReturnType<typeof getLessonPercentage>> | null =
+		null
+	let userSubscription: Awaited<ReturnType<typeof getUserSubscription>> | null =
+		null
+
+	if (session?.user) {
+		// ✅ Authenticated user
+		const [
+			userProgressData,
+			unitsData,
+			courseProgressData,
+			lessonPercentageData,
+			userSubscriptionData,
+		] = await Promise.all([
+			getUserProgress(),
+			getUnits(),
+			getCourseProgress(),
+			getLessonPercentage(),
+			getUserSubscription(),
+		])
+
+		userProgress = userProgressData
+		units = unitsData
+		courseProgress = courseProgressData
+		lessonPercentage = lessonPercentageData
+		userSubscription = userSubscriptionData
+	} else {
+		// ✅ Guest path: still load real content, but no DB writes
+		const [unitsData, courseProgressData, lessonPercentageData] =
+			await Promise.all([
+				getUnits(), // guests can safely read units
+				getCourseProgress(), // shows lessons for the active course
+				getLessonPercentage(), // harmless read
+			])
+
+		userProgress = {
+			userId: guestId || 'guest',
+			userName: 'Guest',
+			userImageSrc: '/mascot.svg',
+			activeCourseId: guestCourseId,
+			activeCourse: {
+				id: guestCourseId,
+				title: 'Guest Hebrew Course',
+			},
+			hearts: 0,
+			points: 0,
+		}
+
+		units = unitsData
+		courseProgress = courseProgressData
+		lessonPercentage = lessonPercentageData
+		userSubscription = null
 	}
 
 	const isPro = !!userSubscription?.isActive
+
+	// ✅ Guard: if no course selected
+	if (!userProgress?.activeCourse) {
+		return <div>Protected content</div>
+	}
 
 	function getLessonSchedule(
 		lessons: { id: number }[],
@@ -109,7 +176,7 @@ const EnglishLearnPage = async () => {
 				</DismissibleAlert>
 				<GoalWrapper
 					units={units}
-					courseProgress={userChallengeData}
+					courseProgress={courseProgress ?? undefined}
 					lessonPercentage={lessonPercentage}
 					lang="en"
 				/>

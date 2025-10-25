@@ -1,30 +1,43 @@
 export const dynamic = 'force-dynamic'
 import { unstable_noStore as noStore } from 'next/cache'
 import { getCourses, getUserProgress } from '@/db/queries'
-
 import { List } from './list'
+import { getServerSession } from 'next-auth'
+import { options } from '@/app/api/auth/[...nextauth]/options'
 
 const CoursesPage = async () => {
 	noStore()
-	const coursesData = getCourses()
-	const userProgressData = getUserProgress()
 
-	const [courses, userProgress] = await Promise.all([
-		coursesData,
-		userProgressData,
-	])
+	// 🧠 Session may be null for guests
+	const session = await getServerSession(options)
+	const userId = session?.user?.id ?? null
 
+	// 🧩 Fetch courses (always safe)
+	const coursesPromise = getCourses()
+
+	// 🧩 Try fetching progress if user is signed in
+	let userProgress = null
+	if (userId) {
+		try {
+			userProgress = await getUserProgress()
+		} catch (err) {
+			console.warn('⚠️ Failed to fetch userProgress:', err)
+		}
+	}
+
+	// 🧱 Resolve both
+	const courses = await coursesPromise
+
+	// Default flags for guests
 	const isHebrewFriend = userProgress?.isHebrewFriend ?? false
-
 	const isEnglishFriend = userProgress?.isEnglishFriend ?? false
 	const isSpanishFriend = userProgress?.isSpanishFriend ?? false
 	const isBookclubFriend = userProgress?.isBookclubFriend ?? false
 
+	// ✅ Filter visible courses
 	const visibleCourses = courses.filter((course) => {
 		if (course.id === 11 && !isHebrewFriend) return false
 		if (course.id === 17 && !isEnglishFriend) return false
-		// if (course.id === 3 && !isEnglishFriend) return false
-		// if (course.id === 4 && !isEnglishFriend) return false
 		if (course.id === 2 && !isSpanishFriend) return false
 		if (course.id === 19 && !isBookclubFriend) return false
 		return true
@@ -37,9 +50,11 @@ const CoursesPage = async () => {
 				The first dot indicates the level needed to start the course, and the
 				second dot indicates the level you will reach by completing the course.
 			</p>
+
+			{/* ✅ For guests, just pass null activeCourseId */}
 			<List
 				courses={visibleCourses}
-				activeCourseId={userProgress?.activeCourseId}
+				activeCourseId={userProgress?.activeCourseId ?? null}
 			/>
 
 			<h1 className="text-2xl font-bold text-neutral-700 mt-8">

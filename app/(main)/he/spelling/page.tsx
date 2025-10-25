@@ -1,10 +1,8 @@
 'use server'
 import Image from 'next/image'
-import { redirect } from 'next/navigation'
-
+import { getServerSession } from 'next-auth'
+import { options } from '@/app/api/auth/[...nextauth]/options'
 import { FeedWrapper } from '@/components/feed-wrapper'
-import { UserProgress } from '@/components/user-progress'
-import { StickyWrapper } from '@/components/sticky-wrapper'
 import {
 	getCourseProgress,
 	getUserProgress,
@@ -18,25 +16,25 @@ import { DismissibleAlert } from '@/components/dismissible-alert'
 import { HebrewVocab } from '@/lib/vocab'
 import HebrewSpelling from '@/components/hebrew/hebrew-spelling'
 
-const HebrewSpellingPage = async () => {
-	const userProgressData = getUserProgress()
-	const userChallengeData = await getCourseProgress()
-	const userSubscriptionData = getUserSubscription()
+export default async function HebrewSpellingPage() {
+	const session = await getServerSession(options)
+	const userId = session?.user?.id ?? null
 
-	const [userProgress, userSubscription] = await Promise.all([
-		userProgressData,
-		userSubscriptionData,
-	])
+	// ✅ Only query if signed in
+	const [userProgress, userSubscription, userChallengeData] = userId
+		? await Promise.all([
+				getUserProgress(),
+				getUserSubscription(),
+				getCourseProgress(),
+		  ])
+		: [null, null, null]
 
-	if (!userProgress || !userProgress.activeCourse) {
-		redirect('/courses')
-	}
-
+	// ✅ Fallback for guests
+	const activeCourseId = userProgress?.activeCourseId ?? 6 // Default: AwB
+	const currentLesson = userChallengeData?.activeLesson?.lessonNumber ?? '1'
 	const isPro = !!userSubscription?.isActive
 
-	const currentLesson = userChallengeData?.activeLesson?.lessonNumber
-	const activeCourseId = userProgress.activeCourseId
-
+	// ✅ Determine vocab source
 	const hebrewData: HebrewVocab[] = (() => {
 		const baseData: HebrewVocab[] =
 			activeCourseId === 6
@@ -49,43 +47,42 @@ const HebrewSpellingPage = async () => {
 
 		return baseData.filter((w) => w.type?.toLowerCase() === 'word')
 	})()
+
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
-			{/* <StickyWrapper>
-				<UserProgress
-					activeCourse={userProgress.activeCourse}
-					hearts={userProgress.hearts}
-					points={userProgress.points}
-					hasActiveSubscription={isPro}
-				/>
-				{!isPro && <Promo />}
-			</StickyWrapper> */}
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">
 					<Image
 						src="/icons/iconSpelling.png"
-						// src="/input-latin-letters-svgrepo-com.svg"
 						alt="Spelling"
 						height={90}
 						width={90}
 					/>
+
 					<h1 className="text-center font-cardo text-neutral-800 text-6xl my-6">
 						אִיּוּת
 					</h1>
 					<p className="text-center font-bold text-neutral-800 mb-2">
 						Spelling
 					</p>
+
+					{!userId && (
+						<p className="text-gray-500 italic mb-3">
+							You’re using guest mode — progress will not be saved.
+						</p>
+					)}
+
 					<DismissibleAlert storageKey="spelling" className="mb-4">
 						Customize your prompt type. My favorite is letter-by-letter. For
-						sofit ending letters tap the Alt/Opt button. For additional vowels
-						and dagesh, tap the shift button. For the backspace to work properly
-						you need to have your cursor at the end/left of the word.
+						sofit ending letters, tap the Alt/Opt button. For vowels or dagesh,
+						tap the Shift button. Make sure your cursor is at the end/left of
+						the word for backspace.
 					</DismissibleAlert>
 
 					<HebrewSpelling
 						data={hebrewData}
-						currentLesson={currentLesson ?? ''}
-						userId={userProgress.userId}
+						currentLesson={currentLesson}
+						userId={userId ?? 'guest'}
 						courseId={activeCourseId}
 					/>
 				</div>
@@ -93,5 +90,3 @@ const HebrewSpellingPage = async () => {
 		</div>
 	)
 }
-
-export default HebrewSpellingPage

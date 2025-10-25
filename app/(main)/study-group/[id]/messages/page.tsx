@@ -16,6 +16,13 @@ export default async function MessageboardPage({ params }: any) {
 		getUserProgress(),
 		getUserSubscription(),
 	])
+	if (!userProgress) {
+		return (
+			<div className="text-center text-red-500 mt-10">
+				You must be logged in to view the dashboard.
+			</div>
+		)
+	}
 
 	// 🧠 If user is not logged in, redirect or show nothing
 	if (!userProgress) {
