@@ -227,7 +227,10 @@ export const userProgress = pgTable('user_progress', {
 		.references(() => users.id, { onDelete: 'cascade' })
 		.primaryKey(),
 	userName: text('user_name').notNull().default('User'),
+	hebrewName: text('hebrew_name').notNull().default('אני'),
+	spanishName: text('spanish_name').notNull().default('nombre'),
 	userImageSrc: text('user_image_src').notNull().default('/mascot.svg'),
+	hebrewImageSrc: text('hebrew_image_src').notNull().default('/mascot.svg'),
 	email: text('email').notNull().default(''),
 	activeCourseId: integer('active_course_id').references(() => courses.id, {
 		onDelete: 'cascade',
