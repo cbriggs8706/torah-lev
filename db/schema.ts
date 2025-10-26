@@ -35,6 +35,7 @@ export const courses = pgTable('courses', {
 	imageSrc: text('image_src').notNull(),
 	proficiencyLevel: text('proficiency_level'),
 	endingProficiencyLevel: text('ending_proficiency_level'),
+	public: boolean('public').notNull().default(true),
 })
 
 export const coursesRelations = relations(courses, ({ many }) => ({
