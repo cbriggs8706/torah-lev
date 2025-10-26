@@ -38,65 +38,71 @@ import {
 	englishStories,
 	studyGroups,
 	studyGroupMembers,
+	users,
 } from '@/db/schema'
 import { tr } from 'date-fns/locale'
 
 export async function getUserProgress(userIdOverride?: string | null) {
 	const userId = userIdOverride ?? (await getUserId())
 
+	// ✅ Define a common base shape so TS infers one consistent object type
+	const defaultProgress = {
+		userId: userId ?? 'guest',
+		userName: 'Guest',
+		userImageSrc: '/mascot.svg',
+		activeCourseId: null as number | null,
+		activeCourse: null as any,
+		points: 0,
+		hearts: 5,
+		activeLessonId: null as number | null,
+		activeLessonNumber: null as string | null,
+		lastSeen: null as Date | null,
+		isHebrewFriend: false,
+		isSpanishFriend: false,
+		isEnglishFriend: false,
+		isTester: false,
+		isBookclubFriend: false,
+		tribeId: null as number | null,
+		hebrewName: 'אני',
+		spanishName: 'nombre',
+		hebrewImageSrc: '/mascot.svg',
+		email: '',
+	}
+
 	// ✅ Handle guests gracefully
 	if (!userId || userId.startsWith('guest')) {
-		return {
-			userId: userId ?? 'guest',
-			userName: 'Guest',
-			userImageSrc: '/icons/iconBoy.png',
-			activeCourseId: null,
-			activeCourse: null,
-			points: 0,
-			hearts: 5,
-			activeLessonId: null,
-			activeLessonNumber: null,
-			lastSeen: null,
-			isHebrewFriend: false,
-			isSpanishFriend: false,
-			isEnglishFriend: false,
-			isTester: false,
-			isBookclubFriend: false,
-		}
+		return defaultProgress
 	}
 
 	// ✅ Pull base user progress (profile, activeCourseId, etc.)
-	const baseProgress = await db.query.userProgress.findFirst({
-		where: eq(userProgress.userId, userId),
-		with: {
+	const baseProgress = await db
+		.select({
+			userId: userProgress.userId,
+			userName: userProgress.userName,
+			hebrewName: userProgress.hebrewName,
+			spanishName: userProgress.spanishName,
+			// 🔄 Pull from users table instead of user_progress
+			userImageSrc: users.image,
+			hebrewImageSrc: userProgress.hebrewImageSrc,
+			email: users.email,
+			points: userProgress.points,
+			hearts: userProgress.hearts,
+			activeCourseId: userProgress.activeCourseId,
+			lastSeen: userProgress.lastSeen,
 			activeCourse: {
-				columns: {
-					id: true,
-					title: true,
-					imageSrc: true,
-				},
+				id: courses.id,
+				title: courses.title,
+				imageSrc: courses.imageSrc,
 			},
-		},
-	})
+		})
+		.from(userProgress)
+		.innerJoin(users, eq(users.id, userProgress.userId)) // ✅ join users
+		.leftJoin(courses, eq(userProgress.activeCourseId, courses.id))
+		.where(eq(userProgress.userId, userId))
+		.then((rows) => rows[0])
 
 	if (!baseProgress) {
-		return {
-			userId,
-			userName: 'Unknown User',
-			userImageSrc: '/icons/iconBoy.png',
-			activeCourseId: null,
-			activeCourse: null,
-			points: 0,
-			hearts: 5,
-			activeLessonId: null,
-			activeLessonNumber: null,
-			lastSeen: null,
-			isHebrewFriend: false,
-			isSpanishFriend: false,
-			isEnglishFriend: false,
-			isTester: false,
-			isBookclubFriend: false,
-		}
+		return { ...defaultProgress, userId, userName: 'Unknown User' }
 	}
 
 	// ✅ Fetch their course progress for the active course
@@ -115,18 +121,15 @@ export async function getUserProgress(userIdOverride?: string | null) {
 		})
 	}
 
+	// ✅ Return a merged and always-consistent shape
 	return {
+		...defaultProgress,
 		...baseProgress,
 		points: courseProgress?.points ?? 0,
 		hearts: courseProgress?.hearts ?? 5,
 		activeLessonId: courseProgress?.activeLessonId ?? null,
 		activeLessonNumber: courseProgress?.activeLesson?.lessonNumber ?? null,
-		lastSeen: courseProgress?.lastSeen ?? null,
-		isHebrewFriend: baseProgress.isHebrewFriend ?? false,
-		isSpanishFriend: baseProgress.isSpanishFriend ?? false,
-		isEnglishFriend: baseProgress.isEnglishFriend ?? false,
-		isBookclubFriend: baseProgress.isBookclubFriend ?? false,
-		isTester: baseProgress.isTester ?? false,
+		lastSeen: courseProgress?.lastSeen ?? baseProgress.lastSeen ?? null,
 	}
 }
 
@@ -709,6 +712,34 @@ export async function getTopTwentyUsersByCourse(courseId: number) {
 	return rawUsers
 }
 
+export async function getTopTwentyHebrewUsersByCourse(courseId: number) {
+	const rawUsers = await db
+		.select({
+			userId: userCourseProgress.userId,
+			userName: userProgress.userName,
+			hebrewName: userProgress.hebrewName,
+
+			// ✅ Prefer Hebrew image → fallback to English → fallback to mascot
+			userImageSrc: sql<string>`
+        COALESCE(${userProgress.hebrewImageSrc}, ${userProgress.userImageSrc}, '/mascot.svg')
+      `.as('user_image_src'),
+
+			points: userCourseProgress.points,
+			hearts: userCourseProgress.hearts,
+			lastSeen: userCourseProgress.lastSeen,
+			activeLessonNumber: lessons.lessonNumber,
+			courseId: userCourseProgress.courseId,
+		})
+		.from(userCourseProgress)
+		.innerJoin(userProgress, eq(userCourseProgress.userId, userProgress.userId))
+		.leftJoin(lessons, eq(userCourseProgress.activeLessonId, lessons.id))
+		.where(eq(userCourseProgress.courseId, courseId))
+		.orderBy(desc(userCourseProgress.points))
+		.limit(20)
+
+	return rawUsers
+}
+
 export async function getPrayerWithLines(prayerId: number) {
 	return db.query.hebrewPrayerLibrary.findFirst({
 		where: eq(hebrewPrayerLibrary.id, prayerId),
@@ -787,7 +818,13 @@ export async function getUserProgressWithTribe() {
 		.select({
 			userId: userProgress.userId,
 			userName: userProgress.userName,
-			userImageSrc: userProgress.userImageSrc,
+			hebrewName: userProgress.hebrewName,
+			spanishName: userProgress.spanishName,
+
+			// ✅ COALESCE fallback (explicitly cast to text so TypeScript sees it as string)
+			userImageSrc: sql<string>`COALESCE(${userProgress.userImageSrc}, ${users.image})`,
+
+			hebrewImageSrc: userProgress.hebrewImageSrc,
 			points: userProgress.points,
 			hearts: userProgress.hearts,
 			currentLesson: lessons.lessonNumber,
@@ -805,6 +842,7 @@ export async function getUserProgressWithTribe() {
 			},
 		})
 		.from(userProgress)
+		.innerJoin(users, eq(users.id, userProgress.userId))
 		.leftJoin(tribes, eq(userProgress.tribeId, tribes.id))
 		.leftJoin(lessons, eq(userProgress.activeLessonId, lessons.id))
 		.leftJoin(courses, eq(userProgress.activeCourseId, courses.id))
@@ -815,10 +853,44 @@ export async function getUserProgressWithTribe() {
 
 	return {
 		...base,
+		currentLesson: base.currentLesson ?? null,
 	}
 }
 
-function parseLessonNumber(lesson: string | null) {
+export async function getTribeMembers(tribeId: number) {
+	if (!tribeId) return []
+
+	const members = await db
+		.select({
+			userId: userProgress.userId,
+			userName: userProgress.userName,
+			hebrewName: userProgress.hebrewName,
+			userImageSrc: sql<string>`COALESCE(${userProgress.userImageSrc}, ${users.image})`,
+			hebrewImageSrc: userProgress.hebrewImageSrc,
+			points: userProgress.points,
+			hearts: userProgress.hearts,
+			activeLesson: lessons.lessonNumber, // 👈 include lesson number
+		})
+		.from(userProgress)
+		.innerJoin(users, eq(users.id, userProgress.userId))
+		.leftJoin(lessons, eq(userProgress.activeLessonId, lessons.id))
+		.where(eq(userProgress.tribeId, tribeId))
+
+	return members
+}
+
+// function parseLessonNumber(lesson: string | null) {
+// 	if (!lesson) return 0
+// 	const match = lesson.match(/^(\d+)([a-z])?$/i)
+// 	if (!match) return 0
+// 	const base = parseInt(match[1], 10)
+// 	const part = match[2]?.toLowerCase()
+// 	if (part === 'a') return base - 0.25
+// 	if (part === 'b') return base - 0.125
+// 	return base
+// }
+
+function parseLessonNumber(lesson: string | null): number {
 	if (!lesson) return 0
 	const match = lesson.match(/^(\d+)([a-z])?$/i)
 	if (!match) return 0
@@ -830,17 +902,24 @@ function parseLessonNumber(lesson: string | null) {
 }
 
 export async function getTribeLeaderboard() {
+	// 🧩 Get all users with tribe assignment
 	const users = await db
 		.select({
 			tribeId: userProgress.tribeId,
 			userName: userProgress.userName,
+			hebrewName: userProgress.hebrewName,
 			points: userProgress.points,
 			lessonNumber: lessons.lessonNumber,
+			// ✅ prefer Hebrew image, fallback to user image, fallback to mascot
+			userImageSrc: sql<string>`
+				COALESCE(${userProgress.hebrewImageSrc}, ${userProgress.userImageSrc}, '/mascot.svg')
+			`.as('user_image_src'),
 		})
 		.from(userProgress)
 		.leftJoin(lessons, eq(userProgress.activeLessonId, lessons.id))
 		.where(sql`${userProgress.tribeId} IS NOT NULL`)
 
+	// 🧩 Get all base tribes
 	const tribeBase = await db
 		.select({
 			tribeId: tribes.id,
@@ -851,7 +930,7 @@ export async function getTribeLeaderboard() {
 		})
 		.from(tribes)
 
-	// Group tribe data
+	// 🧮 Group tribe data
 	const tribeData = tribeBase.map((tribe) => {
 		const members = users.filter((u) => u.tribeId === tribe.tribeId)
 
@@ -872,7 +951,11 @@ export async function getTribeLeaderboard() {
 
 		return {
 			...tribe,
-			members: members.map((m) => m.userName),
+			members: members.map((m) => ({
+				userName: m.userName,
+				hebrewName: m.hebrewName,
+				userImageSrc: m.userImageSrc,
+			})),
 			avgLesson,
 			totalMemberPoints: totalPoints,
 		}
@@ -1036,15 +1119,20 @@ export async function getStudyGroupWithMessages(studyGroupId: number) {
 	const memberIds = group.members.map((m) => m.user.userId)
 	if (memberIds.length === 0) return group
 
-	// ✅ Fetch progress info joined to lessons
+	// ✅ Fetch progress info joined to lessons & userProgress (for image fallback)
 	const progressRows = await db
 		.select({
 			userId: userCourseProgress.userId,
 			lastSeen: userCourseProgress.lastSeen,
 			lessonNumber: lessons.lessonNumber,
+			userImageSrc: sql<string>`
+        COALESCE(${users.image}, ${userProgress.userImageSrc}, '/mascot.svg')
+      `.as('user_image_src'),
 		})
 		.from(userCourseProgress)
 		.leftJoin(lessons, eq(userCourseProgress.activeLessonId, lessons.id))
+		.leftJoin(userProgress, eq(userCourseProgress.userId, userProgress.userId))
+		.leftJoin(users, eq(users.id, userCourseProgress.userId))
 		.where(inArray(userCourseProgress.userId, memberIds))
 
 	const progressMap = new Map(progressRows.map((r) => [r.userId, r]))
@@ -1052,9 +1140,17 @@ export async function getStudyGroupWithMessages(studyGroupId: number) {
 	// ✅ Attach extended fields safely
 	for (const m of group.members) {
 		const row = progressMap.get(m.user.userId)
-		const user = m.user as ExtendedUser
+		const user = m.user as any
+
 		user.lastSeen = row?.lastSeen ?? null
 		user.activeLessonNumber = row?.lessonNumber ?? null
+
+		// ✅ Prefer users.image → userProgress.userImageSrc → /mascot.svg
+		user.userImageSrc =
+			row?.userImageSrc ||
+			m.user.userImageSrc ||
+			m.user.userImageSrc ||
+			'/mascot.svg'
 	}
 
 	return group
@@ -1064,12 +1160,35 @@ export async function getUserStudyGroupsWithTeaching(userId: string) {
 	// Groups where the user is the teacher
 	const teachingGroups = await db.query.studyGroups.findMany({
 		where: eq(studyGroups.teacherId, userId),
+		columns: {
+			id: true,
+			name: true,
+			organization: true,
+			level: true,
+			section: true,
+			time: true,
+			zoomLink: true,
+			current: true, // ✅ include current flag
+		},
 	})
 
 	// Groups where the user is a student
 	const memberGroups = await db.query.studyGroupMembers.findMany({
 		where: eq(studyGroupMembers.userId, userId),
-		with: { studyGroup: true },
+		with: {
+			studyGroup: {
+				columns: {
+					id: true,
+					name: true,
+					organization: true,
+					level: true,
+					section: true,
+					time: true,
+					zoomLink: true,
+					current: true, // ✅ include current flag
+				},
+			},
+		},
 	})
 
 	// Combine both types, flatten, and normalize shape
@@ -1082,6 +1201,7 @@ export async function getUserStudyGroupsWithTeaching(userId: string) {
 			section: g.section,
 			time: g.time,
 			zoomLink: g.zoomLink,
+			current: g.current, // ✅ keep boolean
 			isTeacher: true,
 		})),
 		...memberGroups.map((m) => ({
@@ -1092,6 +1212,7 @@ export async function getUserStudyGroupsWithTeaching(userId: string) {
 			section: m.studyGroup.section,
 			time: m.studyGroup.time,
 			zoomLink: m.studyGroup.zoomLink,
+			current: m.studyGroup.current, // ✅ keep boolean
 			isTeacher: false,
 		})),
 	]

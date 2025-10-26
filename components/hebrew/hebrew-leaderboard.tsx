@@ -125,12 +125,16 @@ export default async function HebrewLeaderboard({ users }: { users: any[] }) {
 										)}
 									</div>
 								</td>
-								<td
-									className={`px-4 py-2 text-neutral-800 ${
-										containsHebrew(user.userName) ? 'text-3xl font-serif' : ''
-									}`}
-								>
-									{user.userName}
+								<td className={'px-4 py-2 text-neutral-800'}>
+									{user.hebrewName && user.hebrewName.trim() !== '' ? (
+										<span className="font-serif text-4xl">
+											{user.hebrewName}
+										</span>
+									) : (
+										<span className="font-semibold text-lg">
+											{user.userName}
+										</span>
+									)}
 								</td>
 								<td className="px-4 py-2 text-center">
 									<Shield lessonNumber={user.activeLessonNumber} />
@@ -160,7 +164,13 @@ export default async function HebrewLeaderboard({ users }: { users: any[] }) {
 							/>
 						</Avatar>
 						<div className="flex flex-col flex-1">
-							<p className="font-bold">{user.userName}</p>
+							<p className="">
+								{user.hebrewName && user.hebrewName.trim() !== '' ? (
+									<span className="font-serif text-3xl">{user.hebrewName}</span>
+								) : (
+									<span className="font-semibold text-lg">{user.userName}</span>
+								)}
+							</p>
 							<p>
 								Lesson: {user.activeLessonNumber} | {user.points} XP
 							</p>
@@ -216,7 +226,22 @@ export default async function HebrewLeaderboard({ users }: { users: any[] }) {
 							<td className="px-4 py-2">{tribe.avgLesson.toFixed(2)}</td>
 							<td className="px-4 py-2">{tribe.totalMemberPoints}</td>
 							<td className="px-4 py-2">{tribe.tribePoints} XP</td>
-							<td className="px-4 py-2">{tribe.members.join(', ')}</td>
+							<td className="px-4 py-2">
+								{tribe.members.map((m: any, i: number) => (
+									<span key={i} className="mr-2">
+										{m.hebrewName && m.hebrewName.trim() !== '' ? (
+											<span className="font-serif text-2xl">
+												{m.hebrewName}
+											</span>
+										) : (
+											<span className="font-semibold text-lg">
+												{m.userName}
+											</span>
+										)}
+										{i < tribe.members.length - 1 ? ', ' : ''}
+									</span>
+								))}
+							</td>
 						</tr>
 					))}
 				</tbody>
@@ -239,14 +264,24 @@ export default async function HebrewLeaderboard({ users }: { users: any[] }) {
 									height={40}
 									className="rounded-full border"
 								/>
-								<p className="font-bold">{tribe.tribeHebName}</p>
+								<p className="font-serif text-2xl">{tribe.tribeHebName}</p>
 							</div>
 						</div>
 						<p className="text-sm text-gray-600 mb-1">
 							Tribe Points: {tribe.tribePoints} XP
 						</p>
 						<p className="text-sm text-gray-600">
-							Members: {tribe.members.join(', ')}
+							Members:{' '}
+							{tribe.members.map((m: any, i: number) => (
+								<span key={i}>
+									{m.hebrewName && m.hebrewName.trim() !== '' ? (
+										<span className="font-serif text-2xl">{m.hebrewName}</span>
+									) : (
+										<span className="font-semibold text-lg">{m.userName}</span>
+									)}
+									{i < tribe.members.length - 1 ? ', ' : ''}
+								</span>
+							))}
 						</p>
 					</div>
 				))}

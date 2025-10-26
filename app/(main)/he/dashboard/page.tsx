@@ -5,12 +5,12 @@ import {
 	getAllUserCourseProgress,
 	getUserStudyGroups,
 	getUserStudyGroupsWithTeaching,
+	getTribeMembers,
 } from '@/db/queries'
 import HebrewUserDashboard from '@/components/hebrew/hebrew-dashboard'
 import db from '@/db/drizzle'
 import { eq } from 'drizzle-orm'
 import { challengeProgress, units } from '@/db/schema'
-import { get } from 'http'
 
 const Dashboard = async () => {
 	const [userProgress, allCourseProgress] = await Promise.all([
@@ -53,6 +53,11 @@ const Dashboard = async () => {
 		},
 	})
 
+	let tribeMembers: any[] = []
+	if (userProgress.tribeId) {
+		tribeMembers = await getTribeMembers(userProgress.tribeId)
+	}
+
 	console.log('User image:', userProgress.userImageSrc)
 
 	return (
@@ -74,7 +79,9 @@ const Dashboard = async () => {
 
 					<HebrewUserDashboard
 						userName={userProgress.userName}
-						userImageSrc={userProgress.userImageSrc}
+						hebrewName={userProgress.hebrewName ?? ''}
+						userImageSrc={userProgress.userImageSrc || ''}
+						hebrewImageSrc={userProgress.hebrewImageSrc || ''}
 						points={userProgress.points}
 						hearts={userProgress.hearts}
 						userUnitProgress={userUnitProgress}
@@ -88,7 +95,6 @@ const Dashboard = async () => {
 							endingProficiencyLevel:
 								userProgress.activeCourse?.endingProficiencyLevel ?? null,
 						}}
-						currentLesson={userProgress.currentLesson}
 						tribe={
 							userProgress.tribeId
 								? {
@@ -96,6 +102,7 @@ const Dashboard = async () => {
 										hebName: userProgress.tribeHebName ?? '',
 										points: userProgress.tribePoints ?? 0,
 										tribeImage: userProgress.tribeImage ?? '',
+										members: tribeMembers,
 								  }
 								: null
 						}

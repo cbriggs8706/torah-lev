@@ -1,5 +1,7 @@
 'use client'
 import Image from 'next/image'
+import { Button } from '../ui/button'
+import Link from 'next/link'
 
 function formatTimeAgo(dateString: string) {
 	const date = new Date(dateString)
@@ -15,6 +17,9 @@ export default function MembersTable({ studyGroup }: { studyGroup: any }) {
 		<div className="p-4 border rounded-lg shadow-sm bg-gray-50 relative">
 			<div className="flex justify-between items-center mb-4">
 				<h2 className="font-semibold text-lg">👥 Members</h2>
+				<Link href={`/study-group/${studyGroup.id}/messages`}>
+					<Button size="sm">Messageboard</Button>
+				</Link>
 			</div>
 
 			<div className="overflow-x-auto">

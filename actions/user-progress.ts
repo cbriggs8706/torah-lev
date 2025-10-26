@@ -190,20 +190,50 @@ export const refillHearts = async () => {
 
 const updateUserSchema = z.object({
 	userName: z.string().min(2, 'Name must be at least 2 characters').optional(),
-	userImageSrc: z.string().url('Must be a valid URL').optional(),
+	hebrewName: z.string().min(1, 'Hebrew name required').optional(),
+	spanishName: z.string().min(1).optional(),
+	userImageSrc: z
+		.string()
+		.refine((val) => val.startsWith('/') || /^https?:\/\//.test(val), {
+			message: 'Must be a valid URL or local path',
+		})
+		.optional(),
+	hebrewImageSrc: z
+		.string()
+		.refine((val) => val.startsWith('/') || /^https?:\/\//.test(val), {
+			message: 'Must be a valid URL or local path',
+		})
+		.optional(),
 })
+
+type UpdatedUserProfile = {
+	userId: string
+	userName: string
+	hebrewName: string
+	spanishName: string
+	userImageSrc: string
+	hebrewImageSrc: string
+	points: number
+	hearts: number
+	activeCourseId: number | null
+}
+
+type GuestResponse = { guest: true }
 
 export const updateUserProfile = async (data: {
 	userName?: string
+	hebrewName?: string
+	spanishName?: string
 	userImageSrc?: string
-}) => {
+	hebrewImageSrc?: string
+}): Promise<UpdatedUserProfile | GuestResponse> => {
 	const userId = await getUserId()
 
+	// 🚫 Guests skip writes
 	if (isGuestId(userId)) {
 		console.log('👤 Guest mode: updateUserProfile skipped DB writes')
 		return { guest: true }
 	}
-
 	if (!userId) throw new Error('Unauthorized')
 
 	const parsed = updateUserSchema.safeParse(data)
@@ -217,14 +247,30 @@ export const updateUserProfile = async (data: {
 		.update(userProgress)
 		.set({
 			...(parsed.data.userName && { userName: parsed.data.userName }),
+			...(parsed.data.hebrewName && { hebrewName: parsed.data.hebrewName }),
+			...(parsed.data.spanishName && { spanishName: parsed.data.spanishName }),
 			...(parsed.data.userImageSrc && {
 				userImageSrc: parsed.data.userImageSrc,
 			}),
+			...(parsed.data.hebrewImageSrc && {
+				hebrewImageSrc: parsed.data.hebrewImageSrc,
+			}),
+			lastSeen: new Date(),
 		})
 		.where(eq(userProgress.userId, userId!))
 
 	const [updatedUser] = await db
-		.select()
+		.select({
+			userId: userProgress.userId,
+			userName: userProgress.userName,
+			hebrewName: userProgress.hebrewName,
+			spanishName: userProgress.spanishName,
+			userImageSrc: userProgress.userImageSrc,
+			hebrewImageSrc: userProgress.hebrewImageSrc,
+			points: userProgress.points,
+			hearts: userProgress.hearts,
+			activeCourseId: userProgress.activeCourseId,
+		})
 		.from(userProgress)
 		.where(eq(userProgress.userId, userId!))
 

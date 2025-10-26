@@ -153,6 +153,9 @@ HebrewVocabProps) {
 		keyof HebrewVocab | 'engTransliteration'
 	>('engTransliteration')
 	const [cardsCompleted, setCardsCompleted] = useState(0)
+	const [isRandomized, setIsRandomized] = useState(false)
+	const [filterVersion, setFilterVersion] = useState(0)
+
 	const userId = useUserId()
 	// console.log('newUserId in local', userId)
 
@@ -260,9 +263,12 @@ HebrewVocabProps) {
 		})
 
 		// Shuffle the filtered cards
-		const shuffled = [...newFiltered].sort(() => Math.random() - 0.5)
+		let finalCards = [...newFiltered]
+		if (isRandomized) {
+			finalCards.sort(() => Math.random() - 0.5)
+		}
+		setFilteredCards(finalCards)
 
-		setFilteredCards(shuffled)
 		setCurrentIndex(0)
 		setShowBack(false)
 	}, [
@@ -275,6 +281,7 @@ HebrewVocabProps) {
 		frontMiddleCenter,
 		backMiddleCenter,
 		setCurrentIndex,
+		filterVersion,
 	])
 
 	const currentCard = filteredCards[currentIndex]
@@ -1007,6 +1014,33 @@ HebrewVocabProps) {
 						setSelectedLessons={setSelectedLessons}
 						showRanges={true}
 					/>
+					<div className="flex items-center justify-center my-4 gap-2">
+						{!isRandomized ? (
+							<button
+								onClick={() => {
+									setIsRandomized(true)
+									setFilteredCards((prev) =>
+										[...prev].sort(() => Math.random() - 0.5)
+									)
+									setCurrentIndex(0)
+								}}
+								className="px-4 py-2 bg-violet-600 text-white rounded shadow hover:bg-violet-500 transition"
+							>
+								🔀 Randomize Cards
+							</button>
+						) : (
+							<button
+								onClick={() => {
+									setIsRandomized(false)
+									setFilterVersion((v) => v + 1)
+									setCurrentIndex(0)
+								}}
+								className="px-4 py-2 bg-gray-300 text-gray-800 rounded shadow hover:bg-gray-200 transition"
+							>
+								↩️ Reset Order
+							</button>
+						)}
+					</div>
 				</>
 			)}
 

@@ -253,6 +253,12 @@ export default function SidebarClient({
 							iconSrc="/trophy-svgrepo-com.svg"
 							onClick={onItemClick}
 						/>
+						<SidebarItem
+							label="Timer"
+							href="/timer"
+							iconSrc="/stopwatch-svgrepo-com.svg"
+							onClick={onItemClick}
+						/>
 					</>
 				)}
 				{[3, 4, 16].includes(userProgress?.activeCourse.id) && (

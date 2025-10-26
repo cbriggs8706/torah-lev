@@ -132,6 +132,8 @@ export default function EnglishFlashcards({
 	const [backBottomRight, setBackBottomRight] = useState<
 		keyof EnglishVocab | 'porTransliteration'
 	>('porTransliteration')
+	const [isRandomized, setIsRandomized] = useState(false)
+	const [filterVersion, setFilterVersion] = useState(0)
 
 	const { width, height } = useWindowSize()
 
@@ -268,13 +270,11 @@ export default function EnglishFlashcards({
 			const matchesCategory =
 				selectedCategory === 'all' || card.category === selectedCategory
 
-			// Ensure middle-center image/audio (front)
 			const hasMiddleFrontImage =
 				frontMiddleCenter !== 'images' || card.images.length > 0
 			const hasMiddleFrontAudio =
 				frontMiddleCenter !== 'engAudio' || !!card.engAudio
 
-			// Ensure middle-center image/audio (back)
 			const hasMiddleBackImage =
 				backMiddleCenter !== 'images' || card.images.length > 0
 			const hasMiddleBackAudio =
@@ -307,10 +307,12 @@ export default function EnglishFlashcards({
 			)
 		})
 
-		// Shuffle the filtered cards
-		const shuffled = [...newFiltered].sort(() => Math.random() - 0.5)
+		// ✅ Keep cards in order unless randomized
+		const finalCards = isRandomized
+			? [...newFiltered].sort(() => Math.random() - 0.5)
+			: newFiltered
 
-		setFilteredCards(shuffled)
+		setFilteredCards(finalCards)
 		setCurrentIndex(0)
 		setShowBack(false)
 	}, [
@@ -322,6 +324,8 @@ export default function EnglishFlashcards({
 		backField,
 		frontMiddleCenter,
 		backMiddleCenter,
+		isRandomized,
+		filterVersion,
 	])
 
 	const currentCard = filteredCards[currentIndex]
@@ -1152,6 +1156,31 @@ export default function EnglishFlashcards({
                   Other Lessons
                 </button>
               )} */}
+
+							<div className="flex items-center justify-center mt-4 gap-2">
+								{!isRandomized ? (
+									<button
+										onClick={() => {
+											setIsRandomized(true)
+											setCurrentIndex(0)
+										}}
+										className="px-4 py-2 bg-violet-600 text-white rounded shadow hover:bg-violet-500 transition"
+									>
+										🔀 Randomize Cards
+									</button>
+								) : (
+									<button
+										onClick={() => {
+											setIsRandomized(false)
+											setFilterVersion((v) => v + 1)
+											setCurrentIndex(0)
+										}}
+										className="px-4 py-2 bg-gray-300 text-gray-800 rounded shadow hover:bg-gray-200 transition"
+									>
+										↩️ Reset Order
+									</button>
+								)}
+							</div>
 						</div>
 					</div>
 				</>

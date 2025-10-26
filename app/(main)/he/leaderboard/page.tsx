@@ -3,7 +3,7 @@ import { getServerSession } from 'next-auth'
 import { options } from '@/app/api/auth/[...nextauth]/options'
 import { FeedWrapper } from '@/components/feed-wrapper'
 import {
-	getTopTwentyUsersByCourse,
+	getTopTwentyHebrewUsersByCourse,
 	getUserProgress,
 	getUserSubscription,
 } from '@/db/queries'
@@ -26,7 +26,9 @@ export default async function LeaderboardPage() {
 	}
 
 	// 🆕 get only users in the current course
-	const allUsers = await getTopTwentyUsersByCourse(userProgress.activeCourse.id)
+	const allUsers = await getTopTwentyHebrewUsersByCourse(
+		userProgress.activeCourse.id
+	)
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
