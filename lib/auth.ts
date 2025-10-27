@@ -9,33 +9,38 @@ import { options } from '@/app/api/auth/[...nextauth]/options'
 export const getSession = () => getServerSession(options)
 
 /**
- * Get the userId from session or guest cookie.
- * - Returns NextAuth user ID if logged in
- * - Returns guestId cookie if set
- * - Otherwise returns null
+ * Unified user ID getter:
+ * - Returns NextAuth user.id if authenticated
+ * - Returns guestId from cookie if set
+ * - Otherwise null
  */
 export const getUserId = async (): Promise<string | null> => {
 	const session = await getServerSession(options)
+	const cookieStore = cookies()
+
+	// ✅ 1️⃣ Authenticated user
 	if (session?.user?.id) return session.user.id
 
-	const cookieStore = cookies()
+	// ✅ 2️⃣ Guest fallback
 	const guestId = cookieStore.get('guestId')?.value
-	return guestId ?? null
+	if (guestId && guestId.startsWith('guest')) return guestId
+
+	// 🚫 3️⃣ No ID found
+	return null
 }
 
 /**
- * Helper that throws if not authenticated (for protected routes only)
+ * Throws if user is not authenticated (never returns guest).
  */
 export const getUserOrThrow = async (): Promise<string> => {
 	const userId = await getUserId()
-	if (!userId) throw new Error('Unauthorized')
+	if (!userId || userId.startsWith('guest')) throw new Error('Unauthorized')
 	return userId
 }
 
 /**
- * Get active course ID for guest or signed-in user.
- * - Returns activeCourseId from cookie for guests
- * - Otherwise returns null (since logged-in users are tracked in DB)
+ * Active course ID for guests only.
+ * Logged-in users track this in the DB.
  */
 export const getActiveCourseId = async (): Promise<number | null> => {
 	const cookieStore = cookies()
@@ -44,9 +49,13 @@ export const getActiveCourseId = async (): Promise<number | null> => {
 }
 
 /**
- * Quick check to see if current visitor is a guest
+ * Quick boolean for guest state.
  */
 export const isGuestUser = async (): Promise<boolean> => {
-	const userId = await getUserId()
-	return !!userId && userId.startsWith('guest')
+	const cookieStore = cookies()
+	const guestId = cookieStore.get('guestId')?.value
+	if (guestId?.startsWith('guest')) return true
+
+	const session = await getServerSession(options)
+	return !session?.user?.id
 }

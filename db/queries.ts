@@ -294,7 +294,6 @@ export async function getAllUserCourseProgress() {
 	return results
 }
 
-//TODO replace
 export const getCourseProgress = cache(
 	async (userIdOverride?: string | null) => {
 		const userId = userIdOverride ?? (await getUserId())
@@ -369,6 +368,7 @@ export const getCourseProgress = cache(
 		}
 	}
 )
+
 // export const getCourseProgress = cache(async () => {
 // 	const userId = await getUserId()
 // 	const userProgress = await getUserProgress()
@@ -445,9 +445,10 @@ export const getLesson = cache(
 
 		const normalizedChallenges = data.challenges.map((ch) => {
 			const completed =
-				userId && !userId.startsWith('guest')
-					? ch.challengeProgress?.every((p) => p.completed)
+				ch.challengeProgress && ch.challengeProgress.length > 0
+					? ch.challengeProgress.every((p) => p.completed)
 					: false
+
 			return { ...ch, completed }
 		})
 
@@ -620,21 +621,19 @@ export const getGrammarLessons = async () => {
 	return results
 }
 
-export const getLessonPercentage = cache(
-	async (userIdOverride?: string | null) => {
-		const userId = userIdOverride ?? (await getUserId())
-		const courseProg = await getCourseProgress(userId)
-		if (!courseProg?.activeLessonId) return 0
+export async function getLessonPercentage(userIdOverride?: string | null) {
+	const userId = userIdOverride ?? (await getUserId())
+	if (!userId || userId.startsWith('guest')) return 0
 
-		const lesson = await getLesson(courseProg.activeLessonId, userId)
-		if (!lesson) return 0
+	const courseProg = await getCourseProgress(userId)
+	if (!courseProg?.activeLessonId) return 0
 
-		if (userId?.startsWith('guest')) return 0 // guests show 0%
+	const lesson = await getLesson(courseProg.activeLessonId, userId)
+	if (!lesson?.challenges?.length) return 0
 
-		const completed = lesson.challenges.filter((c) => c.completed)
-		return Math.round((completed.length / lesson.challenges.length) * 100)
-	}
-)
+	const completedCount = lesson.challenges.filter((c) => c.completed).length
+	return Math.round((completedCount / lesson.challenges.length) * 100)
+}
 
 const DAY_IN_MS = 86_400_000
 export const getUserSubscription = cache(async () => {

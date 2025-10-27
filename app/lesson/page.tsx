@@ -1,4 +1,5 @@
 import { redirect } from 'next/navigation'
+import { cookies } from 'next/headers'
 import { getServerSession } from 'next-auth'
 import { options } from '@/app/api/auth/[...nextauth]/options'
 import {
@@ -7,28 +8,36 @@ import {
 	getUserProgress,
 	getUserSubscription,
 } from '@/db/queries'
-
 import { Quiz } from './quiz'
 
 const LessonPage = async () => {
+	// 🔹 Check both session and guest cookies
 	const session = await getServerSession(options)
-	if (!session?.user) redirect('/') // or your landing page
-	const lessonData = getLesson()
-	const userProgressData = getUserProgress()
-	const userSubscriptionData = getUserSubscription()
+	const cookieStore = cookies()
+	const guestId = cookieStore.get('guestId')?.value ?? null
+	const guestCourseId = cookieStore.get('guestActiveCourseId')?.value ?? null
 
+	// 🚫 If neither logged in nor guest, kick them home
+	if (!session?.user && !guestId) {
+		redirect('/')
+	}
+
+	// ✅ Load data (for guests, it’s safe — read-only)
 	const [lesson, userProgress, userSubscription] = await Promise.all([
-		lessonData,
-		userProgressData,
-		userSubscriptionData,
+		getLesson(),
+		getUserProgress(),
+		getUserSubscription(),
 	])
+
+	// 🧩 Graceful fallback for guests (no subscription table)
+	const effectiveUserSub = !session?.user && guestId ? null : userSubscription
 
 	if (!lesson || !userProgress) {
 		return <div>Protected content</div>
 	}
 
 	const initialPercentage =
-		(lesson.challenges.filter((challenge) => challenge.completed).length /
+		(lesson.challenges.filter((c) => c.completed).length /
 			lesson.challenges.length) *
 		100
 
@@ -36,18 +45,17 @@ const LessonPage = async () => {
 	const allLessons =
 		courseProgress?.unitsInActiveCourse.flatMap((u) => u.lessons) || []
 	const currentIndex = allLessons.findIndex((l) => l.id === lesson.id)
-	const nextLesson = allLessons[currentIndex - 1]
-	// const nextLesson = allLessons[currentIndex + 1]
-	console.log('activeCourseId', userProgress?.activeCourseId)
+	const nextLesson = allLessons[currentIndex + 1] ?? null
+
 	return (
 		<Quiz
 			initialLessonId={lesson.id}
 			initialLessonChallenges={lesson.challenges}
 			initialHearts={userProgress.hearts}
 			initialPercentage={initialPercentage}
-			userSubscription={userSubscription}
+			userSubscription={effectiveUserSub}
 			nextLessonId={nextLesson?.id ?? null}
-			activeCourseId={userProgress?.activeCourseId}
+			activeCourseId={userProgress?.activeCourseId ?? Number(guestCourseId)}
 		/>
 	)
 }

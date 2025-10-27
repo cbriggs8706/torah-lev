@@ -1,4 +1,5 @@
 import { redirect } from 'next/navigation'
+import { cookies } from 'next/headers'
 import { getServerSession } from 'next-auth'
 import { options } from '@/app/api/auth/[...nextauth]/options'
 import {
@@ -7,7 +8,6 @@ import {
 	getUserProgress,
 	getUserSubscription,
 } from '@/db/queries'
-
 import { Quiz } from '../quiz'
 
 type Props = {
@@ -17,24 +17,30 @@ type Props = {
 }
 
 const LessonIdPage = async ({ params }: Props) => {
+	// 🔹 Allow both signed-in users and guests
 	const session = await getServerSession(options)
-	if (!session?.user) redirect('/') // or your landing page
-	const lessonData = getLesson(params.lessonId)
-	const userProgressData = getUserProgress()
-	const userSubscriptionData = getUserSubscription()
+	const cookieStore = cookies()
+	const guestId = cookieStore.get('guestId')?.value ?? null
 
+	// 🚫 Block only if no session AND no guest cookie
+	if (!session?.user && !guestId) {
+		redirect('/')
+	}
+
+	// ✅ Fetch data (works for guests too)
 	const [lesson, userProgress, userSubscription] = await Promise.all([
-		lessonData,
-		userProgressData,
-		userSubscriptionData,
+		getLesson(params.lessonId),
+		getUserProgress(),
+		getUserSubscription(),
 	])
 
 	if (!lesson || !userProgress) {
 		return <div>Protected content</div>
 	}
 
+	// 🧮 Compute completion %
 	const initialPercentage =
-		(lesson.challenges.filter((challenge) => challenge.completed).length /
+		(lesson.challenges.filter((c) => c.completed).length /
 			lesson.challenges.length) *
 		100
 
@@ -50,9 +56,9 @@ const LessonIdPage = async ({ params }: Props) => {
 			initialLessonChallenges={lesson.challenges}
 			initialHearts={userProgress.hearts}
 			initialPercentage={initialPercentage}
-			userSubscription={userSubscription}
+			userSubscription={session?.user ? userSubscription : null} // guests don't have subs
 			nextLessonId={nextLesson?.id ?? null}
-			activeCourseId={userProgress?.activeCourseId}
+			activeCourseId={userProgress?.activeCourseId ?? null}
 		/>
 	)
 }
