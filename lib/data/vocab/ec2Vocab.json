@@ -1,7 +1,7 @@
 [
 	{
 		"id": 1,
-		"lessons": ["[1]"],
+		"lessons": ["1"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -20,7 +20,7 @@
 	},
 	{
 		"id": 2,
-		"lessons": ["[1]"],
+		"lessons": ["1"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -39,7 +39,7 @@
 	},
 	{
 		"id": 3,
-		"lessons": ["[1]"],
+		"lessons": ["1"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -58,7 +58,7 @@
 	},
 	{
 		"id": 4,
-		"lessons": ["[1]"],
+		"lessons": ["1"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -77,7 +77,7 @@
 	},
 	{
 		"id": 5,
-		"lessons": ["[1]"],
+		"lessons": ["1"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -96,7 +96,7 @@
 	},
 	{
 		"id": 6,
-		"lessons": ["[2]"],
+		"lessons": ["2"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -115,7 +115,7 @@
 	},
 	{
 		"id": 7,
-		"lessons": ["[2]"],
+		"lessons": ["2"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -134,7 +134,7 @@
 	},
 	{
 		"id": 8,
-		"lessons": ["[3]"],
+		"lessons": ["3"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -153,7 +153,7 @@
 	},
 	{
 		"id": 9,
-		"lessons": ["[3]"],
+		"lessons": ["3"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -172,7 +172,7 @@
 	},
 	{
 		"id": 10,
-		"lessons": ["[4]"],
+		"lessons": ["4"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -191,7 +191,7 @@
 	},
 	{
 		"id": 11,
-		"lessons": ["[4]"],
+		"lessons": ["4"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -210,7 +210,7 @@
 	},
 	{
 		"id": 12,
-		"lessons": ["[5]"],
+		"lessons": ["5"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -229,7 +229,7 @@
 	},
 	{
 		"id": 13,
-		"lessons": ["[5]"],
+		"lessons": ["5"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -248,7 +248,7 @@
 	},
 	{
 		"id": 14,
-		"lessons": ["[5]"],
+		"lessons": ["5"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -267,7 +267,7 @@
 	},
 	{
 		"id": 15,
-		"lessons": ["[6]"],
+		"lessons": ["6"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -286,7 +286,7 @@
 	},
 	{
 		"id": 16,
-		"lessons": ["[6]"],
+		"lessons": ["6"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -305,7 +305,7 @@
 	},
 	{
 		"id": 17,
-		"lessons": ["[6]"],
+		"lessons": ["6"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -324,7 +324,7 @@
 	},
 	{
 		"id": 18,
-		"lessons": ["[6]"],
+		"lessons": ["6"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -343,7 +343,7 @@
 	},
 	{
 		"id": 19,
-		"lessons": ["[6]"],
+		"lessons": ["6"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -362,7 +362,7 @@
 	},
 	{
 		"id": 20,
-		"lessons": ["[6]"],
+		"lessons": ["6"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -381,7 +381,7 @@
 	},
 	{
 		"id": 21,
-		"lessons": ["[6]"],
+		"lessons": ["6"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -400,7 +400,7 @@
 	},
 	{
 		"id": 22,
-		"lessons": ["[6]"],
+		"lessons": ["6"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -419,7 +419,7 @@
 	},
 	{
 		"id": 23,
-		"lessons": ["[6]"],
+		"lessons": ["6"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -438,7 +438,7 @@
 	},
 	{
 		"id": 24,
-		"lessons": ["[6]"],
+		"lessons": ["6"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -457,7 +457,7 @@
 	},
 	{
 		"id": 25,
-		"lessons": ["[6]"],
+		"lessons": ["6"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -476,7 +476,7 @@
 	},
 	{
 		"id": 26,
-		"lessons": ["[6]"],
+		"lessons": ["6"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -495,7 +495,7 @@
 	},
 	{
 		"id": 27,
-		"lessons": ["[6]"],
+		"lessons": ["6"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -514,7 +514,7 @@
 	},
 	{
 		"id": 28,
-		"lessons": ["[7]"],
+		"lessons": ["7"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -533,7 +533,7 @@
 	},
 	{
 		"id": 29,
-		"lessons": ["[7]"],
+		"lessons": ["7"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -552,7 +552,7 @@
 	},
 	{
 		"id": 30,
-		"lessons": ["[7]"],
+		"lessons": ["7"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -571,7 +571,7 @@
 	},
 	{
 		"id": 31,
-		"lessons": ["[7]"],
+		"lessons": ["7"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -590,7 +590,7 @@
 	},
 	{
 		"id": 32,
-		"lessons": ["[7]"],
+		"lessons": ["7"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -609,7 +609,7 @@
 	},
 	{
 		"id": 33,
-		"lessons": ["[7]"],
+		"lessons": ["7"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -628,7 +628,7 @@
 	},
 	{
 		"id": 34,
-		"lessons": ["[7]"],
+		"lessons": ["7"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -647,7 +647,7 @@
 	},
 	{
 		"id": 35,
-		"lessons": ["[7]"],
+		"lessons": ["7"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -666,7 +666,7 @@
 	},
 	{
 		"id": 36,
-		"lessons": ["[7]"],
+		"lessons": ["7"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -685,7 +685,7 @@
 	},
 	{
 		"id": 37,
-		"lessons": ["[7]"],
+		"lessons": ["7"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -704,7 +704,7 @@
 	},
 	{
 		"id": 38,
-		"lessons": ["[7]"],
+		"lessons": ["7"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -723,7 +723,7 @@
 	},
 	{
 		"id": 39,
-		"lessons": ["[7]"],
+		"lessons": ["7"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -742,7 +742,7 @@
 	},
 	{
 		"id": 40,
-		"lessons": ["[7]"],
+		"lessons": ["7"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -761,7 +761,7 @@
 	},
 	{
 		"id": 41,
-		"lessons": ["[7]"],
+		"lessons": ["7"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -780,7 +780,7 @@
 	},
 	{
 		"id": 42,
-		"lessons": ["[7]"],
+		"lessons": ["7"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -799,7 +799,7 @@
 	},
 	{
 		"id": 43,
-		"lessons": ["[7]"],
+		"lessons": ["7"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -818,7 +818,7 @@
 	},
 	{
 		"id": 44,
-		"lessons": ["[7]"],
+		"lessons": ["7"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -837,7 +837,7 @@
 	},
 	{
 		"id": 45,
-		"lessons": ["[7]"],
+		"lessons": ["7"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -856,7 +856,7 @@
 	},
 	{
 		"id": 46,
-		"lessons": ["[7]"],
+		"lessons": ["7"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -875,7 +875,7 @@
 	},
 	{
 		"id": 47,
-		"lessons": ["[7]"],
+		"lessons": ["7"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -894,7 +894,7 @@
 	},
 	{
 		"id": 48,
-		"lessons": ["[7]"],
+		"lessons": ["7"],
 		"type": "word",
 		"engDefinition": "",
 		"category": "",
@@ -913,7 +913,7 @@
 	},
 	{
 		"id": 49,
-		"lessons": ["[7]"],
+		"lessons": ["7"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -932,7 +932,7 @@
 	},
 	{
 		"id": 50,
-		"lessons": ["[7]"],
+		"lessons": ["7"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -951,7 +951,7 @@
 	},
 	{
 		"id": 51,
-		"lessons": ["[7]"],
+		"lessons": ["7"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -970,7 +970,7 @@
 	},
 	{
 		"id": 52,
-		"lessons": ["[7]"],
+		"lessons": ["7"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -989,7 +989,7 @@
 	},
 	{
 		"id": 53,
-		"lessons": ["[7]"],
+		"lessons": ["7"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -1008,7 +1008,7 @@
 	},
 	{
 		"id": 54,
-		"lessons": ["[8]"],
+		"lessons": ["8"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -1027,7 +1027,7 @@
 	},
 	{
 		"id": 55,
-		"lessons": ["[8]"],
+		"lessons": ["8"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -1046,7 +1046,7 @@
 	},
 	{
 		"id": 56,
-		"lessons": ["[8]"],
+		"lessons": ["8"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -1065,7 +1065,7 @@
 	},
 	{
 		"id": 57,
-		"lessons": ["[8]"],
+		"lessons": ["8"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -1084,7 +1084,7 @@
 	},
 	{
 		"id": 58,
-		"lessons": ["[8]"],
+		"lessons": ["8"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -1103,7 +1103,7 @@
 	},
 	{
 		"id": 59,
-		"lessons": ["[8]"],
+		"lessons": ["8"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -1122,7 +1122,7 @@
 	},
 	{
 		"id": 60,
-		"lessons": ["[9]"],
+		"lessons": ["9"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -1141,7 +1141,7 @@
 	},
 	{
 		"id": 61,
-		"lessons": ["[9]"],
+		"lessons": ["9"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -1160,7 +1160,7 @@
 	},
 	{
 		"id": 62,
-		"lessons": ["[9]"],
+		"lessons": ["9"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -1179,7 +1179,7 @@
 	},
 	{
 		"id": 63,
-		"lessons": ["[9]"],
+		"lessons": ["9"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -1198,7 +1198,7 @@
 	},
 	{
 		"id": 64,
-		"lessons": ["[10]"],
+		"lessons": ["10"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -1217,7 +1217,7 @@
 	},
 	{
 		"id": 65,
-		"lessons": ["[10]"],
+		"lessons": ["10"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -1236,7 +1236,7 @@
 	},
 	{
 		"id": 66,
-		"lessons": ["[10]"],
+		"lessons": ["10"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -1255,7 +1255,7 @@
 	},
 	{
 		"id": 67,
-		"lessons": ["[10]"],
+		"lessons": ["10"],
 		"type": "word",
 		"engDefinition": "",
 		"category": "",
@@ -1274,7 +1274,7 @@
 	},
 	{
 		"id": 68,
-		"lessons": ["[10]"],
+		"lessons": ["10"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -1293,7 +1293,7 @@
 	},
 	{
 		"id": 69,
-		"lessons": ["[10]"],
+		"lessons": ["10"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -1312,7 +1312,7 @@
 	},
 	{
 		"id": 70,
-		"lessons": ["[10]"],
+		"lessons": ["10"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -1331,7 +1331,7 @@
 	},
 	{
 		"id": 71,
-		"lessons": ["[10]"],
+		"lessons": ["10"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -1350,7 +1350,7 @@
 	},
 	{
 		"id": 72,
-		"lessons": ["[10]"],
+		"lessons": ["10"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -1369,7 +1369,7 @@
 	},
 	{
 		"id": 73,
-		"lessons": ["[10]"],
+		"lessons": ["10"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -1388,7 +1388,7 @@
 	},
 	{
 		"id": 74,
-		"lessons": ["[10]"],
+		"lessons": ["10"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -1407,7 +1407,7 @@
 	},
 	{
 		"id": 75,
-		"lessons": ["[10]"],
+		"lessons": ["10"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -1426,7 +1426,7 @@
 	},
 	{
 		"id": 76,
-		"lessons": ["[10]"],
+		"lessons": ["10"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -1445,7 +1445,7 @@
 	},
 	{
 		"id": 77,
-		"lessons": ["[10]"],
+		"lessons": ["10"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -1464,7 +1464,7 @@
 	},
 	{
 		"id": 78,
-		"lessons": ["[10]"],
+		"lessons": ["10"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -1483,7 +1483,7 @@
 	},
 	{
 		"id": 79,
-		"lessons": ["[10]"],
+		"lessons": ["10"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -1502,7 +1502,7 @@
 	},
 	{
 		"id": 80,
-		"lessons": ["[10]"],
+		"lessons": ["10"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -1521,7 +1521,7 @@
 	},
 	{
 		"id": 81,
-		"lessons": ["[10]"],
+		"lessons": ["10"],
 		"type": "word",
 		"engDefinition": "",
 		"category": "",
@@ -1540,7 +1540,7 @@
 	},
 	{
 		"id": 82,
-		"lessons": ["[11]"],
+		"lessons": ["11"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -1559,7 +1559,7 @@
 	},
 	{
 		"id": 83,
-		"lessons": ["[11]"],
+		"lessons": ["11"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -1578,7 +1578,7 @@
 	},
 	{
 		"id": 84,
-		"lessons": ["[11]"],
+		"lessons": ["11"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -1597,7 +1597,7 @@
 	},
 	{
 		"id": 85,
-		"lessons": ["[11]"],
+		"lessons": ["11"],
 		"type": "word",
 		"engDefinition": "",
 		"category": "",
@@ -1616,7 +1616,7 @@
 	},
 	{
 		"id": 86,
-		"lessons": ["[11]"],
+		"lessons": ["11"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -1635,7 +1635,7 @@
 	},
 	{
 		"id": 87,
-		"lessons": ["[11]"],
+		"lessons": ["11"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -1654,7 +1654,7 @@
 	},
 	{
 		"id": 88,
-		"lessons": ["[11]"],
+		"lessons": ["11"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -1673,7 +1673,7 @@
 	},
 	{
 		"id": 89,
-		"lessons": ["[11]"],
+		"lessons": ["11"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -1692,7 +1692,7 @@
 	},
 	{
 		"id": 90,
-		"lessons": ["[11]"],
+		"lessons": ["11"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -1711,7 +1711,7 @@
 	},
 	{
 		"id": 91,
-		"lessons": ["[11]"],
+		"lessons": ["11"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -1730,7 +1730,7 @@
 	},
 	{
 		"id": 92,
-		"lessons": ["[11]"],
+		"lessons": ["11"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -1749,7 +1749,7 @@
 	},
 	{
 		"id": 93,
-		"lessons": ["[11]"],
+		"lessons": ["11"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -1768,7 +1768,7 @@
 	},
 	{
 		"id": 94,
-		"lessons": ["[11]"],
+		"lessons": ["11"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -1787,7 +1787,7 @@
 	},
 	{
 		"id": 95,
-		"lessons": ["[11]"],
+		"lessons": ["11"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -1806,7 +1806,7 @@
 	},
 	{
 		"id": 96,
-		"lessons": ["[11]"],
+		"lessons": ["11"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -1825,7 +1825,7 @@
 	},
 	{
 		"id": 97,
-		"lessons": ["[11]"],
+		"lessons": ["11"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -1844,7 +1844,7 @@
 	},
 	{
 		"id": 98,
-		"lessons": ["[11]"],
+		"lessons": ["11"],
 		"type": "word",
 		"engDefinition": "",
 		"category": "",
@@ -1863,7 +1863,7 @@
 	},
 	{
 		"id": 99,
-		"lessons": ["[12]"],
+		"lessons": ["12"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -1882,7 +1882,7 @@
 	},
 	{
 		"id": 100,
-		"lessons": ["[12]"],
+		"lessons": ["12"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -1901,7 +1901,7 @@
 	},
 	{
 		"id": 101,
-		"lessons": ["[12]"],
+		"lessons": ["12"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -1920,7 +1920,7 @@
 	},
 	{
 		"id": 102,
-		"lessons": ["[12]"],
+		"lessons": ["12"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -1939,7 +1939,7 @@
 	},
 	{
 		"id": 103,
-		"lessons": ["[12]"],
+		"lessons": ["12"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -1958,7 +1958,7 @@
 	},
 	{
 		"id": 104,
-		"lessons": ["[12]"],
+		"lessons": ["12"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -1977,7 +1977,7 @@
 	},
 	{
 		"id": 105,
-		"lessons": ["[12]"],
+		"lessons": ["12"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -1996,7 +1996,7 @@
 	},
 	{
 		"id": 106,
-		"lessons": ["[12]"],
+		"lessons": ["12"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -2015,7 +2015,7 @@
 	},
 	{
 		"id": 107,
-		"lessons": ["[12]"],
+		"lessons": ["12"],
 		"type": "word",
 		"engDefinition": "",
 		"category": "",
@@ -2034,7 +2034,7 @@
 	},
 	{
 		"id": 108,
-		"lessons": ["[12]"],
+		"lessons": ["12"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -2053,7 +2053,7 @@
 	},
 	{
 		"id": 109,
-		"lessons": ["[12]"],
+		"lessons": ["12"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -2072,7 +2072,7 @@
 	},
 	{
 		"id": 110,
-		"lessons": ["[12]"],
+		"lessons": ["12"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -2091,7 +2091,7 @@
 	},
 	{
 		"id": 111,
-		"lessons": ["[12]"],
+		"lessons": ["12"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -2110,7 +2110,7 @@
 	},
 	{
 		"id": 112,
-		"lessons": ["[12]"],
+		"lessons": ["12"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -2129,7 +2129,7 @@
 	},
 	{
 		"id": 113,
-		"lessons": ["[12]"],
+		"lessons": ["12"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -2148,7 +2148,7 @@
 	},
 	{
 		"id": 114,
-		"lessons": ["[12]"],
+		"lessons": ["12"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -2167,7 +2167,7 @@
 	},
 	{
 		"id": 115,
-		"lessons": ["[13]"],
+		"lessons": ["13"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -2186,7 +2186,7 @@
 	},
 	{
 		"id": 116,
-		"lessons": ["[13]"],
+		"lessons": ["13"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -2205,7 +2205,7 @@
 	},
 	{
 		"id": 117,
-		"lessons": ["[13]"],
+		"lessons": ["13"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -2224,7 +2224,7 @@
 	},
 	{
 		"id": 118,
-		"lessons": ["[13]"],
+		"lessons": ["13"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -2243,7 +2243,7 @@
 	},
 	{
 		"id": 119,
-		"lessons": ["[13]"],
+		"lessons": ["13"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -2262,7 +2262,7 @@
 	},
 	{
 		"id": 120,
-		"lessons": ["[13]"],
+		"lessons": ["13"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -2281,7 +2281,7 @@
 	},
 	{
 		"id": 121,
-		"lessons": ["[13]"],
+		"lessons": ["13"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -2300,7 +2300,7 @@
 	},
 	{
 		"id": 122,
-		"lessons": ["[13]"],
+		"lessons": ["13"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -2319,7 +2319,7 @@
 	},
 	{
 		"id": 123,
-		"lessons": ["[13]"],
+		"lessons": ["13"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -2338,7 +2338,7 @@
 	},
 	{
 		"id": 124,
-		"lessons": ["[13]"],
+		"lessons": ["13"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -2357,7 +2357,7 @@
 	},
 	{
 		"id": 125,
-		"lessons": ["[13]"],
+		"lessons": ["13"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -2376,7 +2376,7 @@
 	},
 	{
 		"id": 126,
-		"lessons": ["[13]"],
+		"lessons": ["13"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -2395,7 +2395,7 @@
 	},
 	{
 		"id": 127,
-		"lessons": ["[13]"],
+		"lessons": ["13"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -2414,7 +2414,7 @@
 	},
 	{
 		"id": 128,
-		"lessons": ["[13]"],
+		"lessons": ["13"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -2433,7 +2433,7 @@
 	},
 	{
 		"id": 129,
-		"lessons": ["[13]"],
+		"lessons": ["13"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -2452,7 +2452,7 @@
 	},
 	{
 		"id": 130,
-		"lessons": ["[13]"],
+		"lessons": ["13"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -2471,7 +2471,7 @@
 	},
 	{
 		"id": 131,
-		"lessons": ["[13]"],
+		"lessons": ["13"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -2490,7 +2490,7 @@
 	},
 	{
 		"id": 132,
-		"lessons": ["[13]"],
+		"lessons": ["13"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -2509,7 +2509,7 @@
 	},
 	{
 		"id": 133,
-		"lessons": ["[13]"],
+		"lessons": ["13"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -2528,7 +2528,7 @@
 	},
 	{
 		"id": 134,
-		"lessons": ["[13]"],
+		"lessons": ["13"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -2547,7 +2547,7 @@
 	},
 	{
 		"id": 135,
-		"lessons": ["[13]"],
+		"lessons": ["13"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -2566,7 +2566,7 @@
 	},
 	{
 		"id": 136,
-		"lessons": ["[13]"],
+		"lessons": ["13"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -2585,7 +2585,7 @@
 	},
 	{
 		"id": 137,
-		"lessons": ["[13]"],
+		"lessons": ["13"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -2604,7 +2604,7 @@
 	},
 	{
 		"id": 138,
-		"lessons": ["[13]"],
+		"lessons": ["13"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -2623,7 +2623,7 @@
 	},
 	{
 		"id": 139,
-		"lessons": ["[13]"],
+		"lessons": ["13"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -2642,7 +2642,7 @@
 	},
 	{
 		"id": 140,
-		"lessons": ["[13]"],
+		"lessons": ["13"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -2661,7 +2661,7 @@
 	},
 	{
 		"id": 141,
-		"lessons": ["[13]"],
+		"lessons": ["13"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -2680,7 +2680,7 @@
 	},
 	{
 		"id": 142,
-		"lessons": ["[14]"],
+		"lessons": ["14"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -2699,7 +2699,7 @@
 	},
 	{
 		"id": 143,
-		"lessons": ["[14]"],
+		"lessons": ["14"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -2718,7 +2718,7 @@
 	},
 	{
 		"id": 144,
-		"lessons": ["[14]"],
+		"lessons": ["14"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -2737,7 +2737,7 @@
 	},
 	{
 		"id": 145,
-		"lessons": ["[14]"],
+		"lessons": ["14"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -2756,7 +2756,7 @@
 	},
 	{
 		"id": 146,
-		"lessons": ["[14]"],
+		"lessons": ["14"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -2775,7 +2775,7 @@
 	},
 	{
 		"id": 147,
-		"lessons": ["[14]"],
+		"lessons": ["14"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -2794,7 +2794,7 @@
 	},
 	{
 		"id": 148,
-		"lessons": ["[14]"],
+		"lessons": ["14"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -2813,7 +2813,7 @@
 	},
 	{
 		"id": 149,
-		"lessons": ["[15]"],
+		"lessons": ["15"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -2832,7 +2832,7 @@
 	},
 	{
 		"id": 150,
-		"lessons": ["[15]"],
+		"lessons": ["15"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -2851,7 +2851,7 @@
 	},
 	{
 		"id": 151,
-		"lessons": ["[15]"],
+		"lessons": ["15"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -2870,7 +2870,7 @@
 	},
 	{
 		"id": 152,
-		"lessons": ["[15]"],
+		"lessons": ["15"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -2889,7 +2889,7 @@
 	},
 	{
 		"id": 153,
-		"lessons": ["[15]"],
+		"lessons": ["15"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -2908,7 +2908,7 @@
 	},
 	{
 		"id": 154,
-		"lessons": ["[15]"],
+		"lessons": ["15"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -2927,7 +2927,7 @@
 	},
 	{
 		"id": 155,
-		"lessons": ["[15]"],
+		"lessons": ["15"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -2946,7 +2946,7 @@
 	},
 	{
 		"id": 156,
-		"lessons": ["[16]"],
+		"lessons": ["16"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -2965,7 +2965,7 @@
 	},
 	{
 		"id": 157,
-		"lessons": ["[16]"],
+		"lessons": ["16"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -2984,7 +2984,7 @@
 	},
 	{
 		"id": 158,
-		"lessons": ["[16]"],
+		"lessons": ["16"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -3003,7 +3003,7 @@
 	},
 	{
 		"id": 159,
-		"lessons": ["[16]"],
+		"lessons": ["16"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -3022,7 +3022,7 @@
 	},
 	{
 		"id": 160,
-		"lessons": ["[16]"],
+		"lessons": ["16"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -3041,7 +3041,7 @@
 	},
 	{
 		"id": 161,
-		"lessons": ["[16]"],
+		"lessons": ["16"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -3060,7 +3060,7 @@
 	},
 	{
 		"id": 162,
-		"lessons": ["[17]"],
+		"lessons": ["17"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -3079,7 +3079,7 @@
 	},
 	{
 		"id": 163,
-		"lessons": ["[17]"],
+		"lessons": ["17"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -3098,7 +3098,7 @@
 	},
 	{
 		"id": 164,
-		"lessons": ["[17]"],
+		"lessons": ["17"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -3117,7 +3117,7 @@
 	},
 	{
 		"id": 165,
-		"lessons": ["[17]"],
+		"lessons": ["17"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -3136,7 +3136,7 @@
 	},
 	{
 		"id": 166,
-		"lessons": ["[17]"],
+		"lessons": ["17"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -3155,7 +3155,7 @@
 	},
 	{
 		"id": 167,
-		"lessons": ["[17]"],
+		"lessons": ["17"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -3174,7 +3174,7 @@
 	},
 	{
 		"id": 168,
-		"lessons": ["[17]"],
+		"lessons": ["17"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -3193,7 +3193,7 @@
 	},
 	{
 		"id": 169,
-		"lessons": ["[17]"],
+		"lessons": ["17"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -3212,7 +3212,7 @@
 	},
 	{
 		"id": 170,
-		"lessons": ["[17]"],
+		"lessons": ["17"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -3231,7 +3231,7 @@
 	},
 	{
 		"id": 171,
-		"lessons": ["[17]"],
+		"lessons": ["17"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -3250,7 +3250,7 @@
 	},
 	{
 		"id": 172,
-		"lessons": ["[17]"],
+		"lessons": ["17"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -3269,7 +3269,7 @@
 	},
 	{
 		"id": 173,
-		"lessons": ["[17]"],
+		"lessons": ["17"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -3288,7 +3288,7 @@
 	},
 	{
 		"id": 174,
-		"lessons": ["[17]"],
+		"lessons": ["17"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -3307,7 +3307,7 @@
 	},
 	{
 		"id": 175,
-		"lessons": ["[17]"],
+		"lessons": ["17"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -3326,7 +3326,7 @@
 	},
 	{
 		"id": 176,
-		"lessons": ["[18]"],
+		"lessons": ["18"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -3345,7 +3345,7 @@
 	},
 	{
 		"id": 177,
-		"lessons": ["[18]"],
+		"lessons": ["18"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -3364,7 +3364,7 @@
 	},
 	{
 		"id": 178,
-		"lessons": ["[18]"],
+		"lessons": ["18"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -3383,7 +3383,7 @@
 	},
 	{
 		"id": 179,
-		"lessons": ["[18]"],
+		"lessons": ["18"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -3402,7 +3402,7 @@
 	},
 	{
 		"id": 180,
-		"lessons": ["[18]"],
+		"lessons": ["18"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -3421,7 +3421,7 @@
 	},
 	{
 		"id": 181,
-		"lessons": ["[18]"],
+		"lessons": ["18"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -3440,7 +3440,7 @@
 	},
 	{
 		"id": 182,
-		"lessons": ["[18]"],
+		"lessons": ["18"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -3459,7 +3459,7 @@
 	},
 	{
 		"id": 183,
-		"lessons": ["[18]"],
+		"lessons": ["18"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -3478,7 +3478,7 @@
 	},
 	{
 		"id": 184,
-		"lessons": ["[19]"],
+		"lessons": ["19"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -3497,7 +3497,7 @@
 	},
 	{
 		"id": 185,
-		"lessons": ["[19]"],
+		"lessons": ["19"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -3516,7 +3516,7 @@
 	},
 	{
 		"id": 186,
-		"lessons": ["[19]"],
+		"lessons": ["19"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -3535,7 +3535,7 @@
 	},
 	{
 		"id": 187,
-		"lessons": ["[19]"],
+		"lessons": ["19"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -3554,7 +3554,7 @@
 	},
 	{
 		"id": 188,
-		"lessons": ["[19]"],
+		"lessons": ["19"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -3573,7 +3573,7 @@
 	},
 	{
 		"id": 189,
-		"lessons": ["[19]"],
+		"lessons": ["19"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -3592,7 +3592,7 @@
 	},
 	{
 		"id": 190,
-		"lessons": ["[19]"],
+		"lessons": ["19"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -3611,7 +3611,7 @@
 	},
 	{
 		"id": 191,
-		"lessons": ["[19]"],
+		"lessons": ["19"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -3630,7 +3630,7 @@
 	},
 	{
 		"id": 192,
-		"lessons": ["[19]"],
+		"lessons": ["19"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -3649,7 +3649,7 @@
 	},
 	{
 		"id": 193,
-		"lessons": ["[20]"],
+		"lessons": ["20"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -3668,7 +3668,7 @@
 	},
 	{
 		"id": 194,
-		"lessons": ["[20]"],
+		"lessons": ["20"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -3687,7 +3687,7 @@
 	},
 	{
 		"id": 195,
-		"lessons": ["[20]"],
+		"lessons": ["20"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -3706,7 +3706,7 @@
 	},
 	{
 		"id": 196,
-		"lessons": ["[20]"],
+		"lessons": ["20"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -3725,7 +3725,7 @@
 	},
 	{
 		"id": 197,
-		"lessons": ["[20]"],
+		"lessons": ["20"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -3744,7 +3744,7 @@
 	},
 	{
 		"id": 198,
-		"lessons": ["[20]"],
+		"lessons": ["20"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -3763,7 +3763,7 @@
 	},
 	{
 		"id": 199,
-		"lessons": ["[20]"],
+		"lessons": ["20"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -3782,7 +3782,7 @@
 	},
 	{
 		"id": 200,
-		"lessons": ["[20]"],
+		"lessons": ["20"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -3801,7 +3801,7 @@
 	},
 	{
 		"id": 201,
-		"lessons": ["[21]"],
+		"lessons": ["21"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -3820,7 +3820,7 @@
 	},
 	{
 		"id": 202,
-		"lessons": ["[21]"],
+		"lessons": ["21"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -3839,7 +3839,7 @@
 	},
 	{
 		"id": 203,
-		"lessons": ["[21]"],
+		"lessons": ["21"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -3858,7 +3858,7 @@
 	},
 	{
 		"id": 204,
-		"lessons": ["[21]"],
+		"lessons": ["21"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -3877,7 +3877,7 @@
 	},
 	{
 		"id": 205,
-		"lessons": ["[21]"],
+		"lessons": ["21"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -3896,7 +3896,7 @@
 	},
 	{
 		"id": 206,
-		"lessons": ["[21]"],
+		"lessons": ["21"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -3915,7 +3915,7 @@
 	},
 	{
 		"id": 207,
-		"lessons": ["[21]"],
+		"lessons": ["21"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -3934,7 +3934,7 @@
 	},
 	{
 		"id": 208,
-		"lessons": ["[21]"],
+		"lessons": ["21"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -3953,7 +3953,7 @@
 	},
 	{
 		"id": 209,
-		"lessons": ["[21]"],
+		"lessons": ["21"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -3972,7 +3972,7 @@
 	},
 	{
 		"id": 210,
-		"lessons": ["[21]"],
+		"lessons": ["21"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -3991,7 +3991,7 @@
 	},
 	{
 		"id": 211,
-		"lessons": ["[21]"],
+		"lessons": ["21"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -4010,7 +4010,7 @@
 	},
 	{
 		"id": 212,
-		"lessons": ["[21]"],
+		"lessons": ["21"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -4029,7 +4029,7 @@
 	},
 	{
 		"id": 213,
-		"lessons": ["[21]"],
+		"lessons": ["21"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -4048,7 +4048,7 @@
 	},
 	{
 		"id": 214,
-		"lessons": ["[21]"],
+		"lessons": ["21"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -4067,7 +4067,7 @@
 	},
 	{
 		"id": 215,
-		"lessons": ["[21]"],
+		"lessons": ["21"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -4086,7 +4086,7 @@
 	},
 	{
 		"id": 216,
-		"lessons": ["[22]"],
+		"lessons": ["22"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -4105,7 +4105,7 @@
 	},
 	{
 		"id": 217,
-		"lessons": ["[22]"],
+		"lessons": ["22"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -4124,7 +4124,7 @@
 	},
 	{
 		"id": 218,
-		"lessons": ["[22]"],
+		"lessons": ["22"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -4143,7 +4143,7 @@
 	},
 	{
 		"id": 219,
-		"lessons": ["[22]"],
+		"lessons": ["22"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -4162,7 +4162,7 @@
 	},
 	{
 		"id": 220,
-		"lessons": ["[22]"],
+		"lessons": ["22"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -4181,7 +4181,7 @@
 	},
 	{
 		"id": 221,
-		"lessons": ["[22]"],
+		"lessons": ["22"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -4200,7 +4200,7 @@
 	},
 	{
 		"id": 222,
-		"lessons": ["[22]"],
+		"lessons": ["22"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -4219,7 +4219,7 @@
 	},
 	{
 		"id": 223,
-		"lessons": ["[22]"],
+		"lessons": ["22"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -4238,7 +4238,7 @@
 	},
 	{
 		"id": 224,
-		"lessons": ["[22]"],
+		"lessons": ["22"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -4257,7 +4257,7 @@
 	},
 	{
 		"id": 225,
-		"lessons": ["[22]"],
+		"lessons": ["22"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -4276,7 +4276,7 @@
 	},
 	{
 		"id": 226,
-		"lessons": ["[22]"],
+		"lessons": ["22"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -4295,7 +4295,7 @@
 	},
 	{
 		"id": 227,
-		"lessons": ["[22]"],
+		"lessons": ["22"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -4314,7 +4314,7 @@
 	},
 	{
 		"id": 228,
-		"lessons": ["[22]"],
+		"lessons": ["22"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -4333,7 +4333,7 @@
 	},
 	{
 		"id": 229,
-		"lessons": ["[22]"],
+		"lessons": ["22"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -4352,7 +4352,7 @@
 	},
 	{
 		"id": 230,
-		"lessons": ["[22]"],
+		"lessons": ["22"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -4371,7 +4371,7 @@
 	},
 	{
 		"id": 231,
-		"lessons": ["[22]"],
+		"lessons": ["22"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -4390,7 +4390,7 @@
 	},
 	{
 		"id": 232,
-		"lessons": ["[22]"],
+		"lessons": ["22"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -4409,7 +4409,7 @@
 	},
 	{
 		"id": 233,
-		"lessons": ["[22]"],
+		"lessons": ["22"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -4428,7 +4428,7 @@
 	},
 	{
 		"id": 234,
-		"lessons": ["[22]"],
+		"lessons": ["22"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -4447,7 +4447,7 @@
 	},
 	{
 		"id": 235,
-		"lessons": ["[22]"],
+		"lessons": ["22"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -4466,7 +4466,7 @@
 	},
 	{
 		"id": 236,
-		"lessons": ["[22]"],
+		"lessons": ["22"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -4485,7 +4485,7 @@
 	},
 	{
 		"id": 237,
-		"lessons": ["[22]"],
+		"lessons": ["22"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -4504,7 +4504,7 @@
 	},
 	{
 		"id": 238,
-		"lessons": ["[22]"],
+		"lessons": ["22"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -4523,7 +4523,7 @@
 	},
 	{
 		"id": 239,
-		"lessons": ["[22]"],
+		"lessons": ["22"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -4542,7 +4542,7 @@
 	},
 	{
 		"id": 240,
-		"lessons": ["[22]"],
+		"lessons": ["22"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -4561,7 +4561,7 @@
 	},
 	{
 		"id": 241,
-		"lessons": ["[23]"],
+		"lessons": ["23"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -4580,7 +4580,7 @@
 	},
 	{
 		"id": 242,
-		"lessons": ["[23]"],
+		"lessons": ["23"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -4599,7 +4599,7 @@
 	},
 	{
 		"id": 243,
-		"lessons": ["[23]"],
+		"lessons": ["23"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -4618,7 +4618,7 @@
 	},
 	{
 		"id": 244,
-		"lessons": ["[23]"],
+		"lessons": ["23"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -4637,7 +4637,7 @@
 	},
 	{
 		"id": 245,
-		"lessons": ["[23]"],
+		"lessons": ["23"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -4656,7 +4656,7 @@
 	},
 	{
 		"id": 246,
-		"lessons": ["[23]"],
+		"lessons": ["23"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -4675,7 +4675,7 @@
 	},
 	{
 		"id": 247,
-		"lessons": ["[23]"],
+		"lessons": ["23"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -4694,7 +4694,7 @@
 	},
 	{
 		"id": 248,
-		"lessons": ["[23]"],
+		"lessons": ["23"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -4713,7 +4713,7 @@
 	},
 	{
 		"id": 249,
-		"lessons": ["[23]"],
+		"lessons": ["23"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -4732,7 +4732,7 @@
 	},
 	{
 		"id": 250,
-		"lessons": ["[23]"],
+		"lessons": ["23"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -4751,7 +4751,7 @@
 	},
 	{
 		"id": 251,
-		"lessons": ["[23]"],
+		"lessons": ["23"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -4770,7 +4770,7 @@
 	},
 	{
 		"id": 252,
-		"lessons": ["[23]"],
+		"lessons": ["23"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -4789,7 +4789,7 @@
 	},
 	{
 		"id": 253,
-		"lessons": ["[23]"],
+		"lessons": ["23"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -4808,7 +4808,7 @@
 	},
 	{
 		"id": 254,
-		"lessons": ["[23]"],
+		"lessons": ["23"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -4827,7 +4827,7 @@
 	},
 	{
 		"id": 255,
-		"lessons": ["[23]"],
+		"lessons": ["23"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -4846,7 +4846,7 @@
 	},
 	{
 		"id": 256,
-		"lessons": ["[23]"],
+		"lessons": ["23"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -4865,7 +4865,7 @@
 	},
 	{
 		"id": 257,
-		"lessons": ["[23]"],
+		"lessons": ["23"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -4884,7 +4884,7 @@
 	},
 	{
 		"id": 258,
-		"lessons": ["[23]"],
+		"lessons": ["23"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -4903,7 +4903,7 @@
 	},
 	{
 		"id": 259,
-		"lessons": ["[23]"],
+		"lessons": ["23"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -4922,7 +4922,7 @@
 	},
 	{
 		"id": 260,
-		"lessons": ["[23]"],
+		"lessons": ["23"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -4941,7 +4941,7 @@
 	},
 	{
 		"id": 261,
-		"lessons": ["[23]"],
+		"lessons": ["23"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -4960,7 +4960,7 @@
 	},
 	{
 		"id": 262,
-		"lessons": ["[23]"],
+		"lessons": ["23"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -4979,7 +4979,7 @@
 	},
 	{
 		"id": 263,
-		"lessons": ["[23]"],
+		"lessons": ["23"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -4998,7 +4998,7 @@
 	},
 	{
 		"id": 264,
-		"lessons": ["[23]"],
+		"lessons": ["23"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -5017,7 +5017,7 @@
 	},
 	{
 		"id": 265,
-		"lessons": ["[23]"],
+		"lessons": ["23"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -5036,7 +5036,7 @@
 	},
 	{
 		"id": 266,
-		"lessons": ["[23]"],
+		"lessons": ["23"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -5055,7 +5055,7 @@
 	},
 	{
 		"id": 267,
-		"lessons": ["[24]"],
+		"lessons": ["24"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -5074,7 +5074,7 @@
 	},
 	{
 		"id": 268,
-		"lessons": ["[24]"],
+		"lessons": ["24"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -5093,7 +5093,7 @@
 	},
 	{
 		"id": 269,
-		"lessons": ["[24]"],
+		"lessons": ["24"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -5112,7 +5112,7 @@
 	},
 	{
 		"id": 270,
-		"lessons": ["[24]"],
+		"lessons": ["24"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -5131,7 +5131,7 @@
 	},
 	{
 		"id": 271,
-		"lessons": ["[24]"],
+		"lessons": ["24"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -5150,7 +5150,7 @@
 	},
 	{
 		"id": 272,
-		"lessons": ["[24]"],
+		"lessons": ["24"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -5169,7 +5169,7 @@
 	},
 	{
 		"id": 273,
-		"lessons": ["[24]"],
+		"lessons": ["24"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -5188,7 +5188,7 @@
 	},
 	{
 		"id": 274,
-		"lessons": ["[24]"],
+		"lessons": ["24"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -5207,7 +5207,7 @@
 	},
 	{
 		"id": 275,
-		"lessons": ["[24]"],
+		"lessons": ["24"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -5226,7 +5226,7 @@
 	},
 	{
 		"id": 276,
-		"lessons": ["[24]"],
+		"lessons": ["24"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -5245,7 +5245,7 @@
 	},
 	{
 		"id": 277,
-		"lessons": ["[24]"],
+		"lessons": ["24"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -5264,7 +5264,7 @@
 	},
 	{
 		"id": 278,
-		"lessons": ["[24]"],
+		"lessons": ["24"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -5283,7 +5283,7 @@
 	},
 	{
 		"id": 279,
-		"lessons": ["[24]"],
+		"lessons": ["24"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -5302,7 +5302,7 @@
 	},
 	{
 		"id": 280,
-		"lessons": ["[24]"],
+		"lessons": ["24"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -5321,7 +5321,7 @@
 	},
 	{
 		"id": 281,
-		"lessons": ["[24]"],
+		"lessons": ["24"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -5340,7 +5340,7 @@
 	},
 	{
 		"id": 282,
-		"lessons": ["[24]"],
+		"lessons": ["24"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -5359,7 +5359,7 @@
 	},
 	{
 		"id": 283,
-		"lessons": ["[24]"],
+		"lessons": ["24"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -5378,7 +5378,7 @@
 	},
 	{
 		"id": 284,
-		"lessons": ["[24]"],
+		"lessons": ["24"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -5397,7 +5397,7 @@
 	},
 	{
 		"id": 285,
-		"lessons": ["[24]"],
+		"lessons": ["24"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -5416,7 +5416,7 @@
 	},
 	{
 		"id": 286,
-		"lessons": ["[24]"],
+		"lessons": ["24"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -5435,7 +5435,7 @@
 	},
 	{
 		"id": 287,
-		"lessons": ["[24]"],
+		"lessons": ["24"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -5454,7 +5454,7 @@
 	},
 	{
 		"id": 288,
-		"lessons": ["[24]"],
+		"lessons": ["24"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -5473,7 +5473,7 @@
 	},
 	{
 		"id": 289,
-		"lessons": ["[24]"],
+		"lessons": ["24"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -5492,7 +5492,7 @@
 	},
 	{
 		"id": 290,
-		"lessons": ["[24]"],
+		"lessons": ["24"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -5511,7 +5511,7 @@
 	},
 	{
 		"id": 291,
-		"lessons": ["[24]"],
+		"lessons": ["24"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -5530,7 +5530,7 @@
 	},
 	{
 		"id": 292,
-		"lessons": ["[24]"],
+		"lessons": ["24"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -5549,7 +5549,7 @@
 	},
 	{
 		"id": 293,
-		"lessons": ["[24]"],
+		"lessons": ["24"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -5568,7 +5568,7 @@
 	},
 	{
 		"id": 294,
-		"lessons": ["[24]"],
+		"lessons": ["24"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -5587,7 +5587,7 @@
 	},
 	{
 		"id": 295,
-		"lessons": ["[24]"],
+		"lessons": ["24"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -5606,7 +5606,7 @@
 	},
 	{
 		"id": 296,
-		"lessons": ["[24]"],
+		"lessons": ["24"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -5625,7 +5625,7 @@
 	},
 	{
 		"id": 297,
-		"lessons": ["[24]"],
+		"lessons": ["24"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -5644,7 +5644,7 @@
 	},
 	{
 		"id": 298,
-		"lessons": ["[24]"],
+		"lessons": ["24"],
 		"type": "phrase",
 		"engDefinition": "",
 		"category": "",
@@ -5663,7 +5663,7 @@
 	},
 	{
 		"id": 299,
-		"lessons": ["[1]"],
+		"lessons": ["1"],
 		"type": "word",
 		"engDefinition": "short goodbye",
 		"category": "",
@@ -5682,7 +5682,7 @@
 	},
 	{
 		"id": 300,
-		"lessons": ["[1]"],
+		"lessons": ["1"],
 		"type": "word",
 		"engDefinition": "farewell",
 		"category": "",
@@ -5701,7 +5701,7 @@
 	},
 	{
 		"id": 301,
-		"lessons": ["[1]"],
+		"lessons": ["1"],
 		"type": "word",
 		"engDefinition": "a boy/man",
 		"category": "",
@@ -5720,7 +5720,7 @@
 	},
 	{
 		"id": 302,
-		"lessons": ["[1]"],
+		"lessons": ["1"],
 		"type": "word",
 		"engDefinition": "greeting",
 		"category": "",
@@ -5739,7 +5739,7 @@
 	},
 	{
 		"id": 303,
-		"lessons": ["[1]"],
+		"lessons": ["1"],
 		"type": "word",
 		"engDefinition": "belonging to female",
 		"category": "",
@@ -5758,7 +5758,7 @@
 	},
 	{
 		"id": 304,
-		"lessons": ["[1]"],
+		"lessons": ["1"],
 		"type": "word",
 		"engDefinition": "informal hello",
 		"category": "",
@@ -5777,7 +5777,7 @@
 	},
 	{
 		"id": 305,
-		"lessons": ["[1]"],
+		"lessons": ["1"],
 		"type": "word",
 		"engDefinition": "belonging to male",
 		"category": "",
@@ -5796,7 +5796,7 @@
 	},
 	{
 		"id": 306,
-		"lessons": ["[1]"],
+		"lessons": ["1"],
 		"type": "word",
 		"engDefinition": "the speaker",
 		"category": "",
@@ -5815,7 +5815,7 @@
 	},
 	{
 		"id": 307,
-		"lessons": ["[1]"],
+		"lessons": ["1"],
 		"type": "word",
 		"engDefinition": "belonging to me",
 		"category": "",
@@ -5834,7 +5834,7 @@
 	},
 	{
 		"id": 308,
-		"lessons": ["[1]"],
+		"lessons": ["1"],
 		"type": "word",
 		"engDefinition": "what you are called",
 		"category": "",
@@ -5853,7 +5853,7 @@
 	},
 	{
 		"id": 309,
-		"lessons": ["[1]"],
+		"lessons": ["1"],
 		"type": "word",
 		"engDefinition": "polite request",
 		"category": "",
@@ -5872,7 +5872,7 @@
 	},
 	{
 		"id": 310,
-		"lessons": ["[1]"],
+		"lessons": ["1"],
 		"type": "word",
 		"engDefinition": "a girl/woman",
 		"category": "",
@@ -5891,7 +5891,7 @@
 	},
 	{
 		"id": 311,
-		"lessons": ["[1]"],
+		"lessons": ["1"],
 		"type": "word",
 		"engDefinition": "short for thank you",
 		"category": "",
@@ -5910,7 +5910,7 @@
 	},
 	{
 		"id": 312,
-		"lessons": ["[1]"],
+		"lessons": ["1"],
 		"type": "word",
 		"engDefinition": "the listener",
 		"category": "",
@@ -5929,7 +5929,7 @@
 	},
 	{
 		"id": 313,
-		"lessons": ["[1]"],
+		"lessons": ["1"],
 		"type": "word",
 		"engDefinition": "belonging to you",
 		"category": "",
@@ -5948,7 +5948,7 @@
 	},
 	{
 		"id": 314,
-		"lessons": ["[2]"],
+		"lessons": ["2"],
 		"type": "word",
 		"engDefinition": "country in South America",
 		"category": "",
@@ -5967,7 +5967,7 @@
 	},
 	{
 		"id": 315,
-		"lessons": ["[2]"],
+		"lessons": ["2"],
 		"type": "word",
 		"engDefinition": "make food",
 		"category": "",
@@ -5986,7 +5986,7 @@
 	},
 	{
 		"id": 316,
-		"lessons": ["[2]"],
+		"lessons": ["2"],
 		"type": "word",
 		"engDefinition": "country in Africa",
 		"category": "",
@@ -6005,7 +6005,7 @@
 	},
 	{
 		"id": 317,
-		"lessons": ["[2]"],
+		"lessons": ["2"],
 		"type": "word",
 		"engDefinition": "country in Asia",
 		"category": "",
@@ -6024,7 +6024,7 @@
 	},
 	{
 		"id": 318,
-		"lessons": ["[2]"],
+		"lessons": ["2"],
 		"type": "word",
 		"engDefinition": "country in Asia",
 		"category": "",
@@ -6043,7 +6043,7 @@
 	},
 	{
 		"id": 319,
-		"lessons": ["[2]"],
+		"lessons": ["2"],
 		"type": "word",
 		"engDefinition": "country in North America",
 		"category": "",
@@ -6062,7 +6062,7 @@
 	},
 	{
 		"id": 320,
-		"lessons": ["[2]"],
+		"lessons": ["2"],
 		"type": "word",
 		"engDefinition": "play the sport with a ball",
 		"category": "",
@@ -6081,7 +6081,7 @@
 	},
 	{
 		"id": 321,
-		"lessons": ["[2]"],
+		"lessons": ["2"],
 		"type": "word",
 		"engDefinition": "play the instrument",
 		"category": "",
@@ -6100,7 +6100,7 @@
 	},
 	{
 		"id": 322,
-		"lessons": ["[2]"],
+		"lessons": ["2"],
 		"type": "word",
 		"engDefinition": "move fast with legs",
 		"category": "",
@@ -6119,7 +6119,7 @@
 	},
 	{
 		"id": 323,
-		"lessons": ["[2]"],
+		"lessons": ["2"],
 		"type": "word",
 		"engDefinition": "make/repair with needle",
 		"category": "",
@@ -6138,7 +6138,7 @@
 	},
 	{
 		"id": 324,
-		"lessons": ["[2]"],
+		"lessons": ["2"],
 		"type": "word",
 		"engDefinition": "to buy things",
 		"category": "",
@@ -6157,7 +6157,7 @@
 	},
 	{
 		"id": 325,
-		"lessons": ["[2]"],
+		"lessons": ["2"],
 		"type": "word",
 		"engDefinition": "make music with voice",
 		"category": "",
@@ -6176,7 +6176,7 @@
 	},
 	{
 		"id": 326,
-		"lessons": ["[2]"],
+		"lessons": ["2"],
 		"type": "word",
 		"engDefinition": "country in Asia",
 		"category": "",
@@ -6195,7 +6195,7 @@
 	},
 	{
 		"id": 327,
-		"lessons": ["[2]"],
+		"lessons": ["2"],
 		"type": "word",
 		"engDefinition": "country in Oceania",
 		"category": "",
@@ -6214,7 +6214,7 @@
 	},
 	{
 		"id": 328,
-		"lessons": ["[2]"],
+		"lessons": ["2"],
 		"type": "word",
 		"engDefinition": "see TV/performances",
 		"category": "",
@@ -6233,7 +6233,7 @@
 	},
 	{
 		"id": 329,
-		"lessons": ["[3]"],
+		"lessons": ["3"],
 		"type": "word",
 		"engDefinition": "very good",
 		"category": "",
@@ -6252,7 +6252,7 @@
 	},
 	{
 		"id": 330,
-		"lessons": ["[3]"],
+		"lessons": ["3"],
 		"type": "word",
 		"engDefinition": "not interesting",
 		"category": "",
@@ -6271,7 +6271,7 @@
 	},
 	{
 		"id": 331,
-		"lessons": ["[3]"],
+		"lessons": ["3"],
 		"type": "word",
 		"engDefinition": "hard but good",
 		"category": "",
@@ -6290,7 +6290,7 @@
 	},
 	{
 		"id": 332,
-		"lessons": ["[3]"],
+		"lessons": ["3"],
 		"type": "word",
 		"engDefinition": "not expensive",
 		"category": "",
@@ -6309,7 +6309,7 @@
 	},
 	{
 		"id": 333,
-		"lessons": ["[3]"],
+		"lessons": ["3"],
 		"type": "word",
 		"engDefinition": "person who cooks",
 		"category": "",
@@ -6328,7 +6328,7 @@
 	},
 	{
 		"id": 334,
-		"lessons": ["[3]"],
+		"lessons": ["3"],
 		"type": "word",
 		"engDefinition": "making food",
 		"category": "",
@@ -6347,7 +6347,7 @@
 	},
 	{
 		"id": 335,
-		"lessons": ["[3]"],
+		"lessons": ["3"],
 		"type": "word",
 		"engDefinition": "move to music",
 		"category": "",
@@ -6366,7 +6366,7 @@
 	},
 	{
 		"id": 336,
-		"lessons": ["[3]"],
+		"lessons": ["3"],
 		"type": "word",
 		"engDefinition": "moving to music",
 		"category": "",
@@ -6385,7 +6385,7 @@
 	},
 	{
 		"id": 337,
-		"lessons": ["[3]"],
+		"lessons": ["3"],
 		"type": "word",
 		"engDefinition": "not easy",
 		"category": "",
@@ -6404,7 +6404,7 @@
 	},
 	{
 		"id": 338,
-		"lessons": ["[3]"],
+		"lessons": ["3"],
 		"type": "word",
 		"engDefinition": "not hard",
 		"category": "",
@@ -6423,7 +6423,7 @@
 	},
 	{
 		"id": 339,
-		"lessons": ["[3]"],
+		"lessons": ["3"],
 		"type": "word",
 		"engDefinition": "costs a lot",
 		"category": "",
@@ -6442,7 +6442,7 @@
 	},
 	{
 		"id": 340,
-		"lessons": ["[3]"],
+		"lessons": ["3"],
 		"type": "word",
 		"engDefinition": "animal in water",
 		"category": "",
@@ -6461,7 +6461,7 @@
 	},
 	{
 		"id": 341,
-		"lessons": ["[3]"],
+		"lessons": ["3"],
 		"type": "word",
 		"engDefinition": "catching fish",
 		"category": "",
@@ -6480,7 +6480,7 @@
 	},
 	{
 		"id": 342,
-		"lessons": ["[3]"],
+		"lessons": ["3"],
 		"type": "word",
 		"engDefinition": "something enjoyable",
 		"category": "",
@@ -6499,7 +6499,7 @@
 	},
 	{
 		"id": 343,
-		"lessons": ["[3]"],
+		"lessons": ["3"],
 		"type": "word",
 		"engDefinition": "visit museums",
 		"category": "",
@@ -6518,7 +6518,7 @@
 	},
 	{
 		"id": 344,
-		"lessons": ["[3]"],
+		"lessons": ["3"],
 		"type": "word",
 		"engDefinition": "visiting museums",
 		"category": "",
@@ -6537,7 +6537,7 @@
 	},
 	{
 		"id": 345,
-		"lessons": ["[3]"],
+		"lessons": ["3"],
 		"type": "word",
 		"engDefinition": "holds attention",
 		"category": "",
@@ -6556,7 +6556,7 @@
 	},
 	{
 		"id": 346,
-		"lessons": ["[3]"],
+		"lessons": ["3"],
 		"type": "word",
 		"engDefinition": "make art with color",
 		"category": "",
@@ -6575,7 +6575,7 @@
 	},
 	{
 		"id": 347,
-		"lessons": ["[3]"],
+		"lessons": ["3"],
 		"type": "word",
 		"engDefinition": "the act of painting or the art",
 		"category": "",
@@ -6594,7 +6594,7 @@
 	},
 	{
 		"id": 348,
-		"lessons": ["[3]"],
+		"lessons": ["3"],
 		"type": "word",
 		"engDefinition": "to play athletic games",
 		"category": "",
@@ -6613,7 +6613,7 @@
 	},
 	{
 		"id": 349,
-		"lessons": ["[3]"],
+		"lessons": ["3"],
 		"type": "word",
 		"engDefinition": "enjoying games",
 		"category": "",
@@ -6632,7 +6632,7 @@
 	},
 	{
 		"id": 350,
-		"lessons": ["[3]"],
+		"lessons": ["3"],
 		"type": "word",
 		"engDefinition": "doing athletic activities",
 		"category": "",
@@ -6651,7 +6651,7 @@
 	},
 	{
 		"id": 351,
-		"lessons": ["[3]"],
+		"lessons": ["3"],
 		"type": "word",
 		"engDefinition": "to look at and understand words",
 		"category": "",
@@ -6670,7 +6670,7 @@
 	},
 	{
 		"id": 352,
-		"lessons": ["[3]"],
+		"lessons": ["3"],
 		"type": "word",
 		"engDefinition": "the act of reading",
 		"category": "",
@@ -6689,7 +6689,7 @@
 	},
 	{
 		"id": 353,
-		"lessons": ["[3]"],
+		"lessons": ["3"],
 		"type": "word",
 		"engDefinition": "resting, calm",
 		"category": "",
@@ -6708,7 +6708,7 @@
 	},
 	{
 		"id": 354,
-		"lessons": ["[3]"],
+		"lessons": ["3"],
 		"type": "word",
 		"engDefinition": "move fast on feet",
 		"category": "",
@@ -6727,7 +6727,7 @@
 	},
 	{
 		"id": 355,
-		"lessons": ["[3]"],
+		"lessons": ["3"],
 		"type": "word",
 		"engDefinition": "the act of running",
 		"category": "",
@@ -6746,7 +6746,7 @@
 	},
 	{
 		"id": 356,
-		"lessons": ["[3]"],
+		"lessons": ["3"],
 		"type": "word",
 		"engDefinition": "the act of buying things",
 		"category": "",
@@ -6765,7 +6765,7 @@
 	},
 	{
 		"id": 357,
-		"lessons": ["[3]"],
+		"lessons": ["3"],
 		"type": "word",
 		"engDefinition": "to move in water",
 		"category": "",
@@ -6784,7 +6784,7 @@
 	},
 	{
 		"id": 358,
-		"lessons": ["[3]"],
+		"lessons": ["3"],
 		"type": "word",
 		"engDefinition": "the act of swimming",
 		"category": "",
@@ -6803,7 +6803,7 @@
 	},
 	{
 		"id": 359,
-		"lessons": ["[3]"],
+		"lessons": ["3"],
 		"type": "word",
 		"engDefinition": "makes you tired",
 		"category": "",
@@ -6822,7 +6822,7 @@
 	},
 	{
 		"id": 360,
-		"lessons": ["[3]"],
+		"lessons": ["3"],
 		"type": "word",
 		"engDefinition": "the act of going places",
 		"category": "",
@@ -6841,7 +6841,7 @@
 	},
 	{
 		"id": 361,
-		"lessons": ["[3]"],
+		"lessons": ["3"],
 		"type": "word",
 		"engDefinition": "very good",
 		"category": "",
@@ -6860,7 +6860,7 @@
 	},
 	{
 		"id": 362,
-		"lessons": ["[3]"],
+		"lessons": ["3"],
 		"type": "word",
 		"engDefinition": "to put words on paper",
 		"category": "",
@@ -6879,7 +6879,7 @@
 	},
 	{
 		"id": 363,
-		"lessons": ["[3]"],
+		"lessons": ["3"],
 		"type": "word",
 		"engDefinition": "the act of writing",
 		"category": "",
@@ -6898,7 +6898,7 @@
 	},
 	{
 		"id": 364,
-		"lessons": ["[4]"],
+		"lessons": ["4"],
 		"type": "word",
 		"engDefinition": "good at art",
 		"category": "",
@@ -6917,7 +6917,7 @@
 	},
 	{
 		"id": 365,
-		"lessons": ["[4]"],
+		"lessons": ["4"],
 		"type": "word",
 		"engDefinition": "strong at sports",
 		"category": "",
@@ -6936,7 +6936,7 @@
 	},
 	{
 		"id": 366,
-		"lessons": ["[4]"],
+		"lessons": ["4"],
 		"type": "word",
 		"engDefinition": "very dark color",
 		"category": "",
@@ -6955,7 +6955,7 @@
 	},
 	{
 		"id": 367,
-		"lessons": ["[4]"],
+		"lessons": ["4"],
 		"type": "word",
 		"engDefinition": "light yellow hair",
 		"category": "",
@@ -6974,7 +6974,7 @@
 	},
 	{
 		"id": 368,
-		"lessons": ["[4]"],
+		"lessons": ["4"],
 		"type": "word",
 		"engDefinition": "color",
 		"category": "",
@@ -6993,7 +6993,7 @@
 	},
 	{
 		"id": 369,
-		"lessons": ["[4]"],
+		"lessons": ["4"],
 		"type": "word",
 		"engDefinition": "color",
 		"category": "",
@@ -7012,7 +7012,7 @@
 	},
 	{
 		"id": 370,
-		"lessons": ["[4]"],
+		"lessons": ["4"],
 		"type": "word",
 		"engDefinition": "relaxed, not loud",
 		"category": "",
@@ -7031,7 +7031,7 @@
 	},
 	{
 		"id": 371,
-		"lessons": ["[4]"],
+		"lessons": ["4"],
 		"type": "word",
 		"engDefinition": "family beyond parents/children",
 		"category": "",
@@ -7050,7 +7050,7 @@
 	},
 	{
 		"id": 372,
-		"lessons": ["[4]"],
+		"lessons": ["4"],
 		"type": "word",
 		"engDefinition": "body parts for seeing",
 		"category": "",
@@ -7069,7 +7069,7 @@
 	},
 	{
 		"id": 373,
-		"lessons": ["[4]"],
+		"lessons": ["4"],
 		"type": "word",
 		"engDefinition": "makes you laugh",
 		"category": "",
@@ -7088,7 +7088,7 @@
 	},
 	{
 		"id": 374,
-		"lessons": ["[4]"],
+		"lessons": ["4"],
 		"type": "word",
 		"engDefinition": "color between black and white",
 		"category": "",
@@ -7107,7 +7107,7 @@
 	},
 	{
 		"id": 375,
-		"lessons": ["[4]"],
+		"lessons": ["4"],
 		"type": "word",
 		"engDefinition": "color",
 		"category": "",
@@ -7126,7 +7126,7 @@
 	},
 	{
 		"id": 376,
-		"lessons": ["[4]"],
+		"lessons": ["4"],
 		"type": "word",
 		"engDefinition": "grows on head",
 		"category": "",
@@ -7145,7 +7145,7 @@
 	},
 	{
 		"id": 377,
-		"lessons": ["[4]"],
+		"lessons": ["4"],
 		"type": "word",
 		"engDefinition": "eye color, mix brown/green",
 		"category": "",
@@ -7164,7 +7164,7 @@
 	},
 	{
 		"id": 378,
-		"lessons": ["[4]"],
+		"lessons": ["4"],
 		"type": "word",
 		"engDefinition": "smart",
 		"category": "",
@@ -7183,7 +7183,7 @@
 	},
 	{
 		"id": 379,
-		"lessons": ["[4]"],
+		"lessons": ["4"],
 		"type": "word",
 		"engDefinition": "nice to others",
 		"category": "",
@@ -7202,7 +7202,7 @@
 	},
 	{
 		"id": 380,
-		"lessons": ["[4]"],
+		"lessons": ["4"],
 		"type": "word",
 		"engDefinition": "makes much noise",
 		"category": "",
@@ -7221,7 +7221,7 @@
 	},
 	{
 		"id": 381,
-		"lessons": ["[4]"],
+		"lessons": ["4"],
 		"type": "word",
 		"engDefinition": "not young",
 		"category": "",
@@ -7240,7 +7240,7 @@
 	},
 	{
 		"id": 382,
-		"lessons": ["[4]"],
+		"lessons": ["4"],
 		"type": "word",
 		"engDefinition": "color",
 		"category": "",
@@ -7259,7 +7259,7 @@
 	},
 	{
 		"id": 383,
-		"lessons": ["[4]"],
+		"lessons": ["4"],
 		"type": "word",
 		"engDefinition": "not tall / not long",
 		"category": "",
@@ -7278,7 +7278,7 @@
 	},
 	{
 		"id": 384,
-		"lessons": ["[4]"],
+		"lessons": ["4"],
 		"type": "word",
 		"engDefinition": "playful, not serious",
 		"category": "",
@@ -7297,7 +7297,7 @@
 	},
 	{
 		"id": 385,
-		"lessons": ["[4]"],
+		"lessons": ["4"],
 		"type": "word",
 		"engDefinition": "high in height",
 		"category": "",
@@ -7316,7 +7316,7 @@
 	},
 	{
 		"id": 386,
-		"lessons": ["[4]"],
+		"lessons": ["4"],
 		"type": "word",
 		"engDefinition": "color",
 		"category": "",
@@ -7335,7 +7335,7 @@
 	},
 	{
 		"id": 387,
-		"lessons": ["[4]"],
+		"lessons": ["4"],
 		"type": "word",
 		"engDefinition": "not old",
 		"category": "",
@@ -7354,7 +7354,7 @@
 	},
 	{
 		"id": 388,
-		"lessons": ["[5]"],
+		"lessons": ["5"],
 		"type": "word",
 		"engDefinition": "strong at sports",
 		"category": "",
@@ -7373,7 +7373,7 @@
 	},
 	{
 		"id": 389,
-		"lessons": ["[5]"],
+		"lessons": ["5"],
 		"type": "word",
 		"engDefinition": "very pretty",
 		"category": "",
@@ -7392,7 +7392,7 @@
 	},
 	{
 		"id": 390,
-		"lessons": ["[5]"],
+		"lessons": ["5"],
 		"type": "word",
 		"engDefinition": "not the same",
 		"category": "",
@@ -7411,7 +7411,7 @@
 	},
 	{
 		"id": 391,
-		"lessons": ["[5]"],
+		"lessons": ["5"],
 		"type": "word",
 		"engDefinition": "full of energy",
 		"category": "",
@@ -7430,7 +7430,7 @@
 	},
 	{
 		"id": 392,
-		"lessons": ["[5]"],
+		"lessons": ["5"],
 		"type": "word",
 		"engDefinition": "giving, sharing",
 		"category": "",
@@ -7449,7 +7449,7 @@
 	},
 	{
 		"id": 393,
-		"lessons": ["[5]"],
+		"lessons": ["5"],
 		"type": "word",
 		"engDefinition": "smart",
 		"category": "",
@@ -7468,7 +7468,7 @@
 	},
 	{
 		"id": 394,
-		"lessons": ["[5]"],
+		"lessons": ["5"],
 		"type": "word",
 		"engDefinition": "more noisy",
 		"category": "",
@@ -7487,7 +7487,7 @@
 	},
 	{
 		"id": 395,
-		"lessons": ["[5]"],
+		"lessons": ["5"],
 		"type": "word",
 		"engDefinition": "more old",
 		"category": "",
@@ -7506,7 +7506,7 @@
 	},
 	{
 		"id": 396,
-		"lessons": ["[5]"],
+		"lessons": ["5"],
 		"type": "word",
 		"engDefinition": "friendly, social",
 		"category": "",
@@ -7525,7 +7525,7 @@
 	},
 	{
 		"id": 397,
-		"lessons": ["[5]"],
+		"lessons": ["5"],
 		"type": "word",
 		"engDefinition": "calm when waiting",
 		"category": "",
@@ -7544,7 +7544,7 @@
 	},
 	{
 		"id": 398,
-		"lessons": ["[5]"],
+		"lessons": ["5"],
 		"type": "word",
 		"engDefinition": "not loud",
 		"category": "",
@@ -7563,7 +7563,7 @@
 	},
 	{
 		"id": 399,
-		"lessons": ["[5]"],
+		"lessons": ["5"],
 		"type": "word",
 		"engDefinition": "less tall",
 		"category": "",
@@ -7582,7 +7582,7 @@
 	},
 	{
 		"id": 400,
-		"lessons": ["[5]"],
+		"lessons": ["5"],
 		"type": "word",
 		"engDefinition": "more tall",
 		"category": "",
@@ -7601,7 +7601,7 @@
 	},
 	{
 		"id": 401,
-		"lessons": ["[5]"],
+		"lessons": ["5"],
 		"type": "word",
 		"engDefinition": "caring about others",
 		"category": "",
@@ -7620,7 +7620,7 @@
 	},
 	{
 		"id": 402,
-		"lessons": ["[5]"],
+		"lessons": ["5"],
 		"type": "word",
 		"engDefinition": "less old",
 		"category": "",
@@ -7639,7 +7639,7 @@
 	},
 	{
 		"id": 403,
-		"lessons": ["[6]"],
+		"lessons": ["6"],
 		"type": "word",
 		"engDefinition": "okay, fine",
 		"category": "",
@@ -7658,7 +7658,7 @@
 	},
 	{
 		"id": 404,
-		"lessons": ["[6]"],
+		"lessons": ["6"],
 		"type": "word",
 		"engDefinition": "not interested",
 		"category": "",
@@ -7677,7 +7677,7 @@
 	},
 	{
 		"id": 405,
-		"lessons": ["[6]"],
+		"lessons": ["6"],
 		"type": "word",
 		"engDefinition": "relaxed, not loud",
 		"category": "",
@@ -7696,7 +7696,7 @@
 	},
 	{
 		"id": 406,
-		"lessons": ["[6]"],
+		"lessons": ["6"],
 		"type": "word",
 		"engDefinition": "feeling shy/bad",
 		"category": "",
@@ -7715,7 +7715,7 @@
 	},
 	{
 		"id": 407,
-		"lessons": ["[6]"],
+		"lessons": ["6"],
 		"type": "word",
 		"engDefinition": "very happy",
 		"category": "",
@@ -7734,7 +7734,7 @@
 	},
 	{
 		"id": 408,
-		"lessons": ["[6]"],
+		"lessons": ["6"],
 		"type": "word",
 		"engDefinition": "upset something is hard",
 		"category": "",
@@ -7753,7 +7753,7 @@
 	},
 	{
 		"id": 409,
-		"lessons": ["[6]"],
+		"lessons": ["6"],
 		"type": "word",
 		"engDefinition": "feeling good",
 		"category": "",
@@ -7772,7 +7772,7 @@
 	},
 	{
 		"id": 410,
-		"lessons": ["[6]"],
+		"lessons": ["6"],
 		"type": "word",
 		"engDefinition": "very angry",
 		"category": "",
@@ -7791,7 +7791,7 @@
 	},
 	{
 		"id": 411,
-		"lessons": ["[6]"],
+		"lessons": ["6"],
 		"type": "word",
 		"engDefinition": "worried, not calm",
 		"category": "",
@@ -7810,7 +7810,7 @@
 	},
 	{
 		"id": 412,
-		"lessons": ["[6]"],
+		"lessons": ["6"],
 		"type": "word",
 		"engDefinition": "fine, all right",
 		"category": "",
@@ -7829,7 +7829,7 @@
 	},
 	{
 		"id": 413,
-		"lessons": ["[6]"],
+		"lessons": ["6"],
 		"type": "word",
 		"engDefinition": "not happy",
 		"category": "",
@@ -7848,7 +7848,7 @@
 	},
 	{
 		"id": 414,
-		"lessons": ["[6]"],
+		"lessons": ["6"],
 		"type": "word",
 		"engDefinition": "afraid",
 		"category": "",
@@ -7867,7 +7867,7 @@
 	},
 	{
 		"id": 415,
-		"lessons": ["[6]"],
+		"lessons": ["6"],
 		"type": "word",
 		"engDefinition": "feeling shock/unexpected",
 		"category": "",
@@ -7886,7 +7886,7 @@
 	},
 	{
 		"id": 416,
-		"lessons": ["[6]"],
+		"lessons": ["6"],
 		"type": "word",
 		"engDefinition": "needing rest",
 		"category": "",
@@ -7905,7 +7905,7 @@
 	},
 	{
 		"id": 417,
-		"lessons": ["[6]"],
+		"lessons": ["6"],
 		"type": "word",
 		"engDefinition": "thinking about problems",
 		"category": "",
@@ -7924,7 +7924,7 @@
 	},
 	{
 		"id": 418,
-		"lessons": ["[7]"],
+		"lessons": ["7"],
 		"type": "word",
 		"engDefinition": "polite request",
 		"category": "",
@@ -7943,7 +7943,7 @@
 	},
 	{
 		"id": 419,
-		"lessons": ["[8]"],
+		"lessons": ["8"],
 		"type": "word",
 		"engDefinition": "place to live",
 		"category": "",
@@ -7962,7 +7962,7 @@
 	},
 	{
 		"id": 420,
-		"lessons": ["[8]"],
+		"lessons": ["8"],
 		"type": "word",
 		"engDefinition": "very pretty",
 		"category": "",
@@ -7981,7 +7981,7 @@
 	},
 	{
 		"id": 421,
-		"lessons": ["[8]"],
+		"lessons": ["8"],
 		"type": "word",
 		"engDefinition": "large size",
 		"category": "",
@@ -8000,7 +8000,7 @@
 	},
 	{
 		"id": 422,
-		"lessons": ["[8]"],
+		"lessons": ["8"],
 		"type": "word",
 		"engDefinition": "with a lot to do",
 		"category": "",
@@ -8019,7 +8019,7 @@
 	},
 	{
 		"id": 423,
-		"lessons": ["[8]"],
+		"lessons": ["8"],
 		"type": "word",
 		"engDefinition": "large town",
 		"category": "",
@@ -8038,7 +8038,7 @@
 	},
 	{
 		"id": 424,
-		"lessons": ["[8]"],
+		"lessons": ["8"],
 		"type": "word",
 		"engDefinition": "full of people",
 		"category": "",
@@ -8057,7 +8057,7 @@
 	},
 	{
 		"id": 425,
-		"lessons": ["[8]"],
+		"lessons": ["8"],
 		"type": "word",
 		"engDefinition": "old and important",
 		"category": "",
@@ -8076,7 +8076,7 @@
 	},
 	{
 		"id": 426,
-		"lessons": ["[8]"],
+		"lessons": ["8"],
 		"type": "word",
 		"engDefinition": "building to live in",
 		"category": "",
@@ -8095,7 +8095,7 @@
 	},
 	{
 		"id": 427,
-		"lessons": ["[8]"],
+		"lessons": ["8"],
 		"type": "word",
 		"engDefinition": "inside",
 		"category": "",
@@ -8114,7 +8114,7 @@
 	},
 	{
 		"id": 428,
-		"lessons": ["[8]"],
+		"lessons": ["8"],
 		"type": "word",
 		"engDefinition": "full of energy",
 		"category": "",
@@ -8133,7 +8133,7 @@
 	},
 	{
 		"id": 429,
-		"lessons": ["[8]"],
+		"lessons": ["8"],
 		"type": "word",
 		"engDefinition": "area where people live",
 		"category": "",
@@ -8152,7 +8152,7 @@
 	},
 	{
 		"id": 430,
-		"lessons": ["[8]"],
+		"lessons": ["8"],
 		"type": "word",
 		"engDefinition": "not old",
 		"category": "",
@@ -8171,7 +8171,7 @@
 	},
 	{
 		"id": 431,
-		"lessons": ["[8]"],
+		"lessons": ["8"],
 		"type": "word",
 		"engDefinition": "full of noise",
 		"category": "",
@@ -8190,7 +8190,7 @@
 	},
 	{
 		"id": 432,
-		"lessons": ["[8]"],
+		"lessons": ["8"],
 		"type": "word",
 		"engDefinition": "not new",
 		"category": "",
@@ -8209,7 +8209,7 @@
 	},
 	{
 		"id": 433,
-		"lessons": ["[8]"],
+		"lessons": ["8"],
 		"type": "word",
 		"engDefinition": "shows surface/place",
 		"category": "",
@@ -8228,7 +8228,7 @@
 	},
 	{
 		"id": 434,
-		"lessons": ["[8]"],
+		"lessons": ["8"],
 		"type": "word",
 		"engDefinition": "calm, not noisy",
 		"category": "",
@@ -8247,7 +8247,7 @@
 	},
 	{
 		"id": 435,
-		"lessons": ["[8]"],
+		"lessons": ["8"],
 		"type": "word",
 		"engDefinition": "not loud",
 		"category": "",
@@ -8266,7 +8266,7 @@
 	},
 	{
 		"id": 436,
-		"lessons": ["[8]"],
+		"lessons": ["8"],
 		"type": "word",
 		"engDefinition": "not dangerous",
 		"category": "",
@@ -8285,7 +8285,7 @@
 	},
 	{
 		"id": 437,
-		"lessons": ["[8]"],
+		"lessons": ["8"],
 		"type": "word",
 		"engDefinition": "road in a city",
 		"category": "",
@@ -8304,7 +8304,7 @@
 	},
 	{
 		"id": 438,
-		"lessons": ["[8]"],
+		"lessons": ["8"],
 		"type": "word",
 		"engDefinition": "in that place",
 		"category": "",
@@ -8323,7 +8323,7 @@
 	},
 	{
 		"id": 439,
-		"lessons": ["[8]"],
+		"lessons": ["8"],
 		"type": "word",
 		"engDefinition": "small city",
 		"category": "",
@@ -8342,7 +8342,7 @@
 	},
 	{
 		"id": 440,
-		"lessons": ["[8]"],
+		"lessons": ["8"],
 		"type": "word",
 		"engDefinition": "not safe",
 		"category": "",
@@ -8361,7 +8361,7 @@
 	},
 	{
 		"id": 441,
-		"lessons": ["[8]"],
+		"lessons": ["8"],
 		"type": "word",
 		"engDefinition": "small community",
 		"category": "",
@@ -8380,7 +8380,7 @@
 	},
 	{
 		"id": 442,
-		"lessons": ["[9]"],
+		"lessons": ["9"],
 		"type": "word",
 		"engDefinition": "grown-up person",
 		"category": "",
@@ -8399,7 +8399,7 @@
 	},
 	{
 		"id": 443,
-		"lessons": ["[9]"],
+		"lessons": ["9"],
 		"type": "word",
 		"engDefinition": "more than one adult",
 		"category": "",
@@ -8418,7 +8418,7 @@
 	},
 	{
 		"id": 444,
-		"lessons": ["[9]"],
+		"lessons": ["9"],
 		"type": "word",
 		"engDefinition": "strong, good at sports",
 		"category": "",
@@ -8437,7 +8437,7 @@
 	},
 	{
 		"id": 445,
-		"lessons": ["[9]"],
+		"lessons": ["9"],
 		"type": "word",
 		"engDefinition": "two-wheel vehicle",
 		"category": "",
@@ -8456,7 +8456,7 @@
 	},
 	{
 		"id": 446,
-		"lessons": ["[9]"],
+		"lessons": ["9"],
 		"type": "word",
 		"engDefinition": "water vehicle",
 		"category": "",
@@ -8475,7 +8475,7 @@
 	},
 	{
 		"id": 447,
-		"lessons": ["[9]"],
+		"lessons": ["9"],
 		"type": "word",
 		"engDefinition": "not loud, relaxed",
 		"category": "",
@@ -8494,7 +8494,7 @@
 	},
 	{
 		"id": 448,
-		"lessons": ["[9]"],
+		"lessons": ["9"],
 		"type": "word",
 		"engDefinition": "road vehicle",
 		"category": "",
@@ -8513,7 +8513,7 @@
 	},
 	{
 		"id": 449,
-		"lessons": ["[9]"],
+		"lessons": ["9"],
 		"type": "word",
 		"engDefinition": "farm bird / meat",
 		"category": "",
@@ -8532,7 +8532,7 @@
 	},
 	{
 		"id": 450,
-		"lessons": ["[9]"],
+		"lessons": ["9"],
 		"type": "word",
 		"engDefinition": "young person",
 		"category": "",
@@ -8551,7 +8551,7 @@
 	},
 	{
 		"id": 451,
-		"lessons": ["[9]"],
+		"lessons": ["9"],
 		"type": "word",
 		"engDefinition": "more than one child",
 		"category": "",
@@ -8570,7 +8570,7 @@
 	},
 	{
 		"id": 452,
-		"lessons": ["[9]"],
+		"lessons": ["9"],
 		"type": "word",
 		"engDefinition": "good at making new ideas",
 		"category": "",
@@ -8589,7 +8589,7 @@
 	},
 	{
 		"id": 453,
-		"lessons": ["[9]"],
+		"lessons": ["9"],
 		"type": "word",
 		"engDefinition": "past of “do”",
 		"category": "",
@@ -8608,7 +8608,7 @@
 	},
 	{
 		"id": 454,
-		"lessons": ["[9]"],
+		"lessons": ["9"],
 		"type": "word",
 		"engDefinition": "past negative of “do”",
 		"category": "",
@@ -8627,7 +8627,7 @@
 	},
 	{
 		"id": 455,
-		"lessons": ["[9]"],
+		"lessons": ["9"],
 		"type": "word",
 		"engDefinition": "not following rules",
 		"category": "",
@@ -8646,7 +8646,7 @@
 	},
 	{
 		"id": 456,
-		"lessons": ["[9]"],
+		"lessons": ["9"],
 		"type": "word",
 		"engDefinition": "kind to others",
 		"category": "",
@@ -8665,7 +8665,7 @@
 	},
 	{
 		"id": 457,
-		"lessons": ["[9]"],
+		"lessons": ["9"],
 		"type": "word",
 		"engDefinition": "makes people laugh",
 		"category": "",
@@ -8684,7 +8684,7 @@
 	},
 	{
 		"id": 458,
-		"lessons": ["[9]"],
+		"lessons": ["9"],
 		"type": "word",
 		"engDefinition": "past of “have”",
 		"category": "",
@@ -8703,7 +8703,7 @@
 	},
 	{
 		"id": 459,
-		"lessons": ["[9]"],
+		"lessons": ["9"],
 		"type": "word",
 		"engDefinition": "to own",
 		"category": "",
@@ -8722,7 +8722,7 @@
 	},
 	{
 		"id": 460,
-		"lessons": ["[9]"],
+		"lessons": ["9"],
 		"type": "word",
 		"engDefinition": "building to live in",
 		"category": "",
@@ -8741,7 +8741,7 @@
 	},
 	{
 		"id": 461,
-		"lessons": ["[9]"],
+		"lessons": ["9"],
 		"type": "word",
 		"engDefinition": "nice, helpful",
 		"category": "",
@@ -8760,7 +8760,7 @@
 	},
 	{
 		"id": 462,
-		"lessons": ["[9]"],
+		"lessons": ["9"],
 		"type": "word",
 		"engDefinition": "not nice",
 		"category": "",
@@ -8779,7 +8779,7 @@
 	},
 	{
 		"id": 463,
-		"lessons": ["[9]"],
+		"lessons": ["9"],
 		"type": "word",
 		"engDefinition": "small motorbike",
 		"category": "",
@@ -8798,7 +8798,7 @@
 	},
 	{
 		"id": 464,
-		"lessons": ["[9]"],
+		"lessons": ["9"],
 		"type": "word",
 		"engDefinition": "friendly, social",
 		"category": "",
@@ -8817,7 +8817,7 @@
 	},
 	{
 		"id": 465,
-		"lessons": ["[9]"],
+		"lessons": ["9"],
 		"type": "word",
 		"engDefinition": "quiet, not outgoing",
 		"category": "",
@@ -8836,7 +8836,7 @@
 	},
 	{
 		"id": 466,
-		"lessons": ["[9]"],
+		"lessons": ["9"],
 		"type": "word",
 		"engDefinition": "likes to talk",
 		"category": "",
@@ -8855,7 +8855,7 @@
 	},
 	{
 		"id": 467,
-		"lessons": ["[9]"],
+		"lessons": ["9"],
 		"type": "word",
 		"engDefinition": "person 13–19 years old",
 		"category": "",
@@ -8874,7 +8874,7 @@
 	},
 	{
 		"id": 468,
-		"lessons": ["[9]"],
+		"lessons": ["9"],
 		"type": "word",
 		"engDefinition": "more than one teenager",
 		"category": "",
@@ -8893,7 +8893,7 @@
 	},
 	{
 		"id": 469,
-		"lessons": ["[9]"],
+		"lessons": ["9"],
 		"type": "word",
 		"engDefinition": "past of “is”",
 		"category": "",
@@ -8912,7 +8912,7 @@
 	},
 	{
 		"id": 470,
-		"lessons": ["[9]"],
+		"lessons": ["9"],
 		"type": "word",
 		"engDefinition": "past of “are”",
 		"category": "",
@@ -8931,7 +8931,7 @@
 	},
 	{
 		"id": 471,
-		"lessons": ["[9]"],
+		"lessons": ["9"],
 		"type": "word",
 		"engDefinition": "not tame / crazy",
 		"category": "",
@@ -8950,7 +8950,7 @@
 	},
 	{
 		"id": 472,
-		"lessons": ["[9]"],
+		"lessons": ["9"],
 		"type": "word",
 		"engDefinition": "person 18–25",
 		"category": "",
@@ -8969,7 +8969,7 @@
 	},
 	{
 		"id": 473,
-		"lessons": ["[9]"],
+		"lessons": ["9"],
 		"type": "word",
 		"engDefinition": "more than one young adult",
 		"category": "",
@@ -8988,7 +8988,7 @@
 	},
 	{
 		"id": 474,
-		"lessons": ["[10]"],
+		"lessons": ["10"],
 		"type": "word",
 		"engDefinition": "part of day after noon",
 		"category": "",
@@ -9007,7 +9007,7 @@
 	},
 	{
 		"id": 475,
-		"lessons": ["[10]"],
+		"lessons": ["10"],
 		"type": "word",
 		"engDefinition": "every time",
 		"category": "",
@@ -9026,7 +9026,7 @@
 	},
 	{
 		"id": 476,
-		"lessons": ["[10]"],
+		"lessons": ["10"],
 		"type": "word",
 		"engDefinition": "24 hours",
 		"category": "",
@@ -9045,7 +9045,7 @@
 	},
 	{
 		"id": 477,
-		"lessons": ["[10]"],
+		"lessons": ["10"],
 		"type": "word",
 		"engDefinition": "time after afternoon",
 		"category": "",
@@ -9064,7 +9064,7 @@
 	},
 	{
 		"id": 478,
-		"lessons": ["[10]"],
+		"lessons": ["10"],
 		"type": "word",
 		"engDefinition": "all, each",
 		"category": "",
@@ -9083,7 +9083,7 @@
 	},
 	{
 		"id": 479,
-		"lessons": ["[10]"],
+		"lessons": ["10"],
 		"type": "word",
 		"engDefinition": "one of 12 in a year",
 		"category": "",
@@ -9102,7 +9102,7 @@
 	},
 	{
 		"id": 480,
-		"lessons": ["[10]"],
+		"lessons": ["10"],
 		"type": "word",
 		"engDefinition": "first part of day",
 		"category": "",
@@ -9121,7 +9121,7 @@
 	},
 	{
 		"id": 481,
-		"lessons": ["[10]"],
+		"lessons": ["10"],
 		"type": "word",
 		"engDefinition": "not ever",
 		"category": "",
@@ -9140,7 +9140,7 @@
 	},
 	{
 		"id": 482,
-		"lessons": ["[10]"],
+		"lessons": ["10"],
 		"type": "word",
 		"engDefinition": "not always",
 		"category": "",
@@ -9159,7 +9159,7 @@
 	},
 	{
 		"id": 483,
-		"lessons": ["[10]"],
+		"lessons": ["10"],
 		"type": "word",
 		"engDefinition": "most of the time",
 		"category": "",
@@ -9178,7 +9178,7 @@
 	},
 	{
 		"id": 484,
-		"lessons": ["[10]"],
+		"lessons": ["10"],
 		"type": "word",
 		"engDefinition": "7 days",
 		"category": "",
@@ -9197,7 +9197,7 @@
 	},
 	{
 		"id": 485,
-		"lessons": ["[10]"],
+		"lessons": ["10"],
 		"type": "word",
 		"engDefinition": "Saturday and Sunday",
 		"category": "",
@@ -9216,7 +9216,7 @@
 	},
 	{
 		"id": 486,
-		"lessons": ["[11]"],
+		"lessons": ["11"],
 		"type": "word",
 		"engDefinition": "7 days before today",
 		"category": "",
@@ -9235,7 +9235,7 @@
 	},
 	{
 		"id": 487,
-		"lessons": ["[11]"],
+		"lessons": ["11"],
 		"type": "word",
 		"engDefinition": "wash/tidy the home",
 		"category": "",
@@ -9254,7 +9254,7 @@
 	},
 	{
 		"id": 488,
-		"lessons": ["[11]"],
+		"lessons": ["11"],
 		"type": "word",
 		"engDefinition": "make evening meal",
 		"category": "",
@@ -9273,7 +9273,7 @@
 	},
 	{
 		"id": 489,
-		"lessons": ["[11]"],
+		"lessons": ["11"],
 		"type": "word",
 		"engDefinition": "action / past of do",
 		"category": "",
@@ -9292,7 +9292,7 @@
 	},
 	{
 		"id": 490,
-		"lessons": ["[11]"],
+		"lessons": ["11"],
 		"type": "word",
 		"engDefinition": "in Saturday and Sunday",
 		"category": "",
@@ -9311,7 +9311,7 @@
 	},
 	{
 		"id": 491,
-		"lessons": ["[11]"],
+		"lessons": ["11"],
 		"type": "word",
 		"engDefinition": "have sweet food",
 		"category": "",
@@ -9330,7 +9330,7 @@
 	},
 	{
 		"id": 492,
-		"lessons": ["[11]"],
+		"lessons": ["11"],
 		"type": "word",
 		"engDefinition": "move to stay healthy",
 		"category": "",
@@ -9349,7 +9349,7 @@
 	},
 	{
 		"id": 493,
-		"lessons": ["[11]"],
+		"lessons": ["11"],
 		"type": "word",
 		"engDefinition": "leave home for job",
 		"category": "",
@@ -9368,7 +9368,7 @@
 	},
 	{
 		"id": 494,
-		"lessons": ["[11]"],
+		"lessons": ["11"],
 		"type": "word",
 		"engDefinition": "Monday before this one",
 		"category": "",
@@ -9387,7 +9387,7 @@
 	},
 	{
 		"id": 495,
-		"lessons": ["[11]"],
+		"lessons": ["11"],
 		"type": "word",
 		"engDefinition": "week before this one",
 		"category": "",
@@ -9406,7 +9406,7 @@
 	},
 	{
 		"id": 496,
-		"lessons": ["[11]"],
+		"lessons": ["11"],
 		"type": "word",
 		"engDefinition": "prepare bread",
 		"category": "",
@@ -9425,7 +9425,7 @@
 	},
 	{
 		"id": 497,
-		"lessons": ["[11]"],
+		"lessons": ["11"],
 		"type": "word",
 		"engDefinition": "play football (game)",
 		"category": "",
@@ -9444,7 +9444,7 @@
 	},
 	{
 		"id": 498,
-		"lessons": ["[11]"],
+		"lessons": ["11"],
 		"type": "word",
 		"engDefinition": "look at and understand the news",
 		"category": "",
@@ -9463,7 +9463,7 @@
 	},
 	{
 		"id": 499,
-		"lessons": ["[11]"],
+		"lessons": ["11"],
 		"type": "word",
 		"engDefinition": "not go out",
 		"category": "",
@@ -9482,7 +9482,7 @@
 	},
 	{
 		"id": 500,
-		"lessons": ["[11]"],
+		"lessons": ["11"],
 		"type": "word",
 		"engDefinition": "to learn",
 		"category": "",
@@ -9501,7 +9501,7 @@
 	},
 	{
 		"id": 501,
-		"lessons": ["[11]"],
+		"lessons": ["11"],
 		"type": "word",
 		"engDefinition": "go see relatives",
 		"category": "",
@@ -9520,7 +9520,7 @@
 	},
 	{
 		"id": 502,
-		"lessons": ["[11]"],
+		"lessons": ["11"],
 		"type": "word",
 		"engDefinition": "see a film",
 		"category": "",
@@ -9539,7 +9539,7 @@
 	},
 	{
 		"id": 503,
-		"lessons": ["[11]"],
+		"lessons": ["11"],
 		"type": "word",
 		"engDefinition": "to do a job",
 		"category": "",
@@ -9558,7 +9558,7 @@
 	},
 	{
 		"id": 504,
-		"lessons": ["[11]"],
+		"lessons": ["11"],
 		"type": "word",
 		"engDefinition": "the day before today",
 		"category": "",
@@ -9577,7 +9577,7 @@
 	},
 	{
 		"id": 505,
-		"lessons": ["[12]"],
+		"lessons": ["12"],
 		"type": "word",
 		"engDefinition": "not on time",
 		"category": "",
@@ -9596,7 +9596,7 @@
 	},
 	{
 		"id": 506,
-		"lessons": ["[12]"],
+		"lessons": ["12"],
 		"type": "word",
 		"engDefinition": "time of day",
 		"category": "",
@@ -9615,7 +9615,7 @@
 	},
 	{
 		"id": 507,
-		"lessons": ["[12]"],
+		"lessons": ["12"],
 		"type": "word",
 		"engDefinition": "phone a friend",
 		"category": "",
@@ -9634,7 +9634,7 @@
 	},
 	{
 		"id": 508,
-		"lessons": ["[12]"],
+		"lessons": ["12"],
 		"type": "word",
 		"engDefinition": "not feel healthy",
 		"category": "",
@@ -9653,7 +9653,7 @@
 	},
 	{
 		"id": 509,
-		"lessons": ["[12]"],
+		"lessons": ["12"],
 		"type": "word",
 		"engDefinition": "place to live",
 		"category": "",
@@ -9672,7 +9672,7 @@
 	},
 	{
 		"id": 510,
-		"lessons": ["[12]"],
+		"lessons": ["12"],
 		"type": "word",
 		"engDefinition": "night before today",
 		"category": "",
@@ -9691,7 +9691,7 @@
 	},
 	{
 		"id": 511,
-		"lessons": ["[12]"],
+		"lessons": ["12"],
 		"type": "word",
 		"engDefinition": "go out from a party",
 		"category": "",
@@ -9710,7 +9710,7 @@
 	},
 	{
 		"id": 512,
-		"lessons": ["[12]"],
+		"lessons": ["12"],
 		"type": "word",
 		"engDefinition": "send a text",
 		"category": "",
@@ -9729,7 +9729,7 @@
 	},
 	{
 		"id": 513,
-		"lessons": ["[12]"],
+		"lessons": ["12"],
 		"type": "word",
 		"engDefinition": "not go to school class",
 		"category": "",
@@ -9748,7 +9748,7 @@
 	},
 	{
 		"id": 514,
-		"lessons": ["[12]"],
+		"lessons": ["12"],
 		"type": "word",
 		"engDefinition": "want bread",
 		"category": "",
@@ -9767,7 +9767,7 @@
 	},
 	{
 		"id": 515,
-		"lessons": ["[12]"],
+		"lessons": ["12"],
 		"type": "word",
 		"engDefinition": "specific day",
 		"category": "",
@@ -9786,7 +9786,7 @@
 	},
 	{
 		"id": 516,
-		"lessons": ["[12]"],
+		"lessons": ["12"],
 		"type": "word",
 		"engDefinition": "place to study",
 		"category": "",
@@ -9805,7 +9805,7 @@
 	},
 	{
 		"id": 517,
-		"lessons": ["[12]"],
+		"lessons": ["12"],
 		"type": "word",
 		"engDefinition": "to buy things",
 		"category": "",
@@ -9824,7 +9824,7 @@
 	},
 	{
 		"id": 518,
-		"lessons": ["[12]"],
+		"lessons": ["12"],
 		"type": "word",
 		"engDefinition": "sleep a little",
 		"category": "",
@@ -9843,7 +9843,7 @@
 	},
 	{
 		"id": 519,
-		"lessons": ["[12]"],
+		"lessons": ["12"],
 		"type": "word",
 		"engDefinition": "ride the bus",
 		"category": "",
@@ -9862,7 +9862,7 @@
 	},
 	{
 		"id": 520,
-		"lessons": ["[12]"],
+		"lessons": ["12"],
 		"type": "word",
 		"engDefinition": "place to buy things",
 		"category": "",
@@ -9881,7 +9881,7 @@
 	},
 	{
 		"id": 521,
-		"lessons": ["[12]"],
+		"lessons": ["12"],
 		"type": "word",
 		"engDefinition": "two days before today",
 		"category": "",
@@ -9900,7 +9900,7 @@
 	},
 	{
 		"id": 522,
-		"lessons": ["[12]"],
+		"lessons": ["12"],
 		"type": "word",
 		"engDefinition": "desire to play soccer",
 		"category": "",
@@ -9919,7 +9919,7 @@
 	},
 	{
 		"id": 523,
-		"lessons": ["[12]"],
+		"lessons": ["12"],
 		"type": "word",
 		"engDefinition": "to do a job",
 		"category": "",
@@ -9938,7 +9938,7 @@
 	},
 	{
 		"id": 524,
-		"lessons": ["[12]"],
+		"lessons": ["12"],
 		"type": "word",
 		"engDefinition": "morning of the day before today",
 		"category": "",
@@ -9957,7 +9957,7 @@
 	},
 	{
 		"id": 525,
-		"lessons": ["[13]"],
+		"lessons": ["13"],
 		"type": "word",
 		"engDefinition": "to have a baby",
 		"category": "",
@@ -9976,7 +9976,7 @@
 	},
 	{
 		"id": 526,
-		"lessons": ["[13]"],
+		"lessons": ["13"],
 		"type": "word",
 		"engDefinition": "to start working",
 		"category": "",
@@ -9995,7 +9995,7 @@
 	},
 	{
 		"id": 527,
-		"lessons": ["[13]"],
+		"lessons": ["13"],
 		"type": "word",
 		"engDefinition": "to purchase a car",
 		"category": "",
@@ -10014,7 +10014,7 @@
 	},
 	{
 		"id": 528,
-		"lessons": ["[13]"],
+		"lessons": ["13"],
 		"type": "word",
 		"engDefinition": "to complete secondary school",
 		"category": "",
@@ -10033,7 +10033,7 @@
 	},
 	{
 		"id": 529,
-		"lessons": ["[13]"],
+		"lessons": ["13"],
 		"type": "word",
 		"engDefinition": "to find work",
 		"category": "",
@@ -10052,7 +10052,7 @@
 	},
 	{
 		"id": 530,
-		"lessons": ["[13]"],
+		"lessons": ["13"],
 		"type": "word",
 		"engDefinition": "to marry",
 		"category": "",
@@ -10071,7 +10071,7 @@
 	},
 	{
 		"id": 531,
-		"lessons": ["[13]"],
+		"lessons": ["13"],
 		"type": "word",
 		"engDefinition": "to attend school",
 		"category": "",
@@ -10090,7 +10090,7 @@
 	},
 	{
 		"id": 532,
-		"lessons": ["[13]"],
+		"lessons": ["13"],
 		"type": "word",
 		"engDefinition": "to visit the beach",
 		"category": "",
@@ -10109,7 +10109,7 @@
 	},
 	{
 		"id": 533,
-		"lessons": ["[13]"],
+		"lessons": ["13"],
 		"type": "word",
 		"engDefinition": "to finish school",
 		"category": "",
@@ -10128,7 +10128,7 @@
 	},
 	{
 		"id": 534,
-		"lessons": ["[13]"],
+		"lessons": ["13"],
 		"type": "word",
 		"engDefinition": "to give birth",
 		"category": "",
@@ -10147,7 +10147,7 @@
 	},
 	{
 		"id": 535,
-		"lessons": ["[13]"],
+		"lessons": ["13"],
 		"type": "word",
 		"engDefinition": "to go through something hard",
 		"category": "",
@@ -10166,7 +10166,7 @@
 	},
 	{
 		"id": 536,
-		"lessons": ["[13]"],
+		"lessons": ["13"],
 		"type": "word",
 		"engDefinition": "married man",
 		"category": "",
@@ -10185,7 +10185,7 @@
 	},
 	{
 		"id": 537,
-		"lessons": ["[13]"],
+		"lessons": ["13"],
 		"type": "word",
 		"engDefinition": "to stop having work",
 		"category": "",
@@ -10204,7 +10204,7 @@
 	},
 	{
 		"id": 538,
-		"lessons": ["[13]"],
+		"lessons": ["13"],
 		"type": "word",
 		"engDefinition": "to see a friend",
 		"category": "",
@@ -10223,7 +10223,7 @@
 	},
 	{
 		"id": 539,
-		"lessons": ["[13]"],
+		"lessons": ["13"],
 		"type": "word",
 		"engDefinition": "to change place",
 		"category": "",
@@ -10242,7 +10242,7 @@
 	},
 	{
 		"id": 540,
-		"lessons": ["[13]"],
+		"lessons": ["13"],
 		"type": "word",
 		"engDefinition": "to stop working",
 		"category": "",
@@ -10261,7 +10261,7 @@
 	},
 	{
 		"id": 541,
-		"lessons": ["[13]"],
+		"lessons": ["13"],
 		"type": "word",
 		"engDefinition": "to pay to live in a place",
 		"category": "",
@@ -10280,7 +10280,7 @@
 	},
 	{
 		"id": 542,
-		"lessons": ["[13]"],
+		"lessons": ["13"],
 		"type": "word",
 		"engDefinition": "to keep money",
 		"category": "",
@@ -10299,7 +10299,7 @@
 	},
 	{
 		"id": 543,
-		"lessons": ["[13]"],
+		"lessons": ["13"],
 		"type": "word",
 		"engDefinition": "husband or wife",
 		"category": "",
@@ -10318,7 +10318,7 @@
 	},
 	{
 		"id": 544,
-		"lessons": ["[13]"],
+		"lessons": ["13"],
 		"type": "word",
 		"engDefinition": "to create a company",
 		"category": "",
@@ -10337,7 +10337,7 @@
 	},
 	{
 		"id": 545,
-		"lessons": ["[13]"],
+		"lessons": ["13"],
 		"type": "word",
 		"engDefinition": "to go to New York",
 		"category": "",
@@ -10356,7 +10356,7 @@
 	},
 	{
 		"id": 546,
-		"lessons": ["[13]"],
+		"lessons": ["13"],
 		"type": "word",
 		"engDefinition": "to reach age 18",
 		"category": "",
@@ -10375,7 +10375,7 @@
 	},
 	{
 		"id": 547,
-		"lessons": ["[13]"],
+		"lessons": ["13"],
 		"type": "word",
 		"engDefinition": "school after high school",
 		"category": "",
@@ -10394,7 +10394,7 @@
 	},
 	{
 		"id": 548,
-		"lessons": ["[13]"],
+		"lessons": ["13"],
 		"type": "word",
 		"engDefinition": "married woman",
 		"category": "",
@@ -10413,7 +10413,7 @@
 	},
 	{
 		"id": 549,
-		"lessons": ["[14]"],
+		"lessons": ["14"],
 		"type": "word",
 		"engDefinition": "fruit",
 		"category": "",
@@ -10432,7 +10432,7 @@
 	},
 	{
 		"id": 550,
-		"lessons": ["[14]"],
+		"lessons": ["14"],
 		"type": "word",
 		"engDefinition": "more than one apple",
 		"category": "",
@@ -10451,7 +10451,7 @@
 	},
 	{
 		"id": 551,
-		"lessons": ["[14]"],
+		"lessons": ["14"],
 		"type": "word",
 		"engDefinition": "container",
 		"category": "",
@@ -10470,7 +10470,7 @@
 	},
 	{
 		"id": 552,
-		"lessons": ["[14]"],
+		"lessons": ["14"],
 		"type": "word",
 		"engDefinition": "yellow fruit",
 		"category": "",
@@ -10489,7 +10489,7 @@
 	},
 	{
 		"id": 553,
-		"lessons": ["[14]"],
+		"lessons": ["14"],
 		"type": "word",
 		"engDefinition": "more than one banana",
 		"category": "",
@@ -10508,7 +10508,7 @@
 	},
 	{
 		"id": 554,
-		"lessons": ["[14]"],
+		"lessons": ["14"],
 		"type": "word",
 		"engDefinition": "round dish",
 		"category": "",
@@ -10527,7 +10527,7 @@
 	},
 	{
 		"id": 555,
-		"lessons": ["[14]"],
+		"lessons": ["14"],
 		"type": "word",
 		"engDefinition": "container",
 		"category": "",
@@ -10546,7 +10546,7 @@
 	},
 	{
 		"id": 556,
-		"lessons": ["[14]"],
+		"lessons": ["14"],
 		"type": "word",
 		"engDefinition": "baked food",
 		"category": "",
@@ -10565,7 +10565,7 @@
 	},
 	{
 		"id": 557,
-		"lessons": ["[14]"],
+		"lessons": ["14"],
 		"type": "word",
 		"engDefinition": "group together",
 		"category": "",
@@ -10584,7 +10584,7 @@
 	},
 	{
 		"id": 558,
-		"lessons": ["[14]"],
+		"lessons": ["14"],
 		"type": "word",
 		"engDefinition": "orange vegetable",
 		"category": "",
@@ -10603,7 +10603,7 @@
 	},
 	{
 		"id": 559,
-		"lessons": ["[14]"],
+		"lessons": ["14"],
 		"type": "word",
 		"engDefinition": "more than one carrot",
 		"category": "",
@@ -10622,7 +10622,7 @@
 	},
 	{
 		"id": 560,
-		"lessons": ["[14]"],
+		"lessons": ["14"],
 		"type": "word",
 		"engDefinition": "milk food",
 		"category": "",
@@ -10641,7 +10641,7 @@
 	},
 	{
 		"id": 561,
-		"lessons": ["[14]"],
+		"lessons": ["14"],
 		"type": "word",
 		"engDefinition": "bird food",
 		"category": "",
@@ -10660,7 +10660,7 @@
 	},
 	{
 		"id": 562,
-		"lessons": ["[14]"],
+		"lessons": ["14"],
 		"type": "word",
 		"engDefinition": "more than one egg",
 		"category": "",
@@ -10679,7 +10679,7 @@
 	},
 	{
 		"id": 563,
-		"lessons": ["[14]"],
+		"lessons": ["14"],
 		"type": "word",
 		"engDefinition": "animal in water",
 		"category": "",
@@ -10698,7 +10698,7 @@
 	},
 	{
 		"id": 564,
-		"lessons": ["[14]"],
+		"lessons": ["14"],
 		"type": "word",
 		"engDefinition": "powder for baking",
 		"category": "",
@@ -10717,7 +10717,7 @@
 	},
 	{
 		"id": 565,
-		"lessons": ["[14]"],
+		"lessons": ["14"],
 		"type": "word",
 		"engDefinition": "one lettuce unit",
 		"category": "",
@@ -10736,7 +10736,7 @@
 	},
 	{
 		"id": 566,
-		"lessons": ["[14]"],
+		"lessons": ["14"],
 		"type": "word",
 		"engDefinition": "1000 grams",
 		"category": "",
@@ -10755,7 +10755,7 @@
 	},
 	{
 		"id": 567,
-		"lessons": ["[14]"],
+		"lessons": ["14"],
 		"type": "word",
 		"engDefinition": "leafy vegetable",
 		"category": "",
@@ -10774,7 +10774,7 @@
 	},
 	{
 		"id": 568,
-		"lessons": ["[14]"],
+		"lessons": ["14"],
 		"type": "word",
 		"engDefinition": "unit of liquid",
 		"category": "",
@@ -10793,7 +10793,7 @@
 	},
 	{
 		"id": 569,
-		"lessons": ["[14]"],
+		"lessons": ["14"],
 		"type": "word",
 		"engDefinition": "one bread unit",
 		"category": "",
@@ -10812,7 +10812,7 @@
 	},
 	{
 		"id": 570,
-		"lessons": ["[14]"],
+		"lessons": ["14"],
 		"type": "word",
 		"engDefinition": "tropical fruit",
 		"category": "",
@@ -10831,7 +10831,7 @@
 	},
 	{
 		"id": 571,
-		"lessons": ["[14]"],
+		"lessons": ["14"],
 		"type": "word",
 		"engDefinition": "more than one mango",
 		"category": "",
@@ -10850,7 +10850,7 @@
 	},
 	{
 		"id": 572,
-		"lessons": ["[14]"],
+		"lessons": ["14"],
 		"type": "word",
 		"engDefinition": "food from animals",
 		"category": "",
@@ -10869,7 +10869,7 @@
 	},
 	{
 		"id": 573,
-		"lessons": ["[14]"],
+		"lessons": ["14"],
 		"type": "word",
 		"engDefinition": "white drink from cows",
 		"category": "",
@@ -10888,7 +10888,7 @@
 	},
 	{
 		"id": 574,
-		"lessons": ["[14]"],
+		"lessons": ["14"],
 		"type": "word",
 		"engDefinition": "money amount",
 		"category": "",
@@ -10907,7 +10907,7 @@
 	},
 	{
 		"id": 575,
-		"lessons": ["[14]"],
+		"lessons": ["14"],
 		"type": "word",
 		"engDefinition": "weight unit (≈0.45kg)",
 		"category": "",
@@ -10926,7 +10926,7 @@
 	},
 	{
 		"id": 576,
-		"lessons": ["[14]"],
+		"lessons": ["14"],
 		"type": "word",
 		"engDefinition": "small grain food",
 		"category": "",
@@ -10945,7 +10945,7 @@
 	},
 	{
 		"id": 577,
-		"lessons": ["[14]"],
+		"lessons": ["14"],
 		"type": "word",
 		"engDefinition": "red vegetable/fruit",
 		"category": "",
@@ -10964,7 +10964,7 @@
 	},
 	{
 		"id": 578,
-		"lessons": ["[14]"],
+		"lessons": ["14"],
 		"type": "word",
 		"engDefinition": "more than one tomato",
 		"category": "",
@@ -10983,7 +10983,7 @@
 	},
 	{
 		"id": 579,
-		"lessons": ["[14]"],
+		"lessons": ["14"],
 		"type": "word",
 		"engDefinition": "money amount",
 		"category": "",
@@ -11002,7 +11002,7 @@
 	},
 	{
 		"id": 580,
-		"lessons": ["[15]"],
+		"lessons": ["15"],
 		"type": "word",
 		"engDefinition": "not too expensive",
 		"category": "",
@@ -11021,7 +11021,7 @@
 	},
 	{
 		"id": 581,
-		"lessons": ["[15]"],
+		"lessons": ["15"],
 		"type": "word",
 		"engDefinition": "more good",
 		"category": "",
@@ -11040,7 +11040,7 @@
 	},
 	{
 		"id": 582,
-		"lessons": ["[15]"],
+		"lessons": ["15"],
 		"type": "word",
 		"engDefinition": "large size",
 		"category": "",
@@ -11059,7 +11059,7 @@
 	},
 	{
 		"id": 583,
-		"lessons": ["[15]"],
+		"lessons": ["15"],
 		"type": "word",
 		"engDefinition": "more large",
 		"category": "",
@@ -11078,7 +11078,7 @@
 	},
 	{
 		"id": 584,
-		"lessons": ["[15]"],
+		"lessons": ["15"],
 		"type": "word",
 		"engDefinition": "two-wheel vehicle",
 		"category": "",
@@ -11097,7 +11097,7 @@
 	},
 	{
 		"id": 585,
-		"lessons": ["[15]"],
+		"lessons": ["15"],
 		"type": "word",
 		"engDefinition": "more than one bike",
 		"category": "",
@@ -11116,7 +11116,7 @@
 	},
 	{
 		"id": 586,
-		"lessons": ["[15]"],
+		"lessons": ["15"],
 		"type": "word",
 		"engDefinition": "road vehicle",
 		"category": "",
@@ -11135,7 +11135,7 @@
 	},
 	{
 		"id": 587,
-		"lessons": ["[15]"],
+		"lessons": ["15"],
 		"type": "word",
 		"engDefinition": "more than one car",
 		"category": "",
@@ -11154,7 +11154,7 @@
 	},
 	{
 		"id": 588,
-		"lessons": ["[15]"],
+		"lessons": ["15"],
 		"type": "word",
 		"engDefinition": "seat",
 		"category": "",
@@ -11173,7 +11173,7 @@
 	},
 	{
 		"id": 589,
-		"lessons": ["[15]"],
+		"lessons": ["15"],
 		"type": "word",
 		"engDefinition": "more than one chair",
 		"category": "",
@@ -11192,7 +11192,7 @@
 	},
 	{
 		"id": 590,
-		"lessons": ["[15]"],
+		"lessons": ["15"],
 		"type": "word",
 		"engDefinition": "not expensive",
 		"category": "",
@@ -11211,7 +11211,7 @@
 	},
 	{
 		"id": 591,
-		"lessons": ["[15]"],
+		"lessons": ["15"],
 		"type": "word",
 		"engDefinition": "less expensive",
 		"category": "",
@@ -11230,7 +11230,7 @@
 	},
 	{
 		"id": 592,
-		"lessons": ["[15]"],
+		"lessons": ["15"],
 		"type": "word",
 		"engDefinition": "feels good to use",
 		"category": "",
@@ -11249,7 +11249,7 @@
 	},
 	{
 		"id": 593,
-		"lessons": ["[15]"],
+		"lessons": ["15"],
 		"type": "word",
 		"engDefinition": "long soft seat",
 		"category": "",
@@ -11268,7 +11268,7 @@
 	},
 	{
 		"id": 594,
-		"lessons": ["[15]"],
+		"lessons": ["15"],
 		"type": "word",
 		"engDefinition": "not safe",
 		"category": "",
@@ -11287,7 +11287,7 @@
 	},
 	{
 		"id": 595,
-		"lessons": ["[15]"],
+		"lessons": ["15"],
 		"type": "word",
 		"engDefinition": "costs a lot",
 		"category": "",
@@ -11306,7 +11306,7 @@
 	},
 	{
 		"id": 596,
-		"lessons": ["[15]"],
+		"lessons": ["15"],
 		"type": "word",
 		"engDefinition": "nice, positive",
 		"category": "",
@@ -11325,7 +11325,7 @@
 	},
 	{
 		"id": 597,
-		"lessons": ["[15]"],
+		"lessons": ["15"],
 		"type": "word",
 		"engDefinition": "modern, advanced",
 		"category": "",
@@ -11344,7 +11344,7 @@
 	},
 	{
 		"id": 598,
-		"lessons": ["[15]"],
+		"lessons": ["15"],
 		"type": "word",
 		"engDefinition": "not old",
 		"category": "",
@@ -11363,7 +11363,7 @@
 	},
 	{
 		"id": 599,
-		"lessons": ["[15]"],
+		"lessons": ["15"],
 		"type": "word",
 		"engDefinition": "more new",
 		"category": "",
@@ -11382,7 +11382,7 @@
 	},
 	{
 		"id": 600,
-		"lessons": ["[15]"],
+		"lessons": ["15"],
 		"type": "word",
 		"engDefinition": "pleasant",
 		"category": "",
@@ -11401,7 +11401,7 @@
 	},
 	{
 		"id": 601,
-		"lessons": ["[15]"],
+		"lessons": ["15"],
 		"type": "word",
 		"engDefinition": "more nice",
 		"category": "",
@@ -11420,7 +11420,7 @@
 	},
 	{
 		"id": 602,
-		"lessons": ["[15]"],
+		"lessons": ["15"],
 		"type": "word",
 		"engDefinition": "not new",
 		"category": "",
@@ -11439,7 +11439,7 @@
 	},
 	{
 		"id": 603,
-		"lessons": ["[15]"],
+		"lessons": ["15"],
 		"type": "word",
 		"engDefinition": "more old",
 		"category": "",
@@ -11458,7 +11458,7 @@
 	},
 	{
 		"id": 604,
-		"lessons": ["[15]"],
+		"lessons": ["15"],
 		"type": "word",
 		"engDefinition": "device to call",
 		"category": "",
@@ -11477,7 +11477,7 @@
 	},
 	{
 		"id": 605,
-		"lessons": ["[15]"],
+		"lessons": ["15"],
 		"type": "word",
 		"engDefinition": "more than one phone",
 		"category": "",
@@ -11496,7 +11496,7 @@
 	},
 	{
 		"id": 606,
-		"lessons": ["[15]"],
+		"lessons": ["15"],
 		"type": "word",
 		"engDefinition": "musical instrument",
 		"category": "",
@@ -11515,7 +11515,7 @@
 	},
 	{
 		"id": 607,
-		"lessons": ["[15]"],
+		"lessons": ["15"],
 		"type": "word",
 		"engDefinition": "not dangerous",
 		"category": "",
@@ -11534,7 +11534,7 @@
 	},
 	{
 		"id": 608,
-		"lessons": ["[15]"],
+		"lessons": ["15"],
 		"type": "word",
 		"engDefinition": "more safe",
 		"category": "",
@@ -11553,7 +11553,7 @@
 	},
 	{
 		"id": 609,
-		"lessons": ["[15]"],
+		"lessons": ["15"],
 		"type": "word",
 		"engDefinition": "machine for sewing",
 		"category": "",
@@ -11572,7 +11572,7 @@
 	},
 	{
 		"id": 610,
-		"lessons": ["[15]"],
+		"lessons": ["15"],
 		"type": "word",
 		"engDefinition": "footwear",
 		"category": "",
@@ -11591,7 +11591,7 @@
 	},
 	{
 		"id": 611,
-		"lessons": ["[15]"],
+		"lessons": ["15"],
 		"type": "word",
 		"engDefinition": "more than one shoe",
 		"category": "",
@@ -11610,7 +11610,7 @@
 	},
 	{
 		"id": 612,
-		"lessons": ["[15]"],
+		"lessons": ["15"],
 		"type": "word",
 		"engDefinition": "little size",
 		"category": "",
@@ -11629,7 +11629,7 @@
 	},
 	{
 		"id": 613,
-		"lessons": ["[15]"],
+		"lessons": ["15"],
 		"type": "word",
 		"engDefinition": "more little",
 		"category": "",
@@ -11648,7 +11648,7 @@
 	},
 	{
 		"id": 614,
-		"lessons": ["[15]"],
+		"lessons": ["15"],
 		"type": "word",
 		"engDefinition": "used for comparing",
 		"category": "",
@@ -11667,7 +11667,7 @@
 	},
 	{
 		"id": 615,
-		"lessons": ["[15]"],
+		"lessons": ["15"],
 		"type": "word",
 		"engDefinition": "not loose",
 		"category": "",
@@ -11686,7 +11686,7 @@
 	},
 	{
 		"id": 616,
-		"lessons": ["[15]"],
+		"lessons": ["15"],
 		"type": "word",
 		"engDefinition": "more tight",
 		"category": "",
@@ -11705,7 +11705,7 @@
 	},
 	{
 		"id": 617,
-		"lessons": ["[15]"],
+		"lessons": ["15"],
 		"type": "word",
 		"engDefinition": "television",
 		"category": "",
@@ -11724,7 +11724,7 @@
 	},
 	{
 		"id": 618,
-		"lessons": ["[15]"],
+		"lessons": ["15"],
 		"type": "word",
 		"engDefinition": "asking a choice",
 		"category": "",
@@ -11743,7 +11743,7 @@
 	},
 	{
 		"id": 619,
-		"lessons": ["[16]"],
+		"lessons": ["16"],
 		"type": "word",
 		"engDefinition": "on the opposite side",
 		"category": "",
@@ -11762,7 +11762,7 @@
 	},
 	{
 		"id": 620,
-		"lessons": ["[16]"],
+		"lessons": ["16"],
 		"type": "word",
 		"engDefinition": "place for airplanes",
 		"category": "",
@@ -11781,7 +11781,7 @@
 	},
 	{
 		"id": 621,
-		"lessons": ["[16]"],
+		"lessons": ["16"],
 		"type": "word",
 		"engDefinition": "place to buy bread",
 		"category": "",
@@ -11800,7 +11800,7 @@
 	},
 	{
 		"id": 622,
-		"lessons": ["[16]"],
+		"lessons": ["16"],
 		"type": "word",
 		"engDefinition": "place for money",
 		"category": "",
@@ -11819,7 +11819,7 @@
 	},
 	{
 		"id": 623,
-		"lessons": ["[16]"],
+		"lessons": ["16"],
 		"type": "word",
 		"engDefinition": "at the back of",
 		"category": "",
@@ -11838,7 +11838,7 @@
 	},
 	{
 		"id": 624,
-		"lessons": ["[16]"],
+		"lessons": ["16"],
 		"type": "word",
 		"engDefinition": "in the middle of",
 		"category": "",
@@ -11857,7 +11857,7 @@
 	},
 	{
 		"id": 625,
-		"lessons": ["[16]"],
+		"lessons": ["16"],
 		"type": "word",
 		"engDefinition": "place to buy books",
 		"category": "",
@@ -11876,7 +11876,7 @@
 	},
 	{
 		"id": 626,
-		"lessons": ["[16]"],
+		"lessons": ["16"],
 		"type": "word",
 		"engDefinition": "place to wait for bus",
 		"category": "",
@@ -11895,7 +11895,7 @@
 	},
 	{
 		"id": 627,
-		"lessons": ["[16]"],
+		"lessons": ["16"],
 		"type": "word",
 		"engDefinition": "place to worship",
 		"category": "",
@@ -11914,7 +11914,7 @@
 	},
 	{
 		"id": 628,
-		"lessons": ["[16]"],
+		"lessons": ["16"],
 		"type": "word",
 		"engDefinition": "large town",
 		"category": "",
@@ -11933,7 +11933,7 @@
 	},
 	{
 		"id": 629,
-		"lessons": ["[16]"],
+		"lessons": ["16"],
 		"type": "word",
 		"engDefinition": "farther along the street",
 		"category": "",
@@ -11952,7 +11952,7 @@
 	},
 	{
 		"id": 630,
-		"lessons": ["[16]"],
+		"lessons": ["16"],
 		"type": "word",
 		"engDefinition": "at a great distance",
 		"category": "",
@@ -11971,7 +11971,7 @@
 	},
 	{
 		"id": 631,
-		"lessons": ["[16]"],
+		"lessons": ["16"],
 		"type": "word",
 		"engDefinition": "place to grow food/raise animals",
 		"category": "",
@@ -11990,7 +11990,7 @@
 	},
 	{
 		"id": 632,
-		"lessons": ["[16]"],
+		"lessons": ["16"],
 		"type": "word",
 		"engDefinition": "place to buy food",
 		"category": "",
@@ -12009,7 +12009,7 @@
 	},
 	{
 		"id": 633,
-		"lessons": ["[16]"],
+		"lessons": ["16"],
 		"type": "word",
 		"engDefinition": "place for sick people",
 		"category": "",
@@ -12028,7 +12028,7 @@
 	},
 	{
 		"id": 634,
-		"lessons": ["[16]"],
+		"lessons": ["16"],
 		"type": "word",
 		"engDefinition": "building to live in",
 		"category": "",
@@ -12047,7 +12047,7 @@
 	},
 	{
 		"id": 635,
-		"lessons": ["[16]"],
+		"lessons": ["16"],
 		"type": "word",
 		"engDefinition": "inside",
 		"category": "",
@@ -12066,7 +12066,7 @@
 	},
 	{
 		"id": 636,
-		"lessons": ["[16]"],
+		"lessons": ["16"],
 		"type": "word",
 		"engDefinition": "before, facing",
 		"category": "",
@@ -12085,7 +12085,7 @@
 	},
 	{
 		"id": 637,
-		"lessons": ["[16]"],
+		"lessons": ["16"],
 		"type": "word",
 		"engDefinition": "place to watch movies",
 		"category": "",
@@ -12104,7 +12104,7 @@
 	},
 	{
 		"id": 638,
-		"lessons": ["[16]"],
+		"lessons": ["16"],
 		"type": "word",
 		"engDefinition": "close to",
 		"category": "",
@@ -12123,7 +12123,7 @@
 	},
 	{
 		"id": 639,
-		"lessons": ["[16]"],
+		"lessons": ["16"],
 		"type": "word",
 		"engDefinition": "area where people live",
 		"category": "",
@@ -12142,7 +12142,7 @@
 	},
 	{
 		"id": 640,
-		"lessons": ["[16]"],
+		"lessons": ["16"],
 		"type": "word",
 		"engDefinition": "beside",
 		"category": "",
@@ -12161,7 +12161,7 @@
 	},
 	{
 		"id": 641,
-		"lessons": ["[16]"],
+		"lessons": ["16"],
 		"type": "word",
 		"engDefinition": "green place to relax",
 		"category": "",
@@ -12180,7 +12180,7 @@
 	},
 	{
 		"id": 642,
-		"lessons": ["[16]"],
+		"lessons": ["16"],
 		"type": "word",
 		"engDefinition": "office for police",
 		"category": "",
@@ -12199,7 +12199,7 @@
 	},
 	{
 		"id": 643,
-		"lessons": ["[16]"],
+		"lessons": ["16"],
 		"type": "word",
 		"engDefinition": "place to send mail",
 		"category": "",
@@ -12218,7 +12218,7 @@
 	},
 	{
 		"id": 644,
-		"lessons": ["[16]"],
+		"lessons": ["16"],
 		"type": "word",
 		"engDefinition": "place to eat",
 		"category": "",
@@ -12237,7 +12237,7 @@
 	},
 	{
 		"id": 645,
-		"lessons": ["[16]"],
+		"lessons": ["16"],
 		"type": "word",
 		"engDefinition": "place to study",
 		"category": "",
@@ -12256,7 +12256,7 @@
 	},
 	{
 		"id": 646,
-		"lessons": ["[16]"],
+		"lessons": ["16"],
 		"type": "word",
 		"engDefinition": "small city",
 		"category": "",
@@ -12275,7 +12275,7 @@
 	},
 	{
 		"id": 647,
-		"lessons": ["[16]"],
+		"lessons": ["16"],
 		"type": "word",
 		"engDefinition": "place for trains",
 		"category": "",
@@ -12294,7 +12294,7 @@
 	},
 	{
 		"id": 648,
-		"lessons": ["[17]"],
+		"lessons": ["17"],
 		"type": "word",
 		"engDefinition": "celebration of birth",
 		"category": "",
@@ -12313,7 +12313,7 @@
 	},
 	{
 		"id": 649,
-		"lessons": ["[17]"],
+		"lessons": ["17"],
 		"type": "word",
 		"engDefinition": "event of joy",
 		"category": "",
@@ -12332,7 +12332,7 @@
 	},
 	{
 		"id": 650,
-		"lessons": ["[17]"],
+		"lessons": ["17"],
 		"type": "word",
 		"engDefinition": "",
 		"category": "",
@@ -12351,7 +12351,7 @@
 	},
 	{
 		"id": 651,
-		"lessons": ["[17]"],
+		"lessons": ["17"],
 		"type": "word",
 		"engDefinition": "activity in a church",
 		"category": "",
@@ -12370,7 +12370,7 @@
 	},
 	{
 		"id": 652,
-		"lessons": ["[17]"],
+		"lessons": ["17"],
 		"type": "word",
 		"engDefinition": "volunteer project",
 		"category": "",
@@ -12389,7 +12389,7 @@
 	},
 	{
 		"id": 653,
-		"lessons": ["[17]"],
+		"lessons": ["17"],
 		"type": "word",
 		"engDefinition": "party with dancing",
 		"category": "",
@@ -12408,7 +12408,7 @@
 	},
 	{
 		"id": 654,
-		"lessons": ["[17]"],
+		"lessons": ["17"],
 		"type": "word",
 		"engDefinition": "special public event",
 		"category": "",
@@ -12427,7 +12427,7 @@
 	},
 	{
 		"id": 655,
-		"lessons": ["[17]"],
+		"lessons": ["17"],
 		"type": "word",
 		"engDefinition": "what we eat",
 		"category": "",
@@ -12446,7 +12446,7 @@
 	},
 	{
 		"id": 656,
-		"lessons": ["[17]"],
+		"lessons": ["17"],
 		"type": "word",
 		"engDefinition": "event to collect money",
 		"category": "",
@@ -12465,7 +12465,7 @@
 	},
 	{
 		"id": 657,
-		"lessons": ["[17]"],
+		"lessons": ["17"],
 		"type": "word",
 		"engDefinition": "activity for fun",
 		"category": "",
@@ -12484,7 +12484,7 @@
 	},
 	{
 		"id": 658,
-		"lessons": ["[17]"],
+		"lessons": ["17"],
 		"type": "word",
 		"engDefinition": "public march",
 		"category": "",
@@ -12503,7 +12503,7 @@
 	},
 	{
 		"id": 659,
-		"lessons": ["[17]"],
+		"lessons": ["17"],
 		"type": "word",
 		"engDefinition": "",
 		"category": "",
@@ -12522,7 +12522,7 @@
 	},
 	{
 		"id": 660,
-		"lessons": ["[17]"],
+		"lessons": ["17"],
 		"type": "word",
 		"engDefinition": "social event",
 		"category": "",
@@ -12541,7 +12541,7 @@
 	},
 	{
 		"id": 661,
-		"lessons": ["[17]"],
+		"lessons": ["17"],
 		"type": "word",
 		"engDefinition": "a show for people",
 		"category": "",
@@ -12560,7 +12560,7 @@
 	},
 	{
 		"id": 662,
-		"lessons": ["[17]"],
+		"lessons": ["17"],
 		"type": "word",
 		"engDefinition": "meal outside",
 		"category": "",
@@ -12579,7 +12579,7 @@
 	},
 	{
 		"id": 663,
-		"lessons": ["[17]"],
+		"lessons": ["17"],
 		"type": "word",
 		"engDefinition": "large sports place",
 		"category": "",
@@ -12598,7 +12598,7 @@
 	},
 	{
 		"id": 664,
-		"lessons": ["[17]"],
+		"lessons": ["17"],
 		"type": "word",
 		"engDefinition": "marriage party",
 		"category": "",
@@ -12617,7 +12617,7 @@
 	},
 	{
 		"id": 665,
-		"lessons": ["[18]"],
+		"lessons": ["18"],
 		"type": "word",
 		"engDefinition": "every time",
 		"category": "",
@@ -12636,7 +12636,7 @@
 	},
 	{
 		"id": 666,
-		"lessons": ["[18]"],
+		"lessons": ["18"],
 		"type": "word",
 		"engDefinition": "Christian holiday Dec. 25",
 		"category": "",
@@ -12655,7 +12655,7 @@
 	},
 	{
 		"id": 667,
-		"lessons": ["[18]"],
+		"lessons": ["18"],
 		"type": "word",
 		"engDefinition": "Hindu festival of lights",
 		"category": "",
@@ -12674,7 +12674,7 @@
 	},
 	{
 		"id": 668,
-		"lessons": ["[18]"],
+		"lessons": ["18"],
 		"type": "word",
 		"engDefinition": "Christian spring holiday",
 		"category": "",
@@ -12693,7 +12693,7 @@
 	},
 	{
 		"id": 669,
-		"lessons": ["[18]"],
+		"lessons": ["18"],
 		"type": "word",
 		"engDefinition": "to give presents",
 		"category": "",
@@ -12712,7 +12712,7 @@
 	},
 	{
 		"id": 670,
-		"lessons": ["[18]"],
+		"lessons": ["18"],
 		"type": "word",
 		"engDefinition": "attend a party",
 		"category": "",
@@ -12731,7 +12731,7 @@
 	},
 	{
 		"id": 671,
-		"lessons": ["[18]"],
+		"lessons": ["18"],
 		"type": "word",
 		"engDefinition": "sleep early",
 		"category": "",
@@ -12750,7 +12750,7 @@
 	},
 	{
 		"id": 672,
-		"lessons": ["[18]"],
+		"lessons": ["18"],
 		"type": "word",
 		"engDefinition": "eat lots of food",
 		"category": "",
@@ -12769,7 +12769,7 @@
 	},
 	{
 		"id": 673,
-		"lessons": ["[18]"],
+		"lessons": ["18"],
 		"type": "word",
 		"engDefinition": "holiday for freedom",
 		"category": "",
@@ -12788,7 +12788,7 @@
 	},
 	{
 		"id": 674,
-		"lessons": ["[18]"],
+		"lessons": ["18"],
 		"type": "word",
 		"engDefinition": "Asian new year festival",
 		"category": "",
@@ -12807,7 +12807,7 @@
 	},
 	{
 		"id": 675,
-		"lessons": ["[18]"],
+		"lessons": ["18"],
 		"type": "word",
 		"engDefinition": "bake a cake",
 		"category": "",
@@ -12826,7 +12826,7 @@
 	},
 	{
 		"id": 676,
-		"lessons": ["[18]"],
+		"lessons": ["18"],
 		"type": "word",
 		"engDefinition": "not ever",
 		"category": "",
@@ -12845,7 +12845,7 @@
 	},
 	{
 		"id": 677,
-		"lessons": ["[18]"],
+		"lessons": ["18"],
 		"type": "word",
 		"engDefinition": "Dec. 31 holiday",
 		"category": "",
@@ -12864,7 +12864,7 @@
 	},
 	{
 		"id": 678,
-		"lessons": ["[18]"],
+		"lessons": ["18"],
 		"type": "word",
 		"engDefinition": "Muslim fasting month",
 		"category": "",
@@ -12883,7 +12883,7 @@
 	},
 	{
 		"id": 679,
-		"lessons": ["[18]"],
+		"lessons": ["18"],
 		"type": "word",
 		"engDefinition": "not always",
 		"category": "",
@@ -12902,7 +12902,7 @@
 	},
 	{
 		"id": 680,
-		"lessons": ["[18]"],
+		"lessons": ["18"],
 		"type": "word",
 		"engDefinition": "be together with relatives",
 		"category": "",
@@ -12921,7 +12921,7 @@
 	},
 	{
 		"id": 681,
-		"lessons": ["[18]"],
+		"lessons": ["18"],
 		"type": "word",
 		"engDefinition": "not go out",
 		"category": "",
@@ -12940,7 +12940,7 @@
 	},
 	{
 		"id": 682,
-		"lessons": ["[18]"],
+		"lessons": ["18"],
 		"type": "word",
 		"engDefinition": "most of the time",
 		"category": "",
@@ -12959,7 +12959,7 @@
 	},
 	{
 		"id": 683,
-		"lessons": ["[18]"],
+		"lessons": ["18"],
 		"type": "word",
 		"engDefinition": "go see friends",
 		"category": "",
@@ -12978,7 +12978,7 @@
 	},
 	{
 		"id": 684,
-		"lessons": ["[18]"],
+		"lessons": ["18"],
 		"type": "word",
 		"engDefinition": "look at fire explosions",
 		"category": "",
@@ -12997,7 +12997,7 @@
 	},
 	{
 		"id": 685,
-		"lessons": ["[18]"],
+		"lessons": ["18"],
 		"type": "word",
 		"engDefinition": "Jewish holy day",
 		"category": "",
@@ -13016,7 +13016,7 @@
 	},
 	{
 		"id": 686,
-		"lessons": ["[19]"],
+		"lessons": ["19"],
 		"type": "word",
 		"engDefinition": "fun park with rides",
 		"category": "",
@@ -13035,7 +13035,7 @@
 	},
 	{
 		"id": 687,
-		"lessons": ["[19]"],
+		"lessons": ["19"],
 		"type": "word",
 		"engDefinition": "sand and sea",
 		"category": "",
@@ -13054,7 +13054,7 @@
 	},
 	{
 		"id": 688,
-		"lessons": ["[19]"],
+		"lessons": ["19"],
 		"type": "word",
 		"engDefinition": "water vehicle",
 		"category": "",
@@ -13073,7 +13073,7 @@
 	},
 	{
 		"id": 689,
-		"lessons": ["[19]"],
+		"lessons": ["19"],
 		"type": "word",
 		"engDefinition": "road vehicle for many",
 		"category": "",
@@ -13092,7 +13092,7 @@
 	},
 	{
 		"id": 690,
-		"lessons": ["[19]"],
+		"lessons": ["19"],
 		"type": "word",
 		"engDefinition": "road vehicle",
 		"category": "",
@@ -13111,7 +13111,7 @@
 	},
 	{
 		"id": 691,
-		"lessons": ["[19]"],
+		"lessons": ["19"],
 		"type": "word",
 		"engDefinition": "large town",
 		"category": "",
@@ -13130,7 +13130,7 @@
 	},
 	{
 		"id": 692,
-		"lessons": ["[19]"],
+		"lessons": ["19"],
 		"type": "word",
 		"engDefinition": "to visit city places",
 		"category": "",
@@ -13149,7 +13149,7 @@
 	},
 	{
 		"id": 693,
-		"lessons": ["[19]"],
+		"lessons": ["19"],
 		"type": "word",
 		"engDefinition": "water animal / catch fish",
 		"category": "",
@@ -13168,7 +13168,7 @@
 	},
 	{
 		"id": 694,
-		"lessons": ["[19]"],
+		"lessons": ["19"],
 		"type": "word",
 		"engDefinition": "visit animals at zoo",
 		"category": "",
@@ -13187,7 +13187,7 @@
 	},
 	{
 		"id": 695,
-		"lessons": ["[19]"],
+		"lessons": ["19"],
 		"type": "word",
 		"engDefinition": "important old place",
 		"category": "",
@@ -13206,7 +13206,7 @@
 	},
 	{
 		"id": 696,
-		"lessons": ["[19]"],
+		"lessons": ["19"],
 		"type": "word",
 		"engDefinition": "large water area",
 		"category": "",
@@ -13225,7 +13225,7 @@
 	},
 	{
 		"id": 697,
-		"lessons": ["[19]"],
+		"lessons": ["19"],
 		"type": "word",
 		"engDefinition": "very high land",
 		"category": "",
@@ -13244,7 +13244,7 @@
 	},
 	{
 		"id": 698,
-		"lessons": ["[19]"],
+		"lessons": ["19"],
 		"type": "word",
 		"engDefinition": "flying vehicle",
 		"category": "",
@@ -13263,7 +13263,7 @@
 	},
 	{
 		"id": 699,
-		"lessons": ["[19]"],
+		"lessons": ["19"],
 		"type": "word",
 		"engDefinition": "to rest",
 		"category": "",
@@ -13282,7 +13282,7 @@
 	},
 	{
 		"id": 700,
-		"lessons": ["[19]"],
+		"lessons": ["19"],
 		"type": "word",
 		"engDefinition": "to move in water",
 		"category": "",
@@ -13301,7 +13301,7 @@
 	},
 	{
 		"id": 701,
-		"lessons": ["[19]"],
+		"lessons": ["19"],
 		"type": "word",
 		"engDefinition": "rail vehicle",
 		"category": "",
@@ -13320,7 +13320,7 @@
 	},
 	{
 		"id": 702,
-		"lessons": ["[19]"],
+		"lessons": ["19"],
 		"type": "word",
 		"engDefinition": "free time travel",
 		"category": "",
@@ -13339,7 +13339,7 @@
 	},
 	{
 		"id": 703,
-		"lessons": ["[19]"],
+		"lessons": ["19"],
 		"type": "word",
 		"engDefinition": "see art/history buildings",
 		"category": "",
@@ -13358,7 +13358,7 @@
 	},
 	{
 		"id": 704,
-		"lessons": ["[20]"],
+		"lessons": ["20"],
 		"type": "word",
 		"engDefinition": "nervous, worried",
 		"category": "",
@@ -13377,7 +13377,7 @@
 	},
 	{
 		"id": 705,
-		"lessons": ["[20]"],
+		"lessons": ["20"],
 		"type": "word",
 		"engDefinition": "not hot",
 		"category": "",
@@ -13396,7 +13396,7 @@
 	},
 	{
 		"id": 706,
-		"lessons": ["[20]"],
+		"lessons": ["20"],
 		"type": "word",
 		"engDefinition": "push air from throat",
 		"category": "",
@@ -13415,7 +13415,7 @@
 	},
 	{
 		"id": 707,
-		"lessons": ["[20]"],
+		"lessons": ["20"],
 		"type": "word",
 		"engDefinition": "feeling like spinning",
 		"category": "",
@@ -13434,7 +13434,7 @@
 	},
 	{
 		"id": 708,
-		"lessons": ["[20]"],
+		"lessons": ["20"],
 		"type": "word",
 		"engDefinition": "to have water",
 		"category": "",
@@ -13453,7 +13453,7 @@
 	},
 	{
 		"id": 709,
-		"lessons": ["[20]"],
+		"lessons": ["20"],
 		"type": "word",
 		"engDefinition": "move for health",
 		"category": "",
@@ -13472,7 +13472,7 @@
 	},
 	{
 		"id": 710,
-		"lessons": ["[20]"],
+		"lessons": ["20"],
 		"type": "word",
 		"engDefinition": "very tired",
 		"category": "",
@@ -13491,7 +13491,7 @@
 	},
 	{
 		"id": 711,
-		"lessons": ["[20]"],
+		"lessons": ["20"],
 		"type": "word",
 		"engDefinition": "to have an emotion or sense",
 		"category": "",
@@ -13510,7 +13510,7 @@
 	},
 	{
 		"id": 712,
-		"lessons": ["[20]"],
+		"lessons": ["20"],
 		"type": "word",
 		"engDefinition": "an emotion or sense",
 		"category": "",
@@ -13529,7 +13529,7 @@
 	},
 	{
 		"id": 713,
-		"lessons": ["[20]"],
+		"lessons": ["20"],
 		"type": "word",
 		"engDefinition": "hot body temperature",
 		"category": "",
@@ -13548,7 +13548,7 @@
 	},
 	{
 		"id": 714,
-		"lessons": ["[20]"],
+		"lessons": ["20"],
 		"type": "word",
 		"engDefinition": "illness with fever/cough",
 		"category": "",
@@ -13567,7 +13567,7 @@
 	},
 	{
 		"id": 715,
-		"lessons": ["[20]"],
+		"lessons": ["20"],
 		"type": "word",
 		"engDefinition": "return to house",
 		"category": "",
@@ -13586,7 +13586,7 @@
 	},
 	{
 		"id": 716,
-		"lessons": ["[20]"],
+		"lessons": ["20"],
 		"type": "word",
 		"engDefinition": "visit a doctor",
 		"category": "",
@@ -13605,7 +13605,7 @@
 	},
 	{
 		"id": 717,
-		"lessons": ["[20]"],
+		"lessons": ["20"],
 		"type": "word",
 		"engDefinition": "leave home for job",
 		"category": "",
@@ -13624,7 +13624,7 @@
 	},
 	{
 		"id": 718,
-		"lessons": ["[20]"],
+		"lessons": ["20"],
 		"type": "word",
 		"engDefinition": "pain in the head",
 		"category": "",
@@ -13643,7 +13643,7 @@
 	},
 	{
 		"id": 719,
-		"lessons": ["[20]"],
+		"lessons": ["20"],
 		"type": "word",
 		"engDefinition": "use ice to help pain",
 		"category": "",
@@ -13662,7 +13662,7 @@
 	},
 	{
 		"id": 720,
-		"lessons": ["[20]"],
+		"lessons": ["20"],
 		"type": "word",
 		"engDefinition": "to stop and relax",
 		"category": "",
@@ -13681,7 +13681,7 @@
 	},
 	{
 		"id": 721,
-		"lessons": ["[20]"],
+		"lessons": ["20"],
 		"type": "word",
 		"engDefinition": "not healthy",
 		"category": "",
@@ -13700,7 +13700,7 @@
 	},
 	{
 		"id": 722,
-		"lessons": ["[20]"],
+		"lessons": ["20"],
 		"type": "word",
 		"engDefinition": "pain in throat",
 		"category": "",
@@ -13719,7 +13719,7 @@
 	},
 	{
 		"id": 723,
-		"lessons": ["[20]"],
+		"lessons": ["20"],
 		"type": "word",
 		"engDefinition": "pain in stomach",
 		"category": "",
@@ -13738,7 +13738,7 @@
 	},
 	{
 		"id": 724,
-		"lessons": ["[20]"],
+		"lessons": ["20"],
 		"type": "word",
 		"engDefinition": "blocked nose",
 		"category": "",
@@ -13757,7 +13757,7 @@
 	},
 	{
 		"id": 725,
-		"lessons": ["[20]"],
+		"lessons": ["20"],
 		"type": "word",
 		"engDefinition": "to use medicine",
 		"category": "",
@@ -13776,7 +13776,7 @@
 	},
 	{
 		"id": 726,
-		"lessons": ["[20]"],
+		"lessons": ["20"],
 		"type": "word",
 		"engDefinition": "needing rest",
 		"category": "",
@@ -13795,7 +13795,7 @@
 	},
 	{
 		"id": 727,
-		"lessons": ["[21]"],
+		"lessons": ["21"],
 		"type": "word",
 		"engDefinition": "joint of the foot",
 		"category": "",
@@ -13814,7 +13814,7 @@
 	},
 	{
 		"id": 728,
-		"lessons": ["[21]"],
+		"lessons": ["21"],
 		"type": "word",
 		"engDefinition": "more than one ankle",
 		"category": "",
@@ -13833,7 +13833,7 @@
 	},
 	{
 		"id": 729,
-		"lessons": ["[21]"],
+		"lessons": ["21"],
 		"type": "word",
 		"engDefinition": "body part from shoulder to hand",
 		"category": "",
@@ -13852,7 +13852,7 @@
 	},
 	{
 		"id": 730,
-		"lessons": ["[21]"],
+		"lessons": ["21"],
 		"type": "word",
 		"engDefinition": "more than one arm",
 		"category": "",
@@ -13871,7 +13871,7 @@
 	},
 	{
 		"id": 731,
-		"lessons": ["[21]"],
+		"lessons": ["21"],
 		"type": "word",
 		"engDefinition": "part behind the body",
 		"category": "",
@@ -13890,7 +13890,7 @@
 	},
 	{
 		"id": 732,
-		"lessons": ["[21]"],
+		"lessons": ["21"],
 		"type": "word",
 		"engDefinition": "to separate into pieces",
 		"category": "",
@@ -13909,7 +13909,7 @@
 	},
 	{
 		"id": 733,
-		"lessons": ["[21]"],
+		"lessons": ["21"],
 		"type": "word",
 		"engDefinition": "past of break",
 		"category": "",
@@ -13928,7 +13928,7 @@
 	},
 	{
 		"id": 734,
-		"lessons": ["[21]"],
+		"lessons": ["21"],
 		"type": "word",
 		"engDefinition": "purple skin mark from hit",
 		"category": "",
@@ -13947,7 +13947,7 @@
 	},
 	{
 		"id": 735,
-		"lessons": ["[21]"],
+		"lessons": ["21"],
 		"type": "word",
 		"engDefinition": "having a bruise",
 		"category": "",
@@ -13966,7 +13966,7 @@
 	},
 	{
 		"id": 736,
-		"lessons": ["[21]"],
+		"lessons": ["21"],
 		"type": "word",
 		"engDefinition": "hurt with fire/heat",
 		"category": "",
@@ -13985,7 +13985,7 @@
 	},
 	{
 		"id": 737,
-		"lessons": ["[21]"],
+		"lessons": ["21"],
 		"type": "word",
 		"engDefinition": "past of burn",
 		"category": "",
@@ -14004,7 +14004,7 @@
 	},
 	{
 		"id": 738,
-		"lessons": ["[21]"],
+		"lessons": ["21"],
 		"type": "word",
 		"engDefinition": "wound with knife",
 		"category": "",
@@ -14023,7 +14023,7 @@
 	},
 	{
 		"id": 739,
-		"lessons": ["[21]"],
+		"lessons": ["21"],
 		"type": "word",
 		"engDefinition": "part of body to see",
 		"category": "",
@@ -14042,7 +14042,7 @@
 	},
 	{
 		"id": 740,
-		"lessons": ["[21]"],
+		"lessons": ["21"],
 		"type": "word",
 		"engDefinition": "more than one eye",
 		"category": "",
@@ -14061,7 +14061,7 @@
 	},
 	{
 		"id": 741,
-		"lessons": ["[21]"],
+		"lessons": ["21"],
 		"type": "word",
 		"engDefinition": "more than one foot",
 		"category": "",
@@ -14080,7 +14080,7 @@
 	},
 	{
 		"id": 742,
-		"lessons": ["[21]"],
+		"lessons": ["21"],
 		"type": "word",
 		"engDefinition": "part of hand",
 		"category": "",
@@ -14099,7 +14099,7 @@
 	},
 	{
 		"id": 743,
-		"lessons": ["[21]"],
+		"lessons": ["21"],
 		"type": "word",
 		"engDefinition": "more than one finger",
 		"category": "",
@@ -14118,7 +14118,7 @@
 	},
 	{
 		"id": 744,
-		"lessons": ["[21]"],
+		"lessons": ["21"],
 		"type": "word",
 		"engDefinition": "part you stand on",
 		"category": "",
@@ -14137,7 +14137,7 @@
 	},
 	{
 		"id": 745,
-		"lessons": ["[21]"],
+		"lessons": ["21"],
 		"type": "word",
 		"engDefinition": "part you use to hold",
 		"category": "",
@@ -14156,7 +14156,7 @@
 	},
 	{
 		"id": 746,
-		"lessons": ["[21]"],
+		"lessons": ["21"],
 		"type": "word",
 		"engDefinition": "more than one hand",
 		"category": "",
@@ -14175,7 +14175,7 @@
 	},
 	{
 		"id": 747,
-		"lessons": ["[21]"],
+		"lessons": ["21"],
 		"type": "word",
 		"engDefinition": "top part of body",
 		"category": "",
@@ -14194,7 +14194,7 @@
 	},
 	{
 		"id": 748,
-		"lessons": ["[21]"],
+		"lessons": ["21"],
 		"type": "word",
 		"engDefinition": "cause pain",
 		"category": "",
@@ -14213,7 +14213,7 @@
 	},
 	{
 		"id": 749,
-		"lessons": ["[21]"],
+		"lessons": ["21"],
 		"type": "word",
 		"engDefinition": "joint in the leg",
 		"category": "",
@@ -14232,7 +14232,7 @@
 	},
 	{
 		"id": 750,
-		"lessons": ["[21]"],
+		"lessons": ["21"],
 		"type": "word",
 		"engDefinition": "more than one knee",
 		"category": "",
@@ -14251,7 +14251,7 @@
 	},
 	{
 		"id": 751,
-		"lessons": ["[21]"],
+		"lessons": ["21"],
 		"type": "word",
 		"engDefinition": "body part for walking",
 		"category": "",
@@ -14270,7 +14270,7 @@
 	},
 	{
 		"id": 752,
-		"lessons": ["[21]"],
+		"lessons": ["21"],
 		"type": "word",
 		"engDefinition": "body parts for walking",
 		"category": "",
@@ -14289,7 +14289,7 @@
 	},
 	{
 		"id": 753,
-		"lessons": ["[21]"],
+		"lessons": ["21"],
 		"type": "word",
 		"engDefinition": "part to smell",
 		"category": "",
@@ -14308,7 +14308,7 @@
 	},
 	{
 		"id": 754,
-		"lessons": ["[21]"],
+		"lessons": ["21"],
 		"type": "word",
 		"engDefinition": "body part near arm",
 		"category": "",
@@ -14327,7 +14327,7 @@
 	},
 	{
 		"id": 755,
-		"lessons": ["[21]"],
+		"lessons": ["21"],
 		"type": "word",
 		"engDefinition": "more than one shoulder",
 		"category": "",
@@ -14346,7 +14346,7 @@
 	},
 	{
 		"id": 756,
-		"lessons": ["[21]"],
+		"lessons": ["21"],
 		"type": "word",
 		"engDefinition": "twisted joint",
 		"category": "",
@@ -14365,7 +14365,7 @@
 	},
 	{
 		"id": 757,
-		"lessons": ["[21]"],
+		"lessons": ["21"],
 		"type": "word",
 		"engDefinition": "hurt by twisting",
 		"category": "",
@@ -14384,7 +14384,7 @@
 	},
 	{
 		"id": 758,
-		"lessons": ["[21]"],
+		"lessons": ["21"],
 		"type": "word",
 		"engDefinition": "white parts in mouth",
 		"category": "",
@@ -14403,7 +14403,7 @@
 	},
 	{
 		"id": 759,
-		"lessons": ["[21]"],
+		"lessons": ["21"],
 		"type": "word",
 		"engDefinition": "one tooth",
 		"category": "",
@@ -14422,7 +14422,7 @@
 	},
 	{
 		"id": 760,
-		"lessons": ["[21]"],
+		"lessons": ["21"],
 		"type": "word",
 		"engDefinition": "joint near hand",
 		"category": "",
@@ -14441,7 +14441,7 @@
 	},
 	{
 		"id": 761,
-		"lessons": ["[21]"],
+		"lessons": ["21"],
 		"type": "word",
 		"engDefinition": "more than one wrist",
 		"category": "",
@@ -14460,7 +14460,7 @@
 	},
 	{
 		"id": 762,
-		"lessons": ["[21]"],
+		"lessons": ["21"],
 		"type": "word",
 		"engDefinition": "the day before today",
 		"category": "",
@@ -14479,7 +14479,7 @@
 	},
 	{
 		"id": 763,
-		"lessons": ["[22]"],
+		"lessons": ["22"],
 		"type": "word",
 		"engDefinition": "group of musicians",
 		"category": "",
@@ -14498,7 +14498,7 @@
 	},
 	{
 		"id": 764,
-		"lessons": ["[22]"],
+		"lessons": ["22"],
 		"type": "word",
 		"engDefinition": "a party or festivity",
 		"category": "",
@@ -14517,7 +14517,7 @@
 	},
 	{
 		"id": 765,
-		"lessons": ["[22]"],
+		"lessons": ["22"],
 		"type": "word",
 		"engDefinition": "place to worship",
 		"category": "",
@@ -14536,7 +14536,7 @@
 	},
 	{
 		"id": 766,
-		"lessons": ["[22]"],
+		"lessons": ["22"],
 		"type": "word",
 		"engDefinition": "moving to music",
 		"category": "",
@@ -14555,7 +14555,7 @@
 	},
 	{
 		"id": 767,
-		"lessons": ["[22]"],
+		"lessons": ["22"],
 		"type": "word",
 		"engDefinition": "activities for fun",
 		"category": "",
@@ -14574,7 +14574,7 @@
 	},
 	{
 		"id": 768,
-		"lessons": ["[22]"],
+		"lessons": ["22"],
 		"type": "word",
 		"engDefinition": "string instrument",
 		"category": "",
@@ -14593,7 +14593,7 @@
 	},
 	{
 		"id": 769,
-		"lessons": ["[22]"],
+		"lessons": ["22"],
 		"type": "word",
 		"engDefinition": "green outdoor area",
 		"category": "",
@@ -14612,7 +14612,7 @@
 	},
 	{
 		"id": 770,
-		"lessons": ["[22]"],
+		"lessons": ["22"],
 		"type": "word",
 		"engDefinition": "social event",
 		"category": "",
@@ -14631,7 +14631,7 @@
 	},
 	{
 		"id": 771,
-		"lessons": ["[22]"],
+		"lessons": ["22"],
 		"type": "word",
 		"engDefinition": "formal party after wedding",
 		"category": "",
@@ -14650,7 +14650,7 @@
 	},
 	{
 		"id": 772,
-		"lessons": ["[22]"],
+		"lessons": ["22"],
 		"type": "word",
 		"engDefinition": "place to eat",
 		"category": "",
@@ -14669,7 +14669,7 @@
 	},
 	{
 		"id": 773,
-		"lessons": ["[22]"],
+		"lessons": ["22"],
 		"type": "word",
 		"engDefinition": "small food between meals",
 		"category": "",
@@ -14688,7 +14688,7 @@
 	},
 	{
 		"id": 774,
-		"lessons": ["[22]"],
+		"lessons": ["22"],
 		"type": "word",
 		"engDefinition": "holy building",
 		"category": "",
@@ -14707,7 +14707,7 @@
 	},
 	{
 		"id": 775,
-		"lessons": ["[22]"],
+		"lessons": ["22"],
 		"type": "word",
 		"engDefinition": "marriage event",
 		"category": "",
@@ -14726,7 +14726,7 @@
 	},
 	{
 		"id": 776,
-		"lessons": ["[22]"],
+		"lessons": ["22"],
 		"type": "word",
 		"engDefinition": "will not",
 		"category": "",
@@ -14745,7 +14745,7 @@
 	},
 	{
 		"id": 777,
-		"lessons": ["[23]"],
+		"lessons": ["23"],
 		"type": "word",
 		"engDefinition": "very pretty",
 		"category": "",
@@ -14764,7 +14764,7 @@
 	},
 	{
 		"id": 778,
-		"lessons": ["[23]"],
+		"lessons": ["23"],
 		"type": "word",
 		"engDefinition": "not interesting",
 		"category": "",
@@ -14783,7 +14783,7 @@
 	},
 	{
 		"id": 779,
-		"lessons": ["[23]"],
+		"lessons": ["23"],
 		"type": "word",
 		"engDefinition": "past of dance",
 		"category": "",
@@ -14802,7 +14802,7 @@
 	},
 	{
 		"id": 780,
-		"lessons": ["[23]"],
+		"lessons": ["23"],
 		"type": "word",
 		"engDefinition": "very fun",
 		"category": "",
@@ -14821,7 +14821,7 @@
 	},
 	{
 		"id": 781,
-		"lessons": ["[23]"],
+		"lessons": ["23"],
 		"type": "word",
 		"engDefinition": "what we eat",
 		"category": "",
@@ -14840,7 +14840,7 @@
 	},
 	{
 		"id": 782,
-		"lessons": ["[23]"],
+		"lessons": ["23"],
 		"type": "word",
 		"engDefinition": "enjoyable",
 		"category": "",
@@ -14859,7 +14859,7 @@
 	},
 	{
 		"id": 783,
-		"lessons": ["[23]"],
+		"lessons": ["23"],
 		"type": "word",
 		"engDefinition": "finishing school",
 		"category": "",
@@ -14878,7 +14878,7 @@
 	},
 	{
 		"id": 784,
-		"lessons": ["[23]"],
+		"lessons": ["23"],
 		"type": "word",
 		"engDefinition": "very bad",
 		"category": "",
@@ -14897,7 +14897,7 @@
 	},
 	{
 		"id": 785,
-		"lessons": ["[23]"],
+		"lessons": ["23"],
 		"type": "word",
 		"engDefinition": "makes you tired",
 		"category": "",
@@ -14916,7 +14916,7 @@
 	},
 	{
 		"id": 786,
-		"lessons": ["[23]"],
+		"lessons": ["23"],
 		"type": "word",
 		"engDefinition": "strange",
 		"category": "",
@@ -14935,7 +14935,7 @@
 	},
 	{
 		"id": 787,
-		"lessons": ["[24]"],
+		"lessons": ["24"],
 		"type": "word",
 		"engDefinition": "something you want to do",
 		"category": "",
@@ -14954,7 +14954,7 @@
 	},
 	{
 		"id": 788,
-		"lessons": ["[24]"],
+		"lessons": ["24"],
 		"type": "word",
 		"engDefinition": "more than one goal",
 		"category": "",
@@ -14973,7 +14973,7 @@
 	},
 	{
 		"id": 789,
-		"lessons": ["[24]"],
+		"lessons": ["24"],
 		"type": "word",
 		"engDefinition": "idea for what to do",
 		"category": "",
@@ -14992,7 +14992,7 @@
 	},
 	{
 		"id": 790,
-		"lessons": ["[24]"],
+		"lessons": ["24"],
 		"type": "word",
 		"engDefinition": "more than one plan",
 		"category": "",
@@ -15011,7 +15011,7 @@
 	},
 	{
 		"id": 791,
-		"lessons": ["[24]"],
+		"lessons": ["24"],
 		"type": "word",
 		"engDefinition": "stop working permanently",
 		"category": "",
@@ -15030,7 +15030,7 @@
 	},
 	{
 		"id": 792,
-		"lessons": ["[24]"],
+		"lessons": ["24"],
 		"type": "word",
 		"engDefinition": "go to another place",
 		"category": "",

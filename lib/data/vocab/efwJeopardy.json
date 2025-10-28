@@ -1,0 +1,151 @@
+{
+	"title": "Jeopardy Game",
+	"categories": [
+		{
+			"name": "Vowels",
+			"questions": [
+				{ "points": 100, "question": "Make the long Aa sound.", "answer": "ā" },
+				{
+					"points": 200,
+					"question": "Make the short Ii sound.",
+					"answer": "ɪ"
+				},
+				{
+					"points": 300,
+					"question": "Which vowel sound do you hear in 'boot'?",
+					"answer": "long Oo /uː/"
+				},
+				{
+					"points": 400,
+					"question": "Which word has a different vowel sound? cat / dad / car",
+					"answer": "car"
+				},
+				{
+					"points": 500,
+					"question": "Say a word with the short Ee sound.",
+					"answer": "bed, pen, red, etc."
+				}
+			]
+		},
+		{
+			"name": "Pronouns",
+			"questions": [
+				{
+					"points": 100,
+					"question": "How do you say 'yo' in English?",
+					"answer": "I"
+				},
+				{
+					"points": 200,
+					"question": "What is the plural of 'you'?",
+					"answer": "you or y'all"
+				},
+				{
+					"points": 300,
+					"question": "Replace the nouns: 'Maria and I' → ______ went to work.",
+					"answer": "We"
+				},
+				{
+					"points": 400,
+					"question": "How do you say 'de ella' in English?",
+					"answer": "her"
+				},
+				{
+					"points": 500,
+					"question": "Choose the correct pronoun: 'This gift is for ___.' (he/him)",
+					"answer": "him"
+				}
+			]
+		},
+		{
+			"name": "Verbs",
+			"questions": [
+				{
+					"points": 100,
+					"question": "When do we add an 's' to a verb in the present tense?",
+					"answer": "he/she/it"
+				},
+				{
+					"points": 200,
+					"question": "What is the base(present) form of 'went'?",
+					"answer": "go"
+				},
+				{
+					"points": 300,
+					"question": "What is the past tense of 'work'?",
+					"answer": "worked"
+				},
+				{
+					"points": 400,
+					"question": "Choose the correct form: 'He ___ every morning.' (go/goes)",
+					"answer": "goes"
+				},
+				{
+					"points": 500,
+					"question": "How is the ending of 'packed' pronounced? Voiced or Unvoiced?",
+					"answer": "unvoiced"
+				}
+			]
+		},
+		{
+			"name": "Vocab",
+			"questions": [
+				{
+					"points": 100,
+					"question": "What does the acronym 'HR' stand for?",
+					"answer": "Human Resources"
+				},
+				{
+					"points": 200,
+					"question": "What is another word for 'job'?",
+					"answer": "work, position, occupation"
+				},
+				{
+					"points": 300,
+					"question": "Translate to English: 'beneficios'",
+					"answer": "benefits"
+				},
+				{
+					"points": 400,
+					"question": "How many hours is considered full-time?",
+					"answer": "40 hours / week"
+				},
+				{
+					"points": 500,
+					"question": "How do you say 'turno' in English?",
+					"answer": "(work)shift"
+				}
+			]
+		},
+		{
+			"name": "Numbers",
+			"questions": [
+				{
+					"points": 100,
+					"question": "Pronounce the difference between 13 and 30.",
+					"answer": "Thir-TEEN, Thir-DEE"
+				},
+				{
+					"points": 200,
+					"question": "What number comes after 59?",
+					"answer": "60"
+				},
+				{
+					"points": 300,
+					"question": "Say the number: 2,015.",
+					"answer": "two thousand and fifteen"
+				},
+				{
+					"points": 400,
+					"question": "How do you say '1/2' in English?",
+					"answer": "one half"
+				},
+				{
+					"points": 500,
+					"question": "What are the two ways that '1/4' is said?",
+					"answer": "one fourth and one quarter"
+				}
+			]
+		}
+	]
+}

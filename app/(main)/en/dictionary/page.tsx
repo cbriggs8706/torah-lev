@@ -42,7 +42,7 @@ const EnglishDictionaryPage = async () => {
 			: (ec1EnglishVocab as EnglishVocab[]) // ✅ default fallback
 
 	const filteredData = englishData.filter((entry) => entry.type === 'word')
-
+	console.log(filteredData[0])
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
 			<FeedWrapper>

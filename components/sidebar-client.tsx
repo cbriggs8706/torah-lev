@@ -271,6 +271,16 @@ export default function SidebarClient({
 						/>
 					</>
 				)}
+				{[16].includes(userProgress?.activeCourse.id) && (
+					<>
+						<SidebarItem
+							label="Jeopardy"
+							href="/en/jeopardy"
+							iconSrc="/video-game-svgrepo-com.svg"
+							onClick={onItemClick}
+						/>
+					</>
+				)}
 				{[13, 17].includes(userProgress?.activeCourse.id) && (
 					<>
 						<SidebarItem
@@ -320,6 +330,13 @@ export default function SidebarClient({
 							label="Memorize"
 							href="/en/memorize"
 							iconSrc="/brain-svgrepo-com.svg"
+							onClick={onItemClick}
+						/>
+						<SidebarItem
+							label="Dashboard"
+							href="/he/dashboard"
+							// iconSrc="/icons/iconName.png"
+							iconSrc="/mascot.svg"
 							onClick={onItemClick}
 						/>
 					</>
