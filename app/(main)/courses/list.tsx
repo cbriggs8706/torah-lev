@@ -3,15 +3,23 @@
 import { toast } from 'sonner'
 import { useTransition } from 'react'
 import { useRouter } from 'next/navigation'
-
-import { courses, userProgress } from '@/db/schema'
 import { upsertUserProgress } from '@/actions/user-progress'
-import { useUserId } from '@/hooks/useUserId' // 👈 import your new hook
+import { useUserId } from '@/hooks/useUserId'
 import { Card } from './card'
 
+type Course = {
+	id: number
+	title: string
+	category: string | null
+	imageSrc: string
+	proficiencyLevel: string | null
+	endingProficiencyLevel: string | null
+	public: boolean
+}
+
 type Props = {
-	courses: (typeof courses.$inferSelect)[]
-	activeCourseId?: typeof userProgress.$inferSelect.activeCourseId
+	courses: Course[]
+	activeCourseId?: number | null
 }
 
 export const List = ({ courses, activeCourseId }: Props) => {
@@ -19,7 +27,6 @@ export const List = ({ courses, activeCourseId }: Props) => {
 	const [pending, startTransition] = useTransition()
 	const { isGuest, userId, ready } = useUserId()
 
-	// prevent hydration mismatch
 	if (!ready) return null
 
 	const getLearnPath = (courseId: number) => {
@@ -35,7 +42,6 @@ export const List = ({ courses, activeCourseId }: Props) => {
 
 		const learnPath = getLearnPath(id)
 
-		// 🧩 Guest logic: no DB writes
 		if (isGuest || !userId) {
 			localStorage.setItem('guestActiveCourseId', String(id))
 			document.cookie = `guestActiveCourseId=${id}; path=/; max-age=31536000`
@@ -43,35 +49,85 @@ export const List = ({ courses, activeCourseId }: Props) => {
 			return router.push(learnPath)
 		}
 
-		// 🧠 Authenticated user logic
-		if (id === activeCourseId) {
-			return router.push(learnPath)
-		}
+		if (id === activeCourseId) return router.push(learnPath)
 
 		startTransition(() => {
 			upsertUserProgress(id)
-				.then(() => {
-					router.push(learnPath)
-				})
+				.then(() => router.push(learnPath))
 				.catch(() => toast.error('Something went wrong.'))
 		})
 	}
 
+	// 🧩 Group courses by category
+	const grouped = courses.reduce((acc, course) => {
+		const category = course.category || 'Uncategorized'
+		if (!acc[category]) acc[category] = []
+		acc[category].push(course)
+		return acc
+	}, {} as Record<string, Course[]>)
+
+	// 🧭 Custom category order
+	const categoryOrder = [
+		'Biblical Hebrew',
+		'Modern English',
+		'Biblical Greek',
+		'Modern Hebrew',
+		'Bookclub',
+		'Modern Spanish',
+	]
+
 	return (
-		<div className="pt-6 grid grid-cols-2 lg:grid-cols-[repeat(auto-fill,minmax(210px,1fr))] gap-4">
-			{courses.map((course) => (
-				<Card
-					key={course.id}
-					id={course.id}
-					title={course.title}
-					imageSrc={course.imageSrc}
-					proficiencyLevel={course.proficiencyLevel}
-					endingProficiencyLevel={course.endingProficiencyLevel}
-					onClick={onClick}
-					disabled={pending}
-					active={!isGuest && course.id === activeCourseId}
-				/>
-			))}
+		<div className="space-y-10 pt-6">
+			{categoryOrder.map((category) => {
+				const categoryCourses = grouped[category]
+				if (!categoryCourses?.length) return null
+
+				return (
+					<div key={category}>
+						<h2 className="text-xl font-semibold mb-4">{category}</h2>
+						<div className="grid grid-cols-2 lg:grid-cols-[repeat(auto-fill,minmax(210px,1fr))] gap-4">
+							{categoryCourses.map((course) => (
+								<Card
+									key={course.id}
+									id={course.id}
+									title={course.title}
+									imageSrc={course.imageSrc}
+									proficiencyLevel={course.proficiencyLevel}
+									endingProficiencyLevel={course.endingProficiencyLevel}
+									onClick={onClick}
+									disabled={pending}
+									active={!isGuest && course.id === activeCourseId}
+								/>
+							))}
+						</div>
+					</div>
+				)
+			})}
+
+			{/* 🪶 Optional: Render any uncategorized extras at the end */}
+			{Object.entries(grouped).map(([category, categoryCourses]) => {
+				if (categoryOrder.includes(category)) return null
+				return (
+					<div key={category}>
+						<h2 className="text-xl font-semibold mb-4">{category}</h2>
+						<div className="grid grid-cols-2 lg:grid-cols-[repeat(auto-fill,minmax(210px,1fr))] gap-4">
+							{categoryCourses.map((course) => (
+								<Card
+									key={course.id}
+									id={course.id}
+									title={course.title}
+									imageSrc={course.imageSrc}
+									proficiencyLevel={course.proficiencyLevel}
+									endingProficiencyLevel={course.endingProficiencyLevel}
+									onClick={onClick}
+									disabled={pending}
+									active={!isGuest && course.id === activeCourseId}
+								/>
+							))}
+						</div>
+					</div>
+				)
+			})}
 		</div>
 	)
 }

@@ -10,7 +10,7 @@ const CoursesPage = async () => {
 
 	// 🧠 Session may be null for guests
 	const session = await getServerSession(options)
-	const userId = session?.user?.id ?? null
+	const userId = session?.user?.id || null
 
 	// 🧩 Fetch courses (always safe)
 	const coursesPromise = getCourses()
@@ -19,7 +19,7 @@ const CoursesPage = async () => {
 	let userProgress = null
 	if (userId) {
 		try {
-			userProgress = await getUserProgress()
+			userProgress = await getUserProgress(userId)
 		} catch (err) {
 			console.warn('⚠️ Failed to fetch userProgress:', err)
 		}
@@ -50,7 +50,7 @@ const CoursesPage = async () => {
 			<h1 className="text-2xl font-bold text-neutral-700">Language Courses</h1>
 			<p className="text-xl text-neutral-700">
 				The first dot indicates the level needed to start the course, and the
-				second dot indicates the level you will reach by completing the course.
+				second dot indicates the level you can reach by completing the course.
 			</p>
 
 			{/* ✅ For guests, just pass null activeCourseId */}
