@@ -3,43 +3,45 @@ import { getServerSession } from 'next-auth'
 import { options } from '@/app/api/auth/[...nextauth]/options'
 import { FeedWrapper } from '@/components/feed-wrapper'
 import { getUserProgress, getUserSubscription } from '@/db/queries'
-import { englishLetters } from '@/lib/data/english/english-letters'
-import EnglishLetterQuiz from '@/components/english/english-letter-quiz'
+import { spanishNumbers } from '@/lib/data/spanish/spanish-numbers'
+import SpanishNumberQuiz from '@/components/spanish/spanish-number-quiz'
 
-export default async function EnglishLetterQuizPage() {
+export default async function SpanishNumberQuizPage() {
 	const session = await getServerSession(options)
 	const userId = session?.user?.id ?? null
 
-	// Run queries only if signed in
+	// Fetch only if logged in
 	const [userProgress, userSubscription] = userId
 		? await Promise.all([getUserProgress(), getUserSubscription()])
 		: [null, null]
 
-	// If not signed in → use default guest values
-	const activeCourseId = userProgress?.activeCourseId ?? 3 // choose sensible default, e.g. EC1
+	// Fallback defaults for guests
+	const activeCourseId = userProgress?.activeCourseId ?? 3 // EC1 default for guests
 	const isPro = !!userSubscription?.isActive
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
-			{/* Sidebar/UserProgress intentionally omitted for guests */}
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">
 					<Image
-						src="/a-button-blood-type-svgrepo-com.svg"
-						alt="Letter Quiz"
+						src="/input-numbers-svgrepo-com.svg"
+						alt="Number Quiz"
 						height={90}
 						width={90}
 					/>
 
 					<h1 className="text-center font-bold text-neutral-800 text-2xl my-6">
-						Letter Quiz
+						Number Quiz
 					</h1>
 
-					{/* Optional re-enable alerts later */}
-					{/* <DismissibleAlert storageKey="letter1" className="mb-4">...</DismissibleAlert> */}
+					{!userId && (
+						<p className="text-gray-500 italic mb-3">
+							You’re using guest mode — progress won’t be saved.
+						</p>
+					)}
 
-					<EnglishLetterQuiz
-						letters={englishLetters}
+					<SpanishNumberQuiz
+						numbers={spanishNumbers}
 						userId={userId ?? 'guest'}
 						courseId={activeCourseId}
 					/>

@@ -6,7 +6,7 @@ import { useAudio } from 'react-use'
 
 import HebrewKeyboard from './hebrew-keyboard'
 import { HebrewVocab } from '@/lib/vocab'
-import { hebrewLetters } from '@/lib/hebrew-letters'
+import { hebrewLetters } from '@/lib/data/hebrew/hebrew-letters'
 import { useCelebration } from '@/hooks/useCelebration'
 import { parseLessonKey, useLessonCards } from '@/hooks/useLessonCards'
 import FormatFilter, { FormatType } from '../filters/filter-format'

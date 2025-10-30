@@ -3,7 +3,7 @@ import { getServerSession } from 'next-auth'
 import { options } from '@/app/api/auth/[...nextauth]/options'
 import { FeedWrapper } from '@/components/feed-wrapper'
 import { getUserProgress, getUserSubscription } from '@/db/queries'
-import { hebrewNumbers } from '@/lib/hebrew-numbers'
+import { hebrewNumbers } from '@/lib/data/hebrew/hebrew-numbers'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 import HebrewNumberQuiz from '@/components/hebrew/hebrew-number-quiz'
 

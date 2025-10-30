@@ -3,10 +3,10 @@ import { getServerSession } from 'next-auth'
 import { options } from '@/app/api/auth/[...nextauth]/options'
 import { FeedWrapper } from '@/components/feed-wrapper'
 import { getUserProgress, getUserSubscription } from '@/db/queries'
-import { englishLetters } from '@/lib/data/english/english-letters'
-import EnglishLetterQuiz from '@/components/english/english-letter-quiz'
+import { spanishLetters } from '@/lib/data/spanish/spanish-letters'
+import SpanishLetterQuiz from '@/components/spanish/spanish-letter-quiz'
 
-export default async function EnglishLetterQuizPage() {
+export default async function SpanishLetterQuizPage() {
 	const session = await getServerSession(options)
 	const userId = session?.user?.id ?? null
 
@@ -38,8 +38,8 @@ export default async function EnglishLetterQuizPage() {
 					{/* Optional re-enable alerts later */}
 					{/* <DismissibleAlert storageKey="letter1" className="mb-4">...</DismissibleAlert> */}
 
-					<EnglishLetterQuiz
-						letters={englishLetters}
+					<SpanishLetterQuiz
+						letters={spanishLetters}
 						userId={userId ?? 'guest'}
 						courseId={activeCourseId}
 					/>

@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { useAudio } from 'react-use'
 
 import { EnglishVocab } from '@/lib/vocab'
-import { englishLetters } from '@/lib/english-letters'
+import { englishLetters } from '@/lib/data/english/english-letters'
 import { useCelebration } from '@/hooks/useCelebration'
 import { parseLessonKey, useLessonCards } from '@/hooks/useLessonCards'
 import FormatFilter, { FormatType } from '../filters/filter-format'
