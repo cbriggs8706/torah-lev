@@ -30,10 +30,10 @@ export const List = ({ courses, activeCourseId }: Props) => {
 	if (!ready) return null
 
 	const getLearnPath = (courseId: number) => {
-		if ([6, 11, 14].includes(courseId)) return '/he/learn'
+		if ([6, 11, 14, 21].includes(courseId)) return '/he/learn'
 		if ([3, 4, 13, 16, 17, 19].includes(courseId)) return '/en/learn'
-		if (courseId === 2) return '/es/learn'
-		if (courseId === 12) return '/el/learn'
+		if ([2, 22].includes(courseId)) return '/es/learn'
+		if ([12, 20].includes(courseId)) return '/el/learn'
 		return '/courses'
 	}
 
