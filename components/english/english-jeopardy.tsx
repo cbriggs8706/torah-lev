@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react'
 import ReactConfetti from 'react-confetti'
 import { useWindowSize } from 'react-use'
 
+/* ---------------- TYPES ---------------- */
+
 interface Question {
 	points: number
 	question: string
@@ -15,15 +17,21 @@ interface Category {
 	questions: Question[]
 }
 
-interface JeopardyData {
+interface JeopardyGameSet {
+	title: string
 	categories: Category[]
 }
 
 interface JeopardyGameProps {
-	data: JeopardyData
+	data: JeopardyGameSet[]
 }
 
+/* ---------------- MAIN COMPONENT ---------------- */
+
 export default function JeopardyGame({ data }: JeopardyGameProps) {
+	const [selectedGameIndex, setSelectedGameIndex] = useState<number | null>(
+		null
+	)
 	const [players, setPlayers] = useState<string[]>([])
 	const [scores, setScores] = useState<Record<string, number>>({})
 	const [revealed, setRevealed] = useState<Record<string, boolean>>({})
@@ -39,11 +47,15 @@ export default function JeopardyGame({ data }: JeopardyGameProps) {
 	const [gameOver, setGameOver] = useState(false)
 
 	const { width, height } = useWindowSize()
+	const activeGame = selectedGameIndex !== null ? data[selectedGameIndex] : null
 
-	const totalQuestions = data.categories.reduce(
-		(sum, cat) => sum + cat.questions.length,
-		0
-	)
+	const totalQuestions =
+		activeGame?.categories.reduce(
+			(sum, cat) => sum + cat.questions.length,
+			0
+		) || 0
+
+	/* ---------------- PLAYER LOGIC ---------------- */
 
 	const addPlayer = (name: string) => {
 		if (name.trim() && players.length < 20 && !players.includes(name.trim())) {
@@ -61,7 +73,6 @@ export default function JeopardyGame({ data }: JeopardyGameProps) {
 			const key = `${selectedQuestion.category}-${selectedQuestion.points}`
 			setCompleted((prev) => {
 				const updated = { ...prev, [key]: true }
-				// check for game end
 				const completedCount = Object.values(updated).filter(Boolean).length
 				if (completedCount >= totalQuestions) setGameOver(true)
 				return updated
@@ -71,6 +82,8 @@ export default function JeopardyGame({ data }: JeopardyGameProps) {
 		setShowAwardModal(false)
 		setShowAnswer(false)
 	}
+
+	/* ---------------- QUESTION LOGIC ---------------- */
 
 	const handleQuestionClick = (category: string, points: number) => {
 		const key = `${category}-${points}`
@@ -101,6 +114,8 @@ export default function JeopardyGame({ data }: JeopardyGameProps) {
 		setTimeLeft(0)
 	}
 
+	/* ---------------- WINNER LOGIC ---------------- */
+
 	const getWinner = () => {
 		if (!players.length) return null
 		const sorted = [...players].sort(
@@ -111,6 +126,29 @@ export default function JeopardyGame({ data }: JeopardyGameProps) {
 		return { winners, topScore }
 	}
 
+	/* ---------------- GAME SCREENS ---------------- */
+
+	// 1️⃣ GAME SELECTION
+	if (selectedGameIndex === null) {
+		return (
+			<div className="w-full max-w-xl bg-white shadow rounded-lg p-6 text-center">
+				<h2 className="text-2xl font-bold mb-4 text-sky-700">Choose a Game</h2>
+				<div className="flex flex-col gap-3">
+					{data.map((game, i) => (
+						<button
+							key={game.title}
+							onClick={() => setSelectedGameIndex(i)}
+							className="py-3 bg-sky-600 text-white font-bold rounded-lg hover:bg-sky-700"
+						>
+							{game.title}
+						</button>
+					))}
+				</div>
+			</div>
+		)
+	}
+
+	// 2️⃣ GAME OVER SCREEN
 	if (gameOver) {
 		const result = getWinner()
 		return (
@@ -140,20 +178,35 @@ export default function JeopardyGame({ data }: JeopardyGameProps) {
 						</p>
 					</div>
 				)}
-				<button
-					onClick={() => window.location.reload()}
-					className="mt-8 bg-sky-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-sky-700"
-				>
-					Play Again
-				</button>
+				<div className="mt-8 flex gap-4">
+					<button
+						onClick={() => window.location.reload()}
+						className="bg-sky-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-sky-700"
+					>
+						Play Again
+					</button>
+					<button
+						onClick={() => {
+							setGameOver(false)
+							setStarted(false)
+							setSelectedGameIndex(null)
+						}}
+						className="bg-gray-300 px-6 py-3 rounded-lg font-bold hover:bg-gray-400"
+					>
+						Main Menu
+					</button>
+				</div>
 			</div>
 		)
 	}
 
+	// 3️⃣ PLAYER SETUP
 	if (!started) {
 		return (
 			<div className="w-full max-w-xl bg-white shadow rounded-lg p-6">
-				<h2 className="text-center text-2xl font-bold mb-4">Add Players</h2>
+				<h2 className="text-center text-2xl font-bold mb-4">
+					Add Players — {activeGame?.title}
+				</h2>
 				<p className="text-center mb-4 text-gray-600">
 					Add up to 20 players, then click <strong>Start Game</strong>.
 				</p>
@@ -179,8 +232,9 @@ export default function JeopardyGame({ data }: JeopardyGameProps) {
 		)
 	}
 
+	// 4️⃣ GAME BOARD
 	return (
-		<div className="w-full flex flex-col items-center gap-8">
+		<div className="w-full flex flex-col items-center justify-start gap-6 p-4 min-h-screen overflow-y-auto lg:overflow-hidden lg:h-screen">
 			{/* Scoreboard */}
 			<div className="flex flex-wrap justify-center gap-3 w-full max-w-4xl">
 				{players.map((p) => (
@@ -195,8 +249,21 @@ export default function JeopardyGame({ data }: JeopardyGameProps) {
 			</div>
 
 			{/* Game Board */}
-			<div className="w-full max-w-5xl grid grid-cols-5 gap-2 text-center text-white font-bold">
-				{data.categories.map((cat) => (
+			<div
+				className="
+		w-full
+		max-w-6xl
+		grid
+		grid-cols-5
+		gap-2
+		text-center
+		text-white
+		font-bold
+		h-auto
+		lg:h-[70vh]
+	"
+			>
+				{activeGame?.categories.map((cat) => (
 					<div
 						key={cat.name}
 						className="bg-sky-700 py-4 uppercase rounded-t-lg border border-sky-900"
@@ -206,8 +273,9 @@ export default function JeopardyGame({ data }: JeopardyGameProps) {
 				))}
 
 				{Array.from({ length: 5 }).map((_, rowIdx) =>
-					data.categories.map((cat) => {
+					activeGame?.categories.map((cat) => {
 						const q = cat.questions[rowIdx]
+						if (!q) return <div key={`${cat.name}-${rowIdx}`} />
 						const key = `${cat.name}-${q.points}`
 						const isDone = completed[key]
 
@@ -215,11 +283,9 @@ export default function JeopardyGame({ data }: JeopardyGameProps) {
 							<div
 								key={key}
 								onClick={() => handleQuestionClick(cat.name, q.points)}
-								className={`cursor-pointer border border-sky-800 flex items-center justify-center p-4 h-28 transition rounded-b-lg ${
-									isDone
-										? 'bg-green-600 text-white'
-										: 'bg-sky-500 hover:bg-sky-400'
-								}`}
+								className={`cursor-pointer border border-sky-800 flex items-center justify-center transition rounded-b-lg
+	lg:h-[calc(70vh/6)]
+	h-28 ${isDone ? 'bg-green-600 text-white' : 'bg-sky-500 hover:bg-sky-400'}`}
 							>
 								{isDone ? (
 									<span className="text-3xl">●</span>
@@ -236,7 +302,7 @@ export default function JeopardyGame({ data }: JeopardyGameProps) {
 			{selectedQuestion && (
 				<QuestionModal
 					selectedQuestion={selectedQuestion}
-					data={data}
+					data={activeGame}
 					timeLeft={timeLeft}
 					showAnswer={showAnswer}
 					endTimerEarly={endTimerEarly}
@@ -260,7 +326,7 @@ export default function JeopardyGame({ data }: JeopardyGameProps) {
 	)
 }
 
-/* --- Subcomponents --- */
+/* ---------------- SUBCOMPONENTS ---------------- */
 
 function PlayerInput({ onAdd }: { onAdd: (name: string) => void }) {
 	const [name, setName] = useState('')
@@ -311,7 +377,7 @@ function QuestionModal({
 					{question?.question || '—'}
 				</p>
 
-				{/* Countdown Circle + Digits (centered perfectly) */}
+				{/* Countdown Circle */}
 				{timeLeft !== null && (
 					<div className="relative w-40 h-40 mx-auto mb-6 flex items-center justify-center">
 						<svg className="absolute top-0 left-0 w-full h-full">
@@ -337,8 +403,6 @@ function QuestionModal({
 								transform="rotate(-90 80 80)"
 							/>
 						</svg>
-
-						{/* Centered countdown digits */}
 						<span className="text-5xl font-bold text-sky-700">{timeLeft}</span>
 					</div>
 				)}
@@ -360,7 +424,6 @@ function QuestionModal({
 								{question?.answer || '—'}
 							</span>
 						</p>
-
 						<button
 							onClick={() => setShowAwardModal(true)}
 							className="mt-6 bg-green-600 text-white px-5 py-2 rounded-lg font-bold hover:bg-green-700"

@@ -1,151 +1,463 @@
-{
-	"title": "Jeopardy Game",
-	"categories": [
-		{
-			"name": "Vowels",
-			"questions": [
-				{ "points": 100, "question": "Make the long Aa sound.", "answer": "ā" },
-				{
-					"points": 200,
-					"question": "Make the short Ii sound.",
-					"answer": "ɪ"
-				},
-				{
-					"points": 300,
-					"question": "Which vowel sound do you hear in 'boot'?",
-					"answer": "long Oo /uː/"
-				},
-				{
-					"points": 400,
-					"question": "Which word has a different vowel sound? cat / dad / car",
-					"answer": "car"
-				},
-				{
-					"points": 500,
-					"question": "Say a word with the short Ee sound.",
-					"answer": "bed, pen, red, etc."
-				}
-			]
-		},
-		{
-			"name": "Pronouns",
-			"questions": [
-				{
-					"points": 100,
-					"question": "How do you say 'yo' in English?",
-					"answer": "I"
-				},
-				{
-					"points": 200,
-					"question": "What is the plural of 'you'?",
-					"answer": "you or y'all"
-				},
-				{
-					"points": 300,
-					"question": "Replace the nouns: 'Maria and I' → ______ went to work.",
-					"answer": "We"
-				},
-				{
-					"points": 400,
-					"question": "How do you say 'de ella' in English?",
-					"answer": "her"
-				},
-				{
-					"points": 500,
-					"question": "Choose the correct pronoun: 'This gift is for ___.' (he/him)",
-					"answer": "him"
-				}
-			]
-		},
-		{
-			"name": "Verbs",
-			"questions": [
-				{
-					"points": 100,
-					"question": "When do we add an 's' to a verb in the present tense?",
-					"answer": "he/she/it"
-				},
-				{
-					"points": 200,
-					"question": "What is the base(present) form of 'went'?",
-					"answer": "go"
-				},
-				{
-					"points": 300,
-					"question": "What is the past tense of 'work'?",
-					"answer": "worked"
-				},
-				{
-					"points": 400,
-					"question": "Choose the correct form: 'He ___ every morning.' (go/goes)",
-					"answer": "goes"
-				},
-				{
-					"points": 500,
-					"question": "How is the ending of 'packed' pronounced? Voiced or Unvoiced?",
-					"answer": "unvoiced"
-				}
-			]
-		},
-		{
-			"name": "Vocab",
-			"questions": [
-				{
-					"points": 100,
-					"question": "What does the acronym 'HR' stand for?",
-					"answer": "Human Resources"
-				},
-				{
-					"points": 200,
-					"question": "What is another word for 'job'?",
-					"answer": "work, position, occupation"
-				},
-				{
-					"points": 300,
-					"question": "Translate to English: 'beneficios'",
-					"answer": "benefits"
-				},
-				{
-					"points": 400,
-					"question": "How many hours is considered full-time?",
-					"answer": "40 hours / week"
-				},
-				{
-					"points": 500,
-					"question": "How do you say 'turno' in English?",
-					"answer": "(work)shift"
-				}
-			]
-		},
-		{
-			"name": "Numbers",
-			"questions": [
-				{
-					"points": 100,
-					"question": "Pronounce the difference between 13 and 30.",
-					"answer": "Thir-TEEN, Thir-DEE"
-				},
-				{
-					"points": 200,
-					"question": "What number comes after 59?",
-					"answer": "60"
-				},
-				{
-					"points": 300,
-					"question": "Say the number: 2,015.",
-					"answer": "two thousand and fifteen"
-				},
-				{
-					"points": 400,
-					"question": "How do you say '1/2' in English?",
-					"answer": "one half"
-				},
-				{
-					"points": 500,
-					"question": "What are the two ways that '1/4' is said?",
-					"answer": "one fourth and one quarter"
-				}
-			]
-		}
-	]
-}
+[
+	{
+		"title": "EfW Game 1",
+		"categories": [
+			{
+				"name": "Vowels",
+				"questions": [
+					{
+						"points": 100,
+						"question": "Make the long Aa sound.",
+						"answer": "ā"
+					},
+					{
+						"points": 200,
+						"question": "Make the short Ii sound.",
+						"answer": "ɪ"
+					},
+					{
+						"points": 300,
+						"question": "Which vowel sound do you hear in 'boot'?",
+						"answer": "long Oo /uː/"
+					},
+					{
+						"points": 400,
+						"question": "Which word has a different vowel sound? cat / dad / car",
+						"answer": "car"
+					},
+					{
+						"points": 500,
+						"question": "Say a word with the short Ee sound.",
+						"answer": "bed, pen, red, etc."
+					}
+				]
+			},
+			{
+				"name": "Pronouns",
+				"questions": [
+					{
+						"points": 100,
+						"question": "How do you say 'yo' in English?",
+						"answer": "I"
+					},
+					{
+						"points": 200,
+						"question": "What is the plural of 'you'?",
+						"answer": "you or y'all"
+					},
+					{
+						"points": 300,
+						"question": "Replace the nouns: 'Maria and I' → ______ went to work.",
+						"answer": "We"
+					},
+					{
+						"points": 400,
+						"question": "How do you say 'de ella' in English?",
+						"answer": "her"
+					},
+					{
+						"points": 500,
+						"question": "Choose the correct pronoun: 'This gift is for ___.' (he/him)",
+						"answer": "him"
+					}
+				]
+			},
+			{
+				"name": "Verbs",
+				"questions": [
+					{
+						"points": 100,
+						"question": "When do we add an 's' to a verb in the present tense?",
+						"answer": "he/she/it"
+					},
+					{
+						"points": 200,
+						"question": "What is the base(present) form of 'went'?",
+						"answer": "go"
+					},
+					{
+						"points": 300,
+						"question": "What is the past tense of 'work'?",
+						"answer": "worked"
+					},
+					{
+						"points": 400,
+						"question": "Choose the correct form: 'He ___ every morning.' (go/goes)",
+						"answer": "goes"
+					},
+					{
+						"points": 500,
+						"question": "How is the ending of 'packed' pronounced? Voiced or Unvoiced?",
+						"answer": "unvoiced"
+					}
+				]
+			},
+			{
+				"name": "Vocab",
+				"questions": [
+					{
+						"points": 100,
+						"question": "What does the acronym 'HR' stand for?",
+						"answer": "Human Resources"
+					},
+					{
+						"points": 200,
+						"question": "What is another word for 'job'?",
+						"answer": "work, position, occupation"
+					},
+					{
+						"points": 300,
+						"question": "Translate to English: 'beneficios'",
+						"answer": "benefits"
+					},
+					{
+						"points": 400,
+						"question": "How many hours is considered full-time?",
+						"answer": "40 hours / week"
+					},
+					{
+						"points": 500,
+						"question": "How do you say 'turno' in English?",
+						"answer": "(work)shift"
+					}
+				]
+			},
+			{
+				"name": "Numbers",
+				"questions": [
+					{
+						"points": 100,
+						"question": "Pronounce the difference between 13 and 30.",
+						"answer": "Thir-TEEN, Thir-DEE"
+					},
+					{
+						"points": 200,
+						"question": "What number comes after 59?",
+						"answer": "60"
+					},
+					{
+						"points": 300,
+						"question": "Say the number: 2,015.",
+						"answer": "two thousand and fifteen"
+					},
+					{
+						"points": 400,
+						"question": "How do you say '1/2' in English?",
+						"answer": "one half"
+					},
+					{
+						"points": 500,
+						"question": "What are the two ways that '1/4' is said?",
+						"answer": "one fourth and one quarter"
+					}
+				]
+			}
+		]
+	},
+	{
+		"title": "EfW Game 2",
+		"categories": [
+			{
+				"name": "Vowels",
+				"questions": [
+					{
+						"points": 100,
+						"question": "Make the long Ee sound.",
+						"answer": "ē"
+					},
+					{
+						"points": 200,
+						"question": "Make the short Oo sound.",
+						"answer": "ɒ or ʊ"
+					},
+					{
+						"points": 300,
+						"question": "Which vowel sound do you hear in 'name'?",
+						"answer": "long A /eɪ/"
+					},
+					{
+						"points": 400,
+						"question": "Which word has a different vowel sound? sit / bit / site",
+						"answer": "site"
+					},
+					{
+						"points": 500,
+						"question": "Say a word with the long Ii sound.",
+						"answer": "bike, time, line, etc."
+					}
+				]
+			},
+			{
+				"name": "Pronouns",
+				"questions": [
+					{
+						"points": 100,
+						"question": "How do you say 'ellos' in English?",
+						"answer": "they"
+					},
+					{
+						"points": 200,
+						"question": "Which pronoun replaces 'the teacher'?",
+						"answer": "he or she"
+					},
+					{
+						"points": 300,
+						"question": "Replace the nouns: 'Tom and Sarah' → ______ are friends.",
+						"answer": "They"
+					},
+					{
+						"points": 400,
+						"question": "What is the possessive form of 'it'?",
+						"answer": "its"
+					},
+					{
+						"points": 500,
+						"question": "Choose the correct pronoun: 'The gift is from ___.' (they/them)",
+						"answer": "them"
+					}
+				]
+			},
+			{
+				"name": "Verbs",
+				"questions": [
+					{
+						"points": 100,
+						"question": "What is the past tense of 'study'?",
+						"answer": "studied"
+					},
+					{
+						"points": 200,
+						"question": "What is the base (present) form of 'bought'?",
+						"answer": "buy"
+					},
+					{
+						"points": 300,
+						"question": "Choose the correct form: 'She ___ every day.' (work/works)",
+						"answer": "works"
+					},
+					{
+						"points": 400,
+						"question": "How is the ending of 'played' pronounced? Voiced or unvoiced?",
+						"answer": "voiced"
+					},
+					{
+						"points": 500,
+						"question": "When do we use 'am', 'is', and 'are'?",
+						"answer": "in the present tense with 'be'"
+					}
+				]
+			},
+			{
+				"name": "Vocab",
+				"questions": [
+					{
+						"points": 100,
+						"question": "Translate to English: 'fábrica'",
+						"answer": "factory"
+					},
+					{
+						"points": 200,
+						"question": "What is another word for 'supervisor'?",
+						"answer": "manager, boss"
+					},
+					{
+						"points": 300,
+						"question": "What is the opposite of 'early'?",
+						"answer": "late"
+					},
+					{
+						"points": 400,
+						"question": "How do you say 'capacitación' in English?",
+						"answer": "training"
+					},
+					{
+						"points": 500,
+						"question": "What is another word for 'task'?",
+						"answer": "job, duty, responsibility"
+					}
+				]
+			},
+			{
+				"name": "Numbers",
+				"questions": [
+					{
+						"points": 100,
+						"question": "Say the number: 47.",
+						"answer": "forty-seven"
+					},
+					{
+						"points": 200,
+						"question": "What number comes before 100?",
+						"answer": "99"
+					},
+					{
+						"points": 300,
+						"question": "Say the number: 1,008.",
+						"answer": "one thousand and eight"
+					},
+					{
+						"points": 400,
+						"question": "How do you say '3/4' in English?",
+						"answer": "three fourths or three quarters"
+					},
+					{ "points": 500, "question": "How much is a dozen?", "answer": "12" }
+				]
+			}
+		]
+	},
+	{
+		"title": "EfW Game 3",
+		"categories": [
+			{
+				"name": "Workplace Tools",
+				"questions": [
+					{
+						"points": 100,
+						"question": "Translate to English: 'martillo'",
+						"answer": "hammer"
+					},
+					{
+						"points": 200,
+						"question": "What tool is used to measure length?",
+						"answer": "tape measure / ruler"
+					},
+					{
+						"points": 300,
+						"question": "Which tool helps you climb higher?",
+						"answer": "ladder"
+					},
+					{
+						"points": 400,
+						"question": "What safety gear protects your eyes?",
+						"answer": "safety glasses / goggles"
+					},
+					{
+						"points": 500,
+						"question": "What is another word for 'flathead' and 'Phillips'?",
+						"answer": "types of screwdrivers"
+					}
+				]
+			},
+			{
+				"name": "Safety",
+				"questions": [
+					{
+						"points": 100,
+						"question": "What does PPE stand for?",
+						"answer": "Personal Protective Equipment"
+					},
+					{
+						"points": 200,
+						"question": "What color is often used for warning signs?",
+						"answer": "yellow or orange"
+					},
+					{
+						"points": 300,
+						"question": "Translate to English: 'seguridad primero'",
+						"answer": "safety first"
+					},
+					{
+						"points": 400,
+						"question": "What should you do if you see a spill?",
+						"answer": "Clean it or report it immediately"
+					},
+					{
+						"points": 500,
+						"question": "What is the English word for 'extintor'?",
+						"answer": "fire extinguisher"
+					}
+				]
+			},
+			{
+				"name": "Schedules",
+				"questions": [
+					{
+						"points": 100,
+						"question": "How many minutes are in one hour?",
+						"answer": "60"
+					},
+					{
+						"points": 200,
+						"question": "Translate to English: 'turno de noche'",
+						"answer": "night shift"
+					},
+					{
+						"points": 300,
+						"question": "What time is 'quarter past seven'?",
+						"answer": "7:15"
+					},
+					{
+						"points": 400,
+						"question": "If your shift starts at 6 a.m. and ends at 2 p.m., how long is it?",
+						"answer": "8 hours"
+					},
+					{
+						"points": 500,
+						"question": "What does 'overtime' mean?",
+						"answer": "working extra hours beyond your shift"
+					}
+				]
+			},
+			{
+				"name": "Workplace Phrases",
+				"questions": [
+					{
+						"points": 100,
+						"question": "Translate to English: '¡Apúrate!'",
+						"answer": "Hurry up!"
+					},
+					{
+						"points": 200,
+						"question": "What does 'clock in' mean?",
+						"answer": "record the time you start work"
+					},
+					{
+						"points": 300,
+						"question": "What do you say when you need help?",
+						"answer": "Can you help me?"
+					},
+					{
+						"points": 400,
+						"question": "What does 'take a break' mean?",
+						"answer": "stop working for a short time"
+					},
+					{
+						"points": 500,
+						"question": "Translate to English: '¡Buen trabajo!'",
+						"answer": "Good job!"
+					}
+				]
+			},
+			{
+				"name": "Numbers at Work",
+				"questions": [
+					{
+						"points": 100,
+						"question": "How many seconds are in a minute?",
+						"answer": "60"
+					},
+					{
+						"points": 200,
+						"question": "How do you say '1,500' in English?",
+						"answer": "one thousand five hundred"
+					},
+					{
+						"points": 300,
+						"question": "What does 'half an hour' mean?",
+						"answer": "30 minutes"
+					},
+					{
+						"points": 400,
+						"question": "Say the number: 0.25",
+						"answer": "zero point two five / one fourth"
+					},
+					{
+						"points": 500,
+						"question": "If you earn $15/hour and work 8 hours, how much do you make?",
+						"answer": "$120"
+					}
+				]
+			}
+		]
+	}
+]
