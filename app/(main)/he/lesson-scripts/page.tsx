@@ -15,9 +15,6 @@ export default async function HebrewLessonScriptsPage() {
 	const session = await getServerSession(options)
 	const userId = session?.user?.id ?? null
 
-	// ✅ Always load scripts (guest access allowed)
-	const lessonScripts = await getAllHebrewLessonScripts(6) // default course for guest (AwB)
-
 	// ✅ Fetch user-related data only if signed in
 	const [userProgress, userSubscription, courseProgress] = await Promise.all([
 		getUserProgress(),
@@ -27,6 +24,9 @@ export default async function HebrewLessonScriptsPage() {
 
 	// ✅ Handle guest fallbacks
 	const activeCourseId = userProgress?.activeCourseId ?? 6
+	// ✅ Always load scripts (guest access allowed)
+	const lessonScripts = await getAllHebrewLessonScripts(activeCourseId) // default course for guest (AwB)
+
 	const isHebrewFriend = !!userProgress?.isHebrewFriend
 	const isPro = !!userSubscription?.isActive
 	// const currentLesson = userChallengeData?.activeLesson?.lessonNumber ?? null
