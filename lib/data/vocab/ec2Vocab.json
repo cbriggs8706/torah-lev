@@ -5924,7 +5924,7 @@
 		"number": "",
 		"partOfSpeech": ["pronoun"],
 		"ipa": "[juː]",
-		"images": ["/english/you.webp"],
+		"images": ["/english/you-m.webp"],
 		"engAudio": "/english/you.mp3"
 	},
 	{
@@ -5943,7 +5943,7 @@
 		"number": "",
 		"partOfSpeech": ["pronoun"],
 		"ipa": "[jʊr]",
-		"images": ["/english/your.webp"],
+		"images": ["/english/your-f.webp"],
 		"engAudio": "/english/your.mp3"
 	},
 	{

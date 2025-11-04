@@ -53,7 +53,7 @@
 		"number": "",
 		"partOfSpeech": ["pronoun"],
 		"ipa": "[juː]",
-		"images": ["/english/you.webp"],
+		"images": ["/english/you-m.webp"],
 		"engAudio": "/english/you.mp3"
 	},
 	{
@@ -72,7 +72,7 @@
 		"number": "",
 		"partOfSpeech": ["pronoun"],
 		"ipa": "[jʊr]",
-		"images": ["/english/your.webp"],
+		"images": ["/english/your-m.webp"],
 		"engAudio": "/english/your.mp3"
 	},
 	{
@@ -165,7 +165,7 @@
 		"person": "",
 		"gender": "",
 		"number": "",
-		"partOfSpeech": ["pronoun"],
+		"partOfSpeech": ["interrogative"],
 		"ipa": "[wʌt]",
 		"images": ["/english/what.webp"],
 		"engAudio": "/english/what.mp3"
@@ -338,7 +338,7 @@
 		"number": "",
 		"partOfSpeech": ["pronoun"],
 		"ipa": "[ðeɪ]",
-		"images": ["/english/they.webp"],
+		"images": ["/english/them-f.webp"],
 		"engAudio": "/english/they.mp3"
 	},
 	{
@@ -623,7 +623,7 @@
 		"number": "",
 		"partOfSpeech": ["pronoun"],
 		"ipa": "[ðɛr]",
-		"images": ["/english/their.webp"],
+		"images": ["/english/their-m.webp"],
 		"engAudio": "/english/their.mp3"
 	},
 	{
