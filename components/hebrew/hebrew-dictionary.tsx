@@ -6,6 +6,7 @@ import Image from 'next/image'
 import FemaleIcon from '@/public/female-sign-svgrepo-com.svg'
 import MaleIcon from '@/public/male-sign-svgrepo-com.svg'
 import { PlayCircle } from 'lucide-react'
+import HebrewKeyboard from './hebrew-keyboard'
 
 interface DictionaryProps {
 	data: HebrewVocab[]
@@ -136,12 +137,45 @@ export default function HebrewDictionary({ data }: DictionaryProps) {
 	)
 	const audioRefs = useRef<Record<number, HTMLAudioElement>>({})
 	const [videoUrl, setVideoUrl] = useState<string | null>(null)
+	const [searchMode, setSearchMode] = useState<'english' | 'hebrew'>('english')
+	const [searchQuery, setSearchQuery] = useState('')
+	const [showKeyboard, setShowKeyboard] = useState(true)
+
+	function handleKeyPress(char: string) {
+		if (char === '\b') {
+			setSearchQuery((prev) => prev.slice(0, -1))
+		} else {
+			setSearchQuery((prev) => prev + char)
+		}
+	}
+
+	const filteredData = useMemo(() => {
+		if (!searchQuery.trim()) return data
+
+		const query = searchQuery.trim()
+		const normalizedQuery = stripHebrewMarks(query)
+
+		return data.filter((entry) => {
+			const heb = stripHebrewMarks(entry.heb)
+			const eng = entry.eng?.toLowerCase() ?? ''
+			const translit = entry.engTransliteration?.toLowerCase() ?? ''
+
+			if (searchMode === 'english') {
+				return (
+					eng.includes(query.toLowerCase()) ||
+					translit.includes(query.toLowerCase())
+				)
+			} else {
+				return heb.includes(normalizedQuery)
+			}
+		})
+	}, [data, searchQuery, searchMode])
 
 	const grouped = useMemo(() => {
 		const byLetter: Record<string, HebrewVocab[]> = {}
 		for (const letter of hebrewAlphabet) byLetter[letter] = []
 
-		for (const word of data) {
+		for (const word of filteredData) {
 			const base = stripHebrewMarks(word.heb)
 			const initial = base[0]
 			if (byLetter[initial]) byLetter[initial].push(word)
@@ -154,7 +188,7 @@ export default function HebrewDictionary({ data }: DictionaryProps) {
 		}
 
 		return byLetter
-	}, [data])
+	}, [filteredData])
 
 	function convertToEmbedUrl(url: string): string {
 		try {
@@ -178,7 +212,7 @@ export default function HebrewDictionary({ data }: DictionaryProps) {
 	const groupedByLessonRange = useMemo(() => {
 		const byRange: Record<string, Record<number, HebrewVocab[]>> = {}
 
-		for (const word of data) {
+		for (const word of filteredData) {
 			if (!Array.isArray(word.lessons)) continue
 
 			for (const lessonStr of word.lessons) {
@@ -189,14 +223,12 @@ export default function HebrewDictionary({ data }: DictionaryProps) {
 				if (!byRange[range]) byRange[range] = {}
 				if (!byRange[range][n]) byRange[range][n] = []
 
-				// Avoid duplicates (same word appearing twice in same lesson)
 				if (!byRange[range][n].some((w) => w.id === word.id)) {
 					byRange[range][n].push(word)
 				}
 			}
 		}
 
-		// Sort inside each lesson numerically & alphabetically
 		for (const range in byRange) {
 			for (const lesson in byRange[range]) {
 				byRange[range][lesson].sort((a, b) =>
@@ -206,7 +238,7 @@ export default function HebrewDictionary({ data }: DictionaryProps) {
 		}
 
 		return byRange
-	}, [data])
+	}, [filteredData])
 
 	// Reset expandedId whenever visible lesson groups change
 	useEffect(() => {
@@ -408,6 +440,69 @@ export default function HebrewDictionary({ data }: DictionaryProps) {
 		<div className="flex w-full md:w-3/4">
 			{/* Word List and Sort Options */}
 			<div className="flex-grow pr-4">
+				{/* Search Bar */}
+				<div className="flex flex-col items-center gap-3 mb-4">
+					<div className="flex w-full max-w-md gap-2">
+						<div className="relative flex-grow">
+							<input
+								type="text"
+								value={searchQuery}
+								onChange={(e) => setSearchQuery(e.target.value)}
+								placeholder={
+									searchMode === 'english'
+										? 'Search in English...'
+										: 'חפש בעברית...'
+								}
+								className="w-full border rounded-md px-3 pr-10 py-2 text-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-400"
+								dir={searchMode === 'hebrew' ? 'rtl' : 'ltr'}
+							/>
+							{searchQuery && (
+								<button
+									type="button"
+									onClick={() => setSearchQuery('')}
+									className={`absolute ${
+										searchMode === 'hebrew' ? 'left-2' : 'right-2'
+									} top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 text-xl`}
+									aria-label="Clear search"
+								>
+									✕
+								</button>
+							)}
+						</div>
+
+						<button
+							onClick={() =>
+								setSearchMode((prev) =>
+									prev === 'english' ? 'hebrew' : 'english'
+								)
+							}
+							className="px-3 py-2 border rounded-md bg-sky-100 hover:bg-sky-200 text-sky-700"
+						>
+							{searchMode === 'english'
+								? 'Switch to Hebrew'
+								: 'Switch to English'}
+						</button>
+					</div>
+
+					{searchMode === 'hebrew' && (
+						<button
+							onClick={() => setShowKeyboard((prev) => !prev)}
+							className="text-sky-600 underline text-sm"
+						>
+							{showKeyboard ? 'Hide Keyboard' : 'Show Keyboard'}
+						</button>
+					)}
+				</div>
+
+				{/* Hebrew Keyboard (toggle) */}
+				{showKeyboard && searchMode === 'hebrew' && (
+					<div className="mb-4 w-full flex justify-center">
+						<HebrewKeyboard
+							onKeyPress={handleKeyPress}
+							onEnter={() => setShowKeyboard(false)}
+						/>
+					</div>
+				)}
 				{/* Sort Toggle */}
 				<div className="flex flex-wrap justify-center gap-2 mb-4">
 					{['alphabetical', 'lesson'].map((mode) => (
@@ -428,6 +523,11 @@ export default function HebrewDictionary({ data }: DictionaryProps) {
 				{/* Grouped Display */}
 				{sortMode === 'alphabetical' ? (
 					<>
+						{filteredData.length === 0 && (
+							<p className="text-center text-gray-500 my-8">
+								No matching words found.
+							</p>
+						)}
 						{hebrewAlphabet.map(
 							(letter) =>
 								grouped[letter]?.length > 0 && (
