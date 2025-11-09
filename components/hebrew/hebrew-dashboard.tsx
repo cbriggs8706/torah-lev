@@ -418,7 +418,8 @@ export default function HebrewUserDashboard({
 					</Link>
 				</div>
 			)}
-
+			{/* Goal Section */}
+			<GoalDisplayCard userUnitProgress={userUnitProgress} />
 			{/* Tribe Section */}
 			{tribe ? (
 				<div className="p-3 rounded-lg bg-indigo-50 border border-indigo-200">
@@ -619,11 +620,8 @@ export default function HebrewUserDashboard({
 				</div>
 			)}
 
-			{/* Goal Section */}
-			<GoalDisplayCard userUnitProgress={userUnitProgress} />
-
 			{/* OTHER COURSES */}
-			{sortedCourses.length > 1 && (
+			{/* {sortedCourses.length > 1 && (
 				<div className="mt-8 space-y-4">
 					<h2 className="text-xl font-semibold text-center">
 						My Self-Paced Courses
@@ -678,7 +676,7 @@ export default function HebrewUserDashboard({
 							))}
 					</div>
 				</div>
-			)}
+			)} */}
 
 			{/* Edit Overlay */}
 			{isEditing && (

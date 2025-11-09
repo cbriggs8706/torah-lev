@@ -12,6 +12,14 @@ const nextConfig = {
 			'pbs.twimg.com', // optional (Twitter)
 			'platform-lookaside.fbsbx.com', // optional (Facebook)
 		],
+		remotePatterns: [
+			{
+				protocol: 'https',
+				hostname: 'wsdmzszpqaxeftyebiqg.supabase.co',
+				port: '',
+				pathname: '/storage/v1/object/public/**',
+			},
+		],
 		// remotePatterns: [
 		// 	{
 		// 		protocol: 'https',

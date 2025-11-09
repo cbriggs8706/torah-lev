@@ -140,6 +140,7 @@ export default function HebrewDictionary({ data }: DictionaryProps) {
 	const [searchMode, setSearchMode] = useState<'english' | 'hebrew'>('english')
 	const [searchQuery, setSearchQuery] = useState('')
 	const [showKeyboard, setShowKeyboard] = useState(true)
+	const [showImagesOnly, setShowImagesOnly] = useState(false)
 
 	function handleKeyPress(char: string) {
 		if (char === '\b') {
@@ -150,12 +151,14 @@ export default function HebrewDictionary({ data }: DictionaryProps) {
 	}
 
 	const filteredData = useMemo(() => {
-		if (!searchQuery.trim()) return data
+		if (!searchQuery.trim() && !showImagesOnly) return data
 
 		const query = searchQuery.trim()
 		const normalizedQuery = stripHebrewMarks(query)
 
-		return data.filter((entry) => {
+		let results = data.filter((entry) => {
+			if (!searchQuery.trim()) return true
+
 			const heb = stripHebrewMarks(entry.heb)
 			const eng = entry.eng?.toLowerCase() ?? ''
 			const translit = entry.engTransliteration?.toLowerCase() ?? ''
@@ -169,7 +172,13 @@ export default function HebrewDictionary({ data }: DictionaryProps) {
 				return heb.includes(normalizedQuery)
 			}
 		})
-	}, [data, searchQuery, searchMode])
+
+		if (showImagesOnly) {
+			results = results.filter((entry) => entry.images?.length > 0)
+		}
+
+		return results
+	}, [data, searchQuery, searchMode, showImagesOnly])
 
 	const grouped = useMemo(() => {
 		const byLetter: Record<string, HebrewVocab[]> = {}
@@ -294,6 +303,7 @@ export default function HebrewDictionary({ data }: DictionaryProps) {
 		return (
 			<div
 				key={entry.id}
+				data-entry-id={entry.id}
 				className="w-full border rounded bg-white shadow-sm cursor-pointer hover:bg-sky-50"
 				onClick={() =>
 					setExpandedId((prev) => (prev === entry.id ? null : entry.id))
@@ -337,9 +347,14 @@ export default function HebrewDictionary({ data }: DictionaryProps) {
 						</div>
 					</div>
 				</div>
-				<div
+				{/* <div
 					className={`${
 						expandedId === entry.id ? 'block' : 'hidden'
+					} px-4 pb-4 pt-2 bg-gray-100 rounded text-left text-sm space-y-1`}
+				> */}
+				<div
+					className={`${
+						showImagesOnly || expandedId === entry.id ? 'block' : 'hidden'
 					} px-4 pb-4 pt-2 bg-gray-100 rounded text-left text-sm space-y-1`}
 				>
 					{entry.images?.length > 0 && (
@@ -505,19 +520,33 @@ export default function HebrewDictionary({ data }: DictionaryProps) {
 				)}
 				{/* Sort Toggle */}
 				<div className="flex flex-wrap justify-center gap-2 mb-4">
-					{['alphabetical', 'lesson'].map((mode) => (
+					<div className="flex flex-wrap justify-center gap-2 mb-4">
+						{['alphabetical', 'lesson'].map((mode) => (
+							<button
+								key={mode}
+								onClick={() => setSortMode(mode as 'alphabetical' | 'lesson')}
+								className={`px-3 py-1 border rounded-full text-sm font-semibold transition ${
+									sortMode === mode
+										? 'bg-sky-600 text-white border-sky-600'
+										: 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+								}`}
+							>
+								{mode === 'alphabetical' ? 'Alphabetical' : 'By Lesson'}
+							</button>
+						))}
+
+						{/* Image Filter Button */}
 						<button
-							key={mode}
-							onClick={() => setSortMode(mode as 'alphabetical' | 'lesson')}
+							onClick={() => setShowImagesOnly((prev) => !prev)}
 							className={`px-3 py-1 border rounded-full text-sm font-semibold transition ${
-								sortMode === mode
-									? 'bg-sky-600 text-white border-sky-600'
+								showImagesOnly
+									? 'bg-green-600 text-white border-green-600'
 									: 'bg-gray-200 text-gray-700 hover:bg-gray-300'
 							}`}
 						>
-							{mode === 'alphabetical' ? 'Alphabetical' : 'Lesson'}
+							{showImagesOnly ? 'Hide Images' : 'Show Images'}
 						</button>
-					))}
+					</div>
 				</div>
 
 				{/* Grouped Display */}
