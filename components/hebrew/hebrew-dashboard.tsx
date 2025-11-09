@@ -22,6 +22,7 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from '../ui/dialog'
+import StudyGroupAssignmentsCalendar from '../study-group/assignement-calendar'
 
 interface CourseProgress {
 	courseId: number
@@ -620,6 +621,10 @@ export default function HebrewUserDashboard({
 				</div>
 			)}
 
+			{studyGroups && studyGroups.length > 0 && (
+				<StudyGroupAssignmentsCalendar studyGroups={studyGroups} />
+			)}
+
 			{/* OTHER COURSES */}
 			{/* {sortedCourses.length > 1 && (
 				<div className="mt-8 space-y-4">
@@ -718,7 +723,7 @@ export default function HebrewUserDashboard({
 			)}
 
 			{/* Account Settings */}
-			<div className="mt-6 p-4 bg-gray-50 border rounded-xl shadow-sm">
+			{/* <div className="mt-6 p-4 bg-gray-50 border rounded-xl shadow-sm">
 				<h3 className="text-lg font-semibold text-gray-800 mb-2">
 					Account Settings
 				</h3>
@@ -748,7 +753,7 @@ export default function HebrewUserDashboard({
 						Sign Out
 					</button>
 				</div>
-			</div>
+			</div> */}
 			<Dialog open={isNameDialogOpen} onOpenChange={setIsNameDialogOpen}>
 				<DialogContent>
 					<DialogHeader>
