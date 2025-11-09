@@ -65,7 +65,7 @@ export default async function HebrewFlashcardPage() {
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">
 					<Image
-						src="/card-file-box.svg"
+						src="/icons/iconFlashcards.png"
 						alt="Flashcards"
 						height={90}
 						width={90}

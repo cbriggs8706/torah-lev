@@ -22,7 +22,7 @@ export default async function HebrewVerbsPage() {
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">
 					<Image
-						src="/icons/iconStories.png" // TODO: swap with verb-specific icon
+						src="/icons/iconRunning.png"
 						alt="Verbs"
 						height={90}
 						width={90}

@@ -208,7 +208,7 @@ export default function SidebarClient({
 							<SidebarItem
 								label="זכר"
 								href="/he/memorize"
-								iconSrc="/brain-svgrepo-com.svg"
+								iconSrc="/icons/iconBrain.png"
 								// iconSrc="/mascot.svg"
 								onClick={onItemClick}
 								className="font-cardo text-xl"
