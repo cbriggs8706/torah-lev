@@ -81,36 +81,34 @@ export default function HebrewVerbList({
 							)}
 
 							{/* Image */}
-							<Link href={`/he/verbs/${verb.strongs}`} className="block">
-								<div className="relative aspect-[16/9]">
-									{verb.img ? (
-										verb.img.endsWith('.mp4') || verb.img.endsWith('.webm') ? (
-											<video
-												src={verb.img}
-												className="absolute inset-0 w-full h-full object-cover"
-												autoPlay
-												muted
-												loop
-												playsInline
-											/>
-										) : (
-											<Image
-												src={verb.img}
-												alt={verb.verb}
-												fill
-												className="object-cover"
-												sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-											/>
-										)
+							<div className="relative aspect-[16/9]">
+								{verb.img ? (
+									verb.img.endsWith('.mp4') || verb.img.endsWith('.webm') ? (
+										<video
+											src={verb.img}
+											className="absolute inset-0 w-full h-full object-cover"
+											autoPlay
+											muted
+											loop
+											playsInline
+										/>
 									) : (
-										<div className="absolute inset-0 bg-gradient-to-br from-sky-100 to-sky-200 flex items-center justify-center text-sky-700">
-											<span className="text-sm font-medium opacity-80">
-												No image
-											</span>
-										</div>
-									)}
-								</div>
-							</Link>
+										<Image
+											src={verb.img}
+											alt={verb.verb}
+											fill
+											className="object-cover"
+											sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+										/>
+									)
+								) : (
+									<div className="absolute inset-0 bg-gradient-to-br from-sky-100 to-sky-200 flex items-center justify-center text-sky-700">
+										<span className="text-sm font-medium opacity-80">
+											No image
+										</span>
+									</div>
+								)}
+							</div>
 
 							{/* Text content */}
 							<div className="p-4" dir="rtl">

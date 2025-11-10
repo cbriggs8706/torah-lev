@@ -49,7 +49,8 @@
 					{ "char": "כ", "class": "" },
 					{ "char": "ְ", "class": "" },
 					{ "char": "נ", "class": "" },
-					{ "char": "ָ", "class": "" }
+					{ "char": "ָ", "class": "" },
+					{ "char": "ה", "class": "" }
 				],
 				"translit": [{ "text": "lechna", "class": "" }],
 				"english": [{ "text": "go! (to women)", "class": "font-bold" }]
@@ -177,7 +178,8 @@
 					{ "char": "ח", "class": "" },
 					{ "char": "ְ", "class": "" },
 					{ "char": "נ", "class": "" },
-					{ "char": "ָ", "class": "" }
+					{ "char": "ָ", "class": "" },
+					{ "char": "ה", "class": "" }
 				],
 				"translit": [{ "text": "kachna", "class": "" }],
 				"english": [{ "text": "take! (to women)", "class": "font-bold" }]

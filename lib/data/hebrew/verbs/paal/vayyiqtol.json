@@ -941,12 +941,34 @@
 		"tense": "Vayyiqtol (Biblical Narrative)",
 		"rows": [
 			{
+				"person": "1sc",
+				"hebrew": [
+					{ "char": "ו", "class": "" },
+					{ "char": "ָ", "class": "" },
+					{ "char": "א", "class": "" },
+					{ "char": "ֹ", "class": "" },
+					{ "char": "מ", "class": "" },
+					{ "char": "֫", "class": "" },
+					{ "char": "ַ", "class": "" },
+					{ "char": "ר", "class": "" }
+				],
+				"translit": [
+					{ "text": "va", "class": "" },
+					{ "text": "omar", "class": "" }
+				],
+				"english": [
+					{ "text": "and I ", "class": "" },
+					{ "text": "said", "class": "font-bold" }
+				]
+			},
+			{
 				"person": "3ms",
 				"hebrew": [
 					{ "char": "ו", "class": "" },
 					{ "char": "ַ", "class": "" },
 					{ "char": "י", "class": "" },
 					{ "char": "ֹּ", "class": "" },
+					{ "char": "֫", "class": "" },
 					{ "char": "אמֶ", "class": "" },
 					{ "char": "ר", "class": "" }
 				],
@@ -965,6 +987,7 @@
 					{ "char": "ו", "class": "" },
 					{ "char": "ַ", "class": "" },
 					{ "char": "תֹּ", "class": "" },
+					{ "char": "֫", "class": "" },
 					{ "char": "אמֶ", "class": "" },
 					{ "char": "ר", "class": "" }
 				],
@@ -985,7 +1008,10 @@
 					{ "char": "י", "class": "" },
 					{ "char": "ֹּ", "class": "" },
 					{ "char": "אמְ", "class": "" },
-					{ "char": "רוּ", "class": "" }
+					{ "char": "ר", "class": "" },
+					{ "char": "֫", "class": "" },
+
+					{ "char": "וּ", "class": "" }
 				],
 				"translit": [
 					{ "text": "va", "class": "" },
