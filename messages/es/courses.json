@@ -1,0 +1,10 @@
+{
+	"title": "Cursos",
+	"list": {
+		"bh": "Hebreo Bíblico",
+		"bg": "Griego Bíblico",
+		"mh": "Hebreo Moderno",
+		"me": "Inglés Moderno",
+		"ms": "Español Moderno"
+	}
+}

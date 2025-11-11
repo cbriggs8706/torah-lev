@@ -1,0 +1,10 @@
+{
+	"title": "Courses",
+	"list": {
+		"bh": "NBiblical Hebrew",
+		"bg": "NBiblical Greek",
+		"mh": "NModern Hebrew",
+		"me": "NModern English",
+		"ms": "NModern Spanish"
+	}
+}

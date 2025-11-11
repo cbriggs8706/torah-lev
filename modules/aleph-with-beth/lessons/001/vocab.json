@@ -1,0 +1,14 @@
+[
+	{
+		"id": "ish",
+		"heb": "אִישׁ",
+		"type": "noun",
+		"audio": "/audio/ish.mp3"
+	},
+	{
+		"id": "ishah",
+		"heb": "אִשָּׁה",
+		"type": "noun",
+		"audio": "/audio/ishah.mp3"
+	}
+]
