@@ -1,5 +1,7 @@
 {
-	"title": "Courses",
+	"title": "NCourses",
+	"create": "NCreate",
+	"singular": "NCourse",
 	"list": {
 		"bh": "NBiblical Hebrew",
 		"bg": "NBiblical Greek",

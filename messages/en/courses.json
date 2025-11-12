@@ -1,5 +1,7 @@
 {
 	"title": "Courses",
+	"create": "Create",
+	"singular": "Course",
 	"list": {
 		"bh": "Biblical Hebrew",
 		"bg": "Biblical Greek",

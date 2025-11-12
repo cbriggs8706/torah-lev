@@ -1,5 +1,7 @@
 {
 	"title": "קורסים",
+	"create": "Create",
+	"singular": "Course",
 	"list": {
 		"bh": "עברית מקראית",
 		"bg": "יוונית מקראית",
