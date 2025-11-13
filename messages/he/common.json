@@ -1,7 +1,12 @@
 {
 	"welcome": "ברוך הבא",
+	"welcomeTL": "ברוך הבא לתורהלב",
 	"startLesson": "התחל שיעור",
 	"continue": "המשך",
 	"settings": "הגדרות",
-	"switchLanguage": "החלף שפה"
+	"switchLanguage": "החלף שפה",
+	"construction": "אתר זה נמצא בבנייה",
+	"register": "צור חשבון",
+	"login": "התחבר",
+	"guest": "המשך כאורח"
 }

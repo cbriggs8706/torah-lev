@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import bcrypt from 'bcryptjs'
 import { supabaseDb } from '@/db/client'
-import { users } from '@/db/schema/tables/users'
+import { user } from '@/db/schema/tables/auth'
 import { eq } from 'drizzle-orm'
 
 export async function POST(req: Request) {
@@ -12,10 +12,11 @@ export async function POST(req: Request) {
 			return NextResponse.json({ error: 'Missing fields' }, { status: 400 })
 		}
 
-		// Check for duplicates
-		const existing = await supabaseDb.query.users.findFirst({
-			where: eq(users.email, email),
+		// ✅ Correct table reference
+		const existing = await supabaseDb.query.user.findFirst({
+			where: eq(user.email, email),
 		})
+
 		if (existing) {
 			return NextResponse.json(
 				{ error: 'Email already registered' },
@@ -25,7 +26,8 @@ export async function POST(req: Request) {
 
 		const hashed = await bcrypt.hash(password, 10)
 
-		await supabaseDb.insert(users).values({
+		// ✅ Correct insert table reference
+		await supabaseDb.insert(user).values({
 			username,
 			email,
 			passwordHash: hashed,

@@ -3,8 +3,7 @@ import { notFound } from 'next/navigation'
 import { NextIntlClientProvider } from 'next-intl'
 import { getMessages } from 'next-intl/server'
 import { LOCALES, type Locale } from '@/i18n/config'
-import { LANGUAGES } from '@/i18n/languages'
-import { LanguageSwitcher } from '@/components/language-switcher'
+import { NextAuthProvider } from '../providers/session-provider'
 
 export default async function LocaleLayout({
 	children,
@@ -20,13 +19,8 @@ export default async function LocaleLayout({
 
 	return (
 		<>
-			<div className="flex items-center gap-3 p-4">
-				<span className={`fi ${LANGUAGES[locale].flag} text-xl`} />
-				<LanguageSwitcher locale={locale} />
-			</div>
-
 			<NextIntlClientProvider messages={messages} locale={locale}>
-				{children}
+				<NextAuthProvider>{children}</NextAuthProvider>
 			</NextIntlClientProvider>
 		</>
 	)

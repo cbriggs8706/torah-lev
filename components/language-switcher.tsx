@@ -2,19 +2,27 @@
 
 import { LANGUAGES } from '@/i18n/languages'
 import { usePathname, useRouter } from 'next/navigation'
+import { startTransition } from 'react'
+import { setLocale } from '@/app/actions/setLocale'
 
 export function LanguageSwitcher({ locale }: { locale: string }) {
 	const router = useRouter()
 	const pathname = usePathname()
 	const locales = Object.keys(LANGUAGES)
 
-	function handleChange(nextLocale: string) {
+	async function handleChange(nextLocale: string) {
 		if (!pathname) return
 
+		// ✅ Save cookie (server action)
+		await setLocale(nextLocale)
+
+		// ✅ Replace the locale segment
 		const segments = pathname.split('/')
 		segments[1] = nextLocale
 
-		router.push(segments.join('/') || '/')
+		startTransition(() => {
+			router.push(segments.join('/') || '/')
+		})
 	}
 
 	return (

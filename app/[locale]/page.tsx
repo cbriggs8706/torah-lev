@@ -1,6 +1,10 @@
+import { TLButton } from '@/components/custom/tl-button'
+import { LanguageSwitcher } from '@/components/language-switcher'
+import { LANGUAGES } from '@/i18n/languages'
 import { getTranslations } from 'next-intl/server'
+import Link from 'next/link'
 
-export default async function HomePage({
+export default async function Page({
 	params,
 }: {
 	params: Promise<{ locale: string }>
@@ -9,17 +13,24 @@ export default async function HomePage({
 	const t = await getTranslations({ locale, namespace: 'common' })
 
 	return (
-		<div className="p-6 space-y-2">
-			{/* ✅ Strings only */}
-			<h1 className="text-2xl font-bold mb-4">{t('welcome')}</h1>
+		<div className="flex text-center justify-center flex-col w-full h-screen my-auto">
+			<h1 className="text-2xl font-bold mb-4">{t('welcomeTL')}</h1>
+			<p>{t('construction')}</p>
 
-			{/* ✅ Example of listing translation values safely */}
-			<ul className="list-disc list-inside">
-				<li>{t('startLesson')}</li>
-				<li>{t('continue')}</li>
-				<li>{t('settings')}</li>
-				<li>{t('switchLanguage')}</li>
-			</ul>
+			<div className="flex items-center gap-3 p-4 mx-auto">
+				<span className={`fi ${LANGUAGES[locale]?.flag ?? ''} text-xl`} />
+				<LanguageSwitcher locale={locale} />
+			</div>
+
+			<div className="flex flex-col gap-4 mt-8 items-center">
+				<Link href={`/${locale}/register`}>
+					<TLButton variant="outline">{t('register')}</TLButton>
+				</Link>
+				<Link href={`/${locale}/login`}>
+					<TLButton variant="outline">{t('login')}</TLButton>
+				</Link>
+				<TLButton variant="outline">{t('guest')}</TLButton>
+			</div>
 		</div>
 	)
 }

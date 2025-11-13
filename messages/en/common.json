@@ -1,7 +1,12 @@
 {
 	"welcome": "Welcome",
+	"welcomeTL": "Welcome to TorahLev!",
 	"startLesson": "Start Lesson",
 	"continue": "Continue",
 	"settings": "Settings",
-	"switchLanguage": "Switch Language"
+	"switchLanguage": "Switch Language",
+	"construction": "This site is under construction",
+	"register": "Create an account",
+	"login": "Login",
+	"guest": "Continue as a Guest"
 }

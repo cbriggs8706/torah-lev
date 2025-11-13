@@ -1,61 +1,144 @@
-import NextAuth, { type NextAuthOptions } from 'next-auth'
+// app/api/auth/[...nextauth]/route.ts
+
+import NextAuth, { type NextAuthOptions, type User } from 'next-auth'
+import GoogleProvider from 'next-auth/providers/google'
 import Credentials from 'next-auth/providers/credentials'
+import {
+	user,
+	account,
+	session,
+	verificationToken,
+} from '@/db/schema/tables/auth'
 import { DrizzleAdapter } from '@auth/drizzle-adapter'
 import { supabaseDb } from '@/db/client'
-import { users } from '@/db/schema/tables/users'
 import { eq } from 'drizzle-orm'
 import bcrypt from 'bcryptjs'
+import type { Adapter } from 'next-auth/adapters'
 
-// ✅ Give authOptions a type
 export const authOptions: NextAuthOptions = {
-	adapter: DrizzleAdapter(supabaseDb),
+	//---------------------------------------------------------
+	// 🔥 THE ONLY CHANGE: Explicit table mapping for the adapter
+	//---------------------------------------------------------
+	adapter: DrizzleAdapter(supabaseDb, {
+		usersTable: user,
+		accountsTable: account,
+		sessionsTable: session,
+		verificationTokensTable: verificationToken,
+	}) as Adapter,
+	//---------------------------------------------------------
+
 	providers: [
+		//---------------------------------------------------------
+		// Google OAuth
+		//---------------------------------------------------------
+		GoogleProvider({
+			clientId: process.env.GOOGLE_CLIENT_ID!,
+			clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+			profile(profile) {
+				return {
+					id: profile.sub, // REQUIRED
+					name: profile.name,
+					email: profile.email, // REQUIRED
+					image: profile.picture,
+					role: 'user', // default
+				}
+			},
+		}),
+
+		//---------------------------------------------------------
+		// Credentials Provider
+		//---------------------------------------------------------
 		Credentials({
 			name: 'Credentials',
 			credentials: {
 				username: { label: 'Username', type: 'text' },
 				password: { label: 'Password', type: 'password' },
 			},
-			async authorize(credentials) {
+			async authorize(credentials): Promise<User | null> {
 				if (!credentials?.username || !credentials?.password) return null
 
-				const user = await supabaseDb.query.users.findFirst({
-					where: eq(users.username, credentials.username),
+				const foundUser = await supabaseDb.query.user.findFirst({
+					where: eq(user.username, credentials.username),
 				})
-				if (!user) return null
 
-				const valid = await bcrypt.compare(
+				if (!foundUser || !foundUser.passwordHash) return null
+
+				const isValid = await bcrypt.compare(
 					credentials.password,
-					user.passwordHash
+					foundUser.passwordHash
 				)
-				if (!valid) return null
+				if (!isValid) return null
 
 				return {
-					id: user.id,
-					name: user.username,
-					email: user.email,
-					role: user.role,
+					id: foundUser.id,
+					name: foundUser.username ?? '',
+					email: foundUser.email ?? '',
+					image: foundUser.image ?? '',
+					role: foundUser.role ?? 'user',
 				}
 			},
 		}),
 	],
+
+	//---------------------------------------------------------
+	// Callbacks
+	//---------------------------------------------------------
 	callbacks: {
-		// ✅ Use correct callback param types
-		async session({ session, token, user }) {
-			if (user) {
-				session.user = {
-					...session.user,
-					id: user.id,
-					role: (user as any).role ?? 'user', // or extend Session type below
+		//-----------------------------------------------------
+		// Redirect (locale-aware)
+		//-----------------------------------------------------
+		async redirect({ url, baseUrl }) {
+			const localeMatch = url.match(/\/([a-z]{2})\//)
+			const locale = localeMatch ? localeMatch[1] : 'en'
+			return `${baseUrl}/${locale}/dashboard`
+		},
+
+		//-----------------------------------------------------
+		// JWT — attach id + role from DB
+		//-----------------------------------------------------
+		async jwt({ token, user: authUser }) {
+			// First login (Google or Credentials)
+			if (authUser) {
+				token.email = authUser.email ?? null
+				token.id = authUser.id ?? null
+			}
+
+			// Always load latest DB role
+			if (token.email) {
+				const dbUser = await supabaseDb.query.user.findFirst({
+					where: eq(user.email, token.email),
+				})
+
+				if (dbUser) {
+					token.id = dbUser.id
+					token.role = dbUser.role
+				} else {
+					token.role = token.role ?? 'user'
 				}
 			}
+
+			return token
+		},
+
+		//-----------------------------------------------------
+		// Session — expose id + role to frontend
+		//-----------------------------------------------------
+		async session({ session }) {
+			if (!session.user?.email) return session
+
+			// Fetch role from DB on *every* session call
+			const dbUser = await supabaseDb.query.user.findFirst({
+				where: eq(user.email, session.user.email),
+			})
+
+			session.user.id = dbUser?.id ?? ''
+			session.user.role = dbUser?.role ?? 'user'
+
 			return session
 		},
 	},
-	pages: {
-		signIn: '/auth/signin',
-	},
 }
 
+// Route handler
 const handler = NextAuth(authOptions)
 export { handler as GET, handler as POST }

@@ -4,4 +4,5 @@ export const LANGUAGES: Record<string, { label: string; flag: string }> = {
 	nl: { label: 'Nederlands', flag: 'fi-nl' },
 	pt: { label: 'Português', flag: 'fi-br' },
 	he: { label: 'עברית', flag: 'fi-il' },
+	el: { label: 'Ελληνική', flag: 'fi-gr' },
 }

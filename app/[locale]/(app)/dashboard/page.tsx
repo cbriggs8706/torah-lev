@@ -1,13 +1,30 @@
+// app/[locale]/(app)/dashboard/page.tsx
+import { getServerSession } from 'next-auth'
+import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { SignOutButton } from '@/components/auth/signout'
+import { redirect } from 'next/navigation'
+
 interface DashboardPageProps {
 	params: Promise<{ locale: string }>
 }
 
-export default async function DashboardPage({ params }: DashboardPageProps) {
+export default async function Page({ params }: DashboardPageProps) {
 	const { locale } = await params
+
+	const session = await getServerSession(authOptions)
+
+	if (!session) {
+		redirect(`/${locale}`)
+	}
+
+	console.log('Session in dashboard page:', session)
+	const role = session?.user?.role ?? 'user'
+
+	const title = role === 'admin' ? 'Admin Dashboard' : 'User Dashboard'
 
 	return (
 		<div className="space-y-4">
-			<h1 className="text-3xl font-bold">Dashboard</h1>
+			<h1 className="text-3xl font-bold">{title}</h1>
 
 			<p className="text-gray-600">Choose a course to begin learning.</p>
 
@@ -17,6 +34,7 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
 			>
 				View Courses
 			</a>
+			<SignOutButton />
 		</div>
 	)
 }

@@ -1,3 +1,4 @@
+// db/schema/index.ts
 export * from './tables/gameResults'
 export * from './tables/messages'
 export * from './tables/studyGroupSchedule'
@@ -6,7 +7,7 @@ export * from './tables/studyGroupSessions'
 export * from './tables/courses'
 export * from './tables/units'
 export * from './tables/lessons'
-export * from './tables/users'
+export * from './tables/auth'
 
 export * from './relations/studyGroupSchedule.relations'
 export * from './relations/studyGroupScheduleLessons.relations'
@@ -14,5 +15,4 @@ export * from './relations/course.relations'
 export * from './relations/unit.relations'
 export * from './relations/lesson.relations'
 
-export * from './enums' // optional
-// export * from "./indexes";   // optional
+export * from './enums'

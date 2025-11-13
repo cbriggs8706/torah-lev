@@ -29,7 +29,8 @@
 		"**/*.tsx",
 		".next/types/**/*.ts",
 		".next/dev/types/**/*.ts",
-		"**/*.mts"
+		"**/*.mts",
+		"app/[locale]/(admin)/admin-dashboard"
 	],
 	"exclude": ["node_modules"]
 }
