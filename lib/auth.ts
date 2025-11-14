@@ -90,6 +90,17 @@ export const authOptions: NextAuthOptions = {
 			}
 			return session
 		},
+
+		async redirect({ url, baseUrl }) {
+			// Redirect after Google or Credentials login
+			if (url.includes('/api/auth/callback')) {
+				const localeMatch = url.match(/\/([a-z]{2})\//)
+				const locale = localeMatch ? localeMatch[1] : 'en'
+				return `${baseUrl}/${locale}/dashboard`
+			}
+
+			return url
+		},
 	},
 }
 

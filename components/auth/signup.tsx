@@ -61,6 +61,12 @@ export function SignUpForm() {
 
 			if (res.ok) {
 				toast.success(t('success') || '✅ Account created!')
+				await signIn('credentials', {
+					redirect: false,
+					username: data.email, // or data.username — whichever you accept
+					password: data.password,
+				})
+
 				router.push(`/${locale}/dashboard`)
 			} else {
 				const result = await res.json()
@@ -110,7 +116,9 @@ export function SignUpForm() {
 					<Button
 						type="button"
 						className="w-full gap-3 mb-6"
-						onClick={() => signIn('google')}
+						onClick={() =>
+							signIn('google', { callbackUrl: `/${locale}/dashboard` })
+						}
 					>
 						<GoogleLogo />
 						{t('googleButton')}
