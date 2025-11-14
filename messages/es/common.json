@@ -8,5 +8,7 @@
 	"construction": "Este sitio está en construcción",
 	"register": "Crea una cuenta",
 	"login": "Iniciar sesión",
-	"guest": "Continuar como invitado"
+	"guest": "Continuar como invitado",
+	"viewCourses": "Ver Cursos",
+	"createCourse": "Crea un curso"
 }

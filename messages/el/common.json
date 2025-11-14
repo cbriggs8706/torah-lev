@@ -8,5 +8,7 @@
 	"construction": "Αυτή η ιστοσελίδα είναι υπό κατασκευή",
 	"register": "Δημιουργία λογαριασμού",
 	"login": "Σύνδεση",
-	"guest": "Συνέχεια ως επισκέπτης"
+	"guest": "Συνέχεια ως επισκέπτης",
+	"viewCourses": "ELView Courses",
+	"createCourse": "ELCreate Course"
 }

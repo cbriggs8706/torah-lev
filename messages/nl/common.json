@@ -8,5 +8,8 @@
 	"construction": "Deze site is in aanbouw",
 	"register": "Maak een account aan",
 	"login": "Inloggen",
-	"guest": "Doorgaan als gast"
+	"guest": "Doorgaan als gast",
+	"viewCourses": "NLView Courses",
+
+	"createCourse": "NLCreate a Course"
 }

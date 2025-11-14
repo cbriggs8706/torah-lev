@@ -4,6 +4,15 @@ import { SignOutButton } from '@/components/auth/signout'
 import { redirect } from 'next/navigation'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
+import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
+import { TLButton } from '@/components/custom/tl-button'
+
+import {
+	CourseWithCount,
+	getAllPublicCoursesWithEnrollment,
+} from '@/db/queries/courses'
+import { UserCoursesList } from '@/components/courses/CoursesList'
 
 interface DashboardPageProps {
 	params: Promise<{ locale: string }>
@@ -11,33 +20,44 @@ interface DashboardPageProps {
 
 export default async function Page({ params }: DashboardPageProps) {
 	const { locale } = await params
+	const t = await getTranslations({ locale, namespace: 'common' })
 
 	const session = await getServerSession(authOptions)
+	if (!session) redirect(`/${locale}`)
 
-	if (!session) {
-		redirect(`/${locale}`)
+	const role = session.user.role ?? 'user'
+
+	// LOAD USER COURSES
+	let userCourses: CourseWithCount[] = []
+	if (role === 'user') {
+		userCourses = await getAllPublicCoursesWithEnrollment()
 	}
 
-	console.log('Session in dashboard page:', session)
-	console.log('Dashboard → Session:', JSON.stringify(session, null, 2))
-	console.log('Dashboard → Role:', session?.user?.role)
-
-	const role = session?.user?.role ?? 'user'
-
-	const title = role === 'admin' ? 'Admin Dashboard' : 'User Dashboard'
-
 	return (
-		<div className="space-y-4">
-			<h1 className="text-3xl font-bold">{title}</h1>
+		<div className="space-y-6">
+			<h1 className="text-3xl font-bold">
+				{role === 'admin' ? 'Admin Dashboard' : 'User Dashboard'}
+			</h1>
 
 			<p className="text-gray-600">Choose a course to begin learning.</p>
 
-			<a
-				href={`/${locale}/courses`}
-				className="inline-block bg-blue-600 text-white px-4 py-2 rounded"
-			>
-				View Courses
-			</a>
+			{/* ADMIN ACTIONS */}
+			{role === 'admin' && (
+				<div className="flex gap-3">
+					<Link href={`/${locale}/admin/course`}>
+						<TLButton variant="outline">{t('viewCourses')}</TLButton>
+					</Link>
+					<Link href={`/${locale}/admin/course/create`}>
+						<TLButton variant="outline">{t('createCourse')}</TLButton>
+					</Link>
+				</div>
+			)}
+
+			{/* USER COURSE LIST */}
+			{role === 'user' && (
+				<UserCoursesList courses={userCourses} locale={locale} />
+			)}
+
 			<SignOutButton />
 		</div>
 	)

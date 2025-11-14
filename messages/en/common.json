@@ -8,5 +8,8 @@
 	"construction": "This site is under construction",
 	"register": "Create an account",
 	"login": "Login",
-	"guest": "Continue as a Guest"
+	"guest": "Continue as a Guest",
+	"viewCourses": "View Courses",
+
+	"createCourse": "Create a Course"
 }

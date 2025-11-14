@@ -8,5 +8,8 @@
 	"construction": "Este site está em construção",
 	"register": "Criar uma conta",
 	"login": "Entrar",
-	"guest": "Continuar como convidado"
+	"guest": "Continuar como convidado",
+	"viewCourses": "PTView Courses",
+
+	"createCourse": "PTCreate a Course"
 }

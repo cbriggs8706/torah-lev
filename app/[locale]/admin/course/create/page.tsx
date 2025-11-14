@@ -1,4 +1,4 @@
-import CreateCourse from '@/components/admin/course-create'
+import { CourseForm } from '@/components/admin/courses/form'
 import { getTranslations } from 'next-intl/server'
 
 export default async function Page({
@@ -17,7 +17,7 @@ export default async function Page({
 				{t('singular')}
 			</h1>
 
-			<CreateCourse />
+			<CourseForm />
 		</div>
 	)
 }

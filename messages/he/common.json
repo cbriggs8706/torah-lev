@@ -8,5 +8,8 @@
 	"construction": "אתר זה נמצא בבנייה",
 	"register": "צור חשבון",
 	"login": "התחבר",
-	"guest": "המשך כאורח"
+	"guest": "המשך כאורח",
+	"viewCourses": "HEView Courses",
+
+	"createCourse": "HECreate a Course"
 }

@@ -1,8 +1,30 @@
-//DELTE?
-//
+// db/schema/enums.ts
 import { pgEnum } from 'drizzle-orm/pg-core'
 
 export const groupType = pgEnum('group_type', ['GROUP', 'SUBGROUP', 'TRIBE'])
+export const courseType = pgEnum('course_type', [
+	'INPERSON',
+	'VIRTUAL',
+	'HYBRID',
+	'SELFPACED',
+])
+export const proficiencyLevel = pgEnum('proficiency_level', [
+	'A1',
+	'A2',
+	'B1',
+	'B2',
+	'C1',
+	'C2',
+])
+export const dayOfWeek = pgEnum('day_of_week', [
+	'MON',
+	'TUE',
+	'WED',
+	'THU',
+	'FRI',
+	'SAT',
+	'SUN',
+])
 export const lesson = pgEnum('lesson', [
 	'1',
 	'2',
