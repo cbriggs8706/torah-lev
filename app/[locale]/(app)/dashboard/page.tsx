@@ -1,8 +1,9 @@
 // app/[locale]/(app)/dashboard/page.tsx
-import { getServerSession } from 'next-auth'
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+
 import { SignOutButton } from '@/components/auth/signout'
 import { redirect } from 'next/navigation'
+import { getServerSession } from 'next-auth'
+import { authOptions } from '@/lib/auth'
 
 interface DashboardPageProps {
 	params: Promise<{ locale: string }>
@@ -18,6 +19,9 @@ export default async function Page({ params }: DashboardPageProps) {
 	}
 
 	console.log('Session in dashboard page:', session)
+	console.log('Dashboard → Session:', JSON.stringify(session, null, 2))
+	console.log('Dashboard → Role:', session?.user?.role)
+
 	const role = session?.user?.role ?? 'user'
 
 	const title = role === 'admin' ? 'Admin Dashboard' : 'User Dashboard'
