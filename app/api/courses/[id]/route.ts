@@ -43,8 +43,12 @@ const UpdateCourseSchema = z.object({
 // ==============================
 // GET /api/courses/[id]
 // ==============================
-export async function GET(req: Request, context: { params: { id: string } }) {
-	const course = await getCourse(context.params.id)
+export async function GET(
+	req: Request,
+	context: { params: Promise<{ id: string }> }
+) {
+	const { id } = await context.params
+	const course = await getCourse(id)
 	if (!course) return new NextResponse('Not found', { status: 404 })
 
 	return NextResponse.json(course)
@@ -53,9 +57,12 @@ export async function GET(req: Request, context: { params: { id: string } }) {
 // ==============================
 // PATCH /api/courses/[id] (ADMIN)
 // ==============================
-export async function PATCH(req: Request, context: { params: { id: string } }) {
+export async function PATCH(
+	req: Request,
+	context: { params: Promise<{ id: string }> }
+) {
 	const session = await getServerSession(authOptions)
-
+	const { id } = await context.params
 	if (!session || session.user.role !== 'admin') {
 		return new NextResponse('Unauthorized', { status: 401 })
 	}
@@ -69,7 +76,7 @@ export async function PATCH(req: Request, context: { params: { id: string } }) {
 
 	const data = parsed.data
 
-	const updated = await updateCourse(context.params.id, {
+	const updated = await updateCourse(id, {
 		...data,
 		startDate: data.startDate ? new Date(data.startDate) : undefined,
 		endDate: data.endDate ? new Date(data.endDate) : undefined,
@@ -83,14 +90,15 @@ export async function PATCH(req: Request, context: { params: { id: string } }) {
 // ==============================
 export async function DELETE(
 	req: Request,
-	context: { params: { id: string } }
+	context: { params: Promise<{ id: string }> }
 ) {
-	if (!context.params.id) {
+	const { id } = await context.params
+	if (!id) {
 		return NextResponse.json({ error: 'Missing ID' }, { status: 400 })
 	}
 
 	try {
-		await deleteCourse(context.params.id)
+		await deleteCourse(id)
 		return NextResponse.json({ success: true })
 	} catch (err) {
 		console.error('Delete error:', err)

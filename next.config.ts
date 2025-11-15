@@ -10,6 +10,9 @@ const nextConfig: NextConfig = {
 			},
 		],
 	},
+	// experimental: {
+	// 	typedRoutes: false,
+	// },
 }
 
 const withNextIntl = createNextIntlPlugin()
