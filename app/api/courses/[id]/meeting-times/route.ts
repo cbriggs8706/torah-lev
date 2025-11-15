@@ -1,3 +1,8 @@
+// app/api/courses/[id]/meeting-times/route.ts
+export const runtime = 'nodejs'
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 import { NextResponse, NextRequest } from 'next/server'
 import {
 	addMeetingTimes,
@@ -23,18 +28,22 @@ const MeetingTimesSchema = z.array(
 // GET meeting times
 export async function GET(
 	req: NextRequest,
-	context: { params: Promise<{ id: string }> }
+	// context: { params: Promise<{ id: string }> }
+	context: { params: { id: string } }
 ) {
-	const { id } = await context.params
+	// const { id } = await context.params
+	const id = context.params.id
 	return NextResponse.json(await getMeetingTimes(id))
 }
 
 // POST add meeting times
 export async function POST(
 	req: NextRequest,
-	context: { params: Promise<{ id: string }> }
+	// context: { params: Promise<{ id: string }> }
+	context: { params: { id: string } }
 ) {
-	const { id } = await context.params
+	// const { id } = await context.params
+	const id = context.params.id
 
 	const session = await getServerSession(authOptions)
 	if (!session || session.user.role !== 'admin') {
@@ -59,9 +68,11 @@ export async function POST(
 // PUT replace meeting times
 export async function PUT(
 	req: NextRequest,
-	context: { params: Promise<{ id: string }> }
+	// context: { params: Promise<{ id: string }> }
+	context: { params: { id: string } }
 ) {
-	const { id } = await context.params
+	// const { id } = await context.params
+	const id = context.params.id
 
 	const session = await getServerSession(authOptions)
 	if (!session || session.user.role !== 'admin') {

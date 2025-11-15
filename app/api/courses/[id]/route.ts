@@ -1,3 +1,8 @@
+// app/api/courses/[id]/route.ts
+export const runtime = 'nodejs'
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 import { NextResponse } from 'next/server'
 import { getCourse, updateCourse, deleteCourse } from '@/db/queries/courses'
 import { getServerSession } from 'next-auth'
@@ -6,7 +11,7 @@ import { z } from 'zod'
 import { courseType, proficiencyLevel } from '@/db/schema/enums'
 
 type CourseType = (typeof courseType.enumValues)[number]
-type Level = (typeof proficiencyLevel.enumValues)[number]
+// type Level = (typeof proficiencyLevel.enumValues)[number]
 
 const UpdateCourseSchema = z.object({
 	slug: z.string().optional(),
@@ -38,11 +43,8 @@ const UpdateCourseSchema = z.object({
 // ==============================
 // GET /api/courses/[id]
 // ==============================
-export async function GET(
-	req: Request,
-	{ params }: { params: { id: string } }
-) {
-	const course = await getCourse(params.id)
+export async function GET(req: Request, context: { params: { id: string } }) {
+	const course = await getCourse(context.params.id)
 	if (!course) return new NextResponse('Not found', { status: 404 })
 
 	return NextResponse.json(course)
@@ -51,10 +53,7 @@ export async function GET(
 // ==============================
 // PATCH /api/courses/[id] (ADMIN)
 // ==============================
-export async function PATCH(
-	req: Request,
-	context: { params: Promise<{ id: string }> }
-) {
+export async function PATCH(req: Request, context: { params: { id: string } }) {
 	const session = await getServerSession(authOptions)
 
 	if (!session || session.user.role !== 'admin') {
@@ -69,9 +68,8 @@ export async function PATCH(
 	}
 
 	const data = parsed.data
-	const { id: courseId } = await context.params
 
-	const updated = await updateCourse(courseId, {
+	const updated = await updateCourse(context.params.id, {
 		...data,
 		startDate: data.startDate ? new Date(data.startDate) : undefined,
 		endDate: data.endDate ? new Date(data.endDate) : undefined,
@@ -85,16 +83,14 @@ export async function PATCH(
 // ==============================
 export async function DELETE(
 	req: Request,
-	context: { params: Promise<{ id: string }> }
+	context: { params: { id: string } }
 ) {
-	const { id } = await context.params
-
-	if (!id) {
+	if (!context.params.id) {
 		return NextResponse.json({ error: 'Missing ID' }, { status: 400 })
 	}
 
 	try {
-		await deleteCourse(id)
+		await deleteCourse(context.params.id)
 		return NextResponse.json({ success: true })
 	} catch (err) {
 		console.error('Delete error:', err)
