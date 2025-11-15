@@ -3,7 +3,7 @@
 import { LANGUAGES } from '@/i18n/languages'
 import { usePathname, useRouter } from 'next/navigation'
 import { startTransition } from 'react'
-import { setLocale } from '@/app/actions/setLocale'
+import { setLocale } from '@/app/actions/set-locale'
 
 export function LanguageSwitcher({ locale }: { locale: string }) {
 	const router = useRouter()

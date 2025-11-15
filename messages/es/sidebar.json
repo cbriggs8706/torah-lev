@@ -70,6 +70,7 @@
 		"notifications": "Notificaciones",
 		"logout": "Cerrar sesión",
 		"login": "Iniciar sesión",
-		"register": "Crear una cuenta"
+		"register": "Crear una cuenta",
+		"dashboard": "Panel de control"
 	}
 }

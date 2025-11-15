@@ -70,6 +70,7 @@
 		"notifications": "Meldingen",
 		"logout": "Uitloggen",
 		"login": "Inloggen",
-		"register": "Account aanmaken"
+		"register": "Account aanmaken",
+		"dashboard": "Dashboard"
 	}
 }

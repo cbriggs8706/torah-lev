@@ -1,6 +1,12 @@
 'use client'
 
-import { BadgeCheck, Bell, ChevronsUpDown, LogOut } from 'lucide-react'
+import {
+	BadgeCheck,
+	Bell,
+	ChevronsUpDown,
+	LayoutDashboard,
+	LogOut,
+} from 'lucide-react'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
@@ -30,6 +36,7 @@ export function NavUser({
 	login,
 	register,
 	locale,
+	dashboard,
 }: {
 	session: Session | null
 	account: string
@@ -38,9 +45,9 @@ export function NavUser({
 	login: string
 	register: string
 	locale: string
+	dashboard: string
 }) {
 	const { isMobile } = useSidebar()
-	console.log('session?????', session)
 	// --------------------------
 	// GUEST MODE (no session)
 	// --------------------------
@@ -159,6 +166,12 @@ export function NavUser({
 						</DropdownMenuGroup> */}
 						<DropdownMenuSeparator />
 						<DropdownMenuGroup>
+							<Link href={`/${locale}/dashboard`}>
+								<DropdownMenuItem>
+									<LayoutDashboard />
+									{dashboard}
+								</DropdownMenuItem>
+							</Link>
 							<DropdownMenuItem>
 								<BadgeCheck />
 								{account}

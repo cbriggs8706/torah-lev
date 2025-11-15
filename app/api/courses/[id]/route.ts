@@ -38,6 +38,8 @@ const UpdateCourseSchema = z.object({
 	zoomLink: z.string().optional(),
 	maxEnrollment: z.number().optional(),
 	enrollmentOpen: z.boolean().optional(),
+	current: z.boolean().optional(),
+	public: z.boolean().optional(),
 })
 
 // ==============================

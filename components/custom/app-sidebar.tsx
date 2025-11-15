@@ -22,6 +22,7 @@ import { useParams } from 'next/navigation'
 import { NavLesson } from './nav-lesson'
 import { useTranslations } from 'next-intl'
 import { buildSidebarData, getTeacherNav } from '@/lib/sidebarData'
+import { Separator } from '../ui/separator'
 
 export function AppSidebar({
 	session,
@@ -61,7 +62,10 @@ export function AppSidebar({
 			</SidebarHeader>
 			<SidebarContent>
 				{role === 'admin' && (
-					<NavMain items={teacherNav} label={t('sidebar.teacher.title')} />
+					<>
+						<NavMain items={teacherNav} label={t('sidebar.teacher.title')} />
+						<Separator className="my-4" />
+					</>
 				)}
 				<NavMain items={data.navMain} />
 				<NavLesson
@@ -83,6 +87,7 @@ export function AppSidebar({
 
 				<NavUser
 					session={session}
+					dashboard={t('sidebar.user.dashboard')}
 					account={t('sidebar.user.account')}
 					notifications={t('sidebar.user.notifications')}
 					logout={t('sidebar.user.logout')}

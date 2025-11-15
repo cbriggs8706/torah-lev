@@ -110,11 +110,11 @@ export function getTeacherNav(t: TFunction, locale: string) {
 			items: [
 				{
 					title: t('sidebar.teacher.myCourses'),
-					url: `/${locale}/admin/course`,
+					url: `/${locale}/courses`,
 				},
 				{
 					title: t('sidebar.teacher.createCourse'),
-					url: `/${locale}/admin/course/create`,
+					url: `/${locale}/courses/create`,
 				},
 			],
 		},

@@ -6,10 +6,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { Pencil, Trash2, MapPin, Video, Users } from 'lucide-react'
 
-import type {
-	CourseWithCount,
-	CourseWithEnrollments,
-} from '@/db/queries/courses'
+import type { CourseWithEnrollments } from '@/db/queries/courses'
 
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -66,10 +63,8 @@ export function OrganizerCoursesList({ courses, locale }: Props) {
 				return (
 					<Card
 						key={course.id}
+						onClick={() => router.push(`/${locale}/${course.courseCode}`)}
 						className="cursor-pointer hover:bg-accent transition flex flex-col"
-						onClick={() =>
-							router.push(`/${locale}/admin/course/read/${course.id}`)
-						}
 					>
 						{/* IMAGE — Only renders if available */}
 						{course.imageSrc && (
@@ -127,7 +122,7 @@ export function OrganizerCoursesList({ courses, locale }: Props) {
 							<div className="flex items-start gap-1">
 								{/* UPDATE */}
 								<Link
-									href={`/${locale}/admin/course/update/${course.id}`}
+									href={`/${locale}/${course.courseCode}/update`}
 									onClick={(e) => e.stopPropagation()}
 								>
 									<Button variant="ghost" size="icon">

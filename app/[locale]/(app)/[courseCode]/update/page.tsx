@@ -1,20 +1,20 @@
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
-import { getCourseById } from '@/db/queries/courses'
+import { getCourseByCode } from '@/db/queries/courses'
 import { redirect, notFound } from 'next/navigation'
 import { CourseForm } from '@/components/admin/courses/form'
 
 type PageProps = {
-	params: Promise<{ locale: string; id: string }>
+	params: Promise<{ locale: string; courseCode: string }>
 }
 
-export default async function ViewCoursePage({ params }: PageProps) {
-	const { locale, id } = await params
+export default async function UpdateCoursePage({ params }: PageProps) {
+	const { locale, courseCode } = await params
 
 	const session = await getServerSession(authOptions)
 	if (!session || !session.user) redirect(`/${locale}/login`)
 
-	const course = await getCourseById(id)
+	const course = await getCourseByCode(courseCode)
 	if (!course) notFound()
 
 	const normalized = {
@@ -38,5 +38,5 @@ export default async function ViewCoursePage({ params }: PageProps) {
 		enrollmentOpen: course.enrollmentOpen ?? undefined,
 	}
 
-	return <CourseForm mode="view" initialData={normalized} />
+	return <CourseForm mode="update" initialData={normalized} />
 }

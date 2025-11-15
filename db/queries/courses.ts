@@ -109,6 +109,15 @@ export async function getCourseById(id: string) {
 		.then((res) => res[0] ?? null)
 }
 
+export async function getCourseByCode(courseCode: string) {
+	return db
+		.select()
+		.from(courses)
+		.where(eq(courses.courseCode, courseCode))
+		.limit(1)
+		.then((res) => res[0] ?? null)
+}
+
 export async function getCourseBySlug(slug: string) {
 	return db.query.courses.findFirst({
 		where: eq(courses.slug, slug),
@@ -118,6 +127,19 @@ export async function getCourseBySlug(slug: string) {
 			enrollments: {
 				with: {
 					student: true,
+				},
+			},
+		},
+	})
+}
+
+export async function getCourseByCodeWithRelations(courseCode: string) {
+	return await db.query.courses.findFirst({
+		where: eq(courses.courseCode, courseCode),
+		with: {
+			units: {
+				with: {
+					lessons: true,
 				},
 			},
 		},
@@ -164,6 +186,50 @@ export async function getAllPublicCoursesWithEnrollment(
 			? course.enrollments.some((e) => e.studentId === userId)
 			: false,
 	}))
+}
+
+export async function getCurrentPublicCourses(): Promise<CourseWithCount[]> {
+	const rows = (await db.query.courses.findMany({
+		where: and(eq(courses.public, true), eq(courses.current, true)),
+		with: {
+			enrollments: true,
+			organizer: true,
+		},
+		orderBy: (c, { asc }) => [asc(c.startDate)],
+	})) as CourseWithEnrollments[]
+
+	return rows.map((course) => ({
+		...course,
+		enrolledCount: course.enrollments.length,
+		isEnrolled: false,
+	}))
+}
+
+export async function getEnrolledCoursesForUser(
+	userId: string
+): Promise<CourseWithCount[]> {
+	const enrollments = await db.query.courseEnrollments.findMany({
+		where: eq(courseEnrollments.studentId, userId),
+		with: {
+			course: {
+				with: {
+					enrollments: true,
+					organizer: true,
+				},
+			},
+		},
+	})
+
+	return enrollments.map((e) => {
+		// explicitly cast so TypeScript knows it includes `enrollments`
+		const course = e.course as CourseWithEnrollments
+
+		return {
+			...course,
+			enrolledCount: course.enrollments.length,
+			isEnrolled: true,
+		}
+	})
 }
 
 export async function getCoursesByOrganizer(organizerId: string) {

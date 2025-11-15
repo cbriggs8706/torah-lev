@@ -70,6 +70,7 @@
 		"notifications": "התראות",
 		"logout": "התנתקות",
 		"login": "התחברות",
-		"register": "יצירת חשבון"
+		"register": "יצירת חשבון",
+		"dashboard": "לוח בקרה"
 	}
 }

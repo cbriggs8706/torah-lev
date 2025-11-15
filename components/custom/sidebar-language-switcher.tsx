@@ -15,7 +15,7 @@ import {
 
 import { LANGUAGES } from '@/i18n/languages'
 import { usePathname, useRouter } from 'next/navigation'
-import { setLocale } from '@/app/actions/setLocale'
+import { setLocale } from '@/app/actions/set-locale'
 import { startTransition } from 'react'
 import { Globe } from 'lucide-react'
 

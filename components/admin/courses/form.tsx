@@ -156,7 +156,7 @@ export function CourseForm({
 			return
 		}
 
-		router.push(`/${locale}/admin/course`)
+		router.push(`/${locale}/courses`)
 	}
 
 	return (
@@ -612,7 +612,7 @@ export function CourseForm({
 				{mode === 'view' ? (
 					<Button
 						type="button"
-						onClick={() => router.push(`/${locale}/admin/course`)}
+						onClick={() => router.push(`/${locale}/courses`)}
 					>
 						View all Courses
 					</Button>

@@ -1,5 +1,8 @@
 import { CourseForm } from '@/components/admin/courses/form'
+import { authOptions } from '@/lib/auth'
+import { getServerSession } from 'next-auth'
 import { getTranslations } from 'next-intl/server'
+import { redirect } from 'next/navigation'
 
 export default async function Page({
 	params,
@@ -8,6 +11,9 @@ export default async function Page({
 }) {
 	const { locale } = await params
 	const t = await getTranslations({ locale, namespace: 'courses' })
+	const session = await getServerSession(authOptions)
+
+	if (!session || !session.user) redirect(`/${locale}/login`)
 
 	return (
 		<div className="p-6 space-y-2">

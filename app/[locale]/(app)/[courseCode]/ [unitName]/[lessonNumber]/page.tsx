@@ -1,3 +1,4 @@
+// app/[locale]/(app)/[courseCode]/[unitName]/[lessonNumber]/page.tsx
 interface CoursePageProps {
 	params: Promise<{ locale: string; course: string }>
 }
