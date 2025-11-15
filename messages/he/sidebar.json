@@ -1,0 +1,75 @@
+{
+	"main": {
+		"courses": "קורסים",
+		"vocabulary": "אוצר מילים",
+		"grammar": "דקדוק",
+		"alphabet": "אלפבית",
+		"numbers": "מספרים",
+		"freeForever": "חינם לנצח",
+		"language": "שפה",
+		"chooseLanguage": "בחר שפה",
+		"torahLev": "תורה־לב"
+	},
+	"courses": {
+		"bh": "עברית מקראית",
+		"bg": "יוונית מקראית",
+		"mh": "עברית מודרנית",
+		"me": "אנגלית מודרנית",
+		"ms": "ספרדית מודרנית",
+		"bookclub": "מועדון קריאה"
+	},
+	"vocabulary": {
+		"flashcards": "כרטיסיות",
+		"dictionary": "מילון",
+		"learn": "ללמוד",
+		"matching": "התאמה",
+		"spelling": "איות"
+	},
+	"grammar": {
+		"verbs": "פעלים",
+		"scramble": "ערבוב משפטים",
+		"builder": "בונה משפטים",
+		"memorizer": "לומדת בעל־פה"
+	},
+	"alphabet": {
+		"names": "שמות",
+		"sounds": "צלילים",
+		"syllables": "הברות",
+		"niqqud": "ניקוד"
+	},
+	"numbers": {
+		"cardinal": "מספר יסודי",
+		"ordinal": "מספר סודר",
+		"construct": "סמיכות"
+	},
+	"secondary": {
+		"leaderboard": "לוח מובילים",
+		"calendar": "לוח שנה",
+		"help": "עזרה",
+		"feedback": "משוב"
+	},
+	"input": {
+		"songs": "שירים",
+		"stories": "סיפורים",
+		"scriptures": "כתבי קודש",
+		"prayers": "תפילות",
+		"comprehensible": "קלט מובן"
+	},
+	"lesson": {
+		"scripts": "תסריטי שיעור",
+		"grammarLessons": "שיעורי דקדוק",
+		"lessonContent": "תוכן השיעור"
+	},
+	"teacher": {
+		"title": "מורה",
+		"myCourses": "הקורסים שלי",
+		"createCourse": "צור קורס"
+	},
+	"user": {
+		"account": "חשבון",
+		"notifications": "התראות",
+		"logout": "התנתקות",
+		"login": "התחברות",
+		"register": "יצירת חשבון"
+	}
+}

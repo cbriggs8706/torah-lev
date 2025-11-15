@@ -1,0 +1,75 @@
+{
+	"main": {
+		"courses": "Cursussen",
+		"vocabulary": "Woordenschat",
+		"grammar": "Grammatica",
+		"alphabet": "Alfabet",
+		"numbers": "Getallen",
+		"freeForever": "Voor altijd gratis",
+		"language": "Taal",
+		"chooseLanguage": "Kies taal",
+		"torahLev": "TorahHart"
+	},
+	"courses": {
+		"bh": "Bijbels Hebreeuws",
+		"bg": "Bijbels Grieks",
+		"mh": "Modern Hebreeuws",
+		"me": "Modern Engels",
+		"ms": "Modern Spaans",
+		"bookclub": "Boekclub"
+	},
+	"vocabulary": {
+		"flashcards": "Flitskaarten",
+		"dictionary": "Woordenboek",
+		"learn": "Leren",
+		"matching": "Matchen",
+		"spelling": "Spelling"
+	},
+	"grammar": {
+		"verbs": "Werkwoorden",
+		"scramble": "Zin-Hussel",
+		"builder": "Zinbouwer",
+		"memorizer": "Memoriseerfunctie"
+	},
+	"alphabet": {
+		"names": "Namen",
+		"sounds": "Klanken",
+		"syllables": "Lettergrepen",
+		"niqqud": "Niqqud"
+	},
+	"numbers": {
+		"cardinal": "Hoofdtelwoord",
+		"ordinal": "Rangtelwoord",
+		"construct": "Construct"
+	},
+	"secondary": {
+		"leaderboard": "Scorebord",
+		"calendar": "Kalender",
+		"help": "Hulp",
+		"feedback": "Feedback"
+	},
+	"input": {
+		"songs": "Liedjes",
+		"stories": "Verhalen",
+		"scriptures": "Schriften",
+		"prayers": "Gebeden",
+		"comprehensible": "Begrijpelijke input"
+	},
+	"lesson": {
+		"scripts": "Les Scripts",
+		"grammarLessons": "Grammaticalessen",
+		"lessonContent": "Lesinhoud"
+	},
+	"teacher": {
+		"title": "Docent",
+		"myCourses": "Mijn Cursussen",
+		"createCourse": "Cursus Maken"
+	},
+	"user": {
+		"account": "Account",
+		"notifications": "Meldingen",
+		"logout": "Uitloggen",
+		"login": "Inloggen",
+		"register": "Account aanmaken"
+	}
+}

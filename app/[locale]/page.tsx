@@ -29,7 +29,9 @@ export default async function Page({
 				<Link href={`/${locale}/login`}>
 					<TLButton variant="outline">{t('login')}</TLButton>
 				</Link>
-				<TLButton variant="outline">{t('guest')}</TLButton>
+				<Link href={`/${locale}/courses`}>
+					<TLButton variant="outline">{t('guest')}</TLButton>
+				</Link>
 			</div>
 		</div>
 	)
