@@ -23,7 +23,7 @@ export default async function UpdateCoursePage({ params }: PageProps) {
 		section: course.section ?? undefined,
 		description: course.description ?? undefined,
 		category: course.category ?? undefined,
-
+		imageSrc: course.imageSrc ?? undefined,
 		startDate: course.startDate?.toISOString() ?? undefined,
 		endDate: course.endDate?.toISOString() ?? undefined,
 

@@ -15,6 +15,6 @@ export default async function CoursesPage({ params }: CoursesPageProps) {
 	if (!session || !session.user) redirect(`/${locale}/login`)
 
 	const courses = await getCoursesByOrganizer(session.user.id)
-
+	console.log(courses[0].enrollments)
 	return <OrganizerCoursesList courses={courses} locale={locale} />
 }

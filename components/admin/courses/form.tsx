@@ -43,6 +43,7 @@ import {
 import { Switch } from '../../ui/switch'
 import { Popover, PopoverContent, PopoverTrigger } from '../../ui/popover'
 import { Calendar } from '../../ui/calendar'
+import { toast } from 'sonner'
 
 // -----------------------------------------------------
 // ZOD SCHEMA
@@ -56,7 +57,7 @@ const formSchema = z.object({
 	type: z.enum(courseType.enumValues),
 
 	description: z.string().optional(),
-	imageSrc: z.string().min(1),
+	imageSrc: z.string(),
 	category: z.string().optional(),
 	current: z.boolean().optional(),
 	startProficiencyLevel: z.enum(proficiencyLevel.enumValues),
@@ -151,7 +152,7 @@ export function CourseForm({
 
 		if (!res.ok) {
 			console.error(await res.text())
-			alert('Error saving course')
+			toast.error('Error saving course')
 			return
 		}
 

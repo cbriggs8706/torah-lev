@@ -13,30 +13,52 @@ import {
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import type { CourseWithCount } from '@/db/queries/courses'
+import { toast } from 'sonner'
+import { useState } from 'react'
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 
 type Props = {
 	courses: CourseWithCount[]
 	locale: string
 }
 
-export function UserCoursesList({ courses, locale }: Props) {
+export function UserCoursesList({ courses }: Props) {
 	const router = useRouter()
+	const [enrolledCourses, setEnrolledCourses] = useState<Set<string>>(new Set())
 
-	async function handleEnroll(courseId: string) {
+	async function handleEnroll(courseId: string, slug: string) {
 		const res = await fetch(`/api/courses/${courseId}/enroll`, {
 			method: 'POST',
 		})
 
 		if (!res.ok) {
-			alert('Failed to enroll')
+			toast.error('Enrollment failed. Please try again.')
 			return
 		}
+
+		setEnrolledCourses(new Set([...enrolledCourses, courseId]))
+
+		toast.success(`You are now enrolled in ${slug}!`)
 
 		router.refresh()
 	}
 
 	if (!courses.length) {
 		return <p className="text-muted-foreground">No available courses.</p>
+	}
+
+	async function handleUnenroll(courseId: string, slug: string) {
+		const res = await fetch(`/api/courses/${courseId}/unenroll`, {
+			method: 'POST',
+		})
+
+		if (!res.ok) {
+			toast.error(`Could not unenroll from ${slug}`)
+			return
+		}
+
+		toast.success(`Unenrolled from ${slug}`)
+		router.refresh()
 	}
 
 	return (
@@ -64,16 +86,46 @@ export function UserCoursesList({ courses, locale }: Props) {
 						<CardHeader>
 							<CardTitle className="flex justify-between items-center">
 								<span>{course.slug}</span>
-								{isFull ? (
+
+								{course.isEnrolled ? (
+									<Badge variant="default" className="bg-blue-600 text-white">
+										Enrolled
+									</Badge>
+								) : isFull ? (
 									<Badge variant="destructive">Full</Badge>
 								) : (
-									<Badge variant="secondary">Open</Badge>
+									<Badge variant="secondary">
+										{spotsLeft! > 0
+											? `${spotsLeft} spots left`
+											: 'Class is full'}
+									</Badge>
 								)}
 							</CardTitle>
 
 							<p className="text-sm text-muted-foreground">
 								{course.organizerGroupName}
 							</p>
+							{/* Instructor */}
+							{course.organizer?.name && (
+								<div className="flex items-center gap-3 mt-1 text-sm">
+									<Avatar className="h-14 w-14">
+										<AvatarImage src={course.organizer.image || undefined} />
+										<AvatarFallback className="text-lg">
+											{course.organizer.name.charAt(0).toUpperCase()}
+										</AvatarFallback>
+									</Avatar>
+
+									<div className="flex flex-col leading-tight">
+										<span className="text-xs text-muted-foreground">
+											Instructor
+										</span>
+										<span className="font-medium text-foreground text-base">
+											{course.organizer.name}
+										</span>
+									</div>
+								</div>
+							)}
+
 							<p className="text-sm text-muted-foreground">
 								{course.courseCode}
 							</p>
@@ -96,27 +148,25 @@ export function UserCoursesList({ courses, locale }: Props) {
 							<p className="text-sm text-muted-foreground mb-2">
 								{course.description || 'No description'}
 							</p>
-
-							{/* Spots */}
-							{max && (
-								<p className="text-xs text-muted-foreground">
-									{spotsLeft! > 0 ? `${spotsLeft} spots left` : 'Class is full'}
-								</p>
-							)}
 						</CardContent>
 
-						<CardFooter>
-							<Button
-								className="w-full"
-								disabled={!course.enrollmentOpen || isFull}
-								onClick={() => handleEnroll(course.id)}
-							>
-								{isFull
-									? 'Class Full'
-									: course.enrollmentOpen
-									? 'Enroll'
-									: 'Enrollment Closed'}
-							</Button>
+						<CardFooter className="flex gap-2">
+							{!course.isEnrolled ? (
+								<Button
+									className="w-full"
+									disabled={!course.enrollmentOpen || isFull}
+									onClick={() => handleEnroll(course.id, course.slug)}
+								>
+									{isFull ? 'Class Full' : 'Enroll'}
+								</Button>
+							) : (
+								<Button
+									className="w-full bg-red-600 hover:bg-red-700"
+									onClick={() => handleUnenroll(course.id, course.slug)}
+								>
+									Unenroll
+								</Button>
+							)}
 						</CardFooter>
 					</Card>
 				)

@@ -29,12 +29,30 @@ export type InsertEnrollment = InferInsertModel<typeof courseEnrollments>
 
 // A course with its enrollments relation loaded
 export type CourseWithEnrollments = Course & {
-	enrollments: Enrollment[]
+	enrolledCount: number
+	isEnrolled: boolean
+
+	enrollments: (Enrollment & {
+		student: {
+			id: string
+			name: string | null
+			email: string | null
+			image: string | null
+			username?: string | null
+		}
+	})[]
 }
 
 // A course plus a computed count
 export type CourseWithCount = Course & {
 	enrolledCount: number
+	isEnrolled: boolean
+	organizer?: {
+		id: string
+		name: string | null
+		email: string | null
+		image: string | null
+	}
 }
 // =======================
 // COURSE QUERIES
@@ -127,33 +145,43 @@ export async function getAllCourses() {
 	})
 }
 
-export async function getAllPublicCoursesWithEnrollment(): Promise<
-	CourseWithCount[]
-> {
+export async function getAllPublicCoursesWithEnrollment(
+	userId: string | undefined
+): Promise<CourseWithCount[]> {
 	const rows = (await db.query.courses.findMany({
 		where: eq(courses.public, true),
 		with: {
-			enrollments: true, // Drizzle will actually return this
+			enrollments: true,
+			organizer: true,
 		},
 		orderBy: (c, { asc }) => [asc(c.startDate)],
-	})) as CourseWithEnrollments[] // 👈 tell TS what we *know* this is
+	})) as CourseWithEnrollments[]
 
 	return rows.map((course) => ({
 		...course,
 		enrolledCount: course.enrollments.length,
+		isEnrolled: userId
+			? course.enrollments.some((e) => e.studentId === userId)
+			: false,
 	}))
 }
 
 export async function getCoursesByOrganizer(organizerId: string) {
-	return db.query.courses.findMany({
+	const rows = (await db.query.courses.findMany({
 		where: eq(courses.organizerId, organizerId),
 		with: {
-			meetingTimes: true,
-			enrollments: true,
-			organizer: true,
+			enrollments: {
+				with: { student: true },
+			},
 		},
-		orderBy: (c, { asc }) => [asc(c.createdAt)],
-	})
+		orderBy: (c, { asc }) => [asc(c.startDate)],
+	})) as CourseWithEnrollments[]
+
+	return rows.map((course) => ({
+		...course,
+		enrolledCount: course.enrollments.filter((e) => e.role === 'student')
+			.length,
+	}))
 }
 
 // =======================
@@ -203,8 +231,8 @@ export async function enrollStudent(courseId: string, studentId: string) {
 	const [row] = await db
 		.insert(courseEnrollments)
 		.values({
-			courseId, // maps to course_enrollments.courseId => course_id
-			studentId, // maps to student_id
+			courseId,
+			studentId,
 		})
 		.returning()
 

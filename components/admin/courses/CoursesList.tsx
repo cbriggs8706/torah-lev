@@ -6,7 +6,10 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { Pencil, Trash2, MapPin, Video, Users } from 'lucide-react'
 
-import type { Course } from '@/db/queries/courses'
+import type {
+	CourseWithCount,
+	CourseWithEnrollments,
+} from '@/db/queries/courses'
 
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -24,9 +27,10 @@ import {
 	AlertDialogCancel,
 	AlertDialogAction,
 } from '@/components/ui/alert-dialog'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
 type Props = {
-	courses: Course[]
+	courses: CourseWithEnrollments[]
 	locale: string
 }
 
@@ -54,6 +58,10 @@ export function OrganizerCoursesList({ courses, locale }: Props) {
 		<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
 			{courses.map((course) => {
 				const hasImage = !!course.imageSrc
+				const enrolled = course.enrolledCount ?? 0
+				const max = course.maxEnrollment ?? null
+				const isFull = max !== null && enrolled >= max
+				const spotsLeft = max !== null ? max - enrolled : null
 
 				return (
 					<Card
@@ -194,9 +202,48 @@ export function OrganizerCoursesList({ courses, locale }: Props) {
 								{course.maxEnrollment && (
 									<p className="flex items-center gap-1">
 										<Users className="h-3 w-3" />
-										Max Enrollment: {course.maxEnrollment}{' '}
-										{course.enrollmentOpen ? '(Open)' : '(Closed)'}
+										Max Enrollment: {course.maxEnrollment}
+										{isFull ? (
+											<span className="text-red-600 font-semibold">
+												{' '}
+												— FULL —{' '}
+											</span>
+										) : (
+											<span className="text-green-600">
+												{' '}
+												— {spotsLeft} Available —{' '}
+											</span>
+										)}
+										<span className="text-muted-foreground">
+											Registration {course.enrollmentOpen ? 'Open' : 'Closed'}
+										</span>
 									</p>
+								)}
+								{course.enrollments && course.enrollments.length > 0 && (
+									<div className="*:data-[slot=avatar]:ring-background flex -space-x-2 *:data-[slot=avatar]:ring-2 mt-3">
+										{course.enrollments.slice(0, 5).map((e) => (
+											<Avatar
+												key={e.student.id}
+												data-slot="avatar"
+												className="h-8 w-8"
+											>
+												<AvatarImage
+													src={e.student.image || '/default-avatar.png'}
+													alt={e.student.name || 'Student'}
+												/>
+												<AvatarFallback>
+													{(e.student.name || 'U').charAt(0).toUpperCase()}
+												</AvatarFallback>
+											</Avatar>
+										))}
+
+										{/* +X overflow count */}
+										{course.enrollments.length > 5 && (
+											<div className="flex items-center justify-center h-8 w-8 rounded-full bg-muted text-xs font-semibold ring-2 ring-background">
+												+{course.enrollments.length - 5}
+											</div>
+										)}
+									</div>
 								)}
 							</div>
 						</CardContent>

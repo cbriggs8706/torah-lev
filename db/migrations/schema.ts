@@ -138,7 +138,7 @@ export const courses = pgTable(
 	{
 		id: uuid().defaultRandom().primaryKey().notNull(),
 		slug: text().notNull(),
-		imageSrc: text('image_src').notNull(),
+		imageSrc: text('image_src'),
 		category: text(),
 		startProficiencyLevel: text('start_proficiency_level'),
 		endProficiencyLevel: text('end_proficiency_level'),
@@ -157,16 +157,14 @@ export const gameResults = pgTable(
 	'game_results',
 	{
 		// You can use { mode: "bigint" } if numbers are exceeding js number limitations
-		id: bigint({ mode: 'number' })
-			.primaryKey()
-			.generatedAlwaysAsIdentity({
-				name: 'game_results_id_seq',
-				startWith: 1,
-				increment: 1,
-				minValue: 1,
-				maxValue: 9223372036854775807,
-				cache: 1,
-			}),
+		id: bigint({ mode: 'number' }).primaryKey().generatedAlwaysAsIdentity({
+			name: 'game_results_id_seq',
+			startWith: 1,
+			increment: 1,
+			minValue: 1,
+			maxValue: 9223372036854775807,
+			cache: 1,
+		}),
 		studyGroupId: integer('study_group_id').notNull(),
 		userId: text('user_id').notNull(),
 		userName: text('user_name').notNull(),
@@ -213,16 +211,14 @@ export const studyGroupSchedule = pgTable(
 	'study_group_schedule',
 	{
 		// You can use { mode: "bigint" } if numbers are exceeding js number limitations
-		id: bigint({ mode: 'number' })
-			.primaryKey()
-			.generatedAlwaysAsIdentity({
-				name: 'study_group_schedule_id_seq',
-				startWith: 1,
-				increment: 1,
-				minValue: 1,
-				maxValue: 9223372036854775807,
-				cache: 1,
-			}),
+		id: bigint({ mode: 'number' }).primaryKey().generatedAlwaysAsIdentity({
+			name: 'study_group_schedule_id_seq',
+			startWith: 1,
+			increment: 1,
+			minValue: 1,
+			maxValue: 9223372036854775807,
+			cache: 1,
+		}),
 		// You can use { mode: "bigint" } if numbers are exceeding js number limitations
 		studyGroupId: bigint('study_group_id', { mode: 'number' }).notNull(),
 		classDate: timestamp('class_date', {
@@ -262,16 +258,14 @@ export const studyGroupScheduleLessons = pgTable(
 	'study_group_schedule_lessons',
 	{
 		// You can use { mode: "bigint" } if numbers are exceeding js number limitations
-		id: bigint({ mode: 'number' })
-			.primaryKey()
-			.generatedAlwaysAsIdentity({
-				name: 'study_group_schedule_lessons_id_seq',
-				startWith: 1,
-				increment: 1,
-				minValue: 1,
-				maxValue: 9223372036854775807,
-				cache: 1,
-			}),
+		id: bigint({ mode: 'number' }).primaryKey().generatedAlwaysAsIdentity({
+			name: 'study_group_schedule_lessons_id_seq',
+			startWith: 1,
+			increment: 1,
+			minValue: 1,
+			maxValue: 9223372036854775807,
+			cache: 1,
+		}),
 		// You can use { mode: "bigint" } if numbers are exceeding js number limitations
 		scheduleId: bigint('schedule_id', { mode: 'number' }).notNull(),
 		lessonId: integer('lesson_id').notNull(),

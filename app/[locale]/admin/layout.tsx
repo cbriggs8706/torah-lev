@@ -1,3 +1,4 @@
+// app/[locale]/admin/layout.tsx
 import { getUserRole } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 

@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server'
+import { NextResponse, NextRequest } from 'next/server'
 import {
 	addMeetingTimes,
 	replaceMeetingTimes,
@@ -22,17 +22,20 @@ const MeetingTimesSchema = z.array(
 
 // GET meeting times
 export async function GET(
-	req: Request,
-	{ params }: { params: { id: string } }
+	req: NextRequest,
+	context: { params: Promise<{ id: string }> }
 ) {
-	return NextResponse.json(await getMeetingTimes(params.id))
+	const { id } = await context.params
+	return NextResponse.json(await getMeetingTimes(id))
 }
 
 // POST add meeting times
 export async function POST(
-	req: Request,
-	{ params }: { params: { id: string } }
+	req: NextRequest,
+	context: { params: Promise<{ id: string }> }
 ) {
+	const { id } = await context.params
+
 	const session = await getServerSession(authOptions)
 	if (!session || session.user.role !== 'admin') {
 		return new NextResponse('Unauthorized', { status: 401 })
@@ -47,17 +50,19 @@ export async function POST(
 
 	const withCourse = parsed.data.map((t) => ({
 		...t,
-		courseId: params.id,
+		courseId: id,
 	}))
 
-	return NextResponse.json(await addMeetingTimes(params.id, withCourse))
+	return NextResponse.json(await addMeetingTimes(id, withCourse))
 }
 
-// PUT replace
+// PUT replace meeting times
 export async function PUT(
-	req: Request,
-	{ params }: { params: { id: string } }
+	req: NextRequest,
+	context: { params: Promise<{ id: string }> }
 ) {
+	const { id } = await context.params
+
 	const session = await getServerSession(authOptions)
 	if (!session || session.user.role !== 'admin') {
 		return new NextResponse('Unauthorized', { status: 401 })
@@ -72,8 +77,8 @@ export async function PUT(
 
 	const withCourse = parsed.data.map((t) => ({
 		...t,
-		courseId: params.id,
+		courseId: id,
 	}))
 
-	return NextResponse.json(await replaceMeetingTimes(params.id, withCourse))
+	return NextResponse.json(await replaceMeetingTimes(id, withCourse))
 }

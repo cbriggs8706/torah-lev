@@ -13,6 +13,7 @@ import {
 	getAllPublicCoursesWithEnrollment,
 } from '@/db/queries/courses'
 import { UserCoursesList } from '@/components/courses/CoursesList'
+import UserDetails from '@/components/auth/user-details'
 
 interface DashboardPageProps {
 	params: Promise<{ locale: string }>
@@ -23,6 +24,7 @@ export default async function Page({ params }: DashboardPageProps) {
 	const t = await getTranslations({ locale, namespace: 'common' })
 
 	const session = await getServerSession(authOptions)
+	const userId = session?.user.id
 	if (!session) redirect(`/${locale}`)
 
 	const role = session.user.role ?? 'user'
@@ -30,11 +32,22 @@ export default async function Page({ params }: DashboardPageProps) {
 	// LOAD USER COURSES
 	let userCourses: CourseWithCount[] = []
 	if (role === 'user') {
-		userCourses = await getAllPublicCoursesWithEnrollment()
+		userCourses = await getAllPublicCoursesWithEnrollment(userId)
 	}
 
+	//TODO investigate why i have to logout and back in to see a refresh of this if the user changes their info in the UI
+	console.log('session', session)
+	// console.log('currentImage', session?.user?.image)
+	// console.log('currentName', session?.user?.name)
+	// console.log('currentUsername', session?.user?.username)
 	return (
 		<div className="space-y-6">
+			<UserDetails
+				currentImage={session?.user?.image}
+				currentName={session?.user?.name}
+				currentUsername={session?.user?.username}
+			/>
+
 			<h1 className="text-3xl font-bold">
 				{role === 'admin' ? 'Admin Dashboard' : 'User Dashboard'}
 			</h1>

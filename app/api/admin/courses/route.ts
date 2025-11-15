@@ -1,3 +1,4 @@
+// app/api/admin/courses/route.ts
 import { NextResponse } from 'next/server'
 import { supabaseDb } from '@/db/client'
 import { getUserRole } from '@/lib/auth'
@@ -35,6 +36,17 @@ export async function POST(req: Request) {
 					imageSrc,
 					category,
 					public: true,
+					//TODO revist these, I don't think they're how I want them
+					courseCode: slug.toUpperCase(),
+					type: 'INPERSON',
+					startProficiencyLevel: 'A1',
+					endProficiencyLevel: 'A1',
+
+					// OPTIONAL nullable fields
+					description: null,
+					location: null,
+					zoomLink: null,
+					maxEnrollment: null,
 				})
 				.returning({ id: courses.id })
 

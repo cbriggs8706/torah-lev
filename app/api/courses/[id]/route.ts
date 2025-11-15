@@ -53,7 +53,7 @@ export async function GET(
 // ==============================
 export async function PATCH(
 	req: Request,
-	{ params }: { params: { id: string } }
+	context: { params: Promise<{ id: string }> }
 ) {
 	const session = await getServerSession(authOptions)
 
@@ -69,8 +69,9 @@ export async function PATCH(
 	}
 
 	const data = parsed.data
+	const { id: courseId } = await context.params
 
-	const updated = await updateCourse(params.id, {
+	const updated = await updateCourse(courseId, {
 		...data,
 		startDate: data.startDate ? new Date(data.startDate) : undefined,
 		endDate: data.endDate ? new Date(data.endDate) : undefined,
