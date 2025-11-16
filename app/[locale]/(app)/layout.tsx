@@ -27,9 +27,16 @@ export default async function Layout({
 	const session = await getServerSession(authOptions)
 	// if (!session) redirect(`/`)
 	return (
-		<SidebarProvider>
+		// <SidebarProvider>
+		<SidebarProvider
+			style={{ '--sidebar-width': '20rem' } as React.CSSProperties}
+			className="
+    pl-[--sidebar-width]
+    data-[state=collapsed]:pl-0
+  "
+		>
+			{' '}
 			<AppSidebar session={session} role={session?.user?.role ?? 'guest'} />
-
 			<SidebarInset>
 				<header className="flex h-16 shrink-0 items-center gap-2">
 					<div className="flex items-center gap-2 px-4">

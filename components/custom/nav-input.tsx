@@ -47,7 +47,7 @@ export function NavInput({
 						<SidebarMenuButton asChild>
 							<a href={item.url}>
 								<item.icon />
-								<span>{item.name}</span>
+								<span className="text-lg">{item.name}</span>
 							</a>
 						</SidebarMenuButton>
 						{/* <DropdownMenu>

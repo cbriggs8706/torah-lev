@@ -52,7 +52,7 @@ export function SidebarLanguageSwitcher({
 					<DropdownMenuTrigger asChild>
 						<SidebarMenuButton size="lg">
 							<Globe className="size-4" />
-							<span className="flex-1 text-left">{label}</span>
+							<span className="flex-1 text-left text-xl">{label}</span>
 						</SidebarMenuButton>
 					</DropdownMenuTrigger>
 
@@ -67,7 +67,7 @@ export function SidebarLanguageSwitcher({
 							<DropdownMenuItem
 								key={loc}
 								onClick={() => handleChange(loc)}
-								className={locale === loc ? 'font-semibold' : ''}
+								className={locale === loc ? 'font-semibold text-xl' : 'text-lg'}
 							>
 								<span className={`fi ${LANGUAGES[loc].flag} mr-2`} />
 								{LANGUAGES[loc].label}
