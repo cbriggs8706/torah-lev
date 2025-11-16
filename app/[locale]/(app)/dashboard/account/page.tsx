@@ -18,14 +18,9 @@ export default async function Page({ params }: DashboardPageProps) {
 	// const userId = session?.user.id
 	if (!session) redirect(`/${locale}`)
 
-	//TODO investigate why i have to logout and back in to see a refresh of this if the user changes their info in the UI
 	return (
 		<div className="space-y-6">
-			<UserDetails
-				currentImage={session?.user?.image}
-				currentName={session?.user?.name}
-				currentUsername={session?.user?.username}
-			/>
+			<UserDetails />
 		</div>
 	)
 }

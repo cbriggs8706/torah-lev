@@ -1,4 +1,5 @@
-import { CourseForm } from '@/components/courses/form'
+// app/[locale]/(app)/courses/create/page.tsx
+import { CourseForm } from '@/components/courses/CourseForm'
 import { authOptions } from '@/lib/auth'
 import { getServerSession } from 'next-auth'
 import { getTranslations } from 'next-intl/server'

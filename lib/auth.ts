@@ -66,30 +66,40 @@ export const authOptions: NextAuthOptions = {
 					name: dbUser.name ?? dbUser.username,
 					role: dbUser.role ?? 'user',
 					username: dbUser.username ?? 'dummy',
+					image: dbUser.image ?? null,
+					authProvider: 'credentials',
 				}
 			},
 		}),
 	],
 
 	callbacks: {
-		async jwt({ token, user }) {
+		async jwt({ token, user, account }) {
 			if (user) {
 				token.id = user.id
 				token.role = user.role
 				token.username = user.username
+				token.email = user.email
+				token.name = user.name
+				token.image = user.image
 			}
+			if (account?.provider) {
+				token.authProvider = account.provider // "google", "credentials"
+			}
+			if (user?.image) token.image = user.image
+
 			return token
 		},
 
 		async session({ session, token }) {
 			if (session.user) {
-				if (token.id) {
-					session.user.id = token.id
-				}
-				if (token.role) {
-					session.user.role = token.role
-				}
+				session.user.id = token.id as string
+				session.user.role = token.role as string
 				session.user.username = token.username as string
+				session.user.email = token.email as string
+				session.user.name = token.name as string
+				session.user.image = token.image as string
+				session.user.authProvider = token.authProvider as string
 			}
 			return session
 		},

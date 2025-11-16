@@ -1,4 +1,4 @@
-// components/admin/courses/CourseForm.tsx
+// components/courses/CourseForm.tsx
 'use client'
 
 import * as React from 'react'
@@ -44,10 +44,24 @@ import { Switch } from '../ui/switch'
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
 import { Calendar } from '../ui/calendar'
 import { toast } from 'sonner'
+import { UnitsLessonsEditor } from './UnitsLessonsEditor'
 
 // -----------------------------------------------------
 // ZOD SCHEMA
 // -----------------------------------------------------
+const lessonSchema = z.object({
+	id: z.string().uuid().optional(), // existing lessons will have id
+	slug: z.string().min(1),
+	lessonNumber: z.string().min(1),
+	description: z.string(),
+})
+
+const unitSchema = z.object({
+	id: z.string().uuid().optional(), // existing units will have id
+	slug: z.string().min(1),
+	description: z.string().optional(),
+	lessons: z.array(lessonSchema),
+})
 
 const formSchema = z.object({
 	slug: z.string().min(2),
@@ -74,6 +88,7 @@ const formSchema = z.object({
 
 	maxEnrollment: z.coerce.number().optional(),
 	enrollmentOpen: z.boolean().optional(),
+	units: z.array(unitSchema).default([]),
 })
 
 export type CourseFormValues = z.infer<typeof formSchema>
@@ -122,6 +137,7 @@ export function CourseForm({
 			zoomLink: initialData?.zoomLink ?? '',
 			maxEnrollment: initialData?.maxEnrollment ?? undefined,
 			enrollmentOpen: initialData?.enrollmentOpen ?? true,
+			units: (initialData as any)?.units ?? [],
 		},
 	})
 
@@ -138,12 +154,18 @@ export function CourseForm({
 		if (mode === 'create') {
 			res = await fetch('/api/courses', {
 				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
 				body: JSON.stringify(values),
 			})
 		} else {
 			// update mode
 			res = await fetch(`/api/courses/${initialData!.id}`, {
 				method: 'PATCH',
+				headers: {
+					'Content-Type': 'application/json',
+				},
 				body: JSON.stringify(values),
 			})
 		}
@@ -606,6 +628,21 @@ export function CourseForm({
 						)}
 					/>
 				</form>
+
+				{/* CURRICULUM (UNITS + LESSONS) */}
+				<Controller
+					name="units"
+					control={form.control}
+					render={({ field }) => (
+						<div className="mt-8 space-y-2">
+							<UnitsLessonsEditor
+								value={field.value ?? []}
+								onChange={field.onChange}
+								disabled={isReadOnly}
+							/>
+						</div>
+					)}
+				/>
 			</CardContent>
 
 			<CardFooter>

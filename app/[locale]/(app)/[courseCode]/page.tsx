@@ -7,6 +7,10 @@ import { getTranslations } from 'next-intl/server'
 import { CourseQRModal } from '@/components/courses/CourseQRModal'
 import { JoinSuccessToast } from '@/components/courses/JoinSuccessToast'
 
+function formatSlug(slug: string) {
+	return slug.replace(/[-_]/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
+}
+
 // ─────────────────────────────────────────────────────────────
 // Placeholder UI Components – replace as you build real ones
 // ─────────────────────────────────────────────────────────────
@@ -25,14 +29,42 @@ function CourseProgress() {
 function PublicCourseModules({ course }: { course: any }) {
 	return (
 		<div className="space-y-4">
-			<h2 className="text-xl font-bold">Units & Lessons</h2>
-			<ul className="space-y-2">
+			<h2 className="text-xl font-bold">Syllabus</h2>
+
+			<ul className="space-y-4">
 				{course.units?.map((unit: any) => (
-					<li key={unit.id} className="border p-3 rounded-lg">
-						<h3 className="font-semibold">{unit.title}</h3>
-						<ul className="ml-4 list-disc">
+					<li
+						key={unit.id}
+						className="border rounded-lg p-4 bg-muted/40 space-y-2"
+					>
+						<div className="flex items-center justify-between">
+							{/* <h3 className="font-semibold text-lg">
+								{unit.slug}
+								{unit.description && (
+									<span className="text-muted-foreground text-sm block">
+										{unit.description}
+									</span>
+								)}
+							</h3> */}
+							<h3 className="font-semibold text-lg">
+								Unit {unit.order + 1}:{' '}
+								{unit.description || formatSlug(unit.slug)}
+							</h3>
+						</div>
+
+						{/* <ul className="ml-4 list-disc space-y-1">
 							{unit.lessons?.map((lesson: any) => (
-								<li key={lesson.id}>{lesson.title}</li>
+								<li key={lesson.id}>
+									<span className="font-medium">{lesson.lessonNumber}.</span>{' '}
+									{lesson.slug}
+								</li>
+							))}
+						</ul> */}
+						<ul className="ml-4 list-disc space-y-1">
+							{unit.lessons.map((lesson: any, idx: any) => (
+								<li key={lesson.id}>
+									Lesson {idx + 1}: {lesson.description}
+								</li>
 							))}
 						</ul>
 					</li>

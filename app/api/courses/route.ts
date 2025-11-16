@@ -4,11 +4,13 @@ export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
 import { NextResponse } from 'next/server'
-import { getPublicCourses, createCourse } from '@/db/queries/courses'
+import { getPublicCourses } from '@/db/queries/courses'
 import { z } from 'zod'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { courseType, proficiencyLevel } from '@/db/schema/enums'
+import { courses, supabaseDb } from '@/db'
+import { insertUnitsWithLessons } from '@/db/queries/units'
 type CourseType = (typeof courseType.enumValues)[number]
 
 // ==============================
@@ -32,6 +34,23 @@ const CreateCourseSchema = z.object({
 	zoomLink: z.string().optional(),
 	maxEnrollment: z.number().optional(),
 	enrollmentOpen: z.boolean().optional(),
+	units: z
+		.array(
+			z.object({
+				slug: z.string(),
+				description: z.string().optional().nullable(),
+				lessons: z
+					.array(
+						z.object({
+							slug: z.string(),
+							lessonNumber: z.string(),
+							description: z.string(),
+						})
+					)
+					.default([]),
+			})
+		)
+		.default([]),
 })
 
 // ==============================
@@ -46,6 +65,8 @@ export async function GET() {
 // POST /api/courses (ADMIN ONLY)
 // ==============================
 export async function POST(req: Request) {
+	console.log('🔥 /api/courses POST HIT')
+
 	const session = await getServerSession(authOptions)
 
 	if (!session || !session.user) {
@@ -60,16 +81,31 @@ export async function POST(req: Request) {
 	}
 
 	const userId = session.user.id // <—— 💥 organizer ID from session
-
 	const data = parsed.data
 
-	const created = await createCourse({
-		...data,
+	console.log('REQUEST BODY:', JSON.stringify(body, null, 2))
 
-		organizerId: userId, // <—— ALWAYS set here
+	// 🚨 Everything inside a transaction
+	const created = await supabaseDb.transaction(async (tx) => {
+		// 1. Create course
+		const [course] = await tx
+			.insert(courses)
+			.values({
+				...data,
+				organizerId: userId,
+				startDate: data.startDate ? new Date(data.startDate) : null,
+				endDate: data.endDate ? new Date(data.endDate) : null,
+			})
+			.returning()
 
-		startDate: data.startDate ? new Date(data.startDate) : null,
-		endDate: data.endDate ? new Date(data.endDate) : null,
+		// 2. Create units + lessons
+		if (data.units.length) {
+			console.log('INSERTING UNITS:', data.units)
+
+			await insertUnitsWithLessons(tx, course.id, data.units)
+		}
+
+		return course
 	})
 
 	return NextResponse.json(created, { status: 201 })

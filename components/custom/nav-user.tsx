@@ -120,7 +120,7 @@ export function NavUser({
 						>
 							<Avatar className="h-8 w-8 rounded-full">
 								<AvatarImage
-									src={session.user.image ?? '/mascot.svg'}
+									src={session.user.image ?? '/'}
 									alt={session.user.name ?? 'TorahLev User'}
 								/>
 								<AvatarFallback className="rounded-lg">TL</AvatarFallback>
@@ -144,7 +144,7 @@ export function NavUser({
 							<div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
 								<Avatar className="h-8 w-8 rounded-full">
 									<AvatarImage
-										src={session.user.image ?? '/mascot.svg'}
+										src={session.user.image ?? ''}
 										alt={session.user.name ?? 'TorahLev User'}
 									/>
 									<AvatarFallback className="rounded-lg">TL</AvatarFallback>
@@ -172,10 +172,12 @@ export function NavUser({
 									{dashboard}
 								</DropdownMenuItem>
 							</Link>
-							<DropdownMenuItem>
-								<BadgeCheck />
-								{account}
-							</DropdownMenuItem>
+							<Link href={`/${locale}/dashboard/account`}>
+								<DropdownMenuItem>
+									<BadgeCheck />
+									{account}
+								</DropdownMenuItem>
+							</Link>
 							{/* <DropdownMenuItem>
 								<CreditCard />
 								Billing

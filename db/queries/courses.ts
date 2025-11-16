@@ -1,6 +1,6 @@
 // db/queries/courses.ts
 
-import { supabaseDb as db } from '@/db/client'
+import { supabaseDb as db, supabaseDb } from '@/db/client'
 import {
 	courses,
 	courseMeetingTimes,
@@ -9,15 +9,21 @@ import {
 
 import { eq, and } from 'drizzle-orm'
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm'
+import { lessons, units } from '../schema'
 
 // =======================
 // Types
 // =======================
 
 export type Course = InferSelectModel<typeof courses>
-export type CourseWithRelations = Awaited<
-	ReturnType<typeof db.query.courses.findMany>
->[number]
+// export type CourseWithRelations = Awaited<
+// 	ReturnType<typeof db.query.courses.findMany>
+// >[number]
+export type CourseWithUnits = InferSelectModel<typeof courses> & {
+	units: (InferSelectModel<typeof units> & {
+		lessons: InferSelectModel<typeof lessons>[]
+	})[]
+}
 
 export type InsertCourse = InferInsertModel<typeof courses>
 
@@ -109,13 +115,13 @@ export async function getCourseById(id: string) {
 		.then((res) => res[0] ?? null)
 }
 
-export async function getCourseByCode(courseCode: string) {
-	return db
-		.select()
-		.from(courses)
-		.where(eq(courses.courseCode, courseCode))
-		.limit(1)
-		.then((res) => res[0] ?? null)
+export async function getCourseByCode(
+	courseCode: string
+): Promise<Course | null> {
+	const result = await supabaseDb.query.courses.findFirst({
+		where: eq(courses.courseCode, courseCode),
+	})
+	return result ?? null
 }
 
 export async function getCourseBySlug(slug: string) {

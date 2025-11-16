@@ -1,3 +1,4 @@
+// db/schema/relations/course.relations.ts
 import { relations } from 'drizzle-orm'
 import { units } from '@/db/schema/tables/units'
 import { courses } from '@/db/schema/tables/courses'

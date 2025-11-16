@@ -1,3 +1,4 @@
+// db/schema/tables/units.ts
 import { pgTable, uuid, integer, text, timestamp } from 'drizzle-orm/pg-core'
 import { courses } from './courses'
 

@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState, useTransition } from 'react'
-import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
 	Dialog,
 	DialogContent,
@@ -15,30 +15,45 @@ import { toast } from 'sonner'
 import Image from 'next/image'
 import { useSession } from 'next-auth/react'
 import { updateUserProfile } from '@/app/actions/update-user-profile'
-import { UpdateUserProfileInput } from '@/types/user'
-import { Card, CardContent, CardHeader, CardTitle } from '../ui/card'
+import { changePassword } from '@/app/actions/change-password'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { getUserDetails } from '@/app/actions/get-user-details'
 
-interface UserDetailsProps {
-	currentImage?: string | null
-	currentName?: string | null
-	currentUsername?: string | null
-}
+export default function UserDetails() {
+	const { data: session, update: refreshSession } = useSession()
 
-export default function UserDetails({ currentImage }: UserDetailsProps) {
 	const [name, setName] = useState('')
 	const [username, setUsername] = useState('')
+	const [email, setEmail] = useState('')
+	const [details, setDetails] = useState<any>(null)
 
-	const { data: session } = useSession()
+	const [currentPassword, setCurrentPassword] = useState('')
+	const [newPassword, setNewPassword] = useState('')
+	const [confirmPassword, setConfirmPassword] = useState('')
 
 	const [isOpen, setIsOpen] = useState(false)
 	const [preview, setPreview] = useState<string | null>(null)
 	const [file, setFile] = useState<File | null>(null)
 
 	const [isPending, startTransition] = useTransition()
+
+	const isCredentialsUser = session?.user?.authProvider === 'credentials'
+
+	// Load full DB user details
+	useEffect(() => {
+		async function load() {
+			const data = await getUserDetails()
+			setDetails(data)
+		}
+		load()
+	}, [isOpen]) // refresh on open
+
+	// Pre-fill dialog
 	useEffect(() => {
 		if (isOpen && session?.user) {
 			setName(session.user.name ?? '')
 			setUsername(session.user.username ?? '')
+			setEmail(session.user.email ?? '')
 		}
 	}, [isOpen, session])
 
@@ -48,22 +63,19 @@ export default function UserDetails({ currentImage }: UserDetailsProps) {
 	const onSelectFile = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const selected = e.target.files?.[0]
 		if (!selected) return
-
 		setFile(selected)
 		setPreview(URL.createObjectURL(selected))
 	}
 
 	// --------------------------
-	// SAVE CHANGES
+	// SAVE PROFILE
 	// --------------------------
-	const onSave = () => {
+	const onSaveProfile = () => {
 		startTransition(async () => {
 			try {
 				let uploadedUrl: string | undefined = undefined
 
-				// --------------------------
-				// 1. Upload avatar if selected
-				// --------------------------
+				// Upload avatar if needed
 				if (file) {
 					const form = new FormData()
 					form.append('file', file)
@@ -78,26 +90,20 @@ export default function UserDetails({ currentImage }: UserDetailsProps) {
 					uploadedUrl = url
 				}
 
-				// --------------------------
-				// 2. Update profile (name, username, image)
-				// --------------------------
-				const payload: UpdateUserProfileInput = {}
+				const payload: any = {}
 
-				if (name && name !== session?.user?.name) {
-					payload.name = name
-				}
-
-				if (username && username !== session?.user?.username) {
-					payload.username = username
-				}
-
-				if (uploadedUrl) {
-					payload.image = uploadedUrl
-				}
+				if (name !== session?.user?.name) payload.name = name
+				if (username !== session?.user?.username) payload.username = username
+				if (email !== session?.user?.email) payload.email = email
+				if (uploadedUrl) payload.image = uploadedUrl
 
 				if (Object.keys(payload).length > 0) {
 					await updateUserProfile(payload)
+					await refreshSession(payload)
 				}
+
+				// ************ ✨ MAGIC LINE HERE ✨ ************
+				await refreshSession() // ← Forces NextAuth to reload session
 
 				toast.success('Profile updated!')
 				setIsOpen(false)
@@ -110,14 +116,50 @@ export default function UserDetails({ currentImage }: UserDetailsProps) {
 		})
 	}
 
+	// --------------------------
+	// CHANGE PASSWORD
+	// --------------------------
+	const onChangePassword = () => {
+		if (newPassword !== confirmPassword) {
+			toast.error('New passwords do not match')
+			return
+		}
+
+		startTransition(async () => {
+			try {
+				const res = await changePassword({
+					currentPassword,
+					newPassword,
+				})
+
+				if (!res?.success) throw new Error(res?.message)
+
+				await refreshSession() // refreshes role, username, etc if changed elsewhere
+				toast.success('Password updated!')
+
+				setCurrentPassword('')
+				setNewPassword('')
+				setConfirmPassword('')
+			} catch (err) {
+				console.error(err)
+				toast.error('Failed to change password')
+			}
+		})
+	}
+
 	return (
 		<>
 			<Card className="w-full max-w-md mx-auto shadow-md border">
 				<CardHeader className="flex flex-row items-center gap-4">
 					<Avatar className="h-16 w-16">
-						<AvatarImage
-							src={preview || currentImage || session?.user?.image || undefined}
-						/>
+						<AvatarImage src={preview || session?.user?.image || undefined} />
+						{/* <Image
+							src={preview ?? session?.user?.image ?? '/mascot.svg'}
+							width={120}
+							height={120}
+							alt="Profile"
+						/> */}
+
 						<AvatarFallback>
 							{session?.user?.name?.charAt(0)?.toUpperCase() || 'U'}
 						</AvatarFallback>
@@ -125,17 +167,52 @@ export default function UserDetails({ currentImage }: UserDetailsProps) {
 
 					<div>
 						<CardTitle className="text-xl">
-							{session?.user?.name || 'No Name'}
+							{details?.name ?? session?.user?.name}
 						</CardTitle>
 						<p className="text-sm text-muted-foreground">
-							@{session?.user?.username || 'username not chosen'}
+							@{details?.username ?? session?.user?.username}
 						</p>
 					</div>
 				</CardHeader>
-				<CardContent>
+
+				<CardContent className="text-sm text-muted-foreground space-y-1">
+					{details && (
+						<>
+							<p>
+								<strong>Email:</strong> {details.email}
+							</p>
+							<p>
+								<strong>Role:</strong> {details.role}
+							</p>
+							<p>
+								<strong>Credentials Provider:</strong>{' '}
+								{details.providers?.length
+									? details.providers.join(', ')
+									: 'Username/Password'}
+							</p>
+							<p>
+								<strong>Note:</strong> Known bug: After saving edits, logout and
+								back in to see it update here.
+							</p>
+
+							{details.createdAt && (
+								<p>
+									<strong>Created:</strong>{' '}
+									{new Date(details.createdAt).toLocaleString()}
+								</p>
+							)}
+							{details.lastLogin && (
+								<p>
+									<strong>Last Login:</strong>{' '}
+									{new Date(details.lastLogin).toLocaleString()}
+								</p>
+							)}
+						</>
+					)}
+
 					<Button
+						className="w-full mt-4"
 						variant="secondary"
-						className="w-full"
 						onClick={() => setIsOpen(true)}
 					>
 						Edit Profile
@@ -151,70 +228,98 @@ export default function UserDetails({ currentImage }: UserDetailsProps) {
 					</DialogHeader>
 
 					<div className="space-y-6">
-						{/* ------------------ */}
-						{/* AVATAR PREVIEW     */}
-						{/* ------------------ */}
+						{/* Avatar */}
 						<div className="flex flex-col items-center gap-4">
 							<Image
-								src={
-									preview ||
-									currentImage ||
-									session?.user?.image ||
-									'/mascot.svg'
-								}
+								src={preview || session?.user?.image || '/mascot.svg'}
 								alt="Preview"
 								width={120}
 								height={120}
 								className="rounded-full border shadow-sm object-cover"
 							/>
-
-							<input type="file" accept="image/*" onChange={onSelectFile} />
-
-							<p className="text-sm text-muted-foreground">
-								Upload a new avatar (optional)
-							</p>
-						</div>
-
-						{/* ------------------ */}
-						{/* NAME INPUT         */}
-						{/* ------------------ */}
-						<div>
-							<label className="text-sm font-medium">Name</label>
-							<Input
-								value={name}
-								onChange={(e) => setName(e.target.value)}
-								placeholder="Your full name"
+							<input
+								type="file"
+								accept="image/*"
+								onChange={onSelectFile}
+								className="block w-full text-sm text-muted-foreground 
+             file:mr-4 file:py-2 file:px-4
+             file:rounded-md file:border file:border-input
+             file:bg-secondary file:text-secondary-foreground
+             file:text-sm file:font-medium
+             hover:file:bg-secondary/80
+             cursor-pointer"
 							/>
 						</div>
 
-						{/* ------------------ */}
-						{/* USERNAME INPUT     */}
-						{/* ------------------ */}
+						{/* Name */}
+						<div>
+							<label className="text-sm font-medium">Full Name</label>
+							<Input value={name} onChange={(e) => setName(e.target.value)} />
+						</div>
+
+						{/* Username */}
 						<div>
 							<label className="text-sm font-medium">Username</label>
 							<Input
 								value={username}
 								onChange={(e) => setUsername(e.target.value)}
-								placeholder="Your username"
 							/>
 						</div>
 
-						{/* ------------------ */}
-						{/* SAVE BUTTON        */}
-						{/* ------------------ */}
+						{/* Email */}
+						<div>
+							<label className="text-sm font-medium">Email</label>
+							<Input value={email} onChange={(e) => setEmail(e.target.value)} />
+						</div>
+
 						<Button
-							variant="default"
-							onClick={onSave}
+							onClick={onSaveProfile}
 							disabled={isPending}
 							className="w-full"
 						>
-							{isPending ? 'Saving...' : 'Save Changes'}
+							{isPending ? 'Saving...' : 'Save Profile'}
 						</Button>
+
+						{/* ---- CREDENTIALS ONLY: CHANGE PASSWORD ---- */}
+						{isCredentialsUser && (
+							<div className="pt-6 border-t">
+								<h2 className="font-semibold mb-2">Change Password</h2>
+
+								<div className="space-y-3">
+									<Input
+										type="password"
+										placeholder="Current password"
+										value={currentPassword}
+										onChange={(e) => setCurrentPassword(e.target.value)}
+									/>
+									<Input
+										type="password"
+										placeholder="New password"
+										value={newPassword}
+										onChange={(e) => setNewPassword(e.target.value)}
+									/>
+									<Input
+										type="password"
+										placeholder="Confirm new password"
+										value={confirmPassword}
+										onChange={(e) => setConfirmPassword(e.target.value)}
+									/>
+
+									<Button
+										onClick={onChangePassword}
+										disabled={isPending}
+										className="w-full"
+									>
+										{isPending ? 'Updating…' : 'Update Password'}
+									</Button>
+								</div>
+							</div>
+						)}
 					</div>
 
 					<DialogFooter>
 						<Button variant="secondary" onClick={() => setIsOpen(false)}>
-							Cancel
+							Close
 						</Button>
 					</DialogFooter>
 				</DialogContent>
