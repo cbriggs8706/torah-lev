@@ -296,13 +296,11 @@ export async function getMeetingTimes(courseId: string) {
 export async function enrollStudent(courseId: string, studentId: string) {
 	const [row] = await db
 		.insert(courseEnrollments)
-		.values({
-			courseId,
-			studentId,
-		})
+		.values({ courseId, studentId })
+		.onConflictDoNothing()
 		.returning()
 
-	return row
+	return row ?? { alreadyEnrolled: true }
 }
 
 export async function unenrollStudent(courseId: string, studentId: string) {

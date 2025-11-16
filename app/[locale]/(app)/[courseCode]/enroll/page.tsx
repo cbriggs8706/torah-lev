@@ -37,5 +37,5 @@ export default async function Page({ params }: PageProps) {
 		.onConflictDoNothing()
 
 	// Redirect to course dashboard
-	redirect(`/${locale}/${courseCode}`)
+	redirect(`/${locale}/${courseCode}?enrolled=1`)
 }

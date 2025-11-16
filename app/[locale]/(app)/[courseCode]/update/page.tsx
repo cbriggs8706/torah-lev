@@ -2,7 +2,7 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { getCourseByCode } from '@/db/queries/courses'
 import { redirect, notFound } from 'next/navigation'
-import { CourseForm } from '@/components/admin/courses/form'
+import { CourseForm } from '@/components/courses/form'
 
 type PageProps = {
 	params: Promise<{ locale: string; courseCode: string }>

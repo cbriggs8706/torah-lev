@@ -40,9 +40,9 @@ import {
 	SelectContent,
 	SelectItem,
 } from '@/components/ui/select'
-import { Switch } from '../../ui/switch'
-import { Popover, PopoverContent, PopoverTrigger } from '../../ui/popover'
-import { Calendar } from '../../ui/calendar'
+import { Switch } from '../ui/switch'
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
+import { Calendar } from '../ui/calendar'
 import { toast } from 'sonner'
 
 // -----------------------------------------------------

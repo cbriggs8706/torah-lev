@@ -22,33 +22,35 @@ export function JoinCourseModal({ locale }: { locale: string }) {
 		setLoading(true)
 
 		// Step 1 — Lookup course by its courseCode
-		const lookup = await fetch(`/api/courses/find-by-code`, {
+		const lookupRes = await fetch(`/api/courses/find-by-code`, {
 			method: 'POST',
 			body: JSON.stringify({ code }),
 		})
 
-		if (!lookup.ok) {
+		if (!lookupRes.ok) {
 			toast.error('Invalid course code.')
 			setLoading(false)
 			return
 		}
 
-		const { courseId } = await lookup.json()
+		const { courseId } = await lookupRes.json()
 
 		// Step 2 — Now enroll using your new enroll-with-code route
-		const enroll = await fetch(`/api/courses/${courseId}/enroll-with-code`, {
+		const enrollRes = await fetch(`/api/courses/${courseId}/enroll-with-code`, {
 			method: 'POST',
 			body: JSON.stringify({ code }),
 		})
 
-		if (!enroll.ok) {
-			const err = await enroll.json()
+		const data = await enrollRes.json()
+
+		if (!enrollRes.ok) {
+			const err = await enrollRes.json()
 			toast.error(err.error || 'Could not join course.')
 			setLoading(false)
 			return
 		}
 
-		toast.success('Successfully joined the course!')
+		toast.success(data.message || 'Successfully joined the course!')
 		setLoading(false)
 		router.refresh()
 	}

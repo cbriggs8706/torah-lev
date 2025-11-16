@@ -5,6 +5,7 @@ import { authOptions } from '@/lib/auth'
 import { getCourseByCodeWithRelations } from '@/db/queries/courses'
 import { getTranslations } from 'next-intl/server'
 import { CourseQRModal } from '@/components/courses/CourseQRModal'
+import { JoinSuccessToast } from '@/components/courses/JoinSuccessToast'
 
 // ─────────────────────────────────────────────────────────────
 // Placeholder UI Components – replace as you build real ones
@@ -71,6 +72,7 @@ export default async function Page({ params }: CoursePageProps) {
 
 	return (
 		<div className="space-y-6">
+			<JoinSuccessToast />
 			<header>
 				<h1 className="text-3xl font-bold">{course.slug}</h1>
 				<p className="text-gray-600">{course.description}</p>

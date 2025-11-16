@@ -1,4 +1,4 @@
-import { CourseForm } from '@/components/admin/courses/form'
+import { CourseForm } from '@/components/courses/form'
 import { authOptions } from '@/lib/auth'
 import { getServerSession } from 'next-auth'
 import { getTranslations } from 'next-intl/server'
