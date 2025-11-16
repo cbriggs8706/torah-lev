@@ -639,6 +639,24 @@ export function CourseForm({
 								value={field.value ?? []}
 								onChange={field.onChange}
 								disabled={isReadOnly}
+								onEditLesson={async (lessonId: string) => {
+									await form.handleSubmit(async (values) => {
+										// Always save the course first
+										const res = await fetch(`/api/courses/${initialData!.id}`, {
+											method: 'PATCH',
+											headers: { 'Content-Type': 'application/json' },
+											body: JSON.stringify(values),
+										})
+
+										if (!res.ok) {
+											toast.error("Couldn't save course before editing lesson")
+											return
+										}
+
+										// Navigate to lesson editor
+										router.push(`/${locale}/lesson/${lessonId}/update`)
+									})()
+								}}
 							/>
 						</div>
 					)}

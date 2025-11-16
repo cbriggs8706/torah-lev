@@ -21,6 +21,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
+import { Pencil } from 'lucide-react'
 
 export type LessonForm = {
 	id?: string
@@ -40,6 +41,7 @@ interface UnitsLessonsEditorProps {
 	value: UnitForm[]
 	onChange: (next: UnitForm[]) => void
 	disabled?: boolean
+	onEditLesson?: (lessonId: string) => void
 }
 
 type DragMeta =
@@ -50,6 +52,7 @@ export function UnitsLessonsEditor({
 	value,
 	onChange,
 	disabled,
+	onEditLesson,
 }: UnitsLessonsEditorProps) {
 	const sensors = useSensors(
 		useSensor(PointerSensor, {
@@ -260,6 +263,7 @@ export function UnitsLessonsEditor({
 								onChangeLessonField={(lessonIndex, field, v) =>
 									updateLessonField(unitIndex, lessonIndex, field, v)
 								}
+								onEditLesson={onEditLesson}
 							/>
 						))}
 					</div>
@@ -300,6 +304,7 @@ interface UnitCardProps {
 		field: keyof LessonForm,
 		val: string
 	) => void
+	onEditLesson?: (lessonId: string) => void
 }
 
 function UnitCard({
@@ -312,6 +317,7 @@ function UnitCard({
 	onAddLesson,
 	onRemoveLesson,
 	onChangeLessonField,
+	onEditLesson,
 }: UnitCardProps) {
 	const {
 		attributes,
@@ -408,6 +414,7 @@ function UnitCard({
 							onChangeField={(field, v) =>
 								onChangeLessonField(lessonIndex, field, v)
 							}
+							onEdit={() => onEditLesson?.(lesson.id!)}
 						/>
 					))}
 				</div>
@@ -439,6 +446,7 @@ interface LessonRowProps {
 	disabled?: boolean
 	onRemove: () => void
 	onChangeField: (field: keyof LessonForm, val: string) => void
+	onEdit?: () => void
 }
 
 function LessonRow({
@@ -448,6 +456,7 @@ function LessonRow({
 	disabled,
 	onRemove,
 	onChangeField,
+	onEdit,
 }: LessonRowProps) {
 	const {
 		attributes,
@@ -522,6 +531,15 @@ function LessonRow({
 					/>
 				</div>
 			</div>
+			<Button
+				type="button"
+				variant="ghost"
+				size="icon"
+				onClick={onEdit}
+				disabled={disabled || !lesson.id}
+			>
+				<Pencil className="h-4 w-4" />
+			</Button>
 
 			<Button
 				type="button"

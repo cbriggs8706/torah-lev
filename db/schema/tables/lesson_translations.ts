@@ -1,3 +1,4 @@
+// db/schema/tables/lesson_translations.ts
 import {
 	pgTable,
 	uuid,

@@ -12,4 +12,9 @@ export const lessons = pgTable('lessons', {
 	order: integer('order').default(0),
 	lessonNumber: text('lesson_number').notNull().default(''),
 	createdAt: timestamp('created_at').defaultNow().notNull(),
+	video: text('video'),
+	secondaryVideo: text('secondary_video'),
+	lessonScript: text('lesson_script'),
+	grammarLesson: text('grammar_lesson'),
+	image: text('image'),
 })
