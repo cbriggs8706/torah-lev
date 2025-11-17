@@ -9,7 +9,7 @@ import * as z from 'zod'
 import { format } from 'date-fns'
 import { usePathname } from 'next/navigation'
 
-import { courseType, proficiencyLevel } from '@/db/schema/enums'
+import { courseType, proficiencyLevel, language } from '@/db/schema/enums'
 
 import {
 	Card,
@@ -69,6 +69,7 @@ const formSchema = z.object({
 	section: z.string().optional(),
 
 	type: z.enum(courseType.enumValues),
+	language: z.enum(language.enumValues),
 
 	description: z.string().optional(),
 	imageSrc: z.string(),
@@ -123,6 +124,7 @@ export function CourseForm({
 			courseCode: initialData?.courseCode ?? '',
 			section: initialData?.section ?? '',
 			type: initialData?.type ?? 'INPERSON',
+			language: initialData?.language ?? 'BIBLICAL-HEBREW',
 			description: initialData?.description ?? '',
 			imageSrc: initialData?.imageSrc ?? '',
 			category: initialData?.category ?? '',
@@ -178,13 +180,15 @@ export function CourseForm({
 			return
 		}
 
-		router.push(`/${locale}/courses`)
+		router.push(`/${locale}/admin/courses`)
 	}
 
 	return (
 		<Card className="w-full max-w-2xl mx-auto">
 			<CardHeader>
-				<CardTitle>Create Course</CardTitle>
+				<CardTitle>
+					{mode === 'update' ? 'Update Course' : 'Create Course'}
+				</CardTitle>
 				<CardDescription>
 					{mode === 'view'
 						? 'View your course details.'
@@ -201,10 +205,10 @@ export function CourseForm({
 							control={form.control}
 							render={({ field, fieldState }) => (
 								<Field data-invalid={fieldState.invalid}>
-									<FieldLabel>Name (Slug)</FieldLabel>
+									<FieldLabel>Name</FieldLabel>
 									<Input
 										disabled={isReadOnly}
-										placeholder="unique name for your class, not visible to others"
+										placeholder="Choose a unique name for your course/study group"
 										{...field}
 									/>
 									{fieldState.error && (
@@ -360,6 +364,35 @@ export function CourseForm({
 										</SelectTrigger>
 										<SelectContent>
 											{courseType.enumValues.map((t) => (
+												<SelectItem key={t} value={t}>
+													{t}
+												</SelectItem>
+											))}
+										</SelectContent>
+									</Select>
+									{fieldState.error && (
+										<FieldError errors={[fieldState.error]} />
+									)}
+								</Field>
+							)}
+						/>
+						{/* COURSE LANGUAGE */}
+						<Controller
+							name="language"
+							control={form.control}
+							render={({ field, fieldState }) => (
+								<Field data-invalid={fieldState.invalid}>
+									<FieldLabel>Course Language</FieldLabel>
+									<Select
+										disabled={isReadOnly}
+										value={field.value}
+										onValueChange={field.onChange}
+									>
+										<SelectTrigger>
+											<SelectValue placeholder="Select language" />
+										</SelectTrigger>
+										<SelectContent>
+											{language.enumValues.map((t) => (
 												<SelectItem key={t} value={t}>
 													{t}
 												</SelectItem>

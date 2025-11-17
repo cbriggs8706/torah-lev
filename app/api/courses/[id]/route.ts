@@ -8,12 +8,13 @@ import { getCourse, updateCourse, deleteCourse } from '@/db/queries/courses'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { z } from 'zod'
-import { courseType, proficiencyLevel } from '@/db/schema/enums'
+import { courseType, proficiencyLevel, language } from '@/db/schema/enums'
 import { courses, supabaseDb, units } from '@/db'
 import { eq } from 'drizzle-orm'
 import { updateUnitsAndLessons } from '@/db/queries/units'
 
 type CourseType = (typeof courseType.enumValues)[number]
+type CourseLanguage = (typeof language.enumValues)[number]
 // type Level = (typeof proficiencyLevel.enumValues)[number]
 
 const UpdateCourseSchema = z.object({
@@ -23,6 +24,9 @@ const UpdateCourseSchema = z.object({
 
 	type: z
 		.enum(courseType.enumValues as [CourseType, ...CourseType[]])
+		.optional(),
+	language: z
+		.enum(language.enumValues as [CourseLanguage, ...CourseLanguage[]])
 		.optional(),
 
 	description: z.string().optional(),
@@ -107,6 +111,7 @@ export async function PATCH(
 				courseCode: data.courseCode,
 				section: data.section,
 				type: data.type,
+				language: data.language,
 				description: data.description,
 				imageSrc: data.imageSrc,
 				category: data.category,

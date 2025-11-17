@@ -39,6 +39,7 @@ export async function POST(req: Request) {
 					//TODO revist these, I don't think they're how I want them
 					courseCode: slug.toUpperCase(),
 					type: 'INPERSON',
+					language: 'BIBLICAL-HEBREW',
 					startProficiencyLevel: 'A1',
 					endProficiencyLevel: 'A1',
 

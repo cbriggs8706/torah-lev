@@ -90,14 +90,20 @@ export function LessonForm({
 	}
 
 	// Live YouTube preview
-	const videoId = React.useMemo(
-		() => extractYouTubeId(form.watch('video')),
-		[form.watch('video')]
-	)
-	const secondaryVideoId = React.useMemo(
-		() => extractYouTubeId(form.watch('secondaryVideo')),
-		[form.watch('secondaryVideo')]
-	)
+	const video = form.watch('video')
+	const videoId = extractYouTubeId(video)
+
+	const secondaryVideo = form.watch('secondaryVideo')
+	const secondaryVideoId = extractYouTubeId(secondaryVideo)
+
+	// const videoId = React.useMemo(
+	// 	() => extractYouTubeId(form.watch('video')),
+	// 	[form.watch('video')]
+	// )
+	// const secondaryVideoId = React.useMemo(
+	// 	() => extractYouTubeId(form.watch('secondaryVideo')),
+	// 	[form.watch('secondaryVideo')]
+	// )
 
 	const imageUrl = form.watch('image')
 
@@ -280,6 +286,8 @@ export function LessonForm({
 					<DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto p-6">
 						<HebrewVocabInlineEditor
 							onSaved={(vocab) => {
+								if (!vocab) return // <-- prevent crash if closed
+
 								toast.success('Vocabulary saved!')
 								setShowVocabEditor(false)
 
@@ -287,6 +295,7 @@ export function LessonForm({
 								if (!existing.includes(vocab.id)) {
 									form.setValue('vocabIds', [...existing, vocab.id])
 								}
+
 								router.refresh()
 							}}
 						/>

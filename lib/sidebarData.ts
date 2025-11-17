@@ -104,13 +104,13 @@ export function getTeacherNav(t: TFunction, locale: string) {
 	return [
 		{
 			title: t('sidebar.teacher.title'),
-			url: `/${locale}/admin/course`,
+			url: `/${locale}/admin/courses`,
 			icon: GraduationCap,
 			isActive: true,
 			items: [
 				{
 					title: t('sidebar.teacher.myCourses'),
-					url: `/${locale}/courses`,
+					url: `/${locale}/admin/courses`,
 				},
 				{
 					title: t('sidebar.teacher.createCourse'),

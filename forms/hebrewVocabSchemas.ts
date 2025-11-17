@@ -9,7 +9,8 @@ export const hebrewVocabSchema = z.object({
 	person: z.number().int().min(1).max(3).optional(),
 	gender: z.string().optional(),
 	number: z.string().optional(),
-	partOfSpeech: z.array(z.string()).default([]),
+	partOfSpeech: z.array(z.string()).default([]).catch([]),
+
 	ipa: z.string().optional(),
 	engTransliteration: z.string().optional(),
 	dictionaryUrl: z.string().url().optional().or(z.literal('')),

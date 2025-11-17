@@ -1,6 +1,13 @@
 // db/schema/enums.ts
 import { pgEnum } from 'drizzle-orm/pg-core'
 
+export const language = pgEnum('language', [
+	'BIBLICAL-HEBREW',
+	'BIBLICAL-GREEK',
+	'MODERN-HEBREW',
+	'MODERN-ENGLISH',
+	'MODERN-SPANISH',
+])
 export const groupType = pgEnum('group_type', ['GROUP', 'SUBGROUP', 'TRIBE'])
 export const courseType = pgEnum('course_type', [
 	'INPERSON',

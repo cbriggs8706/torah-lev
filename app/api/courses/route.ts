@@ -8,10 +8,11 @@ import { getPublicCourses } from '@/db/queries/courses'
 import { z } from 'zod'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
-import { courseType, proficiencyLevel } from '@/db/schema/enums'
+import { courseType, proficiencyLevel, language } from '@/db/schema/enums'
 import { courses, supabaseDb } from '@/db'
 import { insertUnitsWithLessons } from '@/db/queries/units'
 type CourseType = (typeof courseType.enumValues)[number]
+type CourseLanguage = (typeof language.enumValues)[number]
 
 // ==============================
 // Schema for validation
@@ -21,6 +22,9 @@ const CreateCourseSchema = z.object({
 	courseCode: z.string(),
 	section: z.string().optional(),
 	type: z.enum(courseType.enumValues as [CourseType, ...CourseType[]]),
+	language: z.enum(
+		language.enumValues as [CourseLanguage, ...CourseLanguage[]]
+	),
 	description: z.string().optional(),
 	imageSrc: z.string(),
 	category: z.string().optional(),

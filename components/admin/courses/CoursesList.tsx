@@ -95,6 +95,7 @@ export function OrganizerCoursesList({ courses, locale }: Props) {
 								<div className="flex flex-wrap gap-2 mb-1">
 									<Badge variant="secondary">{course.courseCode}</Badge>
 									<Badge>{course.type}</Badge>
+									<Badge>{course.language}</Badge>
 									{course.current && <Badge variant="outline">Active</Badge>}
 									{course.public ? (
 										<Badge variant="default">Public</Badge>

@@ -48,7 +48,12 @@ export async function updateLesson(
 		vocabIds?: string[]
 	}
 ) {
-	await db.update(lessons).set(data.lesson).where(eq(lessons.id, id))
+	// await db.update(lessons).set(data.lesson).where(eq(lessons.id, id))
+	const cleanedData = Object.fromEntries(
+		Object.entries(data.lesson).filter(([, value]) => value !== undefined)
+	)
+
+	await db.update(lessons).set(cleanedData).where(eq(lessons.id, id))
 
 	if (data.vocabIds) {
 		// remove old

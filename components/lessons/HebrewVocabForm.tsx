@@ -30,6 +30,7 @@ import {
 } from '@/components/ui/field'
 import { toast } from 'sonner'
 import { extractYouTubeId } from '@/lib/youtube'
+import Image from 'next/image'
 
 export function HebrewVocabForm({
 	mode = 'create',
@@ -38,7 +39,7 @@ export function HebrewVocabForm({
 }: {
 	mode?: 'create' | 'update' | 'view'
 	initialData?: Partial<HebrewVocabFormValues & { id: string }>
-	onSaved?: (vocab: HebrewVocabFormValues & { id: string }) => void
+	onSaved?: (vocab?: HebrewVocabFormValues & { id: string }) => void
 }) {
 	const router = useRouter()
 	const pathname = usePathname()
@@ -47,7 +48,7 @@ export function HebrewVocabForm({
 
 	const isReadOnly = mode === 'view'
 
-	const form = useForm<HebrewVocabFormValues>({
+	const form = useForm({
 		resolver: zodResolver(hebrewVocabSchema),
 		defaultValues: {
 			heb: initialData?.heb ?? '',
@@ -194,7 +195,7 @@ export function HebrewVocabForm({
 									<FieldLabel>Part of Speech</FieldLabel>
 									<Input
 										disabled={isReadOnly}
-										value={field.value.join(', ')}
+										value={(field.value ?? []).join(', ')}
 										onChange={(e) =>
 											field.onChange(
 												e.target.value
@@ -267,7 +268,9 @@ export function HebrewVocabForm({
 									{images && images.length > 0 && (
 										<div className="flex gap-2 mt-2 flex-wrap">
 											{images.map((src) => (
-												<img
+												<Image
+													width={120}
+													alt={src}
 													key={src}
 													src={src}
 													className="h-20 rounded border"
@@ -307,7 +310,7 @@ export function HebrewVocabForm({
 
 			<CardFooter>
 				{mode === 'view' ? (
-					<Button type="button" onClick={onSaved}>
+					<Button type="button" onClick={() => onSaved?.()}>
 						Close
 					</Button>
 				) : (

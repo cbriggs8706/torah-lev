@@ -11,7 +11,7 @@ import {
 	integer,
 	primaryKey,
 } from 'drizzle-orm/pg-core'
-import { courseType, dayOfWeek, proficiencyLevel } from '../enums'
+import { courseType, dayOfWeek, language, proficiencyLevel } from '../enums'
 import { user } from './auth'
 import { relations } from 'drizzle-orm'
 
@@ -23,6 +23,7 @@ export const courses = pgTable(
 		courseCode: text('course_code').notNull().unique(),
 		section: varchar('section', { length: 10 }),
 		type: courseType('type').notNull(),
+		language: language('language').notNull(),
 		description: text('description'),
 		imageSrc: text('image_src'),
 		category: text('category'),

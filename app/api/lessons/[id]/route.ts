@@ -5,13 +5,14 @@ import { updateLesson } from '@/db/queries/lessons'
 
 export async function PATCH(
 	req: NextRequest,
-	{ params }: { params: { id: string } }
+	context: { params: Promise<{ id: string }> }
 ) {
 	try {
 		const body = await req.json()
 		const data = lessonFormSchema.parse(body)
+		const { id } = await context.params
 
-		await updateLesson(params.id, {
+		await updateLesson(id, {
 			lesson: {
 				slug: data.slug,
 				lessonNumber: data.lessonNumber,

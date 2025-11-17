@@ -6,14 +6,15 @@ import { eq } from 'drizzle-orm'
 
 export async function PATCH(
 	req: Request,
-	{ params }: { params: { id: string } }
+	context: { params: Promise<{ id: string }> }
 ) {
 	const body = await req.json()
+	const { id } = await context.params
 
 	const result = await db
 		.update(hebrewVocab)
 		.set(body)
-		.where(eq(hebrewVocab.id, params.id))
+		.where(eq(hebrewVocab.id, id))
 		.returning()
 
 	return NextResponse.json(result[0])
