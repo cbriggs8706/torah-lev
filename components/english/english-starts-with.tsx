@@ -142,13 +142,16 @@ export default function StartsWithGame({ data }: StartsWithProps) {
 						min={5}
 						max={120}
 						value={roundDuration}
-						onChange={(e) =>
-							setRoundDuration(
-								Math.min(120, Math.max(5, Number(e.target.value) || 0))
-							)
-						}
-						className="w-full border rounded px-3 py-2"
+						onChange={(e) => {
+							const val = Number(e.target.value)
+							setRoundDuration(val)
+						}}
+						onBlur={() => {
+							setRoundDuration((prev) => Math.min(120, Math.max(5, prev || 5)))
+						}}
+						className="w-full border rounded px-3 py-2 text-gray-800"
 					/>
+
 					<p className="text-xs text-gray-500 mt-1">
 						Each round will start with this many seconds.
 					</p>
