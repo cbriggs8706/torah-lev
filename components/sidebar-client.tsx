@@ -302,6 +302,12 @@ export default function SidebarClient({
 								iconSrc="/framed-picture-svgrepo-com.svg"
 								onClick={onItemClick}
 							/>
+							<SidebarItem
+								label="Starts With"
+								href="/en/starts-with"
+								iconSrc="/video-game-svgrepo-com.svg"
+								onClick={onItemClick}
+							/>
 						</>
 					)}
 					{[16].includes(userProgress?.activeCourse.id) && (

@@ -1,0 +1,165 @@
+{
+	"title": "Starts With",
+	"categories": [
+		{
+			"name": "Foods",
+			"examples": ["apple", "bread", "carrot", "donut"]
+		},
+		{
+			"name": "Animals",
+			"examples": ["cat", "dog", "bear", "eagle"]
+		},
+		{
+			"name": "Clothing",
+			"examples": ["shirt", "pants", "jacket", "hat"]
+		},
+		{
+			"name": "School Items",
+			"examples": ["pencil", "eraser", "notebook", "ruler"]
+		},
+		{
+			"name": "Colors",
+			"examples": ["red", "blue", "green", "purple"]
+		},
+		{
+			"name": "Body Parts",
+			"examples": ["head", "arm", "leg", "hand"]
+		},
+		{
+			"name": "Sports",
+			"examples": ["soccer", "tennis", "baseball", "basketball"]
+		},
+		{
+			"name": "Jobs",
+			"examples": ["teacher", "doctor", "chef", "farmer"]
+		},
+		{
+			"name": "Places in a City",
+			"examples": ["bank", "hospital", "park", "library"]
+		},
+		{
+			"name": "Weather",
+			"examples": ["rain", "sun", "snow", "wind"]
+		},
+		{
+			"name": "Furniture",
+			"examples": ["table", "chair", "couch", "bed"]
+		},
+		{
+			"name": "Verbs (Actions)",
+			"examples": ["run", "eat", "sleep", "jump"]
+		},
+		{
+			"name": "Transportation",
+			"examples": ["car", "bus", "train", "bicycle"]
+		},
+		{
+			"name": "Countries",
+			"examples": ["Mexico", "China", "Brazil", "Canada"]
+		},
+		{
+			"name": "Shapes",
+			"examples": ["circle", "square", "triangle", "oval"]
+		},
+		{
+			"name": "Household Items",
+			"examples": ["spoon", "plate", "broom", "lamp"]
+		},
+		{
+			"name": "Kitchen Items",
+			"examples": ["fork", "cup", "stove", "fridge"]
+		},
+		{
+			"name": "Drinks",
+			"examples": ["water", "juice", "milk", "tea"]
+		},
+		{
+			"name": "Snacks",
+			"examples": ["chips", "cookies", "popcorn", "candy"]
+		},
+		{
+			"name": "Fruits",
+			"examples": ["banana", "orange", "grape", "melon"]
+		},
+		{
+			"name": "Vegetables",
+			"examples": ["onion", "tomato", "peas", "corn"]
+		},
+		{
+			"name": "Musical Instruments",
+			"examples": ["guitar", "piano", "drums", "violin"]
+		},
+		{
+			"name": "Family Members",
+			"examples": ["mother", "father", "sister", "uncle"]
+		},
+		{
+			"name": "Hobbies",
+			"examples": ["reading", "dancing", "drawing", "cooking"]
+		},
+		{
+			"name": "Emotions",
+			"examples": ["happy", "sad", "angry", "excited"]
+		},
+		{
+			"name": "Bathroom Items",
+			"examples": ["soap", "towel", "toothbrush", "shampoo"]
+		},
+		{
+			"name": "Things That Fly",
+			"examples": ["bird", "plane", "bee", "kite"]
+		},
+		{
+			"name": "Things in Nature",
+			"examples": ["tree", "rock", "river", "flower"]
+		},
+		{
+			"name": "Pets",
+			"examples": ["dog", "cat", "fish", "bird"]
+		},
+		{
+			"name": "Desserts",
+			"examples": ["cake", "ice cream", "pie", "brownie"]
+		},
+		{
+			"name": "Toys",
+			"examples": ["ball", "doll", "puzzle", "blocks"]
+		},
+		{
+			"name": "Fast Food",
+			"examples": ["burger", "fries", "pizza", "taco"]
+		},
+		{
+			"name": "Tools",
+			"examples": ["hammer", "saw", "wrench", "drill"]
+		},
+		{
+			"name": "Appliances",
+			"examples": ["microwave", "toaster", "washer", "dryer"]
+		},
+		{
+			"name": "Months",
+			"examples": ["January", "March", "June", "October"]
+		},
+		{
+			"name": "Days of the Week",
+			"examples": ["Monday", "Wednesday", "Friday", "Sunday"]
+		},
+		{
+			"name": "Holidays",
+			"examples": ["Christmas", "Easter", "Halloween", "New Year"]
+		},
+		{
+			"name": "Occupations",
+			"examples": ["nurse", "builder", "driver", "artist"]
+		},
+		{
+			"name": "Animals in the Ocean",
+			"examples": ["shark", "whale", "dolphin", "octopus"]
+		},
+		{
+			"name": "Things in the Sky",
+			"examples": ["cloud", "sun", "moon", "stars"]
+		}
+	]
+}
