@@ -242,6 +242,36 @@
 		"nifal": 210
 	},
 	{
+		"verb": "בָּנָה",
+		"engTransliteration": "banah",
+		"engTranslation": "he built",
+		"strongs": 1129,
+		"lesson": 37,
+		"img": "/awb/awb37/he built.mp4",
+		"paal": 37,
+		"piel": 210,
+		"hifil": 210,
+		"hitpael": 210,
+		"hufal": 210,
+		"pual": 210,
+		"nifal": 210
+	},
+	{
+		"verb": "רָעַע",
+		"engTransliteration": "raʿaʿ",
+		"engTranslation": "he was evil",
+		"strongs": 7489,
+		"lesson": 37,
+		"img": "/awb/awb37/he did bad.mp4",
+		"paal": 37,
+		"piel": 210,
+		"hifil": 210,
+		"hitpael": 210,
+		"hufal": 210,
+		"pual": 210,
+		"nifal": 210
+	},
+	{
 		"verb": "כָּתַב",
 		"engTransliteration": "katav",
 		"engTranslation": "he wrote",

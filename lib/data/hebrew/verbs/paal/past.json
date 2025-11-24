@@ -11,9 +11,9 @@
 					{ "char": "ל", "class": "" },
 					{ "char": "ַ", "class": "" },
 					{ "char": "כ", "class": "" },
-					{ "char": "ְ", "class": "" },
-					{ "char": "תִּ", "class": "" },
-					{ "char": "י", "class": "" }
+					{ "char": "ְ", "class": "text-red-500" },
+					{ "char": "תִּ", "class": "text-red-500" },
+					{ "char": "י", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "ha", "class": "" },
@@ -33,10 +33,10 @@
 					{ "char": "ל", "class": "" },
 					{ "char": "ַ", "class": "" },
 					{ "char": "כ", "class": "" },
-					{ "char": "ְ", "class": "" },
-					{ "char": "נ", "class": "" },
-					{ "char": "ו", "class": "" },
-					{ "char": "ּ", "class": "" }
+					{ "char": "ְ", "class": "text-red-500" },
+					{ "char": "נ", "class": "text-red-500" },
+					{ "char": "ו", "class": "text-red-500" },
+					{ "char": "ּ", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "ha", "class": "" },
@@ -57,8 +57,8 @@
 					{ "char": "ַ", "class": "" },
 					{ "char": "כ", "class": "" },
 					{ "char": "ְ", "class": "" },
-					{ "char": "תּ", "class": "" },
-					{ "char": "ָ", "class": "" }
+					{ "char": "תּ", "class": "text-red-500" },
+					{ "char": "ָ", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "ha", "class": "" },
@@ -79,8 +79,7 @@
 					{ "char": "ַ", "class": "" },
 					{ "char": "כ", "class": "" },
 					{ "char": "ְ", "class": "" },
-					{ "char": "ת", "class": "" },
-					{ "char": "ּ", "class": "" }
+					{ "char": "תּ", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "ha", "class": "" },
@@ -101,8 +100,9 @@
 					{ "char": "ַ", "class": "" },
 					{ "char": "כ", "class": "" },
 					{ "char": "ְ", "class": "" },
-					{ "char": "ת", "class": "" },
-					{ "char": "ֶ", "class": "" }
+					{ "char": "ת", "class": "text-red-500" },
+					{ "char": "ֶ", "class": "text-red-500" },
+					{ "char": "ם", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "ha", "class": "" },
@@ -123,8 +123,9 @@
 					{ "char": "ַ", "class": "" },
 					{ "char": "כ", "class": "" },
 					{ "char": "ְ", "class": "" },
-					{ "char": "ת", "class": "" },
-					{ "char": "ֶ", "class": "" }
+					{ "char": "ת", "class": "text-red-500" },
+					{ "char": "ֶ", "class": "text-red-500" },
+					{ "char": "ן", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "ha", "class": "" },
@@ -143,13 +144,12 @@
 					{ "char": "ָ", "class": "" },
 					{ "char": "ל", "class": "" },
 					{ "char": "ַ", "class": "" },
-					{ "char": "כ", "class": "" },
+					{ "char": "ך", "class": "" },
 					{ "char": "ְ", "class": "" }
 				],
 				"translit": [
 					{ "text": "ha", "class": "" },
-					{ "text": "lach", "class": "" },
-					{ "text": "ch", "class": "" }
+					{ "text": "lakh", "class": "" }
 				],
 				"english": [
 					{ "text": "he/it ", "class": "" },
@@ -162,14 +162,14 @@
 					{ "char": "ה", "class": "" },
 					{ "char": "ָ", "class": "" },
 					{ "char": "ל", "class": "" },
-					{ "char": "ַ", "class": "" },
+					{ "char": "ְ", "class": "" },
 					{ "char": "כ", "class": "" },
-					{ "char": "ְ", "class": "" }
+					{ "char": "ָ", "class": "text-red-500" },
+					{ "char": "ה", "class": "text-red-500" }
 				],
 				"translit": [
-					{ "text": "ha", "class": "" },
-					{ "text": "lach", "class": "" },
-					{ "text": "ch", "class": "" }
+					{ "text": "hal", "class": "" },
+					{ "text": "khah", "class": "" }
 				],
 				"english": [
 					{ "text": "she/it ", "class": "" },
@@ -182,14 +182,13 @@
 					{ "char": "ה", "class": "" },
 					{ "char": "ָ", "class": "" },
 					{ "char": "ל", "class": "" },
-					{ "char": "ַ", "class": "" },
+					{ "char": "ְ", "class": "" },
 					{ "char": "כ", "class": "" },
-					{ "char": "ְ", "class": "" }
+					{ "char": "וּ", "class": "text-red-500" }
 				],
 				"translit": [
-					{ "text": "ha", "class": "" },
-					{ "text": "lach", "class": "" },
-					{ "text": "chu", "class": "" }
+					{ "text": "hal", "class": "" },
+					{ "text": "khu", "class": "" }
 				],
 				"english": [
 					{ "text": "they (m.) ", "class": "" },
@@ -204,12 +203,15 @@
 					{ "char": "ל", "class": "" },
 					{ "char": "ַ", "class": "" },
 					{ "char": "כ", "class": "" },
-					{ "char": "ְ", "class": "" }
+					{ "char": "ְ", "class": "text-red-500" },
+					{ "char": "נ", "class": "text-red-500" },
+					{ "char": "ָ", "class": "text-red-500" },
+					{ "char": "ה", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "ha", "class": "" },
-					{ "text": "lach", "class": "" },
-					{ "text": "chna", "class": "" }
+					{ "text": "lakh", "class": "" },
+					{ "text": "'na", "class": "" }
 				],
 				"english": [
 					{ "text": "they (f.) ", "class": "" },
@@ -230,10 +232,10 @@
 					{ "char": "ת", "class": "" },
 					{ "char": "ַ", "class": "" },
 					{ "char": "ב", "class": "" },
-					{ "char": "ְ", "class": "" },
-					{ "char": "ת", "class": "" },
-					{ "char": "ִ", "class": "" },
-					{ "char": "י", "class": "" }
+					{ "char": "ְ", "class": "text-red-500" },
+					{ "char": "ת", "class": "text-red-500" },
+					{ "char": "ִ", "class": "text-red-500" },
+					{ "char": "י", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "ka", "class": "" },
@@ -253,10 +255,10 @@
 					{ "char": "ת", "class": "" },
 					{ "char": "ַ", "class": "" },
 					{ "char": "ב", "class": "" },
-					{ "char": "ְ", "class": "" },
-					{ "char": "נ", "class": "" },
-					{ "char": "ו", "class": "" },
-					{ "char": "ּ", "class": "" }
+					{ "char": "ְ", "class": "text-red-500" },
+					{ "char": "נ", "class": "text-red-500" },
+					{ "char": "ו", "class": "text-red-500" },
+					{ "char": "ּ", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "ka", "class": "" },
@@ -276,9 +278,9 @@
 					{ "char": "ת", "class": "" },
 					{ "char": "ַ", "class": "" },
 					{ "char": "ב", "class": "" },
-					{ "char": "ְ", "class": "" },
-					{ "char": "ת", "class": "" },
-					{ "char": "ָ", "class": "" }
+					{ "char": "ְ", "class": "text-red-500" },
+					{ "char": "ת", "class": "text-red-500" },
+					{ "char": "ָ", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "ka", "class": "" },
@@ -298,9 +300,9 @@
 					{ "char": "ת", "class": "" },
 					{ "char": "ַ", "class": "" },
 					{ "char": "ב", "class": "" },
-					{ "char": "ְ", "class": "" },
-					{ "char": "ת", "class": "" },
-					{ "char": "ּ", "class": "" }
+					{ "char": "ְ", "class": "text-red-500" },
+					{ "char": "ת", "class": "text-red-500" },
+					{ "char": "ּ", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "ka", "class": "" },
@@ -320,9 +322,10 @@
 					{ "char": "ת", "class": "" },
 					{ "char": "ַ", "class": "" },
 					{ "char": "ב", "class": "" },
-					{ "char": "ְ", "class": "" },
-					{ "char": "ת", "class": "" },
-					{ "char": "ֶ", "class": "" }
+					{ "char": "ְ", "class": "text-red-500" },
+					{ "char": "ת", "class": "text-red-500" },
+					{ "char": "ֶ", "class": "text-red-500" },
+					{ "char": "ם", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "ka", "class": "" },
@@ -342,9 +345,10 @@
 					{ "char": "ת", "class": "" },
 					{ "char": "ַ", "class": "" },
 					{ "char": "ב", "class": "" },
-					{ "char": "ְ", "class": "" },
-					{ "char": "ת", "class": "" },
-					{ "char": "ֶ", "class": "" }
+					{ "char": "ְ", "class": "text-red-500" },
+					{ "char": "ת", "class": "text-red-500" },
+					{ "char": "ֶ", "class": "text-red-500" },
+					{ "char": "ן", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "ka", "class": "" },
@@ -359,12 +363,11 @@
 			{
 				"person": "3ms",
 				"hebrew": [
-					{ "char": "כ", "class": "" },
-					{ "char": "ּ", "class": "" },
+					{ "char": "כּ", "class": "" },
+					{ "char": "ָ", "class": "" },
 					{ "char": "ת", "class": "" },
 					{ "char": "ַ", "class": "" },
-					{ "char": "ב", "class": "" },
-					{ "char": "ְ", "class": "" }
+					{ "char": "ב", "class": "" }
 				],
 				"translit": [
 					{ "text": "ka", "class": "" },
@@ -381,15 +384,16 @@
 				"hebrew": [
 					{ "char": "כ", "class": "" },
 					{ "char": "ּ", "class": "" },
+					{ "char": "ָ", "class": "" },
 					{ "char": "ת", "class": "" },
-					{ "char": "ַ", "class": "" },
+					{ "char": "ְ", "class": "" },
 					{ "char": "ב", "class": "" },
-					{ "char": "ְ", "class": "" }
+					{ "char": "ָ", "class": "text-red-500" },
+					{ "char": "ה", "class": "text-red-500" }
 				],
 				"translit": [
-					{ "text": "ka", "class": "" },
-					{ "text": "tav", "class": "" },
-					{ "text": "ch", "class": "" }
+					{ "text": "kat", "class": "" },
+					{ "text": "vah", "class": "" }
 				],
 				"english": [
 					{ "text": "she/it ", "class": "" },
@@ -401,15 +405,15 @@
 				"hebrew": [
 					{ "char": "כ", "class": "" },
 					{ "char": "ּ", "class": "" },
+					{ "char": "ָ", "class": "" },
 					{ "char": "ת", "class": "" },
-					{ "char": "ַ", "class": "" },
-					{ "char": "ב", "class": "" },
-					{ "char": "ְ", "class": "" }
+					{ "char": "ְ", "class": "text-red-500" },
+					{ "char": "ב", "class": "text-red-500" },
+					{ "char": "וּ", "class": "text-red-500" }
 				],
 				"translit": [
-					{ "text": "ka", "class": "" },
-					{ "text": "tav", "class": "" },
-					{ "text": "chu", "class": "" }
+					{ "text": "kat", "class": "" },
+					{ "text": "vu", "class": "" }
 				],
 				"english": [
 					{ "text": "they (m.) ", "class": "" },
@@ -421,15 +425,19 @@
 				"hebrew": [
 					{ "char": "כ", "class": "" },
 					{ "char": "ּ", "class": "" },
+					{ "char": "ָ", "class": "" },
 					{ "char": "ת", "class": "" },
 					{ "char": "ַ", "class": "" },
 					{ "char": "ב", "class": "" },
-					{ "char": "ְ", "class": "" }
+					{ "char": "ְ", "class": "text-red-500" },
+					{ "char": "נ", "class": "text-red-500" },
+					{ "char": "ָ", "class": "text-red-500" },
+					{ "char": "ה", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "ka", "class": "" },
 					{ "text": "tav", "class": "" },
-					{ "text": "chna", "class": "" }
+					{ "text": "nah", "class": "" }
 				],
 				"english": [
 					{ "text": "they (f.) ", "class": "" },
@@ -448,8 +456,8 @@
 					{ "char": "שׂ", "class": "" },
 					{ "char": "ַ", "class": "" },
 					{ "char": "מְ", "class": "" },
-					{ "char": "תִּ", "class": "" },
-					{ "char": "י", "class": "" }
+					{ "char": "תִּ", "class": "text-red-500" },
+					{ "char": "י", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "sa", "class": "" },
@@ -466,9 +474,9 @@
 					{ "char": "שׂ", "class": "" },
 					{ "char": "ַ", "class": "" },
 					{ "char": "מְ", "class": "" },
-					{ "char": "נ", "class": "" },
-					{ "char": "ו", "class": "" },
-					{ "char": "ּ", "class": "" }
+					{ "char": "נ", "class": "text-red-500" },
+					{ "char": "ו", "class": "text-red-500" },
+					{ "char": "ּ", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "sa", "class": "" },
@@ -485,7 +493,7 @@
 					{ "char": "שׂ", "class": "" },
 					{ "char": "ַ", "class": "" },
 					{ "char": "מְ", "class": "" },
-					{ "char": "תָּ", "class": "" }
+					{ "char": "תָּ", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "sa", "class": "" },
@@ -502,7 +510,7 @@
 					{ "char": "שׂ", "class": "" },
 					{ "char": "ַ", "class": "" },
 					{ "char": "מְ", "class": "" },
-					{ "char": "תְּ", "class": "" }
+					{ "char": "תְּ", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "sa", "class": "" },
@@ -519,7 +527,8 @@
 					{ "char": "שׂ", "class": "" },
 					{ "char": "ַ", "class": "" },
 					{ "char": "מְ", "class": "" },
-					{ "char": "תֶּ", "class": "" }
+					{ "char": "תֶּ", "class": "text-red-500" },
+					{ "char": "ם", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "sa", "class": "" },
@@ -536,7 +545,8 @@
 					{ "char": "שׂ", "class": "" },
 					{ "char": "ַ", "class": "" },
 					{ "char": "מְ", "class": "" },
-					{ "char": "תֶּ", "class": "" }
+					{ "char": "תֶּ", "class": "text-red-500" },
+					{ "char": "ן", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "sa", "class": "" },
@@ -566,7 +576,7 @@
 					{ "char": "שׂ", "class": "" },
 					{ "char": "ָ", "class": "" },
 					{ "char": "מָ", "class": "" },
-					{ "char": "ה", "class": "" }
+					{ "char": "ה", "class": "text-red-500" }
 				],
 				"translit": [{ "text": "samah", "class": "" }],
 				"english": [
@@ -579,7 +589,8 @@
 				"hebrew": [
 					{ "char": "שׂ", "class": "" },
 					{ "char": "ָ", "class": "" },
-					{ "char": "מוּ", "class": "" }
+					{ "char": "מ", "class": "" },
+					{ "char": "וּ", "class": "text-red-500" }
 				],
 				"translit": [{ "text": "samu", "class": "" }],
 				"english": [
@@ -593,8 +604,8 @@
 					{ "char": "שׂ", "class": "" },
 					{ "char": "ָ", "class": "" },
 					{ "char": "מְ", "class": "" },
-					{ "char": "נָ", "class": "" },
-					{ "char": "ה", "class": "" }
+					{ "char": "נָ", "class": "text-red-500" },
+					{ "char": "ה", "class": "text-red-500" }
 				],
 				"translit": [{ "text": "samnah", "class": "" }],
 				"english": [
@@ -612,8 +623,9 @@
 				"person": "1sc",
 				"hebrew": [
 					{ "char": "בּ", "class": "" },
-					{ "char": "ָ", "class": "" },
-					{ "char": "אתִּי", "class": "" }
+					{ "char": "ָא", "class": "" },
+					{ "char": "תּ", "class": "text-red-500" },
+					{ "char": "ִי", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "ba", "class": "" },
@@ -628,8 +640,8 @@
 				"person": "1pc",
 				"hebrew": [
 					{ "char": "בּ", "class": "" },
-					{ "char": "ָ", "class": "" },
-					{ "char": "אנּוּ", "class": "" }
+					{ "char": "ָא", "class": "" },
+					{ "char": "נּוּ", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "ba", "class": "" },
@@ -644,8 +656,8 @@
 				"person": "2ms",
 				"hebrew": [
 					{ "char": "בּ", "class": "" },
-					{ "char": "ָ", "class": "" },
-					{ "char": "אתָּ", "class": "" }
+					{ "char": "ָא", "class": "" },
+					{ "char": "תָּ", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "ba", "class": "" },
@@ -660,8 +672,8 @@
 				"person": "2fs",
 				"hebrew": [
 					{ "char": "בּ", "class": "" },
-					{ "char": "ָ", "class": "" },
-					{ "char": "אתְּ", "class": "" }
+					{ "char": "ָא", "class": "" },
+					{ "char": "תְּ", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "ba", "class": "" },
@@ -676,8 +688,8 @@
 				"person": "2mp",
 				"hebrew": [
 					{ "char": "בּ", "class": "" },
-					{ "char": "ָ", "class": "" },
-					{ "char": "אתֶּם", "class": "" }
+					{ "char": "ָא", "class": "" },
+					{ "char": "תֶּם", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "ba", "class": "" },
@@ -692,8 +704,8 @@
 				"person": "2fp",
 				"hebrew": [
 					{ "char": "בּ", "class": "" },
-					{ "char": "ָ", "class": "" },
-					{ "char": "אתֶּן", "class": "" }
+					{ "char": "ָא", "class": "" },
+					{ "char": "תֶּן", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "ba", "class": "" },
@@ -719,8 +731,8 @@
 			{
 				"person": "3fs",
 				"hebrew": [
-					{ "char": "בָּ", "class": "" },
-					{ "char": "אָה", "class": "" }
+					{ "char": "בָּא", "class": "" },
+					{ "char": "ָה", "class": "text-red-500" }
 				],
 				"translit": [{ "text": "ba’ah", "class": "" }],
 				"english": [
@@ -731,8 +743,8 @@
 			{
 				"person": "3mp",
 				"hebrew": [
-					{ "char": "בָּ", "class": "" },
-					{ "char": "אוּ", "class": "" }
+					{ "char": "בָּא", "class": "" },
+					{ "char": "וּ", "class": "text-red-500" }
 				],
 				"translit": [{ "text": "bau", "class": "" }],
 				"english": [
@@ -743,10 +755,19 @@
 			{
 				"person": "3fp",
 				"hebrew": [
-					{ "char": "בָּ", "class": "" },
-					{ "char": "אָוּ", "class": "" }
+					{ "char": "ב", "class": "" },
+					{ "char": "ּ", "class": "" },
+					{ "char": "ָ", "class": "" },
+					{ "char": "א", "class": "" },
+					{ "char": "ֲ", "class": "text-red-500" },
+					{ "char": "נ", "class": "text-red-500" },
+					{ "char": "ָ", "class": "text-red-500" },
+					{ "char": "ה", "class": "text-red-500" }
 				],
-				"translit": [{ "text": "ba’u", "class": "" }],
+				"translit": [
+					{ "text": "ba", "class": "" },
+					{ "text": "'na", "class": "" }
+				],
 				"english": [
 					{ "text": "they (f.) ", "class": "" },
 					{ "text": "came", "class": "font-bold" }
@@ -763,7 +784,7 @@
 				"hebrew": [
 					{ "char": "נָ", "class": "" },
 					{ "char": "תַ", "class": "" },
-					{ "char": "תִּי", "class": "" }
+					{ "char": "תִּי", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "na", "class": "" },
@@ -779,7 +800,7 @@
 				"hebrew": [
 					{ "char": "נָ", "class": "" },
 					{ "char": "תַ", "class": "" },
-					{ "char": "נּוּ", "class": "" }
+					{ "char": "נּוּ", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "na", "class": "" },
@@ -795,7 +816,7 @@
 				"hebrew": [
 					{ "char": "נָ", "class": "" },
 					{ "char": "תַ", "class": "" },
-					{ "char": "תָּ", "class": "" }
+					{ "char": "תָּ", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "na", "class": "" },
@@ -811,7 +832,7 @@
 				"hebrew": [
 					{ "char": "נָ", "class": "" },
 					{ "char": "תַ", "class": "" },
-					{ "char": "תְּ", "class": "" }
+					{ "char": "תְּ", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "na", "class": "" },
@@ -827,7 +848,7 @@
 				"hebrew": [
 					{ "char": "נָ", "class": "" },
 					{ "char": "תַ", "class": "" },
-					{ "char": "תֶּם", "class": "" }
+					{ "char": "תֶּם", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "na", "class": "" },
@@ -843,7 +864,7 @@
 				"hebrew": [
 					{ "char": "נָ", "class": "" },
 					{ "char": "תַ", "class": "" },
-					{ "char": "תֶּן", "class": "" }
+					{ "char": "תֶּן", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "na", "class": "" },
@@ -872,7 +893,8 @@
 				"hebrew": [
 					{ "char": "נָ", "class": "" },
 					{ "char": "תְ", "class": "" },
-					{ "char": "נָה", "class": "" }
+					{ "char": "נ", "class": "" },
+					{ "char": "ָה", "class": "text-red-500" }
 				],
 				"translit": [{ "text": "natnah", "class": "" }],
 				"english": [
@@ -885,7 +907,8 @@
 				"hebrew": [
 					{ "char": "נָ", "class": "" },
 					{ "char": "תְ", "class": "" },
-					{ "char": "נוּ", "class": "" }
+					{ "char": "נ", "class": "" },
+					{ "char": "וּ", "class": "text-red-500" }
 				],
 				"translit": [{ "text": "natnu", "class": "" }],
 				"english": [
@@ -896,11 +919,20 @@
 			{
 				"person": "3fp",
 				"hebrew": [
-					{ "char": "נָ", "class": "" },
-					{ "char": "תְ", "class": "" },
-					{ "char": "נוּ", "class": "" }
+					{ "char": "נ", "class": "" },
+					{ "char": "ָ", "class": "" },
+					{ "char": "ת", "class": "" },
+					{ "char": "ַ", "class": "" },
+					{ "char": "נ", "class": "" },
+					{ "char": "ּ", "class": "text-red-500" },
+					{ "char": "ָ", "class": "text-red-500" },
+					{ "char": "ה", "class": "text-red-500" }
 				],
-				"translit": [{ "text": "natnu", "class": "" }],
+				"translit": [
+					{ "text": "na", "class": "" },
+					{ "text": "tan", "class": "" },
+					{ "text": "nah", "class": "" }
+				],
 				"english": [
 					{ "text": "they (f.) ", "class": "" },
 					{ "text": "gave", "class": "font-bold" }
@@ -918,7 +950,7 @@
 					{ "char": "יָ", "class": "" },
 					{ "char": "שַׁ", "class": "" },
 					{ "char": "בְ", "class": "" },
-					{ "char": "תִּי", "class": "" }
+					{ "char": "תִּי", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "ya", "class": "" },
@@ -935,7 +967,7 @@
 					{ "char": "יָ", "class": "" },
 					{ "char": "שַׁ", "class": "" },
 					{ "char": "בְ", "class": "" },
-					{ "char": "נוּ", "class": "" }
+					{ "char": "נוּ", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "ya", "class": "" },
@@ -952,7 +984,7 @@
 					{ "char": "יָ", "class": "" },
 					{ "char": "שַׁ", "class": "" },
 					{ "char": "בְ", "class": "" },
-					{ "char": "תָּ", "class": "" }
+					{ "char": "תָּ", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "ya", "class": "" },
@@ -969,7 +1001,7 @@
 					{ "char": "יָ", "class": "" },
 					{ "char": "שַׁ", "class": "" },
 					{ "char": "בְ", "class": "" },
-					{ "char": "תְּ", "class": "" }
+					{ "char": "תְּ", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "ya", "class": "" },
@@ -986,7 +1018,7 @@
 					{ "char": "יָ", "class": "" },
 					{ "char": "שַׁ", "class": "" },
 					{ "char": "בְ", "class": "" },
-					{ "char": "תֶּם", "class": "" }
+					{ "char": "תֶּם", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "ya", "class": "" },
@@ -1003,7 +1035,7 @@
 					{ "char": "יָ", "class": "" },
 					{ "char": "שַׁ", "class": "" },
 					{ "char": "בְ", "class": "" },
-					{ "char": "תֶּן", "class": "" }
+					{ "char": "תֶּן", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "ya", "class": "" },
@@ -1032,7 +1064,8 @@
 				"hebrew": [
 					{ "char": "יָ", "class": "" },
 					{ "char": "שְׁ", "class": "" },
-					{ "char": "בָה", "class": "" }
+					{ "char": "ב", "class": "" },
+					{ "char": "ָה", "class": "text-red-500" }
 				],
 				"translit": [{ "text": "yashvah", "class": "" }],
 				"english": [
@@ -1045,7 +1078,8 @@
 				"hebrew": [
 					{ "char": "יָ", "class": "" },
 					{ "char": "שְׁ", "class": "" },
-					{ "char": "בוּ", "class": "" }
+					{ "char": "ב", "class": "" },
+					{ "char": "וּ", "class": "text-red-500" }
 				],
 				"translit": [{ "text": "yashvu", "class": "" }],
 				"english": [
@@ -1056,11 +1090,21 @@
 			{
 				"person": "3fp",
 				"hebrew": [
-					{ "char": "יָ", "class": "" },
-					{ "char": "שְׁ", "class": "" },
-					{ "char": "בוּ", "class": "" }
+					{ "char": "י", "class": "" },
+					{ "char": "ָ", "class": "" },
+					{ "char": "שׁ", "class": "" },
+					{ "char": "ַ", "class": "" },
+					{ "char": "ב", "class": "" },
+					{ "char": "ְ", "class": "text-red-500" },
+					{ "char": "נ", "class": "text-red-500" },
+					{ "char": "ָ", "class": "text-red-500" },
+					{ "char": "ה", "class": "text-red-500" }
 				],
-				"translit": [{ "text": "yashvu", "class": "" }],
+				"translit": [
+					{ "text": "ya", "class": "" },
+					{ "text": "shav", "class": "" },
+					{ "text": "nah", "class": "" }
+				],
 				"english": [
 					{ "text": "they (f.) ", "class": "" },
 					{ "text": "sat / dwelt", "class": "font-bold" }
@@ -1077,7 +1121,7 @@
 				"hebrew": [
 					{ "char": "קַ", "class": "" },
 					{ "char": "מְ", "class": "" },
-					{ "char": "תִּי", "class": "" }
+					{ "char": "תִּי", "class": "text-red-500" }
 				],
 				"translit": [{ "text": "qamti", "class": "" }],
 				"english": [
@@ -1090,7 +1134,7 @@
 				"hebrew": [
 					{ "char": "קַ", "class": "" },
 					{ "char": "מְ", "class": "" },
-					{ "char": "נוּ", "class": "" }
+					{ "char": "נוּ", "class": "text-red-500" }
 				],
 				"translit": [{ "text": "qamnu", "class": "" }],
 				"english": [
@@ -1103,7 +1147,7 @@
 				"hebrew": [
 					{ "char": "קַ", "class": "" },
 					{ "char": "מְ", "class": "" },
-					{ "char": "תָּ", "class": "" }
+					{ "char": "תָּ", "class": "text-red-500" }
 				],
 				"translit": [{ "text": "qamta", "class": "" }],
 				"english": [
@@ -1116,7 +1160,7 @@
 				"hebrew": [
 					{ "char": "קַ", "class": "" },
 					{ "char": "מְ", "class": "" },
-					{ "char": "תְּ", "class": "" }
+					{ "char": "תְּ", "class": "text-red-500" }
 				],
 				"translit": [{ "text": "qamt", "class": "" }],
 				"english": [
@@ -1129,7 +1173,7 @@
 				"hebrew": [
 					{ "char": "קַ", "class": "" },
 					{ "char": "מְ", "class": "" },
-					{ "char": "תֶּם", "class": "" }
+					{ "char": "תֶּם", "class": "text-red-500" }
 				],
 				"translit": [{ "text": "qamtem", "class": "" }],
 				"english": [
@@ -1142,7 +1186,7 @@
 				"hebrew": [
 					{ "char": "קַ", "class": "" },
 					{ "char": "מְ", "class": "" },
-					{ "char": "תֶּן", "class": "" }
+					{ "char": "תֶּן", "class": "text-red-500" }
 				],
 				"translit": [{ "text": "qamten", "class": "" }],
 				"english": [
@@ -1166,7 +1210,8 @@
 				"person": "3fs",
 				"hebrew": [
 					{ "char": "קָ", "class": "" },
-					{ "char": "מָה", "class": "" }
+					{ "char": "מ", "class": "" },
+					{ "char": "ָה", "class": "text-red-500" }
 				],
 				"translit": [{ "text": "kamah", "class": "" }],
 				"english": [
@@ -1178,7 +1223,8 @@
 				"person": "3mp",
 				"hebrew": [
 					{ "char": "קָ", "class": "" },
-					{ "char": "מוּ", "class": "" }
+					{ "char": "מ", "class": "" },
+					{ "char": "וּ", "class": "text-red-500" }
 				],
 				"translit": [{ "text": "kamu", "class": "" }],
 				"english": [
@@ -1189,11 +1235,18 @@
 			{
 				"person": "3fp",
 				"hebrew": [
-					{ "char": "קָ", "class": "" },
-					{ "char": "מְ", "class": "" },
-					{ "char": "נָה", "class": "" }
+					{ "char": "ק", "class": "" },
+					{ "char": "ָ", "class": "" },
+					{ "char": "מ", "class": "" },
+					{ "char": "ְ", "class": "text-red-500" },
+					{ "char": "נ", "class": "text-red-500" },
+					{ "char": "ָ", "class": "text-red-500" },
+					{ "char": "ה", "class": "text-red-500" }
 				],
-				"translit": [{ "text": "qamnah", "class": "" }],
+				"translit": [
+					{ "text": "qam", "class": "" },
+					{ "text": "nah", "class": "" }
+				],
 				"english": [
 					{ "text": "they (f.) ", "class": "" },
 					{ "text": "arose / stood up", "class": "font-bold" }
@@ -1210,7 +1263,7 @@
 				"hebrew": [
 					{ "char": "רָ", "class": "" },
 					{ "char": "אִ", "class": "" },
-					{ "char": "יתִי", "class": "" }
+					{ "char": "יתִי", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "ra", "class": "" },
@@ -1226,7 +1279,7 @@
 				"hebrew": [
 					{ "char": "רָ", "class": "" },
 					{ "char": "אִ", "class": "" },
-					{ "char": "ינוּ", "class": "" }
+					{ "char": "ינוּ", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "ra", "class": "" },
@@ -1242,7 +1295,7 @@
 				"hebrew": [
 					{ "char": "רָ", "class": "" },
 					{ "char": "אִ", "class": "" },
-					{ "char": "יתָ", "class": "" }
+					{ "char": "יתָ", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "ra", "class": "" },
@@ -1258,7 +1311,7 @@
 				"hebrew": [
 					{ "char": "רָ", "class": "" },
 					{ "char": "אִ", "class": "" },
-					{ "char": "יתְ", "class": "" }
+					{ "char": "יתְ", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "ra", "class": "" },
@@ -1274,7 +1327,7 @@
 				"hebrew": [
 					{ "char": "רָ", "class": "" },
 					{ "char": "אִ", "class": "" },
-					{ "char": "יתֶם", "class": "" }
+					{ "char": "יתֶם", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "ra", "class": "" },
@@ -1290,7 +1343,7 @@
 				"hebrew": [
 					{ "char": "רָ", "class": "" },
 					{ "char": "אִ", "class": "" },
-					{ "char": "יתֶן", "class": "" }
+					{ "char": "יתֶן", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "ra", "class": "" },
@@ -1317,7 +1370,8 @@
 				"person": "3fs",
 				"hebrew": [
 					{ "char": "רָ", "class": "" },
-					{ "char": "אָתָה", "class": "" }
+					{ "char": "אָ", "class": "" },
+					{ "char": "תָה", "class": "text-red-500" }
 				],
 				"translit": [{ "text": "ra’atah", "class": "" }],
 				"english": [
@@ -1329,7 +1383,8 @@
 				"person": "3mp",
 				"hebrew": [
 					{ "char": "רָ", "class": "" },
-					{ "char": "אוּ", "class": "" }
+					{ "char": "א", "class": "" },
+					{ "char": "וּ", "class": "text-red-500" }
 				],
 				"translit": [{ "text": "ra’u", "class": "" }],
 				"english": [
@@ -1340,10 +1395,18 @@
 			{
 				"person": "3fp",
 				"hebrew": [
-					{ "char": "רָ", "class": "" },
-					{ "char": "אוּ", "class": "" }
+					{ "char": "ר", "class": "" },
+					{ "char": "ָ", "class": "" },
+					{ "char": "א", "class": "" },
+					{ "char": "ֲ", "class": "text-red-500" },
+					{ "char": "נ", "class": "text-red-500" },
+					{ "char": "ָ", "class": "text-red-500" },
+					{ "char": "ה", "class": "text-red-500" }
 				],
-				"translit": [{ "text": "ra’u", "class": "" }],
+				"translit": [
+					{ "text": "ra", "class": "" },
+					{ "text": "'na", "class": "" }
+				],
 				"english": [
 					{ "text": "they (f.) ", "class": "" },
 					{ "text": "saw", "class": "font-bold" }
@@ -1359,8 +1422,8 @@
 				"person": "1sc",
 				"hebrew": [
 					{ "char": "קָ", "class": "" },
-					{ "char": "רָ", "class": "" },
-					{ "char": "אתִּי", "class": "" }
+					{ "char": "רָא", "class": "" },
+					{ "char": "תִּי", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "qa", "class": "" },
@@ -1375,8 +1438,8 @@
 				"person": "1pc",
 				"hebrew": [
 					{ "char": "קָ", "class": "" },
-					{ "char": "רָ", "class": "" },
-					{ "char": "אנּוּ", "class": "" }
+					{ "char": "רָא", "class": "" },
+					{ "char": "נּוּ", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "qa", "class": "" },
@@ -1391,8 +1454,8 @@
 				"person": "2ms",
 				"hebrew": [
 					{ "char": "קָ", "class": "" },
-					{ "char": "רָ", "class": "" },
-					{ "char": "אתָּ", "class": "" }
+					{ "char": "רָא", "class": "" },
+					{ "char": "תָּ", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "qa", "class": "" },
@@ -1407,8 +1470,8 @@
 				"person": "2fs",
 				"hebrew": [
 					{ "char": "קָ", "class": "" },
-					{ "char": "רָ", "class": "" },
-					{ "char": "אתְּ", "class": "" }
+					{ "char": "רָא", "class": "" },
+					{ "char": "תְּ", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "qa", "class": "" },
@@ -1423,8 +1486,8 @@
 				"person": "2mp",
 				"hebrew": [
 					{ "char": "קָ", "class": "" },
-					{ "char": "רָ", "class": "" },
-					{ "char": "אתֶּם", "class": "" }
+					{ "char": "רָא", "class": "" },
+					{ "char": "תֶּם", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "qa", "class": "" },
@@ -1439,8 +1502,8 @@
 				"person": "2fp",
 				"hebrew": [
 					{ "char": "קָ", "class": "" },
-					{ "char": "רָ", "class": "" },
-					{ "char": "אתֶּן", "class": "" }
+					{ "char": "רָא", "class": "" },
+					{ "char": "תֶּן", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "qa", "class": "" },
@@ -1467,7 +1530,8 @@
 				"person": "3fs",
 				"hebrew": [
 					{ "char": "קָ", "class": "" },
-					{ "char": "רְאָה", "class": "" }
+					{ "char": "רְא", "class": "" },
+					{ "char": "ָה", "class": "text-red-500" }
 				],
 				"translit": [{ "text": "qarah", "class": "" }],
 				"english": [
@@ -1479,7 +1543,8 @@
 				"person": "3mp",
 				"hebrew": [
 					{ "char": "קָ", "class": "" },
-					{ "char": "רְאוּ", "class": "" }
+					{ "char": "רְא", "class": "" },
+					{ "char": "וּ", "class": "text-red-500" }
 				],
 				"translit": [{ "text": "qaru", "class": "" }],
 				"english": [
@@ -1490,10 +1555,20 @@
 			{
 				"person": "3fp",
 				"hebrew": [
-					{ "char": "קָ", "class": "" },
-					{ "char": "רְאוּ", "class": "" }
+					{ "char": "ק", "class": "" },
+					{ "char": "ָ", "class": "" },
+					{ "char": "ר", "class": "" },
+					{ "char": "ְ", "class": "" },
+					{ "char": "א", "class": "" },
+					{ "char": "ֲ", "class": "text-red-500" },
+					{ "char": "נ", "class": "text-red-500" },
+					{ "char": "ָ", "class": "text-red-500" },
+					{ "char": "ה", "class": "text-red-500" }
 				],
-				"translit": [{ "text": "qaru", "class": "" }],
+				"translit": [
+					{ "text": "qar", "class": "" },
+					{ "text": "'na", "class": "" }
+				],
 				"english": [
 					{ "text": "they (f.) ", "class": "" },
 					{ "text": "called / proclaimed", "class": "font-bold" }
@@ -1511,7 +1586,7 @@
 					{ "char": "לָ", "class": "" },
 					{ "char": "קַ", "class": "" },
 					{ "char": "חְ", "class": "" },
-					{ "char": "תִּי", "class": "" }
+					{ "char": "תִּי", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "la", "class": "" },
@@ -1528,7 +1603,7 @@
 					{ "char": "לָ", "class": "" },
 					{ "char": "קַ", "class": "" },
 					{ "char": "חְ", "class": "" },
-					{ "char": "נוּ", "class": "" }
+					{ "char": "נוּ", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "la", "class": "" },
@@ -1545,7 +1620,7 @@
 					{ "char": "לָ", "class": "" },
 					{ "char": "קַ", "class": "" },
 					{ "char": "חְ", "class": "" },
-					{ "char": "תָּ", "class": "" }
+					{ "char": "תָּ", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "la", "class": "" },
@@ -1562,7 +1637,7 @@
 					{ "char": "לָ", "class": "" },
 					{ "char": "קַ", "class": "" },
 					{ "char": "חְ", "class": "" },
-					{ "char": "תְּ", "class": "" }
+					{ "char": "תְּ", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "la", "class": "" },
@@ -1579,7 +1654,7 @@
 					{ "char": "לָ", "class": "" },
 					{ "char": "קַ", "class": "" },
 					{ "char": "חְ", "class": "" },
-					{ "char": "תֶּם", "class": "" }
+					{ "char": "תֶּם", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "la", "class": "" },
@@ -1596,7 +1671,7 @@
 					{ "char": "לָ", "class": "" },
 					{ "char": "קַ", "class": "" },
 					{ "char": "חְ", "class": "" },
-					{ "char": "תֶּן", "class": "" }
+					{ "char": "תֶּן", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "la", "class": "" },
@@ -1612,7 +1687,7 @@
 				"hebrew": [
 					{ "char": "לָ", "class": "" },
 					{ "char": "קַ", "class": "" },
-					{ "char": "חַ", "class": "" }
+					{ "char": "ח", "class": "" }
 				],
 				"translit": [{ "text": "lakach", "class": "" }],
 				"english": [
@@ -1625,7 +1700,9 @@
 				"hebrew": [
 					{ "char": "לָ", "class": "" },
 					{ "char": "קְ", "class": "" },
-					{ "char": "חָה", "class": "" }
+					{ "char": "ח", "class": "" },
+					{ "char": "ָ", "class": "text-red-500" },
+					{ "char": "ה", "class": "text-red-500" }
 				],
 				"translit": [{ "text": "lakchah", "class": "" }],
 				"english": [
@@ -1638,7 +1715,8 @@
 				"hebrew": [
 					{ "char": "לָ", "class": "" },
 					{ "char": "קְ", "class": "" },
-					{ "char": "חוּ", "class": "" }
+					{ "char": "ח", "class": "" },
+					{ "char": "וּ", "class": "text-red-500" }
 				],
 				"translit": [{ "text": "lakchu", "class": "" }],
 				"english": [
@@ -1652,7 +1730,7 @@
 					{ "char": "לָ", "class": "" },
 					{ "char": "קַ", "class": "" },
 					{ "char": "חְ", "class": "" },
-					{ "char": "נָה", "class": "" }
+					{ "char": "נָה", "class": "text-red-500" }
 				],
 				"translit": [{ "text": "lakachnah", "class": "" }],
 				"english": [
@@ -1672,7 +1750,7 @@
 					{ "char": "אָ", "class": "" },
 					{ "char": "מַ", "class": "" },
 					{ "char": "רְ", "class": "" },
-					{ "char": "תִּי", "class": "" }
+					{ "char": "תִּי", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "a", "class": "" },
@@ -1689,7 +1767,7 @@
 					{ "char": "אָ", "class": "" },
 					{ "char": "מַ", "class": "" },
 					{ "char": "רְ", "class": "" },
-					{ "char": "נוּ", "class": "" }
+					{ "char": "נוּ", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "a", "class": "" },
@@ -1706,7 +1784,7 @@
 					{ "char": "אָ", "class": "" },
 					{ "char": "מַ", "class": "" },
 					{ "char": "רְ", "class": "" },
-					{ "char": "תָּ", "class": "" }
+					{ "char": "תָּ", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "a", "class": "" },
@@ -1723,7 +1801,7 @@
 					{ "char": "אָ", "class": "" },
 					{ "char": "מַ", "class": "" },
 					{ "char": "רְ", "class": "" },
-					{ "char": "תְּ", "class": "" }
+					{ "char": "תְּ", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "a", "class": "" },
@@ -1740,7 +1818,7 @@
 					{ "char": "אָ", "class": "" },
 					{ "char": "מַ", "class": "" },
 					{ "char": "רְ", "class": "" },
-					{ "char": "תֶּם", "class": "" }
+					{ "char": "תֶּם", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "a", "class": "" },
@@ -1757,7 +1835,7 @@
 					{ "char": "אָ", "class": "" },
 					{ "char": "מַ", "class": "" },
 					{ "char": "רְ", "class": "" },
-					{ "char": "תֶּן", "class": "" }
+					{ "char": "תֶּן", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "a", "class": "" },
@@ -1773,7 +1851,7 @@
 				"hebrew": [
 					{ "char": "אָ", "class": "" },
 					{ "char": "מַ", "class": "" },
-					{ "char": "רַ", "class": "" }
+					{ "char": "ר", "class": "" }
 				],
 				"translit": [{ "text": "amar", "class": "" }],
 				"english": [
@@ -1786,7 +1864,8 @@
 				"hebrew": [
 					{ "char": "אָ", "class": "" },
 					{ "char": "מְ", "class": "" },
-					{ "char": "רָה", "class": "" }
+					{ "char": "ר", "class": "" },
+					{ "char": "ָה", "class": "text-red-500" }
 				],
 				"translit": [{ "text": "amrah", "class": "" }],
 				"english": [
@@ -1799,7 +1878,8 @@
 				"hebrew": [
 					{ "char": "אָ", "class": "" },
 					{ "char": "מְ", "class": "" },
-					{ "char": "רוּ", "class": "" }
+					{ "char": "ר", "class": "" },
+					{ "char": "וּ", "class": "text-red-500" }
 				],
 				"translit": [{ "text": "amru", "class": "" }],
 				"english": [
@@ -1810,12 +1890,21 @@
 			{
 				"person": "3fp",
 				"hebrew": [
-					{ "char": "אָ", "class": "" },
-					{ "char": "מַ", "class": "" },
-					{ "char": "רְ", "class": "" },
-					{ "char": "נָה", "class": "" }
+					{ "char": "א", "class": "" },
+					{ "char": "ָ", "class": "" },
+					{ "char": "מ", "class": "" },
+					{ "char": "ַ", "class": "" },
+					{ "char": "ר", "class": "" },
+					{ "char": "ְ", "class": "text-red-500" },
+					{ "char": "נ", "class": "text-red-500" },
+					{ "char": "ָ", "class": "text-red-500" },
+					{ "char": "ה", "class": "text-red-500" }
 				],
-				"translit": [{ "text": "amarnah", "class": "" }],
+				"translit": [
+					{ "text": "a", "class": "" },
+					{ "text": "mar", "class": "" },
+					{ "text": "nah", "class": "" }
+				],
 				"english": [
 					{ "text": "they (f.) ", "class": "" },
 					{ "text": "said", "class": "font-bold" }
@@ -1832,7 +1921,9 @@
 				"hebrew": [
 					{ "char": "עָ", "class": "" },
 					{ "char": "שִׂ", "class": "" },
-					{ "char": "יתִּי", "class": "" }
+					{ "char": "יתּ", "class": "text-red-500" },
+					{ "char": "ִ", "class": "text-red-500" },
+					{ "char": "י", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "a", "class": "" },
@@ -1848,7 +1939,7 @@
 				"hebrew": [
 					{ "char": "עָ", "class": "" },
 					{ "char": "שִׂ", "class": "" },
-					{ "char": "ינוּ", "class": "" }
+					{ "char": "ינוּ", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "a", "class": "" },
@@ -1864,7 +1955,8 @@
 				"hebrew": [
 					{ "char": "עָ", "class": "" },
 					{ "char": "שִׂ", "class": "" },
-					{ "char": "יתָּ", "class": "" }
+					{ "char": "י", "class": "text-red-500" },
+					{ "char": "תָּ", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "a", "class": "" },
@@ -1880,7 +1972,8 @@
 				"hebrew": [
 					{ "char": "עָ", "class": "" },
 					{ "char": "שִׂ", "class": "" },
-					{ "char": "יתְּ", "class": "" }
+					{ "char": "י", "class": "text-red-500" },
+					{ "char": "תְּ", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "a", "class": "" },
@@ -1896,7 +1989,7 @@
 				"hebrew": [
 					{ "char": "עֲ", "class": "" },
 					{ "char": "שִׂ", "class": "" },
-					{ "char": "יתֶּם", "class": "" }
+					{ "char": "יתֶּם", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "a", "class": "" },
@@ -1912,7 +2005,7 @@
 				"hebrew": [
 					{ "char": "עֲ", "class": "" },
 					{ "char": "שִׂ", "class": "" },
-					{ "char": "יתֶּן", "class": "" }
+					{ "char": "יתֶּן", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "a", "class": "" },
@@ -1941,7 +2034,7 @@
 				"hebrew": [
 					{ "char": "עָ", "class": "" },
 					{ "char": "שְׂ", "class": "" },
-					{ "char": "תָה", "class": "" }
+					{ "char": "תָה", "class": "text-red-500" }
 				],
 				"translit": [{ "text": "asatah", "class": "" }],
 				"english": [
@@ -1953,7 +2046,8 @@
 				"person": "3mp",
 				"hebrew": [
 					{ "char": "עָ", "class": "" },
-					{ "char": "שׂוּ", "class": "" }
+					{ "char": "שׂ", "class": "" },
+					{ "char": "וּ", "class": "text-red-500" }
 				],
 				"translit": [{ "text": "asu", "class": "" }],
 				"english": [
@@ -1964,8 +2058,14 @@
 			{
 				"person": "3fp",
 				"hebrew": [
-					{ "char": "עָ", "class": "" },
-					{ "char": "שׂוּ", "class": "" }
+					{ "char": "ע", "class": "" },
+					{ "char": "ָ", "class": "" },
+					{ "char": "שׂ", "class": "" },
+					{ "char": "ֵ", "class": "" },
+					{ "char": "י", "class": "text-red-500" },
+					{ "char": "נ", "class": "text-red-500" },
+					{ "char": "ָ", "class": "text-red-500" },
+					{ "char": "ה", "class": "text-red-500" }
 				],
 				"translit": [{ "text": "asu", "class": "" }],
 				"english": [
@@ -1985,7 +2085,7 @@
 					{ "char": "יָ", "class": "" },
 					{ "char": "דַ", "class": "" },
 					{ "char": "עְ", "class": "" },
-					{ "char": "תִּי", "class": "" }
+					{ "char": "תִּי", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "ya", "class": "" },
@@ -2002,7 +2102,7 @@
 					{ "char": "יָ", "class": "" },
 					{ "char": "דַ", "class": "" },
 					{ "char": "עְ", "class": "" },
-					{ "char": "נוּ", "class": "" }
+					{ "char": "נוּ", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "ya", "class": "" },
@@ -2019,7 +2119,7 @@
 					{ "char": "יָ", "class": "" },
 					{ "char": "דַ", "class": "" },
 					{ "char": "עְ", "class": "" },
-					{ "char": "תָּ", "class": "" }
+					{ "char": "תָּ", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "ya", "class": "" },
@@ -2036,7 +2136,7 @@
 					{ "char": "יָ", "class": "" },
 					{ "char": "דַ", "class": "" },
 					{ "char": "עְ", "class": "" },
-					{ "char": "תְּ", "class": "" }
+					{ "char": "תְּ", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "ya", "class": "" },
@@ -2053,7 +2153,7 @@
 					{ "char": "יְ", "class": "" },
 					{ "char": "דַ", "class": "" },
 					{ "char": "עְ", "class": "" },
-					{ "char": "תֶּם", "class": "" }
+					{ "char": "תֶּם", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "y", "class": "" },
@@ -2070,7 +2170,7 @@
 					{ "char": "יְ", "class": "" },
 					{ "char": "דַ", "class": "" },
 					{ "char": "עְ", "class": "" },
-					{ "char": "תֶּן", "class": "" }
+					{ "char": "תֶּן", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "y", "class": "" },
@@ -2086,7 +2186,7 @@
 				"hebrew": [
 					{ "char": "יָ", "class": "" },
 					{ "char": "דַ", "class": "" },
-					{ "char": "עַ", "class": "" }
+					{ "char": "ע", "class": "" }
 				],
 				"translit": [{ "text": "yada", "class": "" }],
 				"english": [
@@ -2099,7 +2199,8 @@
 				"hebrew": [
 					{ "char": "יָ", "class": "" },
 					{ "char": "דְ", "class": "" },
-					{ "char": "עָה", "class": "" }
+					{ "char": "ע", "class": "" },
+					{ "char": "ָה", "class": "text-red-500" }
 				],
 				"translit": [{ "text": "yadʿah", "class": "" }],
 				"english": [
@@ -2112,7 +2213,8 @@
 				"hebrew": [
 					{ "char": "יָ", "class": "" },
 					{ "char": "דְ", "class": "" },
-					{ "char": "עוּ", "class": "" }
+					{ "char": "ע", "class": "" },
+					{ "char": "וּ", "class": "text-red-500" }
 				],
 				"translit": [{ "text": "yadʿu", "class": "" }],
 				"english": [
@@ -2123,11 +2225,21 @@
 			{
 				"person": "3fp",
 				"hebrew": [
-					{ "char": "יָ", "class": "" },
-					{ "char": "דְ", "class": "" },
-					{ "char": "עוּ", "class": "" }
+					{ "char": "י", "class": "" },
+					{ "char": "ָ", "class": "" },
+					{ "char": "ד", "class": "" },
+					{ "char": "ַ", "class": "" },
+					{ "char": "ע", "class": "" },
+					{ "char": "ְ", "class": "text-red-500" },
+					{ "char": "נ", "class": "text-red-500" },
+					{ "char": "ָ", "class": "text-red-500" },
+					{ "char": "ה", "class": "text-red-500" }
 				],
-				"translit": [{ "text": "yadʿu", "class": "" }],
+				"translit": [
+					{ "text": "ya", "class": "" },
+					{ "text": "daʿ", "class": "" },
+					{ "text": "nah", "class": "" }
+				],
 				"english": [
 					{ "text": "they (f.) ", "class": "" },
 					{ "text": "knew", "class": "font-bold" }
@@ -2145,7 +2257,7 @@
 					{ "char": "שָׁ", "class": "" },
 					{ "char": "מַ", "class": "" },
 					{ "char": "עְ", "class": "" },
-					{ "char": "תִּי", "class": "" }
+					{ "char": "תִּי", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "sha", "class": "" },
@@ -2162,7 +2274,7 @@
 					{ "char": "שָׁ", "class": "" },
 					{ "char": "מַ", "class": "" },
 					{ "char": "עְ", "class": "" },
-					{ "char": "נוּ", "class": "" }
+					{ "char": "נוּ", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "sha", "class": "" },
@@ -2179,7 +2291,7 @@
 					{ "char": "שָׁ", "class": "" },
 					{ "char": "מַ", "class": "" },
 					{ "char": "עְ", "class": "" },
-					{ "char": "תָּ", "class": "" }
+					{ "char": "תָּ", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "sha", "class": "" },
@@ -2196,7 +2308,7 @@
 					{ "char": "שָׁ", "class": "" },
 					{ "char": "מַ", "class": "" },
 					{ "char": "עְ", "class": "" },
-					{ "char": "תְּ", "class": "" }
+					{ "char": "תְּ", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "sha", "class": "" },
@@ -2213,7 +2325,7 @@
 					{ "char": "שְׁ", "class": "" },
 					{ "char": "מַ", "class": "" },
 					{ "char": "עְ", "class": "" },
-					{ "char": "תֶּם", "class": "" }
+					{ "char": "תֶּם", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "sh", "class": "" },
@@ -2230,7 +2342,7 @@
 					{ "char": "שְׁ", "class": "" },
 					{ "char": "מַ", "class": "" },
 					{ "char": "עְ", "class": "" },
-					{ "char": "תֶּן", "class": "" }
+					{ "char": "תֶּן", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "sh", "class": "" },
@@ -2246,7 +2358,7 @@
 				"hebrew": [
 					{ "char": "שָׁ", "class": "" },
 					{ "char": "מַ", "class": "" },
-					{ "char": "עַ", "class": "" }
+					{ "char": "ע", "class": "" }
 				],
 				"translit": [{ "text": "shama", "class": "" }],
 				"english": [
@@ -2259,7 +2371,8 @@
 				"hebrew": [
 					{ "char": "שָׁ", "class": "" },
 					{ "char": "מְ", "class": "" },
-					{ "char": "עָה", "class": "" }
+					{ "char": "ע", "class": "" },
+					{ "char": "ָה", "class": "text-red-500" }
 				],
 				"translit": [{ "text": "shamah", "class": "" }],
 				"english": [
@@ -2272,7 +2385,8 @@
 				"hebrew": [
 					{ "char": "שָׁ", "class": "" },
 					{ "char": "מְ", "class": "" },
-					{ "char": "עוּ", "class": "" }
+					{ "char": "ע", "class": "" },
+					{ "char": "וּ", "class": "text-red-500" }
 				],
 				"translit": [{ "text": "shamʿu", "class": "" }],
 				"english": [
@@ -2283,11 +2397,21 @@
 			{
 				"person": "3fp",
 				"hebrew": [
-					{ "char": "שָׁ", "class": "" },
-					{ "char": "מְ", "class": "" },
-					{ "char": "עוּ", "class": "" }
+					{ "char": "שׁ", "class": "" },
+					{ "char": "ָ", "class": "" },
+					{ "char": "מ", "class": "" },
+					{ "char": "ַ", "class": "" },
+					{ "char": "ע", "class": "" },
+					{ "char": "ְ", "class": "text-red-500" },
+					{ "char": "נ", "class": "text-red-500" },
+					{ "char": "ָ", "class": "text-red-500" },
+					{ "char": "ה", "class": "text-red-500" }
 				],
-				"translit": [{ "text": "shamʿu", "class": "" }],
+				"translit": [
+					{ "text": "sham", "class": "" },
+					{ "text": "‘", "class": "" },
+					{ "text": "nah", "class": "" }
+				],
 				"english": [
 					{ "text": "they (f.) ", "class": "" },
 					{ "text": "heard", "class": "font-bold" }
@@ -2304,7 +2428,8 @@
 				"hebrew": [
 					{ "char": "הָ", "class": "" },
 					{ "char": "יִ", "class": "" },
-					{ "char": "יתִּי", "class": "" }
+					{ "char": "י", "class": "" },
+					{ "char": "תִּי", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "ha", "class": "" },
@@ -2320,7 +2445,8 @@
 				"hebrew": [
 					{ "char": "הָ", "class": "" },
 					{ "char": "יִ", "class": "" },
-					{ "char": "ינוּ", "class": "" }
+					{ "char": "י", "class": "" },
+					{ "char": "נוּ", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "ha", "class": "" },
@@ -2336,7 +2462,8 @@
 				"hebrew": [
 					{ "char": "הָ", "class": "" },
 					{ "char": "יִ", "class": "" },
-					{ "char": "יתָּ", "class": "" }
+					{ "char": "י", "class": "" },
+					{ "char": "תָּ", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "ha", "class": "" },
@@ -2352,7 +2479,8 @@
 				"hebrew": [
 					{ "char": "הָ", "class": "" },
 					{ "char": "יִ", "class": "" },
-					{ "char": "יתְּ", "class": "" }
+					{ "char": "י", "class": "" },
+					{ "char": "תְּ", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "ha", "class": "" },
@@ -2368,7 +2496,8 @@
 				"hebrew": [
 					{ "char": "הֱ", "class": "" },
 					{ "char": "יִ", "class": "" },
-					{ "char": "יתֶּם", "class": "" }
+					{ "char": "י", "class": "" },
+					{ "char": "תֶּם", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "he", "class": "" },
@@ -2384,7 +2513,8 @@
 				"hebrew": [
 					{ "char": "הֱ", "class": "" },
 					{ "char": "יִ", "class": "" },
-					{ "char": "יתֶּן", "class": "" }
+					{ "char": "י", "class": "" },
+					{ "char": "תֶּן", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "he", "class": "" },
@@ -2413,7 +2543,8 @@
 				"hebrew": [
 					{ "char": "הָ", "class": "" },
 					{ "char": "יְ", "class": "" },
-					{ "char": "תָה", "class": "" }
+					{ "char": "תּ", "class": "text-red-500" },
+					{ "char": "ָה", "class": "text-red-500" }
 				],
 				"translit": [{ "text": "hayetah", "class": "" }],
 				"english": [
@@ -2425,7 +2556,8 @@
 				"person": "3mp",
 				"hebrew": [
 					{ "char": "הָ", "class": "" },
-					{ "char": "יוּ", "class": "" }
+					{ "char": "י", "class": "" },
+					{ "char": "וּ", "class": "text-red-500" }
 				],
 				"translit": [{ "text": "hayu", "class": "" }],
 				"english": [
@@ -2436,10 +2568,21 @@
 			{
 				"person": "3fp",
 				"hebrew": [
-					{ "char": "הָ", "class": "" },
-					{ "char": "יוּ", "class": "" }
+					{ "char": "ה", "class": "" },
+					{ "char": "ָ", "class": "" },
+					{ "char": "י", "class": "" },
+					{ "char": "ִ", "class": "" },
+					{ "char": "י", "class": "" },
+					{ "char": "ְ", "class": "text-red-500" },
+					{ "char": "נ", "class": "text-red-500" },
+					{ "char": "ָ", "class": "text-red-500" },
+					{ "char": "ה", "class": "text-red-500" }
 				],
-				"translit": [{ "text": "hayu", "class": "" }],
+				"translit": [
+					{ "text": "ha", "class": "" },
+					{ "text": "yi", "class": "" },
+					{ "text": "nah", "class": "" }
+				],
 				"english": [
 					{ "text": "they (f.) ", "class": "" },
 					{ "text": "were", "class": "font-bold" }
@@ -2457,7 +2600,7 @@
 					{ "char": "מָ", "class": "" },
 					{ "char": "שַׁ", "class": "" },
 					{ "char": "חְ", "class": "" },
-					{ "char": "תִּי", "class": "" }
+					{ "char": "תִּי", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "ma", "class": "" },
@@ -2474,7 +2617,7 @@
 					{ "char": "מָ", "class": "" },
 					{ "char": "שַׁ", "class": "" },
 					{ "char": "חְ", "class": "" },
-					{ "char": "נוּ", "class": "" }
+					{ "char": "נוּ", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "ma", "class": "" },
@@ -2491,7 +2634,7 @@
 					{ "char": "מָ", "class": "" },
 					{ "char": "שַׁ", "class": "" },
 					{ "char": "חְ", "class": "" },
-					{ "char": "תָּ", "class": "" }
+					{ "char": "תָּ", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "ma", "class": "" },
@@ -2508,7 +2651,7 @@
 					{ "char": "מָ", "class": "" },
 					{ "char": "שַׁ", "class": "" },
 					{ "char": "חְ", "class": "" },
-					{ "char": "תְּ", "class": "" }
+					{ "char": "תְּ", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "ma", "class": "" },
@@ -2525,7 +2668,7 @@
 					{ "char": "מְ", "class": "" },
 					{ "char": "שַׁ", "class": "" },
 					{ "char": "חְ", "class": "" },
-					{ "char": "תֶּם", "class": "" }
+					{ "char": "תֶּם", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "me", "class": "" },
@@ -2542,7 +2685,7 @@
 					{ "char": "מְ", "class": "" },
 					{ "char": "שַׁ", "class": "" },
 					{ "char": "חְ", "class": "" },
-					{ "char": "תֶּן", "class": "" }
+					{ "char": "תֶּן", "class": "text-red-500" }
 				],
 				"translit": [
 					{ "text": "me", "class": "" },
@@ -2558,7 +2701,7 @@
 				"hebrew": [
 					{ "char": "מָ", "class": "" },
 					{ "char": "שַׁ", "class": "" },
-					{ "char": "חַ", "class": "" }
+					{ "char": "ח", "class": "" }
 				],
 				"translit": [{ "text": "mashach", "class": "" }],
 				"english": [
@@ -2571,7 +2714,8 @@
 				"hebrew": [
 					{ "char": "מָ", "class": "" },
 					{ "char": "שְׁ", "class": "" },
-					{ "char": "חָה", "class": "" }
+					{ "char": "ח", "class": "" },
+					{ "char": "ָה", "class": "text-red-500" }
 				],
 				"translit": [{ "text": "mashachah", "class": "" }],
 				"english": [
@@ -2584,7 +2728,8 @@
 				"hebrew": [
 					{ "char": "מָ", "class": "" },
 					{ "char": "שְׁ", "class": "" },
-					{ "char": "חוּ", "class": "" }
+					{ "char": "ח", "class": "" },
+					{ "char": "וּ", "class": "text-red-500" }
 				],
 				"translit": [{ "text": "mashchu", "class": "" }],
 				"english": [
@@ -2595,14 +2740,356 @@
 			{
 				"person": "3fp",
 				"hebrew": [
-					{ "char": "מָ", "class": "" },
-					{ "char": "שְׁ", "class": "" },
-					{ "char": "חוּ", "class": "" }
+					{ "char": "מ", "class": "" },
+					{ "char": "ָ", "class": "" },
+					{ "char": "שׁ", "class": "" },
+					{ "char": "ַ", "class": "" },
+					{ "char": "ח", "class": "" },
+					{ "char": "ְ", "class": "text-red-500" },
+					{ "char": "נ", "class": "text-red-500" },
+					{ "char": "ָ", "class": "text-red-500" },
+					{ "char": "ה", "class": "text-red-500" }
 				],
-				"translit": [{ "text": "mashchu", "class": "" }],
+				"translit": [
+					{ "text": "ma", "class": "" },
+					{ "text": "shach", "class": "" },
+					{ "text": "nah", "class": "" }
+				],
 				"english": [
 					{ "text": "they (f.) ", "class": "" },
 					{ "text": "anointed", "class": "font-bold" }
+				]
+			}
+		]
+	},
+	{
+		"strongs": 1129,
+		"tense": "Past (Qatal)",
+		"rows": [
+			{
+				"person": "1sc",
+				"hebrew": [
+					{ "char": "בָּ", "class": "" },
+					{ "char": "נִ", "class": "" },
+					{ "char": "יתִּי", "class": "text-red-500" }
+				],
+				"translit": [
+					{ "text": "ba", "class": "" },
+					{ "text": "niti", "class": "" }
+				],
+				"english": [
+					{ "text": "I ", "class": "" },
+					{ "text": "built", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "1pc",
+				"hebrew": [
+					{ "char": "בָּ", "class": "" },
+					{ "char": "נִ", "class": "" },
+					{ "char": "ינוּ", "class": "text-red-500" }
+				],
+				"translit": [
+					{ "text": "ba", "class": "" },
+					{ "text": "ninu", "class": "" }
+				],
+				"english": [
+					{ "text": "we ", "class": "" },
+					{ "text": "built", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "2ms",
+				"hebrew": [
+					{ "char": "בָּ", "class": "" },
+					{ "char": "נִ", "class": "" },
+					{ "char": "יתָּ", "class": "text-red-500" }
+				],
+				"translit": [
+					{ "text": "ba", "class": "" },
+					{ "text": "nita", "class": "" }
+				],
+				"english": [
+					{ "text": "you (m. sg.) ", "class": "" },
+					{ "text": "built", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "2fs",
+				"hebrew": [
+					{ "char": "בָּ", "class": "" },
+					{ "char": "נִ", "class": "" },
+					{ "char": "יתְּ", "class": "text-red-500" }
+				],
+				"translit": [
+					{ "text": "ba", "class": "" },
+					{ "text": "nit", "class": "" }
+				],
+				"english": [
+					{ "text": "you (f. sg.) ", "class": "" },
+					{ "text": "built", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "2mp",
+				"hebrew": [
+					{ "char": "בְּ", "class": "" },
+					{ "char": "נִ", "class": "" },
+					{ "char": "יתֶּם", "class": "text-red-500" }
+				],
+				"translit": [
+					{ "text": "be", "class": "" },
+					{ "text": "nitem", "class": "" }
+				],
+				"english": [
+					{ "text": "you (m. pl.) ", "class": "" },
+					{ "text": "built", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "2fp",
+				"hebrew": [
+					{ "char": "בְּ", "class": "" },
+					{ "char": "נִ", "class": "" },
+					{ "char": "יתֶּן", "class": "text-red-500" }
+				],
+				"translit": [
+					{ "text": "be", "class": "" },
+					{ "text": "niten", "class": "" }
+				],
+				"english": [
+					{ "text": "you (f. pl.) ", "class": "" },
+					{ "text": "built", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "3ms",
+				"hebrew": [
+					{ "char": "בָּ", "class": "" },
+					{ "char": "נָ", "class": "" },
+					{ "char": "ה", "class": "" }
+				],
+				"translit": [{ "text": "banah", "class": "" }],
+				"english": [
+					{ "text": "he/it ", "class": "" },
+					{ "text": "built", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "3fs",
+				"hebrew": [
+					{ "char": "בָּ", "class": "" },
+					{ "char": "נְ", "class": "" },
+					{ "char": "תָה", "class": "text-red-500" }
+				],
+				"translit": [{ "text": "banetah", "class": "" }],
+				"english": [
+					{ "text": "she/it ", "class": "" },
+					{ "text": "built", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "3mp",
+				"hebrew": [
+					{ "char": "בָּ", "class": "" },
+					{ "char": "נ", "class": "" },
+					{ "char": "וּ", "class": "text-red-500" }
+				],
+				"translit": [{ "text": "banu", "class": "" }],
+				"english": [
+					{ "text": "they (m.) ", "class": "" },
+					{ "text": "built", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "3fp",
+				"hebrew": [
+					{ "char": "בּ", "class": "" },
+					{ "char": "ָ", "class": "" },
+					{ "char": "נ", "class": "" },
+					{ "char": "ְ", "class": "text-red-500" },
+					{ "char": "נ", "class": "text-red-500" },
+					{ "char": "ָ", "class": "text-red-500" },
+					{ "char": "ה", "class": "text-red-500" }
+				],
+				"translit": [
+					{ "text": "ba", "class": "" },
+					{ "text": "n", "class": "" },
+					{ "text": "nah", "class": "" }
+				],
+				"english": [
+					{ "text": "they (f.) ", "class": "" },
+					{ "text": "built", "class": "font-bold" }
+				]
+			}
+		]
+	},
+	{
+		"strongs": 7489,
+		"tense": "Past (Qatal)",
+		"rows": [
+			{
+				"person": "1sc",
+				"hebrew": [
+					{ "char": "רָ", "class": "" },
+					{ "char": "עַ", "class": "" },
+					{ "char": "עְ", "class": "" },
+					{ "char": "תִּי", "class": "text-red-500" }
+				],
+				"translit": [
+					{ "text": "ra", "class": "" },
+					{ "text": "aʿti", "class": "" }
+				],
+				"english": [
+					{ "text": "I ", "class": "" },
+					{ "text": "was evil / did evil", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "1pc",
+				"hebrew": [
+					{ "char": "רָ", "class": "" },
+					{ "char": "עַ", "class": "" },
+					{ "char": "עְ", "class": "" },
+					{ "char": "נוּ", "class": "text-red-500" }
+				],
+				"translit": [
+					{ "text": "ra", "class": "" },
+					{ "text": "aʿnu", "class": "" }
+				],
+				"english": [
+					{ "text": "we ", "class": "" },
+					{ "text": "were evil / did evil", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "2ms",
+				"hebrew": [
+					{ "char": "רָ", "class": "" },
+					{ "char": "עַ", "class": "" },
+					{ "char": "עְ", "class": "" },
+					{ "char": "תָּ", "class": "text-red-500" }
+				],
+				"translit": [
+					{ "text": "ra", "class": "" },
+					{ "text": "aʿta", "class": "" }
+				],
+				"english": [
+					{ "text": "you (m. sg.) ", "class": "" },
+					{ "text": "were evil / did evil", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "2fs",
+				"hebrew": [
+					{ "char": "רָ", "class": "" },
+					{ "char": "עַ", "class": "" },
+					{ "char": "עְ", "class": "" },
+					{ "char": "תְּ", "class": "text-red-500" }
+				],
+				"translit": [
+					{ "text": "ra", "class": "" },
+					{ "text": "aʿt", "class": "" }
+				],
+				"english": [
+					{ "text": "you (f. sg.) ", "class": "" },
+					{ "text": "were evil / did evil", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "2mp",
+				"hebrew": [
+					{ "char": "רְ", "class": "" },
+					{ "char": "עַ", "class": "" },
+					{ "char": "עְ", "class": "" },
+					{ "char": "תֶּם", "class": "text-red-500" }
+				],
+				"translit": [
+					{ "text": "re", "class": "" },
+					{ "text": "aʿtem", "class": "" }
+				],
+				"english": [
+					{ "text": "you (m. pl.) ", "class": "" },
+					{ "text": "were evil / did evil", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "2fp",
+				"hebrew": [
+					{ "char": "רְ", "class": "" },
+					{ "char": "עַ", "class": "" },
+					{ "char": "עְ", "class": "" },
+					{ "char": "תֶּן", "class": "text-red-500" }
+				],
+				"translit": [
+					{ "text": "re", "class": "" },
+					{ "text": "aʿten", "class": "" }
+				],
+				"english": [
+					{ "text": "you (f. pl.) ", "class": "" },
+					{ "text": "were evil / did evil", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "3ms",
+				"hebrew": [
+					{ "char": "רָ", "class": "" },
+					{ "char": "עַ", "class": "" },
+					{ "char": "ע", "class": "" }
+				],
+				"translit": [{ "text": "raʿaʿ", "class": "" }],
+				"english": [
+					{ "text": "he/it ", "class": "" },
+					{ "text": "was evil / did evil", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "3fs",
+				"hebrew": [
+					{ "char": "רָ", "class": "" },
+					{ "char": "עֲ", "class": "" },
+					{ "char": "עָה", "class": "text-red-500" }
+				],
+				"translit": [{ "text": "raʿaʿah", "class": "" }],
+				"english": [
+					{ "text": "she/it ", "class": "" },
+					{ "text": "was evil / did evil", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "3mp",
+				"hebrew": [
+					{ "char": "רָ", "class": "" },
+					{ "char": "ע", "class": "" },
+					{ "char": "וּ", "class": "text-red-500" }
+				],
+				"translit": [{ "text": "raʿu", "class": "" }],
+				"english": [
+					{ "text": "they (m.) ", "class": "" },
+					{ "text": "were evil / did evil", "class": "font-bold" }
+				]
+			},
+			{
+				"person": "3fp",
+				"hebrew": [
+					{ "char": "ר", "class": "" },
+					{ "char": "ָ", "class": "" },
+					{ "char": "ע", "class": "" },
+					{ "char": "ַ", "class": "" },
+					{ "char": "ע", "class": "" },
+					{ "char": "ְ", "class": "text-red-500" },
+					{ "char": "נ", "class": "text-red-500" },
+					{ "char": "ָ", "class": "text-red-500" },
+					{ "char": "ה", "class": "text-red-500" }
+				],
+				"translit": [
+					{ "text": "ra", "class": "" },
+					{ "text": "aʿ", "class": "" },
+					{ "text": "nah", "class": "" }
+				],
+				"english": [
+					{ "text": "they (f.) ", "class": "" },
+					{ "text": "were evil / did evil", "class": "font-bold" }
 				]
 			}
 		]
