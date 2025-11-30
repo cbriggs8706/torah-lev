@@ -1,0 +1,53 @@
+{
+	"title": "Hebreeuwse Teksten",
+	"nav": {
+		"next": "Volgende",
+		"prev": "Vorige",
+		"openDic": "Woordenboek openen voor"
+	},
+	"gap": "Spatie",
+	"filter": {
+		"placeholder": "Filter op type",
+		"all": "Alle types"
+	},
+	"search": {
+		"placeholder": "Boeken zoeken…"
+	},
+	"types": {
+		"SCRIPTURE": "Schriften",
+		"LESSON-SCRIPT": "Les­scripts",
+		"STORY": "Verhalen",
+		"SONG": "Liederen",
+		"PRAYER": "Gebeden"
+	},
+	"breadcrumb": {
+		"reader": "Lezer",
+		"hebrew": "Hebreeuws",
+		"chapter": "Hoofdstuk"
+	},
+	"pos": {
+		"adjv": "Bijvoeglijk naamwoord",
+		"advb": "Bijwoord",
+		"art": "Lidwoord",
+		"conj": "Voegwoord",
+		"inrg": "Vragend woord",
+		"intj": "Tussenwerpsel",
+		"nega": "Ontkenning",
+		"nmpr": "Eigennaam",
+		"prde": "Aanwijzend voornaamwoord",
+		"prep": "Voorzetsel",
+		"prin": "Onbepaald voornaamwoord",
+		"prps": "Bezittelijk voornaamwoord",
+		"subs": "Zelfstandig naamwoord",
+		"verb": "Werkwoord"
+	},
+	"grammar": {
+		"lemma": "Lemma",
+		"root": "Wortel",
+		"translation": "Vertaling",
+		"transliteration": "Transliteratie",
+		"stem": "Stam",
+		"tense": "Tijd",
+		"pos": "Woordsoort"
+	}
+}

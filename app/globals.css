@@ -77,6 +77,19 @@
 	--sidebar-accent-foreground: oklch(0.205 0 0);
 	--sidebar-border: oklch(0.922 0 0);
 	--sidebar-ring: oklch(0.708 0 0);
+	--font-nunito: 'Nunito', sans-serif;
+	--font-frank-ruhl: 'Frank Ruhl Libre', serif;
+	--font-tinos: 'Tinos', serif;
+	--font-cardo: 'Cardo', serif;
+	--font-rashi: 'Rashi', serif;
+	--font-suez: 'Suez', serif;
+	--font-eb-garamond: 'EB Garamond', serif;
+	--font-eczar: 'Eczar', serif;
+	--font-mansalva: 'Mansalva', serif;
+	--font-alegreya-sc: 'Alegreya SC', serif;
+	--font-montecarlo: 'Montecarlo', serif;
+	--font-unifraktur: 'Unifraktur', serif;
+	--font-reenie: 'Reenie Beanie', serif;
 }
 
 .dark {
@@ -111,6 +124,46 @@
 	--sidebar-accent-foreground: oklch(0.985 0 0);
 	--sidebar-border: oklch(1 0 0 / 10%);
 	--sidebar-ring: oklch(0.556 0 0);
+}
+
+.font-nunito {
+	font-family: var(--font-nunito);
+}
+.font-frl {
+	font-family: var(--font-frl);
+}
+.font-tinos {
+	font-family: var(--font-tinos);
+}
+.font-cardo {
+	font-family: var(--font-cardo);
+}
+.font-rashi {
+	font-family: var(--font-rashi);
+}
+.font-suez {
+	font-family: var(--font-suez-one);
+}
+.font-eb-garamond {
+	font-family: var(--font-eb-garamond);
+}
+.font-eczar {
+	font-family: var(--font-eczar);
+}
+.font-mansalva {
+	font-family: var(--font-mansalva);
+}
+.font-alegreya-sc {
+	font-family: var(--font-alegreya-sc);
+}
+.font-montecarlo {
+	font-family: var(--font-montecarlo);
+}
+.font-unifraktur {
+	font-family: var(--font-unifraktur);
+}
+.font-reenie {
+	font-family: var(--font-reenie-beanie);
 }
 
 @layer base {

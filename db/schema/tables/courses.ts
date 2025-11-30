@@ -13,7 +13,6 @@ import {
 } from 'drizzle-orm/pg-core'
 import { courseType, dayOfWeek, language, proficiencyLevel } from '../enums'
 import { user } from './auth'
-import { relations } from 'drizzle-orm'
 
 export const courses = pgTable(
 	'courses',
@@ -75,25 +74,6 @@ export const courseMeetingTimes = pgTable(
 	}
 )
 
-export const coursesRelations = relations(courses, ({ one, many }) => ({
-	organizer: one(user, {
-		fields: [courses.organizerId],
-		references: [user.id],
-	}),
-	meetingTimes: many(courseMeetingTimes),
-	enrollments: many(courseEnrollments), // <-- ADD THIS
-}))
-
-export const courseMeetingTimesRelations = relations(
-	courseMeetingTimes,
-	({ one }) => ({
-		course: one(courses, {
-			fields: [courseMeetingTimes.courseId],
-			references: [courses.id],
-		}),
-	})
-)
-
 export const courseEnrollments = pgTable(
 	'course_enrollments',
 	{
@@ -112,18 +92,4 @@ export const courseEnrollments = pgTable(
 	(table) => [
 		primaryKey({ columns: [table.courseId, table.studentId] }), // composite PK
 	]
-)
-
-export const courseEnrollmentsRelations = relations(
-	courseEnrollments,
-	({ one }) => ({
-		course: one(courses, {
-			fields: [courseEnrollments.courseId],
-			references: [courses.id],
-		}),
-		student: one(user, {
-			fields: [courseEnrollments.studentId],
-			references: [user.id],
-		}),
-	})
 )

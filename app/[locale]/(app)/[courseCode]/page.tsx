@@ -3,9 +3,9 @@ import { getServerSession } from 'next-auth'
 import { notFound, redirect } from 'next/navigation'
 import { authOptions } from '@/lib/auth'
 import { getCourseByCodeWithRelations } from '@/db/queries/courses'
-import { getTranslations } from 'next-intl/server'
 import { CourseQRModal } from '@/components/courses/CourseQRModal'
 import { JoinSuccessToast } from '@/components/courses/JoinSuccessToast'
+import CourseDashboard from '@/components/courses/CourseDashboard'
 
 function formatSlug(slug: string) {
 	return slug.replace(/[-_]/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
@@ -84,7 +84,7 @@ interface CoursePageProps {
 
 export default async function Page({ params }: CoursePageProps) {
 	const { locale, courseCode } = await params
-	const t = await getTranslations({ locale, namespace: 'courses' })
+	// const t = await getTranslations({ locale, namespace: 'courses' })
 
 	// Session (optional)
 	const session = await getServerSession(authOptions)
@@ -130,6 +130,7 @@ export default async function Page({ params }: CoursePageProps) {
 					<CourseSyllabus />
 				</div>
 			)}
+			<CourseDashboard />
 		</div>
 	)
 }

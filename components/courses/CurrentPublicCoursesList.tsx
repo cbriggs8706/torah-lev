@@ -84,7 +84,7 @@ export function CurrentPublicCoursesList({
 
 					{/* Self-paced has no organizer groups */}
 					{type === 'SELFPACED' ? (
-						<div className="grid gap-4 grid-cols-1 md:grid-cols-3">
+						<div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
 							{typeCourses.map((course) => (
 								<CourseCard key={course.id} course={course} />
 							))}
@@ -113,7 +113,7 @@ function GroupedByOrganizer({ courses }: { courses: CourseWithCount[] }) {
 				<div key={groupName}>
 					<h3 className="text-xl font-semibold mb-2">{groupName}</h3>
 
-					<div className="grid gap-4 grid-cols-1 md:grid-cols-3">
+					<div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
 						{groupCourses.sort(naturalCourseSort).map((course) => (
 							<CourseCard key={course.id} course={course} />
 						))}

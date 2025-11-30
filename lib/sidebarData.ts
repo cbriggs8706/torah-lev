@@ -46,6 +46,14 @@ export function buildSidebarData(t: TFunction, locale: string) {
 				],
 			},
 			{
+				title: t('sidebar.main.reader'),
+				url: `/${locale}/reader/hebrew`,
+				icon: BookOpen,
+				items: [
+					// { title: t('reader.types.SCRIPTURE'), url: '#' },
+				],
+			},
+			{
 				title: t('sidebar.main.grammar'),
 				url: '#',
 				icon: Bot,

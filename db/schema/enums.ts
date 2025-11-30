@@ -15,6 +15,13 @@ export const courseType = pgEnum('course_type', [
 	'HYBRID',
 	'SELFPACED',
 ])
+export const bookType = pgEnum('book_type', [
+	'SCRIPTURE',
+	'STORY',
+	'LESSON-SCRIPT',
+	'SONG',
+	'PRAYER',
+])
 export const proficiencyLevel = pgEnum('proficiency_level', [
 	'A1',
 	'A2',

@@ -2,6 +2,7 @@
 	"main": {
 		"courses": "Courses",
 		"vocabulary": "Vocabulary",
+		"reader": "Reader",
 		"grammar": "Grammar",
 		"alphabet": "Alphabet",
 		"numbers": "Numbers",

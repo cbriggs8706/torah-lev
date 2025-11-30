@@ -1,3 +1,4 @@
+//i18n/requests.ts
 import { getRequestConfig } from 'next-intl/server'
 import fs from 'fs'
 import path from 'path'

@@ -1,0 +1,49 @@
+{
+	"title": "Hebrew Texts",
+	"nav": { "next": "Next", "prev": "Prev", "openDic": "Open Dictionary for" },
+	"gap": "Gap",
+	"filter": {
+		"placeholder": "Filter by type",
+		"all": "All Types"
+	},
+	"search": {
+		"placeholder": "Search books…"
+	},
+	"types": {
+		"SCRIPTURE": "Scriptures",
+		"LESSON-SCRIPT": "Lesson Scripts",
+		"STORY": "Stories",
+		"SONG": "Songs",
+		"PRAYER": "Prayers"
+	},
+	"breadcrumb": {
+		"reader": "Reader",
+		"hebrew": "Hebrew",
+		"chapter": "Chapter"
+	},
+	"pos": {
+		"adjv": "Adjective",
+		"advb": "Adverb",
+		"art": "Article",
+		"conj": "Conjunction",
+		"inrg": "Interrogative",
+		"intj": "Interjection",
+		"nega": "Negation",
+		"nmpr": "Proper Noun",
+		"prde": "Demonstrative Pronoun",
+		"prep": "Preposition",
+		"prin": "Indefinite Pronoun",
+		"prps": "Possessive Pronoun",
+		"subs": "Noun",
+		"verb": "Verb"
+	},
+	"grammar": {
+		"lemma": "Lemma",
+		"root": "Root",
+		"translation": "Translation",
+		"transliteration": "Transliteration",
+		"stem": "Stem",
+		"tense": "Tense",
+		"pos": "Part of Speech"
+	}
+}

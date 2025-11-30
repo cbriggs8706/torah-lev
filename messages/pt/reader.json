@@ -1,0 +1,53 @@
+{
+	"title": "Textos Hebraicos",
+	"nav": {
+		"next": "Próximo",
+		"prev": "Anterior",
+		"openDic": "Abrir dicionário para"
+	},
+	"gap": "Espaço",
+	"filter": {
+		"placeholder": "Filtrar por tipo",
+		"all": "Todos os tipos"
+	},
+	"search": {
+		"placeholder": "Pesquisar livros…"
+	},
+	"types": {
+		"SCRIPTURE": "Escrituras",
+		"LESSON-SCRIPT": "Roteiros de Lição",
+		"STORY": "Histórias",
+		"SONG": "Músicas",
+		"PRAYER": "Orações"
+	},
+	"breadcrumb": {
+		"reader": "Leitor",
+		"hebrew": "Hebraico",
+		"chapter": "Capítulo"
+	},
+	"pos": {
+		"adjv": "Adjetivo",
+		"advb": "Advérbio",
+		"art": "Artigo",
+		"conj": "Conjunção",
+		"inrg": "Interrogativo",
+		"intj": "Interjeição",
+		"nega": "Negação",
+		"nmpr": "Nome próprio",
+		"prde": "Pronome demonstrativo",
+		"prep": "Preposição",
+		"prin": "Pronome indefinido",
+		"prps": "Pronome possessivo",
+		"subs": "Substantivo",
+		"verb": "Verbo"
+	},
+	"grammar": {
+		"lemma": "Lema",
+		"root": "Raiz",
+		"translation": "Tradução",
+		"transliteration": "Transliteração",
+		"stem": "Radical",
+		"tense": "Tempo verbal",
+		"pos": "Classe gramatical"
+	}
+}

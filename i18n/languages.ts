@@ -1,3 +1,4 @@
+//i18n/languages.ts
 export const LANGUAGES: Record<string, { label: string; flag: string }> = {
 	en: { label: 'English', flag: 'fi-us' },
 	es: { label: 'Español', flag: 'fi-es' },

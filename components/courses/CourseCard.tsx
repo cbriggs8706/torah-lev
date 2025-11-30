@@ -45,8 +45,10 @@ export function CourseCard({ course }: { course: CourseWithCount }) {
 
 	const enrolled = course.enrolledCount ?? 0
 	const max = course.maxEnrollment ?? null
-	const isFull = max !== null && enrolled >= max
-	const spotsLeft = max !== null ? max - enrolled : null
+
+	const hasLimit = max !== null
+	const isFull = hasLimit && enrolled >= max
+	const spotsLeft = hasLimit ? max - enrolled : null
 
 	return (
 		<Link href={`/${locale}/${course.courseCode}`} className="block">
@@ -56,6 +58,12 @@ export function CourseCard({ course }: { course: CourseWithCount }) {
 						<Image
 							src={course.imageSrc}
 							fill
+							sizes="
+  (max-width: 640px) 100vw,
+  (max-width: 1024px) 50vw,
+  (max-width: 1536px) 33vw,
+  25vw
+"
 							alt={course.slug}
 							className="object-cover"
 						/>
@@ -68,12 +76,10 @@ export function CourseCard({ course }: { course: CourseWithCount }) {
 
 						{course.isEnrolled ? (
 							<Badge className="bg-blue-600 text-white">Enrolled</Badge>
-						) : isFull ? (
+						) : !hasLimit ? null : isFull ? (
 							<Badge variant="destructive">Full</Badge>
 						) : (
-							<Badge variant="secondary">
-								{spotsLeft ? `${spotsLeft} spots left` : 'Class is full'}
-							</Badge>
+							<Badge variant="secondary">{`${spotsLeft} spots left`}</Badge>
 						)}
 					</CardTitle>
 
@@ -117,7 +123,11 @@ export function CourseCard({ course }: { course: CourseWithCount }) {
 						</Button>
 					) : (
 						<Button className="w-full" disabled={isFull} onClick={handleEnroll}>
-							{isFull ? 'Full' : 'Enroll'}
+							{isFull
+								? 'Full'
+								: course.type === 'SELFPACED'
+								? 'Begin'
+								: 'Enroll'}
 						</Button>
 					)}
 				</CardFooter>

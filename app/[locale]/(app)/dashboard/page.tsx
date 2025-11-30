@@ -35,8 +35,8 @@ export default async function Page({ params }: DashboardPageProps) {
 				{role === 'admin' ? 'Admin Dashboard' : 'User Dashboard'}
 			</h1>
 
-			<JoinCourseModal locale={locale} />
-			<h2 className="text-3xl font-bold">My Enrolled Courses</h2>
+			{/* <JoinCourseModal locale={locale} /> */}
+			<h2 className="text-2xl font-bold">My Enrolled Courses</h2>
 			<EnrolledCourses courses={enrolledCourses} />
 		</div>
 	)

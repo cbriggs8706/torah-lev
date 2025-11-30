@@ -1,0 +1,53 @@
+{
+	"title": "Textos Hebreos",
+	"nav": {
+		"next": "Siguiente",
+		"prev": "Anterior",
+		"openDic": "Abrir diccionario para"
+	},
+	"gap": "Espacio",
+	"filter": {
+		"placeholder": "Filtrar por tipo",
+		"all": "Todos los tipos"
+	},
+	"search": {
+		"placeholder": "Buscar libros…"
+	},
+	"types": {
+		"SCRIPTURE": "Escrituras",
+		"LESSON-SCRIPT": "Guiones de Lecciones",
+		"STORY": "Historias",
+		"SONG": "Canciones",
+		"PRAYER": "Oraciones"
+	},
+	"breadcrumb": {
+		"reader": "Lector",
+		"hebrew": "Hebreo",
+		"chapter": "Capítulo"
+	},
+	"pos": {
+		"adjv": "Adjetivo",
+		"advb": "Adverbio",
+		"art": "Artículo",
+		"conj": "Conjunción",
+		"inrg": "Interrogativo",
+		"intj": "Interjección",
+		"nega": "Negación",
+		"nmpr": "Nombre propio",
+		"prde": "Pronombre demostrativo",
+		"prep": "Preposición",
+		"prin": "Pronombre indefinido",
+		"prps": "Pronombre posesivo",
+		"subs": "Sustantivo",
+		"verb": "Verbo"
+	},
+	"grammar": {
+		"lemma": "Lema",
+		"root": "Raíz",
+		"translation": "Traducción",
+		"transliteration": "Transliteración",
+		"stem": "Tema / Raíz verbal",
+		"tense": "Tiempo verbal",
+		"pos": "Parte de la oración"
+	}
+}

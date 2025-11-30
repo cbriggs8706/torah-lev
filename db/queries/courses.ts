@@ -1,6 +1,6 @@
 // db/queries/courses.ts
 
-import { supabaseDb as db, supabaseDb } from '@/db/client'
+import { supabaseDb as db } from '@/db/client'
 import {
 	courses,
 	courseMeetingTimes,
@@ -36,6 +36,21 @@ export type InsertEnrollment = InferInsertModel<typeof courseEnrollments>
 // A course with its enrollments relation loaded
 export type CourseWithEnrollments = Course & {
 	enrolledCount: number
+	isEnrolled?: boolean
+
+	enrollments: (Enrollment & {
+		student: {
+			id: string
+			name: string | null
+			email: string | null
+			image: string | null
+			username?: string | null
+		}
+	})[]
+}
+
+export type CourseWithMessages = Course & {
+	enrolledCount: number
 	isEnrolled: boolean
 
 	enrollments: (Enrollment & {
@@ -45,6 +60,14 @@ export type CourseWithEnrollments = Course & {
 			email: string | null
 			image: string | null
 			username?: string | null
+		}
+		messages: {
+			id: string
+			senderId: string
+			studyGroupId: number
+			content: string
+			createdAt: Date
+			tempId: string
 		}
 	})[]
 }
@@ -118,7 +141,7 @@ export async function getCourseById(id: string) {
 export async function getCourseByCode(
 	courseCode: string
 ): Promise<Course | null> {
-	const result = await supabaseDb.query.courses.findFirst({
+	const result = await db.query.courses.findFirst({
 		where: eq(courses.courseCode, courseCode),
 	})
 	return result ?? null
@@ -148,6 +171,11 @@ export async function getCourseByCodeWithRelations(courseCode: string) {
 					lessons: true,
 				},
 			},
+			enrollments: {
+				with: {
+					student: true,
+				},
+			},
 		},
 	})
 }
@@ -173,40 +201,41 @@ export async function getAllCourses() {
 	})
 }
 
-export async function getAllPublicCoursesWithEnrollment(
-	userId: string | undefined
-): Promise<CourseWithCount[]> {
-	const rows = (await db.query.courses.findMany({
-		where: eq(courses.public, true),
-		with: {
-			enrollments: true,
-			organizer: true,
-		},
-		orderBy: (c, { asc }) => [asc(c.startDate)],
-	})) as CourseWithEnrollments[]
+// export async function getAllPublicCoursesWithEnrollment(
+// 	userId: string | undefined
+// ): Promise<CourseWithEnrollments[]> {
+// 	const rows = (await db.query.courses.findMany({
+// 		where: eq(courses.public, true),
+// 		with: {
+// 			enrollments: true,
+// 			organizer: true,
+// 		},
+// 		orderBy: (c, { asc }) => [asc(c.startDate)],
+// 	})) as CourseWithEnrollments[]
 
-	return rows.map((course) => ({
-		...course,
-		enrolledCount: course.enrollments.length,
-		isEnrolled: userId
-			? course.enrollments.some((e) => e.studentId === userId)
-			: false,
-	}))
-}
+// 	return rows.map((course) => ({
+// 		...course,
+// 		enrolledCount: course.enrollments.length,
+// 		isEnrolled: userId
+// 			? course.enrollments.some((e) => e.studentId === userId)
+// 			: false,
+// 	}))
+// }
 
 export async function getCurrentPublicCourses(): Promise<CourseWithCount[]> {
-	const rows = (await db.query.courses.findMany({
+	const rows = await db.query.courses.findMany({
 		where: and(eq(courses.public, true), eq(courses.current, true)),
 		with: {
 			enrollments: true,
 			organizer: true,
 		},
 		orderBy: (c, { asc }) => [asc(c.startDate)],
-	})) as CourseWithEnrollments[]
+	})
 
 	return rows.map((course) => ({
 		...course,
 		enrolledCount: course.enrollments.length,
+		organizer: course.organizer || undefined,
 		isEnrolled: false,
 	}))
 }
@@ -227,19 +256,19 @@ export async function getEnrolledCoursesForUser(
 	})
 
 	return enrollments.map((e) => {
-		// explicitly cast so TypeScript knows it includes `enrollments`
-		const course = e.course as CourseWithEnrollments
+		const course = e.course
 
 		return {
 			...course,
 			enrolledCount: course.enrollments.length,
+			organizer: course.organizer || undefined,
 			isEnrolled: true,
 		}
 	})
 }
 
 export async function getCoursesByOrganizer(organizerId: string) {
-	const rows = (await db.query.courses.findMany({
+	const rows = await db.query.courses.findMany({
 		where: eq(courses.organizerId, organizerId),
 		with: {
 			enrollments: {
@@ -247,7 +276,7 @@ export async function getCoursesByOrganizer(organizerId: string) {
 			},
 		},
 		orderBy: (c, { asc }) => [asc(c.startDate)],
-	})) as CourseWithEnrollments[]
+	})
 
 	return rows.map((course) => ({
 		...course,
