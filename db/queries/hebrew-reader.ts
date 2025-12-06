@@ -1,7 +1,15 @@
 // db/queries/hebrew-reader.ts
 import { supabaseDb as db } from '@/db/client'
-import { eq, and, sql } from 'drizzle-orm'
-import { hebrewBooks, hebrewChapters, hebrewWords } from '../schema'
+import { eq, and, sql, InferSelectModel, count } from 'drizzle-orm'
+import {
+	hebrewBooks,
+	hebrewChapters,
+	hebrewLexemes,
+	hebrewVerses,
+	hebrewWords,
+} from '../schema'
+
+export type HebrewBook = InferSelectModel<typeof hebrewBooks>
 
 // 1. find bookId by name
 export async function getBookId(bookName: string) {
@@ -27,10 +35,16 @@ export async function getChapterId(bookId: number, chapterNumber: number) {
 
 // 3. fetch all words in chapter
 export async function getWordsForChapter(chapterId: string) {
-	return db.query.hebrewWords.findMany({
-		where: eq(hebrewWords.chapterId, chapterId),
-		orderBy: [hebrewWords.wordSeq],
-	})
+	return db
+		.select()
+		.from(hebrewWords)
+		.where(eq(hebrewWords.chapterId, chapterId))
+		.orderBy(
+			// verse number from "1-1-15" → 15
+			sql`split_part(${hebrewWords.verseId}, '-', 3)::int`,
+			// then position in verse
+			hebrewWords.wordSeq
+		)
 }
 
 // 4. get all chapter numbers for a book
@@ -92,14 +106,43 @@ export function dbNameFromSlug(slug: string): string {
  * Includes chapter + verse relations.
  */
 export async function getWordsForBookById(bookId: number) {
-	return db.query.hebrewWords.findMany({
-		where: eq(hebrewWords.bookId, bookId),
-		with: {
-			chapter: true,
-			verse: true,
-		},
-		orderBy: (w, { asc }) => [asc(w.chapterId), asc(w.verseId), asc(w.wordSeq)],
-	})
+	return (
+		db
+			.select({
+				id: hebrewWords.id,
+				surface: hebrewWords.surface,
+				lemma: hebrewWords.lemma,
+				lemmaVocalized: hebrewWords.lemmaVocalized,
+				partOfSpeech: hebrewWords.partOfSpeech,
+				wordSeq: hebrewWords.wordSeq,
+
+				// ⭐ Correct lexeme fields
+				glossEnglish: hebrewLexemes.glossEnglish,
+				glossTbesh: hebrewLexemes.glossTbesh,
+				meaningTbesh: hebrewLexemes.meaningTbesh,
+				frequency: hebrewLexemes.frequency,
+
+				// Location
+				chapterNumber: hebrewChapters.chapterNumber,
+				verseNumber: hebrewVerses.verseNumber,
+			})
+			.from(hebrewWords)
+
+			// chapter + verse
+			.leftJoin(hebrewChapters, eq(hebrewChapters.id, hebrewWords.chapterId))
+			.leftJoin(hebrewVerses, eq(hebrewVerses.id, hebrewWords.verseId))
+
+			// 🔥 THE ONLY CORRECT JOIN
+			.leftJoin(hebrewLexemes, eq(hebrewLexemes.id, hebrewWords.lexemeId))
+
+			.where(eq(hebrewWords.bookId, bookId))
+
+			.orderBy(
+				sql`split_part(${hebrewWords.chapterId}, '-', 2)::int`,
+				sql`split_part(${hebrewWords.verseId}, '-', 3)::int`,
+				hebrewWords.wordSeq
+			)
+	)
 }
 
 /**
@@ -113,7 +156,24 @@ export async function getWordsForBook(bookName: string) {
 
 	if (!book) return []
 
-	return getWordsForBookById(book.id)
+	const raw = await getWordsForBookById(book.id)
+
+	return raw.map((w) => ({
+		id: w.id,
+		surface: w.surface,
+		lemma: w.lemma,
+		lemmaVocalized: w.lemmaVocalized,
+		partOfSpeech: w.partOfSpeech,
+		wordSeq: w.wordSeq,
+
+		glossEnglish: w.glossEnglish,
+		glossTbesh: w.glossTbesh,
+		meaningTbesh: w.meaningTbesh,
+		frequency: w.frequency,
+
+		chapter: { chapterNumber: w.chapterNumber ?? 0 },
+		verse: { verseNumber: w.verseNumber ?? 0 },
+	}))
 }
 
 /**

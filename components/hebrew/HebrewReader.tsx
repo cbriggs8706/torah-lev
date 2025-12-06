@@ -64,6 +64,27 @@ const PREFIX_POS = new Set(['prep', 'conj', 'art'])
 const MAQQEF = '\u05BE'
 const PREFIX_LETTERS = new Set(['ב', 'כ', 'ל', 'מ', 'ו', 'ה'])
 
+/* -------------------------------------------------------
+   MARK REMOVAL (Niqqud / Cantillation)
+--------------------------------------------------------- */
+
+// Cantillation marks: 0591–05AF
+const CANTILLATION_RE = /[\u0591-\u05AF]/g
+// Niqqud: 05B0–05BC, 05BD–05C7
+const NIQQUD_RE = /[\u05B0-\u05BC\u05BD-\u05C7]/g
+
+function stripCantillation(text: string) {
+	return text.replace(CANTILLATION_RE, '')
+}
+
+function stripNiqqud(text: string) {
+	return text.replace(NIQQUD_RE, '')
+}
+
+function stripAll(text: string) {
+	return text.replace(CANTILLATION_RE, '').replace(NIQQUD_RE, '')
+}
+
 function stripMq(text: string) {
 	return text.replace(MAQQEF, '')
 }
@@ -121,6 +142,9 @@ export default function HebrewReader({
 }: HebrewReaderProps) {
 	const [selectedId, setSelectedId] = useState<string | null>(null)
 	const [openPopoverId, setOpenPopoverId] = useState<string | null>(null)
+	const [displayMode, setDisplayMode] = useClientLocalStorage<
+		'full' | 'vowels' | 'consonantal'
+	>('hebrewDisplayMode', 'vowels')
 
 	const [fontFamily, setFontFamily] = useClientLocalStorage(
 		'hebrewFontFamily',
@@ -194,6 +218,22 @@ export default function HebrewReader({
 							<SelectSeparator />
 							<SelectItem value="Sans">San Serif</SelectItem>
 							<SelectItem value="Nunito">Nunito</SelectItem>
+						</SelectContent>
+					</Select>
+				</div>
+
+				{/* DISPLAY MODE */}
+				<div className="w-40">
+					<Select value={displayMode} onValueChange={setDisplayMode}>
+						<SelectTrigger>
+							<SelectValue placeholder="Display" />
+						</SelectTrigger>
+						<SelectContent>
+							<SelectItem value="full">
+								Full Text (Cantillation + Vowels)
+							</SelectItem>
+							<SelectItem value="vowels">Vowels Only</SelectItem>
+							<SelectItem value="consonantal">Consonantal Only</SelectItem>
 						</SelectContent>
 					</Select>
 				</div>
@@ -290,7 +330,13 @@ export default function HebrewReader({
 																e.currentTarget.style.color = ''
 															}}
 														>
-															{w.surface}
+															{(() => {
+																if (displayMode === 'consonantal')
+																	return stripAll(w.surface)
+																if (displayMode === 'vowels')
+																	return stripCantillation(w.surface)
+																return w.surface
+															})()}
 														</span>
 													</PopoverTrigger>
 

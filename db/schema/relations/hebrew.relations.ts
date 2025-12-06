@@ -3,13 +3,11 @@ import { hebrewBooks } from '../tables/hebrew_books'
 import { hebrewChapters } from '../tables/hebrew_chapters'
 import { hebrewVerses } from '../tables/hebrew_verses'
 import { hebrewWords } from '../tables/hebrew_words'
-import { hebrewChapterStats } from '../tables/hebrew_chapter_stats'
 
 export const hebrewBookRelations = relations(hebrewBooks, ({ many }) => ({
 	chapters: many(hebrewChapters),
 	verses: many(hebrewVerses),
 	words: many(hebrewWords),
-	chapterStats: many(hebrewChapterStats),
 }))
 
 export const hebrewChapterRelations = relations(
@@ -21,10 +19,6 @@ export const hebrewChapterRelations = relations(
 		}),
 		verses: many(hebrewVerses),
 		words: many(hebrewWords),
-		stats: one(hebrewChapterStats, {
-			fields: [hebrewChapters.id],
-			references: [hebrewChapterStats.chapterId],
-		}),
 	})
 )
 
@@ -57,17 +51,3 @@ export const hebrewWordRelations = relations(hebrewWords, ({ one }) => ({
 		references: [hebrewVerses.id],
 	}),
 }))
-
-export const hebrewChapterStatsRelations = relations(
-	hebrewChapterStats,
-	({ one }) => ({
-		book: one(hebrewBooks, {
-			fields: [hebrewChapterStats.bookId],
-			references: [hebrewBooks.id],
-		}),
-		chapter: one(hebrewChapters, {
-			fields: [hebrewChapterStats.chapterId],
-			references: [hebrewChapters.id],
-		}),
-	})
-)

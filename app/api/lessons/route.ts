@@ -20,7 +20,6 @@ export async function POST(req: NextRequest) {
 				grammarLesson: data.grammarLesson ?? null,
 				image: data.image ?? null,
 			},
-			vocabIds: data.vocabIds,
 		})
 
 		return NextResponse.json(created)

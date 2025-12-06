@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState } from 'react'
 import {
 	Select,
 	SelectTrigger,
@@ -22,31 +22,39 @@ import {
 	PaginationContent,
 	PaginationItem,
 	PaginationLink,
-	PaginationNext,
-	PaginationPrevious,
 } from '../ui/pagination'
 
-// ------------------ TYPES ------------------
+/* -------------------------------------------------------
+   TYPES
+-------------------------------------------------------- */
+
+interface WordEntry {
+	id: string
+	surface: string
+	lemma: string | null
+	lemmaVocalized: string | null
+	partOfSpeech: string | null
+	wordSeq: number
+
+	glossEnglish?: string | null
+	glossEspanol?: string | null
+	glossPortugues?: string | null
+	glossNetherlands?: string | null
+	glossGreek?: string | null
+	glossTbesh?: string | null
+	meaningTbesh?: string | null
+	frequency?: number | null
+
+	chapter: { chapterNumber: number }
+	verse: { verseNumber: number }
+}
 
 interface HebrewDictionaryProps {
-	book: {
-		id: number
-		name: string
-	}
-	words: Array<{
-		id: string
-		surface: string
-		lemma: string | null
-		lemmaVocalized: string | null
-		partOfSpeech: string | null
-		wordSeq: number
-		chapter: { chapterNumber: number }
-		verse: { verseNumber: number }
-	}>
+	locale: string
+	book: { id: number; name: string }
+	words: WordEntry[]
 	t: {
 		searchPlaceholder: string
-		sortByChapter: string
-		sortAlphabetical: string
 		pos: Record<string, string>
 		grammar: Record<string, string>
 		breadcrumb: Record<string, string>
@@ -54,123 +62,132 @@ interface HebrewDictionaryProps {
 	}
 }
 
-// ------------------ COMPONENT ------------------
+/* -------------------------------------------------------
+   COMPONENT
+-------------------------------------------------------- */
 
 export default function HebrewDictionary({
+	locale,
 	book,
 	words,
 	t,
 }: HebrewDictionaryProps) {
-	const [sortMode, setSortMode] = useState<'chapter' | 'alpha'>('alpha')
+	const [sortMode, setSortMode] = useState<'alpha-he' | 'alpha-en' | 'freq'>(
+		'freq'
+	)
 	const [query, setQuery] = useState('')
 	const [page, setPage] = useState(1)
 	const pageSize = 100
 
-	// Normalize lemma keys for dictionary-level uniqueness
-	function normalizeLemma(w: {
-		lemma: string | null
-		lemmaVocalized: string | null
-	}) {
-		// Prefer Hebrew lemmaVocalized
-		let base = w.lemmaVocalized ?? ''
+	/* -------------------------------------------------------
+	   FILTER + SORT + DEDUPE
+	-------------------------------------------------------- */
 
-		if (!base) {
-			// fallback to lemma (remove slashes etc)
-			base = (w.lemma ?? '').replace(/[^A-Za-z]/g, '')
+	const pickGloss = (w: WordEntry): string => {
+		switch (locale) {
+			case 'en':
+				return w.glossEnglish ?? w.glossTbesh ?? w.meaningTbesh ?? ''
+			case 'es':
+				return w.glossEspanol ?? ''
+			case 'pt':
+				return w.glossPortugues ?? ''
+			case 'nl':
+				return w.glossNetherlands ?? ''
+			case 'el':
+				return w.glossGreek ?? ''
+			default:
+				return w.glossEnglish ?? w.glossTbesh ?? ''
 		}
-
-		return base
-			.normalize('NFD')
-			.replace(/[\u0591-\u05C7]/g, '') // remove vowels + cantillation
-			.replace(/[^\u05D0-\u05EA]/g, '') // keep Hebrew letters only
-			.trim()
 	}
 
-	/* ------------------ FILTERING & SORTING ------------------ */
-	const filtered = useMemo(() => {
-		const q = query.trim()
+	const filtered: WordEntry[] = (() => {
+		const q = query.trim().toLowerCase()
 
-		let result = [...words]
+		let result = words
 
 		if (q.length > 0) {
-			result = result.filter(
-				(w) =>
-					w.surface.includes(q) ||
-					w.lemma?.includes(q) ||
-					w.lemmaVocalized?.includes(q)
-			)
-		}
-
-		if (sortMode === 'alpha') {
-			result.sort((a, b) => a.surface.localeCompare(b.surface))
-		} else {
-			result.sort((a, b) => {
-				if (a.chapter.chapterNumber !== b.chapter.chapterNumber)
-					return a.chapter.chapterNumber - b.chapter.chapterNumber
-				return a.wordSeq - b.wordSeq
+			result = result.filter((w) => {
+				const gloss = pickGloss(w).toLowerCase()
+				return (
+					w.surface.toLowerCase().includes(q) ||
+					w.lemma?.toLowerCase().includes(q) ||
+					gloss.includes(q)
+				)
 			})
 		}
 
-		// ------------------------
-		// DEDUPE BY NORMALIZED LEMMA
-		// ------------------------
-		const uniqueByLemma = new Map<string, (typeof result)[0]>()
-		for (const w of result) {
-			const key = normalizeLemma(w)
-			if (!uniqueByLemma.has(key)) {
-				uniqueByLemma.set(key, w)
-			}
+		if (sortMode === 'alpha-he') {
+			result = [...result].sort((a, b) =>
+				(a.lemmaVocalized ?? a.surface).localeCompare(
+					b.lemmaVocalized ?? b.surface,
+					'he'
+				)
+			)
+		} else if (sortMode === 'alpha-en') {
+			result = [...result].sort((a, b) =>
+				pickGloss(a).localeCompare(pickGloss(b), 'en')
+			)
+		} else if (sortMode === 'freq') {
+			result = [...result].sort(
+				(a, b) => (b.frequency ?? 0) - (a.frequency ?? 0)
+			)
 		}
 
-		return Array.from(uniqueByLemma.values())
-	}, [words, sortMode, query])
+		// DEDUPE by lemma
+		const seen = new Map<string, WordEntry>()
+		for (const w of result) {
+			if (w.lemma && !seen.has(w.lemma)) seen.set(w.lemma, w)
+		}
 
-	/* ------------------ PAGINATION ------------------ */
-	const totalPages = Math.ceil(filtered.length / pageSize)
+		return Array.from(seen.values())
+	})()
 
-	// Ensure page stays in bounds when filtering changes
-	if (page > totalPages && totalPages > 0) {
-		setPage(1)
-	}
+	/* -------------------------------------------------------
+	   PAGINATION
+	-------------------------------------------------------- */
 
-	const pageData = useMemo(() => {
-		const start = (page - 1) * pageSize
-		return filtered.slice(start, start + pageSize)
-	}, [filtered, page])
+	const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize))
+	const currentPage = Math.min(page, totalPages)
+	const start = (currentPage - 1) * pageSize
+	const pageData = filtered.slice(start, start + pageSize)
+
+	/* -------------------------------------------------------
+	   RENDER
+	-------------------------------------------------------- */
 
 	return (
 		<div className="flex flex-col gap-6" dir="rtl">
 			{/* HEADER */}
 			<div className="flex justify-between items-center w-full mb-2" dir="ltr">
-				{/* Sorting */}
 				<div className="w-48">
 					<Select
 						value={sortMode}
-						onValueChange={(val) => setSortMode(val as 'chapter' | 'alpha')}
+						onValueChange={(val) =>
+							setSortMode(val as 'alpha-he' | 'alpha-en' | 'freq')
+						}
 					>
 						<SelectTrigger className="w-[180px]">
 							<SelectValue placeholder="Sort" />
 						</SelectTrigger>
 						<SelectContent>
-							<SelectItem value="chapter">By Chapter</SelectItem>
-							<SelectItem value="alpha">Alphabetical</SelectItem>
+							<SelectItem value="alpha-he">Hebrew A → Z</SelectItem>
+							<SelectItem value="alpha-en">Translation A → Z</SelectItem>
+							<SelectItem value="freq">Most Frequent</SelectItem>
 						</SelectContent>
 					</Select>
 				</div>
 
-				{/* Title */}
 				<h1 className="text-2xl font-bold text-center flex-1">
 					Dictionary: {book.name}
 				</h1>
 
-				{/* Search */}
 				<div className="w-48">
 					<Input
 						placeholder={t.searchPlaceholder}
 						value={query}
 						onChange={(e) => {
 							setQuery(e.target.value)
-							setPage(1) // Reset pagination on search
+							setPage(1)
 						}}
 					/>
 				</div>
@@ -180,24 +197,35 @@ export default function HebrewDictionary({
 			<Table>
 				<TableHeader>
 					<TableRow>
-						<TableHead>{t.grammar.lemma}</TableHead>
-						<TableHead>{t.grammar.translation}</TableHead>
-						<TableHead>{t.grammar.transliteration}</TableHead>
-						<TableHead>{t.grammar.pos}</TableHead>
-						<TableHead>{t.breadcrumb.chapter}</TableHead>
+						<TableHead>Lemma</TableHead>
+						<TableHead>Translation</TableHead>
+						<TableHead>TBESH Gloss</TableHead>
+						<TableHead>TBESH Meaning</TableHead>
+						<TableHead>Freq</TableHead>
+						<TableHead>POS</TableHead>
+						<TableHead>Ref</TableHead>
 					</TableRow>
 				</TableHeader>
 
 				<TableBody>
 					{pageData.map((w) => (
 						<TableRow key={w.id}>
-							<TableCell className="font-serif text-2xl">{w.surface}</TableCell>
-							<TableCell className="font-hebrew">{w.lemmaVocalized}</TableCell>
-							<TableCell dir="ltr">{w.lemma}</TableCell>
+							<TableCell className="font-hebrew text-2xl">
+								{w.lemmaVocalized ?? w.surface}
+							</TableCell>
+
+							<TableCell>{pickGloss(w)}</TableCell>
+
+							<TableCell>{w.glossTbesh ?? ''}</TableCell>
+
+							<TableCell>{w.meaningTbesh ?? ''}</TableCell>
+
+							<TableCell>{w.frequency ?? 0}</TableCell>
+
 							<TableCell>
-								{' '}
 								{w.partOfSpeech ? t.pos[w.partOfSpeech] ?? w.partOfSpeech : ''}
 							</TableCell>
+
 							<TableCell>
 								{w.chapter.chapterNumber}:{w.verse.verseNumber}
 							</TableCell>
@@ -206,135 +234,23 @@ export default function HebrewDictionary({
 				</TableBody>
 			</Table>
 
-			{/* SHADCN PAGINATION */}
+			{/* PAGINATION */}
 			<Pagination>
 				<PaginationContent>
-					{/* PREVIOUS */}
-					<PaginationItem>
-						<LocalizedPrevious
-							onClick={() => page > 1 && setPage(page - 1)}
-							disabled={page <= 1}
-							label={t.nav.prev}
-						/>
-					</PaginationItem>
-
-					{/* PAGE WINDOW (10 numbers) */}
-					{(() => {
-						const windowSize = 10
-						const half = Math.floor(windowSize / 2)
-
-						let start = Math.max(1, page - half)
-						let end = start + windowSize - 1
-
-						if (end > totalPages) {
-							end = totalPages
-							start = Math.max(1, end - windowSize + 1)
-						}
-
-						const items = []
-						for (let p = start; p <= end; p++) {
-							items.push(
-								<PaginationItem key={p}>
-									<PaginationLink
-										onClick={() => setPage(p)}
-										isActive={p === page}
-									>
-										{p}
-									</PaginationLink>
-								</PaginationItem>
-							)
-						}
-						return items
-					})()}
-
-					{/* NEXT */}
-					<PaginationItem>
-						<LocalizedNext
-							onClick={() => page < totalPages && setPage(page + 1)}
-							disabled={page >= totalPages}
-							label={t.nav.next}
-						/>
-					</PaginationItem>
+					{Array.from({ length: totalPages }, (_, i) => i + 1)
+						.slice(Math.max(0, currentPage - 5), currentPage + 4)
+						.map((p) => (
+							<PaginationItem key={p}>
+								<PaginationLink
+									isActive={p === currentPage}
+									onClick={() => setPage(p)}
+								>
+									{p}
+								</PaginationLink>
+							</PaginationItem>
+						))}
 				</PaginationContent>
 			</Pagination>
-
-			{/* DIRECT PAGE INPUT */}
-			<div
-				className="flex w-full justify-center items-center gap-2 mt-4"
-				dir="ltr"
-			>
-				<span className="font-medium">Go to page:</span>
-				<Input
-					type="number"
-					min={1}
-					max={totalPages}
-					defaultValue={page}
-					onKeyDown={(e) => {
-						if (e.key === 'Enter') {
-							const value = Number((e.target as HTMLInputElement).value)
-							if (!isNaN(value)) {
-								setPage(Math.min(Math.max(value, 1), totalPages))
-							}
-						}
-					}}
-					className="w-24"
-				/>
-				<span className="text-sm text-muted-foreground">of {totalPages}</span>
-			</div>
 		</div>
-	)
-}
-
-function LocalizedPrevious({
-	disabled,
-	onClick,
-	label,
-}: {
-	disabled?: boolean
-	onClick?: () => void
-	label: string
-}) {
-	return (
-		<button
-			onClick={onClick}
-			disabled={disabled}
-			className={`
-                flex items-center gap-1 px-3 py-2 text-sm border rounded-md
-                bg-background hover:bg-accent hover:text-accent-foreground
-                disabled:opacity-50 disabled:pointer-events-none
-                transition-colors
-            `}
-		>
-			{/* Arrow pointing LEFT (auto-rotated in RTL by CSS on parent) */}
-			<span className="inline-block">&rarr;</span>
-			<span>{label}</span>
-		</button>
-	)
-}
-
-function LocalizedNext({
-	disabled,
-	onClick,
-	label,
-}: {
-	disabled?: boolean
-	onClick?: () => void
-	label: string
-}) {
-	return (
-		<button
-			onClick={onClick}
-			disabled={disabled}
-			className={`
-                flex items-center gap-1 px-3 py-2 text-sm border rounded-md
-                bg-background hover:bg-accent hover:text-accent-foreground
-                disabled:opacity-50 disabled:pointer-events-none
-                transition-colors
-            `}
-		>
-			<span>{label}</span>
-			{/* Arrow pointing RIGHT */}
-			<span className="inline-block">&larr;</span>
-		</button>
 	)
 }

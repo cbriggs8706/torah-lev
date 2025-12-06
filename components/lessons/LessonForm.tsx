@@ -24,14 +24,8 @@ import {
 	FieldError,
 } from '@/components/ui/field'
 import { toast } from 'sonner'
-import { HebrewVocabSelector } from './HebrewVocabSelector'
-import { PlusCircle } from 'lucide-react'
-
-// NEW
 import { extractYouTubeId } from '@/lib/youtube'
-import { HebrewVocabInlineEditor } from './HebrewVocabInlineEditor'
 import Image from 'next/image'
-import { Dialog, DialogContent, DialogTitle } from '../ui/dialog'
 
 export function LessonForm({
 	mode = 'create',
@@ -44,7 +38,6 @@ export function LessonForm({
 	const locale = pathname.split('/')[1] ?? 'en'
 	const router = useRouter()
 	const [loading, setLoading] = React.useState(false)
-	const [showVocabEditor, setShowVocabEditor] = React.useState(false)
 
 	const isReadOnly = mode === 'view'
 
@@ -240,67 +233,8 @@ export function LessonForm({
 								</Field>
 							)}
 						/>
-
-						{/* ===== VOCAB SELECTOR ===== */}
-						<Controller
-							name="vocabIds"
-							control={form.control}
-							render={({ field }) => (
-								<Field>
-									<FieldLabel>Vocabulary in this Lesson</FieldLabel>
-									<HebrewVocabSelector
-										value={field.value ?? []}
-										onChange={field.onChange}
-										disabled={isReadOnly}
-									/>
-
-									<Button
-										type="button"
-										variant="outline"
-										size="sm"
-										className="mt-2"
-										onClick={() => setShowVocabEditor(true)}
-										disabled={isReadOnly}
-									>
-										<PlusCircle className="w-4 h-4 mr-2" />
-										Add or Edit Vocabulary
-									</Button>
-								</Field>
-							)}
-						/>
 					</FieldGroup>
 				</form>
-
-				{/* Inline vocab editor dialog */}
-				{/* {showVocabEditor && (
-					<HebrewVocabInlineEditor
-						onClose={() => setShowVocabEditor(false)}
-						onSaved={() => {
-							toast.success('Vocabulary saved!')
-							setShowVocabEditor(false)
-						}}
-					/>
-				)} */}
-				<Dialog open={showVocabEditor} onOpenChange={setShowVocabEditor}>
-					<DialogTitle className="hidden">Vocab Editor</DialogTitle>
-					<DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto p-6">
-						<HebrewVocabInlineEditor
-							onSaved={(vocab) => {
-								if (!vocab) return // <-- prevent crash if closed
-
-								toast.success('Vocabulary saved!')
-								setShowVocabEditor(false)
-
-								const existing = form.getValues('vocabIds') ?? []
-								if (!existing.includes(vocab.id)) {
-									form.setValue('vocabIds', [...existing, vocab.id])
-								}
-
-								router.refresh()
-							}}
-						/>
-					</DialogContent>
-				</Dialog>
 			</CardContent>
 
 			<CardFooter>

@@ -5,7 +5,7 @@ import HebrewDictionary from '@/components/hebrew/HebrewDictionary'
 import {
 	getBookId,
 	getBookById,
-	getWordsForBookById,
+	getWordsForBook,
 } from '@/db/queries/hebrew-reader'
 import { getTranslations } from 'next-intl/server'
 
@@ -26,21 +26,20 @@ export default async function DictionaryPage({ params }: PageProps) {
 	const book = await getBookById(bookId)
 	if (!book) return notFound()
 
-	const words = await getWordsForBookById(bookId)
+	const words = await getWordsForBook(bookName)
 
 	return (
 		<div className="p-4 md:p-8">
 			<HebrewDictionary
+				locale={locale}
 				book={book}
 				words={words}
 				t={{
 					searchPlaceholder: t('search.placeholder'),
-					sortByChapter: t('breadcrumb.chapter'), // or better: custom key
-					sortAlphabetical: t('nav.next'), // replace with real key
-					pos: t.raw('pos'), // entire POS map
-					grammar: t.raw('grammar'), // full grammar labels
-					nav: t.raw('nav'), // prev/next button text
-					breadcrumb: t.raw('breadcrumb'), // prev/next button text
+					pos: t.raw('pos'),
+					grammar: t.raw('grammar'),
+					nav: t.raw('nav'),
+					breadcrumb: t.raw('breadcrumb'),
 				}}
 			/>
 		</div>
