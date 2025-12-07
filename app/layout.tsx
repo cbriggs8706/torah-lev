@@ -2,7 +2,7 @@
 import './globals.css'
 import {
 	nunito,
-	frl,
+	frank,
 	tinos,
 	cardo,
 	rashi,
@@ -25,7 +25,7 @@ export default function RootLayout({
 			lang="en"
 			className={[
 				nunito.variable,
-				frl.variable,
+				frank.variable,
 				tinos.variable,
 				cardo.variable,
 				rashi.variable,

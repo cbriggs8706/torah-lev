@@ -54,6 +54,14 @@ export function buildSidebarData(t: TFunction, locale: string) {
 				],
 			},
 			{
+				title: t('sidebar.main.alphabet'),
+				url: `/${locale}/hebrew/letter-quiz`,
+				icon: Pencil,
+				items: [
+					// { title: t('reader.types.SCRIPTURE'), url: '#' },
+				],
+			},
+			{
 				title: t('sidebar.main.grammar'),
 				url: '#',
 				icon: Bot,
@@ -64,17 +72,17 @@ export function buildSidebarData(t: TFunction, locale: string) {
 					{ title: t('sidebar.grammar.memorizer'), url: '#' },
 				],
 			},
-			{
-				title: t('sidebar.main.alphabet'),
-				url: '#',
-				icon: Pencil,
-				items: [
-					{ title: t('sidebar.alphabet.names'), url: '#' },
-					{ title: t('sidebar.alphabet.sounds'), url: '#' },
-					{ title: t('sidebar.alphabet.syllables'), url: '#' },
-					{ title: t('sidebar.alphabet.niqqud'), url: '#' },
-				],
-			},
+			// {
+			// 	title: t('sidebar.main.alphabet'),
+			// 	url: '#',
+			// 	icon: Pencil,
+			// 	items: [
+			// 		{ title: t('sidebar.alphabet.names'), url: '#' },
+			// 		{ title: t('sidebar.alphabet.sounds'), url: '#' },
+			// 		{ title: t('sidebar.alphabet.syllables'), url: '#' },
+			// 		{ title: t('sidebar.alphabet.niqqud'), url: '#' },
+			// 	],
+			// },
 			{
 				title: t('sidebar.main.numbers'),
 				url: '#',

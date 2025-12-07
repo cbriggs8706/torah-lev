@@ -24,9 +24,9 @@ export const nunito = Nunito({
 })
 
 /* ---------------- FRANK RUHL LIBRE ---------------- */
-export const frl = Frank_Ruhl_Libre({
+export const frank = Frank_Ruhl_Libre({
 	subsets: ['latin', 'hebrew'],
-	variable: '--font-frl',
+	variable: '--font-frank',
 	weight: ['400', '500', '700', '900'],
 	display: 'swap',
 })
