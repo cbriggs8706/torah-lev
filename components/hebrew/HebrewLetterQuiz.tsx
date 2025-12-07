@@ -16,6 +16,7 @@ import {
 	TooltipTrigger,
 } from '../ui/tooltip'
 import { useTranslations } from 'next-intl'
+import { ToggleGroup, ToggleGroupItem } from '../ui/toggle-group'
 
 // ------------------
 // TYPES
@@ -83,15 +84,13 @@ export default function HebrewLetterQuiz({ letters, niqqud }: Props) {
 	const [wrongAnswers, setWrongAnswers] = useState<HebrewLetter[]>([])
 	const [quizFinished, setQuizFinished] = useState(false)
 	const [shouldPlay, setShouldPlay] = useState(false)
+	const [selectedSyllables, setSelectedSyllables] = useState<string[]>([])
 
 	const t = useTranslations('alphabet')
 
 	// ------------------
 	// FILTER DATASET
 	// ------------------
-	function isBaseConsonant(l: HebrewLetter): boolean {
-		return !/[\u0591-\u05C7]/.test(l.char)
-	}
 
 	function isAllowedForFont(
 		item: HebrewLetter | HebrewNiqqud,
@@ -112,17 +111,66 @@ export default function HebrewLetterQuiz({ letters, niqqud }: Props) {
 	const filteredItems = useMemo(() => {
 		let base: (HebrewLetter | HebrewNiqqud)[] = []
 
+		// 1) NIQQUD MODE → show niqqud only
 		if (mode === 'niqqud') {
 			base = niqqud
-		} else if (mode === 'name' || mode === 'sound') {
-			// Only the alphabet — no niqqud variants
-			base = letters.filter(isBaseConsonant)
-		} else {
+		}
+
+		// 2) NAME / SOUND = base consonants only (same as your other project)
+		else if (mode === 'name' || mode === 'sound') {
+			base = letters.filter(
+				(l) => (l.nameAudio ?? '').includes('base') // EXACT rule from old project
+			)
+		}
+
+		// 3) SYLLABLE MODE = EXACT OLD PROJECT LOGIC
+		else if (mode === 'syllable') {
+			if (selectedSyllables.length === 0) return []
+
+			base = letters.filter((l) => {
+				const nameAudio = l.nameAudio ?? ''
+
+				// Extract the vowel key from filename:
+				// "name-alef-qamats.mp3" → "qamats"
+				const match = nameAudio.match(/name-[^-]+-(.+)\.mp3$/)
+				if (!match) return false
+
+				const syllableKey = match[1] // qamats, patach, hiriq-yod, etc.
+
+				return selectedSyllables.includes(syllableKey)
+			})
+		}
+
+		// 4) DEFAULT
+		else {
 			base = letters
 		}
 
+		// 5) Font filtering (unchanged)
 		return base.filter((item) => isAllowedForFont(item, fontChoice))
-	}, [mode, letters, niqqud, fontChoice])
+	}, [mode, letters, niqqud, fontChoice, selectedSyllables])
+
+	const syllableOptions = [
+		{ key: 'qamats', symbol: 'ָ', offset: -20 },
+		{ key: 'patach', symbol: 'ַ', offset: -20 },
+		{ key: 'chataf-patach', symbol: 'ֲ', offset: -20 },
+		{ key: 'tsere', symbol: 'ֵ', offset: -20 },
+		{ key: 'tsere-yod', symbol: 'י ֵ', offset: -10 },
+		{ key: 'segol', symbol: 'ֶ', offset: -20 },
+		{ key: 'segol-yod', symbol: 'י ֶ', offset: -10 },
+		{ key: 'chataf-segol', symbol: 'ֱ', offset: -20 },
+		{ key: 'hiriq', symbol: 'ִ', offset: -20 },
+		{ key: 'hiriq-yod', symbol: 'י ִ', offset: -10 },
+		{ key: 'holam', symbol: 'ֹ', offset: -20 },
+		{ key: 'holam-male', symbol: 'וֹ', offset: 0 },
+		{ key: 'chataf-qamats', symbol: 'ֳ', offset: -20 },
+		{ key: 'shuruk', symbol: 'וּ', offset: 0 },
+		{ key: 'qubutz', symbol: 'ֻ', offset: -20 },
+		{ key: 'patach-yod', symbol: 'י ַ', offset: -10 },
+		{ key: 'qamats-hey', symbol: 'ה ָ', offset: -5 },
+		{ key: 'shva', symbol: 'ְ', offset: -20 },
+		// { key: 'dagesh', symbol: 'ּ', offset: 0},
+	] as const
 
 	// ------------------
 	// START QUIZ
@@ -144,22 +192,35 @@ export default function HebrewLetterQuiz({ letters, niqqud }: Props) {
 	// ------------------
 	const getAudio = useCallback(
 		(item: HebrewLetter | HebrewNiqqud): string => {
-			if (mode === 'niqqud') return (item as HebrewNiqqud).soundAudio
+			// NIQQUD mode
+			if (mode === 'niqqud') {
+				return (item as HebrewNiqqud).soundAudio
+			}
 
 			const l = item as HebrewLetter
 
+			// NAME mode
 			if (mode === 'name') {
 				return pronunciation === 'sephardic'
 					? l.sephardicNameAudio ?? l.nameAudio
 					: l.nameAudio
 			}
 
+			// SOUND mode
 			if (mode === 'sound') {
 				return pronunciation === 'sephardic'
 					? l.sephardicSoundAudio ?? l.soundAudio
 					: l.soundAudio
 			}
 
+			// SYLLABLE MODE (THIS WAS BROKEN BEFORE!)
+			if (mode === 'syllable') {
+				return pronunciation === 'sephardic'
+					? l.sephardicSoundAudio ?? l.soundAudio
+					: l.soundAudio
+			}
+
+			// DEFAULT
 			return l.soundAudio
 		},
 		[mode, pronunciation]
@@ -270,6 +331,10 @@ export default function HebrewLetterQuiz({ letters, niqqud }: Props) {
 		'torah',
 	]
 
+	const disabledStart =
+		(mode === 'syllable' && selectedSyllables.length === 0) ||
+		filteredItems.length === 0
+
 	// -----------------------------------------
 	//  ⭑  FINAL RESULTS SCREEN
 	// -----------------------------------------
@@ -372,37 +437,36 @@ export default function HebrewLetterQuiz({ letters, niqqud }: Props) {
 				{/* MODE + PRONUNCIATION */}
 				<div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 					{/* MODE */}
-					<div className="w-full col-span-2">
-						<div className="text-sm font-medium mb-2">{t('mode.mode')}</div>
+					<div className="space-y-2">
+						<div className="text-sm font-medium">{t('mode.mode')}</div>
 
-						<Tabs value={mode} onValueChange={(v) => setMode(v as Mode)}>
-							<TabsList className="flex flex-wrap w-full">
-								<TabsTrigger
-									className="whitespace-normal text-center leading-tight px-2 py-1"
-									value="name"
-								>
-									{t('mode.name')}
-								</TabsTrigger>
-								<TabsTrigger
-									className="whitespace-normal text-center leading-tight px-2 py-1"
-									value="sound"
-								>
-									{t('mode.sound')}
-								</TabsTrigger>
-								<TabsTrigger
-									className="whitespace-normal text-center leading-tight px-2 py-1"
-									value="syllable"
-								>
-									{t('mode.syllable')}
-								</TabsTrigger>
-								<TabsTrigger
-									className="whitespace-normal text-center leading-tight px-2 py-1"
-									value="niqqud"
-								>
-									{t('mode.niqqud')}
-								</TabsTrigger>
-							</TabsList>
-						</Tabs>
+						<div className="flex flex-wrap gap-2">
+							{(
+								[
+									{ key: 'name', label: t('mode.name') },
+									{ key: 'sound', label: t('mode.sound') },
+									{ key: 'syllable', label: t('mode.syllable') },
+									{ key: 'niqqud', label: t('mode.niqqud') },
+								] as { key: Mode; label: string }[]
+							).map(({ key, label }) => {
+								const active = mode === key
+
+								return (
+									<button
+										key={key}
+										onClick={() => setMode(key)}
+										className={cn(
+											'px-4 py-2 rounded-full text-sm font-medium transition-all',
+											active
+												? 'bg-sky-600 text-white shadow-sm'
+												: 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+										)}
+									>
+										{label}
+									</button>
+								)
+							})}
+						</div>
 					</div>
 
 					{/* PRONUNCIATION */}
@@ -433,6 +497,55 @@ export default function HebrewLetterQuiz({ letters, niqqud }: Props) {
 						</Tabs>
 					</div>
 				</div>
+
+				{/* SYLLABLE PICKER */}
+				{mode === 'syllable' && (
+					<div className="space-y-4 mt-6">
+						<div className="text-sm font-medium">{t('chooseSyllables')}</div>
+
+						<div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7 gap-4">
+							{syllableOptions.map(({ key, symbol, offset }) => {
+								const isActive = selectedSyllables.includes(key)
+
+								return (
+									<Button
+										key={key}
+										variant={isActive ? 'default' : 'outline'}
+										onClick={() =>
+											setSelectedSyllables((prev) =>
+												prev.includes(key)
+													? prev.filter((p) => p !== key)
+													: [...prev, key]
+											)
+										}
+										className={cn(
+											'flex flex-col items-center justify-start gap-1 p-3 h-28 w-full min-w-0',
+											'transition-all',
+											isActive && 'ring-2 ring-sky-500'
+										)}
+									>
+										{/* LABEL */}
+										<span className="text-xs capitalize">
+											{key.replace(/-/g, ' ')}
+										</span>
+
+										{/* SYMBOL PREVIEW */}
+										<div className="flex items-center justify-center h-16 w-full overflow-hidden">
+											<div
+												className={cn(
+													'text-[60px] leading-none font-times mb-2'
+												)}
+												style={{ marginLeft: offset || 0 }}
+											>
+												{symbol}
+											</div>
+										</div>
+									</Button>
+								)
+							})}
+						</div>
+					</div>
+				)}
 
 				{/* FONT PICKER */}
 				<div className="space-y-3">
@@ -489,12 +602,13 @@ export default function HebrewLetterQuiz({ letters, niqqud }: Props) {
 						variant="secondary"
 						size="lg"
 						className="w-full md:w-auto"
+						disabled={disabledStart}
 						onClick={() => startQuiz(true)}
 					>
 						{t('study')}
 					</Button>
 
-					<div>
+					<div className="">
 						<TooltipProvider>
 							<Tooltip>
 								<TooltipTrigger asChild>
@@ -526,6 +640,7 @@ export default function HebrewLetterQuiz({ letters, niqqud }: Props) {
 					<Button
 						size="lg"
 						className="w-full md:w-auto"
+						disabled={disabledStart}
 						onClick={() => startQuiz(false)}
 					>
 						{t('startQuiz')}
@@ -542,13 +657,21 @@ export default function HebrewLetterQuiz({ letters, niqqud }: Props) {
 		return (
 			<Card className="max-w-3xl mx-auto p-6">
 				<CardHeader className="flex justify-between items-center">
-					<h2 className="text-lg font-semibold">{t('studyAlphabet')}</h2>
 					<Button variant="ghost" onClick={reset}>
 						{t('back')}
 					</Button>
+					<div className="text-lg font-medium text-sky-700 dark:text-sky-300">
+						{mode === 'name' && t('mode.name')}
+						{mode === 'sound' && t('mode.sound')}
+						{mode === 'syllable' && t('mode.syllable')}
+						{mode === 'niqqud' && t('mode.niqqud')}
+					</div>
+					<div className="w-1/6"></div>
 				</CardHeader>
 
 				<CardContent className="flex flex-wrap gap-4 justify-center" dir="rtl">
+					{/* MODE LABEL */}
+
 					{filteredItems.map((item, i) => (
 						<div
 							key={i}
@@ -676,7 +799,11 @@ export default function HebrewLetterQuiz({ letters, niqqud }: Props) {
 					<Button
 						variant="ghost"
 						size="icon"
-						onClick={() => audioRef.current?.play()}
+						onClick={() => {
+							if (current) {
+								new Audio(getAudio(current)).play()
+							}
+						}}
 					>
 						🔊
 					</Button>
