@@ -1,4 +1,4 @@
-// app/[locale]/(app)/hebrew/letter-quiz/page.tsx
+// app/[locale]/(app)/hebrew/alphabet/page.tsx
 
 // import { getCurrentPublicCourses } from '@/db/queries/courses'
 // import { authOptions } from '@/lib/auth'
@@ -6,7 +6,7 @@
 import { getTranslations } from 'next-intl/server'
 import { hebrewLetters } from '@/lib/hebrew/hebrew-letters'
 import { hebrewNiqqud } from '@/lib/hebrew/hebrew-niqqud'
-import HebrewLetterQuiz from '@/components/hebrew/HebrewLetterQuiz'
+import HebrewLetterQuiz from '@/components/hebrew/HebrewAlphabet'
 
 interface PageProps {
 	params: Promise<{ locale: string }>

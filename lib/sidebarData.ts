@@ -55,7 +55,7 @@ export function buildSidebarData(t: TFunction, locale: string) {
 			},
 			{
 				title: t('sidebar.main.alphabet'),
-				url: `/${locale}/hebrew/letter-quiz`,
+				url: `/${locale}/hebrew/alphabet`,
 				icon: Pencil,
 				items: [
 					// { title: t('reader.types.SCRIPTURE'), url: '#' },
