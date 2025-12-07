@@ -1,0 +1,12 @@
+{
+	"title": "Kurser",
+	"create": "Skapa",
+	"singular": "Kurs",
+	"list": {
+		"bh": "Bibeltolkad hebreiska",
+		"bg": "Bibeltolkad grekiska",
+		"mh": "Modern hebreiska",
+		"me": "Modern engelska",
+		"ms": "Modern spanska"
+	}
+}

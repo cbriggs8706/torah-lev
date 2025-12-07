@@ -1,0 +1,77 @@
+{
+	"main": {
+		"courses": "Kurser",
+		"vocabulary": "Ordförråd",
+		"reader": "Läsare",
+		"grammar": "Grammatik",
+		"alphabet": "Alfabet",
+		"numbers": "Tal",
+		"freeForever": "För alltid gratis",
+		"language": "Språk",
+		"chooseLanguage": "Välj språk",
+		"torahLev": "TorahLev (Hjärta)"
+	},
+	"courses": {
+		"bh": "Bibeltolkad hebreiska",
+		"bg": "Bibeltolkad grekiska",
+		"mh": "Modern hebreiska",
+		"me": "Modern engelska",
+		"ms": "Modern spanska",
+		"bookclub": "Bokklubb"
+	},
+	"vocabulary": {
+		"flashcards": "Kort",
+		"dictionary": "Ordbok",
+		"learn": "Lär dig",
+		"matching": "Matchning",
+		"spelling": "Stavning"
+	},
+	"grammar": {
+		"verbs": "Verb",
+		"scramble": "Meningsbygge",
+		"builder": "Meningsbyggare",
+		"memorizer": "Minne-tränare"
+	},
+	"alphabet": {
+		"names": "Namn",
+		"sounds": "Ljud",
+		"syllables": "Stavelser",
+		"niqqud": "Niqqud"
+	},
+	"numbers": {
+		"cardinal": "Grundtal",
+		"ordinal": "Ordningstal",
+		"construct": "Konstruktsform"
+	},
+	"secondary": {
+		"leaderboard": "Topplista",
+		"calendar": "Kalender",
+		"help": "Hjälp",
+		"feedback": "Feedback"
+	},
+	"input": {
+		"songs": "Sånger",
+		"stories": "Berättelser",
+		"scriptures": "Skrifterna",
+		"prayers": "Böner",
+		"comprehensible": "Begriplig input"
+	},
+	"lesson": {
+		"scripts": "Lektionsmanus",
+		"grammarLessons": "Grammatiklektioner",
+		"lessonContent": "Lektionsinnehåll"
+	},
+	"teacher": {
+		"title": "Lärare",
+		"myCourses": "Mina kurser",
+		"createCourse": "Skapa kurs"
+	},
+	"user": {
+		"account": "Konto",
+		"notifications": "Aviseringar",
+		"logout": "Logga ut",
+		"login": "Logga in",
+		"register": "Registrera dig",
+		"dashboard": "Instrumentpanel"
+	}
+}

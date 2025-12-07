@@ -1,0 +1,29 @@
+{
+	"title": "Hebreiskt alfabet",
+	"study": "Studiemode",
+	"startQuiz": "Starta quiz",
+	"secondsToAnswer": "Svarstid (sekunder)",
+	"mode": {
+		"mode": "Läge",
+		"name": "Bokstavsnamn",
+		"sound": "Bokstavsljud",
+		"syllable": "Stavelseljud",
+		"niqqud": "Niqqud-namn"
+	},
+	"pronunciation": "Uttal",
+	"sephardic": "Sefardiskt",
+	"masoretic": "Masoretiskt",
+	"quizComplete": "Quiz slutfört!",
+	"correct": "Rätt",
+	"incorrect": "Fel",
+	"youPassed": "Du klarade det!",
+	"youFailed": "För att klara quizet får du inte göra fler än 2 misstag.",
+	"pointsEarned": "Intjänade poäng",
+	"youMissed": "Detta missade du:",
+	"startOver": "Börja om",
+	"back": "Tillbaka",
+	"studyAlphabet": "Studera alfabetet",
+	"iGotIt": "Jag klarade det",
+	"iMissedIt": "Jag missade det",
+	"font": "Typsnitt"
+}

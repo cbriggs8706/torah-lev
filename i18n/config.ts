@@ -26,7 +26,6 @@ export const LOCALES = [
 	'fa', // Persian (Farsi)
 	'tr', // Turkish
 	'cs', // Czech
-	'jp', // Japanese
 ] as const
 
 export type Locale = (typeof LOCALES)[number]

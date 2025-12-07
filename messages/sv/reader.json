@@ -1,0 +1,53 @@
+{
+	"title": "Hebreiska texter",
+	"nav": {
+		"next": "Nästa",
+		"prev": "Föregående",
+		"openDic": "Öppna ordbok för"
+	},
+	"gap": "Lucka",
+	"filter": {
+		"placeholder": "Filtrera efter typ",
+		"all": "Alla typer"
+	},
+	"search": {
+		"placeholder": "Sök i böcker…"
+	},
+	"types": {
+		"SCRIPTURE": "Skrifterna",
+		"LESSON-SCRIPT": "Lektionsmanus",
+		"STORY": "Berättelser",
+		"SONG": "Sånger",
+		"PRAYER": "Böner"
+	},
+	"breadcrumb": {
+		"reader": "Läsare",
+		"hebrew": "Hebreiska",
+		"chapter": "Kapitel"
+	},
+	"pos": {
+		"adjv": "Adjektiv",
+		"advb": "Adverb",
+		"art": "Artikel",
+		"conj": "Konjunktion",
+		"inrg": "Frågeord",
+		"intj": "Interjektion",
+		"nega": "Negation",
+		"nmpr": "Eget namn",
+		"prde": "Demonstrativt pronomen",
+		"prep": "Preposition",
+		"prin": "Indefinit pronomen",
+		"prps": "Possessivt pronomen",
+		"subs": "Substantiv",
+		"verb": "Verb"
+	},
+	"grammar": {
+		"lemma": "Lemma",
+		"root": "Rot",
+		"translation": "Översättning",
+		"transliteration": "Translitteration",
+		"stem": "Stam",
+		"tense": "Tempus",
+		"pos": "Ordklass"
+	}
+}

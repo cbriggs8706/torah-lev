@@ -56,6 +56,4 @@ export const LANGUAGES: Record<string, { label: string; flag: string }> = {
 
 	// 15. Czech
 	cs: { label: 'Čeština', flag: 'fi-cz' },
-	// 16. Japanese
-	jp: { label: '日本語', flag: 'fi-jp' },
 }

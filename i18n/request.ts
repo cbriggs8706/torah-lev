@@ -29,7 +29,6 @@ const SUPPORTED_LOCALES = [
 	'fa', // Farsi (Persian)
 	'tr', // Turkish
 	'cs', // Czech
-	'jp', // Japanese
 ] as const
 
 export type Locale = (typeof SUPPORTED_LOCALES)[number]
