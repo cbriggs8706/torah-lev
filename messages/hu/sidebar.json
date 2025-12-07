@@ -1,0 +1,77 @@
+{
+	"main": {
+		"courses": "Kurzusok",
+		"vocabulary": "Szókincs",
+		"reader": "Olvasó",
+		"grammar": "Nyelvtan",
+		"alphabet": "Ábécé",
+		"numbers": "Számok",
+		"freeForever": "Örökre ingyenes",
+		"language": "Nyelv",
+		"chooseLanguage": "Nyelv kiválasztása",
+		"torahLev": "TorahLev (Szív)"
+	},
+	"courses": {
+		"bh": "Bibliai héber",
+		"bg": "Bibliai görög",
+		"mh": "Modern héber",
+		"me": "Modern angol",
+		"ms": "Modern spanyol",
+		"bookclub": "Könyvklub"
+	},
+	"vocabulary": {
+		"flashcards": "Kártyák",
+		"dictionary": "Szótár",
+		"learn": "Tanulás",
+		"matching": "Párosítás",
+		"spelling": "Helyesírás"
+	},
+	"grammar": {
+		"verbs": "Igék",
+		"scramble": "Mondatkeverés",
+		"builder": "Mondatépítő",
+		"memorizer": "Memorizálás"
+	},
+	"alphabet": {
+		"names": "Nevek",
+		"sounds": "Hangok",
+		"syllables": "Szótagok",
+		"niqqud": "Niqqud"
+	},
+	"numbers": {
+		"cardinal": "Tőszámnevek",
+		"ordinal": "Sorszámnevek",
+		"construct": "Konstruktus állapot"
+	},
+	"secondary": {
+		"leaderboard": "Ranglista",
+		"calendar": "Naptár",
+		"help": "Segítség",
+		"feedback": "Visszajelzés"
+	},
+	"input": {
+		"songs": "Dalok",
+		"stories": "Történetek",
+		"scriptures": "Szentírás",
+		"prayers": "Imák",
+		"comprehensible": "Érthető input"
+	},
+	"lesson": {
+		"scripts": "Leckeszövegek",
+		"grammarLessons": "Nyelvtani leckék",
+		"lessonContent": "Lecketartalom"
+	},
+	"teacher": {
+		"title": "Tanár",
+		"myCourses": "Saját kurzusaim",
+		"createCourse": "Kurzus létrehozása"
+	},
+	"user": {
+		"account": "Fiók",
+		"notifications": "Értesítések",
+		"logout": "Kijelentkezés",
+		"login": "Bejelentkezés",
+		"register": "Regisztráció",
+		"dashboard": "Vezérlőpult"
+	}
+}

@@ -1,0 +1,29 @@
+{
+	"title": "Alfabeto Ebraico",
+	"study": "Modalità studio",
+	"startQuiz": "Inizia quiz",
+	"secondsToAnswer": "Secondi per rispondere",
+	"mode": {
+		"mode": "Modalità",
+		"name": "Nomi delle lettere",
+		"sound": "Suoni delle lettere",
+		"syllable": "Suoni delle sillabe",
+		"niqqud": "Nomi del Niqqud"
+	},
+	"pronunciation": "Pronuncia",
+	"sephardic": "Sefardita",
+	"masoretic": "Masoretica",
+	"quizComplete": "Quiz completato!",
+	"correct": "Corretto",
+	"incorrect": "Errato",
+	"youPassed": "Hai superato il quiz!",
+	"youFailed": "Per superare il quiz, non devi fare più di due errori.",
+	"pointsEarned": "Punti ottenuti",
+	"youMissed": "Errori:",
+	"startOver": "Ricomincia",
+	"back": "Indietro",
+	"studyAlphabet": "Studia l’alfabeto",
+	"iGotIt": "L’ho indovinato",
+	"iMissedIt": "Ho sbagliato",
+	"font": "Carattere"
+}

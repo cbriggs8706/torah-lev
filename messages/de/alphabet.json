@@ -1,0 +1,29 @@
+{
+	"title": "Hebräisches Alphabet",
+	"study": "Lernmodus",
+	"startQuiz": "Quiz starten",
+	"secondsToAnswer": "Sekunden zum Antworten",
+	"mode": {
+		"mode": "Modus",
+		"name": "Buchstabennamen",
+		"sound": "Buchstabenlaute",
+		"syllable": "Silbenlaute",
+		"niqqud": "Niqqud-Namen"
+	},
+	"pronunciation": "Aussprache",
+	"sephardic": "Sefardisch",
+	"masoretic": "Masoretisch",
+	"quizComplete": "Quiz abgeschlossen!",
+	"correct": "Richtig",
+	"incorrect": "Falsch",
+	"youPassed": "Bestanden!",
+	"youFailed": "Um zu bestehen, dürfen Sie höchstens zwei Fehler machen.",
+	"pointsEarned": "Punkte erhalten",
+	"youMissed": "Falsch beantwortet:",
+	"startOver": "Neu beginnen",
+	"back": "Zurück",
+	"studyAlphabet": "Alphabet lernen",
+	"iGotIt": "Ich wusste es",
+	"iMissedIt": "Ich lag falsch",
+	"font": "Schriftart"
+}

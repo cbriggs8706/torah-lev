@@ -1,0 +1,53 @@
+{
+	"title": "히브리어 텍스트",
+	"nav": {
+		"next": "다음",
+		"prev": "이전",
+		"openDic": "사전 열기:"
+	},
+	"gap": "빈칸",
+	"filter": {
+		"placeholder": "유형별 필터",
+		"all": "모든 유형"
+	},
+	"search": {
+		"placeholder": "책 검색…"
+	},
+	"types": {
+		"SCRIPTURE": "성경 본문",
+		"LESSON-SCRIPT": "수업 스크립트",
+		"STORY": "이야기",
+		"SONG": "노래",
+		"PRAYER": "기도"
+	},
+	"breadcrumb": {
+		"reader": "리더",
+		"hebrew": "히브리어",
+		"chapter": "장"
+	},
+	"pos": {
+		"adjv": "형용사",
+		"advb": "부사",
+		"art": "관사",
+		"conj": "접속사",
+		"inrg": "의문사",
+		"intj": "감탄사",
+		"nega": "부정어",
+		"nmpr": "고유 명사",
+		"prde": "지시 대명사",
+		"prep": "전치사",
+		"prin": "부정 대명사",
+		"prps": "소유 대명사",
+		"subs": "명사",
+		"verb": "동사"
+	},
+	"grammar": {
+		"lemma": "기본형",
+		"root": "어근",
+		"translation": "번역",
+		"transliteration": "음역",
+		"stem": "어간",
+		"tense": "시제",
+		"pos": "품사"
+	}
+}

@@ -1,0 +1,29 @@
+{
+	"title": "የዕብራይስጥ ፊደላት",
+	"study": "የትምህርት ሁነታ",
+	"startQuiz": "ፈተና ጀምር",
+	"secondsToAnswer": "ለመለስ ሰከንዶች",
+	"mode": {
+		"mode": "ሁነታ",
+		"name": "የፊደሎች ስሞች",
+		"sound": "የፊደሎች ድምፅ",
+		"syllable": "የክፍሎች ድምፅ",
+		"niqqud": "የኒቁድ ስሞች"
+	},
+	"pronunciation": "አናባቢ",
+	"sephardic": "ሰፋርዲክ",
+	"masoretic": "ማሶራዊ",
+	"quizComplete": "ፈተናው ተጠናቋል!",
+	"correct": "ትክክል",
+	"incorrect": "ስህተት",
+	"youPassed": "አልፈዋል!",
+	"youFailed": "ለመለፍ ከሁለት ስህተቶች በታች መሆን አለብዎት።",
+	"pointsEarned": "የተቀበሉት ነጥቦች",
+	"youMissed": "ያሳሱት:",
+	"startOver": "እንደገና ጀምር",
+	"back": "ተመለስ",
+	"studyAlphabet": "ፊደላት ይማሩ",
+	"iGotIt": "ትክክል መለስሁ",
+	"iMissedIt": "ስህተት ሆኗል",
+	"font": "ፊደል ቅርጽ"
+}

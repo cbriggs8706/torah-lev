@@ -1,0 +1,29 @@
+{
+	"title": "Alfabet hebrajski",
+	"study": "Tryb nauki",
+	"startQuiz": "Rozpocznij quiz",
+	"secondsToAnswer": "Sekundy na odpowiedź",
+	"mode": {
+		"mode": "Tryb",
+		"name": "Nazwy liter",
+		"sound": "Dźwięki liter",
+		"syllable": "Dźwięki sylab",
+		"niqqud": "Nazwy Niqqud"
+	},
+	"pronunciation": "Wymowa",
+	"sephardic": "Sefardyjska",
+	"masoretic": "Masorecka",
+	"quizComplete": "Quiz zakończony!",
+	"correct": "Poprawne",
+	"incorrect": "Niepoprawne",
+	"youPassed": "Zdałeś!",
+	"youFailed": "Aby zdać, możesz mieć maksymalnie dwa błędy.",
+	"pointsEarned": "Zdobyte punkty",
+	"youMissed": "Błędy:",
+	"startOver": "Zacznij od nowa",
+	"back": "Wróć",
+	"studyAlphabet": "Ucz się alfabetu",
+	"iGotIt": "Wiedziałem",
+	"iMissedIt": "Pomyliłem się",
+	"font": "Czcionka"
+}

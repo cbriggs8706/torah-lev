@@ -1,0 +1,53 @@
+{
+	"title": "Maandishi ya Kiebrania",
+	"nav": {
+		"next": "Ifuatayo",
+		"prev": "Iliyotangulia",
+		"openDic": "Fungua Kamusi ya"
+	},
+	"gap": "Pengo",
+	"filter": {
+		"placeholder": "Chuja kwa aina",
+		"all": "Aina Zote"
+	},
+	"search": {
+		"placeholder": "Tafuta vitabu…"
+	},
+	"types": {
+		"SCRIPTURE": "Maandiko",
+		"LESSON-SCRIPT": "Maandiko ya Somo",
+		"STORY": "Hadithi",
+		"SONG": "Nyimbo",
+		"PRAYER": "Maombi"
+	},
+	"breadcrumb": {
+		"reader": "Msomaji",
+		"hebrew": "Kiebrania",
+		"chapter": "Sura"
+	},
+	"pos": {
+		"adjv": "Kivumishi",
+		"advb": "Kielezi",
+		"art": "Kipachizi",
+		"conj": "Kiunganishi",
+		"inrg": "Kiulizi",
+		"intj": "Kivumizi",
+		"nega": "Kikanushi",
+		"nmpr": "Nomino Maalum",
+		"prde": "Kiashirio",
+		"prep": "Kihusishi",
+		"prin": "Kiashiria Kisiyo Mahususi",
+		"prps": "Kimuowni (Kivumishi cha Umilikaji)",
+		"subs": "Nomino",
+		"verb": "Kitenzi"
+	},
+	"grammar": {
+		"lemma": "Lema",
+		"root": "Mzizi",
+		"translation": "Tafsiri",
+		"transliteration": "Uandikishaji",
+		"stem": "Mzizi Husika",
+		"tense": "Wakati",
+		"pos": "Aina ya Neno"
+	}
+}

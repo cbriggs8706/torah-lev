@@ -1,0 +1,29 @@
+{
+	"title": "İbranice Alfabe",
+	"study": "Çalışma Modu",
+	"startQuiz": "Teste Başla",
+	"secondsToAnswer": "Cevap Süresi (saniye)",
+	"mode": {
+		"mode": "Mod",
+		"name": "Harf Adları",
+		"sound": "Harf Sesleri",
+		"syllable": "Hece Sesleri",
+		"niqqud": "Nikkud Adları"
+	},
+	"pronunciation": "Telaffuz",
+	"sephardic": "Sefarad",
+	"masoretic": "Masoretik",
+	"quizComplete": "Test Tamamlandı!",
+	"correct": "Doğru",
+	"incorrect": "Yanlış",
+	"youPassed": "Tebrikler! Geçtiniz!",
+	"youFailed": "Geçmek için en fazla 2 hata yapabilirsiniz.",
+	"pointsEarned": "Kazanılan Puan",
+	"youMissed": "Kaçırdıklarınız:",
+	"startOver": "Baştan Başla",
+	"back": "Geri",
+	"studyAlphabet": "Alfabeyi İncele",
+	"iGotIt": "Doğru Bildim",
+	"iMissedIt": "Kaçırdım",
+	"font": "Yazı Tipi"
+}

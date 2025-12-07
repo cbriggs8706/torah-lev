@@ -1,0 +1,77 @@
+{
+	"main": {
+		"courses": "دوره‌ها",
+		"vocabulary": "واژگان",
+		"reader": "خوانش‌گر",
+		"grammar": "دستور زبان",
+		"alphabet": "الفبا",
+		"numbers": "اعداد",
+		"freeForever": "برای همیشه رایگان",
+		"language": "زبان",
+		"chooseLanguage": "انتخاب زبان",
+		"torahLev": "TorahLev (قلب)"
+	},
+	"courses": {
+		"bh": "عبری کتاب‌مقدس",
+		"bg": "یونانی کتاب‌مقدس",
+		"mh": "عبری مدرن",
+		"me": "انگلیسی مدرن",
+		"ms": "اسپانیایی مدرن",
+		"bookclub": "باشگاه کتاب"
+	},
+	"vocabulary": {
+		"flashcards": "فلش‌کارت‌ها",
+		"dictionary": "واژه‌نامه",
+		"learn": "یادگیری",
+		"matching": "هماهنگ‌سازی",
+		"spelling": "املاء"
+	},
+	"grammar": {
+		"verbs": "افعال",
+		"scramble": "جمله‌سازی",
+		"builder": "سازنده جمله",
+		"memorizer": "حافظه‌یار"
+	},
+	"alphabet": {
+		"names": "نام‌ها",
+		"sounds": "صداها",
+		"syllables": "هجاها",
+		"niqqud": "نیکود"
+	},
+	"numbers": {
+		"cardinal": "اعداد اصلی",
+		"ordinal": "اعداد ترتیبی",
+		"construct": "حالت اِضافه"
+	},
+	"secondary": {
+		"leaderboard": "جدول رتبه‌بندی",
+		"calendar": "تقویم",
+		"help": "کمک",
+		"feedback": "بازخورد"
+	},
+	"input": {
+		"songs": "سرودها",
+		"stories": "داستان‌ها",
+		"scriptures": "متون مقدس",
+		"prayers": "دعاها",
+		"comprehensible": "ورودی قابل فهم"
+	},
+	"lesson": {
+		"scripts": "متون درس",
+		"grammarLessons": "درس‌های دستور زبان",
+		"lessonContent": "محتوای درس"
+	},
+	"teacher": {
+		"title": "معلم",
+		"myCourses": "دوره‌های من",
+		"createCourse": "ایجاد دوره"
+	},
+	"user": {
+		"account": "حساب",
+		"notifications": "اعلان‌ها",
+		"logout": "خروج",
+		"login": "ورود",
+		"register": "ثبت‌نام",
+		"dashboard": "داشبورد"
+	}
+}

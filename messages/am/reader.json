@@ -1,0 +1,53 @@
+{
+	"title": "የዕብራይስጥ ጽሑፎች",
+	"nav": {
+		"next": "ቀጣይ",
+		"prev": "ቀዳሚ",
+		"openDic": "መዝገበ ቃላት መክፈት ለ"
+	},
+	"gap": "ባዶ ቦታ",
+	"filter": {
+		"placeholder": "በአይነት ይዘርዝሩ",
+		"all": "ሁሉም አይነቶች"
+	},
+	"search": {
+		"placeholder": "መጽሐፍት ይፈልጉ…"
+	},
+	"types": {
+		"SCRIPTURE": "መጽሐፍ ቅዱሳት",
+		"LESSON-SCRIPT": "የትምህርት ጽሑፎች",
+		"STORY": "ታሪኮች",
+		"SONG": "መዝሙሮች",
+		"PRAYER": "ጸሎቶች"
+	},
+	"breadcrumb": {
+		"reader": "አንባቢ",
+		"hebrew": "ዕብራይስጥ",
+		"chapter": "ምዕራፍ"
+	},
+	"pos": {
+		"adjv": "ተውሳክ ቃል",
+		"advb": "ሁኔታ ቃል",
+		"art": "መጠቀሚያ ቃል",
+		"conj": "ግቤት ቃል",
+		"inrg": "ጥያቄ ቃል",
+		"intj": "መዝገባ ቃል",
+		"nega": "እቃ ክፍል ተከላ",
+		"nmpr": "ስም አስተዋይ",
+		"prde": "መጠቆሚያ ስም",
+		"prep": "ቅድመ ቃል",
+		"prin": "ያልተወሰነ ስም",
+		"prps": "የባለቤትነት ስም",
+		"subs": "ስም",
+		"verb": "ግስ"
+	},
+	"grammar": {
+		"lemma": "ሌማ",
+		"root": "ሥር",
+		"translation": "ትርጉም",
+		"transliteration": "በሌላ ፊደል መጻፍ",
+		"stem": "ሥርዓት",
+		"tense": "ጊዜ",
+		"pos": "የቃል አይነት"
+	}
+}

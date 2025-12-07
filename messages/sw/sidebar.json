@@ -1,0 +1,77 @@
+{
+	"main": {
+		"courses": "Kozi",
+		"vocabulary": "Msamiati",
+		"reader": "Msomaji",
+		"grammar": "Sarufi",
+		"alphabet": "Alfabeti",
+		"numbers": "Nambari",
+		"freeForever": "Bure Milele",
+		"language": "Lugha",
+		"chooseLanguage": "Chagua Lugha",
+		"torahLev": "TorahLev (Moyo)"
+	},
+	"courses": {
+		"bh": "Kiebrania cha Kibiblia",
+		"bg": "Kigiriki cha Kibiblia",
+		"mh": "Kiebrania cha Kisasa",
+		"me": "Kiingereza cha Kisasa",
+		"ms": "Kihispania cha Kisasa",
+		"bookclub": "Klabu ya Vitabu"
+	},
+	"vocabulary": {
+		"flashcards": "Kadi za Kujifunza",
+		"dictionary": "Kamusi",
+		"learn": "Jifunze",
+		"matching": "Ulinganishaji",
+		"spelling": "Tahajia"
+	},
+	"grammar": {
+		"verbs": "Vitenzi",
+		"scramble": "Panga Sentensi",
+		"builder": "Mjengeaji wa Sentensi",
+		"memorizer": "Kikumbushaji"
+	},
+	"alphabet": {
+		"names": "Majina",
+		"sounds": "Sauti",
+		"syllables": "Silabi",
+		"niqqud": "Niqqud"
+	},
+	"numbers": {
+		"cardinal": "Nambari Kardinali",
+		"ordinal": "Nambari Orodha",
+		"construct": "Muundo"
+	},
+	"secondary": {
+		"leaderboard": "Orodha ya Washindi",
+		"calendar": "Kalenda",
+		"help": "Msaada",
+		"feedback": "Maoni"
+	},
+	"input": {
+		"songs": "Nyimbo",
+		"stories": "Hadithi",
+		"scriptures": "Maandiko",
+		"prayers": "Maombi",
+		"comprehensible": "Uingizaji Unaoweza Kueleweka"
+	},
+	"lesson": {
+		"scripts": "Maandishi ya Masomo",
+		"grammarLessons": "Masomo ya Sarufi",
+		"lessonContent": "Maudhui ya Somo"
+	},
+	"teacher": {
+		"title": "Mwalimu",
+		"myCourses": "Kozi Nilizounda",
+		"createCourse": "Unda Kozi"
+	},
+	"user": {
+		"account": "Akaunti",
+		"notifications": "Taarifa",
+		"logout": "Toka",
+		"login": "Ingia",
+		"register": "Fungua Akaunti",
+		"dashboard": "Dashibodi"
+	}
+}

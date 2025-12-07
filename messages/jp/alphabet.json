@@ -1,0 +1,29 @@
+{
+	"title": "ヘブライ語アルファベット",
+	"study": "学習モード",
+	"startQuiz": "クイズを開始",
+	"secondsToAnswer": "回答時間（秒）",
+	"mode": {
+		"mode": "モード",
+		"name": "文字名",
+		"sound": "文字の音",
+		"syllable": "音節の音",
+		"niqqud": "ニクード名"
+	},
+	"pronunciation": "発音",
+	"sephardic": "セファルディ",
+	"masoretic": "マソラ",
+	"quizComplete": "クイズ完了！",
+	"correct": "正解",
+	"incorrect": "不正解",
+	"youPassed": "合格です！",
+	"youFailed": "合格するには、間違いは2回までです。",
+	"pointsEarned": "獲得ポイント",
+	"youMissed": "間違えた文字：",
+	"startOver": "やり直す",
+	"back": "戻る",
+	"studyAlphabet": "アルファベットを学ぶ",
+	"iGotIt": "正しくできた",
+	"iMissedIt": "間違えた",
+	"font": "フォント"
+}

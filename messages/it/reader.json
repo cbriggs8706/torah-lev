@@ -1,0 +1,53 @@
+{
+	"title": "Testi Ebraici",
+	"nav": {
+		"next": "Avanti",
+		"prev": "Indietro",
+		"openDic": "Apri dizionario per"
+	},
+	"gap": "Spazio mancante",
+	"filter": {
+		"placeholder": "Filtra per tipo",
+		"all": "Tutti i tipi"
+	},
+	"search": {
+		"placeholder": "Cerca libri…"
+	},
+	"types": {
+		"SCRIPTURE": "Scritture",
+		"LESSON-SCRIPT": "Copioni delle lezioni",
+		"STORY": "Storie",
+		"SONG": "Canzoni",
+		"PRAYER": "Preghiere"
+	},
+	"breadcrumb": {
+		"reader": "Lettore",
+		"hebrew": "Ebraico",
+		"chapter": "Capitolo"
+	},
+	"pos": {
+		"adjv": "Aggettivo",
+		"advb": "Avverbio",
+		"art": "Articolo",
+		"conj": "Congiunzione",
+		"inrg": "Interrogativo",
+		"intj": "Interiezione",
+		"nega": "Negazione",
+		"nmpr": "Nome proprio",
+		"prde": "Pronome dimostrativo",
+		"prep": "Preposizione",
+		"prin": "Pronome indefinito",
+		"prps": "Pronome possessivo",
+		"subs": "Sostantivo",
+		"verb": "Verbo"
+	},
+	"grammar": {
+		"lemma": "Lemma",
+		"root": "Radice",
+		"translation": "Traduzione",
+		"transliteration": "Traslitterazione",
+		"stem": "Tema",
+		"tense": "Tempo",
+		"pos": "Parte del discorso"
+	}
+}

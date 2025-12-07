@@ -1,0 +1,77 @@
+{
+	"main": {
+		"courses": "Dersler",
+		"vocabulary": "Kelime Bilgisi",
+		"reader": "Okuyucu",
+		"grammar": "Dil Bilgisi",
+		"alphabet": "Alfabe",
+		"numbers": "Sayılar",
+		"freeForever": "Sonsuza kadar ücretsiz",
+		"language": "Dil",
+		"chooseLanguage": "Dil Seç",
+		"torahLev": "TorahLev (Kalp)"
+	},
+	"courses": {
+		"bh": "Kutsal Kitap İbranicesi",
+		"bg": "Kutsal Kitap Yunancası",
+		"mh": "Modern İbranice",
+		"me": "Modern İngilizce",
+		"ms": "Modern İspanyolca",
+		"bookclub": "Kitap Kulübü"
+	},
+	"vocabulary": {
+		"flashcards": "Kartlar",
+		"dictionary": "Sözlük",
+		"learn": "Öğren",
+		"matching": "Eşleştirme",
+		"spelling": "Yazım"
+	},
+	"grammar": {
+		"verbs": "Fiiller",
+		"scramble": "Cümle Karıştırma",
+		"builder": "Cümle Oluşturucu",
+		"memorizer": "Ezberleyici"
+	},
+	"alphabet": {
+		"names": "İsimler",
+		"sounds": "Sesler",
+		"syllables": "Heceler",
+		"niqqud": "Nikkud"
+	},
+	"numbers": {
+		"cardinal": "Asal Sayılar",
+		"ordinal": "Sıra Sayıları",
+		"construct": "Yapı Hâli"
+	},
+	"secondary": {
+		"leaderboard": "Sıralama",
+		"calendar": "Takvim",
+		"help": "Yardım",
+		"feedback": "Geri Bildirim"
+	},
+	"input": {
+		"songs": "Şarkılar",
+		"stories": "Hikayeler",
+		"scriptures": "Kutsal Yazılar",
+		"prayers": "Dualar",
+		"comprehensible": "Anlaşılır Girdi"
+	},
+	"lesson": {
+		"scripts": "Ders Metinleri",
+		"grammarLessons": "Dil Bilgisi Dersleri",
+		"lessonContent": "Ders İçeriği"
+	},
+	"teacher": {
+		"title": "Öğretmen",
+		"myCourses": "Oluşturduğum Dersler",
+		"createCourse": "Ders Oluştur"
+	},
+	"user": {
+		"account": "Hesap",
+		"notifications": "Bildirimler",
+		"logout": "Çıkış Yap",
+		"login": "Giriş Yap",
+		"register": "Kayıt Ol",
+		"dashboard": "Kontrol Paneli"
+	}
+}

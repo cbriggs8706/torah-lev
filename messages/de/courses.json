@@ -1,0 +1,12 @@
+{
+	"title": "Kurse",
+	"create": "Erstellen",
+	"singular": "Kurs",
+	"list": {
+		"bh": "Biblisches Hebräisch",
+		"bg": "Biblisches Griechisch",
+		"mh": "Modernes Hebräisch",
+		"me": "Modernes Englisch",
+		"ms": "Modernes Spanisch"
+	}
+}

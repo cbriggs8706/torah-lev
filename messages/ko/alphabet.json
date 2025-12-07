@@ -1,0 +1,29 @@
+{
+	"title": "히브리어 알파벳",
+	"study": "학습 모드",
+	"startQuiz": "퀴즈 시작",
+	"secondsToAnswer": "답변 시간(초)",
+	"mode": {
+		"mode": "모드",
+		"name": "글자 이름",
+		"sound": "글자 소리",
+		"syllable": "음절 소리",
+		"niqqud": "니쿳 이름"
+	},
+	"pronunciation": "발음",
+	"sephardic": "세파르딕",
+	"masoretic": "마소라",
+	"quizComplete": "퀴즈 완료!",
+	"correct": "정답",
+	"incorrect": "오답",
+	"youPassed": "통과했습니다!",
+	"youFailed": "통과하려면 두 개 이하의 오답만 허용됩니다.",
+	"pointsEarned": "획득한 점수",
+	"youMissed": "틀린 항목:",
+	"startOver": "다시 시작",
+	"back": "뒤로",
+	"studyAlphabet": "알파벳 학습",
+	"iGotIt": "맞췄어요",
+	"iMissedIt": "틀렸어요",
+	"font": "글꼴"
+}

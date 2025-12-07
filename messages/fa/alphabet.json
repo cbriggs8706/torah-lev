@@ -1,0 +1,29 @@
+{
+	"title": "الفبای عبری",
+	"study": "حالت مطالعه",
+	"startQuiz": "شروع آزمون",
+	"secondsToAnswer": "ثانیه برای پاسخ",
+	"mode": {
+		"mode": "حالت",
+		"name": "نام حروف",
+		"sound": "صدای حروف",
+		"syllable": "صدای هجا",
+		"niqqud": "نام‌های نیکود"
+	},
+	"pronunciation": "تلفظ",
+	"sephardic": "سفارادی",
+	"masoretic": "مصوره‌ای",
+	"quizComplete": "آزمون کامل شد!",
+	"correct": "درست",
+	"incorrect": "نادرست",
+	"youPassed": "تبریک! قبول شدید!",
+	"youFailed": "برای قبولی نباید بیش از دو خطا داشته باشید.",
+	"pointsEarned": "امتیاز کسب‌شده",
+	"youMissed": "اشتباهات شما:",
+	"startOver": "شروع دوباره",
+	"back": "بازگشت",
+	"studyAlphabet": "مطالعه الفبا",
+	"iGotIt": "درست جواب دادم",
+	"iMissedIt": "اشتباه کردم",
+	"font": "فونت"
+}

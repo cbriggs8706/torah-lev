@@ -1,0 +1,29 @@
+{
+	"title": "希伯来字母表",
+	"study": "学习模式",
+	"startQuiz": "开始测验",
+	"secondsToAnswer": "回答时间（秒）",
+	"mode": {
+		"mode": "模式",
+		"name": "字母名称",
+		"sound": "字母读音",
+		"syllable": "音节读音",
+		"niqqud": "Niqqud 名称"
+	},
+	"pronunciation": "发音",
+	"sephardic": "塞法迪式",
+	"masoretic": "马所拉式",
+	"quizComplete": "测验完成！",
+	"correct": "正确",
+	"incorrect": "错误",
+	"youPassed": "你通过了！",
+	"youFailed": "要通过，你必须错误不超过两次。",
+	"pointsEarned": "获得分数",
+	"youMissed": "你错了：",
+	"startOver": "重新开始",
+	"back": "返回",
+	"studyAlphabet": "学习字母表",
+	"iGotIt": "我答对了",
+	"iMissedIt": "我答错了",
+	"font": "字体"
+}

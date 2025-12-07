@@ -14,13 +14,13 @@ interface PageProps {
 
 export default async function Page({ params }: PageProps) {
 	const { locale } = await params
-	const t = await getTranslations({ locale, namespace: 'sidebar' })
+	const t = await getTranslations({ locale, namespace: 'alphabet' })
 	// const publicCurrent = await getCurrentPublicCourses()
 	// const session = await getServerSession(authOptions)
 
 	return (
 		<div className="space-y-4">
-			<h1 className="text-2xl font-bold">{t('main.alphabet')}</h1>
+			<h1 className="text-2xl font-bold">{t('title')}</h1>
 			<HebrewLetterQuiz letters={hebrewLetters} niqqud={hebrewNiqqud} />
 		</div>
 	)

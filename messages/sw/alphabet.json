@@ -1,0 +1,29 @@
+{
+	"title": "Alfabeti ya Kiebrania",
+	"study": "Hali ya Kujifunza",
+	"startQuiz": "Anza Jaribio",
+	"secondsToAnswer": "Sekunde za Kujibu",
+	"mode": {
+		"mode": "Hali",
+		"name": "Majina ya Herufi",
+		"sound": "Sauti za Herufi",
+		"syllable": "Sauti za Silabi",
+		"niqqud": "Majina ya Niqqud"
+	},
+	"pronunciation": "Matamshi",
+	"sephardic": "Sephardi",
+	"masoretic": "Masoretiki",
+	"quizComplete": "Jaribio Limekamilika!",
+	"correct": "Sahihi",
+	"incorrect": "Si Sahihi",
+	"youPassed": "Umefaulu!",
+	"youFailed": "Ili kufaulu, usifanye makosa zaidi ya 2.",
+	"pointsEarned": "Alama Ulizopata",
+	"youMissed": "Ulikosa:",
+	"startOver": "Anza Tena",
+	"back": "Rudi",
+	"studyAlphabet": "Jifunze Alfabeti",
+	"iGotIt": "Nimeipata",
+	"iMissedIt": "Nimeikosa",
+	"font": "Fonti"
+}

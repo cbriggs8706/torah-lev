@@ -4,11 +4,39 @@ import fs from 'fs'
 import path from 'path'
 
 // 👇 List of supported locales in your app
-const SUPPORTED_LOCALES = ['en', 'es', 'nl', 'pt', 'he', 'el']
+const SUPPORTED_LOCALES = [
+	'en', // English
+	'es', // Spanish
+	'nl', // Dutch
+	'pt', // Portuguese
+	'he', // Hebrew
+	'el', // Greek
+	'sw', // Swahili
+	'fr', // French
+
+	'ru', // Russian
+	'ar', // Arabic
+	'am', // Amharic
+	'uk', // Ukrainian
+	'de', // German
+	'it', // Italian
+	'zh', // Chinese (Mandarin)
+	'ko', // Korean
+	'pl', // Polish
+	'hu', // Hungarian
+	'sv', // Swedish
+	'ja', // Japanese
+	'fa', // Farsi (Persian)
+	'tr', // Turkish
+	'cs', // Czech
+	'jp', // Japanese
+] as const
+
+export type Locale = (typeof SUPPORTED_LOCALES)[number]
 
 async function loadAllMessages(locale: string) {
 	// ✅ Guarantee valid locale folder exists
-	if (!SUPPORTED_LOCALES.includes(locale)) {
+	if (!SUPPORTED_LOCALES.includes(locale as Locale)) {
 		console.warn(`[i18n] Invalid locale "${locale}" — falling back to "en"`)
 		locale = 'en'
 	}
@@ -35,7 +63,7 @@ async function loadAllMessages(locale: string) {
 
 export default getRequestConfig(async ({ locale }) => {
 	const resolvedLocale =
-		locale && SUPPORTED_LOCALES.includes(locale) ? locale : 'en'
+		locale && SUPPORTED_LOCALES.includes(locale as Locale) ? locale : 'en'
 
 	const messages = await loadAllMessages(resolvedLocale)
 

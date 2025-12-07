@@ -1,0 +1,77 @@
+{
+	"main": {
+		"courses": "코스",
+		"vocabulary": "어휘",
+		"reader": "리더",
+		"grammar": "문법",
+		"alphabet": "알파벳",
+		"numbers": "숫자",
+		"freeForever": "영원히 무료",
+		"language": "언어",
+		"chooseLanguage": "언어 선택",
+		"torahLev": "TorahLev (마음)"
+	},
+	"courses": {
+		"bh": "성경 히브리어",
+		"bg": "성경 그리스어",
+		"mh": "현대 히브리어",
+		"me": "현대 영어",
+		"ms": "현대 스페인어",
+		"bookclub": "북클럽"
+	},
+	"vocabulary": {
+		"flashcards": "플래시카드",
+		"dictionary": "사전",
+		"learn": "학습",
+		"matching": "매칭",
+		"spelling": "철자"
+	},
+	"grammar": {
+		"verbs": "동사",
+		"scramble": "문장 섞기",
+		"builder": "문장 구성기",
+		"memorizer": "암기 연습"
+	},
+	"alphabet": {
+		"names": "이름",
+		"sounds": "소리",
+		"syllables": "음절",
+		"niqqud": "니쿳"
+	},
+	"numbers": {
+		"cardinal": "기수",
+		"ordinal": "서수",
+		"construct": "연계 상태"
+	},
+	"secondary": {
+		"leaderboard": "리더보드",
+		"calendar": "달력",
+		"help": "도움말",
+		"feedback": "피드백"
+	},
+	"input": {
+		"songs": "노래",
+		"stories": "이야기",
+		"scriptures": "성경 본문",
+		"prayers": "기도",
+		"comprehensible": "이해 가능한 입력"
+	},
+	"lesson": {
+		"scripts": "수업 스크립트",
+		"grammarLessons": "문법 강의",
+		"lessonContent": "수업 내용"
+	},
+	"teacher": {
+		"title": "교사",
+		"myCourses": "내 코스",
+		"createCourse": "코스 만들기"
+	},
+	"user": {
+		"account": "계정",
+		"notifications": "알림",
+		"logout": "로그아웃",
+		"login": "로그인",
+		"register": "회원가입",
+		"dashboard": "대시보드"
+	}
+}

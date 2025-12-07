@@ -1,0 +1,53 @@
+{
+	"title": "Hebrejské texty",
+	"nav": {
+		"next": "Další",
+		"prev": "Předchozí",
+		"openDic": "Otevřít slovník pro"
+	},
+	"gap": "Mezera",
+	"filter": {
+		"placeholder": "Filtrovat podle typu",
+		"all": "Všechny typy"
+	},
+	"search": {
+		"placeholder": "Hledat knihy…"
+	},
+	"types": {
+		"SCRIPTURE": "Písmo",
+		"LESSON-SCRIPT": "Texty lekcí",
+		"STORY": "Příběhy",
+		"SONG": "Písně",
+		"PRAYER": "Modlitby"
+	},
+	"breadcrumb": {
+		"reader": "Čtečka",
+		"hebrew": "Hebrejština",
+		"chapter": "Kapitola"
+	},
+	"pos": {
+		"adjv": "Přídavné jméno",
+		"advb": "Příslovce",
+		"art": "Člen",
+		"conj": "Spojka",
+		"inrg": "Tázačka",
+		"intj": "Citoslovce",
+		"nega": "Zápor",
+		"nmpr": "Vlastní jméno",
+		"prde": "Ukazovací zájmeno",
+		"prep": "Předložka",
+		"prin": "Neurčité zájmeno",
+		"prps": "Přivlastňovací zájmeno",
+		"subs": "Podstatné jméno",
+		"verb": "Sloveso"
+	},
+	"grammar": {
+		"lemma": "Lemma",
+		"root": "Kořen",
+		"translation": "Překlad",
+		"transliteration": "Přepis",
+		"stem": "Slovesný kmen",
+		"tense": "Čas",
+		"pos": "Slovní druh"
+	}
+}

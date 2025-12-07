@@ -1,0 +1,53 @@
+{
+	"title": "Héber szövegek",
+	"nav": {
+		"next": "Következő",
+		"prev": "Előző",
+		"openDic": "Szótár megnyitása:"
+	},
+	"gap": "Hiányzó rész",
+	"filter": {
+		"placeholder": "Szűrés típus szerint",
+		"all": "Minden típus"
+	},
+	"search": {
+		"placeholder": "Könyvek keresése…"
+	},
+	"types": {
+		"SCRIPTURE": "Szentírás",
+		"LESSON-SCRIPT": "Leckeszövegek",
+		"STORY": "Történetek",
+		"SONG": "Dalok",
+		"PRAYER": "Imák"
+	},
+	"breadcrumb": {
+		"reader": "Olvasó",
+		"hebrew": "Héber",
+		"chapter": "Fejezet"
+	},
+	"pos": {
+		"adjv": "Melléknév",
+		"advb": "Határozószó",
+		"art": "Névelő",
+		"conj": "Kötőszó",
+		"inrg": "Kérdőszó",
+		"intj": "Indulatszó",
+		"nega": "Tagadószó",
+		"nmpr": "Tulajdonnév",
+		"prde": "Mutató névmás",
+		"prep": "Előljárószó",
+		"prin": "Határozatlan névmás",
+		"prps": "Birtokos névmás",
+		"subs": "Főnév",
+		"verb": "Ige"
+	},
+	"grammar": {
+		"lemma": "Lemma",
+		"root": "Gyök",
+		"translation": "Fordítás",
+		"transliteration": "Átírás",
+		"stem": "Tő",
+		"tense": "Igeidő",
+		"pos": "Szófaj"
+	}
+}

@@ -1,0 +1,77 @@
+{
+	"main": {
+		"courses": "Курси",
+		"vocabulary": "Словник",
+		"reader": "Читач",
+		"grammar": "Граматика",
+		"alphabet": "Абетка",
+		"numbers": "Числа",
+		"freeForever": "Назавжди безкоштовно",
+		"language": "Мова",
+		"chooseLanguage": "Виберіть мову",
+		"torahLev": "TorahLev (Серце)"
+	},
+	"courses": {
+		"bh": "Біблійна єврейська",
+		"bg": "Біблійна грецька",
+		"mh": "Сучасна єврейська",
+		"me": "Сучасна англійська",
+		"ms": "Сучасна іспанська",
+		"bookclub": "Книжковий клуб"
+	},
+	"vocabulary": {
+		"flashcards": "Картки",
+		"dictionary": "Словник",
+		"learn": "Вивчати",
+		"matching": "Відповідність",
+		"spelling": "Правопис"
+	},
+	"grammar": {
+		"verbs": "Дієслова",
+		"scramble": "Перестановка речень",
+		"builder": "Конструктор речень",
+		"memorizer": "Тренажер запам'ятовування"
+	},
+	"alphabet": {
+		"names": "Назви",
+		"sounds": "Звуки",
+		"syllables": "Склади",
+		"niqqud": "Нікуд"
+	},
+	"numbers": {
+		"cardinal": "Кількісні",
+		"ordinal": "Порядкові",
+		"construct": "Стан сміхута"
+	},
+	"secondary": {
+		"leaderboard": "Таблиця лідерів",
+		"calendar": "Календар",
+		"help": "Допомога",
+		"feedback": "Відгук"
+	},
+	"input": {
+		"songs": "Пісні",
+		"stories": "Історії",
+		"scriptures": "Писання",
+		"prayers": "Молитви",
+		"comprehensible": "Зрозумілий ввод"
+	},
+	"lesson": {
+		"scripts": "Тексти уроків",
+		"grammarLessons": "Граматичні уроки",
+		"lessonContent": "Зміст уроку"
+	},
+	"teacher": {
+		"title": "Вчитель",
+		"myCourses": "Мої курси",
+		"createCourse": "Створити курс"
+	},
+	"user": {
+		"account": "Акаунт",
+		"notifications": "Сповіщення",
+		"logout": "Вийти",
+		"login": "Увійти",
+		"register": "Створити акаунт",
+		"dashboard": "Панель керування"
+	}
+}

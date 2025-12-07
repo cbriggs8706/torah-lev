@@ -1,0 +1,29 @@
+{
+	"title": "الأبجدية العبرية",
+	"study": "وضع الدراسة",
+	"startQuiz": "بدء الاختبار",
+	"secondsToAnswer": "الثواني للإجابة",
+	"mode": {
+		"mode": "الوضع",
+		"name": "أسماء الحروف",
+		"sound": "أصوات الحروف",
+		"syllable": "أصوات المقاطع",
+		"niqqud": "أسماء النِّقُود"
+	},
+	"pronunciation": "النطق",
+	"sephardic": "سفاردية",
+	"masoretic": "ماسورتية",
+	"quizComplete": "اكتمل الاختبار!",
+	"correct": "صحيح",
+	"incorrect": "خاطئ",
+	"youPassed": "لقد نجحت!",
+	"youFailed": "للنجاح، يجب ألا ترتكب أكثر من خطأين.",
+	"pointsEarned": "النقاط المكتسبة",
+	"youMissed": "أخطأت في:",
+	"startOver": "ابدأ من جديد",
+	"back": "رجوع",
+	"studyAlphabet": "دراسة الأبجدية",
+	"iGotIt": "أجبت بشكل صحيح",
+	"iMissedIt": "أجبت بشكل خاطئ",
+	"font": "الخط"
+}

@@ -1,0 +1,53 @@
+{
+	"title": "Teksty hebrajskie",
+	"nav": {
+		"next": "Następny",
+		"prev": "Poprzedni",
+		"openDic": "Otwórz słownik dla"
+	},
+	"gap": "Luka",
+	"filter": {
+		"placeholder": "Filtruj według typu",
+		"all": "Wszystkie typy"
+	},
+	"search": {
+		"placeholder": "Szukaj ksiąg…"
+	},
+	"types": {
+		"SCRIPTURE": "Pisma",
+		"LESSON-SCRIPT": "Skrypty lekcji",
+		"STORY": "Opowiadania",
+		"SONG": "Pieśni",
+		"PRAYER": "Modlitwy"
+	},
+	"breadcrumb": {
+		"reader": "Czytnik",
+		"hebrew": "Hebrajski",
+		"chapter": "Rozdział"
+	},
+	"pos": {
+		"adjv": "Przymiotnik",
+		"advb": "Przysłówek",
+		"art": "Artykuł",
+		"conj": "Spójnik",
+		"inrg": "Zaimek pytający",
+		"intj": "Wykrzyknik",
+		"nega": "Negacja",
+		"nmpr": "Nazwa własna",
+		"prde": "Zaimek wskazujący",
+		"prep": "Przyimek",
+		"prin": "Zaimek nieokreślony",
+		"prps": "Zaimek dzierżawczy",
+		"subs": "Rzeczownik",
+		"verb": "Czasownik"
+	},
+	"grammar": {
+		"lemma": "Leksem",
+		"root": "Rdzeń",
+		"translation": "Tłumaczenie",
+		"transliteration": "Transliteracja",
+		"stem": "Temat",
+		"tense": "Czas",
+		"pos": "Część mowy"
+	}
+}

@@ -1,0 +1,12 @@
+{
+	"title": "Kozi",
+	"create": "Unda",
+	"singular": "Kozi",
+	"list": {
+		"bh": "Kiebrania cha Kibiblia",
+		"bg": "Kigiriki cha Kibiblia",
+		"mh": "Kiebrania cha Kisasa",
+		"me": "Kiingereza cha Kisasa",
+		"ms": "Kihispania cha Kisasa"
+	}
+}

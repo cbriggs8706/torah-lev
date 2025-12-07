@@ -1,0 +1,12 @@
+{
+	"title": "Dersler",
+	"create": "Oluştur",
+	"singular": "Ders",
+	"list": {
+		"bh": "Kutsal Kitap İbranicesi",
+		"bg": "Kutsal Kitap Yunancası",
+		"mh": "Modern İbranice",
+		"me": "Modern İngilizce",
+		"ms": "Modern İspanyolca"
+	}
+}

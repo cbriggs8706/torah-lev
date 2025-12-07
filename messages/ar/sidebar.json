@@ -1,0 +1,77 @@
+{
+	"main": {
+		"courses": "الدورات",
+		"vocabulary": "المفردات",
+		"reader": "القارئ",
+		"grammar": "القواعد",
+		"alphabet": "الأبجدية",
+		"numbers": "الأعداد",
+		"freeForever": "مجاني دائمًا",
+		"language": "اللغة",
+		"chooseLanguage": "اختر اللغة",
+		"torahLev": "TorahLev (القلب)"
+	},
+	"courses": {
+		"bh": "العبري الكتابي",
+		"bg": "اليونانية الكتابية",
+		"mh": "العبري الحديث",
+		"me": "الإنجليزية الحديثة",
+		"ms": "الإسبانية الحديثة",
+		"bookclub": "نادي القراءة"
+	},
+	"vocabulary": {
+		"flashcards": "بطاقات تعليمية",
+		"dictionary": "قاموس",
+		"learn": "تعلّم",
+		"matching": "مطابقة",
+		"spelling": "التهجئة"
+	},
+	"grammar": {
+		"verbs": "الأفعال",
+		"scramble": "ترتيب الجمل",
+		"builder": "منشئ الجمل",
+		"memorizer": "أداة الحفظ"
+	},
+	"alphabet": {
+		"names": "الأسماء",
+		"sounds": "الأصوات",
+		"syllables": "المقاطع",
+		"niqqud": "النِّقُود"
+	},
+	"numbers": {
+		"cardinal": "الأعداد الأساسية",
+		"ordinal": "الأعداد الترتيبية",
+		"construct": "الإضافة"
+	},
+	"secondary": {
+		"leaderboard": "قائمة المتصدرين",
+		"calendar": "التقويم",
+		"help": "مساعدة",
+		"feedback": "ملاحظات"
+	},
+	"input": {
+		"songs": "أغانٍ",
+		"stories": "قصص",
+		"scriptures": "أسفار",
+		"prayers": "صلوات",
+		"comprehensible": "مدخل قابل للفهم"
+	},
+	"lesson": {
+		"scripts": "نصوص الدروس",
+		"grammarLessons": "دروس القواعد",
+		"lessonContent": "محتوى الدرس"
+	},
+	"teacher": {
+		"title": "المعلم",
+		"myCourses": "دوراتي المنشأة",
+		"createCourse": "إنشاء دورة"
+	},
+	"user": {
+		"account": "الحساب",
+		"notifications": "الإشعارات",
+		"logout": "تسجيل الخروج",
+		"login": "تسجيل الدخول",
+		"register": "إنشاء حساب",
+		"dashboard": "لوحة التحكم"
+	}
+}

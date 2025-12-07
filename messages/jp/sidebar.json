@@ -1,0 +1,77 @@
+{
+	"main": {
+		"courses": "コース",
+		"vocabulary": "語彙",
+		"reader": "リーダー",
+		"grammar": "文法",
+		"alphabet": "アルファベット",
+		"numbers": "数字",
+		"freeForever": "永遠に無料",
+		"language": "言語",
+		"chooseLanguage": "言語を選択",
+		"torahLev": "TorahLev（心）"
+	},
+	"courses": {
+		"bh": "聖書ヘブライ語",
+		"bg": "聖書ギリシャ語",
+		"mh": "現代ヘブライ語",
+		"me": "現代英語",
+		"ms": "現代スペイン語",
+		"bookclub": "読書クラブ"
+	},
+	"vocabulary": {
+		"flashcards": "フラッシュカード",
+		"dictionary": "辞書",
+		"learn": "学習",
+		"matching": "マッチング",
+		"spelling": "スペリング"
+	},
+	"grammar": {
+		"verbs": "動詞",
+		"scramble": "文の並べ替え",
+		"builder": "文構築ツール",
+		"memorizer": "記憶ツール"
+	},
+	"alphabet": {
+		"names": "名前",
+		"sounds": "音",
+		"syllables": "音節",
+		"niqqud": "ニクード"
+	},
+	"numbers": {
+		"cardinal": "基数",
+		"ordinal": "序数",
+		"construct": "構文形"
+	},
+	"secondary": {
+		"leaderboard": "ランキング",
+		"calendar": "カレンダー",
+		"help": "ヘルプ",
+		"feedback": "フィードバック"
+	},
+	"input": {
+		"songs": "歌",
+		"stories": "物語",
+		"scriptures": "聖書テキスト",
+		"prayers": "祈り",
+		"comprehensible": "理解可能インプット"
+	},
+	"lesson": {
+		"scripts": "レッスンスクリプト",
+		"grammarLessons": "文法レッスン",
+		"lessonContent": "レッスン内容"
+	},
+	"teacher": {
+		"title": "教師",
+		"myCourses": "私のコース",
+		"createCourse": "コースを作成"
+	},
+	"user": {
+		"account": "アカウント",
+		"notifications": "通知",
+		"logout": "ログアウト",
+		"login": "ログイン",
+		"register": "登録",
+		"dashboard": "ダッシュボード"
+	}
+}

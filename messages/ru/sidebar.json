@@ -1,0 +1,77 @@
+{
+	"main": {
+		"courses": "Курсы",
+		"vocabulary": "Словарный запас",
+		"reader": "Чтение",
+		"grammar": "Грамматика",
+		"alphabet": "Алфавит",
+		"numbers": "Числа",
+		"freeForever": "Бесплатно навсегда",
+		"language": "Язык",
+		"chooseLanguage": "Выбрать язык",
+		"torahLev": "TorahLev (Сердце)"
+	},
+	"courses": {
+		"bh": "Библейский иврит",
+		"bg": "Библейский греческий",
+		"mh": "Современный иврит",
+		"me": "Современный английский",
+		"ms": "Современный испанский",
+		"bookclub": "Книжный клуб"
+	},
+	"vocabulary": {
+		"flashcards": "Карточки",
+		"dictionary": "Словарь",
+		"learn": "Учить",
+		"matching": "Соответствие",
+		"spelling": "Правописание"
+	},
+	"grammar": {
+		"verbs": "Глаголы",
+		"scramble": "Перестановка предложений",
+		"builder": "Конструктор предложений",
+		"memorizer": "Тренажёр запоминания"
+	},
+	"alphabet": {
+		"names": "Названия",
+		"sounds": "Звуки",
+		"syllables": "Слоги",
+		"niqqud": "Никуд"
+	},
+	"numbers": {
+		"cardinal": "Количественные",
+		"ordinal": "Порядковые",
+		"construct": "Статус сопряжения"
+	},
+	"secondary": {
+		"leaderboard": "Таблица лидеров",
+		"calendar": "Календарь",
+		"help": "Помощь",
+		"feedback": "Обратная связь"
+	},
+	"input": {
+		"songs": "Песни",
+		"stories": "Истории",
+		"scriptures": "Писания",
+		"prayers": "Молитвы",
+		"comprehensible": "Понятный ввод"
+	},
+	"lesson": {
+		"scripts": "Тексты уроков",
+		"grammarLessons": "Уроки грамматики",
+		"lessonContent": "Содержимое урока"
+	},
+	"teacher": {
+		"title": "Преподаватель",
+		"myCourses": "Мои созданные курсы",
+		"createCourse": "Создать курс"
+	},
+	"user": {
+		"account": "Аккаунт",
+		"notifications": "Уведомления",
+		"logout": "Выйти",
+		"login": "Войти",
+		"register": "Создать аккаунт",
+		"dashboard": "Панель управления"
+	}
+}

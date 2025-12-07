@@ -1,0 +1,53 @@
+{
+	"title": "Hebräische Texte",
+	"nav": {
+		"next": "Weiter",
+		"prev": "Zurück",
+		"openDic": "Wörterbuch öffnen für"
+	},
+	"gap": "Lücke",
+	"filter": {
+		"placeholder": "Nach Typ filtern",
+		"all": "Alle Typen"
+	},
+	"search": {
+		"placeholder": "Bücher suchen…"
+	},
+	"types": {
+		"SCRIPTURE": "Schriften",
+		"LESSON-SCRIPT": "Lektionsskripte",
+		"STORY": "Geschichten",
+		"SONG": "Lieder",
+		"PRAYER": "Gebete"
+	},
+	"breadcrumb": {
+		"reader": "Leser",
+		"hebrew": "Hebräisch",
+		"chapter": "Kapitel"
+	},
+	"pos": {
+		"adjv": "Adjektiv",
+		"advb": "Adverb",
+		"art": "Artikel",
+		"conj": "Konjunktion",
+		"inrg": "Fragewort",
+		"intj": "Interjektion",
+		"nega": "Negation",
+		"nmpr": "Eigenname",
+		"prde": "Demonstrativpronomen",
+		"prep": "Präposition",
+		"prin": "Indefinitpronomen",
+		"prps": "Possessivpronomen",
+		"subs": "Substantiv",
+		"verb": "Verb"
+	},
+	"grammar": {
+		"lemma": "Lemma",
+		"root": "Wurzel",
+		"translation": "Übersetzung",
+		"transliteration": "Transliteration",
+		"stem": "Stamm",
+		"tense": "Zeitform",
+		"pos": "Wortart"
+	}
+}

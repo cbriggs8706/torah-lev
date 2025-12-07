@@ -1,0 +1,77 @@
+{
+	"main": {
+		"courses": "课程",
+		"vocabulary": "词汇",
+		"reader": "阅读器",
+		"grammar": "语法",
+		"alphabet": "字母表",
+		"numbers": "数字",
+		"freeForever": "永久免费",
+		"language": "语言",
+		"chooseLanguage": "选择语言",
+		"torahLev": "TorahLev（心）"
+	},
+	"courses": {
+		"bh": "圣经希伯来语",
+		"bg": "圣经希腊语",
+		"mh": "现代希伯来语",
+		"me": "现代英语",
+		"ms": "现代西班牙语",
+		"bookclub": "读书会"
+	},
+	"vocabulary": {
+		"flashcards": "记忆卡",
+		"dictionary": "词典",
+		"learn": "学习",
+		"matching": "配对",
+		"spelling": "拼写"
+	},
+	"grammar": {
+		"verbs": "动词",
+		"scramble": "句子重组",
+		"builder": "句子构建器",
+		"memorizer": "记忆器"
+	},
+	"alphabet": {
+		"names": "名称",
+		"sounds": "读音",
+		"syllables": "音节",
+		"niqqud": "元音符号"
+	},
+	"numbers": {
+		"cardinal": "基数词",
+		"ordinal": "序数词",
+		"construct": "构成状态"
+	},
+	"secondary": {
+		"leaderboard": "排行榜",
+		"calendar": "日历",
+		"help": "帮助",
+		"feedback": "反馈"
+	},
+	"input": {
+		"songs": "歌曲",
+		"stories": "故事",
+		"scriptures": "经文",
+		"prayers": "祷告",
+		"comprehensible": "可理解输入"
+	},
+	"lesson": {
+		"scripts": "课程脚本",
+		"grammarLessons": "语法课程",
+		"lessonContent": "课程内容"
+	},
+	"teacher": {
+		"title": "教师",
+		"myCourses": "我的课程",
+		"createCourse": "创建课程"
+	},
+	"user": {
+		"account": "账户",
+		"notifications": "通知",
+		"logout": "退出",
+		"login": "登录",
+		"register": "注册",
+		"dashboard": "控制面板"
+	}
+}

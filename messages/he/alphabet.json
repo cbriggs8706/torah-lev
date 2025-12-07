@@ -1,0 +1,29 @@
+{
+	"title": "אלפבית עברי",
+	"study": "מצב לימוד",
+	"startQuiz": "התחל חידון",
+	"secondsToAnswer": "שניות למענה",
+	"mode": {
+		"mode": "מצב",
+		"name": "שמות האותיות",
+		"sound": "צלילי האותיות",
+		"syllable": "צלילי ההברות",
+		"niqqud": "שמות הניקוד"
+	},
+	"pronunciation": "הגייה",
+	"sephardic": "ספרדית",
+	"masoretic": "מסורתית",
+	"quizComplete": "החידון הושלם!",
+	"correct": "נכון",
+	"incorrect": "לא נכון",
+	"youPassed": "עברת!",
+	"youFailed": "כדי לעבור, עליך לטעות לא יותר משתי טעויות.",
+	"pointsEarned": "נקודות שהתקבלו",
+	"youMissed": "טעית ב־:",
+	"startOver": "התחל מחדש",
+	"back": "חזרה",
+	"studyAlphabet": "למד את האלפבית",
+	"iGotIt": "הצלחתי",
+	"iMissedIt": "פספסתי",
+	"font": "גופן"
+}

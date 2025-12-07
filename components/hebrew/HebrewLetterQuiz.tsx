@@ -15,6 +15,7 @@ import {
 	TooltipProvider,
 	TooltipTrigger,
 } from '../ui/tooltip'
+import { useTranslations } from 'next-intl'
 
 // ------------------
 // TYPES
@@ -82,6 +83,8 @@ export default function HebrewLetterQuiz({ letters, niqqud }: Props) {
 	const [wrongAnswers, setWrongAnswers] = useState<HebrewLetter[]>([])
 	const [quizFinished, setQuizFinished] = useState(false)
 	const [shouldPlay, setShouldPlay] = useState(false)
+
+	const t = useTranslations('alphabet')
 
 	// ------------------
 	// FILTER DATASET
@@ -284,10 +287,14 @@ export default function HebrewLetterQuiz({ letters, niqqud }: Props) {
 					</div>
 				)}
 
-				<h2 className="text-2xl font-bold">Quiz Complete!</h2>
+				<h2 className="text-2xl font-bold">{t('quizComplete')}</h2>
 
-				<p className="text-lg">✅ Correct: {correctCount}</p>
-				<p className="text-lg">❌ Incorrect: {wrongCount}</p>
+				<p className="text-lg">
+					✅ {t('correct')} {correctCount}
+				</p>
+				<p className="text-lg">
+					❌ {t('incorrect')} {wrongCount}
+				</p>
 
 				<p
 					className={cn(
@@ -295,20 +302,18 @@ export default function HebrewLetterQuiz({ letters, niqqud }: Props) {
 						passed ? 'text-green-600' : 'text-red-500'
 					)}
 				>
-					{passed
-						? '🎉 You Passed!'
-						: "😞 In order to pass, you'll need to make no more than 2 mistakes using 3 seconds or less per letter. Let's try again!"}
+					{passed ? `🎉 ${t('youPassed')}` : `😞 ${t('youFailed')}`}
 				</p>
 
 				<p className="text-lg">
-					⭐ Points earned:{' '}
+					⭐ {t('pointsEarned')}:{' '}
 					<span className="font-semibold">{awardedPoints}</span>
 				</p>
 
 				{/* WRONG LETTER REVIEW */}
 				{wrongAnswers.length > 0 && (
 					<div className="mt-6">
-						<h3 className="font-medium text-lg mb-2">You missed:</h3>
+						<h3 className="font-medium text-lg mb-2">{t('youMissed')}</h3>
 						<div className="flex flex-wrap justify-center gap-6">
 							{wrongAnswers.map((l, i) => (
 								<div
@@ -352,7 +357,7 @@ export default function HebrewLetterQuiz({ letters, niqqud }: Props) {
 				)}
 
 				<Button onClick={reset} className="mt-6 px-6 py-2" size="lg">
-					Start Over
+					{t('startOver')}
 				</Button>
 			</div>
 		)
@@ -368,7 +373,7 @@ export default function HebrewLetterQuiz({ letters, niqqud }: Props) {
 				<div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 					{/* MODE */}
 					<div className="w-full col-span-2">
-						<div className="text-sm font-medium mb-2">Mode</div>
+						<div className="text-sm font-medium mb-2">{t('mode.mode')}</div>
 
 						<Tabs value={mode} onValueChange={(v) => setMode(v as Mode)}>
 							<TabsList className="flex flex-wrap w-full">
@@ -376,25 +381,25 @@ export default function HebrewLetterQuiz({ letters, niqqud }: Props) {
 									className="whitespace-normal text-center leading-tight px-2 py-1"
 									value="name"
 								>
-									Letter Names
+									{t('mode.name')}
 								</TabsTrigger>
 								<TabsTrigger
 									className="whitespace-normal text-center leading-tight px-2 py-1"
 									value="sound"
 								>
-									Letter Sounds
+									{t('mode.sound')}
 								</TabsTrigger>
 								<TabsTrigger
 									className="whitespace-normal text-center leading-tight px-2 py-1"
 									value="syllable"
 								>
-									Syllable Sounds
+									{t('mode.syllable')}
 								</TabsTrigger>
 								<TabsTrigger
 									className="whitespace-normal text-center leading-tight px-2 py-1"
 									value="niqqud"
 								>
-									Niqqud Names
+									{t('mode.niqqud')}
 								</TabsTrigger>
 							</TabsList>
 						</Tabs>
@@ -406,7 +411,7 @@ export default function HebrewLetterQuiz({ letters, niqqud }: Props) {
 							<Tooltip>
 								<TooltipTrigger asChild>
 									<div className="text-sm font-medium mb-2 cursor-help">
-										Pronunciation
+										{t('pronunciation')}
 									</div>
 								</TooltipTrigger>
 								<TooltipContent className="max-w-xs text-sm leading-snug">
@@ -422,8 +427,8 @@ export default function HebrewLetterQuiz({ letters, niqqud }: Props) {
 							onValueChange={(v) => setPronunciation(v as Pronunciation)}
 						>
 							<TabsList className="flex flex-wrap w-full">
-								<TabsTrigger value="sephardic">Sephardic</TabsTrigger>
-								<TabsTrigger value="masoretic">Masoretic</TabsTrigger>
+								<TabsTrigger value="sephardic">{t('sephardic')}</TabsTrigger>
+								<TabsTrigger value="masoretic">{t('masoretic')}</TabsTrigger>
 							</TabsList>
 						</Tabs>
 					</div>
@@ -431,7 +436,7 @@ export default function HebrewLetterQuiz({ letters, niqqud }: Props) {
 
 				{/* FONT PICKER */}
 				<div className="space-y-3">
-					<div className="text-sm font-medium">Font</div>
+					<div className="text-sm font-medium">{t('font')}</div>
 
 					<div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7 gap-4">
 						{(Object.keys(fontClasses) as FontChoice[]).map((font) => {
@@ -486,7 +491,7 @@ export default function HebrewLetterQuiz({ letters, niqqud }: Props) {
 						className="w-full md:w-auto"
 						onClick={() => startQuiz(true)}
 					>
-						Study Mode
+						{t('study')}
 					</Button>
 
 					<div>
@@ -494,7 +499,7 @@ export default function HebrewLetterQuiz({ letters, niqqud }: Props) {
 							<Tooltip>
 								<TooltipTrigger asChild>
 									<div className="text-sm font-medium mb-2 cursor-help">
-										Seconds to Answer
+										{t('secondsToAnswer')}
 									</div>
 								</TooltipTrigger>
 
@@ -523,7 +528,7 @@ export default function HebrewLetterQuiz({ letters, niqqud }: Props) {
 						className="w-full md:w-auto"
 						onClick={() => startQuiz(false)}
 					>
-						Start Quiz
+						{t('startQuiz')}
 					</Button>
 				</div>
 			</div>
@@ -537,9 +542,9 @@ export default function HebrewLetterQuiz({ letters, niqqud }: Props) {
 		return (
 			<Card className="max-w-3xl mx-auto p-6">
 				<CardHeader className="flex justify-between items-center">
-					<h2 className="text-lg font-semibold">Study Alphabet</h2>
+					<h2 className="text-lg font-semibold">{t('studyAlphabet')}</h2>
 					<Button variant="ghost" onClick={reset}>
-						Back
+						{t('back')}
 					</Button>
 				</CardHeader>
 
@@ -596,7 +601,7 @@ export default function HebrewLetterQuiz({ letters, niqqud }: Props) {
 		<Card className="max-w-xl mx-auto p-6">
 			<CardHeader className="flex justify-between items-center">
 				<Button variant="ghost" onClick={reset}>
-					Back
+					{t('back')}
 				</Button>
 				<div className="text-sm text-muted-foreground">
 					{index + 1} / {shuffled.length}
@@ -606,10 +611,10 @@ export default function HebrewLetterQuiz({ letters, niqqud }: Props) {
 			<CardContent className="space-y-6 text-center">
 				{/* MODE LABEL */}
 				<div className="text-lg font-medium text-sky-700 dark:text-sky-300">
-					{mode === 'name' && 'Letter Names'}
-					{mode === 'sound' && 'Letter Sounds'}
-					{mode === 'syllable' && 'Syllable Sounds'}
-					{mode === 'niqqud' && 'Niqqud Names'}
+					{mode === 'name' && t('mode.name')}
+					{mode === 'sound' && t('mode.sound')}
+					{mode === 'syllable' && t('mode.syllable')}
+					{mode === 'niqqud' && t('mode.niqqud')}
 				</div>
 				{/* LETTER */}
 				<div className="h-40 flex justify-center items-center">
@@ -659,7 +664,7 @@ export default function HebrewLetterQuiz({ letters, niqqud }: Props) {
 
 							return (
 								<div className="text-xl font-bold">
-									{waiting ? `${remainingTime}s` : 'Go!'}
+									{waiting ? `${remainingTime}s` : '?'}
 								</div>
 							)
 						}}
@@ -680,9 +685,9 @@ export default function HebrewLetterQuiz({ letters, niqqud }: Props) {
 				{/* ANSWER BUTTONS */}
 				{played && (
 					<div className="flex justify-center gap-4">
-						<Button onClick={() => answer(true)}>I got it</Button>
+						<Button onClick={() => answer(true)}>{t('iGotIt')}</Button>
 						<Button variant="secondary" onClick={() => answer(false)}>
-							I missed it
+							{t('iMissedIt')}
 						</Button>
 					</div>
 				)}

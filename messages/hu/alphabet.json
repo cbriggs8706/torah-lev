@@ -1,0 +1,29 @@
+{
+	"title": "Héber ábécé",
+	"study": "Tanulási mód",
+	"startQuiz": "Kvíz indítása",
+	"secondsToAnswer": "Másodpercek a válaszra",
+	"mode": {
+		"mode": "Mód",
+		"name": "Betűnevek",
+		"sound": "Betűhangok",
+		"syllable": "Szótaghangok",
+		"niqqud": "Niqqud nevek"
+	},
+	"pronunciation": "Kiejtés",
+	"sephardic": "Szephárdi",
+	"masoretic": "Maszoréta",
+	"quizComplete": "A kvíz befejeződött!",
+	"correct": "Helyes",
+	"incorrect": "Helytelen",
+	"youPassed": "Sikeresen teljesítetted!",
+	"youFailed": "A sikerhez legfeljebb két hibát véthetsz.",
+	"pointsEarned": "Szerzett pontok",
+	"youMissed": "Hibák:",
+	"startOver": "Újrakezdés",
+	"back": "Vissza",
+	"studyAlphabet": "Ábécé tanulása",
+	"iGotIt": "Tudtam",
+	"iMissedIt": "Elrontottam",
+	"font": "Betűtípus"
+}

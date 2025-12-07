@@ -1,0 +1,53 @@
+{
+	"title": "ヘブライ語テキスト",
+	"nav": {
+		"next": "次へ",
+		"prev": "前へ",
+		"openDic": "辞書を開く："
+	},
+	"gap": "空欄",
+	"filter": {
+		"placeholder": "種類で絞り込む",
+		"all": "すべての種類"
+	},
+	"search": {
+		"placeholder": "書籍を検索…"
+	},
+	"types": {
+		"SCRIPTURE": "聖書テキスト",
+		"LESSON-SCRIPT": "レッスンスクリプト",
+		"STORY": "物語",
+		"SONG": "歌",
+		"PRAYER": "祈り"
+	},
+	"breadcrumb": {
+		"reader": "リーダー",
+		"hebrew": "ヘブライ語",
+		"chapter": "章"
+	},
+	"pos": {
+		"adjv": "形容詞",
+		"advb": "副詞",
+		"art": "冠詞",
+		"conj": "接続詞",
+		"inrg": "疑問詞",
+		"intj": "感嘆詞",
+		"nega": "否定詞",
+		"nmpr": "固有名詞",
+		"prde": "指示代名詞",
+		"prep": "前置詞",
+		"prin": "不定代名詞",
+		"prps": "所有代名詞",
+		"subs": "名詞",
+		"verb": "動詞"
+	},
+	"grammar": {
+		"lemma": "レマ（基本形）",
+		"root": "語根",
+		"translation": "翻訳",
+		"transliteration": "音訳",
+		"stem": "語幹",
+		"tense": "時制",
+		"pos": "品詞"
+	}
+}

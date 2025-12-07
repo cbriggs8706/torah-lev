@@ -1,0 +1,12 @@
+{
+	"title": "Kurzusok",
+	"create": "Létrehozás",
+	"singular": "Kurzus",
+	"list": {
+		"bh": "Bibliai héber",
+		"bg": "Bibliai görög",
+		"mh": "Modern héber",
+		"me": "Modern angol",
+		"ms": "Modern spanyol"
+	}
+}

@@ -1,0 +1,14 @@
+{
+	"welcome": "환영합니다",
+	"welcomeTL": "TorahLev에 오신 것을 환영합니다!",
+	"startLesson": "수업 시작",
+	"continue": "계속",
+	"settings": "설정",
+	"switchLanguage": "언어 변경",
+	"construction": "이 사이트는 현재 공사 중입니다",
+	"register": "계정 만들기",
+	"login": "로그인",
+	"guest": "게스트로 계속하기",
+	"viewCourses": "코스 보기",
+	"createCourse": "코스 만들기"
+}

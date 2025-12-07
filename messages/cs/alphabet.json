@@ -1,0 +1,29 @@
+{
+	"title": "Hebrejská abeceda",
+	"study": "Studijní režim",
+	"startQuiz": "Spustit test",
+	"secondsToAnswer": "Čas na odpověď (vteřiny)",
+	"mode": {
+		"mode": "Režim",
+		"name": "Názvy písmen",
+		"sound": "Zvuky písmen",
+		"syllable": "Zvuky slabik",
+		"niqqud": "Názvy nikudu"
+	},
+	"pronunciation": "Výslovnost",
+	"sephardic": "Sefardská",
+	"masoretic": "Masoretská",
+	"quizComplete": "Test dokončen!",
+	"correct": "Správně",
+	"incorrect": "Špatně",
+	"youPassed": "Úspěšně jste prošli!",
+	"youFailed": "Pro úspěch nesmíte udělat více než 2 chyby.",
+	"pointsEarned": "Získané body",
+	"youMissed": "Chyby:",
+	"startOver": "Začít znovu",
+	"back": "Zpět",
+	"studyAlphabet": "Studovat abecedu",
+	"iGotIt": "Zvládl/a jsem to",
+	"iMissedIt": "Nezvládl/a jsem to",
+	"font": "Písmo"
+}

@@ -1,0 +1,53 @@
+{
+	"title": "İbranice Metinler",
+	"nav": {
+		"next": "Sonraki",
+		"prev": "Önceki",
+		"openDic": "Sözlüğü Aç:"
+	},
+	"gap": "Boşluk",
+	"filter": {
+		"placeholder": "Türe göre filtrele",
+		"all": "Tüm Türler"
+	},
+	"search": {
+		"placeholder": "Kitaplarda ara…"
+	},
+	"types": {
+		"SCRIPTURE": "Kutsal Yazılar",
+		"LESSON-SCRIPT": "Ders Metinleri",
+		"STORY": "Hikayeler",
+		"SONG": "Şarkılar",
+		"PRAYER": "Dualar"
+	},
+	"breadcrumb": {
+		"reader": "Okuyucu",
+		"hebrew": "İbranice",
+		"chapter": "Bölüm"
+	},
+	"pos": {
+		"adjv": "Sıfat",
+		"advb": "Zarf",
+		"art": "Tanımlık",
+		"conj": "Bağlaç",
+		"inrg": "Soru sözcüğü",
+		"intj": "Ünlem",
+		"nega": "Olumsuzluk",
+		"nmpr": "Özel isim",
+		"prde": "Gösterme zamiri",
+		"prep": "Edat",
+		"prin": "Belirsiz zamir",
+		"prps": "İyelik zamiri",
+		"subs": "İsim",
+		"verb": "Fiil"
+	},
+	"grammar": {
+		"lemma": "Lema",
+		"root": "Kök",
+		"translation": "Çeviri",
+		"transliteration": "Transliterasyon",
+		"stem": "Gövdе",
+		"tense": "Zaman",
+		"pos": "Sözcük türü"
+	}
+}

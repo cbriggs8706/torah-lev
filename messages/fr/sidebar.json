@@ -1,0 +1,77 @@
+{
+	"main": {
+		"courses": "Cours",
+		"vocabulary": "Vocabulaire",
+		"reader": "Lecteur",
+		"grammar": "Grammaire",
+		"alphabet": "Alphabet",
+		"numbers": "Nombres",
+		"freeForever": "Gratuit pour toujours",
+		"language": "Langue",
+		"chooseLanguage": "Choisir une langue",
+		"torahLev": "TorahLev (Cœur)"
+	},
+	"courses": {
+		"bh": "Hébreu biblique",
+		"bg": "Grec biblique",
+		"mh": "Hébreu moderne",
+		"me": "Anglais moderne",
+		"ms": "Espagnol moderne",
+		"bookclub": "Club de lecture"
+	},
+	"vocabulary": {
+		"flashcards": "Flashcards",
+		"dictionary": "Dictionnaire",
+		"learn": "Apprendre",
+		"matching": "Association",
+		"spelling": "Orthographe"
+	},
+	"grammar": {
+		"verbs": "Verbes",
+		"scramble": "Mélange de phrases",
+		"builder": "Constructeur de phrases",
+		"memorizer": "Mémorisateur"
+	},
+	"alphabet": {
+		"names": "Noms",
+		"sounds": "Sons",
+		"syllables": "Syllabes",
+		"niqqud": "Niqqud"
+	},
+	"numbers": {
+		"cardinal": "Cardinal",
+		"ordinal": "Ordinal",
+		"construct": "État construit"
+	},
+	"secondary": {
+		"leaderboard": "Classement",
+		"calendar": "Calendrier",
+		"help": "Aide",
+		"feedback": "Retour"
+	},
+	"input": {
+		"songs": "Chansons",
+		"stories": "Histoires",
+		"scriptures": "Écritures",
+		"prayers": "Prières",
+		"comprehensible": "Entrée compréhensible"
+	},
+	"lesson": {
+		"scripts": "Scripts de leçon",
+		"grammarLessons": "Leçons de grammaire",
+		"lessonContent": "Contenu de la leçon"
+	},
+	"teacher": {
+		"title": "Enseignant",
+		"myCourses": "Mes cours créés",
+		"createCourse": "Créer un cours"
+	},
+	"user": {
+		"account": "Compte",
+		"notifications": "Notifications",
+		"logout": "Déconnexion",
+		"login": "Connexion",
+		"register": "Créer un compte",
+		"dashboard": "Tableau de bord"
+	}
+}

@@ -1,0 +1,77 @@
+{
+	"main": {
+		"courses": "Μαθήματα",
+		"vocabulary": "Λεξιλόγιο",
+		"reader": "Αναγνώστης",
+		"grammar": "Γραμματική",
+		"alphabet": "Αλφάβητο",
+		"numbers": "Αριθμοί",
+		"freeForever": "Δωρεάν για πάντα",
+		"language": "Γλώσσα",
+		"chooseLanguage": "Επιλέξτε γλώσσα",
+		"torahLev": "ΚαρδιάΤορά"
+	},
+	"courses": {
+		"bh": "Βιβλικό Εβραϊκό",
+		"bg": "Βιβλικό Ελληνικό",
+		"mh": "Σύγχρονο Εβραϊκό",
+		"me": "Σύγχρονα Αγγλικά",
+		"ms": "Σύγχρονα Ισπανικά",
+		"bookclub": "Λέσχη Ανάγνωσης"
+	},
+	"vocabulary": {
+		"flashcards": "Κάρτες",
+		"dictionary": "Λεξικό",
+		"learn": "Μάθηση",
+		"matching": "Αντιστοίχιση",
+		"spelling": "Ορθογραφία"
+	},
+	"grammar": {
+		"verbs": "Ρήματα",
+		"scramble": "Ανακατεμένες Προτάσεις",
+		"builder": "Δόμηση Προτάσεων",
+		"memorizer": "Απομνημόνευση"
+	},
+	"alphabet": {
+		"names": "Ονόματα",
+		"sounds": "Ήχοι",
+		"syllables": "Συλλαβές",
+		"niqqud": "Νικούντ"
+	},
+	"numbers": {
+		"cardinal": "Αριθμητικό",
+		"ordinal": "Τακτικό",
+		"construct": "Κατασκευαστικό"
+	},
+	"secondary": {
+		"leaderboard": "Πίνακας Κατάταξης",
+		"calendar": "Ημερολόγιο",
+		"help": "Βοήθεια",
+		"feedback": "Ανατροφοδότηση"
+	},
+	"input": {
+		"songs": "Τραγούδια",
+		"stories": "Ιστορίες",
+		"scriptures": "Γραφές",
+		"prayers": "Προσευχές",
+		"comprehensible": "Κατανοητή Εισροή"
+	},
+	"lesson": {
+		"scripts": "Κείμενα Μαθημάτων",
+		"grammarLessons": "Μαθήματα Γραμματικής",
+		"lessonContent": "Περιεχόμενο μαθήματος"
+	},
+	"teacher": {
+		"title": "Καθηγητής",
+		"myCourses": "Τα Μαθήματά Μου",
+		"createCourse": "Δημιουργία Μαθήματος"
+	},
+	"user": {
+		"account": "Λογαριασμός",
+		"notifications": "Ειδοποιήσεις",
+		"logout": "Αποσύνδεση",
+		"login": "Σύνδεση",
+		"register": "Δημιουργία λογαριασμού",
+		"dashboard": "Πίνακας ελέγχου"
+	}
+}

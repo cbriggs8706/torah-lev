@@ -1,0 +1,77 @@
+{
+	"main": {
+		"courses": "Kurse",
+		"vocabulary": "Wortschatz",
+		"reader": "Leser",
+		"grammar": "Grammatik",
+		"alphabet": "Alphabet",
+		"numbers": "Zahlen",
+		"freeForever": "Für immer kostenlos",
+		"language": "Sprache",
+		"chooseLanguage": "Sprache wählen",
+		"torahLev": "TorahLev (Herz)"
+	},
+	"courses": {
+		"bh": "Biblisches Hebräisch",
+		"bg": "Biblisches Griechisch",
+		"mh": "Modernes Hebräisch",
+		"me": "Modernes Englisch",
+		"ms": "Modernes Spanisch",
+		"bookclub": "Buchclub"
+	},
+	"vocabulary": {
+		"flashcards": "Karteikarten",
+		"dictionary": "Wörterbuch",
+		"learn": "Lernen",
+		"matching": "Zuordnung",
+		"spelling": "Rechtschreibung"
+	},
+	"grammar": {
+		"verbs": "Verben",
+		"scramble": "Satzbau-Übung",
+		"builder": "Satzbaukasten",
+		"memorizer": "Merktest"
+	},
+	"alphabet": {
+		"names": "Namen",
+		"sounds": "Laute",
+		"syllables": "Silben",
+		"niqqud": "Niqqud"
+	},
+	"numbers": {
+		"cardinal": "Kardinalzahlen",
+		"ordinal": "Ordinalzahlen",
+		"construct": "Status Constructus"
+	},
+	"secondary": {
+		"leaderboard": "Bestenliste",
+		"calendar": "Kalender",
+		"help": "Hilfe",
+		"feedback": "Feedback"
+	},
+	"input": {
+		"songs": "Lieder",
+		"stories": "Geschichten",
+		"scriptures": "Schriften",
+		"prayers": "Gebete",
+		"comprehensible": "Verstehbarer Input"
+	},
+	"lesson": {
+		"scripts": "Lektionsskripte",
+		"grammarLessons": "Grammatiklektionen",
+		"lessonContent": "Lektionsinhalt"
+	},
+	"teacher": {
+		"title": "Lehrer",
+		"myCourses": "Meine Kurse",
+		"createCourse": "Kurs erstellen"
+	},
+	"user": {
+		"account": "Konto",
+		"notifications": "Benachrichtigungen",
+		"logout": "Abmelden",
+		"login": "Anmelden",
+		"register": "Konto erstellen",
+		"dashboard": "Dashboard"
+	}
+}

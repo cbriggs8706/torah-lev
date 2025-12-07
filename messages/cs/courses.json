@@ -1,0 +1,12 @@
+{
+	"title": "Kurzy",
+	"create": "Vytvořit",
+	"singular": "Kurz",
+	"list": {
+		"bh": "Biblická hebrejština",
+		"bg": "Biblická řečtina",
+		"mh": "Moderní hebrejština",
+		"me": "Moderní angličtina",
+		"ms": "Moderní španělština"
+	}
+}

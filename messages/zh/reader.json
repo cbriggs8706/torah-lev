@@ -1,0 +1,53 @@
+{
+	"title": "希伯来文本",
+	"nav": {
+		"next": "下一页",
+		"prev": "上一页",
+		"openDic": "打开词典"
+	},
+	"gap": "空格",
+	"filter": {
+		"placeholder": "按类型筛选",
+		"all": "所有类型"
+	},
+	"search": {
+		"placeholder": "搜索书籍…"
+	},
+	"types": {
+		"SCRIPTURE": "经文",
+		"LESSON-SCRIPT": "课程脚本",
+		"STORY": "故事",
+		"SONG": "歌曲",
+		"PRAYER": "祷告"
+	},
+	"breadcrumb": {
+		"reader": "阅读器",
+		"hebrew": "希伯来语",
+		"chapter": "章节"
+	},
+	"pos": {
+		"adjv": "形容词",
+		"advb": "副词",
+		"art": "冠词",
+		"conj": "连词",
+		"inrg": "疑问词",
+		"intj": "感叹词",
+		"nega": "否定词",
+		"nmpr": "专有名词",
+		"prde": "指示代词",
+		"prep": "介词",
+		"prin": "不定代词",
+		"prps": "物主代词",
+		"subs": "名词",
+		"verb": "动词"
+	},
+	"grammar": {
+		"lemma": "词根形式",
+		"root": "词根",
+		"translation": "翻译",
+		"transliteration": "音译",
+		"stem": "语干",
+		"tense": "时态",
+		"pos": "词性"
+	}
+}

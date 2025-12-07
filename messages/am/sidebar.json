@@ -1,0 +1,77 @@
+{
+	"main": {
+		"courses": "ኮርሶች",
+		"vocabulary": "ቃላት",
+		"reader": "አንባቢ",
+		"grammar": "የቋንቋ መረጃ",
+		"alphabet": "ፊደላት",
+		"numbers": "ቁጥሮች",
+		"freeForever": "ሁልጊዜ ነፃ",
+		"language": "ቋንቋ",
+		"chooseLanguage": "ቋንቋ ይምረጡ",
+		"torahLev": "TorahLev (ልብ)"
+	},
+	"courses": {
+		"bh": "የመጽሐፍ ቅዱስ ዕብራይስጥ",
+		"bg": "የመጽሐፍ ቅዱስ ግሪክ",
+		"mh": "ዘመናዊ ዕብራይስጥ",
+		"me": "ዘመናዊ እንግሊዝኛ",
+		"ms": "ዘመናዊ ስፓንኛ",
+		"bookclub": "የመጽሐፍ ክለብ"
+	},
+	"vocabulary": {
+		"flashcards": "ተለማት ካርዶች",
+		"dictionary": "መዝገበ ቃላት",
+		"learn": "ተማሩ",
+		"matching": "ማስማማት",
+		"spelling": "ቅርጽ መጻፍ"
+	},
+	"grammar": {
+		"verbs": "ግሶች",
+		"scramble": "ዓረፍተ ነገር ማደራጀት",
+		"builder": "ዓረፍተ ነገር መገንባት",
+		"memorizer": "መዝገብ ማስታወሻ"
+	},
+	"alphabet": {
+		"names": "ስሞች",
+		"sounds": "ድምጾች",
+		"syllables": "ክፍሎች",
+		"niqqud": "ኒቁድ"
+	},
+	"numbers": {
+		"cardinal": "መደበኛ ቁጥሮች",
+		"ordinal": "ተደራሽ ቁጥሮች",
+		"construct": "የተገናኘ ቅርጽ"
+	},
+	"secondary": {
+		"leaderboard": "የመሪዎች ዝርዝር",
+		"calendar": "ቀን መቁጠሪያ",
+		"help": "እርዳታ",
+		"feedback": "አስተያየት"
+	},
+	"input": {
+		"songs": "መዝሙሮች",
+		"stories": "ታሪኮች",
+		"scriptures": "መጽሐፍት",
+		"prayers": "ጸሎቶች",
+		"comprehensible": "ተረዳጅ ግብዣ"
+	},
+	"lesson": {
+		"scripts": "የትምህርት ጽሑፎች",
+		"grammarLessons": "የቋንቋ ትምህርቶች",
+		"lessonContent": "የትምህርት ይዘት"
+	},
+	"teacher": {
+		"title": "መምህር",
+		"myCourses": "የእኔ ኮርሶች",
+		"createCourse": "ኮርስ ፍጠር"
+	},
+	"user": {
+		"account": "መለያ",
+		"notifications": "ማስታወቂያዎች",
+		"logout": "ውጣ",
+		"login": "ግባ",
+		"register": "መለያ ፍጠር",
+		"dashboard": "ዳሽቦርድ"
+	}
+}

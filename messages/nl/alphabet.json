@@ -1,0 +1,29 @@
+{
+	"title": "Hebreeuws Alfabet",
+	"study": "Studie modus",
+	"startQuiz": "Start Quiz",
+	"secondsToAnswer": "Seconden om te antwoorden",
+	"mode": {
+		"mode": "Modus",
+		"name": "Letternamen",
+		"sound": "Letterklanken",
+		"syllable": "Lettergreepklanken",
+		"niqqud": "Niqqud-namen"
+	},
+	"pronunciation": "Uitspraak",
+	"sephardic": "Sefardisch",
+	"masoretic": "Masoretisch",
+	"quizComplete": "Quiz voltooid!",
+	"correct": "Goed",
+	"incorrect": "Fout",
+	"youPassed": "Je bent geslaagd!",
+	"youFailed": "Om te slagen mag je niet meer dan twee fouten maken.",
+	"pointsEarned": "Punten verdiend",
+	"youMissed": "Je miste:",
+	"startOver": "Opnieuw beginnen",
+	"back": "Terug",
+	"studyAlphabet": "Alfabet bestuderen",
+	"iGotIt": "Ik had het goed",
+	"iMissedIt": "Ik had het fout",
+	"font": "Lettertype"
+}

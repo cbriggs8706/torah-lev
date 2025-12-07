@@ -1,0 +1,77 @@
+{
+	"main": {
+		"courses": "Kurzy",
+		"vocabulary": "Slovní zásoba",
+		"reader": "Čtečka",
+		"grammar": "Gramatika",
+		"alphabet": "Abeceda",
+		"numbers": "Čísla",
+		"freeForever": "Navždy zdarma",
+		"language": "Jazyk",
+		"chooseLanguage": "Vybrat jazyk",
+		"torahLev": "TorahLev (Srdce)"
+	},
+	"courses": {
+		"bh": "Biblická hebrejština",
+		"bg": "Biblická řečtina",
+		"mh": "Moderní hebrejština",
+		"me": "Moderní angličtina",
+		"ms": "Moderní španělština",
+		"bookclub": "Knižní klub"
+	},
+	"vocabulary": {
+		"flashcards": "Kartičky",
+		"dictionary": "Slovník",
+		"learn": "Učit se",
+		"matching": "Párování",
+		"spelling": "Psaní"
+	},
+	"grammar": {
+		"verbs": "Slovesa",
+		"scramble": "Skládání vět",
+		"builder": "Stavitel vět",
+		"memorizer": "Učící nástroj"
+	},
+	"alphabet": {
+		"names": "Názvy",
+		"sounds": "Zvuky",
+		"syllables": "Slabiky",
+		"niqqud": "Nikud"
+	},
+	"numbers": {
+		"cardinal": "Základní čísla",
+		"ordinal": "Řadová čísla",
+		"construct": "Konstrukt"
+	},
+	"secondary": {
+		"leaderboard": "Žebříček",
+		"calendar": "Kalendář",
+		"help": "Nápověda",
+		"feedback": "Zpětná vazba"
+	},
+	"input": {
+		"songs": "Písně",
+		"stories": "Příběhy",
+		"scriptures": "Písmo",
+		"prayers": "Modlitby",
+		"comprehensible": "Srozumitelný vstup"
+	},
+	"lesson": {
+		"scripts": "Texty lekcí",
+		"grammarLessons": "Gramatické lekce",
+		"lessonContent": "Obsah lekce"
+	},
+	"teacher": {
+		"title": "Učitel",
+		"myCourses": "Moje kurzy",
+		"createCourse": "Vytvořit kurz"
+	},
+	"user": {
+		"account": "Účet",
+		"notifications": "Oznámení",
+		"logout": "Odhlásit se",
+		"login": "Přihlásit se",
+		"register": "Registrovat se",
+		"dashboard": "Nástěnka"
+	}
+}

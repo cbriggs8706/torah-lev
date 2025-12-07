@@ -1,0 +1,14 @@
+{
+	"welcome": "Καλώς ήρθατε",
+	"welcomeTL": "Καλώς ήρθατε στο TorahLev!",
+	"startLesson": "Έναρξη Μαθήματος",
+	"continue": "Συνέχεια",
+	"settings": "Ρυθμίσεις",
+	"switchLanguage": "Αλλαγή Γλώσσας",
+	"construction": "Αυτή η ιστοσελίδα είναι υπό κατασκευή",
+	"register": "Δημιουργία λογαριασμού",
+	"login": "Σύνδεση",
+	"guest": "Συνέχεια ως επισκέπτης",
+	"viewCourses": "ELView Courses",
+	"createCourse": "ELCreate Course"
+}

@@ -1,0 +1,29 @@
+{
+	"title": "Hebrew Alphabet",
+	"study": "Study Mode",
+	"startQuiz": "Start Quiz",
+	"secondsToAnswer": "Seconds to Answer",
+	"mode": {
+		"mode": "Mode",
+		"name": "Letter Names",
+		"sound": "Letter Sounds",
+		"syllable": "Syllable Sounds",
+		"niqqud": "Niqqud Names"
+	},
+	"pronunciation": "Pronunciation",
+	"sephardic": "Sephardic",
+	"masoretic": "Masoretic",
+	"quizComplete": "Quiz Complete!",
+	"correct": "Correct",
+	"incorrect": "Incorrect",
+	"youPassed": "You Passed!",
+	"youFailed": "To pass, you must make no more than 2 mistakes.",
+	"pointsEarned": "Points earned",
+	"youMissed": "You missed:",
+	"startOver": "Start Over",
+	"back": "Back",
+	"studyAlphabet": "Study Alphabet",
+	"iGotIt": "I got it",
+	"iMissedIt": "I missed it",
+	"font": "Font"
+}
