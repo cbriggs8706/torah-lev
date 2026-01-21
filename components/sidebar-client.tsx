@@ -48,7 +48,7 @@ export default function SidebarClient({
 			<div
 				className={cn(
 					'flex h-full lg:w-[256px] lg:fixed left-0 top-0 px-4 border-r-2 flex-col items-center justify-center text-center text-neutral-600',
-					className
+					className,
 				)}
 			>
 				<Link href="/courses" onClick={onItemClick}>
@@ -81,7 +81,7 @@ export default function SidebarClient({
 			<div
 				className={cn(
 					'flex h-full lg:w-[256px] lg:fixed left-0 top-0 px-4 border-r-2 flex-col',
-					className
+					className,
 				)}
 			>
 				<Link href="/courses" onClick={onItemClick}>
@@ -305,6 +305,12 @@ export default function SidebarClient({
 							<SidebarItem
 								label="Starts With"
 								href="/en/starts-with"
+								iconSrc="/video-game-svgrepo-com.svg"
+								onClick={onItemClick}
+							/>
+							<SidebarItem
+								label="Scattergories"
+								href="/en/scattergories"
 								iconSrc="/video-game-svgrepo-com.svg"
 								onClick={onItemClick}
 							/>

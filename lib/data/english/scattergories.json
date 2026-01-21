@@ -1,0 +1,1782 @@
+[
+	{
+		"title": "EC 1: Intro",
+		"groups": [
+			{
+				"name": "Basic Identity",
+				"categories": [
+					{
+						"id": "intro-name",
+						"name": "Name",
+						"examples": ["Maria", "John", "Luis"]
+					},
+					{
+						"id": "intro-country",
+						"name": "Country",
+						"examples": ["Mexico", "United States", "Canada"]
+					},
+					{
+						"id": "intro-language",
+						"name": "Language",
+						"examples": ["English", "Spanish", "French"]
+					},
+					{
+						"id": "intro-age",
+						"name": "Age",
+						"examples": ["20", "30", "45"]
+					},
+					{
+						"id": "intro-city",
+						"name": "City / Town",
+						"examples": ["Boise", "Salt Lake City", "Chicago"]
+					}
+				]
+			},
+			{
+				"name": "Classroom Context",
+				"categories": [
+					{
+						"id": "intro-teacher",
+						"name": "Teacher",
+						"examples": ["teacher", "instructor", "professor"]
+					},
+					{
+						"id": "intro-student",
+						"name": "Student",
+						"examples": ["student", "learner", "classmate"]
+					},
+					{
+						"id": "intro-class",
+						"name": "Class",
+						"examples": ["English class", "math class", "ESL class"]
+					},
+					{
+						"id": "intro-school",
+						"name": "School",
+						"examples": ["school", "college", "university"]
+					},
+					{
+						"id": "intro-book",
+						"name": "Book / Notebook",
+						"examples": ["book", "notebook", "textbook"]
+					}
+				]
+			},
+			{
+				"name": "Yes / No & Basics",
+				"categories": [
+					{
+						"id": "intro-yes",
+						"name": "Yes word",
+						"examples": ["yes", "yeah", "yep"]
+					},
+					{
+						"id": "intro-no",
+						"name": "No word",
+						"examples": ["no", "nope", "not really"]
+					},
+					{
+						"id": "intro-please",
+						"name": "Please phrase",
+						"examples": ["please", "yes please", "please help"]
+					},
+					{
+						"id": "intro-thank-you",
+						"name": "Thank you phrase",
+						"examples": ["thank you", "thanks", "thank you very much"]
+					},
+					{
+						"id": "intro-sorry",
+						"name": "Sorry phrase",
+						"examples": ["sorry", "excuse me", "I'm sorry"]
+					}
+				]
+			}
+		]
+	},
+	{
+		"title": "EC 2: Greetings & Introductions",
+		"groups": [
+			{
+				"name": "Greetings",
+				"categories": [
+					{
+						"id": "greet-formal",
+						"name": "Formal greeting",
+						"examples": ["Hello", "Good morning", "Good afternoon"]
+					},
+					{
+						"id": "greet-informal",
+						"name": "Informal greeting",
+						"examples": ["Hi", "Hey", "What's up?"]
+					},
+					{
+						"id": "greet-morning",
+						"name": "Morning greeting",
+						"examples": ["Good morning", "Morning", "Hi, good morning"]
+					},
+					{
+						"id": "greet-evening",
+						"name": "Evening greeting",
+						"examples": ["Good evening", "Hello", "Hi there"]
+					}
+				]
+			},
+			{
+				"name": "Introductions",
+				"categories": [
+					{
+						"id": "intro-self",
+						"name": "Introduce yourself",
+						"examples": ["My name is Ana", "I'm Carlos", "I am Maria"]
+					},
+					{
+						"id": "intro-other",
+						"name": "Introduce another person",
+						"examples": ["This is my friend", "This is my teacher", "Meet John"]
+					},
+					{
+						"id": "intro-ask-name",
+						"name": "Ask someone’s name",
+						"examples": [
+							"What's your name?",
+							"What is your name?",
+							"May I have your name?"
+						]
+					},
+					{
+						"id": "intro-goodbye",
+						"name": "Say goodbye",
+						"examples": ["Goodbye", "Bye", "See you later"]
+					}
+				]
+			},
+			{
+				"name": "Politeness & Social Language",
+				"categories": [
+					{
+						"id": "polite-phrase",
+						"name": "Polite phrase",
+						"examples": ["please", "thank you", "excuse me"]
+					},
+					{
+						"id": "friendly-phrase",
+						"name": "Friendly phrase",
+						"examples": ["Nice to meet you", "How are you?", "Good to see you"]
+					},
+					{
+						"id": "professional-greeting",
+						"name": "Professional greeting",
+						"examples": [
+							"Hello, how can I help you?",
+							"Good morning",
+							"Nice to meet you"
+						]
+					},
+					{
+						"id": "casual-greeting",
+						"name": "Casual greeting",
+						"examples": ["Hey", "Hi there", "What's up?"]
+					}
+				]
+			}
+		]
+	},
+	{
+		"title": "EC 3: Personal Introduction",
+		"groups": [
+			{
+				"name": "Personal Information",
+				"categories": [
+					{
+						"id": "pi-first-name",
+						"name": "First name",
+						"examples": ["Maria", "Juan", "Emily"]
+					},
+					{
+						"id": "pi-last-name",
+						"name": "Last name",
+						"examples": ["Garcia", "Smith", "Hernandez"]
+					},
+					{
+						"id": "pi-country",
+						"name": "Country",
+						"examples": ["Mexico", "United States", "Canada"]
+					},
+					{
+						"id": "pi-city",
+						"name": "City",
+						"examples": ["Boise", "Phoenix", "Chicago"]
+					},
+					{
+						"id": "pi-language",
+						"name": "Language spoken",
+						"examples": ["Spanish", "English", "French"]
+					}
+				]
+			},
+			{
+				"name": "Descriptions",
+				"categories": [
+					{
+						"id": "desc-personality",
+						"name": "Personality adjective",
+						"examples": ["friendly", "quiet", "funny"]
+					},
+					{
+						"id": "desc-feeling",
+						"name": "Feeling / emotion",
+						"examples": ["happy", "nervous", "excited"]
+					},
+					{
+						"id": "desc-age",
+						"name": "Age description",
+						"examples": ["young", "old", "middle-aged"]
+					},
+					{
+						"id": "desc-nationality",
+						"name": "Nationality adjective",
+						"examples": ["Mexican", "American", "Canadian"]
+					}
+				]
+			},
+			{
+				"name": "Personal Statements",
+				"categories": [
+					{
+						"id": "stmt-i-am",
+						"name": "I am… statement",
+						"examples": ["I am a student", "I am a worker", "I am friendly"]
+					},
+					{
+						"id": "stmt-i-am-from",
+						"name": "I am from… statement",
+						"examples": [
+							"I am from Mexico",
+							"I am from Idaho",
+							"I am from a small town"
+						]
+					},
+					{
+						"id": "stmt-i-speak",
+						"name": "I speak… statement",
+						"examples": [
+							"I speak Spanish",
+							"I speak English",
+							"I speak two languages"
+						]
+					},
+					{
+						"id": "stmt-i-like",
+						"name": "I like… statement",
+						"examples": ["I like soccer", "I like music", "I like cooking"]
+					}
+				]
+			}
+		]
+	},
+	{
+		"title": "EC 4–5: Hobbies & Interests",
+		"groups": [
+			{
+				"name": "Activities",
+				"categories": [
+					{
+						"id": "hobby-indoor",
+						"name": "Indoor hobby",
+						"examples": ["reading", "cooking", "watching TV"]
+					},
+					{
+						"id": "hobby-outdoor",
+						"name": "Outdoor hobby",
+						"examples": ["walking", "hiking", "gardening"]
+					},
+					{
+						"id": "hobby-sport",
+						"name": "Sport",
+						"examples": ["soccer", "basketball", "tennis"]
+					},
+					{
+						"id": "hobby-game",
+						"name": "Game",
+						"examples": ["chess", "video games", "cards"]
+					}
+				]
+			},
+			{
+				"name": "Media & Entertainment",
+				"categories": [
+					{
+						"id": "media-movie-type",
+						"name": "Movie type",
+						"examples": ["action", "comedy", "drama"]
+					},
+					{
+						"id": "media-music-type",
+						"name": "Music type",
+						"examples": ["pop", "rock", "country"]
+					},
+					{
+						"id": "media-tv-show",
+						"name": "TV show",
+						"examples": ["news", "sports", "cartoons"]
+					},
+					{
+						"id": "media-song",
+						"name": "Song",
+						"examples": ["favorite song", "love song", "happy song"]
+					}
+				]
+			},
+			{
+				"name": "Free Time",
+				"categories": [
+					{
+						"id": "freetime-weekend",
+						"name": "Weekend activity",
+						"examples": ["sleeping", "shopping", "relaxing"]
+					},
+					{
+						"id": "freetime-evening",
+						"name": "Evening activity",
+						"examples": ["watching TV", "eating dinner", "listening to music"]
+					},
+					{
+						"id": "freetime-friends",
+						"name": "Activity with friends",
+						"examples": ["talking", "playing games", "going out"]
+					},
+					{
+						"id": "freetime-alone",
+						"name": "Activity alone",
+						"examples": ["reading", "studying", "resting"]
+					}
+				]
+			},
+			{
+				"name": "Opinions & Preferences",
+				"categories": [
+					{
+						"id": "opinion-like",
+						"name": "Hobby you like",
+						"examples": ["I like soccer", "I like music", "I like cooking"]
+					},
+					{
+						"id": "opinion-dislike",
+						"name": "Hobby you don’t like",
+						"examples": [
+							"I don’t like running",
+							"I don’t like dancing",
+							"I don’t like games"
+						]
+					},
+					{
+						"id": "opinion-favorite",
+						"name": "Favorite activity",
+						"examples": [
+							"my favorite hobby is reading",
+							"my favorite sport is soccer"
+						]
+					},
+					{
+						"id": "opinion-new",
+						"name": "New activity you want to try",
+						"examples": ["learn English", "try cooking", "play a sport"]
+					}
+				]
+			}
+		]
+	},
+	{
+		"title": "EC 6–7: Family",
+		"groups": [
+			{
+				"name": "Immediate Family",
+				"categories": [
+					{
+						"id": "family-parent",
+						"name": "Parent",
+						"examples": ["mother", "father", "mom"]
+					},
+					{
+						"id": "family-sibling",
+						"name": "Sibling",
+						"examples": ["brother", "sister", "sibling"]
+					},
+					{
+						"id": "family-child",
+						"name": "Child",
+						"examples": ["son", "daughter", "child"]
+					}
+				]
+			},
+			{
+				"name": "Extended Family",
+				"categories": [
+					{
+						"id": "family-grandparent",
+						"name": "Grandparent",
+						"examples": ["grandmother", "grandfather", "grandpa"]
+					},
+					{
+						"id": "family-aunt-uncle",
+						"name": "Aunt / Uncle",
+						"examples": ["aunt", "uncle", "tia / tio"]
+					},
+					{
+						"id": "family-cousin",
+						"name": "Cousin",
+						"examples": ["cousin", "first cousin", "second cousin"]
+					}
+				]
+			},
+			{
+				"name": "Family Descriptions",
+				"categories": [
+					{
+						"id": "family-adjective",
+						"name": "Family adjective",
+						"examples": ["big", "small", "close"]
+					},
+					{
+						"id": "family-personality",
+						"name": "Personality trait",
+						"examples": ["kind", "funny", "hardworking"]
+					},
+					{
+						"id": "family-age",
+						"name": "Age description",
+						"examples": ["young", "old", "middle-aged"]
+					},
+					{
+						"id": "family-job",
+						"name": "Job in the family",
+						"examples": ["teacher", "worker", "driver"]
+					}
+				]
+			},
+			{
+				"name": "Family Activities & Culture",
+				"categories": [
+					{
+						"id": "family-activity",
+						"name": "Activity with family",
+						"examples": ["eat together", "watch TV", "talk"]
+					},
+					{
+						"id": "family-holiday",
+						"name": "Holiday with family",
+						"examples": ["Christmas", "Thanksgiving", "birthday"]
+					},
+					{
+						"id": "family-meal",
+						"name": "Meal with family",
+						"examples": ["dinner", "lunch", "breakfast"]
+					},
+					{
+						"id": "family-tradition",
+						"name": "Family tradition",
+						"examples": ["family dinner", "holiday meal", "weekly visit"]
+					}
+				]
+			}
+		]
+	},
+	{
+		"title": "EC 8: Everyday Common Items",
+		"groups": [
+			{
+				"name": "Personal Items",
+				"categories": [
+					{
+						"id": "item-carry",
+						"name": "Item you carry",
+						"examples": ["phone", "keys", "wallet"]
+					},
+					{
+						"id": "item-bag",
+						"name": "Item in a bag",
+						"examples": ["notebook", "lunch", "charger"]
+					},
+					{
+						"id": "item-pocket",
+						"name": "Item in a pocket",
+						"examples": ["coins", "phone", "keys"]
+					}
+				]
+			},
+			{
+				"name": "Home Items",
+				"categories": [
+					{
+						"id": "item-kitchen",
+						"name": "Kitchen item",
+						"examples": ["plate", "cup", "spoon"]
+					},
+					{
+						"id": "item-bathroom",
+						"name": "Bathroom item",
+						"examples": ["soap", "towel", "toothbrush"]
+					},
+					{
+						"id": "item-bedroom",
+						"name": "Bedroom item",
+						"examples": ["bed", "pillow", "blanket"]
+					}
+				]
+			},
+			{
+				"name": "School & Work Items",
+				"categories": [
+					{
+						"id": "item-school",
+						"name": "School supply",
+						"examples": ["pen", "paper", "notebook"]
+					},
+					{
+						"id": "item-office",
+						"name": "Office supply",
+						"examples": ["computer", "printer", "desk"]
+					},
+					{
+						"id": "item-tool",
+						"name": "Tool",
+						"examples": ["hammer", "screwdriver", "wrench"]
+					}
+				]
+			},
+			{
+				"name": "Technology",
+				"categories": [
+					{
+						"id": "item-device",
+						"name": "Electronic device",
+						"examples": ["phone", "tablet", "computer"]
+					},
+					{
+						"id": "item-app",
+						"name": "Phone app",
+						"examples": ["messages", "camera", "maps"]
+					},
+					{
+						"id": "item-computer",
+						"name": "Computer item",
+						"examples": ["mouse", "keyboard", "screen"]
+					}
+				]
+			}
+		]
+	},
+	{
+		"title": "EC 9: Clothing & Colors",
+		"groups": [
+			{
+				"name": "Clothing",
+				"categories": [
+					{
+						"id": "clothes-shirt",
+						"name": "Shirt",
+						"examples": ["t-shirt", "sweater", "button-up"]
+					},
+					{
+						"id": "clothes-pants",
+						"name": "Pants",
+						"examples": ["jeans", "shorts", "pants"]
+					},
+					{
+						"id": "clothes-shoes",
+						"name": "Shoes",
+						"examples": ["sneakers", "boots", "sandals"]
+					},
+					{
+						"id": "clothes-jacket",
+						"name": "Jacket",
+						"examples": ["jacket", "coat", "hoodie"]
+					}
+				]
+			},
+			{
+				"name": "Accessories",
+				"categories": [
+					{
+						"id": "clothes-hat",
+						"name": "Hat",
+						"examples": ["cap", "beanie", "hat"]
+					},
+					{
+						"id": "clothes-bag",
+						"name": "Bag",
+						"examples": ["backpack", "purse", "bag"]
+					},
+					{
+						"id": "clothes-jewelry",
+						"name": "Jewelry",
+						"examples": ["ring", "necklace", "bracelet"]
+					},
+					{
+						"id": "clothes-watch",
+						"name": "Watch",
+						"examples": ["watch", "smartwatch", "wristwatch"]
+					}
+				]
+			},
+			{
+				"name": "Colors",
+				"categories": [
+					{
+						"id": "color-basic",
+						"name": "Basic color",
+						"examples": ["red", "blue", "green"]
+					},
+					{
+						"id": "color-bright",
+						"name": "Bright color",
+						"examples": ["yellow", "pink", "orange"]
+					},
+					{
+						"id": "color-dark",
+						"name": "Dark color",
+						"examples": ["black", "brown", "navy"]
+					},
+					{
+						"id": "color-favorite",
+						"name": "Favorite color",
+						"examples": ["blue", "green", "purple"]
+					}
+				]
+			},
+			{
+				"name": "Clothing Descriptions",
+				"categories": [
+					{
+						"id": "clothes-big",
+						"name": "Big clothing",
+						"examples": ["big jacket", "large shirt", "oversized hoodie"]
+					},
+					{
+						"id": "clothes-small",
+						"name": "Small clothing",
+						"examples": ["small shirt", "tight pants", "short jacket"]
+					},
+					{
+						"id": "clothes-new",
+						"name": "New clothing",
+						"examples": ["new shoes", "new shirt", "new jacket"]
+					},
+					{
+						"id": "clothes-old",
+						"name": "Old clothing",
+						"examples": ["old jeans", "old shoes", "old jacket"]
+					}
+				]
+			}
+		]
+	},
+	{
+		"title": "EC 10: Daily Routines",
+		"groups": [
+			{
+				"name": "Morning Routine",
+				"categories": [
+					{
+						"id": "routine-wake-up",
+						"name": "Morning action",
+						"examples": ["wake up", "get up", "turn off alarm"]
+					},
+					{
+						"id": "routine-breakfast",
+						"name": "Breakfast activity",
+						"examples": ["eat breakfast", "drink coffee", "cook eggs"]
+					},
+					{
+						"id": "routine-get-ready",
+						"name": "Getting ready activity",
+						"examples": ["shower", "get dressed", "brush teeth"]
+					}
+				]
+			},
+			{
+				"name": "Daytime Routine",
+				"categories": [
+					{
+						"id": "routine-work",
+						"name": "Work activity",
+						"examples": ["work", "clean", "drive"]
+					},
+					{
+						"id": "routine-school",
+						"name": "School activity",
+						"examples": ["study", "read", "write"]
+					},
+					{
+						"id": "routine-break",
+						"name": "Break activity",
+						"examples": ["eat lunch", "rest", "talk"]
+					}
+				]
+			},
+			{
+				"name": "Evening Routine",
+				"categories": [
+					{
+						"id": "routine-dinner",
+						"name": "Dinner activity",
+						"examples": ["eat dinner", "cook", "wash dishes"]
+					},
+					{
+						"id": "routine-relax",
+						"name": "Relaxing activity",
+						"examples": ["watch TV", "listen to music", "relax"]
+					},
+					{
+						"id": "routine-night",
+						"name": "Night routine",
+						"examples": ["shower", "go to bed", "sleep"]
+					}
+				]
+			},
+			{
+				"name": "Frequency & Habits",
+				"categories": [
+					{
+						"id": "routine-daily",
+						"name": "Daily activity",
+						"examples": ["work", "eat", "sleep"]
+					},
+					{
+						"id": "routine-weekly",
+						"name": "Weekly activity",
+						"examples": ["go shopping", "clean house", "visit family"]
+					},
+					{
+						"id": "routine-always",
+						"name": "Always activity",
+						"examples": ["always wake up early", "always eat breakfast"]
+					},
+					{
+						"id": "routine-sometimes",
+						"name": "Sometimes activity",
+						"examples": ["sometimes cook", "sometimes exercise"]
+					}
+				]
+			}
+		]
+	},
+	{
+		"title": "EC 11: Current Activities",
+		"groups": [
+			{
+				"name": "Actions Happening Now",
+				"categories": [
+					{
+						"id": "current-now",
+						"name": "Action happening now",
+						"examples": ["working", "studying", "listening"]
+					},
+					{
+						"id": "current-today",
+						"name": "Action happening today",
+						"examples": ["working today", "going to class", "cleaning"]
+					},
+					{
+						"id": "current-this-week",
+						"name": "Action happening this week",
+						"examples": ["learning English", "working overtime", "training"]
+					}
+				]
+			},
+			{
+				"name": "Movement & Location",
+				"categories": [
+					{
+						"id": "current-going",
+						"name": "Going somewhere",
+						"examples": ["going to work", "going home", "going to class"]
+					},
+					{
+						"id": "current-coming",
+						"name": "Coming from somewhere",
+						"examples": [
+							"coming from work",
+							"coming home",
+							"coming from school"
+						]
+					},
+					{
+						"id": "current-travel",
+						"name": "Traveling activity",
+						"examples": ["driving", "walking", "riding the bus"]
+					}
+				]
+			},
+			{
+				"name": "Work & School Now",
+				"categories": [
+					{
+						"id": "current-working-on",
+						"name": "Working on",
+						"examples": [
+							"working on a project",
+							"fixing a machine",
+							"packing boxes"
+						]
+					},
+					{
+						"id": "current-studying",
+						"name": "Studying",
+						"examples": ["studying English", "reading", "doing homework"]
+					},
+					{
+						"id": "current-waiting",
+						"name": "Waiting",
+						"examples": [
+							"waiting for break",
+							"waiting for class",
+							"waiting for food"
+						]
+					}
+				]
+			},
+			{
+				"name": "Temporary Activities",
+				"categories": [
+					{
+						"id": "current-temporary-job",
+						"name": "Temporary job or task",
+						"examples": ["training", "helping", "learning a new job"]
+					},
+					{
+						"id": "current-temporary-feeling",
+						"name": "Temporary feeling",
+						"examples": ["feeling tired", "feeling busy", "feeling stressed"]
+					},
+					{
+						"id": "current-temporary-change",
+						"name": "Something different today",
+						"examples": ["working late", "skipping lunch", "leaving early"]
+					}
+				]
+			}
+		]
+	},
+	{
+		"title": "EC 12: Time & Calendar",
+		"groups": [
+			{
+				"name": "Time of Day",
+				"categories": [
+					{
+						"id": "time-morning",
+						"name": "Time in the morning",
+						"examples": ["6:00 a.m.", "7:30 a.m.", "morning"]
+					},
+					{
+						"id": "time-afternoon",
+						"name": "Time in the afternoon",
+						"examples": ["12:00 p.m.", "3:00 p.m.", "afternoon"]
+					},
+					{
+						"id": "time-evening",
+						"name": "Time in the evening",
+						"examples": ["6:00 p.m.", "8:00 p.m.", "evening"]
+					},
+					{
+						"id": "time-night",
+						"name": "Time at night",
+						"examples": ["9:00 p.m.", "11:00 p.m.", "night"]
+					}
+				]
+			},
+			{
+				"name": "Clock & Time Units",
+				"categories": [
+					{
+						"id": "time-hour",
+						"name": "Hour",
+						"examples": ["one hour", "two hours", "half an hour"]
+					},
+					{
+						"id": "time-minute",
+						"name": "Minute",
+						"examples": ["five minutes", "ten minutes", "fifteen minutes"]
+					},
+					{
+						"id": "time-now",
+						"name": "Time right now",
+						"examples": ["now", "right now", "at the moment"]
+					}
+				]
+			},
+			{
+				"name": "Days & Calendar",
+				"categories": [
+					{
+						"id": "calendar-day",
+						"name": "Day of the week",
+						"examples": ["Monday", "Friday", "Sunday"]
+					},
+					{
+						"id": "calendar-month",
+						"name": "Month",
+						"examples": ["January", "June", "December"]
+					},
+					{
+						"id": "calendar-date",
+						"name": "Date",
+						"examples": ["May 5", "the 10th", "July 4"]
+					}
+				]
+			},
+			{
+				"name": "Time Words & Frequency",
+				"categories": [
+					{
+						"id": "time-today",
+						"name": "Today",
+						"examples": ["today", "this morning", "this afternoon"]
+					},
+					{
+						"id": "time-tomorrow",
+						"name": "Tomorrow",
+						"examples": ["tomorrow", "tomorrow morning", "tomorrow night"]
+					},
+					{
+						"id": "time-yesterday",
+						"name": "Yesterday",
+						"examples": ["yesterday", "last night", "yesterday morning"]
+					},
+					{
+						"id": "time-next",
+						"name": "Next / Last",
+						"examples": ["next week", "last month", "next year"]
+					}
+				]
+			},
+			{
+				"name": "Scheduling & Events",
+				"categories": [
+					{
+						"id": "schedule-appointment",
+						"name": "Appointment",
+						"examples": ["doctor appointment", "meeting", "interview"]
+					},
+					{
+						"id": "schedule-meeting",
+						"name": "Meeting",
+						"examples": ["work meeting", "school meeting", "team meeting"]
+					},
+					{
+						"id": "schedule-event",
+						"name": "Event",
+						"examples": ["birthday", "party", "class"]
+					},
+					{
+						"id": "schedule-holiday",
+						"name": "Holiday",
+						"examples": ["Christmas", "Thanksgiving", "New Year"]
+					}
+				]
+			}
+		]
+	},
+	{
+		"title": "EC 13: Weather",
+		"groups": [
+			{
+				"name": "Weather Types",
+				"categories": [
+					{
+						"id": "weather-sunny",
+						"name": "Sunny weather",
+						"examples": ["sunny", "clear", "bright"]
+					},
+					{
+						"id": "weather-rainy",
+						"name": "Rainy weather",
+						"examples": ["rainy", "wet", "raining"]
+					},
+					{
+						"id": "weather-snowy",
+						"name": "Snowy weather",
+						"examples": ["snowy", "snowing", "icy"]
+					},
+					{
+						"id": "weather-windy",
+						"name": "Windy weather",
+						"examples": ["windy", "strong wind", "breezy"]
+					}
+				]
+			},
+			{
+				"name": "Temperature",
+				"categories": [
+					{
+						"id": "weather-hot",
+						"name": "Hot weather",
+						"examples": ["hot", "very hot", "humid"]
+					},
+					{
+						"id": "weather-cold",
+						"name": "Cold weather",
+						"examples": ["cold", "very cold", "freezing"]
+					},
+					{
+						"id": "weather-warm",
+						"name": "Warm weather",
+						"examples": ["warm", "nice", "comfortable"]
+					},
+					{
+						"id": "weather-cool",
+						"name": "Cool weather",
+						"examples": ["cool", "chilly", "mild"]
+					}
+				]
+			},
+			{
+				"name": "Weather Feelings & Opinions",
+				"categories": [
+					{
+						"id": "weather-like",
+						"name": "Weather you like",
+						"examples": ["I like sunny weather", "I like warm days"]
+					},
+					{
+						"id": "weather-dislike",
+						"name": "Weather you don’t like",
+						"examples": ["I don’t like rain", "I don’t like cold weather"]
+					},
+					{
+						"id": "weather-today",
+						"name": "Weather today",
+						"examples": ["It is sunny", "It is cold today"]
+					},
+					{
+						"id": "weather-tomorrow",
+						"name": "Weather tomorrow",
+						"examples": ["It will be rainy", "It will be hot"]
+					}
+				]
+			},
+			{
+				"name": "Weather & Daily Life",
+				"categories": [
+					{
+						"id": "weather-clothes",
+						"name": "Clothes for this weather",
+						"examples": ["jacket", "coat", "shorts"]
+					},
+					{
+						"id": "weather-activity",
+						"name": "Activity for this weather",
+						"examples": ["stay inside", "go for a walk", "play outside"]
+					},
+					{
+						"id": "weather-season",
+						"name": "Season",
+						"examples": ["summer", "winter", "spring"]
+					}
+				]
+			}
+		]
+	},
+	{
+		"title": "EC 14–15: Jobs & Careers",
+		"groups": [
+			{
+				"name": "Jobs",
+				"categories": [
+					{
+						"id": "job-title",
+						"name": "Job title",
+						"examples": ["teacher", "worker", "driver"]
+					},
+					{
+						"id": "job-factory",
+						"name": "Factory job",
+						"examples": ["packer", "operator", "technician"]
+					},
+					{
+						"id": "job-service",
+						"name": "Service job",
+						"examples": ["cook", "cashier", "server"]
+					},
+					{
+						"id": "job-office",
+						"name": "Office job",
+						"examples": ["assistant", "manager", "clerk"]
+					}
+				]
+			},
+			{
+				"name": "Workplace & Organization",
+				"categories": [
+					{
+						"id": "workplace-location",
+						"name": "Workplace",
+						"examples": ["factory", "office", "store"]
+					},
+					{
+						"id": "workplace-department",
+						"name": "Department",
+						"examples": ["shipping", "maintenance", "quality"]
+					},
+					{
+						"id": "workplace-company",
+						"name": "Company",
+						"examples": ["company", "business", "plant"]
+					},
+					{
+						"id": "workplace-shift",
+						"name": "Shift",
+						"examples": ["day shift", "night shift", "weekend shift"]
+					}
+				]
+			},
+			{
+				"name": "Job Actions & Skills",
+				"categories": [
+					{
+						"id": "job-action",
+						"name": "Work action (verb)",
+						"examples": ["clean", "build", "pack"]
+					},
+					{
+						"id": "job-task",
+						"name": "Daily task",
+						"examples": ["check machines", "answer calls", "fill boxes"]
+					},
+					{
+						"id": "job-responsibility",
+						"name": "Responsibility",
+						"examples": ["safety", "quality", "time"]
+					},
+					{
+						"id": "job-skill",
+						"name": "Skill",
+						"examples": ["communication", "organization", "teamwork"]
+					}
+				]
+			},
+			{
+				"name": "Career Concepts",
+				"categories": [
+					{
+						"id": "career-dream",
+						"name": "Dream job",
+						"examples": ["teacher", "nurse", "engineer"]
+					},
+					{
+						"id": "career-first",
+						"name": "First job",
+						"examples": ["restaurant job", "factory job", "store job"]
+					},
+					{
+						"id": "career-full-time",
+						"name": "Full-time job",
+						"examples": ["40 hours", "day job", "regular job"]
+					},
+					{
+						"id": "career-part-time",
+						"name": "Part-time job",
+						"examples": ["weekend job", "evening job", "short hours"]
+					}
+				]
+			}
+		]
+	},
+	{
+		"title": "EC 16–18: Food",
+		"groups": [
+			{
+				"name": "Basic Food Types",
+				"categories": [
+					{
+						"id": "food-fruit",
+						"name": "Fruit",
+						"examples": ["apple", "banana", "orange"]
+					},
+					{
+						"id": "food-vegetable",
+						"name": "Vegetable",
+						"examples": ["carrot", "onion", "broccoli"]
+					},
+					{
+						"id": "food-meat-protein",
+						"name": "Meat / Protein",
+						"examples": ["chicken", "beef", "beans"]
+					},
+					{
+						"id": "food-drink",
+						"name": "Drink",
+						"examples": ["water", "juice", "soda"]
+					}
+				]
+			},
+			{
+				"name": "Meals & Sweets",
+				"categories": [
+					{
+						"id": "food-dessert",
+						"name": "Dessert / Sweet",
+						"examples": ["cake", "cookies", "ice cream"]
+					},
+					{
+						"id": "food-snack",
+						"name": "Snack",
+						"examples": ["chips", "popcorn", "pretzels"]
+					},
+					{
+						"id": "food-breakfast",
+						"name": "Breakfast food",
+						"examples": ["eggs", "cereal", "pancakes"]
+					},
+					{
+						"id": "food-dinner",
+						"name": "Dinner food",
+						"examples": ["tacos", "rice", "pasta"]
+					}
+				]
+			},
+			{
+				"name": "Everyday Food Contexts",
+				"categories": [
+					{
+						"id": "food-fast-food",
+						"name": "Fast food item",
+						"examples": ["burger", "fries", "nuggets"]
+					},
+					{
+						"id": "food-restaurant",
+						"name": "Restaurant food",
+						"examples": ["salad", "steak", "soup"]
+					},
+					{
+						"id": "food-street",
+						"name": "Street food",
+						"examples": ["hot dog", "taco", "elote"]
+					},
+					{
+						"id": "food-school",
+						"name": "Food you eat at school",
+						"examples": ["pizza", "milk", "apple"]
+					},
+					{
+						"id": "food-work",
+						"name": "Food you eat at work",
+						"examples": ["sandwich", "coffee", "leftovers"]
+					},
+					{
+						"id": "food-party",
+						"name": "Party food",
+						"examples": ["chips and salsa", "cupcakes", "wings"]
+					}
+				]
+			},
+			{
+				"name": "Descriptive & Conceptual Food",
+				"categories": [
+					{
+						"id": "food-hot",
+						"name": "Hot food",
+						"examples": ["soup", "pizza", "rice"]
+					},
+					{
+						"id": "food-cold",
+						"name": "Cold food",
+						"examples": ["ice cream", "salad", "fruit"]
+					},
+					{
+						"id": "food-healthy",
+						"name": "Healthy food",
+						"examples": ["vegetables", "fruit", "yogurt"]
+					},
+					{
+						"id": "food-unhealthy",
+						"name": "Unhealthy food",
+						"examples": ["candy", "fries", "donuts"]
+					},
+					{
+						"id": "food-cheap",
+						"name": "Cheap food",
+						"examples": ["ramen", "beans", "rice"]
+					},
+					{
+						"id": "food-expensive",
+						"name": "Expensive food",
+						"examples": ["steak", "seafood", "sushi"]
+					}
+				]
+			},
+			{
+				"name": "Cultural & Personal Food",
+				"categories": [
+					{
+						"id": "food-country",
+						"name": "Food from your country",
+						"examples": ["tamales", "arepas", "pho"]
+					},
+					{
+						"id": "food-american",
+						"name": "American food",
+						"examples": ["burger", "mac and cheese", "BBQ"]
+					},
+					{
+						"id": "food-mexican",
+						"name": "Mexican food (or class-relevant culture)",
+						"examples": ["tacos", "pozole", "quesadilla"]
+					},
+					{
+						"id": "food-family",
+						"name": "Food your family makes",
+						"examples": ["stew", "rice and beans", "soup"]
+					},
+					{
+						"id": "food-holiday",
+						"name": "Holiday food",
+						"examples": ["turkey", "ham", "pumpkin pie"]
+					}
+				]
+			},
+			{
+				"name": "Object-Based Food (Very ESL-Friendly)",
+				"categories": [
+					{
+						"id": "food-box",
+						"name": "Food in a box",
+						"examples": ["cereal", "pizza", "cookies"]
+					},
+					{
+						"id": "food-bag",
+						"name": "Food in a bag",
+						"examples": ["chips", "bread", "candy"]
+					},
+					{
+						"id": "food-can",
+						"name": "Food in a can",
+						"examples": ["beans", "tuna", "soup"]
+					},
+					{
+						"id": "food-stick",
+						"name": "Food on a stick",
+						"examples": ["corn dog", "kabob", "popsicle"]
+					},
+					{
+						"id": "food-bowl",
+						"name": "Food in a bowl",
+						"examples": ["cereal", "rice", "soup"]
+					}
+				]
+			}
+		]
+	},
+	{
+		"title": "EC 19: Money",
+		"groups": [
+			{
+				"name": "Currency & Forms of Money",
+				"categories": [
+					{
+						"id": "money-word",
+						"name": "Money word",
+						"examples": ["money", "cash", "change"]
+					},
+					{
+						"id": "money-coin",
+						"name": "Coin",
+						"examples": ["penny", "nickel", "quarter"]
+					},
+					{
+						"id": "money-bill",
+						"name": "Bill",
+						"examples": ["one dollar", "five dollars", "twenty dollars"]
+					},
+					{
+						"id": "money-card",
+						"name": "Pay with a card",
+						"examples": ["credit card", "debit card", "card"]
+					}
+				]
+			},
+			{
+				"name": "Prices & Cost",
+				"categories": [
+					{
+						"id": "price-cheap",
+						"name": "Cheap item",
+						"examples": ["cheap food", "cheap shirt", "cheap coffee"]
+					},
+					{
+						"id": "price-expensive",
+						"name": "Expensive item",
+						"examples": ["expensive phone", "expensive shoes", "expensive car"]
+					},
+					{
+						"id": "price-good",
+						"name": "Good price",
+						"examples": ["good deal", "low price", "on sale"]
+					},
+					{
+						"id": "price-bad",
+						"name": "Bad price",
+						"examples": ["too expensive", "high price", "not cheap"]
+					}
+				]
+			},
+			{
+				"name": "Pay & Getting Money",
+				"categories": [
+					{
+						"id": "pay-get-paid",
+						"name": "Get paid",
+						"examples": ["get paid weekly", "get paid Friday", "payday"]
+					},
+					{
+						"id": "pay-for",
+						"name": "Pay for something",
+						"examples": ["pay for food", "pay for rent", "pay for gas"]
+					},
+					{
+						"id": "pay-tip",
+						"name": "Tip",
+						"examples": ["leave a tip", "give a tip", "no tip"]
+					},
+					{
+						"id": "pay-change",
+						"name": "Get change",
+						"examples": ["get change", "need change", "exact change"]
+					}
+				]
+			},
+			{
+				"name": "Shopping & Money Actions",
+				"categories": [
+					{
+						"id": "shop-buy",
+						"name": "Buy",
+						"examples": ["buy food", "buy clothes", "buy a phone"]
+					},
+					{
+						"id": "shop-sell",
+						"name": "Sell",
+						"examples": ["sell food", "sell a car", "sell items"]
+					},
+					{
+						"id": "shop-cost",
+						"name": "Cost",
+						"examples": ["it costs $5", "how much is it?", "total cost"]
+					},
+					{
+						"id": "shop-save",
+						"name": "Save money",
+						"examples": ["save money", "save for later", "save for a car"]
+					}
+				]
+			}
+		]
+	},
+	{
+		"title": "EC 20–21: Home",
+		"groups": [
+			{
+				"name": "Rooms in the Home",
+				"categories": [
+					{
+						"id": "home-kitchen",
+						"name": "Kitchen",
+						"examples": ["kitchen", "cooking area", "where you cook"]
+					},
+					{
+						"id": "home-bedroom",
+						"name": "Bedroom",
+						"examples": ["bedroom", "sleeping room", "my room"]
+					},
+					{
+						"id": "home-bathroom",
+						"name": "Bathroom",
+						"examples": ["bathroom", "restroom", "shower room"]
+					},
+					{
+						"id": "home-living-room",
+						"name": "Living room",
+						"examples": ["living room", "family room", "TV room"]
+					}
+				]
+			},
+			{
+				"name": "Furniture",
+				"categories": [
+					{
+						"id": "home-chair",
+						"name": "Chair",
+						"examples": ["chair", "seat", "stool"]
+					},
+					{
+						"id": "home-table",
+						"name": "Table",
+						"examples": ["table", "desk", "dining table"]
+					},
+					{
+						"id": "home-bed",
+						"name": "Bed",
+						"examples": ["bed", "mattress", "bunk bed"]
+					},
+					{
+						"id": "home-couch",
+						"name": "Couch / Sofa",
+						"examples": ["couch", "sofa", "loveseat"]
+					}
+				]
+			},
+			{
+				"name": "Types of Homes",
+				"categories": [
+					{
+						"id": "home-apartment",
+						"name": "Apartment",
+						"examples": ["apartment", "unit", "flat"]
+					},
+					{
+						"id": "home-house",
+						"name": "House",
+						"examples": ["house", "family house", "home"]
+					},
+					{
+						"id": "home-mobile",
+						"name": "Mobile home",
+						"examples": ["mobile home", "trailer", "manufactured home"]
+					}
+				]
+			},
+			{
+				"name": "Home Activities",
+				"categories": [
+					{
+						"id": "home-clean",
+						"name": "Clean",
+						"examples": ["clean the house", "clean room", "do chores"]
+					},
+					{
+						"id": "home-cook",
+						"name": "Cook",
+						"examples": ["cook dinner", "make food", "cook at home"]
+					},
+					{
+						"id": "home-sleep",
+						"name": "Sleep",
+						"examples": ["sleep", "go to bed", "take a nap"]
+					},
+					{
+						"id": "home-relax",
+						"name": "Relax",
+						"examples": ["relax", "watch TV", "rest"]
+					}
+				]
+			}
+		]
+	},
+	{
+		"title": "EC 22: Community",
+		"groups": [
+			{
+				"name": "Community Places",
+				"categories": [
+					{
+						"id": "community-store",
+						"name": "Store",
+						"examples": ["grocery store", "store", "shop"]
+					},
+					{
+						"id": "community-school",
+						"name": "School",
+						"examples": ["school", "college", "training center"]
+					},
+					{
+						"id": "community-hospital",
+						"name": "Hospital / Clinic",
+						"examples": ["hospital", "clinic", "doctor’s office"]
+					},
+					{
+						"id": "community-park",
+						"name": "Park",
+						"examples": ["park", "playground", "green area"]
+					}
+				]
+			},
+			{
+				"name": "Community Services",
+				"categories": [
+					{
+						"id": "community-police",
+						"name": "Police",
+						"examples": ["police", "police station", "officer"]
+					},
+					{
+						"id": "community-fire",
+						"name": "Fire station",
+						"examples": ["fire station", "firefighter", "fire department"]
+					},
+					{
+						"id": "community-post-office",
+						"name": "Post office",
+						"examples": ["post office", "mail", "package"]
+					},
+					{
+						"id": "community-library",
+						"name": "Library",
+						"examples": ["library", "books", "study place"]
+					}
+				]
+			},
+			{
+				"name": "Transportation",
+				"categories": [
+					{
+						"id": "community-bus",
+						"name": "Bus",
+						"examples": ["bus", "bus stop", "city bus"]
+					},
+					{
+						"id": "community-car",
+						"name": "Car",
+						"examples": ["car", "drive", "parking"]
+					},
+					{
+						"id": "community-train",
+						"name": "Train",
+						"examples": ["train", "train station", "subway"]
+					},
+					{
+						"id": "community-bike",
+						"name": "Bike",
+						"examples": ["bike", "bicycle", "ride a bike"]
+					}
+				]
+			},
+			{
+				"name": "Directions & Location",
+				"categories": [
+					{
+						"id": "community-left",
+						"name": "Left",
+						"examples": ["turn left", "on the left", "left side"]
+					},
+					{
+						"id": "community-right",
+						"name": "Right",
+						"examples": ["turn right", "on the right", "right side"]
+					},
+					{
+						"id": "community-near",
+						"name": "Near",
+						"examples": ["near", "close", "next to"]
+					},
+					{
+						"id": "community-far",
+						"name": "Far",
+						"examples": ["far", "far away", "not close"]
+					}
+				]
+			}
+		]
+	},
+	{
+		"title": "EC 23–24: Health",
+		"groups": [
+			{
+				"name": "Body & Physical Health",
+				"categories": [
+					{
+						"id": "health-body-part",
+						"name": "Body part",
+						"examples": ["head", "arm", "leg"]
+					},
+					{
+						"id": "health-pain",
+						"name": "Pain",
+						"examples": ["headache", "stomachache", "back pain"]
+					},
+					{
+						"id": "health-injury",
+						"name": "Injury",
+						"examples": ["cut", "burn", "bruise"]
+					}
+				]
+			},
+			{
+				"name": "Feelings & Conditions",
+				"categories": [
+					{
+						"id": "health-sick",
+						"name": "Sick",
+						"examples": ["sick", "not feeling well", "ill"]
+					},
+					{
+						"id": "health-tired",
+						"name": "Tired",
+						"examples": ["tired", "very tired", "sleepy"]
+					},
+					{
+						"id": "health-hungry",
+						"name": "Hungry / Thirsty",
+						"examples": ["hungry", "thirsty", "very hungry"]
+					},
+					{
+						"id": "health-better",
+						"name": "Feeling better",
+						"examples": ["better", "feeling good", "okay now"]
+					}
+				]
+			},
+			{
+				"name": "Healthcare & Help",
+				"categories": [
+					{
+						"id": "health-doctor",
+						"name": "Doctor",
+						"examples": ["doctor", "primary doctor", "doctor visit"]
+					},
+					{
+						"id": "health-nurse",
+						"name": "Nurse",
+						"examples": ["nurse", "clinic nurse", "school nurse"]
+					},
+					{
+						"id": "health-clinic",
+						"name": "Clinic / Hospital",
+						"examples": ["clinic", "hospital", "urgent care"]
+					},
+					{
+						"id": "health-medicine",
+						"name": "Medicine",
+						"examples": ["medicine", "pills", "pain medicine"]
+					}
+				]
+			},
+			{
+				"name": "Healthy Habits",
+				"categories": [
+					{
+						"id": "health-exercise",
+						"name": "Exercise",
+						"examples": ["walk", "exercise", "stretch"]
+					},
+					{
+						"id": "health-sleep",
+						"name": "Sleep",
+						"examples": ["sleep", "go to bed early", "rest"]
+					},
+					{
+						"id": "health-eat-healthy",
+						"name": "Eat healthy",
+						"examples": ["eat vegetables", "eat fruit", "healthy food"]
+					},
+					{
+						"id": "health-drink-water",
+						"name": "Drink water",
+						"examples": ["drink water", "drink more water", "stay hydrated"]
+					}
+				]
+			}
+		]
+	}
+]
