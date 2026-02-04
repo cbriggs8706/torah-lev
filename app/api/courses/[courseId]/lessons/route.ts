@@ -7,7 +7,7 @@ import { isAdmin } from '@/lib/admin' // ✅ add this import
 // GET /api/courses/[courseId]/lessons
 export async function GET(
 	_request: Request,
-	{ params }: { params: { courseId: string } }
+	{ params }: { params: Promise<{ courseId: string }> }
 ) {
 	const url = new URL(_request.url)
 	const isPublic = url.pathname.includes('/public')
@@ -17,8 +17,8 @@ export async function GET(
 	}
 
 	// 🧩 Safely parse and validate courseId
-	const courseId = Number(params.courseId)
-	if (!params.courseId || isNaN(courseId) || courseId <= 0) {
+	const courseId = Number((await params).courseId)
+	if (!(await params).courseId || isNaN(courseId) || courseId <= 0) {
 		return NextResponse.json({ error: 'Invalid courseId' }, { status: 400 })
 	}
 

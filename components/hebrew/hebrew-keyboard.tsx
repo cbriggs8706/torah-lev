@@ -270,40 +270,6 @@ export default function HebrewKeyboard({
 	const [shiftActive, setShiftActive] = useState(false)
 	const [altActive, setAltActive] = useState(false)
 
-	useEffect(() => {
-		// Track focus on any input element
-		const handleFocus = (e: Event) => {
-			const target = e.target as HTMLElement
-			if (target.tagName === 'INPUT' && !target.hasAttribute('readonly')) {
-				lastFocusedInput = target as HTMLInputElement
-			}
-		}
-
-		window.addEventListener('focusin', handleFocus)
-		return () => window.removeEventListener('focusin', handleFocus)
-	}, [])
-
-	useEffect(() => {
-		const handleKey = (e: KeyboardEvent) => {
-			if (!lastFocusedInput || lastFocusedInput.readOnly) return
-
-			const key = e.key
-			if (HEBREW_CONSONANTS.includes(key)) {
-				e.preventDefault()
-				insertAtCaret(lastFocusedInput, key)
-			} else if (key === 'Backspace') {
-				e.preventDefault()
-				deleteLastChar(lastFocusedInput)
-			} else if (key === 'Enter' && onEnter) {
-				e.preventDefault()
-				onEnter()
-			}
-		}
-
-		window.addEventListener('keydown', handleKey)
-		return () => window.removeEventListener('keydown', handleKey)
-	}, [onEnter])
-
 	function insertAtCaret(input: HTMLInputElement, char: string) {
 		const { selectionStart, selectionEnd, value } = input
 		const newValue =
@@ -338,6 +304,40 @@ export default function HebrewKeyboard({
 		input.dispatchEvent(new Event('input', { bubbles: true }))
 		input.focus()
 	}
+
+	useEffect(() => {
+		// Track focus on any input element
+		const handleFocus = (e: Event) => {
+			const target = e.target as HTMLElement
+			if (target.tagName === 'INPUT' && !target.hasAttribute('readonly')) {
+				lastFocusedInput = target as HTMLInputElement
+			}
+		}
+
+		window.addEventListener('focusin', handleFocus)
+		return () => window.removeEventListener('focusin', handleFocus)
+	}, [])
+
+	useEffect(() => {
+		const handleKey = (e: KeyboardEvent) => {
+			if (!lastFocusedInput || lastFocusedInput.readOnly) return
+
+			const key = e.key
+			if (HEBREW_CONSONANTS.includes(key)) {
+				e.preventDefault()
+				insertAtCaret(lastFocusedInput, key)
+			} else if (key === 'Backspace') {
+				e.preventDefault()
+				deleteLastChar(lastFocusedInput)
+			} else if (key === 'Enter' && onEnter) {
+				e.preventDefault()
+				onEnter()
+			}
+		}
+
+		window.addEventListener('keydown', handleKey)
+		return () => window.removeEventListener('keydown', handleKey)
+	}, [onEnter])
 
 	function toggleShift() {
 		setShiftActive((prev) => {

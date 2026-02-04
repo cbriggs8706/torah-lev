@@ -5,10 +5,10 @@ import { lessons } from '@/db/schema'
 
 export async function GET(
 	_req: Request,
-	{ params }: { params: { lessonId: string } }
+	{ params }: { params: Promise<{ lessonId: string }> }
 ) {
 	try {
-		const id = Number(params.lessonId)
+		const id = Number((await params).lessonId)
 		if (!id || isNaN(id)) {
 			return NextResponse.json({ error: 'Invalid lesson ID' }, { status: 400 })
 		}

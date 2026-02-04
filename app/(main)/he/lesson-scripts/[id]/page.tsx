@@ -5,7 +5,8 @@ import { getHebrewLessonScript } from '@/db/queries'
 import LessonScriptViewer from '@/components/hebrew/hebrew-lesson-script-viewer'
 
 export default async function HebrewLessonScriptPage({ params }: any) {
-	const lessonScript = await getHebrewLessonScript(Number(params.id))
+	const { id } = await params
+	const lessonScript = await getHebrewLessonScript(Number(id))
 
 	if (!lessonScript) return notFound()
 

@@ -7,9 +7,9 @@ import { isAdmin } from '@/lib/admin'
 
 export const GET = async (
 	req: Request,
-	{ params }: { params: Record<string, string> }
+	{ params }: { params: Promise<Record<string, string>> }
 ) => {
-	const id = Number(params.lessonScriptId)
+	const id = Number((await params).lessonScriptId)
 	if (isNaN(id)) {
 		return new NextResponse('Invalid ID', { status: 400 })
 	}
@@ -27,9 +27,9 @@ export const GET = async (
 
 export const PUT = async (
 	req: Request,
-	{ params }: { params: { lessonScriptId: number } }
+	{ params }: { params: Promise<{ lessonScriptId: number }> }
 ) => {
-	const id = Number(params.lessonScriptId)
+	const id = Number((await params).lessonScriptId)
 	if (isNaN(id)) {
 		return new NextResponse('Invalid ID', { status: 400 })
 	}
@@ -51,9 +51,9 @@ export const PUT = async (
 
 export const DELETE = async (
 	req: Request,
-	{ params }: { params: { lessonScriptId: number } }
+	{ params }: { params: Promise<{ lessonScriptId: number }> }
 ) => {
-	const id = Number(params.lessonScriptId)
+	const id = Number((await params).lessonScriptId)
 	if (isNaN(id)) {
 		return new NextResponse('Invalid ID', { status: 400 })
 	}

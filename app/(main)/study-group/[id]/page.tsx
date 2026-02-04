@@ -10,6 +10,7 @@ import {
 import StudyGroupDashboard from '@/components/study-group/dashboard'
 
 export default async function StudyGroupDashboardPage({ params }: any) {
+	const { id } = await params
 	const [userProgress, userSubscription] = await Promise.all([
 		getUserProgress(),
 		getUserSubscription(),
@@ -23,7 +24,7 @@ export default async function StudyGroupDashboardPage({ params }: any) {
 		)
 	}
 
-	const studyGroupId = Number(params.id)
+	const studyGroupId = Number(id)
 	const studyGroup = await getStudyGroupWithMessages(studyGroupId)
 
 	if (!studyGroup) {

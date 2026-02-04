@@ -5,7 +5,8 @@ import { getGreekLessonScript } from '@/db/queries'
 import GreekLessonScriptViewer from '@/components/greek/greek-lesson-script-viewer'
 
 export default async function GreekLessonScriptPage({ params }: any) {
-	const lessonScript = await getGreekLessonScript(Number(params.id))
+	const { id } = await params
+	const lessonScript = await getGreekLessonScript(Number(id))
 
 	if (!lessonScript) return notFound()
 

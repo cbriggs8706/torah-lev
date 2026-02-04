@@ -7,14 +7,14 @@ import allVerbs from '@/lib/data/hebrew/verbs/index.json'
 import HebrewVerbCharts from '@/components/hebrew/hebrew-verb-charts'
 
 type Params = {
-	params: {
+	params: Promise<{
 		binyan: string
 		id: string
-	}
+	}>
 }
 
 export default async function HebrewVerbChartPage({ params }: Params) {
-	const { binyan, id } = params
+	const { binyan, id } = await params
 	const strongs = Number(id)
 
 	// ✅ Construct the binyan directory path

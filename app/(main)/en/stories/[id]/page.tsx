@@ -5,7 +5,8 @@ import { getEnglishStory } from '@/db/queries'
 import EnglishStoryViewer from '@/components/english/english-story-viewer'
 
 export default async function EnglishStoryPage({ params }: any) {
-	const story = await getEnglishStory(Number(params.id))
+	const { id } = await params
+	const story = await getEnglishStory(Number(id))
 
 	if (!story) return notFound()
 

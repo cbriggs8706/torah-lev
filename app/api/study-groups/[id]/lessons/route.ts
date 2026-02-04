@@ -6,7 +6,7 @@ import { eq, asc } from 'drizzle-orm'
 
 export async function GET(req: Request, { params }: any) {
 	try {
-		const groupId = Number(params.id)
+		const groupId = Number((await params).id)
 
 		// Example: lessons linked by shared course or units within same course
 		const group = await db.query.studyGroups.findFirst({

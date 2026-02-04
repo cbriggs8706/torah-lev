@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button'
 import StudyGroupMessages from '@/components/study-group/messages'
 
 export default async function MessageboardPage({ params }: any) {
+	const { id } = await params
 	const [userProgress, userSubscription] = await Promise.all([
 		getUserProgress(),
 		getUserSubscription(),
@@ -34,7 +35,7 @@ export default async function MessageboardPage({ params }: any) {
 	}
 
 	// ✅ Safe to use userProgress now
-	const studyGroupId = Number(params.id)
+	const studyGroupId = Number(id)
 	const studyGroup = await getStudyGroupWithMessages(studyGroupId)
 	console.log('DEBUG: studyGroupId', studyGroupId)
 	console.log('DEBUG: studyGroup', studyGroup)

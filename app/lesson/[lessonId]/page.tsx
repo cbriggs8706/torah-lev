@@ -11,15 +11,16 @@ import {
 import { Quiz } from '../quiz'
 
 type Props = {
-	params: {
-		lessonId: number
-	}
+	params: Promise<{
+		lessonId: string
+	}>
 }
 
 const LessonIdPage = async ({ params }: Props) => {
+	const { lessonId } = await params
 	// 🔹 Allow both signed-in users and guests
 	const session = await getServerSession(options)
-	const cookieStore = cookies()
+	const cookieStore = await cookies()
 	const guestId = cookieStore.get('guestId')?.value ?? null
 
 	// 🚫 Block only if no session AND no guest cookie
@@ -29,7 +30,7 @@ const LessonIdPage = async ({ params }: Props) => {
 
 	// ✅ Fetch data (works for guests too)
 	const [lesson, userProgress, userSubscription] = await Promise.all([
-		getLesson(params.lessonId),
+		getLesson(Number(lessonId)),
 		getUserProgress(),
 		getUserSubscription(),
 	])

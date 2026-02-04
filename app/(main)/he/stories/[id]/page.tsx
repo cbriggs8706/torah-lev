@@ -5,7 +5,8 @@ import { getHebrewStory } from '@/db/queries'
 import HebrewStoryViewer from '@/components/hebrew/hebrew-story-viewer'
 
 export default async function LessonScriptPage({ params }: any) {
-	const story = await getHebrewStory(Number(params.id))
+	const { id } = await params
+	const story = await getHebrewStory(Number(id))
 
 	if (!story) return notFound()
 

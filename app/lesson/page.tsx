@@ -13,7 +13,7 @@ import { Quiz } from './quiz'
 const LessonPage = async () => {
 	// 🔹 Check both session and guest cookies
 	const session = await getServerSession(options)
-	const cookieStore = cookies()
+	const cookieStore = await cookies()
 	const guestId = cookieStore.get('guestId')?.value ?? null
 	const guestCourseId = cookieStore.get('guestActiveCourseId')?.value ?? null
 

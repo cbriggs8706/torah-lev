@@ -5,9 +5,9 @@ import { eq, and, ne, inArray } from 'drizzle-orm'
 
 export async function GET(
 	req: Request,
-	{ params }: { params: Record<string, string> }
+	{ params }: { params: Promise<Record<string, string>> }
 ) {
-	const lessonId = Number(params.lessonId)
+	const lessonId = Number((await params).lessonId)
 
 	// 1️⃣ Get all non-WATCH challenges for the lesson
 	const rows = await db

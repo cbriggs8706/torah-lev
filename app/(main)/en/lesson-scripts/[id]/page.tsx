@@ -7,7 +7,8 @@ import LessonScriptViewer from '@/components/english/english-lesson-script-viewe
 export const dynamic = 'force-dynamic' // 👈 ensures fresh fetch
 
 export default async function EnglishLessonScriptPage({ params }: any) {
-	const lessonScript = await getEnglishLessonScript(Number(params.id))
+	const { id } = await params
+	const lessonScript = await getEnglishLessonScript(Number(id))
 
 	if (!lessonScript) return notFound()
 

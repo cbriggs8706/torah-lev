@@ -7,7 +7,7 @@ import { cookies } from 'next/headers'
 export default async function MobileHeader() {
 	const session = await getServerSession(options)
 	const userId = session?.user?.id ?? null
-	const cookieStore = cookies()
+	const cookieStore = await cookies()
 	const guestCourseId = cookieStore.get('guestActiveCourseId')?.value
 	const guestId = cookieStore.get('guestId')?.value
 

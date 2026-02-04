@@ -7,12 +7,12 @@ import { isAdmin } from '@/lib/admin'
 
 export const GET = async (
 	req: Request,
-	{ params }: { params: Record<string, string> }
+	{ params }: { params: Promise<Record<string, string>> }
 ) => {
 	if (!isAdmin()) {
 		return new NextResponse('Unauthorized', { status: 403 })
 	}
-	const id = Number(params.lessonId)
+	const id = Number((await params).lessonId)
 	const data = await db.query.lessons.findFirst({
 		where: eq(lessons.id, id),
 	})
@@ -22,15 +22,15 @@ export const GET = async (
 
 export const PUT = async (
 	req: Request,
-	{ params }: { params: { lessonId: string } }
+	{ params }: { params: Promise<{ lessonId: string }> }
 ) => {
 	console.log('API Method:', req.method)
-	console.log('Matched dynamic route:', params.lessonId, req.method)
+	console.log('Matched dynamic route:', (await params).lessonId, req.method)
 
 	if (!isAdmin()) {
 		return new NextResponse('Unauthorized', { status: 403 })
 	}
-	const id = Number(params.lessonId)
+	const id = Number((await params).lessonId)
 	const body = await req.json()
 	const data = await db
 		.update(lessons)
@@ -45,12 +45,12 @@ export const PUT = async (
 
 export const DELETE = async (
 	req: Request,
-	{ params }: { params: { lessonId: string } }
+	{ params }: { params: Promise<{ lessonId: string }> }
 ) => {
 	if (!isAdmin()) {
 		return new NextResponse('Unauthorized', { status: 403 })
 	}
-	const id = Number(params.lessonId)
+	const id = Number((await params).lessonId)
 	const data = await db.delete(lessons).where(eq(lessons.id, id)).returning()
 
 	return NextResponse.json(data[0])

@@ -6,7 +6,8 @@ import { HebrewPrayerWithLines } from '@/db/types'
 import PrayerLinesTable from '@/components/hebrew/hebrew-prayer-lines-table'
 
 export default async function PrayerDetailPage({ params }: any) {
-	const prayerId = Number(params.id)
+	const { id } = await params
+	const prayerId = Number(id)
 	if (isNaN(prayerId)) return notFound()
 
 	const prayer: HebrewPrayerWithLines | undefined = await getPrayerWithLines(

@@ -7,12 +7,12 @@ import { isAdmin } from '@/lib/admin'
 
 export const GET = async (
 	req: Request,
-	{ params }: { params: Record<string, string> }
+	{ params }: { params: Promise<Record<string, string>> }
 ) => {
 	if (!isAdmin()) {
 		return new NextResponse('Unauthorized', { status: 403 })
 	}
-	const id = Number(params.challengeOptionId)
+	const id = Number((await params).challengeOptionId)
 
 	const data = await db.query.hebrewStories.findFirst({
 		where: eq(hebrewStories.id, id),
@@ -23,10 +23,10 @@ export const GET = async (
 
 export const PUT = async (
 	req: Request,
-	{ params }: { params: { storyId: number } }
+	{ params }: { params: Promise<{ storyId: number }> }
 ) => {
 	console.log('API Method:', req.method)
-	console.log('Matched dynamic route:', params.storyId, req.method)
+	console.log('Matched dynamic route:', (await params).storyId, req.method)
 
 	if (!isAdmin()) {
 		return new NextResponse('Unauthorized', { status: 403 })
@@ -38,7 +38,7 @@ export const PUT = async (
 		.set({
 			...body,
 		})
-		.where(eq(hebrewStories.id, params.storyId))
+		.where(eq(hebrewStories.id, (await params).storyId))
 		.returning()
 
 	return NextResponse.json(data[0])
@@ -46,7 +46,7 @@ export const PUT = async (
 
 export const DELETE = async (
 	req: Request,
-	{ params }: { params: { storyId: number } }
+	{ params }: { params: Promise<{ storyId: number }> }
 ) => {
 	if (!isAdmin()) {
 		return new NextResponse('Unauthorized', { status: 403 })
@@ -54,7 +54,7 @@ export const DELETE = async (
 
 	const data = await db
 		.delete(hebrewStories)
-		.where(eq(hebrewStories.id, params.storyId))
+		.where(eq(hebrewStories.id, (await params).storyId))
 		.returning()
 
 	return NextResponse.json(data[0])

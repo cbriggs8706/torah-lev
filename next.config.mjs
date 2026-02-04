@@ -5,14 +5,32 @@ const nextConfig = {
 		ignoreBuildErrors: true,
 	},
 	images: {
-		domains: [
-			'supabase.co',
-			'lh3.googleusercontent.com', // ✅ Google profile photos
-			'avatars.githubusercontent.com', // optional (GitHub)
-			'pbs.twimg.com', // optional (Twitter)
-			'platform-lookaside.fbsbx.com', // optional (Facebook)
-		],
 		remotePatterns: [
+			{
+				protocol: 'https',
+				hostname: 'supabase.co',
+				pathname: '/**',
+			},
+			{
+				protocol: 'https',
+				hostname: 'lh3.googleusercontent.com', // ✅ Google profile photos
+				pathname: '/**',
+			},
+			{
+				protocol: 'https',
+				hostname: 'avatars.githubusercontent.com', // optional (GitHub)
+				pathname: '/**',
+			},
+			{
+				protocol: 'https',
+				hostname: 'pbs.twimg.com', // optional (Twitter)
+				pathname: '/**',
+			},
+			{
+				protocol: 'https',
+				hostname: 'platform-lookaside.fbsbx.com', // optional (Facebook)
+				pathname: '/**',
+			},
 			{
 				protocol: 'https',
 				hostname: 'wsdmzszpqaxeftyebiqg.supabase.co',

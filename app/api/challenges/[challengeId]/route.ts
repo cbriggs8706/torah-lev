@@ -18,11 +18,11 @@ const unauthorized = () => new NextResponse('Unauthorized', { status: 403 })
 // -------------------------
 export const GET = async (
 	req: Request,
-	{ params }: { params: Record<string, string> }
+	{ params }: { params: Promise<Record<string, string>> }
 ) => {
 	if (!isAdmin()) return unauthorized()
 
-	const id = parseId(params.challengeId)
+	const id = parseId((await params).challengeId)
 	if (!id) return new NextResponse('Invalid ID', { status: 400 })
 
 	const data = await db.query.challenges.findFirst({
@@ -39,11 +39,11 @@ export const GET = async (
 // -------------------------
 export const PUT = async (
 	req: Request,
-	{ params }: { params: Record<string, string> }
+	{ params }: { params: Promise<Record<string, string>> }
 ) => {
 	if (!isAdmin()) return unauthorized()
 
-	const id = parseId(params.challengeId)
+	const id = parseId((await params).challengeId)
 	if (!id) return new NextResponse('Invalid ID', { status: 400 })
 
 	let body
@@ -69,11 +69,11 @@ export const PUT = async (
 // -------------------------
 export const DELETE = async (
 	req: Request,
-	{ params }: { params: Record<string, string> }
+	{ params }: { params: Promise<Record<string, string>> }
 ) => {
 	if (!isAdmin()) return unauthorized()
 
-	const id = parseId(params.challengeId)
+	const id = parseId((await params).challengeId)
 	if (!id) return new NextResponse('Invalid ID', { status: 400 })
 
 	const data = await db

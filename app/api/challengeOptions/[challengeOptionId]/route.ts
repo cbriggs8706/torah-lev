@@ -5,7 +5,7 @@ import { challengeOptions } from '@/db/schema'
 import { isAdmin } from '@/lib/admin'
 
 // ✅ Type utility
-type Params = { params: { challengeOptionId: string } }
+type Params = { params: Promise<{ challengeOptionId: string }> }
 
 // ✅ Helper
 const parseId = (id: string): number | null => {
@@ -21,7 +21,7 @@ export const GET = async (req: Request, { params }: Params) => {
 		return new NextResponse('Unauthorized', { status: 403 })
 	}
 
-	const id = parseId(params.challengeOptionId)
+	const id = parseId((await params).challengeOptionId)
 	if (!id) {
 		return new NextResponse('Invalid ID', { status: 400 })
 	}
@@ -45,7 +45,7 @@ export const PUT = async (req: Request, { params }: Params) => {
 		return new NextResponse('Unauthorized', { status: 403 })
 	}
 
-	const id = parseId(params.challengeOptionId)
+	const id = parseId((await params).challengeOptionId)
 	if (!id) {
 		return new NextResponse('Invalid ID', { status: 400 })
 	}
@@ -73,7 +73,7 @@ export const DELETE = async (req: Request, { params }: Params) => {
 		return new NextResponse('Unauthorized', { status: 403 })
 	}
 
-	const id = parseId(params.challengeOptionId)
+	const id = parseId((await params).challengeOptionId)
 	if (!id) {
 		return new NextResponse('Invalid ID', { status: 400 })
 	}

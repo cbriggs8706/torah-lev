@@ -6,7 +6,8 @@ import { HebrewMusicWithLines } from '@/db/types'
 import MusicLinesTable from '@/components/hebrew/hebrew-music-lines-table'
 
 export default async function MusicDetailPage({ params }: any) {
-	const songId = Number(params.id)
+	const { id } = await params
+	const songId = Number(id)
 	if (isNaN(songId)) return notFound()
 
 	const song: HebrewMusicWithLines | undefined = await getSongsWithLines(songId)

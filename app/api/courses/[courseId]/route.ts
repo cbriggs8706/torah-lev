@@ -18,11 +18,11 @@ const unauthorized = () => new NextResponse('Unauthorized', { status: 403 })
 // --------------------
 export const GET = async (
 	_req: Request,
-	{ params }: { params: Record<string, string> }
+	{ params }: { params: Promise<Record<string, string>> }
 ) => {
 	if (!isAdmin()) return unauthorized()
 
-	const id = parseId(params.courseId)
+	const id = parseId((await params).courseId)
 	if (!id) return new NextResponse('Invalid course ID', { status: 400 })
 
 	const data = await db.query.courses.findFirst({
@@ -39,11 +39,11 @@ export const GET = async (
 // --------------------
 export const PUT = async (
 	req: Request,
-	{ params }: { params: Record<string, string> }
+	{ params }: { params: Promise<Record<string, string>> }
 ) => {
 	if (!isAdmin()) return unauthorized()
 
-	const id = parseId(params.courseId)
+	const id = parseId((await params).courseId)
 	if (!id) return new NextResponse('Invalid course ID', { status: 400 })
 
 	let body
@@ -69,11 +69,11 @@ export const PUT = async (
 // --------------------
 export const DELETE = async (
 	_req: Request,
-	{ params }: { params: Record<string, string> }
+	{ params }: { params: Promise<Record<string, string>> }
 ) => {
 	if (!isAdmin()) return unauthorized()
 
-	const id = parseId(params.courseId)
+	const id = parseId((await params).courseId)
 	if (!id) return new NextResponse('Invalid course ID', { status: 400 })
 
 	const data = await db.delete(courses).where(eq(courses.id, id)).returning()

@@ -10,6 +10,7 @@ import {
 import StudyGroupLiveQuiz from '@/components/study-group/live-quiz'
 
 export default async function StudyGroupLiveQuizPage({ params }: any) {
+	const { id } = await params
 	const [userProgress, userSubscription] = await Promise.all([
 		getUserProgress(),
 		getUserSubscription(),
@@ -23,7 +24,7 @@ export default async function StudyGroupLiveQuizPage({ params }: any) {
 		)
 	}
 
-	const studyGroupId = Number(params.id)
+	const studyGroupId = Number(id)
 	const studyGroup = await getStudyGroupWithCourses(studyGroupId)
 
 	if (!studyGroup) {

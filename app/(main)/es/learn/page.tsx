@@ -38,7 +38,7 @@ interface GuestUserProgress {
 
 const SpanishLearnPage = async () => {
 	const session = await getServerSession(options)
-	const cookieStore = cookies()
+	const cookieStore = await cookies()
 
 	// ✅ Guest cookie support
 	const guestId = cookieStore.get('guestId')?.value ?? null
