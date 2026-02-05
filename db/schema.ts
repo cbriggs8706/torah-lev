@@ -2,6 +2,7 @@ import { relations } from 'drizzle-orm'
 import { uniqueIndex, index } from 'drizzle-orm/pg-core'
 import {
 	boolean,
+	doublePrecision,
 	integer,
 	pgEnum,
 	pgTable,
@@ -342,6 +343,128 @@ export const userRoles = pgTable('user_roles', {
 	}),
 	assignedAt: timestamp('assigned_at').defaultNow().notNull(),
 })
+
+export const flashcardStateEnum = pgEnum('flashcard_state', [
+	'new',
+	'learning',
+	'review',
+	'relearning',
+	'suspended',
+])
+
+export const reviewRatingEnum = pgEnum('review_rating', [
+	'again',
+	'hard',
+	'good',
+	'easy',
+])
+
+export const flashcardUserState = pgTable(
+	'flashcard_user_state',
+	{
+		id: serial('id').primaryKey(),
+		userId: text('user_id')
+			.references(() => users.id, { onDelete: 'cascade' })
+			.notNull(),
+		cardId: integer('card_id').notNull(),
+		language: varchar('language', { length: 8 }).notNull().default('he'),
+		courseId: integer('course_id').references(() => courses.id, {
+			onDelete: 'set null',
+		}),
+		state: flashcardStateEnum('state').notNull().default('new'),
+		dueAt: timestamp('due_at').notNull().defaultNow(),
+		learningStep: integer('learning_step').notNull().default(0),
+		intervalDays: doublePrecision('interval_days').notNull().default(0),
+		ease: doublePrecision('ease').notNull().default(2.5),
+		reps: integer('reps').notNull().default(0),
+		lapses: integer('lapses').notNull().default(0),
+		lastReviewedAt: timestamp('last_reviewed_at'),
+		leech: boolean('leech').notNull().default(false),
+		leechSuspendedAt: timestamp('leech_suspended_at'),
+		createdAt: timestamp('created_at').notNull().defaultNow(),
+		updatedAt: timestamp('updated_at').notNull().defaultNow(),
+	},
+	(table) => ({
+		userCardUnique: uniqueIndex('uniq_flashcard_user_course_card_lang').on(
+			table.userId,
+			table.courseId,
+			table.cardId,
+			table.language
+		),
+		userDueIdx: index('idx_flashcard_user_course_due').on(
+			table.userId,
+			table.courseId,
+			table.dueAt
+		),
+		userStateIdx: index('idx_flashcard_user_course_state').on(
+			table.userId,
+			table.courseId,
+			table.state
+		),
+	})
+)
+
+export const flashcardReviewLog = pgTable(
+	'flashcard_review_log',
+	{
+		id: serial('id').primaryKey(),
+		userId: text('user_id')
+			.references(() => users.id, { onDelete: 'cascade' })
+			.notNull(),
+		cardId: integer('card_id').notNull(),
+		language: varchar('language', { length: 8 }).notNull().default('he'),
+		courseId: integer('course_id').references(() => courses.id, {
+			onDelete: 'set null',
+		}),
+		rating: reviewRatingEnum('rating').notNull(),
+		reviewedAt: timestamp('reviewed_at').notNull().defaultNow(),
+		prevIntervalDays: doublePrecision('prev_interval_days'),
+		nextIntervalDays: doublePrecision('next_interval_days'),
+		prevEase: doublePrecision('prev_ease'),
+		nextEase: doublePrecision('next_ease'),
+		prevState: flashcardStateEnum('prev_state'),
+		nextState: flashcardStateEnum('next_state'),
+	},
+	(table) => ({
+		userReviewedIdx: index('idx_flashcard_review_user_time').on(
+			table.userId,
+			table.reviewedAt
+		),
+		cardReviewedIdx: index('idx_flashcard_review_card_time').on(
+			table.cardId,
+			table.reviewedAt
+		),
+	})
+)
+
+export const flashcardUserSettings = pgTable(
+	'flashcard_user_settings',
+	{
+		id: serial('id').primaryKey(),
+		userId: text('user_id')
+			.references(() => users.id, { onDelete: 'cascade' })
+			.notNull(),
+		language: varchar('language', { length: 8 }).notNull().default('he'),
+		courseId: integer('course_id').references(() => courses.id, {
+			onDelete: 'set null',
+		}),
+		sessionSize: integer('session_size').notNull().default(20),
+		newRatio: doublePrecision('new_ratio').notNull().default(0.2),
+		createdAt: timestamp('created_at').notNull().defaultNow(),
+		updatedAt: timestamp('updated_at').notNull().defaultNow(),
+	},
+	(table) => ({
+		uniqueSettings: uniqueIndex('uniq_flashcard_settings_user_course_lang').on(
+			table.userId,
+			table.courseId,
+			table.language
+		),
+		userSettingsIdx: index('idx_flashcard_settings_user_course').on(
+			table.userId,
+			table.courseId
+		),
+	})
+)
 
 // export const hebrewMusicLibrary = pgTable('hebrew_music_library', {
 // 	id: serial('id').primaryKey(),

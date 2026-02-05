@@ -2,9 +2,16 @@
 
 import { EnglishVocab } from '@/lib/vocab'
 import Image from 'next/image'
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useMemo, useEffect, useCallback } from 'react'
 import ReactConfetti from 'react-confetti'
 import { useAudio, useWindowSize } from 'react-use'
+import { toast } from 'sonner'
+import { useUserId } from '@/hooks/useUserId'
+import {
+	applyReview,
+	type FlashcardScheduling,
+	type ReviewRating,
+} from '@/lib/flashcards/scheduler'
 
 type FontChoice = 'arial' | 'times' | 'nunito'
 
@@ -79,6 +86,29 @@ export default function EnglishFlashcards({
 		src: '/finish.mp3',
 	})
 	const [filteredCards, setFilteredCards] = useState<EnglishVocab[]>([])
+	const [sessionCards, setSessionCards] = useState<EnglishVocab[]>([])
+	const [sessionStates, setSessionStates] = useState<
+		Array<{ cardId: number; state: FlashcardScheduling }>
+	>([])
+	const [isLoadingSession, setIsLoadingSession] = useState(false)
+	const [isSubmittingReview, setIsSubmittingReview] = useState(false)
+	const [sessionTotal, setSessionTotal] = useState(0)
+	const [sessionCompleted, setSessionCompleted] = useState(0)
+	const [showScheduleEditor, setShowScheduleEditor] = useState(false)
+	const [showAdvancedEditor, setShowAdvancedEditor] = useState(false)
+	const [showHistory, setShowHistory] = useState(false)
+	const [reviewHistory, setReviewHistory] = useState<any[]>([])
+	const [isLoadingHistory, setIsLoadingHistory] = useState(false)
+	const [historyStats, setHistoryStats] = useState<any | null>(null)
+	const [editDueAt, setEditDueAt] = useState('')
+	const [editIntervalDays, setEditIntervalDays] = useState('0')
+	const [editEase, setEditEase] = useState('2.5')
+	const [editState, setEditState] = useState<FlashcardScheduling['state']>('new')
+	const [editLearningStep, setEditLearningStep] = useState('0')
+	const [editLapses, setEditLapses] = useState('0')
+	const [editReps, setEditReps] = useState('0')
+	const [sessionSize, setSessionSize] = useState(20)
+	const [newRatio, setNewRatio] = useState(0.2)
 	const [selectedCategory, setSelectedCategory] = useState<string>('all')
 
 	const [frontFont, setFrontFont] = useState<FontChoice>('nunito')
@@ -135,6 +165,10 @@ export default function EnglishFlashcards({
 	const [isRandomized, setIsRandomized] = useState(false)
 	const [filterVersion, setFilterVersion] = useState(0)
 
+	const { isGuest } = useUserId()
+	const [useSpacedRepetition, setUseSpacedRepetition] = useState(false)
+	const SETTINGS_KEY = 'englishFlashcardsSrsSettings'
+
 	const { width, height } = useWindowSize()
 
 	const PRESETS = [
@@ -188,6 +222,148 @@ export default function EnglishFlashcards({
 
 	// Filter to this prefix
 	const cardsForPrefix = useMemo(() => data, [data])
+	const cardById = useMemo(() => {
+		const map = new Map<number, EnglishVocab>()
+		for (const card of data) {
+			if (card.id != null) map.set(card.id, card)
+		}
+		return map
+	}, [data])
+
+	useEffect(() => {
+		setUseSpacedRepetition(!isGuest)
+	}, [isGuest])
+
+	useEffect(() => {
+		if (typeof window === 'undefined') return
+		if (!isGuest) return
+		const raw = window.localStorage.getItem(SETTINGS_KEY)
+		if (!raw) return
+		try {
+			const parsed = JSON.parse(raw)
+			if (typeof parsed?.sessionSize === 'number') {
+				setSessionSize(Math.max(5, Math.min(100, parsed.sessionSize)))
+			}
+			if (typeof parsed?.newRatio === 'number') {
+				const clamped = Math.min(Math.max(parsed.newRatio, 0), 0.5)
+				setNewRatio(clamped)
+			}
+		} catch (error) {
+			console.error('Failed to load SRS settings', error)
+		}
+	}, [isGuest])
+
+	useEffect(() => {
+		if (typeof window === 'undefined') return
+		if (!isGuest) return
+		const payload = JSON.stringify({ sessionSize, newRatio })
+		window.localStorage.setItem(SETTINGS_KEY, payload)
+	}, [isGuest, newRatio, sessionSize])
+
+	useEffect(() => {
+		if (isGuest || !useSpacedRepetition) return
+		let isMounted = true
+		if (!courseId) return
+		fetch(`/api/flashcards/settings?courseId=${courseId}&language=en`)
+			.then((res) => res.json())
+			.then((payload) => {
+				if (!isMounted) return
+				const settings = payload?.settings
+				if (!settings) return
+				if (typeof settings.sessionSize === 'number') {
+					setSessionSize(Math.max(5, Math.min(100, settings.sessionSize)))
+				}
+				if (typeof settings.newRatio === 'number') {
+					setNewRatio(Math.min(Math.max(settings.newRatio, 0), 0.5))
+				}
+			})
+			.catch((error) => {
+				console.error('Failed to load flashcard settings', error)
+			})
+		return () => {
+			isMounted = false
+		}
+	}, [courseId, isGuest, useSpacedRepetition])
+
+	useEffect(() => {
+		if (isGuest || !useSpacedRepetition) return
+		if (!courseId) return
+		const timer = window.setTimeout(() => {
+			fetch('/api/flashcards/settings', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					courseId,
+					language: 'en',
+					sessionSize,
+					newRatio,
+				}),
+			}).catch((error) => {
+				console.error('Failed to save flashcard settings', error)
+			})
+		}, 500)
+		return () => window.clearTimeout(timer)
+	}, [courseId, isGuest, newRatio, sessionSize, useSpacedRepetition])
+
+	const fetchSession = useCallback(async () => {
+		if (isGuest || !useSpacedRepetition || !courseId) return
+		setIsLoadingSession(true)
+		try {
+			const res = await fetch(
+				`/api/flashcards/session?courseId=${courseId}&language=en&limit=${sessionSize}&newRatio=${newRatio}`
+			)
+			const payload = await res.json()
+			const rawRows = payload.cards ?? []
+			const nextCards = rawRows
+				.map((row: { cardId: number }) => cardById.get(row.cardId))
+				.filter(Boolean) as EnglishVocab[]
+			const nextStates = rawRows
+				.map((row: any) => {
+					if (!row?.cardId) return null
+					return {
+						cardId: row.cardId,
+						state: {
+							state: row.state,
+							dueAt: new Date(row.dueAt),
+							learningStep: row.learningStep ?? 0,
+							intervalDays: row.intervalDays ?? 0,
+							ease: row.ease ?? 2.5,
+							reps: row.reps ?? 0,
+							lapses: row.lapses ?? 0,
+							leech: row.leech ?? false,
+							lastReviewedAt: row.lastReviewedAt
+								? new Date(row.lastReviewedAt)
+								: null,
+						} as FlashcardScheduling,
+					}
+				})
+				.filter(Boolean) as Array<{ cardId: number; state: FlashcardScheduling }>
+			setSessionCards(nextCards)
+			setSessionStates(nextStates)
+			setSessionTotal(sessionSize)
+			setSessionCompleted(0)
+			setCurrentIndex(0)
+			setShowBack(false)
+		} catch (error) {
+			console.error('Failed to load flashcard session', error)
+		} finally {
+			setIsLoadingSession(false)
+		}
+	}, [cardById, courseId, isGuest, newRatio, sessionSize, useSpacedRepetition])
+
+	useEffect(() => {
+		if (useSpacedRepetition && !isGuest) {
+			fetchSession()
+		}
+	}, [fetchSession, isGuest, useSpacedRepetition])
+
+	useEffect(() => {
+		if (useSpacedRepetition && !isGuest) {
+			setFilteredCards(sessionCards)
+			setCurrentIndex(0)
+			setShowBack(false)
+		}
+	}, [isGuest, sessionCards, useSpacedRepetition])
 
 	// Collect lesson keys like 'awb1' and sort numerically by suffix
 	function parseLessonKey(key: string) {
@@ -261,6 +437,7 @@ export default function EnglishFlashcards({
 	}, [cardsForPrefix])
 
 	useEffect(() => {
+		if (useSpacedRepetition && !isGuest) return
 		const newFiltered = cardsForPrefix.filter((card) => {
 			const matchesSelectedLesson =
 				selectedLessons.length === 0 ||
@@ -326,6 +503,8 @@ export default function EnglishFlashcards({
 		backMiddleCenter,
 		isRandomized,
 		filterVersion,
+		isGuest,
+		useSpacedRepetition,
 	])
 
 	const currentCard = filteredCards[currentIndex]
@@ -420,6 +599,7 @@ export default function EnglishFlashcards({
 	}, [showBack, backField, backAudioRef])
 
 	function handleNextCard() {
+		if (useSpacedRepetition && !isGuest) return
 		setShowBack(false) // flip to front first
 
 		// Wait for flip animation to complete before changing the card
@@ -428,6 +608,7 @@ export default function EnglishFlashcards({
 			if (nextIndex >= filteredCards.length) {
 				setShowConfetti(true)
 				finishControls.play()
+				toast.success('Session complete! Great work.')
 				setTimeout(() => setShowConfetti(false), 12000)
 			}
 			setCurrentIndex(nextIndex % filteredCards.length)
@@ -435,6 +616,7 @@ export default function EnglishFlashcards({
 	}
 
 	function handlePreviousCard() {
+		if (useSpacedRepetition && !isGuest) return
 		setShowBack(false)
 
 		setTimeout(() => {
@@ -442,6 +624,163 @@ export default function EnglishFlashcards({
 				(prev) => (prev - 1 + filteredCards.length) % filteredCards.length
 			)
 		}, 700) // match the flip animation duration
+	}
+
+	function formatIntervalDays(days: number) {
+		if (!Number.isFinite(days)) return ''
+		if (days < 1 / 24) return 'minutes'
+		if (days < 1) return `${Math.round(days * 24)}h`
+		if (days < 7) return `${Math.round(days)}d`
+		if (days < 30) return `${Math.round(days / 7)}w`
+		if (days < 365) return `${Math.round(days / 30)}mo`
+		return `${Math.round(days / 365)}y`
+	}
+
+	const currentSessionState = sessionStates[currentIndex]?.state ?? null
+
+	const fetchHistory = useCallback(async () => {
+		if (isGuest || !useSpacedRepetition || !currentCard?.id || !courseId) return
+		setIsLoadingHistory(true)
+		try {
+			const res = await fetch(
+				`/api/flashcards/history?courseId=${courseId}&language=en&cardId=${currentCard.id}&limit=10`
+			)
+			const payload = await res.json()
+			setReviewHistory(payload.history ?? [])
+			setHistoryStats(payload.stats ?? null)
+		} catch (error) {
+			console.error('Failed to load review history', error)
+		} finally {
+			setIsLoadingHistory(false)
+		}
+	}, [courseId, currentCard?.id, isGuest, useSpacedRepetition])
+
+	useEffect(() => {
+		if (!showHistory) return
+		fetchHistory()
+	}, [fetchHistory, showHistory, currentCard?.id])
+
+	function formatSuccessRate(stats: any | null) {
+		const total = Number(stats?.total ?? 0)
+		if (!Number.isFinite(total) || total <= 0) return '—'
+		const success = Number(stats?.good ?? 0) + Number(stats?.easy ?? 0)
+		return `${Math.round((success / total) * 100)}%`
+	}
+
+	function formatAvgInterval(stats: any | null) {
+		const days = Number(stats?.avgNextInterval)
+		if (!Number.isFinite(days)) return '—'
+		if (days < 1) return `${Math.round(days * 24)}h`
+		if (days < 7) return `${Math.round(days)}d`
+		if (days < 30) return `${Math.round(days / 7)}w`
+		if (days < 365) return `${Math.round(days / 30)}mo`
+		return `${Math.round(days / 365)}y`
+	}
+	useEffect(() => {
+		if (!currentSessionState) return
+		setEditDueAt(currentSessionState.dueAt.toISOString().slice(0, 16))
+		setEditIntervalDays(String(currentSessionState.intervalDays ?? 0))
+		setEditEase(String(currentSessionState.ease ?? 2.5))
+		setEditState(currentSessionState.state)
+		setEditLearningStep(String(currentSessionState.learningStep ?? 0))
+		setEditLapses(String(currentSessionState.lapses ?? 0))
+		setEditReps(String(currentSessionState.reps ?? 0))
+	}, [currentSessionState])
+
+	const previewByRating = useMemo(() => {
+		if (!currentSessionState) return null
+		const now = new Date()
+		const ratings: ReviewRating[] = ['again', 'hard', 'good', 'easy']
+		const previews: Record<ReviewRating, string> = {
+			again: '',
+			hard: '',
+			good: '',
+			easy: '',
+		}
+		for (const rating of ratings) {
+			const { next } = applyReview(currentSessionState, rating, now)
+			previews[rating] = formatIntervalDays(next.intervalDays)
+		}
+		return previews
+	}, [currentSessionState])
+
+	async function handleGrade(rating: ReviewRating) {
+		if (isGuest || !useSpacedRepetition || !currentCard?.id || !courseId) return
+		if (isSubmittingReview) return
+		setIsSubmittingReview(true)
+		try {
+			const res = await fetch('/api/flashcards/review', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					cardId: currentCard.id,
+					courseId,
+					language: 'en',
+					rating,
+				}),
+			})
+			const payload = await res.json()
+			if (payload?.next?.leech && payload?.next?.state === 'suspended') {
+				toast.info('This card became a leech and was suspended.')
+			}
+			setSessionCompleted((prev) => prev + 1)
+			setSessionCards((prev) => {
+				const next = prev.filter((_, idx) => idx !== currentIndex)
+				const nextIndex = Math.min(currentIndex, next.length - 1)
+				setCurrentIndex(nextIndex < 0 ? 0 : nextIndex)
+				if (next.length === 0) {
+					toast.success('Session complete! Great work.')
+					fetchSession()
+				}
+				return next
+			})
+			setSessionStates((prev) => prev.filter((_, idx) => idx !== currentIndex))
+			setShowBack(false)
+		} catch (error) {
+			console.error('Failed to submit review', error)
+		} finally {
+			setIsSubmittingReview(false)
+		}
+	}
+
+	async function updateSchedule(
+		action: 'reset' | 'suspend' | 'unsuspend' | 'update'
+	) {
+		if (isGuest || !currentCard?.id || !courseId) return
+		try {
+			const payload =
+				action === 'update'
+					? {
+							action,
+							cardId: currentCard.id,
+							courseId,
+							language: 'en',
+							updates: {
+								dueAt: new Date(editDueAt).toISOString(),
+								intervalDays: Number(editIntervalDays),
+								ease: Number(editEase),
+								state: editState,
+								learningStep: Number(editLearningStep),
+								lapses: Number(editLapses),
+								reps: Number(editReps),
+							},
+					  }
+					: {
+							action,
+							cardId: currentCard.id,
+							courseId,
+							language: 'en',
+					  }
+
+			await fetch('/api/flashcards/update', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(payload),
+			})
+			await fetchSession()
+		} catch (error) {
+			console.error('Failed to update schedule', error)
+		}
 	}
 
 	function toggleLesson(lesson: string) {
@@ -506,29 +845,65 @@ export default function EnglishFlashcards({
 
 		const value = currentCard[field]
 
-		if (!value) return null
+		if (field === 'images' && Array.isArray(value)) {
+			if (value.length > 0) {
+				const imageUrl = value[0]
+				return (
+					//TODO fix the console errors of position
+					<div
+						className={
+							isMiddle
+								? 'w-full h-full flex items-center justify-center'
+								: 'w-full h-32 flex items-center justify-center'
+						}
+					>
+						<Image
+							src={imageUrl}
+							alt="EnglishVocab image"
+							fill={isMiddle} // ✅ This enables full-size scaling
+							className="object-contain rounded"
+							sizes="(max-width: 768px) 100vw, 50vw"
+						/>
+					</div>
+				)
+			}
 
-		if (field === 'images' && Array.isArray(value) && value.length > 0) {
-			const imageUrl = value[0]
-			return (
-				//TODO fix the console errors of position
-				<div
-					className={
-						isMiddle
-							? 'w-full h-full flex items-center justify-center'
-							: 'w-full h-32 flex items-center justify-center'
-					}
-				>
-					<Image
-						src={imageUrl}
-						alt="EnglishVocab image"
-						fill={isMiddle} // ✅ This enables full-size scaling
-						className="object-contain rounded"
-						sizes="(max-width: 768px) 100vw, 50vw"
-					/>
-				</div>
-			)
+			if (currentCard.engAudio) {
+				return (
+					<div className="flex flex-col items-center gap-2">
+						<button
+							className="text-3xl text-sky-600 hover:text-sky-800"
+							onClick={(e) => {
+								e.stopPropagation()
+								playWithBoostedVolume(
+									currentCard.engAudio || '',
+									audioVolume,
+									audioSpeed
+								)
+							}}
+						>
+							🔊
+						</button>
+						<span className="text-xs text-slate-500">No image</span>
+					</div>
+				)
+			}
+
+			if (currentCard.eng) {
+				return (
+					<div className="flex flex-col items-center gap-2">
+						<span className={isMiddle ? 'text-xl font-semibold' : ''}>
+							{currentCard.eng}
+						</span>
+						<span className="text-xs text-slate-500">No image</span>
+					</div>
+				)
+			}
+
+			return null
 		}
+
+		if (!value) return null
 
 		if (field === 'engAudio' && typeof value === 'string') {
 			return (
@@ -607,6 +982,18 @@ export default function EnglishFlashcards({
 
 			{/* Customize Section Toggle */}
 			<div className="mb-6 flex justify-center gap-4">
+				{!isGuest && (
+					<button
+						onClick={() => setUseSpacedRepetition((prev) => !prev)}
+						className={`px-4 py-2 rounded shadow flex items-center justify-center gap-3 ${
+							useSpacedRepetition ? 'bg-emerald-600 text-white' : 'bg-gray-200'
+						}`}
+					>
+						<span className="text-lg font-semibold">
+							{useSpacedRepetition ? 'Spaced Repetition On' : 'Spaced Repetition Off'}
+						</span>
+					</button>
+				)}
 				<button
 					onClick={() => setShowCustomize((prev) => !prev)}
 					className={`px-4 py-2 rounded shadow flex items-center justify-center gap-4 ${
@@ -622,22 +1009,62 @@ export default function EnglishFlashcards({
 					/>
 					Customize
 				</button>
-				<button
-					onClick={() => setShowFilter((prev) => !prev)}
-					className={`px-4 py-2 rounded shadow flex items-center justify-center gap-4 ${
-						showFilter ? 'bg-sky-600 text-white' : 'bg-gray-200'
-					}`}
-				>
-					<Image
-						src="/books-svgrepo-com.svg"
-						alt="Filter icon"
-						width={30}
-						height={30}
-						className=""
-					/>
-					Filter
-				</button>
+				{!useSpacedRepetition && (
+					<button
+						onClick={() => setShowFilter((prev) => !prev)}
+						className={`px-4 py-2 rounded shadow flex items-center justify-center gap-4 ${
+							showFilter ? 'bg-sky-600 text-white' : 'bg-gray-200'
+						}`}
+					>
+						<Image
+							src="/books-svgrepo-com.svg"
+							alt="Filter icon"
+							width={30}
+							height={30}
+							className=""
+						/>
+						Filter
+					</button>
+				)}
 			</div>
+
+			{useSpacedRepetition && !isGuest && (
+				<div className="mb-6 w-full max-w-xl mx-auto border rounded-lg p-4 bg-slate-50">
+					<div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
+						<label className="text-sm">
+							Session Size
+							<input
+								type="number"
+								min={5}
+								max={100}
+								step={1}
+								value={sessionSize}
+								onChange={(e) =>
+									setSessionSize(Math.max(5, Math.min(100, Number(e.target.value))))
+								}
+								className="mt-1 w-full border rounded px-2 py-1"
+							/>
+						</label>
+						<label className="text-sm">
+							New Card Ratio
+							<div className="mt-2 flex items-center gap-3">
+								<input
+									type="range"
+									min={0}
+									max={50}
+									step={5}
+									value={Math.round(newRatio * 100)}
+									onChange={(e) => setNewRatio(Number(e.target.value) / 100)}
+									className="w-full accent-sky-600"
+								/>
+								<span className="text-sm text-slate-600 w-12 text-right">
+									{Math.round(newRatio * 100)}%
+								</span>
+							</div>
+						</label>
+					</div>
+				</div>
+			)}
 
 			<div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-6">
 				<div className="text-sm">
@@ -1011,7 +1438,7 @@ export default function EnglishFlashcards({
 				</>
 			)}
 
-			{showFilter && (
+			{showFilter && !useSpacedRepetition && (
 				<>
 					<div className="mb-4">
 						<h2 className="text-xl font-semibold">Select Type</h2>
@@ -1186,7 +1613,11 @@ export default function EnglishFlashcards({
 				</>
 			)}
 
-			{filteredCards.length > 0 ? (
+			{isLoadingSession && useSpacedRepetition ? (
+				<div className="text-center text-gray-500 text-base italic mb-6">
+					Loading your session...
+				</div>
+			) : filteredCards.length > 0 ? (
 				<div
 					className={`relative w-full mb-4 perspective cursor-pointer ${
 						frontMiddleCenter === 'images' ? 'h-96' : 'h-72'
@@ -1282,9 +1713,15 @@ export default function EnglishFlashcards({
 				</div>
 			) : (
 				<div className="text-center text-gray-500 text-base italic mb-6">
-					No cards available with these customizations.
-					<br />
-					Please select a different lesson or choose different card sides.
+					{useSpacedRepetition
+						? 'You are all caught up. Come back later for more reviews.'
+						: 'No cards available with these customizations.'}
+					{!useSpacedRepetition && (
+						<>
+							<br />
+							Please select a different lesson or choose different card sides.
+						</>
+					)}
 				</div>
 			)}
 
@@ -1292,33 +1729,297 @@ export default function EnglishFlashcards({
 			{filteredCards.length > 0 && (
 				<>
 					<div className="text-sm font-medium text-gray-600 mb-1">
-						{currentIndex + 1} / {filteredCards.length}
+						{useSpacedRepetition && !isGuest
+							? Math.min(sessionCompleted + 1, Math.max(sessionTotal, 1))
+							: currentIndex + 1}{' '}
+						/ {useSpacedRepetition && !isGuest
+							? Math.max(sessionTotal, 1)
+							: filteredCards.length}
 					</div>
 					<div className="h-2 bg-gray-200 rounded-full overflow-hidden mb-6">
 						<div
 							className="bg-sky-600 h-full transition-all duration-300"
 							style={{
-								width: `${((currentIndex + 1) / filteredCards.length) * 100}%`,
+								width: `${
+									(useSpacedRepetition && !isGuest
+										? Math.min(sessionCompleted + 1, Math.max(sessionTotal, 1)) /
+											Math.max(sessionTotal, 1)
+										: (currentIndex + 1) / filteredCards.length) * 100
+								}%`,
 							}}
 						></div>
 					</div>
 				</>
 			)}
 
-			<div className="flex justify-center gap-4">
-				<button
-					onClick={handlePreviousCard}
-					className="px-4 py-2 bg-gray-500 text-white rounded shadow"
-				>
-					Previous Card
-				</button>
-				<button
-					onClick={handleNextCard}
-					className="px-4 py-2 bg-sky-600 text-white rounded shadow"
-				>
-					Next Card
-				</button>
-			</div>
+			{useSpacedRepetition && !isGuest ? (
+				<div className="flex flex-col items-center gap-3">
+					<button
+						onClick={() => setShowScheduleEditor((prev) => !prev)}
+						className="px-3 py-2 bg-slate-200 text-slate-700 rounded shadow"
+					>
+						{showScheduleEditor ? 'Hide Schedule' : 'Edit Schedule'}
+					</button>
+					{showBack ? (
+						<div className="flex flex-wrap justify-center gap-2">
+							<button
+								onClick={(e) => {
+									e.stopPropagation()
+									handleGrade('again')
+								}}
+								disabled={isSubmittingReview}
+								className="px-4 py-2 bg-rose-600 text-white rounded shadow disabled:opacity-60"
+							>
+								Again
+								{previewByRating?.again ? (
+									<span className="ml-2 text-xs opacity-80">
+										{previewByRating.again}
+									</span>
+								) : null}
+							</button>
+							<button
+								onClick={(e) => {
+									e.stopPropagation()
+									handleGrade('hard')
+								}}
+								disabled={isSubmittingReview}
+								className="px-4 py-2 bg-amber-500 text-white rounded shadow disabled:opacity-60"
+							>
+								Hard
+								{previewByRating?.hard ? (
+									<span className="ml-2 text-xs opacity-80">
+										{previewByRating.hard}
+									</span>
+								) : null}
+							</button>
+							<button
+								onClick={(e) => {
+									e.stopPropagation()
+									handleGrade('good')
+								}}
+								disabled={isSubmittingReview}
+								className="px-4 py-2 bg-emerald-600 text-white rounded shadow disabled:opacity-60"
+							>
+								Good
+								{previewByRating?.good ? (
+									<span className="ml-2 text-xs opacity-80">
+										{previewByRating.good}
+									</span>
+								) : null}
+							</button>
+							<button
+								onClick={(e) => {
+									e.stopPropagation()
+									handleGrade('easy')
+								}}
+								disabled={isSubmittingReview}
+								className="px-4 py-2 bg-sky-600 text-white rounded shadow disabled:opacity-60"
+							>
+								Easy
+								{previewByRating?.easy ? (
+									<span className="ml-2 text-xs opacity-80">
+										{previewByRating.easy}
+									</span>
+								) : null}
+							</button>
+						</div>
+					) : (
+						<div className="text-sm text-gray-500 italic">
+							Tap the card to reveal the answer.
+						</div>
+					)}
+					{showScheduleEditor && currentSessionState && (
+						<div className="w-full max-w-xl bg-white border rounded-lg p-4 text-left">
+							<div className="flex items-center justify-between mb-2">
+								<h3 className="font-semibold text-slate-800">Schedule</h3>
+								<button
+									onClick={() => setShowAdvancedEditor((prev) => !prev)}
+									className="text-sm text-sky-600"
+								>
+									{showAdvancedEditor ? 'Hide Advanced' : 'Show Advanced'}
+								</button>
+							</div>
+							<div className="flex flex-wrap gap-2 mb-3">
+								<button
+									onClick={() => updateSchedule('reset')}
+									className="px-3 py-2 bg-gray-200 text-gray-800 rounded"
+								>
+									Reset
+								</button>
+								<button
+									onClick={() => updateSchedule('suspend')}
+									className="px-3 py-2 bg-rose-100 text-rose-700 rounded"
+								>
+									Suspend
+								</button>
+								<button
+									onClick={() => updateSchedule('unsuspend')}
+									className="px-3 py-2 bg-emerald-100 text-emerald-700 rounded"
+								>
+									Unsuspend
+								</button>
+							</div>
+							{showAdvancedEditor && (
+								<div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+									<label className="text-sm">
+										Due At
+										<input
+											type="datetime-local"
+											value={editDueAt}
+											onChange={(e) => setEditDueAt(e.target.value)}
+											className="mt-1 w-full border rounded px-2 py-1"
+										/>
+									</label>
+									<label className="text-sm">
+										State
+										<select
+											value={editState}
+											onChange={(e) =>
+												setEditState(
+													e.target.value as FlashcardScheduling['state']
+												)
+											}
+											className="mt-1 w-full border rounded px-2 py-1"
+										>
+											<option value="new">new</option>
+											<option value="learning">learning</option>
+											<option value="review">review</option>
+											<option value="relearning">relearning</option>
+											<option value="suspended">suspended</option>
+										</select>
+									</label>
+									<label className="text-sm">
+										Interval Days
+										<input
+											type="number"
+											step="0.01"
+											value={editIntervalDays}
+											onChange={(e) => setEditIntervalDays(e.target.value)}
+											className="mt-1 w-full border rounded px-2 py-1"
+										/>
+									</label>
+									<label className="text-sm">
+										Ease
+										<input
+											type="number"
+											step="0.01"
+											value={editEase}
+											onChange={(e) => setEditEase(e.target.value)}
+											className="mt-1 w-full border rounded px-2 py-1"
+										/>
+									</label>
+									<label className="text-sm">
+										Learning Step
+										<input
+											type="number"
+											step="1"
+											value={editLearningStep}
+											onChange={(e) => setEditLearningStep(e.target.value)}
+											className="mt-1 w-full border rounded px-2 py-1"
+										/>
+									</label>
+									<label className="text-sm">
+										Lapses
+										<input
+											type="number"
+											step="1"
+											value={editLapses}
+											onChange={(e) => setEditLapses(e.target.value)}
+											className="mt-1 w-full border rounded px-2 py-1"
+										/>
+									</label>
+									<label className="text-sm">
+										Reps
+										<input
+											type="number"
+											step="1"
+											value={editReps}
+											onChange={(e) => setEditReps(e.target.value)}
+											className="mt-1 w-full border rounded px-2 py-1"
+										/>
+									</label>
+								</div>
+							)}
+							<div className="mt-3 flex justify-end">
+								<button
+									onClick={() => updateSchedule('update')}
+									className="px-4 py-2 bg-sky-600 text-white rounded shadow"
+								>
+									Save Changes
+								</button>
+							</div>
+						</div>
+					)}
+					<div className="w-full max-w-xl">
+						<button
+							onClick={() => setShowHistory((prev) => !prev)}
+							className="mt-2 px-3 py-2 bg-slate-200 text-slate-700 rounded shadow"
+						>
+							{showHistory ? 'Hide Review History' : 'Show Review History'}
+						</button>
+						{showHistory && (
+							<div className="mt-3 bg-white border rounded-lg p-4 text-left">
+								<h3 className="font-semibold text-slate-800 mb-2">
+									Recent Reviews
+								</h3>
+								{historyStats && (
+									<div className="grid grid-cols-2 gap-2 text-sm text-slate-600 mb-3">
+										<div>Total Reviews: {historyStats.total ?? 0}</div>
+										<div>Success Rate: {formatSuccessRate(historyStats)}</div>
+										<div>Avg Next Interval: {formatAvgInterval(historyStats)}</div>
+										<div>Current Streak: {historyStats.currentStreak ?? 0}</div>
+										<div>Best Streak: {historyStats.bestStreak ?? 0}</div>
+										<div>
+											Last Review:{' '}
+											{historyStats.lastReviewedAt
+												? new Date(historyStats.lastReviewedAt).toLocaleString()
+												: '—'}
+										</div>
+									</div>
+								)}
+								{isLoadingHistory ? (
+									<div className="text-sm text-slate-500">Loading...</div>
+								) : reviewHistory.length === 0 ? (
+									<div className="text-sm text-slate-500">
+										No reviews yet.
+									</div>
+								) : (
+									<div className="flex flex-col gap-2">
+										{reviewHistory.map((entry) => (
+											<div
+												key={entry.id}
+												className="flex items-center justify-between text-sm"
+											>
+												<span className="capitalize font-medium text-slate-700">
+													{entry.rating}
+												</span>
+												<span className="text-slate-500">
+													{new Date(entry.reviewedAt).toLocaleString()}
+												</span>
+											</div>
+										))}
+									</div>
+								)}
+							</div>
+						)}
+					</div>
+				</div>
+			) : (
+				<div className="flex justify-center gap-4">
+					<button
+						onClick={handlePreviousCard}
+						className="px-4 py-2 bg-gray-500 text-white rounded shadow"
+					>
+						Previous Card
+					</button>
+					<button
+						onClick={handleNextCard}
+						className="px-4 py-2 bg-sky-600 text-white rounded shadow"
+					>
+						Next Card
+					</button>
+				</div>
+			)}
 		</div>
 	)
 }
