@@ -26,5 +26,7 @@
 	"iGotIt": "Tudtam",
 	"iMissedIt": "Elrontottam",
 	"font": "Betűtípus",
-	"chooseSyllables": "Szótagok"
+	"chooseSyllables": "Szótagok",
+	"pronunciationTooltip": "Az Aleph with Beth szefárd kiejtést használ. A maszoréta hagyomány megkülönbözteti a BGDKPT betűk kiejtését.",
+	"secondsTooltip": "A cél, hogy legfeljebb 2 hibával teljesítsd a kvízt, betűnként legfeljebb 3 másodperces időkerettel."
 }

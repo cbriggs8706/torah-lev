@@ -26,5 +26,7 @@
 	"iGotIt": "הצלחתי",
 	"iMissedIt": "פספסתי",
 	"font": "גופן",
-	"chooseSyllables": "הברות"
+	"chooseSyllables": "הברות",
+	"pronunciationTooltip": "Aleph with Beth משתמש בהגייה ספרדית. המסורה מבחינה בהגיית אותיות ה-BGDKPT.",
+	"secondsTooltip": "המטרה היא להשלים את החידון עם לא יותר מ־2 טעויות, ובתוך 3 שניות או פחות לכל אות."
 }

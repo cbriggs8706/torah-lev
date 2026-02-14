@@ -26,5 +26,7 @@
 	"iGotIt": "Je l’ai eu",
 	"iMissedIt": "Je l’ai manqué",
 	"font": "Police",
-	"chooseSyllables": "Syllabes"
+	"chooseSyllables": "Syllabes",
+	"pronunciationTooltip": "Aleph with Beth utilise la prononciation séfarade. Le masorétique distingue la prononciation entre les lettres BGDKPT.",
+	"secondsTooltip": "L’objectif est de terminer un quiz avec au maximum 2 erreurs, en 3 secondes ou moins par lettre."
 }

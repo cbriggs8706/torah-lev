@@ -26,5 +26,7 @@
 	"iGotIt": "Ik had het goed",
 	"iMissedIt": "Ik had het fout",
 	"font": "Lettertype",
-	"chooseSyllables": "Lettergrepen"
+	"chooseSyllables": "Lettergrepen",
+	"pronunciationTooltip": "Aleph with Beth gebruikt Sefardische uitspraak. De masoretische traditie onderscheidt de uitspraak van de BGDKPT-letters.",
+	"secondsTooltip": "Het doel is om een quiz te voltooien met niet meer dan 2 fouten, met 3 seconden of minder per letter."
 }

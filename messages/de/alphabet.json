@@ -26,5 +26,7 @@
 	"iGotIt": "Ich wusste es",
 	"iMissedIt": "Ich lag falsch",
 	"font": "Schriftart",
-	"chooseSyllables": "Silben"
+	"chooseSyllables": "Silben",
+	"pronunciationTooltip": "Aleph with Beth verwendet sephardische Aussprache. Die masoretische Tradition unterscheidet die Aussprache der BGDKPT-Buchstaben.",
+	"secondsTooltip": "Das Ziel ist, ein Quiz mit höchstens 2 Fehlern abzuschließen, mit 3 Sekunden oder weniger pro Buchstabe."
 }

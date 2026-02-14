@@ -26,5 +26,7 @@
 	"iGotIt": "أجبت بشكل صحيح",
 	"iMissedIt": "أجبت بشكل خاطئ",
 	"font": "الخط",
-	"chooseSyllables": "المقاطع"
+	"chooseSyllables": "المقاطع",
+	"pronunciationTooltip": "يستخدم Aleph with Beth النطق السفاردي. يميز النطق الماسوري بين حروف BGDKPT.",
+	"secondsTooltip": "الهدف هو إكمال الاختبار دون أكثر من خطأين، في 3 ثوانٍ أو أقل لكل حرف."
 }

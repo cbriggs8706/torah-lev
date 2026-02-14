@@ -26,5 +26,7 @@
 	"iGotIt": "Doğru Bildim",
 	"iMissedIt": "Kaçırdım",
 	"font": "Yazı Tipi",
-	"chooseSyllables": "Heceler"
+	"chooseSyllables": "Heceler",
+	"pronunciationTooltip": "Aleph with Beth Sefarad telaffuzunu kullanır. Masoretik gelenek BGDKPT harflerinin telaffuzunu birbirinden ayırır.",
+	"secondsTooltip": "Amaç, her harf için en fazla 3 saniye içinde ve en fazla 2 hata yaparak testi tamamlamaktır."
 }

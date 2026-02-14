@@ -26,5 +26,7 @@
 	"iGotIt": "正しくできた",
 	"iMissedIt": "間違えた",
 	"font": "フォント",
-	"chooseSyllables": "音節（おんせつ）"
+	"chooseSyllables": "音節（おんせつ）",
+	"pronunciationTooltip": "Aleph with Beth はセファルディー式の発音を用います。マソラ伝統では BGDKPT の文字の発音を区別します。",
+	"secondsTooltip": "目標は、1文字あたり3秒以内で、間違いが2回以下の状態でクイズを完了することです。"
 }

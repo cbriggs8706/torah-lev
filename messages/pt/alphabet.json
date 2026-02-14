@@ -26,5 +26,7 @@
 	"iGotIt": "Acertei",
 	"iMissedIt": "Errei",
 	"font": "Fonte",
-	"chooseSyllables": "Sílabas"
+	"chooseSyllables": "Sílabas",
+	"pronunciationTooltip": "Aleph with Beth usa a pronúncia sefardita. A tradição massorética diferencia a pronúncia das letras BGDKPT.",
+	"secondsTooltip": "O objetivo é completar o quiz com no máximo 2 erros, em 3 segundos ou menos por letra."
 }

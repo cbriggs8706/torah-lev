@@ -1,3 +1,5 @@
+// db/schema/relations/hebrew.relations.ts
+
 import { relations } from 'drizzle-orm'
 import { hebrewBooks } from '../tables/hebrew_books'
 import { hebrewChapters } from '../tables/hebrew_chapters'

@@ -26,5 +26,7 @@
 	"iGotIt": "我答对了",
 	"iMissedIt": "我答错了",
 	"font": "字体",
-	"chooseSyllables": "音节"
+	"chooseSyllables": "音节",
+	"pronunciationTooltip": "Aleph with Beth 使用塞法迪式发音。马索拉传统区分 BGDKPT 字母的发音。",
+	"secondsTooltip": "目标是在每个字母不超过 3 秒的情况下完成测验，且错误不超过 2 次。"
 }

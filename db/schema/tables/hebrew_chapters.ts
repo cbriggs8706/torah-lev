@@ -1,3 +1,4 @@
+// db/schema/tables/hebrew_chapters.ts
 import { pgTable, text, integer } from 'drizzle-orm/pg-core'
 import { hebrewBooks } from './hebrew_books'
 

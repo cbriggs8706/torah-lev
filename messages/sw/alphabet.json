@@ -26,5 +26,7 @@
 	"iGotIt": "Nimeipata",
 	"iMissedIt": "Nimeikosa",
 	"font": "Fonti",
-	"chooseSyllables": "Silabi"
+	"chooseSyllables": "Silabi",
+	"pronunciationTooltip": "Aleph with Beth hutumia matamshi ya Kisephardi. Masoretic hutofautisha matamshi kati ya herufi za BGDKPT.",
+	"secondsTooltip": "Lengo ni kukamilisha jaribio bila kufanya makosa zaidi ya 2, kwa sekunde 3 au chini kwa kila herufi."
 }

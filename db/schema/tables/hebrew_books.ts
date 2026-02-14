@@ -1,3 +1,4 @@
+// db/schema/tables/hebrew_books.ts
 import { pgTable, integer, text } from 'drizzle-orm/pg-core'
 import { bookType } from '../enums'
 

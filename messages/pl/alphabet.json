@@ -26,5 +26,7 @@
 	"iGotIt": "Wiedziałem",
 	"iMissedIt": "Pomyliłem się",
 	"font": "Czcionka",
-	"chooseSyllables": "Sylaby"
+	"chooseSyllables": "Sylaby",
+	"pronunciationTooltip": "Aleph with Beth używa wymowy sefardyjskiej. Tradycja masorecka rozróżnia wymowę liter BGDKPT.",
+	"secondsTooltip": "Celem jest ukończenie quizu z nie więcej niż 2 błędami, mając 3 sekundy lub mniej na każdą literę."
 }

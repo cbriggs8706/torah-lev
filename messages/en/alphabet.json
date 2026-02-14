@@ -26,5 +26,7 @@
 	"iGotIt": "I got it",
 	"iMissedIt": "I missed it",
 	"font": "Font",
-	"chooseSyllables": "Syllables"
+	"chooseSyllables": "Syllables",
+	"pronunciationTooltip": "Aleph with Beth uses Sephardic pronunciation. Masoretic distinguishes pronunciation between the BGDKPT letters.",
+	"secondsTooltip": "The goal is to complete a quiz with no more than 2 errorsin 3 seconds or less per letter."
 }

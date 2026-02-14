@@ -16,6 +16,12 @@ export async function ingestHebrewChapter({
 	chapterNumber: number
 	text: string
 }) {
+	if (process.env.ALLOW_BIBLICAL_TEXT_MUTATION !== 'true') {
+		throw new Error(
+			'Biblical table writes are locked. Set ALLOW_BIBLICAL_TEXT_MUTATION=true only for controlled maintenance.'
+		)
+	}
+
 	const chapterId = `${bookId}-${chapterNumber}`
 
 	// 1. Create or overwrite chapter entry

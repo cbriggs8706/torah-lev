@@ -26,5 +26,7 @@
 	"iGotIt": "Jag klarade det",
 	"iMissedIt": "Jag missade det",
 	"font": "Typsnitt",
-	"chooseSyllables": "Stavelser"
+	"chooseSyllables": "Stavelser",
+	"pronunciationTooltip": "Aleph with Beth använder sefardiskt uttal. Den masoretiska traditionen skiljer mellan uttalen av BGDKPT-bokstäverna.",
+	"secondsTooltip": "Målet är att slutföra ett quiz med högst 2 fel, med 3 sekunder eller mindre per bokstav."
 }

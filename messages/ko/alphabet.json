@@ -26,5 +26,7 @@
 	"iGotIt": "맞췄어요",
 	"iMissedIt": "틀렸어요",
 	"font": "글꼴",
-	"chooseSyllables": "음절"
+	"chooseSyllables": "음절",
+	"pronunciationTooltip": "Aleph with Beth는 세파르디식 발음을 사용합니다. 마소라 전통에서는 BGDKPT 문자들의 발음을 구분합니다.",
+	"secondsTooltip": "목표는 각 글자당 3초 이내로, 실수를 2번 이하로 유지하며 퀴즈를 완료하는 것입니다."
 }

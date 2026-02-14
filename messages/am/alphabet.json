@@ -26,5 +26,7 @@
 	"iGotIt": "ትክክል መለስሁ",
 	"iMissedIt": "ስህተት ሆኗል",
 	"font": "ፊደል ቅርጽ",
-	"chooseSyllables": "ክፍሎች"
+	"chooseSyllables": "ክፍሎች",
+	"pronunciationTooltip": "Aleph with Beth ሴፋርዲክ አናባቢ ቋንቋ እየተጠቀሙ ይናገራሉ። Masoretic ግን የBGDKPT ፊደሎች ንባብ ትርጉም ይለያያል።",
+	"secondsTooltip": "ተፈላጊው ዓላማ ከ2 በላይ ስህተት እንዳይኖር እያንዳንዱን ፊደል በ3 ሰከንድ ወይም ከዚያ በታች በመጠን መጨረስ ነው።"
 }

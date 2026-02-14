@@ -26,5 +26,7 @@
 	"iGotIt": "Zvládl/a jsem to",
 	"iMissedIt": "Nezvládl/a jsem to",
 	"font": "Písmo",
-	"chooseSyllables": "Slabiky"
+	"chooseSyllables": "Slabiky",
+	"pronunciationTooltip": "Aleph with Beth používá sefardskou výslovnost. Masoretská tradice rozlišuje výslovnost písmen BGDKPT.",
+	"secondsTooltip": "Cílem je dokončit kvíz s nejvýše 2 chybami a s časem 3 sekundy nebo méně na každé písmeno."
 }

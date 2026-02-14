@@ -26,5 +26,7 @@
 	"iGotIt": "L’ho indovinato",
 	"iMissedIt": "Ho sbagliato",
 	"font": "Carattere",
-	"chooseSyllables": "Sillabe"
+	"chooseSyllables": "Sillabe",
+	"pronunciationTooltip": "Aleph with Beth usa la pronuncia sefardita. La tradizione masoretica distingue la pronuncia delle lettere BGDKPT.",
+	"secondsTooltip": "L’obiettivo è completare un quiz con non più di 2 errori, in 3 secondi o meno per lettera."
 }

@@ -4,7 +4,6 @@ import { useState, useMemo, useCallback, useRef, useEffect } from 'react'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { Card, CardHeader, CardContent } from '@/components/ui/card'
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Slider } from '@/components/ui/slider'
 import { CountdownCircleTimer } from 'react-countdown-circle-timer'
 import { cn } from '@/lib/utils'
@@ -16,7 +15,7 @@ import {
 	TooltipTrigger,
 } from '../ui/tooltip'
 import { useTranslations } from 'next-intl'
-import { ToggleGroup, ToggleGroupItem } from '../ui/toggle-group'
+import { InfoTooltip } from '../custom/InfoTooltip'
 
 // ------------------
 // TYPES
@@ -470,23 +469,37 @@ export default function HebrewLetterQuiz({ letters, niqqud }: Props) {
 					</div>
 
 					{/* PRONUNCIATION */}
-					<div className="w-full">
-						<TooltipProvider>
-							<Tooltip>
-								<TooltipTrigger asChild>
-									<div className="text-sm font-medium mb-2 cursor-help">
-										{t('pronunciation')}
-									</div>
-								</TooltipTrigger>
-								<TooltipContent className="max-w-xs text-sm leading-snug">
-									Aleph with Beth uses <strong>Sephardic</strong> pronunciation.
-									Masoretic distinguishes pronunciation between the
-									<strong> BGDKPT</strong> letters.
-								</TooltipContent>
-							</Tooltip>
-						</TooltipProvider>
+					<div className="w-full space-y-2">
+						<span className="text-sm font-medium">{t('pronunciation')} </span>
 
-						<Tabs
+						<InfoTooltip text={t('pronunciationTooltip')} />
+
+						<div className="flex flex-wrap gap-2">
+							{(
+								[
+									{ key: 'sephardic', label: t('sephardic') },
+									{ key: 'masoretic', label: t('masoretic') },
+								] as { key: Pronunciation; label: string }[]
+							).map(({ key, label }) => {
+								const active = pronunciation === key
+
+								return (
+									<button
+										key={key}
+										onClick={() => setPronunciation(key)}
+										className={cn(
+											'px-4 py-2 rounded-full text-sm font-medium transition-all',
+											active
+												? 'bg-sky-600 text-white shadow-sm'
+												: 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+										)}
+									>
+										{label}
+									</button>
+								)
+							})}
+						</div>
+						{/* <Tabs
 							value={pronunciation}
 							onValueChange={(v) => setPronunciation(v as Pronunciation)}
 						>
@@ -494,7 +507,7 @@ export default function HebrewLetterQuiz({ letters, niqqud }: Props) {
 								<TabsTrigger value="sephardic">{t('sephardic')}</TabsTrigger>
 								<TabsTrigger value="masoretic">{t('masoretic')}</TabsTrigger>
 							</TabsList>
-						</Tabs>
+						</Tabs> */}
 					</div>
 				</div>
 
@@ -553,7 +566,9 @@ export default function HebrewLetterQuiz({ letters, niqqud }: Props) {
 
 					<div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7 gap-4">
 						{(Object.keys(fontClasses) as FontChoice[]).map((font) => {
-							const isDisabled = mode === 'niqqud' && imageFonts.includes(font)
+							const isDisabled =
+								(mode === 'niqqud' || mode === 'syllable') &&
+								imageFonts.includes(font)
 
 							return (
 								<Button
@@ -609,21 +624,8 @@ export default function HebrewLetterQuiz({ letters, niqqud }: Props) {
 					</Button>
 
 					<div className="">
-						<TooltipProvider>
-							<Tooltip>
-								<TooltipTrigger asChild>
-									<div className="text-sm font-medium mb-2 cursor-help">
-										{t('secondsToAnswer')}
-									</div>
-								</TooltipTrigger>
-
-								<TooltipContent className="max-w-xs text-sm leading-snug">
-									The goal is to complete a quiz with{' '}
-									<strong>no more than 2 errors</strong> in{' '}
-									<strong>3 seconds or less</strong> per letter.
-								</TooltipContent>
-							</Tooltip>
-						</TooltipProvider>
+						<span className="text-sm font-medium">{t('secondsToAnswer')} </span>
+						<InfoTooltip text={t('secondsTooltip')} />
 						<div className="flex items-center gap-4">
 							<Slider
 								min={1}

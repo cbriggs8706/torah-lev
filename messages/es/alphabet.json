@@ -26,5 +26,7 @@
 	"iGotIt": "Lo acerté",
 	"iMissedIt": "Lo fallé",
 	"font": "Fuente",
-	"chooseSyllables": "Sílabas"
+	"chooseSyllables": "Sílabas",
+	"pronunciationTooltip": "Aleph with Beth usa pronunciación sefardí. La tradición masorética distingue la pronunciación de las letras BGDKPT.",
+	"secondsTooltip": "El objetivo es completar el cuestionario con no más de 2 errores y en 3 segundos o menos por letra."
 }
