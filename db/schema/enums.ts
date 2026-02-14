@@ -39,6 +39,24 @@ export const dayOfWeek = pgEnum('day_of_week', [
 	'SAT',
 	'SUN',
 ])
+export const courseMemberRole = pgEnum('course_member_role', [
+	'organizer',
+	'teacher',
+	'ta',
+	'student',
+])
+export const assignmentSourceType = pgEnum('assignment_source_type', [
+	'existing_lesson',
+	'existing_chapter',
+	'custom',
+])
+export const attendanceStatus = pgEnum('attendance_status', [
+	'present',
+	'absent',
+	'late',
+])
+export const threadType = pgEnum('thread_type', ['course', 'dm', 'group'])
+export const threadMemberRole = pgEnum('thread_member_role', ['owner', 'member'])
 export const lesson = pgEnum('lesson', [
 	'1',
 	'2',

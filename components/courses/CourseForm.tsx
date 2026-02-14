@@ -3,7 +3,7 @@
 
 import * as React from 'react'
 import { useRouter } from 'next/navigation'
-import { Controller, useForm } from 'react-hook-form'
+import { Controller, useForm, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { format } from 'date-fns'
@@ -44,7 +44,8 @@ import { Switch } from '../ui/switch'
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
 import { Calendar } from '../ui/calendar'
 import { toast } from 'sonner'
-import { UnitsLessonsEditor } from './UnitsLessonsEditor'
+import { UnitsLessonsEditor, UnitForm } from './UnitsLessonsEditor'
+import { CoursePlanner } from './CoursePlanner'
 
 // -----------------------------------------------------
 // ZOD SCHEMA
@@ -137,11 +138,14 @@ export function CourseForm({
 			organizerGroupName: initialData?.organizerGroupName ?? '',
 			location: initialData?.location ?? '',
 			zoomLink: initialData?.zoomLink ?? '',
-			maxEnrollment: initialData?.maxEnrollment ?? undefined,
-			enrollmentOpen: initialData?.enrollmentOpen ?? true,
-			units: (initialData as any)?.units ?? [],
-		},
-	})
+				maxEnrollment: initialData?.maxEnrollment ?? undefined,
+				enrollmentOpen: initialData?.enrollmentOpen ?? true,
+				units: (initialData?.units as UnitForm[] | undefined) ?? [],
+			},
+		})
+	const plannerUnits =
+		(useWatch({ control: form.control, name: 'units' }) as UnitForm[] | undefined) ??
+		[]
 
 	// -----------------------------------------------------
 	// ALSO IMPORTANT: onSubmit MUST BE UNTYPED
@@ -693,8 +697,16 @@ export function CourseForm({
 							/>
 						</div>
 					)}
-				/>
-			</CardContent>
+					/>
+
+					{mode === 'update' && initialData?.id && (
+						<CoursePlanner
+							courseId={initialData.id}
+							units={plannerUnits}
+							disabled={isReadOnly}
+						/>
+					)}
+				</CardContent>
 
 			<CardFooter>
 				{mode === 'view' ? (

@@ -5,6 +5,7 @@ import { getCourseByCode } from '@/db/queries/courses'
 import { getUnitsForCourse } from '@/db/queries/units'
 import { redirect, notFound } from 'next/navigation'
 import { CourseForm } from '@/components/courses/CourseForm'
+import { canManageCourse, getCourseAccessByCode } from '@/lib/courses/access'
 
 type PageProps = {
 	params: Promise<{ locale: string; courseCode: string }>
@@ -18,6 +19,10 @@ export default async function UpdateCoursePage({ params }: PageProps) {
 
 	const course = await getCourseByCode(courseCode)
 	if (!course) notFound()
+	const access = await getCourseAccessByCode(courseCode, session.user.id)
+	if (!canManageCourse(access, session.user.role)) {
+		redirect(`/${locale}/${courseCode}`)
+	}
 
 	const units = await getUnitsForCourse(course.id)
 

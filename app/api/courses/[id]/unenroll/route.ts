@@ -7,6 +7,7 @@ import { NextResponse } from 'next/server'
 import { unenrollStudent } from '@/db/queries/courses'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
+import { getCourseMembership, removeCourseMembership } from '@/db/queries/course-collaboration'
 
 export async function POST(
 	req: Request,
@@ -21,5 +22,9 @@ export async function POST(
 	const studentId = session.user.id
 
 	const result = await unenrollStudent(courseId, studentId)
+	const membership = await getCourseMembership(courseId, studentId)
+	if (membership?.role === 'student') {
+		await removeCourseMembership(courseId, studentId)
+	}
 	return NextResponse.json(result)
 }

@@ -4,7 +4,7 @@ export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
 import { NextResponse } from 'next/server'
-import { getCourse, updateCourse, deleteCourse } from '@/db/queries/courses'
+import { getCourse, deleteCourse } from '@/db/queries/courses'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { z } from 'zod'
@@ -12,6 +12,7 @@ import { courseType, proficiencyLevel, language } from '@/db/schema/enums'
 import { courses, supabaseDb, units } from '@/db'
 import { eq } from 'drizzle-orm'
 import { updateUnitsAndLessons } from '@/db/queries/units'
+import { canManageCourse, getCourseAccessById } from '@/lib/courses/access'
 
 type CourseType = (typeof courseType.enumValues)[number]
 type CourseLanguage = (typeof language.enumValues)[number]
@@ -88,10 +89,13 @@ export async function PATCH(
 	context: { params: Promise<{ id: string }> }
 ) {
 	const session = await getServerSession(authOptions)
-	if (!session || session.user.role !== 'admin')
-		return new NextResponse('Unauthorized', { status: 401 })
+	if (!session?.user?.id) return new NextResponse('Unauthorized', { status: 401 })
 
 	const { id } = await context.params
+	const access = await getCourseAccessById(id, session.user.id)
+	if (!canManageCourse(access, session.user.role))
+		return new NextResponse('Unauthorized', { status: 401 })
+
 	const body = await req.json()
 
 	const parsed = UpdateCourseSchema.safeParse(body)
@@ -154,12 +158,23 @@ export async function DELETE(
 	req: Request,
 	context: { params: Promise<{ id: string }> }
 ) {
+	const session = await getServerSession(authOptions)
+	if (!session?.user?.id) {
+		return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+	}
+
 	const { id } = await context.params
 	if (!id) {
 		return NextResponse.json({ error: 'Missing ID' }, { status: 400 })
 	}
 
 	try {
+		const access = await getCourseAccessById(id, session.user.id)
+		const canDelete = session.user.role === 'admin' || access?.isOrganizer
+		if (!canDelete) {
+			return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+		}
+
 		await deleteCourse(id)
 		return NextResponse.json({ success: true })
 	} catch (err) {

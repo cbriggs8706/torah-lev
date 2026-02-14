@@ -7,6 +7,7 @@ import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { enrollStudent, getCourseById } from '@/db/queries/courses'
+import { upsertCourseMembership } from '@/db/queries/course-collaboration'
 
 export async function POST(
 	req: Request,
@@ -33,6 +34,11 @@ export async function POST(
 	}
 
 	await enrollStudent(courseId, session.user.id)
+	await upsertCourseMembership({
+		courseId,
+		userId: session.user.id,
+		role: 'student',
+	})
 
 	return NextResponse.json({ success: true })
 }

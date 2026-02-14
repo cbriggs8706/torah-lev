@@ -11,6 +11,7 @@ import { authOptions } from '@/lib/auth'
 import { courseType, proficiencyLevel, language } from '@/db/schema/enums'
 import { courses, supabaseDb } from '@/db'
 import { insertUnitsWithLessons } from '@/db/queries/units'
+import { upsertCourseMembership } from '@/db/queries/course-collaboration'
 type CourseType = (typeof courseType.enumValues)[number]
 type CourseLanguage = (typeof language.enumValues)[number]
 
@@ -103,14 +104,21 @@ export async function POST(req: Request) {
 			.returning()
 
 		// 2. Create units + lessons
-		if (data.units.length) {
-			console.log('INSERTING UNITS:', data.units)
+			if (data.units.length) {
+				console.log('INSERTING UNITS:', data.units)
 
-			await insertUnitsWithLessons(tx, course.id, data.units)
-		}
+				await insertUnitsWithLessons(tx, course.id, data.units)
+			}
 
-		return course
-	})
+			await upsertCourseMembership({
+				courseId: course.id,
+				userId,
+				role: 'organizer',
+				invitedBy: userId,
+			})
+
+			return course
+		})
 
 	return NextResponse.json(created, { status: 201 })
 }

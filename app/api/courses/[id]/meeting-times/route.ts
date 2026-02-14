@@ -13,6 +13,7 @@ import { z } from 'zod'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { dayOfWeek } from '@/db/schema/enums'
+import { canManageCourse, getCourseAccessById } from '@/lib/courses/access'
 
 type DayOfWeek = (typeof dayOfWeek.enumValues)[number]
 
@@ -42,7 +43,11 @@ export async function POST(
 	const { id } = await context.params
 
 	const session = await getServerSession(authOptions)
-	if (!session || session.user.role !== 'admin') {
+	if (!session?.user?.id) {
+		return new NextResponse('Unauthorized', { status: 401 })
+	}
+	const access = await getCourseAccessById(id, session.user.id)
+	if (!canManageCourse(access, session.user.role)) {
 		return new NextResponse('Unauthorized', { status: 401 })
 	}
 
@@ -69,7 +74,11 @@ export async function PUT(
 	const { id } = await context.params
 
 	const session = await getServerSession(authOptions)
-	if (!session || session.user.role !== 'admin') {
+	if (!session?.user?.id) {
+		return new NextResponse('Unauthorized', { status: 401 })
+	}
+	const access = await getCourseAccessById(id, session.user.id)
+	if (!canManageCourse(access, session.user.role)) {
 		return new NextResponse('Unauthorized', { status: 401 })
 	}
 

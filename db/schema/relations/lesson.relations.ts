@@ -4,6 +4,7 @@ import { relations } from 'drizzle-orm'
 import { units } from '@/db/schema/tables/units'
 import { lessons } from '@/db/schema/tables/lessons'
 import { lessonTranslations } from '@/db/schema/tables/lesson_translations'
+import { occurrenceAssignments } from '../tables/course_collaboration'
 
 export const lessonRelations = relations(lessons, ({ one, many }) => ({
 	unit: one(units, {
@@ -11,6 +12,7 @@ export const lessonRelations = relations(lessons, ({ one, many }) => ({
 		references: [units.id],
 	}),
 	translations: many(lessonTranslations),
+	occurrenceAssignments: many(occurrenceAssignments),
 }))
 
 export const lessonTranslationRelations = relations(

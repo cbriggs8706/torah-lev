@@ -5,6 +5,7 @@ import { units } from '@/db/schema/tables/units'
 import { lessons } from '@/db/schema/tables/lessons'
 import { courses } from '@/db/schema/tables/courses'
 import { unitTranslations } from '@/db/schema/tables/unit_translations'
+import { occurrenceAssignments } from '../tables/course_collaboration'
 
 export const unitRelations = relations(units, ({ one, many }) => ({
 	course: one(courses, {
@@ -13,6 +14,7 @@ export const unitRelations = relations(units, ({ one, many }) => ({
 	}),
 	translations: many(unitTranslations),
 	lessons: many(lessons),
+	occurrenceAssignments: many(occurrenceAssignments),
 }))
 
 export const unitTranslationRelations = relations(

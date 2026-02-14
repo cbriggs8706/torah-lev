@@ -9,12 +9,22 @@ import {
 import { courseTranslations } from '@/db/schema/tables/course_translations'
 import { messages } from '../tables/messages'
 import { user } from '../tables/auth'
+import {
+	courseMemberships,
+	courseOccurrences,
+	courseThreads,
+	occurrenceAssignments,
+} from '../tables/course_collaboration'
 
 export const courseRelations = relations(courses, ({ one, many }) => ({
 	translations: many(courseTranslations),
 	units: many(units),
 	enrollments: many(courseEnrollments),
 	messages: many(messages),
+	memberships: many(courseMemberships),
+	occurrences: many(courseOccurrences),
+	occurrenceAssignments: many(occurrenceAssignments),
+	threads: many(courseThreads),
 	organizer: one(user, {
 		fields: [courses.organizerId],
 		references: [user.id],
