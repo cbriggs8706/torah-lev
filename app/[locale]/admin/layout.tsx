@@ -26,8 +26,9 @@ export default async function Layout({
 	children: React.ReactNode
 }) {
 	const session = await getServerSession(authOptions)
+	const role = session?.user?.role ?? 'guest'
 
-	if (session?.user.role !== 'admin') redirect('/')
+	if (!['admin', 'teacher'].includes(role)) redirect('/')
 	return (
 		<SidebarProvider>
 			<AppSidebar session={session} role={session?.user?.role ?? 'guest'} />

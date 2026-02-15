@@ -13,14 +13,48 @@ import {
 	canManageCourse,
 	getCourseAccessByCode,
 } from '@/lib/courses/access'
+import { parseLessonNumber } from '@/lib/lessons/lessonNumber'
 
 type CoursePageData = NonNullable<
 	Awaited<ReturnType<typeof getCourseByCodeWithRelations>>
 >
 type CourseUnit = CoursePageData['units'][number]
+type CourseLesson = CourseUnit['lessons'][number]
 
 function formatSlug(slug: string) {
 	return slug.replace(/[-_]/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
+}
+
+function groupLessons(lessons: CourseLesson[]) {
+	const grouped = new Map<number, CourseLesson[]>()
+	const standalone: CourseLesson[] = []
+
+	for (const lesson of lessons) {
+		const parsed = parseLessonNumber(lesson.lessonNumber ?? '')
+		const groupNumber = lesson.lessonGroupNumber ?? parsed.lessonGroupNumber
+		if (groupNumber === null) {
+			standalone.push(lesson)
+			continue
+		}
+		const list = grouped.get(groupNumber) ?? []
+		list.push(lesson)
+		grouped.set(groupNumber, list)
+	}
+
+	const groupedEntries = [...grouped.entries()]
+		.sort((a, b) => a[0] - b[0])
+		.map(([groupNumber, rows]) => ({
+			groupNumber,
+			lessons: rows.sort((a, b) => {
+				const av = (a.lessonVariant || parseLessonNumber(a.lessonNumber).lessonVariant || '')
+					.toLowerCase()
+				const bv = (b.lessonVariant || parseLessonNumber(b.lessonNumber).lessonVariant || '')
+					.toLowerCase()
+				return av.localeCompare(bv)
+			}),
+		}))
+
+	return { groupedEntries, standalone }
 }
 
 function PublicCourseModules({ course }: { course: CoursePageData }) {
@@ -29,7 +63,9 @@ function PublicCourseModules({ course }: { course: CoursePageData }) {
 			<h2 className="text-xl font-bold">Syllabus</h2>
 
 			<ul className="space-y-4">
-				{course.units?.map((unit: CourseUnit) => (
+				{course.units?.map((unit: CourseUnit) => {
+					const groupedLessons = groupLessons(unit.lessons)
+					return (
 					<li
 						key={unit.id}
 						className="border rounded-lg p-4 bg-muted/40 space-y-2"
@@ -57,15 +93,36 @@ function PublicCourseModules({ course }: { course: CoursePageData }) {
 								</li>
 							))}
 						</ul> */}
-						<ul className="ml-4 list-disc space-y-1">
-								{unit.lessons.map((lesson, idx: number) => (
-								<li key={lesson.id}>
-									Lesson {idx + 1}: {lesson.description}
-								</li>
+						<div className="ml-4 space-y-3">
+							{groupedLessons.groupedEntries.map((group) => (
+								<div key={group.groupNumber}>
+									<p className="text-sm font-medium text-muted-foreground">
+										Lesson {group.groupNumber} series
+									</p>
+									<ul className="list-disc space-y-1">
+										{group.lessons.map((lesson) => (
+											<li key={lesson.id}>
+												Lesson {lesson.lessonNumber}:{' '}
+												{lesson.title || lesson.description}
+											</li>
+										))}
+									</ul>
+								</div>
 							))}
-						</ul>
+							{groupedLessons.standalone.length > 0 ? (
+								<ul className="list-disc space-y-1">
+									{groupedLessons.standalone.map((lesson) => (
+										<li key={lesson.id}>
+											Lesson {lesson.lessonNumber}:{' '}
+											{lesson.title || lesson.description}
+										</li>
+									))}
+								</ul>
+							) : null}
+						</div>
 					</li>
-				))}
+					)
+				})}
 			</ul>
 		</div>
 	)

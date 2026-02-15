@@ -9,6 +9,7 @@ import { unitTranslations } from '@/db/schema/tables/unit_translations'
 import { lessons } from '@/db/schema/tables/lessons'
 import { lessonTranslations } from '@/db/schema/tables/lesson_translations'
 import type { CreateCourseInput } from '@/types/adminCourse'
+import { parseLessonNumber } from '@/lib/lessons/lessonNumber'
 
 export async function POST(req: Request) {
 	try {
@@ -87,11 +88,18 @@ export async function POST(req: Request) {
 				}
 
 				for (const [lIndex, lesson] of (unit.lessons ?? []).entries()) {
+					const lessonNumber = String(lIndex + 1)
+					const { lessonGroupNumber, lessonVariant } =
+						parseLessonNumber(lessonNumber)
 					const [newLesson] = await tx
 						.insert(lessons)
 						.values({
 							unitId,
 							slug: `${slug}-u${uIndex + 1}-lesson-${lIndex + 1}`,
+							title: lesson.title ?? `Lesson ${lessonNumber}`,
+							lessonNumber,
+							lessonGroupNumber,
+							lessonVariant,
 							order: lIndex + 1,
 						})
 						.returning({ id: lessons.id })

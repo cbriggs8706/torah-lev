@@ -2,6 +2,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { lessonFormSchema } from '@/forms/lessonSchemas'
 import { updateLesson } from '@/db/queries/lessons'
+import { parseLessonNumber } from '@/lib/lessons/lessonNumber'
 
 export async function PATCH(
 	req: NextRequest,
@@ -11,11 +12,14 @@ export async function PATCH(
 		const body = await req.json()
 		const data = lessonFormSchema.parse(body)
 		const { id } = await context.params
+		const { lessonGroupNumber, lessonVariant } = parseLessonNumber(data.lessonNumber)
 
 		await updateLesson(id, {
 			lesson: {
 				slug: data.slug,
 				lessonNumber: data.lessonNumber,
+				lessonGroupNumber,
+				lessonVariant,
 				description: data.description ?? '',
 				video: data.video ?? null,
 				secondaryVideo: data.secondaryVideo ?? null,

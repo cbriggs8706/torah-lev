@@ -132,6 +132,10 @@ export function getTeacherNav(t: TFunction, locale: string) {
 					title: t('sidebar.teacher.createCourse'),
 					url: `/${locale}/courses/create`,
 				},
+				{
+					title: 'Create Lesson',
+					url: `/${locale}/admin/courses/lessons`,
+				},
 			],
 		},
 	]

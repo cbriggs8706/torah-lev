@@ -5,6 +5,7 @@ import { units } from '@/db/schema/tables/units'
 import { lessons } from '@/db/schema/tables/lessons'
 import { lessonTranslations } from '@/db/schema/tables/lesson_translations'
 import { occurrenceAssignments } from '../tables/course_collaboration'
+import { lessonNewVocab, lessonScriptVocab } from '../tables/lesson_vocab'
 
 export const lessonRelations = relations(lessons, ({ one, many }) => ({
 	unit: one(units, {
@@ -13,6 +14,8 @@ export const lessonRelations = relations(lessons, ({ one, many }) => ({
 	}),
 	translations: many(lessonTranslations),
 	occurrenceAssignments: many(occurrenceAssignments),
+	scriptVocab: many(lessonScriptVocab),
+	newVocab: many(lessonNewVocab),
 }))
 
 export const lessonTranslationRelations = relations(

@@ -2,6 +2,7 @@
 import { units, lessons } from '@/db/schema'
 import { eq, InferInsertModel, InferSelectModel } from 'drizzle-orm'
 import { supabaseDb } from '../client'
+import { parseLessonNumber } from '@/lib/lessons/lessonNumber'
 
 export type InsertUnit = InferInsertModel<typeof units>
 export type InsertLesson = InferInsertModel<typeof lessons>
@@ -49,10 +50,15 @@ export async function insertUnitsWithLessons(
 
 		for (let lessonIndex = 0; lessonIndex < u.lessons.length; lessonIndex++) {
 			const l = u.lessons[lessonIndex]
+			const { lessonGroupNumber, lessonVariant } = parseLessonNumber(
+				l.lessonNumber
+			)
 			await tx.insert(lessons).values({
 				unitId: unitRecord.id,
 				slug: l.slug,
 				lessonNumber: l.lessonNumber,
+				lessonGroupNumber,
+				lessonVariant,
 				description: l.description,
 				order: lessonIndex,
 			})
@@ -129,22 +135,32 @@ async function syncLessons(tx: any, unitId: string, incomingLessons: any[]) {
 		const l = incomingLessons[index]
 
 		if (l.id) {
+			const { lessonGroupNumber, lessonVariant } = parseLessonNumber(
+				l.lessonNumber
+			)
 			await tx
 				.update(lessons)
 				.set({
 					slug: l.slug,
 					lessonNumber: l.lessonNumber,
+					lessonGroupNumber,
+					lessonVariant,
 					description: l.description,
 					order: index,
 				})
 				.where(eq(lessons.id, l.id))
 		} else {
+			const { lessonGroupNumber, lessonVariant } = parseLessonNumber(
+				l.lessonNumber
+			)
 			const [newLesson] = await tx
 				.insert(lessons)
 				.values({
 					unitId,
 					slug: l.slug,
 					lessonNumber: l.lessonNumber,
+					lessonGroupNumber,
+					lessonVariant,
 					description: l.description,
 					order: index,
 				})
