@@ -127,15 +127,93 @@ export async function getUserProgress(userIdOverride?: string | null) {
 		})
 	}
 
+	const liveCoursePosition = await getLiveCoursePosition(
+		userId,
+		baseProgress.activeCourseId
+	)
+
 	// ✅ Return a merged and always-consistent shape
 	return {
 		...defaultProgress,
 		...baseProgress,
 		points: courseProgress?.points ?? 0,
 		hearts: courseProgress?.hearts ?? 5,
-		activeLessonId: courseProgress?.activeLessonId ?? null,
-		activeLessonNumber: courseProgress?.activeLesson?.lessonNumber ?? null,
+		activeLessonId:
+			liveCoursePosition.activeLessonId ?? courseProgress?.activeLessonId ?? null,
+		activeLessonNumber:
+			liveCoursePosition.activeLessonNumber ??
+			courseProgress?.activeLesson?.lessonNumber ??
+			null,
 		lastSeen: courseProgress?.lastSeen ?? baseProgress.lastSeen ?? null,
+	}
+}
+
+async function getLiveCoursePosition(
+	userId: string | null,
+	courseId: number | null
+) {
+	if (!courseId) {
+		return {
+			activeLessonId: null as number | null,
+			activeLessonNumber: null as string | null,
+		}
+	}
+
+	const unitsInCourse = await db.query.units.findMany({
+		where: eq(units.courseId, courseId),
+		orderBy: (tbl, { asc }) => [asc(tbl.order)],
+		with: {
+			lessons: {
+				orderBy: (tbl, { asc }) => [asc(tbl.order)],
+				with: {
+					challenges: {
+						orderBy: (tbl, { asc }) => [asc(tbl.order)],
+						with:
+							userId && !userId.startsWith('guest')
+								? {
+										challengeProgress: {
+											where: eq(challengeProgress.userId, userId),
+										},
+								  }
+								: undefined,
+					},
+				},
+			},
+		},
+	})
+
+	let fallbackLesson: {
+		id: number
+		lessonNumber: string
+	} | null = null
+
+	for (const unit of unitsInCourse) {
+		for (const lesson of unit.lessons) {
+			fallbackLesson = {
+				id: lesson.id,
+				lessonNumber: lesson.lessonNumber,
+			}
+
+			if (!userId || userId.startsWith('guest')) {
+				return fallbackLesson
+			}
+
+			const isUncompleted = lesson.challenges.some((ch) => {
+				const progressList = (ch as any).challengeProgress ?? []
+				return (
+					progressList.length === 0 || progressList.some((p: any) => !p.completed)
+				)
+			})
+
+			if (isUncompleted) {
+				return fallbackLesson
+			}
+		}
+	}
+
+	return {
+		activeLessonId: fallbackLesson?.id ?? null,
+		activeLessonNumber: fallbackLesson?.lessonNumber ?? null,
 	}
 }
 
@@ -714,7 +792,18 @@ export async function getTopTwentyUsersByCourse(courseId: number) {
 		.orderBy(desc(userCourseProgress.points))
 		.limit(20)
 
-	return rawUsers
+	const usersWithLiveLesson = await Promise.all(
+		rawUsers.map(async (user) => {
+			const liveCoursePosition = await getLiveCoursePosition(user.userId, courseId)
+			return {
+				...user,
+				activeLessonNumber:
+					liveCoursePosition.activeLessonNumber ?? user.activeLessonNumber,
+			}
+		})
+	)
+
+	return usersWithLiveLesson
 }
 
 export async function getTopTwentyHebrewUsersByCourse(courseId: number) {
@@ -742,7 +831,18 @@ export async function getTopTwentyHebrewUsersByCourse(courseId: number) {
 		.orderBy(desc(userCourseProgress.points))
 		.limit(20)
 
-	return rawUsers
+	const usersWithLiveLesson = await Promise.all(
+		rawUsers.map(async (user) => {
+			const liveCoursePosition = await getLiveCoursePosition(user.userId, courseId)
+			return {
+				...user,
+				activeLessonNumber:
+					liveCoursePosition.activeLessonNumber ?? user.activeLessonNumber,
+			}
+		})
+	)
+
+	return usersWithLiveLesson
 }
 
 export async function getPrayerWithLines(prayerId: number) {
@@ -1127,20 +1227,34 @@ export async function getStudyGroupWithMessages(studyGroupId: number) {
 	// ✅ Fetch progress info joined to lessons & userProgress (for image fallback)
 	const progressRows = await db
 		.select({
-			userId: userCourseProgress.userId,
-			lastSeen: userCourseProgress.lastSeen,
-			lessonNumber: lessons.lessonNumber,
+			userId: userProgress.userId,
+			lastSeen: userProgress.lastSeen,
+			activeCourseId: userProgress.activeCourseId,
 			userImageSrc: sql<string>`
         COALESCE(${users.image}, ${userProgress.userImageSrc}, '/mascot.svg')
       `.as('user_image_src'),
 		})
-		.from(userCourseProgress)
-		.leftJoin(lessons, eq(userCourseProgress.activeLessonId, lessons.id))
-		.leftJoin(userProgress, eq(userCourseProgress.userId, userProgress.userId))
-		.leftJoin(users, eq(users.id, userCourseProgress.userId))
-		.where(inArray(userCourseProgress.userId, memberIds))
+		.from(userProgress)
+		.leftJoin(users, eq(users.id, userProgress.userId))
+		.where(inArray(userProgress.userId, memberIds))
 
-	const progressMap = new Map(progressRows.map((r) => [r.userId, r]))
+	const progressMap = new Map(
+		await Promise.all(
+			progressRows.map(async (row) => {
+				const liveCoursePosition = await getLiveCoursePosition(
+					row.userId,
+					row.activeCourseId
+				)
+				return [
+					row.userId,
+					{
+						...row,
+						lessonNumber: liveCoursePosition.activeLessonNumber,
+					},
+				] as const
+			})
+		)
+	)
 
 	// ✅ Attach extended fields safely
 	for (const m of group.members) {

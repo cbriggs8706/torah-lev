@@ -28,10 +28,30 @@ export const upsertChallengeProgress = async (challengeId: number) => {
 
 	const challenge = await db.query.challenges.findFirst({
 		where: eq(challenges.id, challengeId),
+		with: {
+			lesson: {
+				with: {
+					unit: {
+						columns: {
+							courseId: true,
+						},
+					},
+				},
+			},
+		},
 	})
 	if (!challenge) throw new Error('Challenge not found')
 
 	const lessonId = challenge.lessonId
+	const lessonCourseId = challenge.lesson?.unit?.courseId
+	if (!lessonCourseId) throw new Error('Lesson course not found')
+
+	const currentCourseProgress = await db.query.userCourseProgress.findFirst({
+		where: and(
+			eq(userCourseProgress.userId, userId),
+			eq(userCourseProgress.courseId, lessonCourseId)
+		),
+	})
 
 	const existing = await db.query.challengeProgress.findFirst({
 		where: and(
@@ -52,7 +72,7 @@ export const upsertChallengeProgress = async (challengeId: number) => {
 
 	// Calculate point value
 	const pointsToAdd = challenge.type === 'WATCH' ? 10 : 1
-	const heartsToAdd = Math.min((currentUserProgress.hearts ?? 5) + 1, 5)
+	const heartsToAdd = Math.min((currentCourseProgress?.hearts ?? 5) + 1, 5)
 
 	// 🎯 PRACTICE MODE (replay)
 	if (isPractice) {
@@ -62,27 +82,23 @@ export const upsertChallengeProgress = async (challengeId: number) => {
 			.where(eq(challengeProgress.id, existing.id))
 
 		// update per-course stats
-		if (currentUserProgress.activeCourseId) {
-			await db
-				.insert(userCourseProgress)
-				.values({
-					userId,
-					courseId: currentUserProgress.activeCourseId,
-					points: pointsToAdd,
-					hearts: heartsToAdd,
-					// activeLessonId: lessonId,
+		await db
+			.insert(userCourseProgress)
+			.values({
+				userId,
+				courseId: lessonCourseId,
+				points: pointsToAdd,
+				hearts: heartsToAdd,
+				lastSeen: new Date(),
+			})
+			.onConflictDoUpdate({
+				target: [userCourseProgress.userId, userCourseProgress.courseId],
+				set: {
+					points: sql`${userCourseProgress.points} + ${pointsToAdd}`,
+					hearts: sql`LEAST(${userCourseProgress.hearts} + 1, 5)`,
 					lastSeen: new Date(),
-				})
-				.onConflictDoUpdate({
-					target: [userCourseProgress.userId, userCourseProgress.courseId],
-					set: {
-						points: sql`${userCourseProgress.points} + ${pointsToAdd}`,
-						hearts: sql`LEAST(${userCourseProgress.hearts} + 1, 5)`,
-						// activeLessonId: lessonId,
-						lastSeen: new Date(),
-					},
-				})
-		}
+				},
+			})
 
 		revalidateAll(lessonId)
 		return
@@ -95,30 +111,32 @@ export const upsertChallengeProgress = async (challengeId: number) => {
 		completed: true,
 	})
 
-	if (currentUserProgress.activeCourseId) {
-		await db
-			.insert(userCourseProgress)
-			.values({
-				userId,
-				courseId: currentUserProgress.activeCourseId,
-				points: pointsToAdd,
+	await db
+		.insert(userCourseProgress)
+		.values({
+			userId,
+			courseId: lessonCourseId,
+			points: pointsToAdd,
+			activeLessonId: lessonId,
+			lastSeen: new Date(),
+		})
+		.onConflictDoUpdate({
+			target: [userCourseProgress.userId, userCourseProgress.courseId],
+			set: {
+				points: sql`${userCourseProgress.points} + ${pointsToAdd}`,
 				activeLessonId: lessonId,
 				lastSeen: new Date(),
-			})
-			.onConflictDoUpdate({
-				target: [userCourseProgress.userId, userCourseProgress.courseId],
-				set: {
-					points: sql`${userCourseProgress.points} + ${pointsToAdd}`,
-					activeLessonId: lessonId,
-					lastSeen: new Date(),
-				},
-			})
-	}
+			},
+		})
 
 	// ✅ Optionally keep lastSeen fresh globally
 	await db
 		.update(userProgress)
-		.set({ lastSeen: new Date() })
+		.set({
+			lastSeen: new Date(),
+			activeCourseId: lessonCourseId,
+			activeLessonId: lessonId,
+		})
 		.where(eq(userProgress.userId, userId))
 
 	// 🧩 Check if entire lesson completed

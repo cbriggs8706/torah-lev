@@ -2,15 +2,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { useMemo, useState } from 'react'
-import { Button } from '@/components/ui/button'
-import {
-	Select,
-	SelectTrigger,
-	SelectContent,
-	SelectItem,
-	SelectValue,
-} from '@/components/ui/select'
+import { useMemo } from 'react'
 import {
 	PenLine,
 	Shield,
@@ -49,10 +41,10 @@ const binyanim = [
 
 export default function HebrewVerbList({
 	allVerbs,
-	currentLesson,
+	availableRoutes,
 }: {
 	allVerbs: HebrewVerb[]
-	currentLesson: number | null
+	availableRoutes: Record<string, string[]>
 }) {
 	const sortedVerbs = useMemo(
 		() => [...allVerbs].sort((a, b) => (a.lesson ?? 9999) - (b.lesson ?? 9999)),
@@ -63,15 +55,10 @@ export default function HebrewVerbList({
 		<div className="space-y-6">
 			<div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
 				{sortedVerbs.map((verb, i) => {
-					const verbLocked =
-						currentLesson !== null && verb.lesson > currentLesson
-
 					return (
 						<div
 							key={i}
-							className={`relative rounded-lg border overflow-hidden shadow hover:shadow-md transition bg-white ${
-								verbLocked ? 'opacity-50 pointer-events-none' : ''
-							}`}
+							className="relative rounded-lg border overflow-hidden shadow hover:shadow-md transition bg-white"
 						>
 							{/* Lesson badge */}
 							{verb.lesson && (
@@ -133,22 +120,9 @@ export default function HebrewVerbList({
 								{/* Binyan buttons */}
 								<div className="mt-4 flex flex-wrap gap-2 justify-center">
 									{binyanim.map(({ name, label, Icon, color }) => {
-										// get this verb’s binyan lesson number
-										const binyanLesson = verb[name as keyof HebrewVerb] as
-											| number
-											| null
-
-										// available only if number exists and <= currentLesson
-										const isUnlocked =
-											binyanLesson !== null &&
-											currentLesson !== null &&
-											binyanLesson <= currentLesson
-
-										// locked if number > currentLesson
-										const isLocked =
-											binyanLesson !== null &&
-											currentLesson !== null &&
-											binyanLesson > currentLesson
+										const isUnlocked = (
+											availableRoutes[String(verb.strongs)] ?? []
+										).includes(name)
 
 										return (
 											<div key={name} className="flex flex-col items-center">
@@ -172,11 +146,7 @@ export default function HebrewVerbList({
 													</Link>
 												) : (
 													<div
-														className={`flex flex-col items-center ${
-															isLocked
-																? 'opacity-40 grayscale cursor-not-allowed'
-																: 'opacity-30 cursor-not-allowed'
-														}`}
+														className="flex flex-col items-center opacity-30 cursor-not-allowed"
 													>
 														<div
 															className={`w-10 h-10 rounded-full flex items-center justify-center ${color}`}
