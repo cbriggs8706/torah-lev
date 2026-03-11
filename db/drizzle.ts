@@ -1,6 +1,7 @@
-import { neon } from '@neondatabase/serverless'
-import { drizzle } from 'drizzle-orm/neon-http'
+import { drizzle } from 'drizzle-orm/node-postgres'
+import { Pool } from 'pg'
 
+import { getDatabaseConfig } from './connection'
 import * as schema from './schema'
 
 if (typeof window !== 'undefined') {
@@ -9,8 +10,14 @@ if (typeof window !== 'undefined') {
 	)
 }
 
-const sql = neon(process.env.DATABASE_URL!)
-// @ts-ignore
-const db = drizzle(sql, { schema })
+export const pool = new Pool({
+	...getDatabaseConfig(),
+	ssl: { rejectUnauthorized: false },
+	allowExitOnIdle: true,
+	idleTimeoutMillis: 5_000,
+	max: 1,
+})
+
+const db = drizzle(pool, { schema })
 
 export default db

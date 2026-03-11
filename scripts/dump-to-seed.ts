@@ -2,12 +2,8 @@
 
 import 'dotenv/config'
 import { writeFile } from 'fs/promises'
-import { drizzle } from 'drizzle-orm/neon-http'
-import { neon } from '@neondatabase/serverless'
 import * as schema from '../db/schema'
-
-const sql = neon(process.env.DATABASE_URL!) as any
-const db = drizzle(sql, { schema })
+import db from '../db/drizzle'
 
 function formatAsTsArray(data: any[]) {
 	return JSON.stringify(data, null, 2)
@@ -31,11 +27,8 @@ async function main() {
 	}
 
 	let output = `import 'dotenv/config'\n`
-	output += `import { drizzle } from 'drizzle-orm/neon-http'\n`
-	output += `import { neon } from '@neondatabase/serverless'\n`
 	output += `import * as schema from '../db/schema'\n\n`
-	output += `const sql = neon(process.env.DATABASE_URL!) as any\n`
-	output += `const db = drizzle(sql, { schema })\n\n`
+	output += `import db from '../db/drizzle'\n\n`
 	output += `const main = async () => {\n`
 	output += `  try {\n`
 	output += `    console.log('Seeding database')\n\n`

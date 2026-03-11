@@ -2,13 +2,9 @@
 
 // import fs from 'fs/promises'
 
-// import { neon } from '@neondatabase/serverless'
-// import { drizzle } from 'drizzle-orm/neon-http'
+// import db from '../db/drizzle'
 // import * as schema from '../db/schema'
 // import 'dotenv/config'
-
-// const sql = neon(process.env.DATABASE_URL!) as any // cast to avoid type conflict
-// const db = drizzle(sql, { schema })
 
 // async function dump() {
 // 	console.log('Dumping database to seed file...')
