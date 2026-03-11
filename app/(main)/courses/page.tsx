@@ -2,14 +2,13 @@ export const dynamic = 'force-dynamic'
 import { unstable_noStore as noStore } from 'next/cache'
 import { getCourses, getUserProgress } from '@/db/queries'
 import { List } from './list'
-import { getServerSession } from 'next-auth'
-import { options } from '@/app/api/auth/[...nextauth]/options'
+import { getSession } from '@/lib/auth'
 
 const CoursesPage = async () => {
 	noStore()
 
 	// 🧠 Session may be null for guests
-	const session = await getServerSession(options)
+	const session = await getSession()
 	const userId = session?.user?.id || null
 
 	// 🧩 Fetch courses (always safe)

@@ -1,6 +1,5 @@
 import { redirect } from 'next/navigation'
-import { getServerSession } from 'next-auth'
-import { options } from '@/app/api/auth/[...nextauth]/options'
+import { getSession } from '@/lib/auth'
 // import { Promo } from '@/components/promo'
 import { Quests } from '@/components/quests'
 import { FeedWrapper } from '@/components/feed-wrapper'
@@ -36,7 +35,7 @@ interface GuestUserProgress {
 }
 
 const EnglishLearnPage = async () => {
-	const session = await getServerSession(options)
+	const session = await getSession()
 	const cookieStore = await cookies()
 
 	// ✅ Guest cookie support

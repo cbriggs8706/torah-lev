@@ -1,6 +1,5 @@
 import Image from 'next/image'
-import { getServerSession } from 'next-auth'
-import { options } from '@/app/api/auth/[...nextauth]/options'
+import { getSession } from '@/lib/auth'
 import { FeedWrapper } from '@/components/feed-wrapper'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 import {
@@ -24,7 +23,7 @@ const allFieldsGreek: (keyof GreekVocab)[] = [
 ]
 
 export default async function FlashcardPage() {
-	const session = await getServerSession(options)
+	const session = await getSession()
 
 	const [userProgress, userSubscription, courseProgress] = await Promise.all([
 		getUserProgress(),

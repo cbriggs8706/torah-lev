@@ -1,7 +1,6 @@
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
-import { getServerSession } from 'next-auth'
-import { options } from '@/app/api/auth/[...nextauth]/options'
+import { getSession } from '@/lib/auth'
 
 import {
 	getCourseProgress,
@@ -32,7 +31,7 @@ interface GuestUserProgress {
 }
 
 const HebrewLearnPage = async () => {
-	const session = await getServerSession(options)
+	const session = await getSession()
 	const cookieStore = await cookies()
 
 	// ✅ Guest cookie support

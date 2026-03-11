@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
-import { useSession } from 'next-auth/react'
+import { useSession } from '@/components/providers/session-provider'
 
 /**
  * Unified user identification hook.

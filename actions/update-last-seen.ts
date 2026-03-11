@@ -1,14 +1,13 @@
 'use server'
 
-import { getServerSession } from 'next-auth'
-import { options } from '@/app/api/auth/[...nextauth]/options'
+import { getSession } from '@/lib/auth'
 import { users, userProgress, tribes } from '@/db/schema'
 import { eq, sql } from 'drizzle-orm'
 import db from '@/db/drizzle'
 
 export const updateLastSeen = async () => {
 	// 1️⃣ Get session (Google/Credentials login)
-	const session = await getServerSession(options)
+	const session = await getSession()
 	const userId = session?.user?.id
 	const email = session?.user?.email
 	const name = session?.user?.name

@@ -1,13 +1,12 @@
 import Image from 'next/image'
-import { getServerSession } from 'next-auth'
-import { options } from '@/app/api/auth/[...nextauth]/options'
+import { getSession } from '@/lib/auth'
 import { FeedWrapper } from '@/components/feed-wrapper'
 import { getUserProgress, getUserSubscription } from '@/db/queries'
 import { numbers } from '@/lib/numbers'
 import EnglishNumberQuiz from '@/components/english/english-number-quiz'
 
 export default async function EnglishNumberQuizPage() {
-	const session = await getServerSession(options)
+	const session = await getSession()
 	const userId = session?.user?.id ?? null
 
 	// Fetch only if logged in

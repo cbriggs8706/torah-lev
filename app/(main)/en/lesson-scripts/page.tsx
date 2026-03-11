@@ -1,6 +1,5 @@
 import Image from 'next/image'
-import { getServerSession } from 'next-auth'
-import { options } from '@/app/api/auth/[...nextauth]/options'
+import { getSession } from '@/lib/auth'
 import { FeedWrapper } from '@/components/feed-wrapper'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 import {
@@ -14,7 +13,7 @@ import { FileX } from 'lucide-react'
 
 const EnglishLessonScriptsPage = async () => {
 	// 🧠 Session may be null for guests
-	const session = await getServerSession(options)
+	const session = await getSession()
 
 	// Fetch data safely (works for guests too)
 	const [userProgress, userSubscription, courseProgress] = await Promise.all([

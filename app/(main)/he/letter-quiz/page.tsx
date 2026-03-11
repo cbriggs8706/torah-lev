@@ -1,6 +1,5 @@
 import Image from 'next/image'
-import { getServerSession } from 'next-auth'
-import { options } from '@/app/api/auth/[...nextauth]/options'
+import { getSession } from '@/lib/auth'
 import { FeedWrapper } from '@/components/feed-wrapper'
 import { getUserProgress, getUserSubscription } from '@/db/queries'
 import { hebrewLetters } from '@/lib/data/hebrew/hebrew-letters'
@@ -9,7 +8,7 @@ import { DismissibleAlert } from '@/components/dismissible-alert'
 import HebrewLetterQuiz from '@/components/hebrew/hebrew-letter-quiz'
 
 export default async function HebrewLetterQuizPage() {
-	const session = await getServerSession(options)
+	const session = await getSession()
 	const userId = session?.user?.id ?? null
 
 	// ✅ Fetch user data only if signed in

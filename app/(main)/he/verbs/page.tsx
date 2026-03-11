@@ -1,13 +1,12 @@
 import Image from 'next/image'
-import { getServerSession } from 'next-auth'
-import { options } from '@/app/api/auth/[...nextauth]/options'
+import { getSession } from '@/lib/auth'
 import { FeedWrapper } from '@/components/feed-wrapper'
 import { getUserProgress } from '@/db/queries'
 import HebrewVerbList from '@/components/hebrew/hebrew-verb-list'
 import allVerbs from '@/lib/data/hebrew/verbs/index.json'
 
 export default async function HebrewVerbsPage() {
-	const session = await getServerSession(options)
+	const session = await getSession()
 	const userId = session?.user?.id ?? null
 
 	// ✅ Only fetch progress if logged in

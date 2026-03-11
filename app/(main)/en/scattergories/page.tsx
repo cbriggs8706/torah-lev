@@ -1,12 +1,11 @@
-import { getServerSession } from 'next-auth'
-import { options } from '@/app/api/auth/[...nextauth]/options'
+import { getSession } from '@/lib/auth'
 
 import { FeedWrapper } from '@/components/feed-wrapper'
 import setsData from '@/lib/data/english/scattergories.json'
 import ScattergoriesHub from '@/components/english/english-scattergories'
 
 export default async function ScattergoriesPage() {
-	const session = await getServerSession(options)
+	const session = await getSession()
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">

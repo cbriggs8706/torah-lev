@@ -1,7 +1,6 @@
 import Image from 'next/image'
 import { requireAuth } from '@/lib/require-auth'
-import { getServerSession } from 'next-auth'
-import { options } from '@/app/api/auth/[...nextauth]/options'
+import { getSession } from '@/lib/auth'
 import { FeedWrapper } from '@/components/feed-wrapper'
 import { UserProgress } from '@/components/user-progress'
 import { StickyWrapper } from '@/components/sticky-wrapper'
@@ -11,7 +10,7 @@ import HebrewMonthCalendar from '@/components/hebrew/hebrew-month-calendar'
 import { redirect } from 'next/navigation'
 
 const HebrewCalendarPage = async () => {
-	const session = await getServerSession(options)
+	const session = await getSession()
 
 	// Get user progress (returns a valid guest object if not signed in)
 	const [userProgress, userSubscription] = await Promise.all([

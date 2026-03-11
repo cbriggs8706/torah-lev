@@ -1,4 +1,3 @@
-// app/api/auth/[...nextauth]/options.ts
 import type { NextAuthOptions } from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
 import CredentialsProvider from 'next-auth/providers/credentials'
@@ -13,6 +12,7 @@ export const options: NextAuthOptions = {
 		GoogleProvider({
 			clientId: process.env.GOOGLE_CLIENT_ID!,
 			clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+			allowDangerousEmailAccountLinking: true,
 		}),
 		CredentialsProvider({
 			name: 'Credentials',
@@ -44,14 +44,12 @@ export const options: NextAuthOptions = {
 
 	callbacks: {
 		async jwt({ token, user, account }) {
-			// Case 1️⃣: OAuth (Google) — ensure local DB id exists
 			if (account?.provider === 'google' && user?.email) {
 				let dbUser = await db.query.users.findFirst({
 					where: eq(users.email, user.email),
 				})
 
 				if (!dbUser) {
-					// create new user record in Drizzle
 					await syncUserRecords({
 						newUserId: crypto.randomUUID(),
 						email: user.email,
@@ -67,7 +65,6 @@ export const options: NextAuthOptions = {
 				token.id = dbUser?.id
 			}
 
-			// Case 2️⃣: Credentials — we already have user.id
 			if (user?.id) token.id = user.id
 
 			return token
@@ -89,9 +86,15 @@ export const options: NextAuthOptions = {
 					image: user.image || undefined,
 				})
 			} catch (err) {
-				console.error('❌ Error syncing user records:', err)
+				console.error('Error syncing user records:', err)
 			}
 			return true
+		},
+
+		async redirect({ url, baseUrl }) {
+			if (url.startsWith('/')) return `${baseUrl}${url}`
+			if (url.startsWith(baseUrl)) return url
+			return `${baseUrl}/courses`
 		},
 	},
 

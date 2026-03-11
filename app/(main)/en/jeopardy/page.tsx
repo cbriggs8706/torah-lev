@@ -1,6 +1,5 @@
 import Image from 'next/image'
-import { getServerSession } from 'next-auth'
-import { options } from '@/app/api/auth/[...nextauth]/options'
+import { getSession } from '@/lib/auth'
 import { FeedWrapper } from '@/components/feed-wrapper'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 import { getUserProgress, getUserSubscription } from '@/db/queries'
@@ -9,7 +8,7 @@ import JeopardyBoard from '@/components/english/english-jeopardy'
 
 const EnglishJeopardyPage = async () => {
 	// Session may be null for guests
-	const session = await getServerSession(options)
+	const session = await getSession()
 
 	const [userProgress, userSubscription] = await Promise.all([
 		getUserProgress(),

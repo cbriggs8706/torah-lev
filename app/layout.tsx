@@ -22,7 +22,7 @@ import './globals.css'
 import { Analytics } from '@vercel/analytics/next'
 import { updateLastSeen } from '@/actions/update-last-seen'
 import Script from 'next/script'
-import NextAuthProvider from '@/components/providers/session-provider'
+import SessionProvider from '@/components/providers/session-provider'
 import { getServerSession } from 'next-auth'
 import { options } from './api/auth/[...nextauth]/options'
 
@@ -104,7 +104,7 @@ export default async function RootLayout({
 		await updateLastSeen()
 	}
 	return (
-		<NextAuthProvider>
+		<SessionProvider>
 			<html lang="en">
 				<head>
 					<Script
@@ -148,6 +148,6 @@ export default async function RootLayout({
 					{children}
 				</body>
 			</html>
-		</NextAuthProvider>
+		</SessionProvider>
 	)
 }

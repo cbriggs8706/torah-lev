@@ -1,7 +1,6 @@
 import { redirect } from 'next/navigation'
 import { cookies } from 'next/headers'
-import { getServerSession } from 'next-auth'
-import { options } from '@/app/api/auth/[...nextauth]/options'
+import { getSession } from '@/lib/auth'
 import {
 	getCourseProgress,
 	getLesson,
@@ -19,7 +18,7 @@ type Props = {
 const LessonIdPage = async ({ params }: Props) => {
 	const { lessonId } = await params
 	// 🔹 Allow both signed-in users and guests
-	const session = await getServerSession(options)
+	const session = await getSession()
 	const cookieStore = await cookies()
 	const guestId = cookieStore.get('guestId')?.value ?? null
 

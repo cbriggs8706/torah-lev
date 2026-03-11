@@ -1,4 +1,3 @@
-// lib/auth.ts
 import { cookies } from 'next/headers'
 import { getServerSession } from 'next-auth'
 import { options } from '@/app/api/auth/[...nextauth]/options'
@@ -15,8 +14,8 @@ export const getSession = () => getServerSession(options)
  * - Otherwise null
  */
 export const getUserId = async (): Promise<string | null> => {
-	const session = await getServerSession(options)
-	const cookieStore = cookies()
+	const session = await getSession()
+	const cookieStore = await cookies()
 
 	// ✅ 1️⃣ Authenticated user
 	if (session?.user?.id) return session.user.id
@@ -43,7 +42,7 @@ export const getUserOrThrow = async (): Promise<string> => {
  * Logged-in users track this in the DB.
  */
 export const getActiveCourseId = async (): Promise<number | null> => {
-	const cookieStore = cookies()
+	const cookieStore = await cookies()
 	const guestCourseId = cookieStore.get('guestActiveCourseId')?.value
 	return guestCourseId ? Number(guestCourseId) : null
 }
@@ -52,10 +51,10 @@ export const getActiveCourseId = async (): Promise<number | null> => {
  * Quick boolean for guest state.
  */
 export const isGuestUser = async (): Promise<boolean> => {
-	const cookieStore = cookies()
+	const cookieStore = await cookies()
 	const guestId = cookieStore.get('guestId')?.value
 	if (guestId?.startsWith('guest')) return true
 
-	const session = await getServerSession(options)
+	const session = await getSession()
 	return !session?.user?.id
 }

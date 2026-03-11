@@ -1,6 +1,5 @@
 import { redirect } from 'next/navigation'
-import { getServerSession } from 'next-auth'
-import { options } from '@/app/api/auth/[...nextauth]/options'
+import { getSession } from '@/lib/auth'
 import { FeedWrapper } from '@/components/feed-wrapper'
 import {
 	getTopTwentyHebrewUsersByCourse,
@@ -10,7 +9,7 @@ import {
 import HebrewLeaderboard from '@/components/hebrew/hebrew-leaderboard'
 
 export default async function LeaderboardPage() {
-	// const session = await getServerSession(options)
+	// const session = await getSession()
 	// if (!session?.user) redirect('/') // or your landing page
 	const [userProgress, userSubscription] = await Promise.all([
 		getUserProgress(),

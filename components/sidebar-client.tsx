@@ -8,7 +8,7 @@ import { SidebarItem } from './sidebar-item'
 import { UserProgress } from './user-progress'
 import { HebrewClock } from './hebrew/hebrew-clock'
 import { Button } from '@/components/ui/button'
-import { signOut, useSession } from 'next-auth/react'
+import { signOut, useSession } from '@/components/providers/session-provider'
 
 type Props = {
 	className?: string

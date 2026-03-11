@@ -1,12 +1,11 @@
 import Image from 'next/image'
-import { getServerSession } from 'next-auth'
-import { options } from '@/app/api/auth/[...nextauth]/options'
+import { getSession } from '@/lib/auth'
 import { FeedWrapper } from '@/components/feed-wrapper'
 import { getAllEnglishStories, getUserProgress } from '@/db/queries'
 import StoryList from '@/components/english/english-story-list'
 
 export default async function EnglishStoriesPage() {
-	const session = await getServerSession(options)
+	const session = await getSession()
 	const userId = session?.user?.id ?? null
 
 	// Fetch user data only if signed in

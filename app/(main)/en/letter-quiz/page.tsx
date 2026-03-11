@@ -1,13 +1,12 @@
 import Image from 'next/image'
-import { getServerSession } from 'next-auth'
-import { options } from '@/app/api/auth/[...nextauth]/options'
+import { getSession } from '@/lib/auth'
 import { FeedWrapper } from '@/components/feed-wrapper'
 import { getUserProgress, getUserSubscription } from '@/db/queries'
 import { englishLetters } from '@/lib/data/english/english-letters'
 import EnglishLetterQuiz from '@/components/english/english-letter-quiz'
 
 export default async function EnglishLetterQuizPage() {
-	const session = await getServerSession(options)
+	const session = await getSession()
 	const userId = session?.user?.id ?? null
 
 	// Run queries only if signed in

@@ -1,7 +1,6 @@
 'use server'
 
-import { getServerSession } from 'next-auth'
-import { options } from '@/app/api/auth/[...nextauth]/options'
+import { getSession } from '@/lib/auth'
 import { and, eq, sql } from 'drizzle-orm'
 import { revalidatePath } from 'next/cache'
 
@@ -14,7 +13,6 @@ import {
 	userProgress,
 	userCourseProgress,
 } from '@/db/schema'
-import { getSession } from '@/lib/auth'
 
 export const upsertChallengeProgress = async (challengeId: number) => {
 	console.log('challengeId', challengeId)

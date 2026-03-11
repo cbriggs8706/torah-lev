@@ -1,6 +1,5 @@
 import Image from 'next/image'
-import { getServerSession } from 'next-auth'
-import { options } from '@/app/api/auth/[...nextauth]/options'
+import { getSession } from '@/lib/auth'
 import { FeedWrapper } from '@/components/feed-wrapper'
 import {
 	getAllHebrewLessonScripts,
@@ -12,7 +11,7 @@ import { DismissibleAlert } from '@/components/dismissible-alert'
 import LessonScriptList from '@/components/hebrew/hebrew-lesson-script-list'
 
 export default async function HebrewLessonScriptsPage() {
-	const session = await getServerSession(options)
+	const session = await getSession()
 	const userId = session?.user?.id ?? null
 
 	// ✅ Fetch user-related data only if signed in

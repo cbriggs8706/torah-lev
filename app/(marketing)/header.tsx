@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import { Loader } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { signIn, signOut, useSession } from 'next-auth/react'
+import { signIn, signOut, useSession } from '@/components/providers/session-provider'
 
 export const Header = () => {
 	const { data: session, status } = useSession()

@@ -1,7 +1,6 @@
 'use server'
 import Image from 'next/image'
-import { getServerSession } from 'next-auth'
-import { options } from '@/app/api/auth/[...nextauth]/options'
+import { getSession } from '@/lib/auth'
 import { FeedWrapper } from '@/components/feed-wrapper'
 import {
 	getCourseProgress,
@@ -17,7 +16,7 @@ import { HebrewVocab } from '@/lib/vocab'
 import HebrewSpelling from '@/components/hebrew/hebrew-spelling'
 
 export default async function HebrewSpellingPage() {
-	const session = await getServerSession(options)
+	const session = await getSession()
 	const userId = session?.user?.id ?? null
 
 	// ✅ Only query if signed in

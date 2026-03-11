@@ -1,7 +1,6 @@
 import Image from 'next/image'
 import { redirect } from 'next/navigation'
-import { getServerSession } from 'next-auth'
-import { options } from '@/app/api/auth/[...nextauth]/options'
+import { getSession } from '@/lib/auth'
 import { FeedWrapper } from '@/components/feed-wrapper'
 import { UserProgress } from '@/components/user-progress'
 import { StickyWrapper } from '@/components/sticky-wrapper'
@@ -19,7 +18,7 @@ import db from '@/db/drizzle'
 import { eq } from 'drizzle-orm'
 
 const QuestsPage = async () => {
-	const session = await getServerSession(options)
+	const session = await getSession()
 	if (!session?.user) redirect('/') // or your landing page
 	const userId = await getUserId()
 	if (!userId) redirect('/')

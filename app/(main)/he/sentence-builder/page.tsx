@@ -1,13 +1,12 @@
 import Image from 'next/image'
-import { getServerSession } from 'next-auth'
-import { options } from '@/app/api/auth/[...nextauth]/options'
+import { getSession } from '@/lib/auth'
 import { FeedWrapper } from '@/components/feed-wrapper'
 import { getUserProgress, getUserSubscription } from '@/db/queries'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 import HebrewSentenceBuilder from '@/components/hebrew/hebrew-sentence-builder'
 
 export default async function HebrewSentenceBuilderPage() {
-	const session = await getServerSession(options)
+	const session = await getSession()
 	const userId = session?.user?.id ?? null
 
 	// ✅ Only query for logged-in users

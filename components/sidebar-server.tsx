@@ -1,8 +1,7 @@
 import { getUserProgress, getUserSubscription } from '@/db/queries'
-import { getServerSession } from 'next-auth'
-import { options } from '@/app/api/auth/[...nextauth]/options'
+import { getSession } from '@/lib/auth'
 import SidebarClient from './sidebar-client'
-import { cookies, headers } from 'next/headers'
+import { cookies } from 'next/headers'
 
 export default async function SidebarServer({
 	className,
@@ -11,7 +10,7 @@ export default async function SidebarServer({
 	className?: string
 	onItemClick?: () => void
 }) {
-	const session = await getServerSession(options)
+	const session = await getSession()
 	const userId = session?.user?.id ?? null
 	const cookieStore = await cookies()
 	const guestCourseId = cookieStore.get('guestActiveCourseId')?.value

@@ -1,7 +1,6 @@
 import Image from 'next/image'
 import { redirect } from 'next/navigation'
-import { getServerSession } from 'next-auth'
-import { options } from '@/app/api/auth/[...nextauth]/options'
+import { getSession } from '@/lib/auth'
 // import { Promo } from '@/components/promo'
 import { FeedWrapper } from '@/components/feed-wrapper'
 import { UserProgress } from '@/components/user-progress'
@@ -18,7 +17,7 @@ import { Items } from './items'
 import { Button } from '@/components/ui/button'
 
 const MarketPage = async () => {
-	const session = await getServerSession(options)
+	const session = await getSession()
 	if (!session?.user) redirect('/') // or your landing page
 	const userProgressData = getUserProgressWithTribe()
 	const userSubscriptionData = getUserSubscription()

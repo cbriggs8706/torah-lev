@@ -1,6 +1,5 @@
 import Image from 'next/image'
-import { getServerSession } from 'next-auth'
-import { options } from '@/app/api/auth/[...nextauth]/options'
+import { getSession } from '@/lib/auth'
 import { FeedWrapper } from '@/components/feed-wrapper'
 import {
 	getCourseProgress,
@@ -17,7 +16,7 @@ import { DismissibleAlert } from '@/components/dismissible-alert'
 import { HebrewVocab } from '@/lib/vocab'
 
 export default async function HebrewDictionaryPage() {
-	const session = await getServerSession(options)
+	const session = await getSession()
 	const userId = session?.user?.id ?? null
 
 	// Fetch user data only if signed in

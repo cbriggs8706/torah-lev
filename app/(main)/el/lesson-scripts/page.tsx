@@ -1,6 +1,5 @@
 import Image from 'next/image'
-import { getServerSession } from 'next-auth'
-import { options } from '@/app/api/auth/[...nextauth]/options'
+import { getSession } from '@/lib/auth'
 import { FeedWrapper } from '@/components/feed-wrapper'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 import GreekLessonScriptList from '@/components/greek/greek-lesson-script-list'
@@ -13,7 +12,7 @@ import {
 
 const GreekLessonScriptsPage = async () => {
 	// Session may be null for guests
-	const session = await getServerSession(options)
+	const session = await getSession()
 
 	// Always try to get user data, safe for guests
 	const [userProgress, userSubscription, courseProgress] = await Promise.all([

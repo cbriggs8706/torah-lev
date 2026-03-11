@@ -1,7 +1,6 @@
 import { redirect } from 'next/navigation'
 import { cookies } from 'next/headers'
-import { getServerSession } from 'next-auth'
-import { options } from '@/app/api/auth/[...nextauth]/options'
+import { getSession } from '@/lib/auth'
 import {
 	getCourseProgress,
 	getLesson,
@@ -12,7 +11,7 @@ import { Quiz } from './quiz'
 
 const LessonPage = async () => {
 	// 🔹 Check both session and guest cookies
-	const session = await getServerSession(options)
+	const session = await getSession()
 	const cookieStore = await cookies()
 	const guestId = cookieStore.get('guestId')?.value ?? null
 	const guestCourseId = cookieStore.get('guestActiveCourseId')?.value ?? null
