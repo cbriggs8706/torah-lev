@@ -2,8 +2,8 @@ import { redirect } from 'next/navigation'
 import { isAdmin } from '@/lib/admin'
 import App from './app'
 
-export default function AdminPage() {
-	if (!isAdmin()) {
+export default async function AdminPage() {
+	if (!(await isAdmin())) {
 		redirect('/')
 	}
 

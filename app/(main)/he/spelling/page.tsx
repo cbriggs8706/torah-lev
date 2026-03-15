@@ -7,13 +7,10 @@ import {
 	getUserProgress,
 	getUserSubscription,
 } from '@/db/queries'
-
-import awbHebrewVocab from '@/lib/data/vocab/awbVocab.json'
-import hsHebrewVocab from '@/lib/data/vocab/hsVocab.json'
-import abcHebrewVocab from '@/lib/data/vocab/abcVocab.json'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 import { HebrewVocab } from '@/lib/vocab'
 import HebrewSpelling from '@/components/hebrew/hebrew-spelling'
+import { getHebrewVocabByCourseId } from '@/lib/server/vocab'
 
 export default async function HebrewSpellingPage() {
 	const session = await getSession()
@@ -34,18 +31,9 @@ export default async function HebrewSpellingPage() {
 	const isPro = !!userSubscription?.isActive
 
 	// ✅ Determine vocab source
-	const hebrewData: HebrewVocab[] = (() => {
-		const baseData: HebrewVocab[] =
-			activeCourseId === 6
-				? (awbHebrewVocab as HebrewVocab[])
-				: activeCourseId === 11
-				? (hsHebrewVocab as HebrewVocab[])
-				: activeCourseId === 14
-				? (abcHebrewVocab as HebrewVocab[])
-				: []
-
-		return baseData.filter((w) => w.type?.toLowerCase() === 'word')
-	})()
+	const hebrewData: HebrewVocab[] = (
+		await getHebrewVocabByCourseId(activeCourseId)
+	).filter((w) => w.type?.toLowerCase() === 'word')
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">

@@ -1,9 +1,10 @@
-import { relations } from 'drizzle-orm'
+import { relations, sql } from 'drizzle-orm'
 import { uniqueIndex, index } from 'drizzle-orm/pg-core'
 import {
 	boolean,
 	doublePrecision,
 	integer,
+	jsonb,
 	pgEnum,
 	pgTable,
 	serial,
@@ -872,6 +873,58 @@ export const englishStories = pgTable('english_stories', {
 	category: text('category').notNull().default(''),
 	content: text('content'),
 })
+
+export const vocabEntries = pgTable(
+	'vocab_entries',
+	{
+		id: serial('id').primaryKey(),
+		sourceKey: text('source_key').notNull(),
+		language: varchar('language', { length: 8 }).notNull(),
+		courseId: integer('course_id'),
+		entryId: integer('entry_id').notNull(),
+		lessons: text('lessons').array().notNull().default(sql`'{}'::text[]`),
+		type: text('type'),
+		category: text('category'),
+		eng: text('eng'),
+		engDefinition: text('eng_definition'),
+		partOfSpeech: text('part_of_speech').array(),
+		ipa: text('ipa'),
+		images: text('images').array().notNull().default(sql`'{}'::text[]`),
+		hebNiqqud: text('heb_niqqud'),
+		heb: text('heb'),
+		hebAudio: text('heb_audio'),
+		grk: text('grk'),
+		grkAudio: text('grk_audio'),
+		spa: text('spa'),
+		por: text('por'),
+		engAudio: text('eng_audio'),
+		engTransliteration: text('eng_transliteration'),
+		spaTransliteration: text('spa_transliteration'),
+		porTransliteration: text('por_transliteration'),
+		genderPerson: text('gender_person'),
+		person: text('person'),
+		gender: text('gender'),
+		number: text('number'),
+		dictionaryUrl: text('dictionary_url'),
+		synonyms: text('synonyms').array(),
+		antonyms: text('antonyms').array(),
+		scriptures: text('scriptures').array(),
+		strongs: text('strongs'),
+		introduction: text('introduction'),
+		payload: jsonb('payload').notNull().default({}),
+		createdAt: timestamp('created_at').defaultNow().notNull(),
+		updatedAt: timestamp('updated_at').defaultNow().notNull(),
+	},
+	(table) => ({
+		sourceEntryUnique: uniqueIndex('uniq_vocab_source_entry').on(
+			table.sourceKey,
+			table.entryId
+		),
+		sourceIdx: index('idx_vocab_source_key').on(table.sourceKey),
+		courseIdx: index('idx_vocab_course_id').on(table.courseId),
+		languageIdx: index('idx_vocab_language').on(table.language),
+	})
+)
 
 export const hebrewWords = pgTable('hebrew_words', {
 	id: serial('id').primaryKey(),

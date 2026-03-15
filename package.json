@@ -12,6 +12,8 @@
 		"db:seed": "tsx ./scripts/seed.ts",
 		"db:prod": "tsx ./scripts/prod.ts",
 		"db:migrate:to-supabase": "tsx ./scripts/migrate-neon-to-supabase.ts",
+		"db:syncVocab": "tsx ./scripts/sync-vocab-to-supabase.ts",
+		"storage:uploadVocabMedia": "tsx ./scripts/upload-vocab-media-to-supabase.ts",
 		"db:reset": "tsx ./scripts/reset.ts",
 		"db:dump": "tsx ./scripts/dump-to-seed.ts",
 		"db:seedScript": "tsx ./scripts/seed-script.ts",

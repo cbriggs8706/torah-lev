@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server'
 import db from '@/db/drizzle'
-import awbHebrewVocab from '@/lib/data/vocab/awbVocab.json'
+import { getHebrewVocabBySource } from '@/lib/server/vocab'
+import type { HebrewVocab } from '@/lib/vocab'
+import { resolveVocabMediaUrl } from '@/lib/vocab-media'
 // import awaGreekVocab from '@/lib/data/vocab/greek-vocab.json'
 
 type ChallengeType =
@@ -11,15 +13,7 @@ type ChallengeType =
 	| 'TEXT-AUDIO'
 	| 'TEXT-VISUAL'
 
-interface Word {
-	id: number
-	engTransliteration: string
-	hebNiqqud?: string
-	hebAudio?: string
-	images?: string[]
-	lessons: string[]
-	type: string
-}
+type Word = HebrewVocab
 
 export const POST = async (req: Request) => {
 	const { lessonId, type } = (await req.json()) as {
@@ -38,9 +32,6 @@ export const POST = async (req: Request) => {
 	const awbMatch = lesson.title.match(/AwB\s*(\d+)/i)
 	const awbNumber = awbMatch ? awbMatch[1] : '???'
 	const lessonKey = `awb${awbNumber}`
-
-	const normalizeAudio = (audio?: string) =>
-		audio ? (audio.startsWith('/') ? audio : `/${audio}`) : undefined
 
 	const hasRequiredFields = (word: Word): boolean => {
 		switch (type) {
@@ -67,12 +58,12 @@ export const POST = async (req: Request) => {
 		switch (type) {
 			case 'AUDIO-VISUAL':
 				return {
-					audio: normalizeAudio(word.hebAudio),
+					audio: resolveVocabMediaUrl(word.hebAudio),
 					// image: word.images?.[0],
 				}
 			case 'AUDIO-TEXT':
 				return {
-					audio: normalizeAudio(word.hebAudio),
+					audio: resolveVocabMediaUrl(word.hebAudio),
 					// hebNiqqud: word.hebNiqqud,
 				}
 			case 'VISUAL-AUDIO':
@@ -108,60 +99,62 @@ export const POST = async (req: Request) => {
 		imageSrc?: string
 		audioSrc?: string
 		hebNiqqud?: string
-	} => {
-		const fallbackText = word.engTransliteration ?? '[missing]'
+		} => {
+			const fallbackText = word.engTransliteration ?? '[missing]'
+			const wordType = word.type ?? 'word'
 
-		switch (type) {
-			case 'AUDIO-VISUAL':
-				return {
-					text: fallbackText,
-					type: word.type,
+			switch (type) {
+				case 'AUDIO-VISUAL':
+					return {
+						text: fallbackText,
+						type: wordType,
 					// audioSrc: normalizeAudio(word.hebAudio),
 					imageSrc: word.images?.[0],
 				}
 			case 'TEXT-VISUAL':
-				return {
-					text: fallbackText,
-					type: word.type,
+					return {
+						text: fallbackText,
+						type: wordType,
 					// hebNiqqud: word.hebNiqqud,
 					imageSrc: word.images?.[0],
 				}
 			case 'VISUAL-AUDIO':
-				return {
-					text: fallbackText,
-					type: word.type,
+					return {
+						text: fallbackText,
+						type: wordType,
 					// imageSrc: word.images?.[0],
-					audioSrc: normalizeAudio(word.hebAudio),
+					audioSrc: resolveVocabMediaUrl(word.hebAudio),
 				}
 			case 'TEXT-AUDIO':
-				return {
-					text: fallbackText,
-					type: word.type,
+					return {
+						text: fallbackText,
+						type: wordType,
 					// hebNiqqud: word.hebNiqqud,
-					audioSrc: normalizeAudio(word.hebAudio),
+					audioSrc: resolveVocabMediaUrl(word.hebAudio),
 				}
 			case 'AUDIO-TEXT':
-				return {
-					text: fallbackText,
-					type: word.type,
+					return {
+						text: fallbackText,
+						type: wordType,
 					// audioSrc: normalizeAudio(word.hebAudio),
 					hebNiqqud: word.hebNiqqud,
 				}
 			case 'VISUAL-TEXT':
-				return {
-					text: fallbackText,
-					type: word.type,
+					return {
+						text: fallbackText,
+						type: wordType,
 					// imageSrc: word.images?.[0],
 					hebNiqqud: word.hebNiqqud,
 				}
 			default:
-				return {
-					text: fallbackText,
-					type: word.type,
-				}
+					return {
+						text: fallbackText,
+						type: wordType,
+					}
 		}
 	}
 
+	const awbHebrewVocab = await getHebrewVocabBySource('awb')
 	const lessonWords = awbHebrewVocab.filter(
 		(w) =>
 			w.lessons.map((l) => l.toLowerCase()).includes(lessonKey.toLowerCase()) &&

@@ -7,9 +7,9 @@ import {
 	getUserProgress,
 	getUserSubscription,
 } from '@/db/queries'
-import awaGreekVocab from '@/lib/data/vocab/awaVocab.json'
 import { GreekVocab } from '@/lib/vocab'
 import GreekFlashcards from '@/components/greek/greek-flashcards'
+import { getGreekVocabByCourseId } from '@/lib/server/vocab'
 
 const allFieldsGreek: (keyof GreekVocab)[] = [
 	'grk',
@@ -36,7 +36,7 @@ export default async function FlashcardPage() {
 	const activeCourseId = userProgress?.activeCourseId ?? 12 // ✅ default to Greek
 
 	// Always load the Greek vocab
-	const greekData = awaGreekVocab as GreekVocab[]
+	const greekData: GreekVocab[] = await getGreekVocabByCourseId(activeCourseId)
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">

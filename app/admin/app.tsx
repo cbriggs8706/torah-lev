@@ -48,6 +48,9 @@ import { HebrewStoryCreate } from './he-stories/create'
 import { EnglishLessonScriptList } from './english-lesson-scripts/list'
 import { EnglishLessonScriptCreate } from './english-lesson-scripts/create'
 import { EnglishLessonScriptEdit } from './english-lesson-scripts/edit'
+import { VocabEntryList } from './vocab-entries/list'
+import { VocabEntryCreate } from './vocab-entries/create'
+import { VocabEntryEdit } from './vocab-entries/edit'
 
 const dataProvider = simpleRestProvider('/api')
 
@@ -129,6 +132,14 @@ const App = () => {
 				edit={HebrewStoryEdit}
 				recordRepresentation="text"
 				options={{ label: 'Heb Stories' }}
+			/>
+			<Resource
+				name="vocab-entries"
+				list={VocabEntryList}
+				create={VocabEntryCreate}
+				edit={VocabEntryEdit}
+				recordRepresentation="eng"
+				options={{ label: 'Vocab' }}
 			/>
 			<CustomRoutes>
 				<Route

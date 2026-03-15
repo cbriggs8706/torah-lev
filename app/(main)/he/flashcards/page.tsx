@@ -7,12 +7,8 @@ import {
 	getUserProgress,
 	getUserSubscription,
 } from '@/db/queries'
-
-import awbHebrewVocab from '@/lib/data/vocab/awbVocab.json'
-import hsVocab from '@/lib/data/vocab/hsVocab.json'
-import abcHebrewVocab from '@/lib/data/vocab/abcVocab.json'
-
 import { HebrewVocab } from '@/lib/vocab'
+import { getHebrewVocabByCourseId } from '@/lib/server/vocab'
 import HebrewFlashcards from '@/components/hebrew/hebrew-flashcards'
 
 // ✅ allFields constants
@@ -47,17 +43,9 @@ export default async function HebrewFlashcardPage() {
 	const isPro = !!userSubscription?.isActive
 
 	// ✅ Select vocab set
-	const hebrewData: HebrewVocab[] =
-		activeCourseId === 6
-			? (awbHebrewVocab as HebrewVocab[])
-			: activeCourseId === 11
-			? (hsVocab as HebrewVocab[])
-			: activeCourseId === 14
-			? (abcHebrewVocab as HebrewVocab[])
-			: []
+	const hebrewData: HebrewVocab[] = await getHebrewVocabByCourseId(activeCourseId)
 
-	const displayTitle =
-		activeCourseId === 6 || activeCourseId === 11 || activeCourseId === 14
+	const displayTitle = activeCourseId === 6 || activeCourseId === 11 || activeCourseId === 14
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">

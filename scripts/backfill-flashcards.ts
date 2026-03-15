@@ -1,10 +1,7 @@
 import 'dotenv/config'
 import db from '@/db/drizzle'
 import { flashcardUserState, users } from '@/db/schema'
-
-import awbHebrewVocab from '@/lib/data/vocab/awbVocab.json'
-import hsVocab from '@/lib/data/vocab/hsVocab.json'
-import abcHebrewVocab from '@/lib/data/vocab/abcVocab.json'
+import { getHebrewVocabBySource } from '@/lib/server/vocab'
 import type { HebrewVocab } from '@/lib/vocab'
 
 type FlashcardSeed = {
@@ -12,12 +9,6 @@ type FlashcardSeed = {
 	courseId: number
 	language: string
 }
-
-const HEBREW_SETS: { courseId: number; data: HebrewVocab[] }[] = [
-	{ courseId: 6, data: awbHebrewVocab as HebrewVocab[] },
-	{ courseId: 11, data: hsVocab as HebrewVocab[] },
-	{ courseId: 14, data: abcHebrewVocab as HebrewVocab[] },
-]
 
 function chunk<T>(items: T[], size: number): T[][] {
 	const chunks: T[][] = []
@@ -27,11 +18,11 @@ function chunk<T>(items: T[], size: number): T[][] {
 	return chunks
 }
 
-function collectSeeds(): FlashcardSeed[] {
+function collectSeeds(sets: { courseId: number; data: HebrewVocab[] }[]) {
 	const seen = new Set<string>()
 	const seeds: FlashcardSeed[] = []
 
-	for (const set of HEBREW_SETS) {
+	for (const set of sets) {
 		for (const card of set.data) {
 			if (card.id == null) continue
 			const key = `${set.courseId}:${card.id}:he`
@@ -45,7 +36,13 @@ function collectSeeds(): FlashcardSeed[] {
 }
 
 async function main() {
-	const seedCards = collectSeeds()
+	const hebrewSets = [
+		{ courseId: 6, data: await getHebrewVocabBySource('awb') },
+		{ courseId: 11, data: await getHebrewVocabBySource('hs') },
+		{ courseId: 14, data: await getHebrewVocabBySource('abc') },
+	]
+
+	const seedCards = collectSeeds(hebrewSets)
 	if (seedCards.length === 0) {
 		console.log('No flashcard seeds found.')
 		return

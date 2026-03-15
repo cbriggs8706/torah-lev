@@ -7,13 +7,9 @@ import {
 	getUserSubscription,
 } from '@/db/queries'
 import EnglishMatchup from '@/components/english/english-matchup'
-import efwEnglishVocab from '@/lib/data/vocab/efwVocab.json'
-import lrEnglishVocab from '@/lib/data/vocab/lrVocab.json'
-import ewbEnglishVocab from '@/lib/data/vocab/ewbVocab.json'
-import ec1EnglishVocab from '@/lib/data/vocab/ec1Vocab.json'
-import ec2EnglishVocab from '@/lib/data/vocab/ec2Vocab.json'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 import { EnglishVocab } from '@/lib/vocab'
+import { getEnglishVocabByCourseId } from '@/lib/server/vocab'
 
 export default async function EnglishMatchupPage() {
 	const session = await getSession()
@@ -48,18 +44,9 @@ export default async function EnglishMatchupPage() {
 	const currentLesson = match ? parseInt(match[1], 10) : undefined
 
 	// Select proper vocab list
-	const englishData: EnglishVocab[] =
-		activeCourseId === 16
-			? (efwEnglishVocab as EnglishVocab[])
-			: activeCourseId === 13
-			? (ewbEnglishVocab as EnglishVocab[])
-			: activeCourseId === 17
-			? (lrEnglishVocab as EnglishVocab[])
-			: activeCourseId === 3
-			? (ec1EnglishVocab as EnglishVocab[])
-			: activeCourseId === 4
-			? (ec2EnglishVocab as EnglishVocab[])
-			: []
+	const englishData: EnglishVocab[] = await getEnglishVocabByCourseId(
+		activeCourseId
+	)
 
 	const isPro = !!userSubscription?.isActive
 

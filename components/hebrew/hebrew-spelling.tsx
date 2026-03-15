@@ -6,6 +6,7 @@ import { useAudio } from 'react-use'
 
 import HebrewKeyboard from './hebrew-keyboard'
 import { HebrewVocab } from '@/lib/vocab'
+import { resolveVocabMediaUrl } from '@/lib/vocab-media'
 import { hebrewLetters } from '@/lib/data/hebrew/hebrew-letters'
 import { useCelebration } from '@/hooks/useCelebration'
 import { parseLessonKey, useLessonCards } from '@/hooks/useLessonCards'
@@ -167,7 +168,7 @@ export default function HebrewSpelling({
 	])
 
 	const [audioElement, __, controls] = useAudio({
-		src: currentCard?.hebAudio ? `/${currentCard.hebAudio}` : '',
+		src: resolveVocabMediaUrl(currentCard?.hebAudio),
 	})
 
 	function normalizeHebrewInput(input: string): string {
@@ -197,7 +198,11 @@ export default function HebrewSpelling({
 				formatType === 'letter-by-letter' &&
 				currentCard?.hebAudio
 			) {
-				smartPlayAudio(`/${currentCard.hebAudio}`, audioVolume, audioSpeed)
+				smartPlayAudio(
+					resolveVocabMediaUrl(currentCard.hebAudio),
+					audioVolume,
+					audioSpeed
+				)
 			}
 
 			const isLastCard = currentIndex === filteredCards.length - 1
@@ -224,7 +229,7 @@ export default function HebrewSpelling({
 			if (formatType === 'audio' && filteredCards[nextIndex]?.hebAudio) {
 				setTimeout(() => {
 					smartPlayAudio(
-						`/${filteredCards[nextIndex].hebAudio}`,
+						resolveVocabMediaUrl(filteredCards[nextIndex].hebAudio),
 						audioVolume,
 						audioSpeed
 					)
@@ -251,7 +256,7 @@ export default function HebrewSpelling({
 			if (formatType === 'audio' && filteredCards[prevIndex]?.hebAudio) {
 				setTimeout(() => {
 					smartPlayAudio(
-						`/${filteredCards[prevIndex].hebAudio}`,
+						resolveVocabMediaUrl(filteredCards[prevIndex].hebAudio),
 						audioVolume,
 						audioSpeed
 					)
@@ -486,7 +491,7 @@ export default function HebrewSpelling({
 								onClick={(e) => {
 									e.preventDefault()
 									smartPlayAudio(
-										`/${currentCard.hebAudio}`,
+										resolveVocabMediaUrl(currentCard.hebAudio),
 										audioVolume,
 										audioSpeed
 									)

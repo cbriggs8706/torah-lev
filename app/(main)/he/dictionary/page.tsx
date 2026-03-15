@@ -6,14 +6,10 @@ import {
 	getUserProgress,
 	getUserSubscription,
 } from '@/db/queries'
-
-import awbHebrewVocab from '@/lib/data/vocab/awbVocab.json'
-import hsHebrewVocab from '@/lib/data/vocab/hsVocab.json'
-import abcHebrewVocab from '@/lib/data/vocab/abcVocab.json'
-
 import HebrewDictionary from '@/components/hebrew/hebrew-dictionary'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 import { HebrewVocab } from '@/lib/vocab'
+import { getHebrewVocabByCourseId } from '@/lib/server/vocab'
 
 export default async function HebrewDictionaryPage() {
 	const session = await getSession()
@@ -33,14 +29,7 @@ export default async function HebrewDictionaryPage() {
 	const isPro = !!userSubscription?.isActive
 
 	// Choose dataset based on course
-	const hebrewData: HebrewVocab[] =
-		activeCourseId === 6
-			? (awbHebrewVocab as HebrewVocab[])
-			: activeCourseId === 11
-			? (hsHebrewVocab as HebrewVocab[])
-			: activeCourseId === 14
-			? (abcHebrewVocab as HebrewVocab[])
-			: []
+	const hebrewData: HebrewVocab[] = await getHebrewVocabByCourseId(activeCourseId)
 
 	// Filter cleanly
 	const filteredWords = hebrewData.filter(

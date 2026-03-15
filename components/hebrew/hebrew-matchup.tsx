@@ -12,6 +12,7 @@ import {
 } from '@dnd-kit/core'
 import Image from 'next/image'
 import { HebrewVocab } from '@/lib/vocab'
+import { resolveVocabMediaUrl } from '@/lib/vocab-media'
 import { useAudio, useWindowSize } from 'react-use'
 import ReactConfetti from 'react-confetti'
 import FormatFilter, { FormatType } from '../filters/filter-format'
@@ -41,16 +42,7 @@ function parseLessonKey(key: string) {
 
 function toAbsoluteUrl(src: string) {
 	if (!src) return src
-	// If it's already absolute (http/https), keep it
-	if (/^https?:\/\//i.test(src)) return src
-	// Ensure leading slash so it resolves from site root
-	const normalized = src.startsWith('/') ? src : `/${src.replace(/^\/+/, '')}`
-
-	// If you use a basePath or assetPrefix, you can optionally prepend it:
-	// const base = process.env.NEXT_PUBLIC_BASE_PATH ?? ''
-	// return `${base}${normalized}`
-
-	return normalized
+	return resolveVocabMediaUrl(src)
 }
 
 export default function WordMatchGame({

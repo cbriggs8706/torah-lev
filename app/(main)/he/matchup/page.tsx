@@ -7,12 +7,9 @@ import {
 	getUserSubscription,
 } from '@/db/queries'
 import HebrewMatchup from '@/components/hebrew/hebrew-matchup'
-
-import awbHebrewVocab from '@/lib/data/vocab/awbVocab.json'
-import abcHebrewVocab from '@/lib/data/vocab/abcVocab.json'
-import hsHebrewVocab from '@/lib/data/vocab/hsVocab.json'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 import { HebrewVocab } from '@/lib/vocab'
+import { getHebrewVocabByCourseId } from '@/lib/server/vocab'
 
 export default async function HebrewMatchupPage() {
 	const session = await getSession()
@@ -48,14 +45,7 @@ export default async function HebrewMatchupPage() {
 	const currentLesson = match ? parseInt(match[1], 10) : undefined
 
 	// ✅ Select vocab source based on course (guest or user)
-	const hebrewData: HebrewVocab[] =
-		activeCourseId === 6
-			? (awbHebrewVocab as HebrewVocab[])
-			: activeCourseId === 11
-			? (hsHebrewVocab as HebrewVocab[])
-			: activeCourseId === 14
-			? (abcHebrewVocab as HebrewVocab[])
-			: []
+	const hebrewData: HebrewVocab[] = await getHebrewVocabByCourseId(activeCourseId)
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">

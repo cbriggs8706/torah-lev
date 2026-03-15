@@ -8,16 +8,10 @@ import {
 	getUserProgress,
 	getUserSubscription,
 } from '@/db/queries'
-
-import efwEnglishVocab from '@/lib/data/vocab/efwVocab.json'
-import ewbEnglishVocab from '@/lib/data/vocab/ewbVocab.json'
-import lrEnglishVocab from '@/lib/data/vocab/lrVocab.json'
-import ec1EnglishVocab from '@/lib/data/vocab/ec1Vocab.json'
-import ec2EnglishVocab from '@/lib/data/vocab/ec2Vocab.json'
-
 import { DismissibleAlert } from '@/components/dismissible-alert'
 import { EnglishVocab } from '@/lib/vocab'
 import EnglishSpelling from '@/components/english/english-spelling'
+import { getEnglishVocabByCourseId } from '@/lib/server/vocab'
 
 export default async function EnglishSpellingPage() {
 	const session = await getSession()
@@ -38,18 +32,9 @@ export default async function EnglishSpellingPage() {
 	const isPro = !!userSubscription?.isActive
 
 	// Choose vocab data by course
-	const englishData: EnglishVocab[] =
-		activeCourseId === 16
-			? (efwEnglishVocab as EnglishVocab[])
-			: activeCourseId === 13
-			? (ewbEnglishVocab as EnglishVocab[])
-			: activeCourseId === 17
-			? (lrEnglishVocab as EnglishVocab[])
-			: activeCourseId === 3
-			? (ec1EnglishVocab as EnglishVocab[])
-			: activeCourseId === 4
-			? (ec2EnglishVocab as EnglishVocab[])
-			: []
+	const englishData: EnglishVocab[] = await getEnglishVocabByCourseId(
+		activeCourseId
+	)
 
 	const filteredData = englishData.filter((entry) => entry.type === 'word')
 

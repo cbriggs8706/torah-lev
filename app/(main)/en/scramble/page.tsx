@@ -6,15 +6,10 @@ import {
 	getUserProgress,
 	getUserSubscription,
 } from '@/db/queries'
-
-import efwEnglishVocab from '@/lib/data/vocab/efwVocab.json'
-import ewbEnglishVocab from '@/lib/data/vocab/ewbVocab.json'
-import lrEnglishVocab from '@/lib/data/vocab/lrVocab.json'
-import ec1EnglishVocab from '@/lib/data/vocab/ec1Vocab.json'
-import ec2EnglishVocab from '@/lib/data/vocab/ec2Vocab.json'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 import { EnglishVocab } from '@/lib/vocab'
 import EnglishScramble from '@/components/english/english-scramble'
+import { getEnglishVocabByCourseId } from '@/lib/server/vocab'
 
 export default async function EnglishScramblePage() {
 	const session = await getSession()
@@ -34,18 +29,9 @@ export default async function EnglishScramblePage() {
 	const isPro = !!userSubscription?.isActive
 
 	// Choose vocab dataset based on course ID
-	const englishData: EnglishVocab[] =
-		activeCourseId === 16
-			? (efwEnglishVocab as EnglishVocab[])
-			: activeCourseId === 13
-			? (ewbEnglishVocab as EnglishVocab[])
-			: activeCourseId === 17
-			? (lrEnglishVocab as EnglishVocab[])
-			: activeCourseId === 3
-			? (ec1EnglishVocab as EnglishVocab[])
-			: activeCourseId === 4
-			? (ec2EnglishVocab as EnglishVocab[])
-			: []
+	const englishData: EnglishVocab[] = await getEnglishVocabByCourseId(
+		activeCourseId
+	)
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">

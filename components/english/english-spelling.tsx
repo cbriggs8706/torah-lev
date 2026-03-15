@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { useAudio } from 'react-use'
 
 import { EnglishVocab } from '@/lib/vocab'
+import { resolveVocabMediaUrl } from '@/lib/vocab-media'
 import { englishLetters } from '@/lib/data/english/english-letters'
 import { useCelebration } from '@/hooks/useCelebration'
 import { parseLessonKey, useLessonCards } from '@/hooks/useLessonCards'
@@ -167,7 +168,7 @@ export default function EnglishSpelling({
 	])
 
 	const [audioElement, __, controls] = useAudio({
-		src: currentCard?.engAudio ? `/${currentCard.engAudio}` : '',
+		src: resolveVocabMediaUrl(currentCard?.engAudio),
 	})
 
 	function normalizeEnglishInput(input: string): string {
@@ -197,7 +198,11 @@ export default function EnglishSpelling({
 			setCardsCompleted((prev) => prev + 1)
 
 			if (formatType === 'letter-by-letter' && currentCard?.engAudio) {
-				smartPlayAudio(`/${currentCard.engAudio}`, audioVolume, audioSpeed)
+				smartPlayAudio(
+					resolveVocabMediaUrl(currentCard.engAudio),
+					audioVolume,
+					audioSpeed
+				)
 			}
 
 			const isLastCard = currentIndex === filteredCards.length - 1
@@ -224,7 +229,7 @@ export default function EnglishSpelling({
 			if (formatType === 'audio' && filteredCards[nextIndex]?.engAudio) {
 				setTimeout(() => {
 					smartPlayAudio(
-						`/${filteredCards[nextIndex].engAudio}`,
+						resolveVocabMediaUrl(filteredCards[nextIndex].engAudio),
 						audioVolume,
 						audioSpeed
 					)
@@ -251,7 +256,7 @@ export default function EnglishSpelling({
 			if (formatType === 'audio' && filteredCards[prevIndex]?.engAudio) {
 				setTimeout(() => {
 					smartPlayAudio(
-						`/${filteredCards[prevIndex].engAudio}`,
+						resolveVocabMediaUrl(filteredCards[prevIndex].engAudio),
 						audioVolume,
 						audioSpeed
 					)
@@ -490,7 +495,7 @@ export default function EnglishSpelling({
 								onClick={(e) => {
 									e.preventDefault()
 									smartPlayAudio(
-										`/${currentCard.engAudio}`,
+										resolveVocabMediaUrl(currentCard.engAudio),
 										audioVolume,
 										audioSpeed
 									)

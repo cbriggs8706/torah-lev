@@ -6,9 +6,9 @@ import {
 	getUserProgress,
 	getUserSubscription,
 } from '@/db/queries'
-import awbHebrewVocab from '@/lib/data/vocab/awbVocab.json'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 import HebrewScramble from '@/components/hebrew/hebrew-scramble'
+import { getHebrewVocabByCourseId } from '@/lib/server/vocab'
 
 export default async function HebrewScramblePage() {
 	const session = await getSession()
@@ -27,6 +27,7 @@ export default async function HebrewScramblePage() {
 	const courseId = userProgress?.activeCourseId ?? 6 // default to AwB for guests
 	const isPro = !!userSubscription?.isActive
 	const currentLesson = userChallengeData?.activeLesson?.lessonNumber ?? '1'
+	const hebrewData = await getHebrewVocabByCourseId(courseId)
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
@@ -59,7 +60,7 @@ export default async function HebrewScramblePage() {
 					</DismissibleAlert>
 
 					<HebrewScramble
-						data={awbHebrewVocab}
+						data={hebrewData}
 						currentLesson={currentLesson}
 						userId={userId ?? 'guest'}
 					/>

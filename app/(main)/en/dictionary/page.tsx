@@ -5,13 +5,7 @@ import { DismissibleAlert } from '@/components/dismissible-alert'
 import { getUserProgress, getUserSubscription } from '@/db/queries'
 import EnglishDictionary from '@/components/english/english-dictionary'
 import { EnglishVocab } from '@/lib/vocab'
-
-// --- vocab sets ---
-import efwEnglishVocab from '@/lib/data/vocab/efwVocab.json'
-import ewbEnglishVocab from '@/lib/data/vocab/ewbVocab.json'
-import lrEnglishVocab from '@/lib/data/vocab/lrVocab.json'
-import ec1EnglishVocab from '@/lib/data/vocab/ec1Vocab.json'
-import ec2EnglishVocab from '@/lib/data/vocab/ec2Vocab.json'
+import { getEnglishVocabByCourseId } from '@/lib/server/vocab'
 
 const EnglishDictionaryPage = async () => {
 	// Session may be null for guests
@@ -27,21 +21,11 @@ const EnglishDictionaryPage = async () => {
 	const activeCourseId = userProgress?.activeCourseId ?? 3 // ✅ Default to EC1 (or whichever course should show for guests)
 
 	// ✅ Choose correct vocab dataset
-	const englishData: EnglishVocab[] =
-		activeCourseId === 16
-			? (efwEnglishVocab as EnglishVocab[])
-			: activeCourseId === 13
-			? (ewbEnglishVocab as EnglishVocab[])
-			: activeCourseId === 17
-			? (lrEnglishVocab as EnglishVocab[])
-			: activeCourseId === 3
-			? (ec1EnglishVocab as EnglishVocab[])
-			: activeCourseId === 4
-			? (ec2EnglishVocab as EnglishVocab[])
-			: (ec1EnglishVocab as EnglishVocab[]) // ✅ default fallback
+	const englishData: EnglishVocab[] = await getEnglishVocabByCourseId(
+		activeCourseId
+	)
 
 	const filteredData = englishData.filter((entry) => entry.type === 'word')
-	console.log(filteredData[0])
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
 			<FeedWrapper>
