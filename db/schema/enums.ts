@@ -97,3 +97,11 @@ export const type = pgEnum('type', [
 	'TEXT-AUDIO',
 	'TEXT-VISUAL',
 ])
+
+export const mediaKind = pgEnum('media_kind', [
+	'image',
+	'audio',
+	'video',
+	'document',
+	'other',
+])

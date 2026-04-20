@@ -18,7 +18,7 @@ export const user = pgTable(
 		id: uuid().defaultRandom().primaryKey().notNull(),
 		name: varchar({ length: 255 }),
 		email: varchar({ length: 255 }).notNull(),
-		emailVerified: timestamp({ withTimezone: true }),
+		emailVerified: timestamp('emailVerified', { withTimezone: true }),
 		image: text(),
 		username: varchar({ length: 100 }),
 		passwordHash: text('password_hash'),
@@ -31,13 +31,13 @@ export const user = pgTable(
 export const account = pgTable(
 	'account',
 	{
-		userId: uuid().notNull(),
+		userId: uuid('userId').notNull(),
 		type: varchar({ length: 255 }).notNull(),
 		provider: varchar({ length: 255 }).notNull(),
-		providerAccountId: varchar({ length: 255 }).notNull(),
+		providerAccountId: varchar('providerAccountId', { length: 255 }).notNull(),
 		refresh_token: text(),
 		access_token: text(),
-		expires_at: integer().notNull().default(0),
+		expires_at: integer('expires_at').notNull().default(0),
 		token_type: varchar({ length: 255 }),
 		scope: text(),
 		id_token: text(),
@@ -60,8 +60,8 @@ export const account = pgTable(
 export const session = pgTable(
 	'session',
 	{
-		sessionToken: text().primaryKey().notNull(),
-		userId: uuid().notNull(),
+		sessionToken: text('sessionToken').primaryKey().notNull(),
+		userId: uuid('userId').notNull(),
 		expires: timestamp({ withTimezone: true, mode: 'date' }).notNull(),
 	},
 	(table) => [

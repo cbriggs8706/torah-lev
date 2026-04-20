@@ -4,6 +4,7 @@ import {
 	Bot,
 	Pencil,
 	Tally5,
+	FolderKanban,
 	Trophy,
 	Calendar,
 	LifeBuoy,
@@ -135,6 +136,21 @@ export function getTeacherNav(t: TFunction, locale: string) {
 				{
 					title: 'Create Lesson',
 					url: `/${locale}/admin/courses/lessons`,
+				},
+				{
+					title: 'Media Library',
+					url: `/${locale}/admin/media`,
+				},
+			],
+		},
+		{
+			title: 'Media Library',
+			url: `/${locale}/admin/media`,
+			icon: FolderKanban,
+			items: [
+				{
+					title: 'Browse Library',
+					url: `/${locale}/admin/media`,
 				},
 			],
 		},

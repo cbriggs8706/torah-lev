@@ -33,6 +33,7 @@ export const authOptions: NextAuthOptions = {
 		GoogleProvider({
 			clientId: process.env.GOOGLE_CLIENT_ID!,
 			clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+			allowDangerousEmailAccountLinking: true,
 		}),
 
 		CredentialsProvider({
@@ -105,14 +106,30 @@ export const authOptions: NextAuthOptions = {
 		},
 
 		async redirect({ url, baseUrl }) {
-			// Redirect after Google or Credentials login
-			if (url.includes('/api/auth/callback')) {
-				const localeMatch = url.match(/\/([a-z]{2})\//)
-				const locale = localeMatch ? localeMatch[1] : 'en'
-				return `${baseUrl}/${locale}/dashboard`
+			// Preserve locale-aware dashboard redirects while still handling
+			// the relative callback URLs that `signIn()` passes in local dev.
+			if (url.startsWith('/')) {
+				return `${baseUrl}${url}`
 			}
 
-			return url
+			if (url.startsWith(baseUrl)) {
+				return url
+			}
+
+			try {
+				const parsed = new URL(url)
+				if (parsed.pathname.includes('/api/auth/callback')) {
+					const localeMatch = parsed.searchParams
+						.get('callbackUrl')
+						?.match(/\/([a-z]{2})\//)
+					const locale = localeMatch ? localeMatch[1] : 'en'
+					return `${baseUrl}/${locale}/dashboard`
+				}
+			} catch {
+				return baseUrl
+			}
+
+			return baseUrl
 		},
 	},
 }
