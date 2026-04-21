@@ -45,38 +45,41 @@
 }
 
 :root {
-	--radius: 0.625rem;
-	--background: oklch(1 0 0);
-	--foreground: oklch(0.145 0 0);
-	--card: oklch(1 0 0);
-	--card-foreground: oklch(0.145 0 0);
-	--popover: oklch(1 0 0);
-	--popover-foreground: oklch(0.145 0 0);
-	--primary: oklch(0.205 0 0);
-	--primary-foreground: oklch(0.985 0 0);
-	--secondary: oklch(0.97 0 0);
-	--secondary-foreground: oklch(0.205 0 0);
-	--muted: oklch(0.97 0 0);
-	--muted-foreground: oklch(0.556 0 0);
-	--accent: oklch(0.97 0 0);
-	--accent-foreground: oklch(0.205 0 0);
-	--destructive: oklch(0.577 0.245 27.325);
-	--border: oklch(0.922 0 0);
-	--input: oklch(0.922 0 0);
-	--ring: oklch(0.708 0 0);
-	--chart-1: oklch(0.646 0.222 41.116);
-	--chart-2: oklch(0.6 0.118 184.704);
-	--chart-3: oklch(0.398 0.07 227.392);
-	--chart-4: oklch(0.828 0.189 84.429);
-	--chart-5: oklch(0.769 0.188 70.08);
-	--sidebar: oklch(0.985 0 0);
-	--sidebar-foreground: oklch(0.145 0 0);
-	--sidebar-primary: oklch(0.205 0 0);
-	--sidebar-primary-foreground: oklch(0.985 0 0);
-	--sidebar-accent: oklch(0.97 0 0);
-	--sidebar-accent-foreground: oklch(0.205 0 0);
-	--sidebar-border: oklch(0.922 0 0);
-	--sidebar-ring: oklch(0.708 0 0);
+	--radius: 1.25rem;
+	--background: #f6efe7;
+	--foreground: #241816;
+	--card: #fff9f3;
+	--card-foreground: #241816;
+	--popover: #fff9f3;
+	--popover-foreground: #241816;
+	--primary: #8f2230;
+	--primary-foreground: #fff6ef;
+	--secondary: #eadccf;
+	--secondary-foreground: #422126;
+	--muted: #efe3d7;
+	--muted-foreground: #7a5a56;
+	--accent: #f2d8d5;
+	--accent-foreground: #5c1822;
+	--destructive: #a3394c;
+	--border: #dccbbf;
+	--input: #e5d6cb;
+	--ring: #c35b69;
+	--chart-1: #8f2230;
+	--chart-2: #c6a15b;
+	--chart-3: #936d63;
+	--chart-4: #b34755;
+	--chart-5: #d5b889;
+	--sidebar: #fbf5ef;
+	--sidebar-foreground: #241816;
+	--sidebar-primary: #8f2230;
+	--sidebar-primary-foreground: #fff6ef;
+	--sidebar-accent: #f4e1dc;
+	--sidebar-accent-foreground: #5c1822;
+	--sidebar-border: #d9c5b9;
+	--sidebar-ring: #c35b69;
+	--tl-bg-accent: rgba(143, 34, 48, 0.06);
+	--tl-ornament: rgba(143, 34, 48, 0.18);
+	--tl-shadow: 0 18px 60px rgba(63, 22, 31, 0.08);
 	--font-nunito: 'Nunito', sans-serif;
 	--font-frank-ruhl: 'Frank Ruhl Libre', serif;
 	--font-tinos: 'Tinos', serif;
@@ -95,37 +98,40 @@
 }
 
 .dark {
-	--background: oklch(0.145 0 0);
-	--foreground: oklch(0.985 0 0);
-	--card: oklch(0.205 0 0);
-	--card-foreground: oklch(0.985 0 0);
-	--popover: oklch(0.205 0 0);
-	--popover-foreground: oklch(0.985 0 0);
-	--primary: oklch(0.922 0 0);
-	--primary-foreground: oklch(0.205 0 0);
-	--secondary: oklch(0.269 0 0);
-	--secondary-foreground: oklch(0.985 0 0);
-	--muted: oklch(0.269 0 0);
-	--muted-foreground: oklch(0.708 0 0);
-	--accent: oklch(0.269 0 0);
-	--accent-foreground: oklch(0.985 0 0);
-	--destructive: oklch(0.704 0.191 22.216);
-	--border: oklch(1 0 0 / 10%);
-	--input: oklch(1 0 0 / 15%);
-	--ring: oklch(0.556 0 0);
-	--chart-1: oklch(0.488 0.243 264.376);
-	--chart-2: oklch(0.696 0.17 162.48);
-	--chart-3: oklch(0.769 0.188 70.08);
-	--chart-4: oklch(0.627 0.265 303.9);
-	--chart-5: oklch(0.645 0.246 16.439);
-	--sidebar: oklch(0.205 0 0);
-	--sidebar-foreground: oklch(0.985 0 0);
-	--sidebar-primary: oklch(0.488 0.243 264.376);
-	--sidebar-primary-foreground: oklch(0.985 0 0);
-	--sidebar-accent: oklch(0.269 0 0);
-	--sidebar-accent-foreground: oklch(0.985 0 0);
-	--sidebar-border: oklch(1 0 0 / 10%);
-	--sidebar-ring: oklch(0.556 0 0);
+	--background: #170608;
+	--foreground: #f7e8de;
+	--card: #22090c;
+	--card-foreground: #f7e8de;
+	--popover: #22090c;
+	--popover-foreground: #f7e8de;
+	--primary: #8f2230;
+	--primary-foreground: #fff2eb;
+	--secondary: #341015;
+	--secondary-foreground: #f7e8de;
+	--muted: #2d0e13;
+	--muted-foreground: #d8b8b2;
+	--accent: #451117;
+	--accent-foreground: #fff2eb;
+	--destructive: #d15462;
+	--border: #6a2028;
+	--input: #431116;
+	--ring: #d2b06a;
+	--chart-1: #b53749;
+	--chart-2: #d2b06a;
+	--chart-3: #91656a;
+	--chart-4: #6f1f2b;
+	--chart-5: #f7e8de;
+	--sidebar: #1c080b;
+	--sidebar-foreground: #f7e8de;
+	--sidebar-primary: #922332;
+	--sidebar-primary-foreground: #fff2eb;
+	--sidebar-accent: #300c11;
+	--sidebar-accent-foreground: #fff2eb;
+	--sidebar-border: #6a2028;
+	--sidebar-ring: #d2b06a;
+	--tl-bg-accent: rgba(179, 49, 66, 0.1);
+	--tl-ornament: rgba(210, 176, 106, 0.22);
+	--tl-shadow: 0 22px 70px rgba(0, 0, 0, 0.34);
 }
 
 .font-nunito {
@@ -178,7 +184,302 @@
 	* {
 		@apply border-border outline-ring/50;
 	}
+	html {
+		color-scheme: light;
+	}
+	html.dark {
+		color-scheme: dark;
+	}
 	body {
 		@apply bg-background text-foreground;
+		font-family: var(--font-nunito);
+		background-image:
+			radial-gradient(circle at top, var(--tl-bg-accent), transparent 40%),
+			radial-gradient(circle at 20% 20%, color-mix(in srgb, var(--primary) 6%, transparent), transparent 22%),
+			radial-gradient(circle at 80% 0%, color-mix(in srgb, var(--chart-2) 8%, transparent), transparent 18%),
+			linear-gradient(180deg, color-mix(in srgb, var(--background) 90%, white 10%) 0%, var(--background) 100%);
+		background-attachment: fixed;
+		min-height: 100vh;
+	}
+
+	h1,
+	h2,
+	h3,
+	h4 {
+		font-family: var(--font-cardo);
+		letter-spacing: -0.02em;
+	}
+
+	::selection {
+		background: color-mix(in srgb, var(--primary) 24%, transparent);
+		color: var(--foreground);
+	}
+}
+
+@layer utilities {
+	.tl-shell {
+		background:
+			linear-gradient(135deg, color-mix(in srgb, var(--background) 93%, var(--primary) 7%), transparent),
+			var(--background);
+	}
+
+	.tl-panel {
+		background:
+			linear-gradient(180deg, color-mix(in srgb, var(--card) 88%, white 12%), color-mix(in srgb, var(--card) 96%, transparent)),
+			repeating-linear-gradient(
+				90deg,
+				color-mix(in srgb, var(--primary) 1.5%, transparent) 0,
+				color-mix(in srgb, var(--primary) 1.5%, transparent) 1px,
+				transparent 1px,
+				transparent 13px
+			),
+			repeating-linear-gradient(
+				0deg,
+				color-mix(in srgb, var(--chart-2) 1.5%, transparent) 0,
+				color-mix(in srgb, var(--chart-2) 1.5%, transparent) 1px,
+				transparent 1px,
+				transparent 17px
+			),
+			color-mix(in srgb, var(--card) 92%, white 8%);
+		border: 1px solid color-mix(in srgb, var(--border) 85%, transparent);
+		box-shadow: var(--tl-shadow);
+	}
+
+	.tl-panel-dark {
+		background: color-mix(in srgb, var(--card) 96%, black 4%);
+	}
+
+	.tl-kicker {
+		color: var(--muted-foreground);
+		font-family: var(--font-alegreya-sc);
+		font-size: 0.75rem;
+		font-weight: 700;
+		letter-spacing: 0.22em;
+		text-transform: uppercase;
+	}
+
+	.tl-heading {
+		font-family: var(--font-cardo);
+		letter-spacing: -0.03em;
+	}
+
+	.tl-ornament {
+		position: relative;
+	}
+
+	.tl-ornament::before {
+		content: '';
+		position: absolute;
+		left: 0;
+		top: -0.85rem;
+		height: 1px;
+		width: 4.5rem;
+		background: linear-gradient(90deg, var(--tl-ornament), transparent);
+	}
+
+	.tl-scrollwork {
+		position: relative;
+	}
+
+	.tl-scrollwork::before,
+	.tl-scrollwork::after {
+		content: '';
+		position: absolute;
+		border: 1px solid var(--tl-ornament);
+		opacity: 0.7;
+	}
+
+	.tl-scrollwork::before {
+		left: 1rem;
+		top: 1rem;
+		height: 1rem;
+		width: 1rem;
+		border-right: 0;
+		border-bottom: 0;
+		border-radius: 0.7rem 0 0 0;
+	}
+
+	.tl-scrollwork::after {
+		right: 1rem;
+		bottom: 1rem;
+		height: 1rem;
+		width: 1rem;
+		border-left: 0;
+		border-top: 0;
+		border-radius: 0 0 0.7rem 0;
+	}
+
+	.tl-heart-glow {
+		box-shadow: 0 0 0 1px color-mix(in srgb, var(--primary) 18%, transparent),
+			0 10px 24px color-mix(in srgb, var(--primary) 16%, transparent);
+	}
+
+	.tl-divider {
+		background: linear-gradient(90deg, transparent, var(--tl-ornament), transparent);
+	}
+
+	.tl-parchment {
+		background:
+			radial-gradient(circle at 15% 18%, color-mix(in srgb, var(--chart-2) 10%, transparent), transparent 20%),
+			radial-gradient(circle at 80% 16%, color-mix(in srgb, var(--primary) 7%, transparent), transparent 22%),
+			radial-gradient(circle at 50% 100%, color-mix(in srgb, var(--chart-2) 6%, transparent), transparent 24%),
+			repeating-linear-gradient(
+				90deg,
+				color-mix(in srgb, var(--foreground) 1.8%, transparent) 0,
+				color-mix(in srgb, var(--foreground) 1.8%, transparent) 1px,
+				transparent 1px,
+				transparent 15px
+			),
+			repeating-linear-gradient(
+				0deg,
+				color-mix(in srgb, var(--chart-2) 1.2%, transparent) 0,
+				color-mix(in srgb, var(--chart-2) 1.2%, transparent) 1px,
+				transparent 1px,
+				transparent 19px
+			),
+			linear-gradient(180deg, color-mix(in srgb, var(--card) 86%, white 14%), color-mix(in srgb, var(--card) 96%, transparent));
+	}
+
+	.tl-manuscript-panel {
+		position: relative;
+		overflow: hidden;
+	}
+
+	.tl-manuscript-panel::before {
+		content: '';
+		position: absolute;
+		inset: 14px;
+		border: 1px solid color-mix(in srgb, var(--tl-ornament) 78%, transparent);
+		border-radius: calc(var(--radius) + 0.5rem);
+		pointer-events: none;
+	}
+
+	.tl-manuscript-panel::after {
+		content: '✦';
+		position: absolute;
+		top: 18px;
+		right: 22px;
+		color: color-mix(in srgb, var(--primary) 55%, var(--chart-2) 45%);
+		font-size: 0.8rem;
+		opacity: 0.65;
+		pointer-events: none;
+	}
+
+	.tl-scroll-divider {
+		position: relative;
+	}
+
+	.tl-scroll-divider::before {
+		content: '';
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		height: 1px;
+		width: 100%;
+		transform: translate(-50%, -50%);
+		background: linear-gradient(90deg, transparent, var(--tl-ornament), transparent);
+	}
+
+	.tl-scroll-divider::after {
+		content: '✦';
+		position: relative;
+		display: inline-block;
+		padding: 0 0.85rem;
+		background: var(--card);
+		color: color-mix(in srgb, var(--primary) 70%, var(--chart-2) 30%);
+		font-size: 0.8rem;
+	}
+
+	.tl-scroll-stage {
+		position: relative;
+		overflow: hidden;
+		background:
+			radial-gradient(circle at 50% -10%, color-mix(in srgb, var(--primary) 10%, transparent), transparent 30%),
+			linear-gradient(180deg, color-mix(in srgb, var(--card) 82%, white 18%), color-mix(in srgb, var(--card) 95%, transparent)),
+			repeating-linear-gradient(
+				90deg,
+				color-mix(in srgb, var(--foreground) 1.5%, transparent) 0,
+				color-mix(in srgb, var(--foreground) 1.5%, transparent) 1px,
+				transparent 1px,
+				transparent 16px
+			),
+			repeating-linear-gradient(
+				0deg,
+				color-mix(in srgb, var(--chart-2) 1.25%, transparent) 0,
+				color-mix(in srgb, var(--chart-2) 1.25%, transparent) 1px,
+				transparent 1px,
+				transparent 20px
+			);
+		border: 1px solid color-mix(in srgb, var(--border) 88%, transparent);
+		box-shadow: var(--tl-shadow);
+	}
+
+	.tl-scroll-stage::before,
+	.tl-scroll-stage::after {
+		content: '';
+		position: absolute;
+		top: 1.6rem;
+		bottom: 1.6rem;
+		width: 0.8rem;
+		border-radius: 999px;
+		background:
+			linear-gradient(180deg, color-mix(in srgb, var(--chart-2) 58%, white 42%), color-mix(in srgb, var(--primary) 14%, var(--chart-2) 86%), color-mix(in srgb, var(--chart-2) 58%, black 42%));
+		box-shadow:
+			inset 0 0 0 1px color-mix(in srgb, var(--primary) 18%, transparent),
+			0 0 0 1px color-mix(in srgb, var(--primary) 8%, transparent);
+		opacity: 0.95;
+	}
+
+	.tl-scroll-stage::before {
+		left: 0.9rem;
+	}
+
+	.tl-scroll-stage::after {
+		right: 0.9rem;
+	}
+
+	.tl-scroll-body {
+		position: relative;
+		margin-inline: 1.55rem;
+		border-radius: 1.6rem;
+		border: 1px solid color-mix(in srgb, var(--tl-ornament) 70%, transparent);
+		background:
+			linear-gradient(180deg, color-mix(in srgb, var(--card) 78%, white 22%), color-mix(in srgb, var(--card) 96%, transparent)),
+			radial-gradient(circle at 50% 0%, color-mix(in srgb, var(--primary) 6%, transparent), transparent 30%);
+		box-shadow:
+			inset 0 1px 0 color-mix(in srgb, white 45%, transparent),
+			inset 0 0 0 1px color-mix(in srgb, var(--chart-2) 6%, transparent);
+	}
+
+	.tl-scroll-body::before,
+	.tl-scroll-body::after {
+		content: '';
+		position: absolute;
+		left: 2rem;
+		right: 2rem;
+		height: 1px;
+		background: linear-gradient(90deg, transparent, var(--tl-ornament), transparent);
+	}
+
+	.tl-scroll-body::before {
+		top: 1.4rem;
+	}
+
+	.tl-scroll-body::after {
+		bottom: 1.4rem;
+	}
+
+	.tl-scroll-card {
+		background:
+			linear-gradient(180deg, color-mix(in srgb, var(--card) 86%, white 14%), color-mix(in srgb, var(--card) 96%, transparent)),
+			repeating-linear-gradient(
+				90deg,
+				color-mix(in srgb, var(--foreground) 1.1%, transparent) 0,
+				color-mix(in srgb, var(--foreground) 1.1%, transparent) 1px,
+				transparent 1px,
+				transparent 18px
+			);
+		border: 1px solid color-mix(in srgb, var(--border) 86%, transparent);
+		box-shadow: inset 0 1px 0 color-mix(in srgb, white 40%, transparent);
 	}
 }

@@ -23,6 +23,7 @@ export default function RootLayout({
 	return (
 		<html
 			lang="en"
+			suppressHydrationWarning
 			className={[
 				nunito.variable,
 				frank.variable,
@@ -39,7 +40,7 @@ export default function RootLayout({
 				reenieBeanie.variable,
 			].join(' ')}
 		>
-			<body>{children}</body>
+			<body className="min-h-screen antialiased">{children}</body>
 		</html>
 	)
 }

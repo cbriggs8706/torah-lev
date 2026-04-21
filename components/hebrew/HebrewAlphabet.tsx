@@ -410,7 +410,7 @@ export default function HebrewLetterQuiz({ letters, niqqud }: Props) {
 											const audio = new Audio(getAudio(l))
 											audio.play()
 										}}
-										className="text-xl text-sky-600 hover:text-sky-800"
+										className="text-xl text-primary hover:text-primary/80"
 									>
 										🔊
 									</button>
@@ -457,8 +457,8 @@ export default function HebrewLetterQuiz({ letters, niqqud }: Props) {
 										className={cn(
 											'px-4 py-2 rounded-full text-sm font-medium transition-all',
 											active
-												? 'bg-sky-600 text-white shadow-sm'
-												: 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+												? 'bg-primary text-primary-foreground shadow-sm'
+												: 'bg-muted text-foreground hover:bg-accent'
 										)}
 									>
 										{label}
@@ -490,8 +490,8 @@ export default function HebrewLetterQuiz({ letters, niqqud }: Props) {
 										className={cn(
 											'px-4 py-2 rounded-full text-sm font-medium transition-all',
 											active
-												? 'bg-sky-600 text-white shadow-sm'
-												: 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+												? 'bg-primary text-primary-foreground shadow-sm'
+												: 'bg-muted text-foreground hover:bg-accent'
 										)}
 									>
 										{label}
@@ -534,7 +534,7 @@ export default function HebrewLetterQuiz({ letters, niqqud }: Props) {
 										className={cn(
 											'flex flex-col items-center justify-start gap-1 p-3 h-28 w-full min-w-0',
 											'transition-all',
-											isActive && 'ring-2 ring-sky-500'
+											isActive && 'ring-2 ring-primary'
 										)}
 									>
 										{/* LABEL */}
@@ -662,7 +662,7 @@ export default function HebrewLetterQuiz({ letters, niqqud }: Props) {
 					<Button variant="ghost" onClick={reset}>
 						{t('back')}
 					</Button>
-					<div className="text-lg font-medium text-sky-700 dark:text-sky-300">
+					<div className="text-lg font-medium text-primary">
 						{mode === 'name' && t('mode.name')}
 						{mode === 'sound' && t('mode.sound')}
 						{mode === 'syllable' && t('mode.syllable')}
@@ -735,7 +735,7 @@ export default function HebrewLetterQuiz({ letters, niqqud }: Props) {
 
 			<CardContent className="space-y-6 text-center">
 				{/* MODE LABEL */}
-				<div className="text-lg font-medium text-sky-700 dark:text-sky-300">
+				<div className="text-lg font-medium text-primary">
 					{mode === 'name' && t('mode.name')}
 					{mode === 'sound' && t('mode.sound')}
 					{mode === 'syllable' && t('mode.syllable')}
@@ -776,7 +776,7 @@ export default function HebrewLetterQuiz({ letters, niqqud }: Props) {
 						duration={timeLimit}
 						size={140}
 						strokeWidth={10}
-						colors={['#0ea5e9', '#facc15', '#dc2626']}
+						colors={['#8f2230', '#d2b06a', '#dc2626']}
 						colorsTime={[timeLimit, timeLimit / 2, 0]}
 					>
 						{({ remainingTime }) => {

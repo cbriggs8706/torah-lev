@@ -19,15 +19,8 @@ export interface SidebarInputItem {
 	icon: LucideIcon
 }
 
-export interface SidebarLessonItem {
-	name: string
-	url: string
-	icon: LucideIcon
-}
-
 export interface SidebarData {
 	navMain: SidebarItem[]
 	navSecondary: SidebarItem[]
 	input: SidebarInputItem[]
-	lesson: SidebarLessonItem[]
 }

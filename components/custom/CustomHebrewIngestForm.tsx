@@ -299,9 +299,14 @@ export function CustomHebrewIngestForm({ customHebrewBooks }: Props) {
 			onSubmit={handleSubmit}
 			className="mx-auto flex max-w-4xl flex-col gap-4"
 		>
-			<h1 className="text-2xl font-semibold">Custom Hebrew Text Ingestion</h1>
+			<div className="space-y-2">
+				<p className="tl-kicker">Hebrew ingest</p>
+				<h1 className="tl-heading text-4xl font-semibold">
+					Custom Hebrew Text Ingestion
+				</h1>
+			</div>
 
-			<div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+			<div className="grid grid-cols-1 gap-4 rounded-[1.6rem] border border-border/70 bg-background/75 p-4 md:grid-cols-3">
 				<div className="flex flex-col gap-1">
 					<label className="text-sm font-medium">Custom Book</label>
 					<Select
@@ -338,7 +343,7 @@ export function CustomHebrewIngestForm({ customHebrewBooks }: Props) {
 				</div>
 			</div>
 
-			<div className="flex flex-col gap-1">
+			<div className="flex flex-col gap-1 rounded-[1.6rem] border border-border/70 bg-background/75 p-4">
 				<label className="text-sm font-medium">
 					Hebrew Text (paragraphs become verses)
 				</label>
@@ -368,7 +373,7 @@ export function CustomHebrewIngestForm({ customHebrewBooks }: Props) {
 				</div>
 			)}
 
-			<div className="flex items-center gap-3">
+			<div className="flex flex-wrap items-center gap-3">
 				<Button
 					type="button"
 					variant="outline"
@@ -412,7 +417,7 @@ export function CustomHebrewIngestForm({ customHebrewBooks }: Props) {
 			</div>
 
 			{analysis && (
-				<div className="rounded border p-3 text-sm">
+				<div className="rounded-[1.6rem] border border-border/70 bg-background/78 p-4 text-sm">
 					<h2 className="mb-2 font-semibold">Analyze Summary</h2>
 					<div className="flex flex-wrap gap-x-6 gap-y-1 text-xs">
 						<span>Verses: {analysis.verseCount}</span>

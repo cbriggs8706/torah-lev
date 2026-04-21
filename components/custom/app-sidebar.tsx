@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import { Heart } from 'lucide-react'
+import { Heart, Sparkles } from 'lucide-react'
 
 import {
 	Sidebar,
@@ -19,10 +19,10 @@ import { NavUser } from './nav-user'
 import { Session } from 'next-auth'
 import { SidebarLanguageSwitcher } from './sidebar-language-switcher'
 import { useParams } from 'next/navigation'
-import { NavLesson } from './nav-lesson'
 import { useTranslations } from 'next-intl'
 import { buildSidebarData, getTeacherNav } from '@/lib/sidebarData'
 import { Separator } from '../ui/separator'
+import { ThemeToggle } from './theme-toggle'
 
 export function AppSidebar({
 	session,
@@ -38,47 +38,99 @@ export function AppSidebar({
 
 	const teacherNav = getTeacherNav(t, locale as string)
 	return (
-		<Sidebar variant="inset" {...props}>
-			<SidebarHeader>
+		<Sidebar variant="inset" className="p-3" {...props}>
+			<SidebarHeader className="gap-4 rounded-[1.75rem] border border-sidebar-border/80 bg-sidebar/95 p-3 shadow-[0_18px_60px_rgba(63,22,31,0.08)] backdrop-blur-sm">
 				<SidebarMenu>
 					<SidebarMenuItem>
-						<SidebarMenuButton size="lg" asChild>
+						<SidebarMenuButton
+							size="lg"
+							asChild
+							className="h-auto rounded-[1.5rem] bg-transparent px-2 py-2 hover:bg-sidebar-accent/60"
+						>
 							<a href="#">
-								<div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
-									<Heart className="size-4" />
+								<div className="tl-heart-glow bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-11 items-center justify-center rounded-2xl">
+									<Heart className="size-5" />
 								</div>
-								<div className="grid flex-1 text-left text-sm leading-tight">
-									<span className="truncate font-medium">
+								<div className="grid flex-1 text-left leading-tight">
+									<span className="truncate font-[family:var(--font-cardo)] text-xl font-semibold">
 										{t('sidebar.main.torahLev')}
 									</span>
-									<span className="truncate text-xs">
-										{t('sidebar.main.freeForever')}
+									<span className="truncate text-xs text-sidebar-foreground/70">
+										Sacred study, carried by heart
 									</span>
 								</div>
 							</a>
 						</SidebarMenuButton>
 					</SidebarMenuItem>
 				</SidebarMenu>
+
+				<div className="tl-scrollwork relative overflow-hidden rounded-[1.6rem] border border-sidebar-border/70 bg-[linear-gradient(145deg,color-mix(in_srgb,var(--sidebar-accent)_88%,white_12%),transparent)] px-4 py-4">
+					<div className="space-y-4">
+						<div className="flex items-start justify-between gap-3">
+							<div className="space-y-1">
+								<p className="font-[family:var(--font-alegreya-sc)] text-[0.68rem] uppercase tracking-[0.24em] text-sidebar-foreground/55">
+									Continue your study
+								</p>
+								<p className="font-[family:var(--font-cardo)] text-lg font-semibold text-sidebar-foreground">
+									Return to your current path
+								</p>
+							</div>
+							<div className="rounded-full border border-sidebar-border/70 bg-sidebar/80 p-2 text-sidebar-primary">
+								<Sparkles className="size-4" />
+							</div>
+						</div>
+
+						<div className="grid grid-cols-3 gap-2">
+							<div className="rounded-2xl border border-sidebar-border/70 bg-sidebar/85 px-3 py-2">
+								<p className="text-[0.65rem] uppercase tracking-[0.18em] text-sidebar-foreground/55">
+									Hearts
+								</p>
+								<p className="mt-1 font-[family:var(--font-cardo)] text-lg font-semibold">
+									5
+								</p>
+							</div>
+							<div className="rounded-2xl border border-sidebar-border/70 bg-sidebar/85 px-3 py-2">
+								<p className="text-[0.65rem] uppercase tracking-[0.18em] text-sidebar-foreground/55">
+									Streak
+								</p>
+								<p className="mt-1 font-[family:var(--font-cardo)] text-lg font-semibold">
+									12
+								</p>
+							</div>
+							<div className="rounded-2xl border border-sidebar-border/70 bg-sidebar/85 px-3 py-2">
+								<p className="text-[0.65rem] uppercase tracking-[0.18em] text-sidebar-foreground/55">
+									Path
+								</p>
+								<p className="mt-1 font-[family:var(--font-cardo)] text-lg font-semibold">
+									Lev
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div className="flex items-center justify-between gap-3 px-1">
+					<p className="font-[family:var(--font-alegreya-sc)] text-[0.68rem] uppercase tracking-[0.24em] text-sidebar-foreground/50">
+						Reading sanctuary
+					</p>
+					<ThemeToggle />
+				</div>
 			</SidebarHeader>
-			<SidebarContent>
+			<SidebarContent className="mt-3 rounded-[1.75rem] border border-sidebar-border/80 bg-sidebar/95 py-3 shadow-[0_18px_60px_rgba(63,22,31,0.08)] backdrop-blur-sm">
 				{role === 'admin' && (
 					<>
 						<NavMain items={teacherNav} label={t('sidebar.teacher.title')} />
-						<Separator className="my-4" />
+						<Separator className="mx-6 my-4 tl-divider bg-transparent" />
 					</>
 				)}
-				<NavMain items={data.navMain} />
-				<NavLesson
-					lesson={data.lesson}
-					content={t('sidebar.lesson.lessonContent')}
-				/>
+				<NavMain items={data.navMain} label="Student Home" />
 				<NavInput
 					input={data.input}
-					label={t('sidebar.input.comprehensible')}
+					label="Living Input"
 				/>
 				<NavSecondary items={data.navSecondary} className="mt-auto" />
 			</SidebarContent>
-			<SidebarFooter>
+			<SidebarFooter className="mt-3 rounded-[1.75rem] border border-sidebar-border/80 bg-sidebar/95 p-3 shadow-[0_18px_60px_rgba(63,22,31,0.08)] backdrop-blur-sm">
 				<SidebarLanguageSwitcher
 					locale={(locale as string) ?? 'en'}
 					label={t('sidebar.main.language')}

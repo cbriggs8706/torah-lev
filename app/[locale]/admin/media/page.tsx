@@ -20,10 +20,12 @@ export default async function AdminMediaPage({ params }: PageProps) {
 	const data = await getMediaLibraryData()
 
 	return (
-		<MediaLibraryManager
-			initialAssets={data.assets}
-			initialFolders={data.folders}
-			initialTags={data.tags}
-		/>
+		<div className="tl-panel rounded-[2rem] p-4 md:p-6">
+			<MediaLibraryManager
+				initialAssets={data.assets}
+				initialFolders={data.folders}
+				initialTags={data.tags}
+			/>
+		</div>
 	)
 }

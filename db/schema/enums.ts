@@ -9,12 +9,6 @@ export const language = pgEnum('language', [
 	'MODERN-SPANISH',
 ])
 export const groupType = pgEnum('group_type', ['GROUP', 'SUBGROUP', 'TRIBE'])
-export const courseType = pgEnum('course_type', [
-	'INPERSON',
-	'VIRTUAL',
-	'HYBRID',
-	'SELFPACED',
-])
 export const bookType = pgEnum('book_type', [
 	'SCRIPTURE',
 	'STORY',
@@ -29,60 +23,6 @@ export const proficiencyLevel = pgEnum('proficiency_level', [
 	'B2',
 	'C1',
 	'C2',
-])
-export const dayOfWeek = pgEnum('day_of_week', [
-	'MON',
-	'TUE',
-	'WED',
-	'THU',
-	'FRI',
-	'SAT',
-	'SUN',
-])
-export const courseMemberRole = pgEnum('course_member_role', [
-	'organizer',
-	'teacher',
-	'ta',
-	'student',
-])
-export const assignmentSourceType = pgEnum('assignment_source_type', [
-	'existing_lesson',
-	'existing_chapter',
-	'custom',
-])
-export const attendanceStatus = pgEnum('attendance_status', [
-	'present',
-	'absent',
-	'late',
-])
-export const threadType = pgEnum('thread_type', ['course', 'dm', 'group'])
-export const threadMemberRole = pgEnum('thread_member_role', ['owner', 'member'])
-export const lesson = pgEnum('lesson', [
-	'1',
-	'2',
-	'3',
-	'4',
-	'5',
-	'6',
-	'7',
-	'8',
-	'9',
-	'10',
-	'11',
-	'12',
-	'13',
-	'14',
-	'15',
-	'16',
-	'17',
-	'18',
-	'19',
-	'20',
-])
-export const locationType = pgEnum('location_type', [
-	'in_person',
-	'zoom',
-	'hybrid',
 ])
 export const type = pgEnum('type', [
 	'SELECT',
@@ -104,4 +44,20 @@ export const mediaKind = pgEnum('media_kind', [
 	'video',
 	'document',
 	'other',
+])
+
+export const moduleType = pgEnum('module_type', [
+	'video',
+	'audio',
+	'document',
+	'quiz',
+])
+
+export const quizType = pgEnum('quiz_type', [
+	'image_to_audio',
+	'audio_to_image',
+	'text_to_audio',
+	'audio_to_text',
+	'text_to_image',
+	'image_to_text',
 ])

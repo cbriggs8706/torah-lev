@@ -1,13 +1,4 @@
-import {
-	pgTable,
-	pgPolicy,
-	text,
-	integer,
-	timestamp,
-	unique,
-	uuid,
-	boolean,
-} from 'drizzle-orm/pg-core'
+import { pgTable, pgPolicy, integer, timestamp, unique, uuid, boolean } from 'drizzle-orm/pg-core'
 import { sql } from 'drizzle-orm'
 
 export const studyGroupSessions = pgTable(
@@ -15,8 +6,6 @@ export const studyGroupSessions = pgTable(
 	{
 		id: uuid().defaultRandom().primaryKey().notNull(),
 		studyGroupId: integer('study_group_id').notNull(),
-		lessonId: integer('lesson_id'),
-		lessonTitle: text('lesson_title'),
 		isActive: boolean('is_active').default(false),
 		startedAt: timestamp('started_at', {
 			withTimezone: true,

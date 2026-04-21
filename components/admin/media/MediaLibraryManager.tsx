@@ -411,7 +411,7 @@ export function MediaLibraryManager({
 
 	return (
 		<div className="space-y-6">
-			<div className="rounded-3xl border border-border/60 bg-gradient-to-br from-amber-50 via-background to-rose-50 p-6 shadow-sm">
+			<div className="tl-panel rounded-[2rem] p-6">
 				<div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
 					<div>
 						<p className="text-sm uppercase tracking-[0.28em] text-muted-foreground">
@@ -422,7 +422,7 @@ export function MediaLibraryManager({
 						</h1>
 						<p className="mt-2 max-w-3xl text-sm text-muted-foreground">
 							Upload once, organize into folders, tag everything clearly, and
-							keep reusable media ready for lessons across the site.
+							keep reusable media ready for content across the site.
 						</p>
 					</div>
 					<div className="flex flex-wrap gap-2">
@@ -436,7 +436,7 @@ export function MediaLibraryManager({
 
 			<div className="grid gap-6 xl:grid-cols-[320px_minmax(0,1fr)_380px]">
 				<div className="space-y-6">
-					<Card className="border-border/60">
+					<Card className="tl-panel border-border/60">
 						<CardHeader>
 							<CardTitle className="flex items-center gap-2">
 								<Plus className="h-4 w-4" />

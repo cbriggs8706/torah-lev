@@ -20,7 +20,9 @@ export default async function Page({ params }: DashboardPageProps) {
 
 	return (
 		<div className="space-y-6">
-			<UserDetails />
+			<div className="tl-panel rounded-[2rem] p-4 md:p-6">
+				<UserDetails />
+			</div>
 		</div>
 	)
 }

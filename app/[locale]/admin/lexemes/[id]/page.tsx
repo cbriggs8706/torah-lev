@@ -14,8 +14,8 @@ export default async function LexemeEditPage({ params }: PageProps) {
 	}
 
 	return (
-		<div className="max-w-4xl mx-auto p-6">
-			<h1 className="text-3xl font-bold mb-6">
+		<div className="tl-panel mx-auto max-w-4xl rounded-[2rem] p-6">
+			<h1 className="tl-heading mb-6 text-3xl font-semibold">
 				Edit Lexeme: <span className="font-mono">{lexeme.lemma}</span>
 			</h1>
 

@@ -78,8 +78,9 @@ export function SignUpForm() {
 	}
 
 	return (
-		<div className="min-h-screen flex items-center justify-center">
-			<Card className="relative w-full max-w-sm border rounded-xl shadow-lg/5 dark:shadow-xl bg-linear-to-b from-muted/50 dark:from-transparent to-card overflow-hidden px-8 py-8">
+		<div className="w-full">
+			<Card className="tl-scroll-stage relative mx-auto w-full max-w-md rounded-[2.2rem] overflow-hidden px-0 py-0">
+				<div className="tl-scroll-body px-8 py-8">
 				{/* Subtle grid + mask pattern background */}
 				<div
 					className="absolute inset-0 z-0 -top-px -left-px"
@@ -115,7 +116,7 @@ export function SignUpForm() {
 				<CardContent className="relative z-10 mt-4">
 					<Button
 						type="button"
-						className="w-full gap-3 mb-6"
+						className="mb-6 w-full gap-3 rounded-full"
 						onClick={() =>
 							signIn('google', { callbackUrl: `/${locale}/dashboard` })
 						}
@@ -212,7 +213,7 @@ export function SignUpForm() {
 					<Button
 						type="submit"
 						form="signup-form"
-						className="w-full mb-3"
+						className="mb-3 w-full rounded-full"
 						disabled={form.formState.isSubmitting}
 					>
 						{form.formState.isSubmitting
@@ -230,6 +231,7 @@ export function SignUpForm() {
 						</Link>
 					</p>
 				</CardFooter>
+				</div>
 			</Card>
 		</div>
 	)

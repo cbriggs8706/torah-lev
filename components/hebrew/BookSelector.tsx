@@ -60,13 +60,14 @@ export default function BookSelector({
 	}, [filteredBooks])
 
 	return (
-		<div className="flex flex-col gap-6" dir="rtl">
-			{/* ─────────────────────────────────────────────── TOP NAV  ─────────────────────────────────────────────── */}
-			<div className="flex justify-between items-center w-full mb-2" dir="ltr">
-				{/* LEFT = TYPE FILTER */}
-				<div className="w-48">
+		<div className="flex flex-col gap-8" dir="rtl">
+			<div
+				className="flex w-full flex-col gap-4 rounded-[1.8rem] border border-border/70 bg-background/78 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.35)] md:flex-row md:items-center md:justify-between"
+				dir="ltr"
+			>
+				<div className="w-full md:w-52">
 					<Select value={filter} onValueChange={setFilter}>
-						<SelectTrigger>
+						<SelectTrigger className="w-full rounded-2xl bg-background/90">
 							<SelectValue>
 								{filter === 'all' ? tFilterAll : typeLabels[filter]}
 							</SelectValue>
@@ -82,13 +83,17 @@ export default function BookSelector({
 					</Select>
 				</div>
 
-				{/* CENTER TITLE */}
-				<h1 className="text-2xl font-bold">{title}</h1>
+				<div className="text-center">
+					<p className="tl-kicker">Reader</p>
+					<h1 className="tl-heading text-3xl font-semibold md:text-4xl">
+						{title}
+					</h1>
+				</div>
 
-				{/* RIGHT = SEARCH BAR */}
-				<div className="w-48">
+				<div className="w-full md:w-52">
 					<Input
 						type="text"
+						className="rounded-2xl bg-background/90"
 						placeholder={tSearchPlaceholder}
 						value={search}
 						onChange={(e) => setSearch(e.target.value)}
@@ -96,15 +101,13 @@ export default function BookSelector({
 				</div>
 			</div>
 
-			{/* ─────────────────────────────────────────────── BOOK GROUPS  ─────────────────────────────────────────────── */}
 			<div className="space-y-10">
 				{Object.entries(booksByType).map(([type, list]) => (
 					<div key={type} className="space-y-4">
-						<h2 className="text-xl font-semibold text-gray-700" dir="rtl">
+						<h2 className="tl-heading text-2xl font-semibold text-foreground" dir="rtl">
 							{typeLabels[type]}
 						</h2>
 
-						{/* FLEX WRAP instead of fixed grid → allows long names */}
 						<div className="flex flex-wrap gap-3" dir="rtl">
 							{list.map((book) => (
 								<Link
@@ -114,7 +117,7 @@ export default function BookSelector({
 								>
 									<Button
 										variant="outline"
-										className="px-4 py-3 text-md whitespace-normal h-auto"
+										className="h-auto rounded-2xl border-border/80 bg-background/82 px-4 py-3 text-base whitespace-normal"
 									>
 										{book.name}
 									</Button>

@@ -41,17 +41,20 @@ export default async function HebrewBooksPage({ params }: PageProps) {
 	)
 
 	return (
-		<div className="p-4 md:p-8">
-			<BookSelector
-				locale={locale}
-				books={items}
-				types={types}
-				typeLabels={typeLabels}
-				title={tTypes('title')}
-				tFilterAll={tTypes('filter.all')}
-				// tFilterPlaceholder={tTypes('filter.placeholder')}
-				tSearchPlaceholder={tTypes('search.placeholder')}
-			/>
+		<div className="space-y-6">
+			<section className="tl-scroll-stage rounded-[2.4rem]">
+				<div className="tl-scroll-body px-6 py-8 md:px-10 md:py-10">
+					<BookSelector
+						locale={locale}
+						books={items}
+						types={types}
+						typeLabels={typeLabels}
+						title={tTypes('title')}
+						tFilterAll={tTypes('filter.all')}
+						tSearchPlaceholder={tTypes('search.placeholder')}
+					/>
+				</div>
+			</section>
 		</div>
 	)
 }

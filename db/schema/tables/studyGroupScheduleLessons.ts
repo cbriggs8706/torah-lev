@@ -1,11 +1,4 @@
-import {
-	pgTable,
-	pgPolicy,
-	text,
-	integer,
-	bigint,
-	foreignKey,
-} from 'drizzle-orm/pg-core'
+import { pgTable, pgPolicy, integer, bigint, foreignKey } from 'drizzle-orm/pg-core'
 import { sql } from 'drizzle-orm'
 import { studyGroupSchedule } from './studyGroupSchedule'
 
@@ -15,11 +8,8 @@ export const studyGroupScheduleLessons = pgTable(
 		id: bigint('id', { mode: 'bigint' })
 			.primaryKey()
 			.generatedAlwaysAsIdentity(),
-		// You can use { mode: "bigint" } if numbers are exceeding js number limitations
 		scheduleId: bigint('schedule_id', { mode: 'number' }).notNull(),
-		lessonId: integer('lesson_id').notNull(),
 		orderIndex: integer('order_index').default(1),
-		lessonTitle: text('lesson_title'),
 	},
 	(table) => [
 		foreignKey({

@@ -2,5 +2,9 @@
 import { LoginForm } from '@/components/auth/login'
 
 export default function LoginPage() {
-	return <LoginForm />
+	return (
+		<div className="flex min-h-screen items-center justify-center px-4 py-10">
+			<LoginForm />
+		</div>
+	)
 }

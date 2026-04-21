@@ -319,12 +319,12 @@ export default function HebrewReader({
 																setSelectedId(w.id)
 																setOpenPopoverId(w.id)
 															}}
-															className={`inline-block cursor-pointer transition-colors
-      ${isSelected ? 'text-sky-500' : 'text-black'}
-    `}
+															className={`inline-block cursor-pointer transition-colors ${
+																isSelected ? 'text-primary' : 'text-foreground'
+															}`}
 															onMouseEnter={(e) => {
 																if (!isSelected)
-																	e.currentTarget.style.color = '#0ea5e9'
+																	e.currentTarget.style.color = 'var(--color-primary)'
 															}}
 															onMouseLeave={(e) => {
 																e.currentTarget.style.color = ''

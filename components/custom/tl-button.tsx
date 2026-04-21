@@ -51,9 +51,9 @@ function TLButton({
 			<div
 				className={cn(
 					'relative inline-flex rounded-full p-0.5',
-					'bg-linear-to-r from-sky-400 via-indigo-500 to-purple-600',
+					'bg-linear-to-r from-[#e7c57f] via-[#c6a15b] to-[#8f2230]',
 					'transition-all duration-300',
-					'hover:scale-[1.05] hover:shadow-[0_0_15px_rgba(99,102,241,0.6)]'
+					'hover:scale-[1.05] hover:shadow-[0_0_15px_rgba(143,34,48,0.35)]'
 				)}
 			>
 				<Comp

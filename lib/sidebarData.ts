@@ -1,20 +1,19 @@
 import {
-	GraduationCap,
-	Apple,
-	Bot,
-	Pencil,
-	Tally5,
+	BookMarked,
+	BookOpen,
+	Flame,
 	FolderKanban,
-	Trophy,
 	Calendar,
+	HeartHandshake,
 	LifeBuoy,
+	House,
+	LibraryBig,
+	ScrollText,
 	Send,
 	Music,
-	BookOpen,
 	BookKey,
 	HandHeart,
-	LetterText,
-	Text,
+	Trophy,
 } from 'lucide-react'
 import type { TFunction } from '@/types/i18n'
 
@@ -22,76 +21,63 @@ export function buildSidebarData(t: TFunction, locale: string) {
 	return {
 		navMain: [
 			{
+				title: 'Home',
+				url: `/${locale}/dashboard`,
+				icon: House,
+			},
+			{
 				title: t('sidebar.main.courses'),
 				url: `/${locale}/courses`,
-				icon: GraduationCap,
+				icon: LibraryBig,
 				items: [
-					{ title: t('sidebar.courses.bh'), url: '#' },
-					{ title: t('sidebar.courses.bg'), url: '#' },
-					{ title: t('sidebar.courses.mh'), url: '#' },
-					{ title: t('sidebar.courses.me'), url: '#' },
-					{ title: t('sidebar.courses.ms'), url: '#' },
-					{ title: t('sidebar.courses.bookclub'), url: '#' },
+					{ title: 'Current path', url: `/${locale}/courses` },
+					{ title: 'Study library', url: `/${locale}/courses` },
 				],
 			},
 			{
-				title: t('sidebar.main.vocabulary'),
-				url: '#',
-				icon: Apple,
+				title: 'Study Groups',
+				url: `/${locale}/study-groups`,
+				icon: HeartHandshake,
 				items: [
-					{ title: t('sidebar.vocabulary.flashcards'), url: '#' },
-					{ title: t('sidebar.vocabulary.dictionary'), url: '#' },
-					{ title: t('sidebar.vocabulary.learn'), url: '#' },
-					{ title: t('sidebar.vocabulary.matching'), url: '#' },
-					{ title: t('sidebar.vocabulary.spelling'), url: '#' },
+					{ title: 'Join a group', url: `/${locale}/study-groups` },
+					{ title: 'My groups', url: `/${locale}/study-groups` },
 				],
 			},
 			{
 				title: t('sidebar.main.reader'),
 				url: `/${locale}/reader/hebrew`,
-				icon: BookOpen,
+				icon: ScrollText,
 				items: [
-					// { title: t('reader.types.SCRIPTURE'), url: '#' },
+					{ title: 'Scripture reading', url: `/${locale}/reader/hebrew` },
+					{ title: 'Hebrew reader', url: `/${locale}/reader/hebrew` },
 				],
 			},
 			{
 				title: t('sidebar.main.alphabet'),
 				url: `/${locale}/hebrew/alphabet`,
-				icon: Pencil,
+				icon: BookMarked,
 				items: [
-					// { title: t('reader.types.SCRIPTURE'), url: '#' },
+					{ title: t('sidebar.alphabet.names'), url: `/${locale}/hebrew/alphabet` },
+					{ title: t('sidebar.alphabet.sounds'), url: `/${locale}/hebrew/alphabet` },
 				],
 			},
 			{
-				title: t('sidebar.main.grammar'),
-				url: '#',
-				icon: Bot,
+				title: 'Practice',
+				url: `/${locale}/dashboard`,
+				icon: HeartHandshake,
 				items: [
-					{ title: t('sidebar.grammar.verbs'), url: '#' },
-					{ title: t('sidebar.grammar.scramble'), url: '#' },
-					{ title: t('sidebar.grammar.builder'), url: '#' },
-					{ title: t('sidebar.grammar.memorizer'), url: '#' },
+					{ title: 'Daily review', url: `/${locale}/dashboard` },
+					{ title: 'Flashcards', url: `/${locale}/courses` },
+					{ title: 'Prayer phrases', url: `/${locale}/dashboard` },
 				],
 			},
-			// {
-			// 	title: t('sidebar.main.alphabet'),
-			// 	url: '#',
-			// 	icon: Pencil,
-			// 	items: [
-			// 		{ title: t('sidebar.alphabet.names'), url: '#' },
-			// 		{ title: t('sidebar.alphabet.sounds'), url: '#' },
-			// 		{ title: t('sidebar.alphabet.syllables'), url: '#' },
-			// 		{ title: t('sidebar.alphabet.niqqud'), url: '#' },
-			// 	],
-			// },
 			{
-				title: t('sidebar.main.numbers'),
-				url: '#',
-				icon: Tally5,
+				title: 'Progress',
+				url: `/${locale}/dashboard`,
+				icon: Flame,
 				items: [
-					{ title: t('sidebar.numbers.cardinal'), url: '#' },
-					{ title: t('sidebar.numbers.ordinal'), url: '#' },
-					{ title: t('sidebar.numbers.construct'), url: '#' },
+					{ title: 'Streak & hearts', url: `/${locale}/dashboard` },
+					{ title: 'Completed lessons', url: `/${locale}/courses` },
 				],
 			},
 		],
@@ -109,11 +95,6 @@ export function buildSidebarData(t: TFunction, locale: string) {
 			{ name: t('sidebar.input.scriptures'), url: '#', icon: BookKey },
 			{ name: t('sidebar.input.prayers'), url: '#', icon: HandHeart },
 		],
-
-		lesson: [
-			{ name: t('sidebar.lesson.scripts'), url: '#', icon: LetterText },
-			{ name: t('sidebar.lesson.grammarLessons'), url: '#', icon: Text },
-		],
 	}
 }
 
@@ -121,36 +102,49 @@ export function getTeacherNav(t: TFunction, locale: string) {
 	return [
 		{
 			title: t('sidebar.teacher.title'),
-			url: `/${locale}/admin/courses`,
-			icon: GraduationCap,
+			url: `/${locale}/admin/learning`,
+			icon: FolderKanban,
 			isActive: true,
 			items: [
 				{
-					title: t('sidebar.teacher.myCourses'),
-					url: `/${locale}/admin/courses`,
+					title: 'Lessons',
+					url: `/${locale}/admin/learning`,
 				},
 				{
-					title: t('sidebar.teacher.createCourse'),
-					url: `/${locale}/courses/create`,
+					title: 'Study Groups',
+					url: `/${locale}/admin/learning/study-groups`,
 				},
 				{
-					title: 'Create Lesson',
-					url: `/${locale}/admin/courses/lessons`,
+					title: 'Courses',
+					url: `/${locale}/admin/learning/courses`,
+				},
+				{
+					title: 'Modules',
+					url: `/${locale}/admin/learning/modules`,
+				},
+				{
+					title: 'Quizzes',
+					url: `/${locale}/admin/learning/quizzes`,
+				},
+				{
+					title: 'Quiz Questions',
+					url: `/${locale}/admin/learning/quiz-questions`,
+				},
+				{
+					title: 'Organizations',
+					url: `/${locale}/admin/learning/organizations`,
+				},
+				{
+					title: 'Target Languages',
+					url: `/${locale}/admin/learning/target-languages`,
 				},
 				{
 					title: 'Media Library',
 					url: `/${locale}/admin/media`,
 				},
-			],
-		},
-		{
-			title: 'Media Library',
-			url: `/${locale}/admin/media`,
-			icon: FolderKanban,
-			items: [
 				{
-					title: 'Browse Library',
-					url: `/${locale}/admin/media`,
+					title: 'Hebrew Ingest',
+					url: `/${locale}/admin/hebrew-ingest`,
 				},
 			],
 		},

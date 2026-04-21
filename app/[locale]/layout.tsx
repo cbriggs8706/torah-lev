@@ -5,6 +5,7 @@ import { NextIntlClientProvider } from 'next-intl'
 import { getMessages } from 'next-intl/server'
 import { LOCALES, type Locale } from '@/i18n/config'
 import { NextAuthProvider } from '../providers/session-provider'
+import { ThemeProvider } from '../providers/theme-provider'
 import { Toaster } from 'sonner'
 
 export default async function LocaleLayout({
@@ -20,13 +21,13 @@ export default async function LocaleLayout({
 	const messages = await getMessages({ locale })
 
 	return (
-		<>
+		<ThemeProvider>
 			<NextIntlClientProvider messages={messages} locale={locale}>
 				<NextAuthProvider>
 					<Toaster richColors position="top-center" />
 					{children}
 				</NextAuthProvider>
 			</NextIntlClientProvider>
-		</>
+		</ThemeProvider>
 	)
 }

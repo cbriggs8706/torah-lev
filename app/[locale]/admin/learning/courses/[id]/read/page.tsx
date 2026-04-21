@@ -1,0 +1,56 @@
+import { notFound } from 'next/navigation'
+import { eq } from 'drizzle-orm'
+import { CourseEditorForm } from '@/components/admin/learning/CourseEditorForm'
+import { supabaseDb as db } from '@/db'
+import { courses } from '@/db/schema/tables/courses'
+
+export default async function ReadCoursePage({
+	params,
+}: {
+	params: Promise<{ locale: string; id: string }>
+}) {
+	const { locale, id } = await params
+	const [course, lessons] = await Promise.all([
+		db.query.courses.findFirst({
+			where: eq(courses.id, id),
+			with: {
+				lessons: true,
+			},
+		}),
+		db.query.lessons.findMany({
+			orderBy: (lessons, { asc }) => [
+				asc(lessons.sortOrder),
+				asc(lessons.number),
+				asc(lessons.title),
+			],
+		}),
+	])
+
+	if (!course) notFound()
+
+	return (
+		<div className="space-y-6">
+			<div>
+				<p className="text-sm uppercase tracking-[0.28em] text-muted-foreground">
+					Learning
+				</p>
+				<h1 className="mt-2 font-[family:var(--font-eczar)] text-4xl">
+					Read Course
+				</h1>
+			</div>
+			<CourseEditorForm
+				locale={locale}
+				mode="read"
+				initialCourse={{
+					id: course.id,
+					title: course.title,
+					lessonIds: course.lessons.map((lesson) => lesson.id),
+				}}
+				lessons={lessons}
+				updateHref={`/${locale}/admin/learning/courses/${id}/update`}
+				deleteHref={`/${locale}/admin/learning/courses/${id}/delete`}
+				deleteLabel={course.title}
+			/>
+		</div>
+	)
+}

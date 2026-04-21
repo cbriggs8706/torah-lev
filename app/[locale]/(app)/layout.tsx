@@ -21,32 +21,36 @@ export default async function Layout({
 	// if (!session) redirect(`/`)
 
 	return (
-		// <SidebarProvider>
 		<SidebarProvider
 			style={{ '--sidebar-width': '20rem' } as React.CSSProperties}
-			className="
-    pl-[--sidebar-width]
-    data-[state=collapsed]:pl-0
-  "
+			className="tl-shell pl-[--sidebar-width] data-[state=collapsed]:pl-0"
 		>
-			{' '}
 			<AppSidebar session={session} role={session?.user?.role ?? 'guest'} />
-			<SidebarInset>
-				<header className="flex h-16 shrink-0 items-center gap-2">
-					<div className="flex items-center gap-2 px-4">
-						<SidebarTrigger className="-ml-1" />
+			<SidebarInset className="bg-transparent md:m-3 md:ml-0 md:rounded-[2rem] md:border md:border-border/70 md:bg-card/70 md:shadow-[0_24px_80px_rgba(63,22,31,0.08)] md:backdrop-blur-md md:peer-data-[state=collapsed]:ml-3">
+				<header className="flex h-20 shrink-0 items-center gap-2 border-b border-border/60 px-4 md:px-6">
+					<div className="flex w-full items-center justify-between gap-3">
+						<div className="flex items-center gap-2">
+							<SidebarTrigger className="-ml-1 rounded-full border border-border/70 bg-background/70 text-foreground shadow-none hover:bg-accent/80" />
 
-						<Separator
-							orientation="vertical"
-							className="mr-2 data-[orientation=vertical]:h-4"
-						/>
+							<Separator
+								orientation="vertical"
+								className="mr-2 data-[orientation=vertical]:h-5"
+							/>
 
-						<AppBreadcrumbs />
+							<div className="space-y-1">
+								<p className="tl-kicker">TorahLev sanctuary</p>
+								<AppBreadcrumbs />
+							</div>
+						</div>
+
+						<div className="hidden items-center gap-2 rounded-full border border-border/70 bg-background/70 px-3 py-2 text-sm text-muted-foreground md:flex">
+							<span className="inline-flex size-2 rounded-full bg-primary" />
+							<span>Ancient minimal mode</span>
+						</div>
 					</div>
 				</header>
 
-				{/* Actual dashboard content */}
-				<div className="flex flex-1 flex-col gap-4 p-4 pt-0">{children}</div>
+				<div className="flex flex-1 flex-col gap-6 p-4 md:p-6">{children}</div>
 			</SidebarInset>
 		</SidebarProvider>
 	)
