@@ -27,13 +27,16 @@ export default async function AdminLearningPage({ params }: PageProps) {
 	const { locale } = await params
 	const lessons = await db.query.lessons.findMany({
 		with: {
-			course: true,
+			courseLessons: {
+				with: {
+					course: true,
+				},
+			},
 			targetLanguage: true,
 			organization: true,
 			moduleAssignments: true,
 		},
 		orderBy: (lessons, { asc }) => [
-			asc(lessons.sortOrder),
 			asc(lessons.number),
 			asc(lessons.title),
 		],
@@ -72,10 +75,9 @@ export default async function AdminLearningPage({ params }: PageProps) {
 					<Table>
 						<TableHeader>
 							<TableRow>
-								<TableHead>Sort</TableHead>
 								<TableHead>No.</TableHead>
 								<TableHead>Title</TableHead>
-								<TableHead>Course</TableHead>
+								<TableHead>Courses</TableHead>
 								<TableHead>Language</TableHead>
 								<TableHead>Modules</TableHead>
 								<TableHead className="text-right">Actions</TableHead>
@@ -89,11 +91,6 @@ export default async function AdminLearningPage({ params }: PageProps) {
 										<TableRow key={lesson.id} className="cursor-pointer">
 											<TableCell>
 												<Link href={readHref} className="block py-1">
-													{lesson.sortOrder}
-												</Link>
-											</TableCell>
-											<TableCell>
-												<Link href={readHref} className="block py-1">
 													{lesson.number}
 													{lesson.part ? ` ${lesson.part}` : ''}
 												</Link>
@@ -105,7 +102,11 @@ export default async function AdminLearningPage({ params }: PageProps) {
 											</TableCell>
 											<TableCell>
 												<Link href={readHref} className="block py-1">
-													{lesson.course?.title ?? 'No course'}
+													{lesson.courseLessons.length
+														? lesson.courseLessons
+																.map((assignment) => assignment.course.title)
+																.join(', ')
+														: 'No courses'}
 												</Link>
 											</TableCell>
 											<TableCell>
@@ -152,7 +153,7 @@ export default async function AdminLearningPage({ params }: PageProps) {
 							{lessons.length === 0 ? (
 								<TableRow>
 									<TableCell
-										colSpan={7}
+										colSpan={6}
 										className="py-10 text-center text-muted-foreground"
 									>
 										No lessons yet. Create the first one.

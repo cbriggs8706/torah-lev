@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import { Heart, Sparkles } from 'lucide-react'
+import { Heart, Sparkles, Star } from 'lucide-react'
 
 import {
 	Sidebar,
@@ -27,10 +27,15 @@ import { ThemeToggle } from './theme-toggle'
 export function AppSidebar({
 	session,
 	role,
+	learningStats,
 	...props
 }: {
 	session: Session | null
 	role: string
+	learningStats?: {
+		hearts: number
+		points: number
+	}
 } & React.ComponentProps<typeof Sidebar>) {
 	const { locale } = useParams()
 	const t = useTranslations()
@@ -80,29 +85,23 @@ export function AppSidebar({
 							</div>
 						</div>
 
-						<div className="grid grid-cols-3 gap-2">
+						<div className="grid grid-cols-2 gap-2">
 							<div className="rounded-2xl border border-sidebar-border/70 bg-sidebar/85 px-3 py-2">
-								<p className="text-[0.65rem] uppercase tracking-[0.18em] text-sidebar-foreground/55">
+								<p className="flex items-center gap-1.5 text-[0.65rem] uppercase tracking-[0.18em] text-sidebar-foreground/55">
+									<Heart className="size-3 fill-current text-sidebar-primary" />
 									Hearts
 								</p>
 								<p className="mt-1 font-[family:var(--font-cardo)] text-lg font-semibold">
-									5
+									{learningStats?.hearts ?? 5}/5
 								</p>
 							</div>
 							<div className="rounded-2xl border border-sidebar-border/70 bg-sidebar/85 px-3 py-2">
-								<p className="text-[0.65rem] uppercase tracking-[0.18em] text-sidebar-foreground/55">
-									Streak
+								<p className="flex items-center gap-1.5 text-[0.65rem] uppercase tracking-[0.18em] text-sidebar-foreground/55">
+									<Star className="size-3 fill-current text-sidebar-primary" />
+									Points
 								</p>
 								<p className="mt-1 font-[family:var(--font-cardo)] text-lg font-semibold">
-									12
-								</p>
-							</div>
-							<div className="rounded-2xl border border-sidebar-border/70 bg-sidebar/85 px-3 py-2">
-								<p className="text-[0.65rem] uppercase tracking-[0.18em] text-sidebar-foreground/55">
-									Path
-								</p>
-								<p className="mt-1 font-[family:var(--font-cardo)] text-lg font-semibold">
-									Lev
+									{learningStats?.points ?? 0}
 								</p>
 							</div>
 						</div>

@@ -52,8 +52,6 @@ type LessonFormValue = {
 	title: string
 	number: number
 	part: string
-	sortOrder: number
-	courseId: string | null
 	organizationId: string | null
 	targetLanguageId: string
 	moduleIds: string[]
@@ -99,8 +97,6 @@ export function LessonEditorForm({
 			title: '',
 			number: 1,
 			part: '',
-			sortOrder: 0,
-			courseId: courses[0]?.id ?? null,
 			organizationId: null,
 			targetLanguageId: targetLanguages[0]?.id ?? '',
 			moduleIds: [],
@@ -279,48 +275,6 @@ export function LessonEditorForm({
 							}))
 						}
 					/>
-				</div>
-
-				<div className="space-y-2">
-					<Label htmlFor="sortOrder">Sort Order</Label>
-					<Input
-						id="sortOrder"
-						type="number"
-						value={lesson.sortOrder}
-						disabled={readOnly}
-						onChange={(e) =>
-							setLesson((current) => ({
-								...current,
-								sortOrder: Number(e.target.value),
-							}))
-						}
-					/>
-				</div>
-
-				<div className="space-y-2">
-					<Label>Course</Label>
-					<Select
-						value={lesson.courseId ?? 'none'}
-						disabled={readOnly}
-						onValueChange={(value) =>
-							setLesson((current) => ({
-								...current,
-								courseId: value === 'none' ? null : value,
-							}))
-						}
-					>
-						<SelectTrigger className="w-full">
-							<SelectValue placeholder="Select course" />
-						</SelectTrigger>
-						<SelectContent>
-							<SelectItem value="none">No course</SelectItem>
-							{courses.map((course) => (
-								<SelectItem key={course.id} value={course.id}>
-									{course.title}
-								</SelectItem>
-							))}
-						</SelectContent>
-					</Select>
 				</div>
 
 				<div className="space-y-2">

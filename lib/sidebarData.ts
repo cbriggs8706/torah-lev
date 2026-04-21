@@ -76,7 +76,7 @@ export function buildSidebarData(t: TFunction, locale: string) {
 				url: `/${locale}/dashboard`,
 				icon: Flame,
 				items: [
-					{ title: 'Streak & hearts', url: `/${locale}/dashboard` },
+					{ title: 'Hearts & points', url: `/${locale}/dashboard` },
 					{ title: 'Completed lessons', url: `/${locale}/courses` },
 				],
 			},

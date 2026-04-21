@@ -9,7 +9,6 @@ export default async function CreateCoursePage({
 	const { locale } = await params
 	const lessons = await db.query.lessons.findMany({
 		orderBy: (lessons, { asc }) => [
-			asc(lessons.sortOrder),
 			asc(lessons.number),
 			asc(lessons.title),
 		],

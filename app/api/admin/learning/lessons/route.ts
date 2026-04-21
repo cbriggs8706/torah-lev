@@ -11,7 +11,6 @@ export async function GET() {
 
 	const rows = await db.query.lessons.findMany({
 		orderBy: (lessons, { asc }) => [
-			asc(lessons.sortOrder),
 			asc(lessons.number),
 			asc(lessons.title),
 		],
@@ -33,8 +32,6 @@ export async function POST(req: Request) {
 					title: parsed.title,
 					number: parsed.number,
 					part: parsed.part,
-					sortOrder: parsed.sortOrder,
-					courseId: parsed.courseId ?? null,
 					organizationId: parsed.organizationId ?? null,
 					targetLanguageId: parsed.targetLanguageId,
 				})

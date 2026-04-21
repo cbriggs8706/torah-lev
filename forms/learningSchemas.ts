@@ -17,8 +17,6 @@ export const lessonSchema = z.object({
 	title: z.string().trim().min(1, 'Title is required'),
 	number: z.coerce.number().int().min(0, 'Number must be 0 or greater'),
 	part: z.string().trim().default(''),
-	sortOrder: z.coerce.number().int().min(0, 'Sort order must be 0 or greater'),
-	courseId: z.string().uuid().nullable().optional(),
 	organizationId: z.string().uuid().nullable().optional(),
 	targetLanguageId: z.string().uuid('Target language is required'),
 	moduleIds: z.array(z.string().uuid()).default([]),

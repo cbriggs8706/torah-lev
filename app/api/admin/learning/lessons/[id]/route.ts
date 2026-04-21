@@ -23,8 +23,6 @@ export async function PATCH(
 					title: parsed.title,
 					number: parsed.number,
 					part: parsed.part,
-					sortOrder: parsed.sortOrder,
-					courseId: parsed.courseId ?? null,
 					organizationId: parsed.organizationId ?? null,
 					targetLanguageId: parsed.targetLanguageId,
 					updatedAt: new Date(),

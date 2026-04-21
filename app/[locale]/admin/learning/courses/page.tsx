@@ -9,7 +9,7 @@ export default async function CoursesPage({ params }: PageProps) {
 	const { locale } = await params
 	const courses = await db.query.courses.findMany({
 		with: {
-			lessons: true,
+			courseLessons: true,
 		},
 		orderBy: (courses, { asc }) => [asc(courses.title)],
 	})
@@ -24,7 +24,7 @@ export default async function CoursesPage({ params }: PageProps) {
 			createHref={`/${locale}/admin/learning/courses/create`}
 			rows={courses.map((course) => ({
 				id: course.id,
-				cells: [course.title, String(course.lessons.length)],
+				cells: [course.title, String(course.courseLessons.length)],
 			}))}
 			emptyText="No courses yet."
 		/>

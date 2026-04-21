@@ -20,7 +20,6 @@ export default async function CreateModulePage({
 		}),
 		db.query.lessons.findMany({
 			orderBy: (lessons, { asc }) => [
-				asc(lessons.sortOrder),
 				asc(lessons.number),
 				asc(lessons.title),
 			],

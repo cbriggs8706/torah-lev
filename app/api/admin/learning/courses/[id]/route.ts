@@ -1,8 +1,7 @@
 import { NextResponse } from 'next/server'
 import { eq } from 'drizzle-orm'
 import { supabaseDb as db } from '@/db'
-import { courses } from '@/db/schema/tables/courses'
-import { lessons } from '@/db/schema/tables/lessons'
+import { courseLessons, courses } from '@/db/schema/tables/courses'
 import { courseSchema } from '@/forms/learningSchemas'
 import { requireAdminAccess } from '@/lib/admin/requireAdmin'
 
@@ -29,25 +28,16 @@ export async function PATCH(
 			if (!course) return null
 
 			if (parsed.lessonIds) {
-				const currentlyAssigned = await tx.query.lessons.findMany({
-					where: eq(lessons.courseId, id),
-				})
-				const selected = new Set(parsed.lessonIds)
+				await tx.delete(courseLessons).where(eq(courseLessons.courseId, id))
 
-				for (const lesson of currentlyAssigned) {
-					if (!selected.has(lesson.id)) {
-						await tx
-							.update(lessons)
-							.set({ courseId: null, updatedAt: new Date() })
-							.where(eq(lessons.id, lesson.id))
-					}
-				}
-
-				for (const lessonId of parsed.lessonIds) {
-					await tx
-						.update(lessons)
-						.set({ courseId: id, updatedAt: new Date() })
-						.where(eq(lessons.id, lessonId))
+				if (parsed.lessonIds.length) {
+					await tx.insert(courseLessons).values(
+						parsed.lessonIds.map((lessonId, index) => ({
+							courseId: id,
+							lessonId,
+							sortOrder: index,
+						}))
+					)
 				}
 			}
 

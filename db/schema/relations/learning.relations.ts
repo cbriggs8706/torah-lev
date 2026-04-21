@@ -1,7 +1,8 @@
 import { relations } from 'drizzle-orm'
-import { courses } from '../tables/courses'
+import { courseLessons, courses } from '../tables/courses'
+import { lessonModuleCompletions } from '../tables/learning_progress'
 import { lessons } from '../tables/lessons'
-import { lessonModules } from '../tables/modules'
+import { lessonModules, modules } from '../tables/modules'
 import { organizations } from '../tables/organizations'
 import { user } from '../tables/auth'
 import {
@@ -23,15 +24,11 @@ export const targetLanguageRelations = relations(
 )
 
 export const courseRelations = relations(courses, ({ many }) => ({
-	lessons: many(lessons),
+	courseLessons: many(courseLessons),
 	studyGroupCourses: many(studyGroupCourses),
 }))
 
 export const lessonRelations = relations(lessons, ({ one, many }) => ({
-	course: one(courses, {
-		fields: [lessons.courseId],
-		references: [courses.id],
-	}),
 	organization: one(organizations, {
 		fields: [lessons.organizationId],
 		references: [organizations.id],
@@ -41,6 +38,19 @@ export const lessonRelations = relations(lessons, ({ one, many }) => ({
 		references: [targetLanguages.id],
 	}),
 	moduleAssignments: many(lessonModules),
+	courseLessons: many(courseLessons),
+	moduleCompletions: many(lessonModuleCompletions),
+}))
+
+export const courseLessonRelations = relations(courseLessons, ({ one }) => ({
+	course: one(courses, {
+		fields: [courseLessons.courseId],
+		references: [courses.id],
+	}),
+	lesson: one(lessons, {
+		fields: [courseLessons.lessonId],
+		references: [lessons.id],
+	}),
 }))
 
 export const studyGroupRelations = relations(studyGroups, ({ one, many }) => ({
@@ -50,6 +60,7 @@ export const studyGroupRelations = relations(studyGroups, ({ one, many }) => ({
 	}),
 	studyGroupCourses: many(studyGroupCourses),
 	memberships: many(studyGroupMemberships),
+	moduleCompletions: many(lessonModuleCompletions),
 }))
 
 export const studyGroupCourseRelations = relations(
@@ -76,6 +87,28 @@ export const studyGroupMembershipRelations = relations(
 		user: one(user, {
 			fields: [studyGroupMemberships.userId],
 			references: [user.id],
+		}),
+	})
+)
+
+export const lessonModuleCompletionRelations = relations(
+	lessonModuleCompletions,
+	({ one }) => ({
+		user: one(user, {
+			fields: [lessonModuleCompletions.userId],
+			references: [user.id],
+		}),
+		studyGroup: one(studyGroups, {
+			fields: [lessonModuleCompletions.studyGroupId],
+			references: [studyGroups.id],
+		}),
+		lesson: one(lessons, {
+			fields: [lessonModuleCompletions.lessonId],
+			references: [lessons.id],
+		}),
+		module: one(modules, {
+			fields: [lessonModuleCompletions.moduleId],
+			references: [modules.id],
 		}),
 	})
 )

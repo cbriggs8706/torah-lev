@@ -2,6 +2,7 @@
 
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
+import { eq } from 'drizzle-orm'
 
 import {
 	SidebarInset,
@@ -11,6 +12,8 @@ import {
 import { Separator } from '@/components/ui/separator'
 import { AppSidebar } from '@/components/custom/app-sidebar'
 import AppBreadcrumbs from '@/components/navigation/AppBreadcrumbs'
+import { supabaseDb as db } from '@/db'
+import { userLearningStats } from '@/db/schema/tables/learning_progress'
 
 export default async function Layout({
 	children,
@@ -18,6 +21,11 @@ export default async function Layout({
 	children: React.ReactNode
 }) {
 	const session = await getServerSession(authOptions)
+	const learningStats = session?.user?.id
+		? await db.query.userLearningStats.findFirst({
+				where: eq(userLearningStats.userId, session.user.id),
+			})
+		: null
 	// if (!session) redirect(`/`)
 
 	return (
@@ -25,7 +33,14 @@ export default async function Layout({
 			style={{ '--sidebar-width': '20rem' } as React.CSSProperties}
 			className="tl-shell pl-[--sidebar-width] data-[state=collapsed]:pl-0"
 		>
-			<AppSidebar session={session} role={session?.user?.role ?? 'guest'} />
+			<AppSidebar
+				session={session}
+				role={session?.user?.role ?? 'guest'}
+				learningStats={{
+					hearts: learningStats?.hearts ?? 5,
+					points: learningStats?.points ?? 0,
+				}}
+			/>
 			<SidebarInset className="bg-transparent md:m-3 md:ml-0 md:rounded-[2rem] md:border md:border-border/70 md:bg-card/70 md:shadow-[0_24px_80px_rgba(63,22,31,0.08)] md:backdrop-blur-md md:peer-data-[state=collapsed]:ml-3">
 				<header className="flex h-20 shrink-0 items-center gap-2 border-b border-border/60 px-4 md:px-6">
 					<div className="flex w-full items-center justify-between gap-3">

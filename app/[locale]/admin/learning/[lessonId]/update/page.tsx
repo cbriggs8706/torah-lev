@@ -59,8 +59,6 @@ export default async function UpdateLessonPage({ params }: PageProps) {
 					title: lesson.title,
 					number: lesson.number,
 					part: lesson.part,
-					sortOrder: lesson.sortOrder,
-					courseId: lesson.courseId,
 					organizationId: lesson.organizationId,
 					targetLanguageId: lesson.targetLanguageId,
 					moduleIds: lesson.moduleAssignments.map((item) => item.moduleId),

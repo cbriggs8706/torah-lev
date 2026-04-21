@@ -14,12 +14,16 @@ export default async function UpdateCoursePage({
 		db.query.courses.findFirst({
 			where: eq(courses.id, id),
 			with: {
-				lessons: true,
+				courseLessons: {
+					with: {
+						lesson: true,
+					},
+					orderBy: (courseLessons, { asc }) => [asc(courseLessons.sortOrder)],
+				},
 			},
 		}),
 		db.query.lessons.findMany({
 			orderBy: (lessons, { asc }) => [
-				asc(lessons.sortOrder),
 				asc(lessons.number),
 				asc(lessons.title),
 			],
@@ -44,7 +48,7 @@ export default async function UpdateCoursePage({
 				initialCourse={{
 					id: course.id,
 					title: course.title,
-					lessonIds: course.lessons.map((lesson) => lesson.id),
+					lessonIds: course.courseLessons.map((item) => item.lessonId),
 				}}
 				lessons={lessons}
 			/>

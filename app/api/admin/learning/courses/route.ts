@@ -1,8 +1,6 @@
 import { NextResponse } from 'next/server'
-import { eq } from 'drizzle-orm'
 import { supabaseDb as db } from '@/db'
-import { courses } from '@/db/schema/tables/courses'
-import { lessons } from '@/db/schema/tables/lessons'
+import { courseLessons, courses } from '@/db/schema/tables/courses'
 import { courseSchema } from '@/forms/learningSchemas'
 import { requireAdminAccess } from '@/lib/admin/requireAdmin'
 
@@ -32,12 +30,13 @@ export async function POST(req: Request) {
 				.returning()
 
 			if (parsed.lessonIds?.length) {
-				for (const lessonId of parsed.lessonIds) {
-					await tx
-						.update(lessons)
-						.set({ courseId: course.id, updatedAt: new Date() })
-						.where(eq(lessons.id, lessonId))
-				}
+				await tx.insert(courseLessons).values(
+					parsed.lessonIds.map((lessonId, index) => ({
+						courseId: course.id,
+						lessonId,
+						sortOrder: index,
+					}))
+				)
 			}
 
 			return course
