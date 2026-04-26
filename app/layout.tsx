@@ -12,6 +12,7 @@ import {
 	mansalva,
 	alegreyaSC,
 	monteCarlo,
+	mrBedfort,
 	unifraktur,
 	reenieBeanie,
 } from './fonts'
@@ -36,6 +37,7 @@ export default function RootLayout({
 				mansalva.variable,
 				alegreyaSC.variable,
 				monteCarlo.variable,
+				mrBedfort.variable,
 				unifraktur.variable,
 				reenieBeanie.variable,
 			].join(' ')}

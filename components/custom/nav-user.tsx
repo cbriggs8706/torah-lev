@@ -116,24 +116,24 @@ export function NavUser({
 					<DropdownMenuTrigger asChild>
 					<SidebarMenuButton
 						size="lg"
-						className="h-14 rounded-2xl border border-sidebar-border/70 bg-sidebar/80 px-3 data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+						className="h-16 rounded-[1.45rem] border border-[color:color-mix(in_srgb,var(--chart-2)_26%,var(--sidebar-border))] bg-sidebar/80 px-3.5 data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
 					>
-							<Avatar className="h-8 w-8 rounded-full">
+							<Avatar className="h-10 w-10 rounded-full">
 								<AvatarImage
 									src={session.user.image ?? '/'}
 									alt={session.user.name ?? 'TorahLev User'}
 								/>
 								<AvatarFallback className="rounded-lg">TL</AvatarFallback>
 							</Avatar>
-							<div className="grid flex-1 text-left text-sm leading-tight">
-								<span className="truncate font-medium">
+							<div className="grid flex-1 text-left leading-tight">
+								<span className="truncate text-[1rem] font-semibold tracking-[-0.01em]">
 									{session.user.name}
 								</span>
-								<span className="truncate text-xs text-sidebar-foreground/65">
+								<span className="truncate text-sm text-sidebar-foreground/65">
 									{session.user.email}
 								</span>
 							</div>
-							<ChevronsUpDown className="ml-auto size-4" />
+							<ChevronsUpDown className="ml-auto size-[1.05rem]" />
 						</SidebarMenuButton>
 					</DropdownMenuTrigger>
 					<DropdownMenuContent

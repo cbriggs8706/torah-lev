@@ -79,32 +79,9 @@ export function SignUpForm() {
 
 	return (
 		<div className="w-full">
-			<Card className="tl-scroll-stage relative mx-auto w-full max-w-md rounded-[2.2rem] overflow-hidden px-0 py-0">
-				<div className="tl-scroll-body px-8 py-8">
-				{/* Subtle grid + mask pattern background */}
-				<div
-					className="absolute inset-0 z-0 -top-px -left-px"
-					style={{
-						backgroundImage: `
-              linear-gradient(to right, color-mix(in srgb, var(--card-foreground) 8%, transparent) 1px, transparent 1px),
-              linear-gradient(to bottom, color-mix(in srgb, var(--card-foreground) 8%, transparent) 1px, transparent 1px)
-            `,
-						backgroundSize: '20px 20px',
-						maskImage: `
-              repeating-linear-gradient(to right, black 0px, black 3px, transparent 3px, transparent 8px),
-              repeating-linear-gradient(to bottom, black 0px, black 3px, transparent 3px, transparent 8px),
-              radial-gradient(ellipse 70% 50% at 50% 0%, #000 60%, transparent 100%)
-            `,
-						WebkitMaskImage: `
-              repeating-linear-gradient(to right, black 0px, black 3px, transparent 3px, transparent 8px),
-              repeating-linear-gradient(to bottom, black 0px, black 3px, transparent 3px, transparent 8px),
-              radial-gradient(ellipse 70% 50% at 50% 0%, #000 60%, transparent 100%)
-            `,
-						maskComposite: 'intersect',
-						WebkitMaskComposite: 'source-in',
-					}}
-				/>
-
+			<div className="tl-papyrus-scroll mx-auto w-full max-w-md">
+				<div className="tl-papyrus-sheet px-5 py-7">
+					<Card className="tl-vellum-panel relative mx-auto w-full rounded-[2rem] overflow-hidden px-0 py-0">
 				<CardHeader className="relative z-10 flex flex-col items-center">
 					<Logo className="h-9 w-9" />
 					<CardTitle className="mt-4 text-xl font-semibold tracking-tight">
@@ -231,8 +208,9 @@ export function SignUpForm() {
 						</Link>
 					</p>
 				</CardFooter>
+					</Card>
 				</div>
-			</Card>
+			</div>
 		</div>
 	)
 }

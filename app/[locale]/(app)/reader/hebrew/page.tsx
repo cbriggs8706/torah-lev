@@ -42,17 +42,19 @@ export default async function HebrewBooksPage({ params }: PageProps) {
 
 	return (
 		<div className="space-y-6">
-			<section className="tl-scroll-stage rounded-[2.4rem]">
-				<div className="tl-scroll-body px-6 py-8 md:px-10 md:py-10">
-					<BookSelector
-						locale={locale}
-						books={items}
-						types={types}
-						typeLabels={typeLabels}
-						title={tTypes('title')}
-						tFilterAll={tTypes('filter.all')}
-						tSearchPlaceholder={tTypes('search.placeholder')}
-					/>
+			<section className="tl-papyrus-scroll px-1 py-4">
+				<div className="tl-papyrus-sheet px-5 py-7 md:px-8 md:py-8">
+					<div className="tl-vellum-panel rounded-[2rem] px-6 py-6 md:px-8 md:py-7">
+						<BookSelector
+							locale={locale}
+							books={items}
+							types={types}
+							typeLabels={typeLabels}
+							title={tTypes('title')}
+							tFilterAll={tTypes('filter.all')}
+							tSearchPlaceholder={tTypes('search.placeholder')}
+						/>
+					</div>
 				</div>
 			</section>
 		</div>

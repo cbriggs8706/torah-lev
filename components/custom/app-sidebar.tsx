@@ -44,24 +44,24 @@ export function AppSidebar({
 	const teacherNav = getTeacherNav(t, locale as string)
 	return (
 		<Sidebar variant="inset" className="p-3" {...props}>
-			<SidebarHeader className="gap-4 rounded-[1.75rem] border border-sidebar-border/80 bg-sidebar/95 p-3 shadow-[0_18px_60px_rgba(63,22,31,0.08)] backdrop-blur-sm">
+			<SidebarHeader className="tl-sidebar-panel gap-4 rounded-[1.9rem] p-4 backdrop-blur-sm">
 				<SidebarMenu>
 					<SidebarMenuItem>
 						<SidebarMenuButton
 							size="lg"
 							asChild
-							className="h-auto rounded-[1.5rem] bg-transparent px-2 py-2 hover:bg-sidebar-accent/60"
+							className="h-auto rounded-[1.65rem] bg-transparent px-3 py-3 hover:bg-sidebar-accent/55"
 						>
 							<a href="#">
-								<div className="tl-heart-glow bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-11 items-center justify-center rounded-2xl">
-									<Heart className="size-5" />
+								<div className="tl-heart-glow bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-12 items-center justify-center rounded-[1.35rem]">
+									<Heart className="size-[1.375rem]" />
 								</div>
 								<div className="grid flex-1 text-left leading-tight">
-									<span className="truncate font-[family:var(--font-cardo)] text-xl font-semibold">
+									<span className="truncate font-[family:var(--font-cardo)] text-[1.45rem] font-semibold tracking-[-0.03em]">
 										{t('sidebar.main.torahLev')}
 									</span>
-									<span className="truncate text-xs text-sidebar-foreground/70">
-										Sacred study, carried by heart
+									<span className="truncate text-sm text-sidebar-foreground/68">
+										Free forever.
 									</span>
 								</div>
 							</a>
@@ -69,38 +69,38 @@ export function AppSidebar({
 					</SidebarMenuItem>
 				</SidebarMenu>
 
-				<div className="tl-scrollwork relative overflow-hidden rounded-[1.6rem] border border-sidebar-border/70 bg-[linear-gradient(145deg,color-mix(in_srgb,var(--sidebar-accent)_88%,white_12%),transparent)] px-4 py-4">
+				<div className="tl-scrollwork tl-sidebar-scroll relative overflow-hidden rounded-[1.8rem] px-5 py-5">
 					<div className="space-y-4">
 						<div className="flex items-start justify-between gap-3">
-							<div className="space-y-1">
-								<p className="font-[family:var(--font-alegreya-sc)] text-[0.68rem] uppercase tracking-[0.24em] text-sidebar-foreground/55">
+							<div className="space-y-1.5">
+								<p className="font-[family:var(--font-alegreya-sc)] text-[0.78rem] uppercase tracking-[0.24em] text-sidebar-foreground/55">
 									Continue your study
 								</p>
-								<p className="font-[family:var(--font-cardo)] text-lg font-semibold text-sidebar-foreground">
+								<p className="font-[family:var(--font-cardo)] text-[1.55rem] leading-tight font-semibold tracking-[-0.03em] text-sidebar-foreground">
 									Return to your current path
 								</p>
 							</div>
-							<div className="rounded-full border border-sidebar-border/70 bg-sidebar/80 p-2 text-sidebar-primary">
-								<Sparkles className="size-4" />
+							<div className="rounded-full border border-[color:color-mix(in_srgb,var(--chart-2)_45%,var(--sidebar-border))] bg-sidebar/78 p-2.5 text-sidebar-primary shadow-[0_10px_24px_rgba(143,34,48,0.08)]">
+								<Sparkles className="size-[1.125rem]" />
 							</div>
 						</div>
 
-						<div className="grid grid-cols-2 gap-2">
-							<div className="rounded-2xl border border-sidebar-border/70 bg-sidebar/85 px-3 py-2">
-								<p className="flex items-center gap-1.5 text-[0.65rem] uppercase tracking-[0.18em] text-sidebar-foreground/55">
+						<div className="grid grid-cols-2 gap-3">
+							<div className="rounded-[1.35rem] border border-[color:color-mix(in_srgb,var(--chart-2)_34%,var(--sidebar-border))] bg-sidebar/84 px-3.5 py-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.38)]">
+								<p className="flex items-center gap-1.5 text-[0.72rem] uppercase tracking-[0.2em] text-sidebar-foreground/55">
 									<Heart className="size-3 fill-current text-sidebar-primary" />
 									Hearts
 								</p>
-								<p className="mt-1 font-[family:var(--font-cardo)] text-lg font-semibold">
+								<p className="mt-1.5 font-[family:var(--font-cardo)] text-[1.4rem] font-semibold tracking-[-0.03em]">
 									{learningStats?.hearts ?? 5}/5
 								</p>
 							</div>
-							<div className="rounded-2xl border border-sidebar-border/70 bg-sidebar/85 px-3 py-2">
-								<p className="flex items-center gap-1.5 text-[0.65rem] uppercase tracking-[0.18em] text-sidebar-foreground/55">
+							<div className="rounded-[1.35rem] border border-[color:color-mix(in_srgb,var(--chart-2)_34%,var(--sidebar-border))] bg-sidebar/84 px-3.5 py-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.38)]">
+								<p className="flex items-center gap-1.5 text-[0.72rem] uppercase tracking-[0.2em] text-sidebar-foreground/55">
 									<Star className="size-3 fill-current text-sidebar-primary" />
 									Points
 								</p>
-								<p className="mt-1 font-[family:var(--font-cardo)] text-lg font-semibold">
+								<p className="mt-1.5 font-[family:var(--font-cardo)] text-[1.4rem] font-semibold tracking-[-0.03em]">
 									{learningStats?.points ?? 0}
 								</p>
 							</div>
@@ -109,13 +109,13 @@ export function AppSidebar({
 				</div>
 
 				<div className="flex items-center justify-between gap-3 px-1">
-					<p className="font-[family:var(--font-alegreya-sc)] text-[0.68rem] uppercase tracking-[0.24em] text-sidebar-foreground/50">
-						Reading sanctuary
+					<p className="font-[family:var(--font-alegreya-sc)] text-[0.78rem] uppercase tracking-[0.24em] text-sidebar-foreground/50">
+						Reading
 					</p>
 					<ThemeToggle />
 				</div>
 			</SidebarHeader>
-			<SidebarContent className="mt-3 rounded-[1.75rem] border border-sidebar-border/80 bg-sidebar/95 py-3 shadow-[0_18px_60px_rgba(63,22,31,0.08)] backdrop-blur-sm">
+			<SidebarContent className="tl-sidebar-panel mt-3 rounded-[1.9rem] py-4 backdrop-blur-sm">
 				{role === 'admin' && (
 					<>
 						<NavMain items={teacherNav} label={t('sidebar.teacher.title')} />
@@ -129,7 +129,7 @@ export function AppSidebar({
 				/>
 				<NavSecondary items={data.navSecondary} className="mt-auto" />
 			</SidebarContent>
-			<SidebarFooter className="mt-3 rounded-[1.75rem] border border-sidebar-border/80 bg-sidebar/95 p-3 shadow-[0_18px_60px_rgba(63,22,31,0.08)] backdrop-blur-sm">
+			<SidebarFooter className="tl-sidebar-panel mt-3 rounded-[1.9rem] p-4 backdrop-blur-sm">
 				<SidebarLanguageSwitcher
 					locale={(locale as string) ?? 'en'}
 					label={t('sidebar.main.language')}

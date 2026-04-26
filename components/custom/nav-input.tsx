@@ -25,19 +25,19 @@ export function NavInput({
 
 	return (
 		<SidebarGroup className="px-3 py-2 group-data-[collapsible=icon]:hidden">
-			<SidebarGroupLabel className="px-3 pb-1 font-[family:var(--font-alegreya-sc)] text-[0.7rem] tracking-[0.22em] text-sidebar-foreground/55 uppercase">
+			<SidebarGroupLabel className="px-3 pb-2 font-[family:var(--font-alegreya-sc)] text-[0.78rem] tracking-[0.24em] text-sidebar-foreground/55 uppercase">
 				{label}
 			</SidebarGroupLabel>
-			<SidebarMenu>
+			<SidebarMenu className="space-y-1">
 				{input.map((item) => (
 					<SidebarMenuItem key={item.name}>
 						<SidebarMenuButton
 							asChild
-							className="h-10 rounded-2xl px-3 text-sidebar-foreground/75 hover:bg-sidebar-accent/70 hover:text-sidebar-foreground"
+							className="h-11 rounded-[1.2rem] px-3.5 text-sidebar-foreground/78 hover:bg-sidebar-accent/70 hover:text-sidebar-foreground"
 						>
 							<a href={item.url}>
-								<item.icon className="size-4" />
-								<span className="text-sm font-medium">{item.name}</span>
+								<item.icon className="size-[1.05rem]" />
+								<span className="text-[0.98rem] font-medium tracking-[-0.01em]">{item.name}</span>
 							</a>
 						</SidebarMenuButton>
 					</SidebarMenuItem>

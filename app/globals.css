@@ -91,6 +91,7 @@
 	--font-mansalva: 'Mansalva', serif;
 	--font-alegreya-sc: 'Alegreya SC', serif;
 	--font-montecarlo: 'Montecarlo', serif;
+	--font-mr-bedfort: 'Mr Bedfort', serif;
 	--font-unifraktur: 'Unifraktur', serif;
 	--font-reenie: 'Reenie Beanie', serif;
 	--font-times: 'Times New Roman', Times, serif;
@@ -167,6 +168,9 @@
 .font-montecarlo {
 	font-family: var(--font-montecarlo);
 }
+.font-mr-bedfort {
+	font-family: var(--font-mr-bedfort);
+}
 .font-unifraktur {
 	font-family: var(--font-unifraktur);
 }
@@ -193,6 +197,8 @@
 	body {
 		@apply bg-background text-foreground;
 		font-family: var(--font-nunito);
+		font-size: 1.08rem;
+		line-height: 1.6;
 		background-image:
 			radial-gradient(circle at top, var(--tl-bg-accent), transparent 40%),
 			radial-gradient(circle at 20% 20%, color-mix(in srgb, var(--primary) 6%, transparent), transparent 22%),
@@ -316,6 +322,61 @@
 
 	.tl-divider {
 		background: linear-gradient(90deg, transparent, var(--tl-ornament), transparent);
+	}
+
+	.tl-sidebar-panel {
+		background:
+			radial-gradient(circle at top, color-mix(in srgb, var(--chart-2) 12%, transparent), transparent 34%),
+			repeating-linear-gradient(
+				90deg,
+				color-mix(in srgb, var(--chart-2) 2.2%, transparent) 0,
+				color-mix(in srgb, var(--chart-2) 2.2%, transparent) 1px,
+				transparent 1px,
+				transparent 15px
+			),
+			repeating-linear-gradient(
+				0deg,
+				color-mix(in srgb, var(--primary) 1.4%, transparent) 0,
+				color-mix(in srgb, var(--primary) 1.4%, transparent) 1px,
+				transparent 1px,
+				transparent 18px
+			),
+			linear-gradient(
+				180deg,
+				color-mix(in srgb, var(--sidebar) 88%, white 12%),
+				color-mix(in srgb, var(--sidebar) 96%, transparent)
+			);
+		border: 1px solid color-mix(in srgb, var(--chart-2) 24%, var(--sidebar-border));
+		box-shadow: var(--tl-shadow);
+	}
+
+	.tl-sidebar-scroll {
+		background:
+			radial-gradient(circle at 20% 18%, color-mix(in srgb, var(--chart-2) 16%, transparent), transparent 20%),
+			radial-gradient(circle at 80% 0%, color-mix(in srgb, var(--primary) 8%, transparent), transparent 22%),
+			repeating-linear-gradient(
+				90deg,
+				color-mix(in srgb, var(--chart-2) 2.4%, transparent) 0,
+				color-mix(in srgb, var(--chart-2) 2.4%, transparent) 1px,
+				transparent 1px,
+				transparent 14px
+			),
+			repeating-linear-gradient(
+				0deg,
+				color-mix(in srgb, var(--primary) 1.4%, transparent) 0,
+				color-mix(in srgb, var(--primary) 1.4%, transparent) 1px,
+				transparent 1px,
+				transparent 18px
+			),
+			linear-gradient(
+				180deg,
+				color-mix(in srgb, var(--card) 72%, white 28%),
+				color-mix(in srgb, var(--secondary) 68%, var(--card) 32%)
+			);
+		border: 1px solid color-mix(in srgb, var(--chart-2) 36%, var(--sidebar-border));
+		box-shadow:
+			inset 0 1px 0 rgba(255, 255, 255, 0.45),
+			0 18px 40px rgba(63, 22, 31, 0.08);
 	}
 
 	.tl-parchment {
@@ -481,5 +542,107 @@
 			);
 		border: 1px solid color-mix(in srgb, var(--border) 86%, transparent);
 		box-shadow: inset 0 1px 0 color-mix(in srgb, white 40%, transparent);
+	}
+
+	.tl-papyrus-scroll {
+		position: relative;
+		overflow: visible;
+		padding-inline: clamp(0.45rem, 1.4vw, 1rem);
+	}
+
+	.tl-papyrus-scroll::before,
+	.tl-papyrus-scroll::after {
+		content: '';
+		position: absolute;
+		top: 1.6rem;
+		bottom: 1.6rem;
+		width: clamp(1.65rem, 2.8vw, 2.5rem);
+		border-radius: 999px;
+		background:
+			radial-gradient(circle at 50% 10%, rgba(255, 248, 227, 0.9), transparent 16%),
+			radial-gradient(circle at 50% 88%, rgba(94, 54, 20, 0.34), transparent 18%),
+			linear-gradient(
+				90deg,
+				#6e4119 0%,
+				#a76429 16%,
+				#ddb669 34%,
+				#bb7a36 52%,
+				#86501f 72%,
+				#5e3412 100%
+			);
+		box-shadow:
+			inset 0 0 0 1px rgba(120, 64, 12, 0.3),
+			inset -0.42rem 0 0.45rem rgba(255, 243, 201, 0.24),
+			inset 0.42rem 0 0.58rem rgba(87, 45, 10, 0.28),
+			0 0 0 1px rgba(136, 81, 20, 0.14);
+		z-index: 3;
+	}
+
+	.tl-papyrus-scroll::before {
+		left: clamp(-0.55rem, -0.3vw, -0.15rem);
+	}
+
+	.tl-papyrus-scroll::after {
+		right: clamp(-0.55rem, -0.3vw, -0.15rem);
+	}
+
+	.tl-papyrus-sheet {
+		position: relative;
+		border-radius: 1.25rem;
+		border: 1px solid color-mix(in srgb, #a36522 26%, var(--border));
+		background:
+			radial-gradient(circle at 16% 20%, rgba(255, 242, 196, 0.38), transparent 16%),
+			radial-gradient(circle at 82% 24%, rgba(193, 132, 73, 0.14), transparent 14%),
+			radial-gradient(circle at 36% 70%, rgba(255, 248, 227, 0.22), transparent 18%),
+			radial-gradient(circle at 72% 68%, rgba(178, 122, 63, 0.09), transparent 16%),
+			repeating-linear-gradient(
+				0deg,
+				rgba(124, 87, 38, 0.06) 0,
+				rgba(124, 87, 38, 0.06) 1px,
+				transparent 1px,
+				transparent 9px
+			),
+			repeating-linear-gradient(
+				90deg,
+				rgba(155, 112, 54, 0.045) 0,
+				rgba(155, 112, 54, 0.045) 1px,
+				transparent 1px,
+				transparent 18px
+			),
+			repeating-linear-gradient(
+				3deg,
+				rgba(108, 76, 33, 0.035) 0,
+				rgba(108, 76, 33, 0.035) 2px,
+				transparent 2px,
+				transparent 24px
+			),
+			linear-gradient(180deg, #f1d594 0%, #ecc77d 28%, #e8bc6d 62%, #dca95a 100%);
+		box-shadow:
+			inset 0 1px 0 rgba(255, 250, 237, 0.75),
+			inset 0 -1px 0 rgba(133, 90, 35, 0.14),
+			0 18px 38px rgba(70, 40, 12, 0.12);
+		z-index: 1;
+	}
+
+	.tl-papyrus-sheet::before,
+	.tl-papyrus-sheet::after {
+		content: none;
+	}
+
+	.tl-scroll-script {
+		color: #3f240d;
+		text-shadow: 0 1px 0 rgba(255, 248, 226, 0.35);
+	}
+
+	.tl-vellum-panel {
+		background:
+			radial-gradient(circle at 18% 20%, rgba(255, 252, 244, 0.56), transparent 18%),
+			radial-gradient(circle at 80% 26%, rgba(182, 144, 104, 0.08), transparent 14%),
+			radial-gradient(circle at 58% 76%, rgba(145, 108, 73, 0.05), transparent 16%),
+			linear-gradient(180deg, rgba(245, 238, 226, 0.96), rgba(228, 216, 196, 0.92));
+		border: 1px solid rgba(160, 128, 94, 0.18);
+		box-shadow:
+			inset 0 1px 0 rgba(255, 251, 242, 0.62),
+			0 14px 28px rgba(80, 52, 17, 0.06);
 	}
 }

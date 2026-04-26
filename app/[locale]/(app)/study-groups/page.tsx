@@ -52,16 +52,20 @@ export default async function StudyGroupsPage({ params }: PageProps) {
 
 	return (
 		<div className="space-y-6">
-			<section className="tl-scroll-stage rounded-[2.4rem]">
-				<div className="tl-scroll-body space-y-4 px-6 py-8 md:px-10">
-					<p className="tl-kicker">Study Groups</p>
-					<h1 className="tl-heading max-w-3xl text-4xl leading-tight font-semibold text-balance md:text-5xl">
-						Join a learning community.
-					</h1>
-					<p className="max-w-2xl text-base leading-7 text-muted-foreground md:text-lg">
-						Choose the study group you belong to. Joining connects your account
-						to that group so your current and future courses can follow you.
-					</p>
+			<section className="tl-papyrus-scroll px-1 py-4">
+				<div className="tl-papyrus-sheet px-5 py-7 md:px-8 md:py-8">
+					<div className="tl-vellum-panel rounded-[2rem] px-6 py-6 md:px-8 md:py-7">
+						<p className="font-nunito text-[1.35rem] leading-none text-[#6f5546] md:text-[1.5rem]">
+							Study groups
+						</p>
+						<h1 className="font-cardo mt-3 max-w-3xl text-4xl leading-tight font-semibold text-balance text-[#2f1b12] md:text-5xl">
+							Join a learning community.
+						</h1>
+						<p className="mt-4 max-w-2xl text-base leading-7 text-muted-foreground md:text-lg">
+							Choose the study group you belong to. Joining connects your account
+							to that group so your current and future courses can follow you.
+						</p>
+					</div>
 				</div>
 			</section>
 

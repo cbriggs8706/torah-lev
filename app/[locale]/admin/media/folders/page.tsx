@@ -2,13 +2,14 @@ import { getServerSession } from 'next-auth'
 import { redirect } from 'next/navigation'
 import { authOptions } from '@/lib/auth'
 import { getMediaLibraryData } from '@/lib/media/library'
-import { MediaAssetListPage } from '@/components/admin/media/MediaAssetListPage'
+import { MediaAdminHeader } from '@/components/admin/media/MediaAdminHeader'
+import { MediaFoldersManager } from '@/components/admin/media/MediaTaxonomyManager'
 
 interface PageProps {
 	params: Promise<{ locale: string }>
 }
 
-export default async function AdminMediaPage({ params }: PageProps) {
+export default async function MediaFoldersPage({ params }: PageProps) {
 	const { locale } = await params
 	const session = await getServerSession(authOptions)
 	const role = session?.user?.role ?? 'guest'
@@ -20,11 +21,12 @@ export default async function AdminMediaPage({ params }: PageProps) {
 	const data = await getMediaLibraryData()
 
 	return (
-		<MediaAssetListPage
-			locale={locale}
-			assets={data.assets}
-			folders={data.folders}
-			tags={data.tags}
-		/>
+		<div className="space-y-6">
+			<MediaAdminHeader
+				title="Manage Folders"
+				description="Keep large libraries organized with a dedicated page for folder structure instead of burying taxonomy controls inside the asset browser."
+			/>
+			<MediaFoldersManager folders={data.folders} />
+		</div>
 	)
 }

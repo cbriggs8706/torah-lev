@@ -93,34 +93,40 @@ export default async function StudyGroupDetailPage({
 
 	return (
 		<div className="space-y-6">
-			<section className="tl-scroll-stage rounded-[2.4rem]">
-				<div className="tl-scroll-body space-y-5 px-6 py-8 md:px-10">
-					<Button asChild variant="ghost" className="h-auto px-0">
-						<Link href={`/${locale}/study-groups`}>
-							<ArrowLeft className="size-4" />
-							Back to study groups
-						</Link>
-					</Button>
-					<div className="space-y-3">
-						<p className="tl-kicker">Study Group</p>
-						<h1 className="tl-heading max-w-3xl text-4xl leading-tight font-semibold text-balance md:text-5xl">
-							{studyGroup.title}
-						</h1>
-						<p className="max-w-2xl text-base leading-7 text-muted-foreground md:text-lg">
-							{studyGroup.activeCourse
-								? `Current course: ${studyGroup.activeCourse.title}`
-								: 'This study group does not have a current course yet.'}
-						</p>
-					</div>
-					<JoinStudyGroupButton
-						studyGroupId={studyGroup.id}
-						joined={Boolean(membership)}
-					/>
-					{completedLesson ? (
-						<div className="rounded-2xl border border-primary/25 bg-primary/10 px-4 py-3 text-sm font-medium text-primary">
-							Lesson complete: {completedLesson.title}
+			<section className="tl-papyrus-scroll px-1 py-4">
+				<div className="tl-papyrus-sheet px-5 py-7 md:px-8 md:py-8">
+					<div className="tl-vellum-panel rounded-[2rem] px-6 py-6 md:px-8 md:py-7">
+						<Button asChild variant="ghost" className="h-auto px-0">
+							<Link href={`/${locale}/study-groups`}>
+								<ArrowLeft className="size-4" />
+								Back to study groups
+							</Link>
+						</Button>
+						<div className="mt-4 space-y-3">
+							<p className="font-nunito text-[1.35rem] leading-none text-[#6f5546] md:text-[1.5rem]">
+								Study group
+							</p>
+							<h1 className="font-cardo max-w-3xl text-4xl leading-tight font-semibold text-balance text-[#2f1b12] md:text-5xl">
+								{studyGroup.title}
+							</h1>
+							<p className="max-w-2xl text-base leading-7 text-muted-foreground md:text-lg">
+								{studyGroup.activeCourse
+									? `Current course: ${studyGroup.activeCourse.title}`
+									: 'This study group does not have a current course yet.'}
+							</p>
 						</div>
-					) : null}
+						<div className="mt-5 flex flex-wrap items-center gap-3">
+							<JoinStudyGroupButton
+								studyGroupId={studyGroup.id}
+								joined={Boolean(membership)}
+							/>
+							{completedLesson ? (
+								<div className="rounded-2xl border border-primary/25 bg-primary/10 px-4 py-3 text-sm font-medium text-primary">
+									Lesson complete: {completedLesson.title}
+								</div>
+							) : null}
+						</div>
+					</div>
 				</div>
 			</section>
 

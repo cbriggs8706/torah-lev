@@ -53,7 +53,7 @@ export default async function Layout({
 							/>
 
 							<div className="space-y-1">
-								<p className="tl-kicker">TorahLev sanctuary</p>
+								<p className="tl-kicker">TorahLev</p>
 								<AppBreadcrumbs />
 							</div>
 						</div>

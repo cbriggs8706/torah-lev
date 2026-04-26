@@ -1,6 +1,6 @@
 // app/fonts.ts
 import {
-	Nunito,
+	Patrick_Hand_SC,
 	Frank_Ruhl_Libre,
 	Tinos,
 	Cardo,
@@ -11,15 +11,16 @@ import {
 	Mansalva,
 	Alegreya_SC,
 	MonteCarlo,
+	Mr_Bedfort,
 	UnifrakturMaguntia,
 	Reenie_Beanie,
 } from 'next/font/google'
 
-/* ---------------- NUNITO ---------------- */
-export const nunito = Nunito({
+/* ---------------- PATRICK HAND SC ---------------- */
+export const nunito = Patrick_Hand_SC({
 	subsets: ['latin'],
 	variable: '--font-nunito',
-	weight: ['200', '300', '400', '600', '700', '800', '900'],
+	weight: ['400'],
 	display: 'swap',
 })
 
@@ -99,6 +100,14 @@ export const alegreyaSC = Alegreya_SC({
 export const monteCarlo = MonteCarlo({
 	subsets: ['latin'],
 	variable: '--font-montecarlo',
+	weight: ['400'],
+	display: 'swap',
+})
+
+/* ---------------- MR BEDFORT ---------------- */
+export const mrBedfort = Mr_Bedfort({
+	subsets: ['latin'],
+	variable: '--font-mr-bedfort',
 	weight: ['400'],
 	display: 'swap',
 })

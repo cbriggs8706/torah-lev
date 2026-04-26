@@ -10,6 +10,8 @@ import {
 import { getPublicMediaUrl } from './storage'
 import { slugifyMediaLabel } from './utils'
 
+type MediaDbTransaction = Parameters<Parameters<typeof db.transaction>[0]>[0]
+
 export type MediaLibraryAsset = typeof mediaAssets.$inferSelect & {
 	publicUrl: string
 	folderName: string | null
@@ -173,7 +175,7 @@ export async function getFolderPathSegments(folderId: string | null) {
 }
 
 export async function ensureMediaTags(
-	tx: any,
+	tx: MediaDbTransaction,
 	inputNames: string[],
 	userId: string
 ) {
@@ -208,7 +210,7 @@ export async function ensureMediaTags(
 }
 
 export async function replaceAssetTags(
-	tx: any,
+	tx: MediaDbTransaction,
 	assetId: string,
 	tagIds: string[]
 ) {
@@ -232,6 +234,11 @@ export async function getMediaAssetRecord(assetId: string) {
 		.limit(1)
 
 	return asset ?? null
+}
+
+export async function getMediaAssetById(assetId: string) {
+	const data = await getMediaLibraryData()
+	return data.assets.find((asset) => asset.id === assetId) ?? null
 }
 
 export async function deleteAssetTagLinks(assetId: string) {

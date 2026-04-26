@@ -61,96 +61,81 @@ export default async function CoursesPage({ params }: CoursesPageProps) {
 
 	return (
 		<div className="space-y-6">
-			<section className="tl-panel tl-parchment rounded-[2rem]">
-				<div className="grid gap-8 px-6 py-8 md:grid-cols-[minmax(0,1.35fr)_21rem] md:px-8 md:py-8">
-					<div className="space-y-5">
-						<div className="space-y-3">
-							<p className="tl-kicker">Course sanctuary</p>
-							<h1 className="tl-heading max-w-3xl text-4xl leading-tight font-semibold md:text-5xl">
-								Study paths that feel curated like a manuscript, not stacked like admin objects.
-							</h1>
-							<p className="max-w-2xl text-base leading-7 text-muted-foreground md:text-lg">
-								This page now treats courses as guided paths through sacred
-								language. The structure stays minimal, but the surfaces,
-								framing, and rhythm carry more Torah-scroll atmosphere.
-							</p>
-						</div>
+			<section className="tl-papyrus-scroll px-1 py-4">
+				<div className="tl-papyrus-sheet px-5 py-7 md:px-8 md:py-8">
+					<div className="tl-vellum-panel rounded-[2rem] px-6 py-6 md:px-8 md:py-7">
+						<div className="grid gap-8 md:grid-cols-[minmax(0,1.35fr)_21rem]">
+							<div className="space-y-5">
+								<div className="space-y-3">
+									<p className="font-nunito text-[1.35rem] leading-none text-[#6f5546] md:text-[1.5rem]">
+										Course sanctuary
+									</p>
+									<h1 className="font-cardo max-w-3xl text-4xl leading-tight font-semibold text-[#2f1b12] md:text-5xl">
+										Study paths that feel curated like a manuscript, not stacked like admin objects.
+									</h1>
+									<p className="max-w-2xl text-base leading-7 text-muted-foreground md:text-lg">
+										This page now treats courses as guided paths through sacred
+										language. The structure stays minimal, but the surfaces,
+										framing, and rhythm carry more Torah-scroll atmosphere.
+									</p>
+								</div>
 
-						<div className="flex flex-wrap items-center gap-3">
-							<Button
-								asChild
-								size="lg"
-								className="h-12 rounded-full bg-primary px-6 text-primary-foreground hover:bg-primary/90"
-							>
-								<Link href={`/${locale}/dashboard`}>
-									Return to study home
-									<ArrowRight className="size-4" />
-								</Link>
-							</Button>
-							<Button
-								asChild
-								size="lg"
-								variant="outline"
-								className="h-12 rounded-full border-border/80 bg-background/75 px-6"
-							>
-								<Link href={`/${locale}/reader/hebrew`}>Open reader</Link>
-							</Button>
-						</div>
-
-						<div className="grid gap-3 sm:grid-cols-3">
-							<div className="rounded-[1.4rem] border border-border/70 bg-background/82 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.35)]">
-								<p className="tl-kicker text-[0.66rem]">Active paths</p>
-								<p className="mt-2 font-[family:var(--font-cardo)] text-3xl font-semibold">
-									3
-								</p>
-							</div>
-							<div className="rounded-[1.4rem] border border-border/70 bg-background/82 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.35)]">
-								<p className="tl-kicker text-[0.66rem]">Lessons carried</p>
-								<p className="mt-2 font-[family:var(--font-cardo)] text-3xl font-semibold">
-									28
-								</p>
-							</div>
-							<div className="rounded-[1.4rem] border border-border/70 bg-background/82 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.35)]">
-								<p className="tl-kicker text-[0.66rem]">Heart vitality</p>
-								<p className="mt-2 font-[family:var(--font-cardo)] text-3xl font-semibold">
-									12
-								</p>
-							</div>
-						</div>
-					</div>
-
-					<div className="tl-panel rounded-[1.9rem] border-border/70 p-5">
-						<div className="space-y-5">
-							<div className="flex items-center justify-between">
-								<p className="tl-kicker">Featured path</p>
-								<div className="rounded-full border border-border/70 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
-									Recommended
+								<div className="flex flex-wrap items-center gap-3">
+									<Button
+										asChild
+										size="lg"
+										className="h-12 rounded-full bg-primary px-6 text-primary-foreground hover:bg-primary/90"
+									>
+										<Link href={`/${locale}/dashboard`}>
+											Return to study home
+											<ArrowRight className="size-4" />
+										</Link>
+									</Button>
+									<Button
+										asChild
+										size="lg"
+										variant="outline"
+										className="h-12 rounded-full border-border/80 bg-background/75 px-6"
+									>
+										<Link href={`/${locale}/reader/hebrew`}>Open reader</Link>
+									</Button>
 								</div>
 							</div>
-							<div className="flex size-12 items-center justify-center rounded-2xl bg-primary text-primary-foreground">
-								<LibraryBig className="size-5" />
-							</div>
-							<div className="space-y-2">
-								<h2 className="tl-heading text-2xl font-semibold">
-									Foundations of Biblical Hebrew
-								</h2>
-								<p className="text-sm leading-6 text-muted-foreground">
-									A manuscript-style flagship card gives the page one ceremonial
-									centerpiece while the rest of the layout stays clean.
-								</p>
-							</div>
-							<div className="space-y-2">
-								<div className="flex items-center justify-between text-sm">
-									<span className="text-muted-foreground">Path completion</span>
-									<span className="font-semibold">68%</span>
+
+							<div className="rounded-[1.9rem] border border-border/70 bg-[rgba(255,249,236,0.72)] p-5">
+								<div className="space-y-5">
+									<div className="flex items-center justify-between">
+										<p className="tl-kicker">Featured path</p>
+										<div className="rounded-full border border-border/70 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+											Recommended
+										</div>
+									</div>
+									<div className="flex size-12 items-center justify-center rounded-2xl bg-primary text-primary-foreground">
+										<LibraryBig className="size-5" />
+									</div>
+									<div className="space-y-2">
+										<h2 className="tl-heading text-2xl font-semibold">
+											Foundations of Biblical Hebrew
+										</h2>
+										<p className="text-sm leading-6 text-muted-foreground">
+											A manuscript-style flagship card gives the page one ceremonial
+											centerpiece while the rest of the layout stays clean.
+										</p>
+									</div>
+									<div className="space-y-2">
+										<div className="flex items-center justify-between text-sm">
+											<span className="text-muted-foreground">Path completion</span>
+											<span className="font-semibold">68%</span>
+										</div>
+										<Progress value={68} className="h-2.5 bg-primary/10" />
+									</div>
+									<div className="rounded-[1.4rem] border border-border/70 bg-background/84 p-4">
+										<p className="font-semibold">Next lesson</p>
+										<p className="mt-1 text-sm leading-6 text-muted-foreground">
+											Letter families, vowel flow, and a first scripture phrase.
+										</p>
+									</div>
 								</div>
-								<Progress value={68} className="h-2.5 bg-primary/10" />
-							</div>
-							<div className="rounded-[1.4rem] border border-border/70 bg-background/84 p-4">
-								<p className="font-semibold">Next lesson</p>
-								<p className="mt-1 text-sm leading-6 text-muted-foreground">
-									Letter families, vowel flow, and a first scripture phrase.
-								</p>
 							</div>
 						</div>
 					</div>

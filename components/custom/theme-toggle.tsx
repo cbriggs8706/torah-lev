@@ -15,10 +15,10 @@ export function ThemeToggle() {
 			variant="outline"
 			size="sm"
 			onClick={() => setTheme(isDark ? 'light' : 'dark')}
-			className="h-10 rounded-full border-sidebar-border/80 bg-sidebar/70 px-3 text-sidebar-foreground shadow-none backdrop-blur-sm hover:bg-sidebar-accent"
+			className="h-11 rounded-full border-[color:color-mix(in_srgb,var(--chart-2)_26%,var(--sidebar-border))] bg-sidebar/72 px-4 text-sidebar-foreground shadow-none backdrop-blur-sm hover:bg-sidebar-accent"
 		>
 			{isDark ? <SunMedium className="size-4" /> : <MoonStar className="size-4" />}
-			<span className="font-medium">{isDark ? 'Light' : 'Dark'} mode</span>
+			<span className="text-[0.98rem] font-medium tracking-[-0.01em]">{isDark ? 'Light' : 'Dark'} mode</span>
 		</Button>
 	)
 }
