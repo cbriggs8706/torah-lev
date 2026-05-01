@@ -18,6 +18,10 @@ export default function HebrewSentenceBuilder({
 }: HebrewSentenceBuilderProps) {
 	const [currentIndex, setCurrentIndex] = useState(0)
 	const [userOrder, setUserOrder] = useState<string[]>([])
+	const [userZones, setUserZones] = useState<{
+		first: string[]
+		second: string[]
+	} | null>(null)
 	const [showFeedback, setShowFeedback] = useState<null | boolean>(null)
 	const [completedCount, setCompletedCount] = useState(0)
 	const [finished, setFinished] = useState(false)
@@ -32,7 +36,7 @@ export default function HebrewSentenceBuilder({
 	const levelOptions = useMemo(
 		() =>
 			Array.from(new Set(phrases.map((p) => p.level))).sort((a, b) => a - b),
-		[]
+		[],
 	)
 	// --- Filtered Phrase Pool ---
 	const filteredPhrases = useMemo(() => {
@@ -48,12 +52,12 @@ export default function HebrewSentenceBuilder({
 
 	// Shuffle and pick 5
 	const [phrasePool, setPhrasePool] = useState(() =>
-		[...phrases].sort(() => Math.random() - 0.5).slice(0, 5)
+		[...phrases].sort(() => Math.random() - 0.5).slice(0, 5),
 	)
 
 	useEffect(() => {
 		setPhrasePool(
-			[...filteredPhrases].sort(() => Math.random() - 0.5).slice(0, 5)
+			[...filteredPhrases].sort(() => Math.random() - 0.5).slice(0, 5),
 		)
 		setCurrentIndex(0)
 	}, [filteredPhrases])
@@ -137,7 +141,7 @@ export default function HebrewSentenceBuilder({
 				console.error('Failed to award points', error)
 			}
 		},
-		[userId, courseId]
+		[userId, courseId],
 	)
 
 	useEffect(() => {
@@ -172,6 +176,20 @@ export default function HebrewSentenceBuilder({
 	}, [])
 
 	useEffect(() => {
+		function handleUpdateUserZones(e: Event) {
+			const custom = e as CustomEvent<{
+				first: string[]
+				second: string[]
+			}>
+			setUserZones(custom.detail)
+		}
+		window.addEventListener('updateUserZones', handleUpdateUserZones)
+		return () => {
+			window.removeEventListener('updateUserZones', handleUpdateUserZones)
+		}
+	}, [])
+
+	useEffect(() => {
 		function handleAddWordToZone(e: CustomEvent<string>) {
 			const word = e.detail
 			// Just pass along for DropAreaWithVerb to handle
@@ -180,12 +198,12 @@ export default function HebrewSentenceBuilder({
 		}
 		window.addEventListener(
 			'addWordToActiveZone',
-			handleAddWordToZone as EventListener
+			handleAddWordToZone as EventListener,
 		)
 		return () => {
 			window.removeEventListener(
 				'addWordToActiveZone',
-				handleAddWordToZone as EventListener
+				handleAddWordToZone as EventListener,
 			)
 		}
 	}, [])
@@ -207,12 +225,45 @@ export default function HebrewSentenceBuilder({
 			.trim()
 	}
 
-	function handleCheck() {
-		const joinedUser = userOrder.join(' ')
-		const joinedCorrect = correctOrder.join(' ')
+	function getExpectedZones() {
+		if (!verbWord) return null
 
-		const isCorrect =
-			normalizeHebrew(joinedUser) === normalizeHebrew(joinedCorrect)
+		const trimmedEnglish = currentPhrase.english.trim()
+		const isCopularDemonstrative = /^(This|These)\s+\([^)]+\)/.test(
+			trimmedEnglish,
+		)
+
+		if (isCopularDemonstrative) {
+			return {
+				first: correctOrder.slice(0, 1),
+				second: correctOrder.slice(1),
+			}
+		}
+
+		return {
+			first: correctOrder.slice(0, -1),
+			second: correctOrder.slice(-1),
+		}
+	}
+
+	function handleCheck() {
+		const isCorrect = (() => {
+			if (!verbWord) {
+				const joinedUser = userOrder.join(' ')
+				const joinedCorrect = correctOrder.join(' ')
+				return normalizeHebrew(joinedUser) === normalizeHebrew(joinedCorrect)
+			}
+
+			const expectedZones = getExpectedZones()
+			if (!expectedZones || !userZones) return false
+
+			return (
+				normalizeHebrew(userZones.first.join(' ')) ===
+					normalizeHebrew(expectedZones.first.join(' ')) &&
+				normalizeHebrew(userZones.second.join(' ')) ===
+					normalizeHebrew(expectedZones.second.join(' '))
+			)
+		})()
 
 		setShowFeedback(isCorrect)
 
@@ -230,6 +281,7 @@ export default function HebrewSentenceBuilder({
 		if (timerRef.current) clearTimeout(timerRef.current)
 		setCurrentIndex((i) => (i + 1) % phrasePool.length)
 		setUserOrder([])
+		setUserZones(null)
 		setShowFeedback(null)
 	}
 
@@ -237,6 +289,7 @@ export default function HebrewSentenceBuilder({
 		if (timerRef.current) clearTimeout(timerRef.current)
 		setCurrentIndex((i) => (i - 1 + phrasePool.length) % phrasePool.length)
 		setUserOrder([])
+		setUserZones(null)
 		setShowFeedback(null)
 	}
 
@@ -246,6 +299,7 @@ export default function HebrewSentenceBuilder({
 		setCompletedCount(0)
 		setShowFeedback(null)
 		setUserOrder([])
+		setUserZones(null)
 		setCurrentIndex(0)
 		setSelectedLevels([1])
 		setSelectedQuantities(['s'])
@@ -314,7 +368,7 @@ export default function HebrewSentenceBuilder({
 								setSelectedLevels((prev) =>
 									prev.includes(lvl)
 										? prev.filter((l) => l !== lvl)
-										: [...prev, lvl]
+										: [...prev, lvl],
 								)
 							}
 							className={`px-3 py-1 border rounded-full text-xs ${
@@ -348,7 +402,7 @@ export default function HebrewSentenceBuilder({
 							key={q}
 							onClick={() =>
 								setSelectedQuantities((prev) =>
-									prev.includes(q) ? prev.filter((x) => x !== q) : [...prev, q]
+									prev.includes(q) ? prev.filter((x) => x !== q) : [...prev, q],
 								)
 							}
 							className={`px-3 py-1 border rounded-full text-xs ${
@@ -501,12 +555,17 @@ export default function HebrewSentenceBuilder({
 					{showFeedback ? (
 						<p>Correct!</p>
 					) : (
-						<p>
-							Incorrect. Correct answer:{' '}
-							<span className="font-times text-4xl font-medium">
-								{correctOrder.join(' ')}
-							</span>
-						</p>
+						<div>
+							<p>
+								Incorrect. It should be:{' '}
+								<span className="font-times text-4xl font-medium">
+									{correctOrder.join(' ')}
+								</span>
+							</p>
+							<p>
+								Make sure the words are on the correct side of the implied verb.
+							</p>
+						</div>
 					)}
 				</p>
 			)}
@@ -566,7 +625,7 @@ function DropAreaWithVerb({
 				return newZones
 			})
 		},
-		[activeZone]
+		[activeZone],
 	)
 
 	// Listen for new words to add from main component
@@ -576,12 +635,12 @@ function DropAreaWithVerb({
 		}
 		window.addEventListener(
 			'requestAddWordToZone',
-			handleRequestAddWordToZone as EventListener
+			handleRequestAddWordToZone as EventListener,
 		)
 		return () => {
 			window.removeEventListener(
 				'requestAddWordToZone',
-				handleRequestAddWordToZone as EventListener
+				handleRequestAddWordToZone as EventListener,
 			)
 		}
 	}, [addWordToActiveZone])
@@ -594,6 +653,11 @@ function DropAreaWithVerb({
 			const event = new CustomEvent('updateUserOrder', { detail: combined })
 			window.dispatchEvent(event)
 		}
+
+		const zoneEvent = new CustomEvent('updateUserZones', {
+			detail: zoneWords,
+		})
+		window.dispatchEvent(zoneEvent)
 	}, [zoneWords, userOrder])
 
 	// Handle removing a word from one of the zones

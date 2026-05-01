@@ -21,10 +21,9 @@ import { PracticeModal } from '@/components/modals/practice-modal'
 import './globals.css'
 import { Analytics } from '@vercel/analytics/next'
 import { updateLastSeen } from '@/actions/update-last-seen'
+import { getSession } from '@/lib/auth'
 import Script from 'next/script'
 import SessionProvider from '@/components/providers/session-provider'
-import { getServerSession } from 'next-auth'
-import { options } from './api/auth/[...nextauth]/options'
 
 const frank = Frank_Ruhl_Libre({
 	subsets: ['hebrew'],
@@ -98,7 +97,7 @@ export default async function RootLayout({
 }: Readonly<{
 	children: React.ReactNode
 }>) {
-	const session = await getServerSession(options)
+	const session = await getSession()
 
 	if (session?.user?.id) {
 		await updateLastSeen()

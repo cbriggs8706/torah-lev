@@ -2,10 +2,22 @@ import { cookies } from 'next/headers'
 import { getServerSession } from 'next-auth'
 import { options } from '@/app/api/auth/[...nextauth]/options'
 
+const isSessionDecodeError = (error: unknown) =>
+	error instanceof Error &&
+	(error.name === 'JWEDecryptionFailed' ||
+		error.message.includes('decryption operation failed'))
+
 /**
  * Get the full NextAuth session (server-side)
  */
-export const getSession = () => getServerSession(options)
+export const getSession = async () => {
+	try {
+		return await getServerSession(options)
+	} catch (error) {
+		if (isSessionDecodeError(error)) return null
+		throw error
+	}
+}
 
 /**
  * Unified user ID getter:

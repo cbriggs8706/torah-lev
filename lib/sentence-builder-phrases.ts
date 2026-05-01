@@ -719,12 +719,7 @@ export const phrases = [
 		level: 8,
 		quantity: 's',
 	},
-	{
-		hebrew: 'זֶה אִישׁ קָטֹן',
-		english: 'This (is a) big man',
-		level: 8,
-		quantity: 's',
-	},
+
 	{
 		hebrew: 'זֶה כֶּ֫בֶשׂ קָטֹן',
 		english: 'This (is a) small lamb',

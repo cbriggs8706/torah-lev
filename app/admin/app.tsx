@@ -1,7 +1,7 @@
 //app/admin/app.tsx
 'use client'
 
-import { Admin, CustomRoutes, Resource } from 'react-admin'
+import { Admin, CustomRoutes, Layout, Resource } from 'react-admin'
 import simpleRestProvider from 'ra-data-simple-rest'
 import { Route } from 'react-router-dom'
 
@@ -26,6 +26,7 @@ import { ChallengeOptionEdit } from './challengeOption/edit'
 import { ChallengeOptionCreate } from './challengeOption/create'
 
 import GenerateChallengesPage from './generate-challenges/page'
+import VocabIntroPage from './vocab-intros/page'
 
 import { AdminMenu } from '@/components/admin-menu'
 
@@ -54,9 +55,11 @@ import { VocabEntryEdit } from './vocab-entries/edit'
 
 const dataProvider = simpleRestProvider('/api')
 
+const AdminLayout = (props: any) => <Layout {...props} menu={AdminMenu} />
+
 const App = () => {
 	return (
-		<Admin dataProvider={dataProvider} menu={AdminMenu}>
+		<Admin dataProvider={dataProvider} layout={AdminLayout}>
 			<Resource
 				name="courses"
 				list={CourseList}
@@ -146,6 +149,7 @@ const App = () => {
 					path="/generate-challenges"
 					element={<GenerateChallengesPage />}
 				/>
+				<Route path="/vocab-intros" element={<VocabIntroPage />} />
 			</CustomRoutes>
 			<hr />
 		</Admin>

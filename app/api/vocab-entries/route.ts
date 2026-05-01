@@ -148,6 +148,10 @@ export const GET = async (req: Request) => {
 		rows = rows.filter((row) => row.missingAudio)
 	}
 
+	if (filter.missingIntroduction === true) {
+		rows = rows.filter((row) => !row.introduction)
+	}
+
 	const [sortField, sortOrder] = sort
 	const direction = sortOrder?.toUpperCase() === 'DESC' ? -1 : 1
 

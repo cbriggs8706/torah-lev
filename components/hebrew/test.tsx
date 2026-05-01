@@ -30,6 +30,10 @@ interface SentenceBuilderProps {
 export default function SentenceBuilder({ userId }: SentenceBuilderProps) {
 	const [currentIndex, setCurrentIndex] = useState(0)
 	const [userOrder, setUserOrder] = useState<string[]>([])
+	const [userZones, setUserZones] = useState<{
+		first: string[]
+		second: string[]
+	} | null>(null)
 	const [showFeedback, setShowFeedback] = useState<null | boolean>(null)
 	const [completedCount, setCompletedCount] = useState(0)
 	const [finished, setFinished] = useState(false)
@@ -119,6 +123,20 @@ export default function SentenceBuilder({ userId }: SentenceBuilderProps) {
 	}, [])
 
 	useEffect(() => {
+		function handleUpdateUserZones(e: Event) {
+			const custom = e as CustomEvent<{
+				first: string[]
+				second: string[]
+			}>
+			setUserZones(custom.detail)
+		}
+		window.addEventListener('updateUserZones', handleUpdateUserZones)
+		return () => {
+			window.removeEventListener('updateUserZones', handleUpdateUserZones)
+		}
+	}, [])
+
+	useEffect(() => {
 		function handleAddWordToZone(e: CustomEvent<string>) {
 			const word = e.detail
 			// Just pass along for DropAreaWithVerb to handle
@@ -154,12 +172,44 @@ export default function SentenceBuilder({ userId }: SentenceBuilderProps) {
 			.trim()
 	}
 
-	function handleCheck() {
-		const joinedUser = userOrder.join(' ')
-		const joinedCorrect = correctOrder.join(' ')
+	function getExpectedZones() {
+		if (!verbWord) return null
 
-		const isCorrect =
-			normalizeHebrew(joinedUser) === normalizeHebrew(joinedCorrect)
+		const trimmedEnglish = currentPhrase.english.trim()
+		const isCopularDemonstrative =
+			/^(This|These)\s+\([^)]+\)/.test(trimmedEnglish)
+
+		if (isCopularDemonstrative) {
+			return {
+				first: correctOrder.slice(0, 1),
+				second: correctOrder.slice(1),
+			}
+		}
+
+		return {
+			first: correctOrder.slice(0, -1),
+			second: correctOrder.slice(-1),
+		}
+	}
+
+	function handleCheck() {
+		const isCorrect = (() => {
+			if (!verbWord) {
+				const joinedUser = userOrder.join(' ')
+				const joinedCorrect = correctOrder.join(' ')
+				return normalizeHebrew(joinedUser) === normalizeHebrew(joinedCorrect)
+			}
+
+			const expectedZones = getExpectedZones()
+			if (!expectedZones || !userZones) return false
+
+			return (
+				normalizeHebrew(userZones.first.join(' ')) ===
+					normalizeHebrew(expectedZones.first.join(' ')) &&
+				normalizeHebrew(userZones.second.join(' ')) ===
+					normalizeHebrew(expectedZones.second.join(' '))
+			)
+		})()
 
 		setShowFeedback(isCorrect)
 
@@ -177,6 +227,7 @@ export default function SentenceBuilder({ userId }: SentenceBuilderProps) {
 		if (timerRef.current) clearTimeout(timerRef.current)
 		setCurrentIndex((i) => (i + 1) % phrasePool.length)
 		setUserOrder([])
+		setUserZones(null)
 		setShowFeedback(null)
 	}
 
@@ -184,6 +235,7 @@ export default function SentenceBuilder({ userId }: SentenceBuilderProps) {
 		if (timerRef.current) clearTimeout(timerRef.current)
 		setCurrentIndex((i) => (i - 1 + phrasePool.length) % phrasePool.length)
 		setUserOrder([])
+		setUserZones(null)
 		setShowFeedback(null)
 	}
 
@@ -193,6 +245,7 @@ export default function SentenceBuilder({ userId }: SentenceBuilderProps) {
 		setCompletedCount(0)
 		setShowFeedback(null)
 		setUserOrder([])
+		setUserZones(null)
 		setCurrentIndex(0)
 		setPhrasePool([...phrases].sort(() => Math.random() - 0.5).slice(0, 5))
 	}
@@ -415,6 +468,11 @@ export function DropAreaWithVerb({
 		const combined = [...zoneWords.first, ...zoneWords.second]
 		const event = new CustomEvent('updateUserOrder', { detail: combined })
 		window.dispatchEvent(event)
+
+		const zoneEvent = new CustomEvent('updateUserZones', {
+			detail: zoneWords,
+		})
+		window.dispatchEvent(zoneEvent)
 	}, [zoneWords])
 
 	// remove word on click

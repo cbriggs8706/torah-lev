@@ -3,7 +3,20 @@ import type { NextRequest } from 'next/server'
 import { getToken } from 'next-auth/jwt'
 
 export async function proxy(req: NextRequest) {
-	const token = await getToken({ req })
+	let token = null
+
+	try {
+		token = await getToken({ req })
+	} catch (error) {
+		if (
+			!(error instanceof Error) ||
+			(error.name !== 'JWEDecryptionFailed' &&
+				!error.message.includes('decryption operation failed'))
+		) {
+			throw error
+		}
+	}
+
 	const { pathname } = req.nextUrl
 
 	if (
