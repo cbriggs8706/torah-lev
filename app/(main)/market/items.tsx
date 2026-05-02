@@ -7,13 +7,11 @@ import { useTransition } from 'react'
 import { Button } from '@/components/ui/button'
 import { POINTS_TO_REFILL } from '@/constants'
 import { refillHearts } from '@/actions/user-progress'
-import { createStripeUrl } from '@/actions/user-subscription'
 import { exchangePointsForTribe } from '@/actions/user-progress'
 
 type Props = {
 	hearts: number
 	points: number
-	hasActiveSubscription: boolean
 	hasTribe: boolean
 	tribeImg?: string | null
 }
@@ -21,7 +19,6 @@ type Props = {
 export const Items = ({
 	hearts,
 	points,
-	hasActiveSubscription,
 	hasTribe,
 	tribeImg,
 }: Props) => {
@@ -34,18 +31,6 @@ export const Items = ({
 
 		startTransition(() => {
 			refillHearts().catch(() => toast.error('Something went wrong'))
-		})
-	}
-
-	const onUpgrade = () => {
-		startTransition(() => {
-			createStripeUrl()
-				.then((response) => {
-					if (response.data) {
-						window.location.href = response.data
-					}
-				})
-				.catch(() => toast.error('Something went wrong'))
 		})
 	}
 

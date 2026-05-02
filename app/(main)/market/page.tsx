@@ -3,16 +3,9 @@ import { redirect } from 'next/navigation'
 import { getSession } from '@/lib/auth'
 // import { Promo } from '@/components/promo'
 import { FeedWrapper } from '@/components/feed-wrapper'
-import { UserProgress } from '@/components/user-progress'
-import { StickyWrapper } from '@/components/sticky-wrapper'
-import {
-	getUserProgress,
-	getUserProgressWithTribe,
-	getUserSubscription,
-} from '@/db/queries'
+import { getUserProgressWithTribe } from '@/db/queries'
 
 // import { Items } from './items'
-import { Quests } from '@/components/quests'
 import { Items } from './items'
 import { Button } from '@/components/ui/button'
 
@@ -20,18 +13,11 @@ const MarketPage = async () => {
 	const session = await getSession()
 	if (!session?.user) redirect('/') // or your landing page
 	const userProgressData = getUserProgressWithTribe()
-	const userSubscriptionData = getUserSubscription()
-
-	const [userProgress, userSubscription] = await Promise.all([
-		userProgressData,
-		userSubscriptionData,
-	])
+	const userProgress = await userProgressData
 
 	if (!userProgress || !userProgress.activeCourse) {
 		return <div>Protected content</div>
 	}
-
-	const isPro = !!userSubscription?.isActive
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
@@ -90,7 +76,6 @@ const MarketPage = async () => {
 					<Items
 						hearts={userProgress.hearts}
 						points={userProgress.points}
-						hasActiveSubscription={isPro}
 						hasTribe={!!userProgress.tribeId}
 						tribeImg={userProgress.tribeImage}
 					/>
