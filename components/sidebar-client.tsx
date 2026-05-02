@@ -213,6 +213,13 @@ export default function SidebarClient({
 								onClick={onItemClick}
 								className="font-cardo text-xl"
 							/>
+							<SidebarItem
+								label="ספרי תנ״ך"
+								href="/he/tanakh-books"
+								iconSrc="/books-svgrepo-com.svg"
+								onClick={onItemClick}
+								className="font-cardo text-xl"
+							/>
 						</>
 					)}
 

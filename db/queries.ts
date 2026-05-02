@@ -148,6 +148,22 @@ export async function getUserProgress(userIdOverride?: string | null) {
 	}
 }
 
+export const getCurrentUserActiveCourseId = cache(async () => {
+	const userId = await getUserId()
+
+	if (!userId) return null
+	if (userId.startsWith('guest')) return await getActiveCourseId()
+
+	const data = await db.query.userProgress.findFirst({
+		where: eq(userProgress.userId, userId),
+		columns: {
+			activeCourseId: true,
+		},
+	})
+
+	return data?.activeCourseId ?? null
+})
+
 async function getLiveCoursePosition(
 	userId: string | null,
 	courseId: number | null
@@ -774,7 +790,7 @@ export const getTopTwentyUsers = cache(async () => {
 
 // 🆕 NEW: Per-course leaderboard using user_course_progress
 export async function getTopTwentyUsersByCourse(courseId: number) {
-	const rawUsers = await db
+	return await db
 		.select({
 			userId: userCourseProgress.userId,
 			userName: userProgress.userName,
@@ -791,23 +807,10 @@ export async function getTopTwentyUsersByCourse(courseId: number) {
 		.where(eq(userCourseProgress.courseId, courseId))
 		.orderBy(desc(userCourseProgress.points))
 		.limit(20)
-
-	const usersWithLiveLesson = await Promise.all(
-		rawUsers.map(async (user) => {
-			const liveCoursePosition = await getLiveCoursePosition(user.userId, courseId)
-			return {
-				...user,
-				activeLessonNumber:
-					liveCoursePosition.activeLessonNumber ?? user.activeLessonNumber,
-			}
-		})
-	)
-
-	return usersWithLiveLesson
 }
 
 export async function getTopTwentyHebrewUsersByCourse(courseId: number) {
-	const rawUsers = await db
+	return await db
 		.select({
 			userId: userCourseProgress.userId,
 			userName: userProgress.userName,
@@ -830,19 +833,6 @@ export async function getTopTwentyHebrewUsersByCourse(courseId: number) {
 		.where(eq(userCourseProgress.courseId, courseId))
 		.orderBy(desc(userCourseProgress.points))
 		.limit(20)
-
-	const usersWithLiveLesson = await Promise.all(
-		rawUsers.map(async (user) => {
-			const liveCoursePosition = await getLiveCoursePosition(user.userId, courseId)
-			return {
-				...user,
-				activeLessonNumber:
-					liveCoursePosition.activeLessonNumber ?? user.activeLessonNumber,
-			}
-		})
-	)
-
-	return usersWithLiveLesson
 }
 
 export async function getPrayerWithLines(prayerId: number) {
