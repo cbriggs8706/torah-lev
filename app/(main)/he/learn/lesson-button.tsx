@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import 'react-circular-progressbar/dist/styles.css'
 import { format } from 'date-fns'
+import type { SidebarLocale } from '@/types/sidebar'
 
 type Props = {
 	id: number
@@ -21,6 +22,8 @@ type Props = {
 	reviewDate?: Date | null
 	lessonNumber: string
 	courseId?: number // ✅ optional, defaults to Hebrew
+	startLabel?: string
+	startLocale?: SidebarLocale
 }
 
 export const HebrewLessonButton = ({
@@ -36,6 +39,8 @@ export const HebrewLessonButton = ({
 	reviewDate,
 	lessonNumber,
 	courseId = 6, // ✅ default Hebrew
+	startLabel = 'החל',
+	startLocale = 'he',
 }: Props) => {
 	const router = useRouter()
 
@@ -83,8 +88,15 @@ export const HebrewLessonButton = ({
 		>
 			{/* Floating start banner */}
 			{current && (
-				<div className="absolute -top-6 inset-x-0 mx-auto w-fit px-3 py-2.5 border-2 font-cardo text-3xl uppercase text-sky-600 bg-white rounded-xl animate-bounce tracking-wide z-20">
-					החל
+				<div
+					className={cn(
+						'absolute -top-6 inset-x-0 mx-auto w-fit rounded-xl border-2 bg-white px-3 py-2.5 text-sky-600 animate-bounce z-20',
+						startLocale === 'he'
+							? 'font-cardo text-3xl uppercase tracking-wide'
+							: 'font-nunito text-md font-bold uppercase tracking-wide'
+					)}
+				>
+					{startLabel}
 					<div className="absolute left-1/2 -bottom-2 w-0 h-0 border-x-8 border-x-transparent border-t-8 transform -translate-x-1/2" />
 				</div>
 			)}

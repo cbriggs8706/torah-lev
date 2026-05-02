@@ -14,6 +14,7 @@ import { FeedWrapper } from '@/components/feed-wrapper'
 import { GoalWrapper } from '@/components/goal-wrapper'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 import FirstVisitModal from '@/components/first-visit-modal'
+import { normalizeSidebarLocale } from '@/lib/sidebar-translations'
 import { HebrewHeader } from './header'
 
 // 🧩 Minimal guest type fallback
@@ -38,6 +39,9 @@ const HebrewLearnPage = async () => {
 	const guestId = cookieStore.get('guestId')?.value ?? null
 	const guestCourseId = Number(
 		cookieStore.get('guestActiveCourseId')?.value ?? 6
+	)
+	const sidebarLocale = normalizeSidebarLocale(
+		cookieStore.get('sidebarLocale')?.value
 	)
 
 	// 🚫 If no user or guest at all, redirect home
@@ -114,6 +118,13 @@ const HebrewLearnPage = async () => {
 		return <div>Protected content</div>
 	}
 
+	const startLabelByLocale = {
+		en: 'Start',
+		es: 'Empezar',
+		he: 'החל',
+		el: 'Έναρξη',
+	} as const
+
 	// 🧮 Optional helper — still available if needed
 	function getLessonSchedule(
 		lessons: { id: number }[],
@@ -139,7 +150,7 @@ const HebrewLearnPage = async () => {
 	}
 
 	return (
-		<div className="flex flex-row-reverse gap-[48px] px-6">
+		<div className="flex flex-row-reverse gap-6 px-2 sm:px-4 lg:gap-[48px] lg:px-6">
 			<FirstVisitModal />
 
 			<FeedWrapper>
@@ -161,6 +172,8 @@ const HebrewLearnPage = async () => {
 					courseProgress={courseProgress ?? undefined}
 					lessonPercentage={lessonPercentage ?? 0}
 					lang="he"
+					startLabel={startLabelByLocale[sidebarLocale]}
+					startLocale={sidebarLocale}
 				/>
 			</FeedWrapper>
 		</div>

@@ -13,6 +13,15 @@ import {
 } from '@/components/ui/collapsible'
 import { Button } from '@/components/ui/button'
 import { ChevronDown, ChevronUp } from 'lucide-react'
+import { normalizeSidebarLocale } from '@/lib/sidebar-translations'
+import type { SidebarLocale } from '@/types/sidebar'
+
+const START_LABEL_BY_LOCALE: Record<SidebarLocale, string> = {
+	en: 'Start',
+	es: 'Empezar',
+	he: 'החל',
+	el: 'Έναρξη',
+}
 
 /* -----------------------------------------------------------
    Helper: extract numeric lesson number from title
@@ -64,14 +73,50 @@ export function GoalWrapper({
 	courseProgress,
 	lessonPercentage,
 	lang = 'en', // default
+	startLabel,
+	startLocale,
 }: {
 	units: any[]
 	courseProgress: any
 	lessonPercentage: any
 	lang?: 'en' | 'he' | 'es' | 'el'
+	startLabel?: string
+	startLocale?: SidebarLocale
 }) {
 	const [schedule, setSchedule] = useState<Record<number, Date>>({})
 	const [open, setOpen] = useState(false)
+	const [liveStartLabel, setLiveStartLabel] = useState(startLabel)
+	const [liveStartLocale, setLiveStartLocale] = useState<SidebarLocale>(
+		startLocale ?? 'en'
+	)
+
+	useEffect(() => {
+		setLiveStartLabel(startLabel)
+		if (startLocale) {
+			setLiveStartLocale(startLocale)
+		}
+	}, [startLabel, startLocale])
+
+	useEffect(() => {
+		if (lang !== 'he') return
+
+		const syncStartLabel = (nextLocale?: string | null) => {
+			const resolvedLocale = normalizeSidebarLocale(nextLocale)
+			setLiveStartLabel(START_LABEL_BY_LOCALE[resolvedLocale])
+			setLiveStartLocale(resolvedLocale)
+		}
+
+		syncStartLabel(localStorage.getItem('sidebarLocale'))
+
+		const handleLocaleChange = (event: Event) => {
+			const locale = (event as CustomEvent<{ locale?: string }>).detail?.locale
+			syncStartLabel(locale)
+		}
+
+		window.addEventListener('sidebar-locale-changed', handleLocaleChange)
+		return () =>
+			window.removeEventListener('sidebar-locale-changed', handleLocaleChange)
+	}, [lang])
 
 	/* -----------------------------------------------------------
 	   Load and update goal-based lesson schedule from localStorage
@@ -158,11 +203,13 @@ export function GoalWrapper({
 										unit: typeof unitsSchema.$inferSelect
 								  })
 								| undefined
-						}
-						activeLessonPercentage={lessonPercentage}
-						schedule={schedule}
-					/>
-				))}
+							}
+							activeLessonPercentage={lessonPercentage}
+							schedule={schedule}
+							startLabel={liveStartLabel}
+							startLocale={liveStartLocale}
+						/>
+					))}
 		</>
 	)
 }

@@ -25,10 +25,20 @@ import {
 } from '@/lib/data/hebrew/tanakh-books'
 
 type StudyMode = 'study' | 'game'
+type TanakhMode = StudyMode | 'quiz'
+type QuizPromptDirection = 'hebrew' | 'english'
 
 type BookWithLocation = TanakhBook & {
 	sectionId: string
 	subgroupId: string
+}
+
+type TanakhQuizItem = {
+	id: string
+	kind: 'section' | 'subgroup' | 'book'
+	hebrew: string
+	english: string
+	audioSrc?: string
 }
 
 type GroupTarget = {
@@ -76,6 +86,48 @@ const bookNumberLookup = Object.fromEntries(
 	allBookSlugs.map((slug, index) => [slug, index + 1]),
 ) as Record<string, number>
 
+function isGroupComplete(group: GroupTarget, items: GameSlot[]) {
+	return items.every((slug, index) => slug === group.books[index]?.slug)
+}
+
+function isSectionComplete(sectionId: string, gameState: GameState) {
+	return groupTargets
+		.filter((group) => group.sectionId === sectionId)
+		.every((group) => isGroupComplete(group, gameState[group.id] as GameSlot[]))
+}
+
+const tanakhQuizItems: TanakhQuizItem[] = tanakhSections.flatMap((section) => {
+	const sectionItem: TanakhQuizItem = {
+		id: `section:${section.id}`,
+		kind: 'section',
+		hebrew: section.title,
+		english: section.englishTitle,
+		audioSrc: section.audioSrc,
+	}
+
+	const subgroupItems = section.subgroups
+		.filter((subgroup) => subgroup.title.trim() && subgroup.englishTitle.trim())
+		.map<TanakhQuizItem>((subgroup) => ({
+			id: `subgroup:${subgroup.id}`,
+			kind: 'subgroup',
+			hebrew: subgroup.title,
+			english: subgroup.englishTitle,
+			audioSrc: subgroup.audioSrc,
+		}))
+
+	const bookItems = section.subgroups.flatMap((subgroup) =>
+		subgroup.books.map<TanakhQuizItem>((book) => ({
+			id: `book:${book.slug}`,
+			kind: 'book',
+			hebrew: book.hebrew,
+			english: book.english,
+			audioSrc: book.audioSrc,
+		})),
+	)
+
+	return [sectionItem, ...subgroupItems, ...bookItems]
+})
+
 function getSlotId(groupId: string, slotIndex: number) {
 	return `slot:${groupId}:${slotIndex}`
 }
@@ -111,7 +163,7 @@ function getSubheadingClassName(sectionId: string) {
 	return 'rounded-2xl bg-amber-900 px-4 py-3 text-white shadow-sm'
 }
 
-function shuffleItems(items: string[]) {
+function shuffleItems<T>(items: T[]) {
 	const next = [...items]
 
 	for (let index = next.length - 1; index > 0; index -= 1) {
@@ -120,6 +172,61 @@ function shuffleItems(items: string[]) {
 	}
 
 	return next
+}
+
+function CountdownCircle({ seconds }: { seconds: number }) {
+	const [progress, setProgress] = useState(0)
+
+	useEffect(() => {
+		let frame = 0
+		const totalFrames = seconds * 60
+		const interval = setInterval(() => {
+			frame += 1
+			setProgress((frame / totalFrames) * 100)
+			if (frame >= totalFrames) clearInterval(interval)
+		}, 1000 / 60)
+
+		return () => clearInterval(interval)
+	}, [seconds])
+
+	const radius = 45
+	const circumference = 2 * Math.PI * radius
+	const offset = circumference - (progress / 100) * circumference
+
+	return (
+		<svg width="100" height="100">
+			<circle
+				cx="50"
+				cy="50"
+				r={radius}
+				stroke="#e5e7eb"
+				strokeWidth="8"
+				fill="none"
+			/>
+			<circle
+				cx="50"
+				cy="50"
+				r={radius}
+				stroke="#0ea5e9"
+				strokeWidth="8"
+				fill="none"
+				strokeDasharray={circumference}
+				strokeDashoffset={offset}
+				strokeLinecap="round"
+				transform="rotate(-90 50 50)"
+			/>
+			<text
+				x="50"
+				y="55"
+				textAnchor="middle"
+				fontSize="24"
+				fill="#111827"
+				fontWeight="bold"
+			>
+				{Math.ceil(seconds - (progress / 100) * seconds)}
+			</text>
+		</svg>
+	)
 }
 
 function createInitialGameState(): GameState {
@@ -622,6 +729,8 @@ function TanakhGame({
 	onReset,
 	onReturnToBank,
 	isComplete,
+	expandedCompletedSections,
+	onShowCompletedSection,
 }: {
 	gameState: GameState
 	draggingId: string | null
@@ -631,14 +740,25 @@ function TanakhGame({
 	onReset: () => void
 	onReturnToBank: (slug: string) => void
 	isComplete: boolean
+	expandedCompletedSections: Set<string>
+	onShowCompletedSection: (sectionId: string) => void
 }) {
 	const booksRemaining = (gameState.bank as string[]).length
+	const completedSections = tanakhSections.filter((section) =>
+		isSectionComplete(section.id, gameState),
+	)
+	const hiddenCompletedSections = completedSections.filter(
+		(section) => !expandedCompletedSections.has(section.id),
+	)
+	const visibleSections = tanakhSections.filter(
+		(section) =>
+			!isSectionComplete(section.id, gameState) ||
+			expandedCompletedSections.has(section.id),
+	)
 
 	const renderGroup = (group: GroupTarget) => {
 		const items = gameState[group.id] as GameSlot[]
-		const isCorrect = items.every(
-			(slug, index) => slug === group.books[index]?.slug,
-		)
+		const isCorrect = isGroupComplete(group, items)
 
 		return (
 			<div key={group.id}>
@@ -700,6 +820,11 @@ function TanakhGame({
 					<div className="rounded-full bg-sky-100 px-4 py-2 text-sky-700">
 						Books left to place: {booksRemaining}
 					</div>
+					{hiddenCompletedSections.length > 0 ? (
+						<div className="rounded-full bg-emerald-100 px-4 py-2 text-emerald-700">
+							Completed sections hidden: {hiddenCompletedSections.length}
+						</div>
+					) : null}
 					{showResults ? (
 						<div
 							className={cn(
@@ -715,6 +840,22 @@ function TanakhGame({
 						</div>
 					) : null}
 				</div>
+
+				{hiddenCompletedSections.length > 0 ? (
+					<div className="mt-4 flex flex-wrap gap-2">
+						{hiddenCompletedSections.map((section) => (
+							<Button
+								key={section.id}
+								type="button"
+								variant="secondary"
+								onClick={() => onShowCompletedSection(section.id)}
+								className="rounded-full"
+							>
+								Show {section.englishTitle}
+							</Button>
+						))}
+					</div>
+				) : null}
 			</div>
 
 			<div className="rounded-[2rem] border border-slate-200 bg-slate-50/80 p-4 shadow-sm">
@@ -745,7 +886,7 @@ function TanakhGame({
 				dir="rtl"
 				className="space-y-4 xl:flex xl:items-start xl:gap-4 xl:space-y-0"
 			>
-				{tanakhSections.map((section) => (
+				{visibleSections.map((section) => (
 					<section
 						key={section.id}
 						className={cn(
@@ -807,8 +948,369 @@ function TanakhGame({
 	)
 }
 
+function TanakhQuiz() {
+	const [gameStarted, setGameStarted] = useState(false)
+	const [promptDirection, setPromptDirection] =
+		useState<QuizPromptDirection>('hebrew')
+	const [timeLimit, setTimeLimit] = useState(3)
+	const [shuffledItems, setShuffledItems] = useState<TanakhQuizItem[]>([])
+	const [currentIndex, setCurrentIndex] = useState(0)
+	const [waiting, setWaiting] = useState(true)
+	const [disabledButtons, setDisabledButtons] = useState(false)
+	const [feedback, setFeedback] = useState<null | boolean>(null)
+	const [correctCount, setCorrectCount] = useState(0)
+	const [wrongCount, setWrongCount] = useState(0)
+	const [wrongAnswers, setWrongAnswers] = useState<TanakhQuizItem[]>([])
+	const [finished, setFinished] = useState(false)
+	const [hasAutoPlayedAnswer, setHasAutoPlayedAnswer] = useState(false)
+	const audioRef = useRef<HTMLAudioElement | null>(null)
+
+	useEffect(() => {
+		return () => {
+			audioRef.current?.pause()
+		}
+	}, [])
+
+	useEffect(() => {
+		if (!gameStarted) return
+
+		setShuffledItems(shuffleItems(tanakhQuizItems))
+		setCurrentIndex(0)
+		setFinished(false)
+		setCorrectCount(0)
+		setWrongCount(0)
+		setWrongAnswers([])
+		setFeedback(null)
+		setDisabledButtons(false)
+		setHasAutoPlayedAnswer(false)
+	}, [gameStarted, promptDirection])
+
+	const currentItem = shuffledItems[currentIndex]
+	const total = shuffledItems.length
+
+	const playAudio = async (audioSrc?: string) => {
+		if (!audioSrc) return
+
+		try {
+			audioRef.current?.pause()
+			const audio = new Audio(audioSrc)
+			audioRef.current = audio
+			await audio.play()
+		} catch {
+			audioRef.current = null
+		}
+	}
+
+	useEffect(() => {
+		if (!gameStarted || finished || !currentItem) return
+
+		setWaiting(true)
+		setFeedback(null)
+		setDisabledButtons(false)
+		setHasAutoPlayedAnswer(false)
+
+		const timer = setTimeout(() => {
+			setWaiting(false)
+		}, timeLimit * 1000)
+
+		return () => clearTimeout(timer)
+	}, [currentItem, finished, gameStarted, timeLimit])
+
+	useEffect(() => {
+		if (waiting || finished || !currentItem || hasAutoPlayedAnswer) return
+
+		setHasAutoPlayedAnswer(true)
+		void playAudio(currentItem.audioSrc)
+	}, [waiting, finished, currentItem, hasAutoPlayedAnswer])
+
+	function handleResponse(correct: boolean) {
+		if (disabledButtons || !currentItem) return
+
+		setDisabledButtons(true)
+		setFeedback(correct)
+
+		if (correct) {
+			setCorrectCount((prev) => prev + 1)
+		} else {
+			setWrongCount((prev) => prev + 1)
+			setWrongAnswers((prev) => [...prev, currentItem])
+		}
+
+		setTimeout(() => {
+			const isLast = currentIndex === shuffledItems.length - 1
+			if (isLast) {
+				setFinished(true)
+			} else {
+				setCurrentIndex((index) => index + 1)
+			}
+		}, 1500)
+	}
+
+	function resetToStart() {
+		audioRef.current?.pause()
+		setGameStarted(false)
+		setCurrentIndex(0)
+		setWaiting(true)
+		setDisabledButtons(false)
+		setFeedback(null)
+		setCorrectCount(0)
+		setWrongCount(0)
+		setWrongAnswers([])
+		setFinished(false)
+		setHasAutoPlayedAnswer(false)
+	}
+
+	const promptLabel =
+		promptDirection === 'hebrew' ? currentItem?.hebrew ?? '' : currentItem?.english ?? ''
+	const answerLabel =
+		promptDirection === 'hebrew' ? currentItem?.english ?? '' : currentItem?.hebrew ?? ''
+	const answerDir = promptDirection === 'hebrew' ? 'ltr' : 'rtl'
+
+	return (
+		<div className="mx-auto max-w-4xl rounded-3xl border border-slate-200 bg-white/90 p-6 text-center shadow-sm">
+			{!gameStarted ? (
+				<div className="space-y-6">
+					<div>
+						<h2 className="text-2xl font-bold text-neutral-900">
+							Customize Your TaNaK Quiz
+						</h2>
+						<p className="mt-2 text-neutral-600">
+							Quiz yourself on section names, subgroup names, and all the books
+							of the TaNaK.
+						</p>
+					</div>
+
+					<div>
+						<p className="mb-2 font-medium">Prompt Language</p>
+						<div className="flex flex-wrap justify-center gap-2">
+							<button
+								type="button"
+								onClick={() => setPromptDirection('hebrew')}
+								className={`px-4 py-2 border rounded-full ${
+									promptDirection === 'hebrew'
+										? 'bg-sky-600 text-white'
+										: 'bg-gray-200 text-black'
+								}`}
+							>
+								Hebrew Prompt
+							</button>
+							<button
+								type="button"
+								onClick={() => setPromptDirection('english')}
+								className={`px-4 py-2 border rounded-full ${
+									promptDirection === 'english'
+										? 'bg-sky-600 text-white'
+										: 'bg-gray-200 text-black'
+								}`}
+							>
+								English Prompt
+							</button>
+						</div>
+					</div>
+
+					<div>
+						<p className="mb-2 font-medium">Seconds to Answer</p>
+						<div className="flex flex-wrap justify-center gap-4">
+							{[1, 3, 5, 8].map((seconds) => (
+								<button
+									key={seconds}
+									type="button"
+									onClick={() => setTimeLimit(seconds)}
+									className={`px-4 py-2 border rounded-full ${
+										timeLimit === seconds
+											? 'bg-sky-600 text-white'
+											: 'bg-gray-200 text-black'
+									}`}
+								>
+									{seconds}s
+								</button>
+							))}
+						</div>
+						<input
+							type="number"
+							min={1}
+							max={10}
+							value={timeLimit}
+							onChange={(event) => setTimeLimit(Number(event.target.value))}
+							className="mt-4 w-24 rounded border p-2 text-center"
+						/>
+					</div>
+
+					<button
+						type="button"
+						onClick={() => setGameStarted(true)}
+						className="rounded-lg bg-green-600 px-6 py-2 text-white transition-colors hover:bg-green-700"
+					>
+						Start Quiz
+					</button>
+				</div>
+			) : finished ? (
+				<div className="space-y-4">
+					<h2 className="text-2xl font-bold">Quiz Complete!</h2>
+					<p className="text-lg">Correct: {correctCount}</p>
+					<p className="text-lg">Incorrect: {wrongCount}</p>
+					{wrongAnswers.length > 0 ? (
+						<div className="mt-6">
+							<h3 className="mb-3 text-lg font-medium">You missed:</h3>
+							<div className="grid gap-3 text-left sm:grid-cols-2">
+								{wrongAnswers.map((item) => (
+									<div
+										key={item.id}
+										className="rounded-2xl border border-slate-200 bg-slate-50 p-4"
+									>
+										<p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+											{item.kind}
+										</p>
+										<p className="mt-2 font-cardo text-3xl text-neutral-900" dir="rtl">
+											{item.hebrew}
+										</p>
+										<p className="mt-1 text-base font-semibold text-neutral-700">
+											{item.english}
+										</p>
+										{item.audioSrc ? (
+											<button
+												type="button"
+												onClick={() => playAudio(item.audioSrc)}
+												className="mt-3 text-sm font-semibold text-sky-700 hover:text-sky-800"
+											>
+												Play audio
+											</button>
+										) : null}
+									</div>
+								))}
+							</div>
+						</div>
+					) : (
+						<p className="text-emerald-700">Perfect round.</p>
+					)}
+
+					<button
+						type="button"
+						onClick={resetToStart}
+						className="mt-6 rounded-lg bg-sky-600 px-6 py-2 text-white hover:bg-sky-700"
+					>
+						Start Over
+					</button>
+				</div>
+			) : (
+				<>
+					<button
+						type="button"
+						onClick={resetToStart}
+						className="mb-6 text-sm font-semibold text-slate-600 hover:text-slate-900"
+					>
+						Back
+					</button>
+
+					<div className="min-h-[180px]">
+						<p className="text-xs font-semibold uppercase tracking-[0.25em] text-sky-600">
+							{currentItem?.kind}
+						</p>
+						<div
+							dir={promptDirection === 'hebrew' ? 'rtl' : 'ltr'}
+							className={cn(
+								'mt-6 text-neutral-900',
+								promptDirection === 'hebrew'
+									? 'font-cardo text-6xl sm:text-7xl'
+									: 'text-4xl font-extrabold sm:text-5xl',
+							)}
+						>
+							{promptLabel}
+						</div>
+					</div>
+
+					{waiting ? (
+						<div className="mb-6 flex justify-center">
+							<CountdownCircle seconds={timeLimit} />
+						</div>
+					) : (
+						<div className="mb-6 space-y-4">
+							<p className="text-sm font-semibold uppercase tracking-[0.25em] text-slate-500">
+								Answer
+							</p>
+							<div
+								dir={answerDir}
+								className={cn(
+									'text-neutral-900',
+									promptDirection === 'hebrew'
+										? 'text-4xl font-extrabold sm:text-5xl'
+										: 'font-cardo text-6xl sm:text-7xl',
+								)}
+							>
+								{answerLabel}
+							</div>
+							{currentItem?.audioSrc ? (
+								<button
+									type="button"
+									onClick={() => playAudio(currentItem.audioSrc)}
+									className="mb-4 text-5xl text-sky-600 hover:text-sky-800"
+									aria-label="Replay Audio"
+								>
+									🔊
+								</button>
+							) : null}
+						</div>
+					)}
+
+					<div className="mt-6 flex min-h-[60px] justify-center gap-6">
+						<button
+							type="button"
+							onClick={() => handleResponse(true)}
+							disabled={waiting || disabledButtons}
+							className={`px-4 py-2 rounded-lg ${
+								waiting || disabledButtons
+									? 'bg-green-300 cursor-not-allowed'
+									: 'bg-green-500 hover:bg-green-600'
+							}`}
+						>
+							I got it right 👍
+						</button>
+						<button
+							type="button"
+							onClick={() => handleResponse(false)}
+							disabled={waiting || disabledButtons}
+							className={`px-4 py-2 rounded-lg ${
+								waiting || disabledButtons
+									? 'bg-red-300 cursor-not-allowed'
+									: 'bg-red-500 hover:bg-red-600'
+							}`}
+						>
+							I missed it 👎
+						</button>
+					</div>
+
+					<div className="mt-4 min-h-[32px]">
+						{feedback !== null ? (
+							<p
+								className={cn(
+									'text-lg font-bold',
+									feedback ? 'text-green-600' : 'text-red-500',
+								)}
+							>
+								{feedback ? 'Great job!' : "Don't worry, you got this!"}
+							</p>
+						) : null}
+					</div>
+
+					<div className="mt-6">
+						<p className="mb-1 text-sm font-medium text-gray-600">
+							{currentIndex + 1} / {total}
+						</p>
+						<div className="h-2 overflow-hidden rounded-full bg-gray-200">
+							<div
+								className="h-full bg-sky-600 transition-all duration-300"
+								style={{ width: `${((currentIndex + 1) / total) * 100}%` }}
+							/>
+						</div>
+					</div>
+				</>
+			)}
+		</div>
+	)
+}
+
 export default function HebrewTanakhBooks() {
-	const [mode, setMode] = useState<StudyMode>('study')
+	const [mode, setMode] = useState<TanakhMode>('study')
 	const [visibleBooks, setVisibleBooks] = useState<Set<string>>(new Set())
 	const [visibleHeadings, setVisibleHeadings] = useState<Set<string>>(new Set())
 	const [playingSlug, setPlayingSlug] = useState<string | null>(null)
@@ -820,6 +1322,9 @@ export default function HebrewTanakhBooks() {
 	const [hoveredContainerId, setHoveredContainerId] = useState<string | null>(
 		null,
 	)
+	const [expandedCompletedSections, setExpandedCompletedSections] = useState<
+		Set<string>
+	>(new Set())
 	const [showResults, setShowResults] = useState(false)
 	const audioRef = useRef<HTMLAudioElement | null>(null)
 	const sensors = useSensors(useSensor(PointerSensor))
@@ -889,7 +1394,16 @@ export default function HebrewTanakhBooks() {
 		setGameState(createInitialGameState())
 		setDraggingId(null)
 		setHoveredContainerId(null)
+		setExpandedCompletedSections(new Set())
 		setShowResults(false)
+	}
+
+	const handleShowCompletedSection = (sectionId: string) => {
+		setExpandedCompletedSections((current) => {
+			const next = new Set(current)
+			next.add(sectionId)
+			return next
+		})
 	}
 
 	const handleReturnToBank = (slug: string) => {
@@ -1024,6 +1538,18 @@ export default function HebrewTanakhBooks() {
 						>
 							Game
 						</button>
+						<button
+							type="button"
+							onClick={() => setMode('quiz')}
+							className={cn(
+								'rounded-full px-5 py-2 text-sm font-bold transition',
+								mode === 'quiz'
+									? 'bg-white text-sky-700 shadow-sm'
+									: 'text-slate-500 hover:text-slate-700',
+							)}
+						>
+							Quiz
+						</button>
 					</div>
 
 					{mode === 'study' ? (
@@ -1036,7 +1562,7 @@ export default function HebrewTanakhBooks() {
 								English. Use the speaker button to hear the pronunciation.
 							</p>
 						</>
-					) : (
+					) : mode === 'game' ? (
 						<>
 							<p className="text-sm font-semibold uppercase tracking-[0.25em] text-sky-600">
 								Build the TaNaK
@@ -1044,6 +1570,16 @@ export default function HebrewTanakhBooks() {
 							<p className="text-base text-neutral-700">
 								Each numbered slot is independent. Drop any book directly onto
 								the number you want.
+							</p>
+						</>
+					) : (
+						<>
+							<p className="text-sm font-semibold uppercase tracking-[0.25em] text-sky-600">
+								Quiz Yourself
+							</p>
+							<p className="text-base text-neutral-700">
+								Choose Hebrew or English prompts, pick your timer, then
+								self-check each answer.
 							</p>
 						</>
 					)}
@@ -1078,7 +1614,7 @@ export default function HebrewTanakhBooks() {
 						</div>
 					))}
 				</div>
-			) : (
+			) : mode === 'game' ? (
 				<DndContext
 					sensors={sensors}
 					collisionDetection={pointerWithin}
@@ -1095,6 +1631,8 @@ export default function HebrewTanakhBooks() {
 						onReset={resetGame}
 						onReturnToBank={handleReturnToBank}
 						isComplete={showResults && isGameComplete}
+						expandedCompletedSections={expandedCompletedSections}
+						onShowCompletedSection={handleShowCompletedSection}
 					/>
 					<DragOverlay>
 						{draggingId ? (
@@ -1107,6 +1645,8 @@ export default function HebrewTanakhBooks() {
 						) : null}
 					</DragOverlay>
 				</DndContext>
+			) : (
+				<TanakhQuiz />
 			)}
 		</div>
 	)

@@ -1,8 +1,10 @@
 'use client'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { lessons as lessonsTbl, units } from '@/db/schema'
 import { HebrewLessonButton } from './lesson-button'
 import { HebrewUnitBanner } from './unit-banner'
+import { Collapsible, CollapsibleContent } from '@/components/ui/collapsible'
+import type { SidebarLocale } from '@/types/sidebar'
 
 type Props = {
 	id: number
@@ -15,16 +17,11 @@ type Props = {
 		| undefined
 	activeLessonPercentage: number
 	schedule?: Record<number, Date | string>
+	startLabel?: string
+	startLocale?: SidebarLocale
 }
 
-type ReviewRange = {
-	startLessonNumber: number
-	endLessonNumber: number
-	date: string
-} | null
-
 const REVIEW_RANGE_MAP_KEY = 'reviewRangeDatesByLessonNumber'
-const REVIEW_RANGE_KEY = 'reviewGoalRange'
 const NEW_GOAL_MAP_KEY = 'newGoalDatesByLessonNumber'
 const GOALS_EVENT = 'goals-updated'
 
@@ -36,50 +33,20 @@ export const HebrewUnit = (props: Props) => {
 		activeLesson,
 		activeLessonPercentage,
 		schedule,
+		startLabel,
+		startLocale,
 	} = props
 
-	const [reviewRange, setReviewRange] = useState<ReviewRange>(null)
 	const [reviewMap, setReviewMap] = useState<Record<number, string>>({})
 	const [newMap, setNewMap] = useState<Record<number, string>>({})
+	const [manualOpen, setManualOpen] = useState<boolean | null>(null)
+
+	const allLessonsCompleted =
+		lessons.length > 0 && lessons.every((lesson) => lesson.completed)
+	const isOpen = manualOpen ?? !allLessonsCompleted
 
 	useEffect(() => {
 		function load() {
-			try {
-				const rawRange = localStorage.getItem(REVIEW_RANGE_KEY)
-				setReviewRange(rawRange ? JSON.parse(rawRange) : null)
-			} catch {
-				setReviewRange(null)
-			}
-
-			try {
-				const rawMap = localStorage.getItem(REVIEW_RANGE_MAP_KEY)
-				setReviewMap(rawMap ? JSON.parse(rawMap) : {})
-			} catch {
-				setReviewMap({})
-			}
-		}
-		load()
-		const h = () => load()
-		window.addEventListener('review-goals-updated', h)
-		return () => window.removeEventListener('review-goals-updated', h)
-	}, [])
-
-	const getTargetDate = (lessonId: number) => {
-		const raw = schedule?.[lessonId]
-		if (!raw) return null
-		const d = typeof raw === 'string' ? new Date(raw) : raw
-		return isNaN(+d) ? null : d
-	}
-
-	useEffect(() => {
-		function load() {
-			try {
-				const rawRange = localStorage.getItem(REVIEW_RANGE_KEY)
-				setReviewRange(rawRange ? JSON.parse(rawRange) : null)
-			} catch {
-				setReviewRange(null)
-			}
-
 			try {
 				const rawReview = localStorage.getItem(REVIEW_RANGE_MAP_KEY)
 				setReviewMap(rawReview ? JSON.parse(rawReview) : {})
@@ -105,58 +72,64 @@ export const HebrewUnit = (props: Props) => {
 		}
 	}, [])
 
+	useEffect(() => {
+		setManualOpen(null)
+	}, [allLessonsCompleted])
+
 	return (
-		<>
-			<HebrewUnitBanner title={title} description={description} />
-			{/* <div className="flex items-center flex-col relative mb-12"> */}
-			<div
-				className="flex flex-wrap justify-center items-stretch gap-4 my-12 "
-				dir="rtl"
-			>
-				{lessons.map((lesson, index) => {
-					// console.log(lesson.lessonNumber, lesson.completed)
-					const isCurrent = lesson.id === activeLesson?.id
-					const isLocked = false
-					// const isLocked = !lesson.completed && !isCurrent
+		<Collapsible open={isOpen} onOpenChange={setManualOpen}>
+			<HebrewUnitBanner
+				title={title}
+				description={description}
+				isCollapsed={!isOpen}
+				isCompleted={allLessonsCompleted}
+				onToggle={() => setManualOpen(!isOpen)}
+			/>
+			<CollapsibleContent>
+				<div
+					className="my-12 flex flex-wrap items-stretch justify-center gap-4"
+					dir="rtl"
+				>
+					{lessons.map((lesson, index) => {
+						const isCurrent = lesson.id === activeLesson?.id
+						const isLocked = false
 
-					// 👇 per-lesson review date (if any) from the map
+						const reviewIso = reviewMap[Number(lesson.lessonNumber)]
+						const reviewDateFromMap = reviewIso ? new Date(reviewIso) : null
 
-					const reviewIso = reviewMap[Number(lesson.lessonNumber)]
-					const reviewDateFromMap = reviewIso ? new Date(reviewIso) : null
+						const newIso = newMap[Number(lesson.lessonNumber)]
+						const targetDateFromNew = newIso ? new Date(newIso) : null
 
-					// NEW: per-lesson new goal target date
-					const newIso = newMap[Number(lesson.lessonNumber)]
-					const targetDateFromNew = newIso ? new Date(newIso) : null
+						const targetDateFromSchedule = (() => {
+							const raw = schedule?.[lesson.id]
+							if (!raw) return null
+							const d = typeof raw === 'string' ? new Date(raw) : raw
+							return isNaN(+d) ? null : d
+						})()
 
-					// server-provided fallback
-					const targetDateFromSchedule = (() => {
-						const raw = schedule?.[lesson.id]
-						if (!raw) return null
-						const d = typeof raw === 'string' ? new Date(raw) : raw
-						return isNaN(+d) ? null : d
-					})()
+						const targetDate = targetDateFromNew ?? targetDateFromSchedule
 
-					// choose targetDate: new-map first, then schedule
-					const targetDate = targetDateFromNew ?? targetDateFromSchedule
-
-					return (
-						<HebrewLessonButton
-							key={lesson.id}
-							id={lesson.id}
-							title={lesson.title}
-							completed={lesson.completed}
-							index={index}
-							totalCount={lessons.length - 1}
-							current={isCurrent}
-							locked={isLocked}
-							percentage={activeLessonPercentage}
-							targetDate={targetDate}
-							reviewDate={reviewDateFromMap}
-							lessonNumber={String(lesson.lessonNumber)}
-						/>
-					)
-				})}
-			</div>
-		</>
+						return (
+							<HebrewLessonButton
+								key={lesson.id}
+								id={lesson.id}
+								title={lesson.title}
+								completed={lesson.completed}
+								index={index}
+								totalCount={lessons.length - 1}
+								current={isCurrent}
+								locked={isLocked}
+								percentage={activeLessonPercentage}
+								targetDate={targetDate}
+								reviewDate={reviewDateFromMap}
+								lessonNumber={String(lesson.lessonNumber)}
+								startLabel={startLabel}
+								startLocale={startLocale}
+							/>
+						)
+					})}
+				</div>
+			</CollapsibleContent>
+		</Collapsible>
 	)
 }

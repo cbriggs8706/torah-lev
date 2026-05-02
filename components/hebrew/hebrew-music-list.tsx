@@ -24,6 +24,25 @@ type Song = {
 	public: boolean
 }
 
+const normalizeCategory = (category?: string | null) =>
+	(category && category.trim()) || 'Uncategorized'
+
+const isWorshipCategory = (category: string) => {
+	const normalized = category.trim().toLowerCase()
+	return normalized === 'worship' || normalized === 'worship songs' || normalized === 'worships'
+}
+
+const sortCategories = (categories: string[]) =>
+	[...categories].sort((a, b) => {
+		const aIsWorship = isWorshipCategory(a)
+		const bIsWorship = isWorshipCategory(b)
+
+		if (aIsWorship && !bIsWorship) return -1
+		if (!aIsWorship && bIsWorship) return 1
+
+		return a.localeCompare(b)
+	})
+
 export default function SongList({
 	songs,
 	isFriend,
@@ -37,12 +56,8 @@ export default function SongList({
 	)
 
 	const categories = useMemo(() => {
-		const set = new Set(
-			filteredSongs.map(
-				(p) => (p.category && p.category.trim()) || 'Uncategorized'
-			)
-		)
-		return ['All', ...Array.from(set).sort()]
+		const set = new Set(filteredSongs.map((song) => normalizeCategory(song.category)))
+		return ['All', ...sortCategories(Array.from(set))]
 	}, [filteredSongs])
 
 	const [selectedCategory, setSelectedCategory] = useState<string>('All')
@@ -50,28 +65,25 @@ export default function SongList({
 	const visibleSongs = useMemo(() => {
 		if (selectedCategory === 'All') return filteredSongs
 		return filteredSongs
-			.filter((p) => (p.category && p.category.trim()) || 'Uncategorized')
-			.filter(
-				(p) =>
-					((p.category && p.category.trim()) || 'Uncategorized') ===
-					selectedCategory
-			)
+			.filter((song) => normalizeCategory(song.category))
+			.filter((song) => normalizeCategory(song.category) === selectedCategory)
 	}, [filteredSongs, selectedCategory])
 
 	const grouped = useMemo(() => {
-		return visibleSongs.reduce<Record<string, Song[]>>((acc, p) => {
-			const key = (p.category && p.category.trim()) || 'Uncategorized'
+		return visibleSongs.reduce<Record<string, Song[]>>((acc, song) => {
+			const key = normalizeCategory(song.category)
 			acc[key] ??= []
-			acc[key].push(p)
+			acc[key].push(song)
 			return acc
 		}, {})
 	}, [visibleSongs])
 
 	const groupsInOrder = useMemo(
 		() =>
-			Object.keys(grouped)
-				.sort()
-				.map((k) => [k, grouped[k]] as const),
+			sortCategories(Object.keys(grouped)).map((category) => [
+				category,
+				grouped[category],
+			] as const),
 		[grouped]
 	)
 

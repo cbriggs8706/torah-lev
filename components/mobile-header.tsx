@@ -1,58 +1,14 @@
-import { MobileSidebar } from './mobile-sidebar'
-import { getUserProgress, getUserSubscription } from '@/db/queries'
-import { getSession } from '@/lib/auth'
-import { cookies } from 'next/headers'
+import Link from 'next/link'
+import { SidebarTrigger } from '@/components/ui/sidebar'
 
 export default async function MobileHeader() {
-	const session = await getSession()
-	const userId = session?.user?.id ?? null
-	const cookieStore = await cookies()
-	const guestCourseId = cookieStore.get('guestActiveCourseId')?.value
-	const guestId = cookieStore.get('guestId')?.value
-
-	let userProgress = null
-	let userSubscription = null
-
-	if (userId) {
-		// Signed-in user
-		;[userProgress, userSubscription] = await Promise.all([
-			getUserProgress(),
-			getUserSubscription(),
-		])
-	}
-
-	// 🧩 Build fallback for guest users
-	const fallbackProgress = {
-		userId: guestId || 'guest',
-		userName: 'Guest',
-		userImageSrc: '/mascot.svg',
-		activeCourseId: guestCourseId ? Number(guestCourseId) : 6, // default Hebrew
-		activeCourse: {
-			id: guestCourseId ? Number(guestCourseId) : 6,
-			title: 'Guest Course',
-			imageSrc: '/mascot.svg', // ✅ <-- add this line
-		},
-		hearts: 0,
-		points: 0,
-	}
-
-	const displayProgress = userProgress ?? fallbackProgress
-
-	const isHebrewFriend = userProgress?.isHebrewFriend ?? false
-	const isSpanishFriend = userProgress?.isSpanishFriend ?? false
-	const isEnglishFriend = userProgress?.isEnglishFriend ?? false
-	const isTester = userProgress?.isTester ?? false
-
 	return (
-		<nav className="lg:hidden px-6 h-[50px] flex items-center bg-sky-600 border-b fixed top-0 w-full z-50">
-			<MobileSidebar
-				userProgress={displayProgress}
-				isPro={!!userSubscription?.isActive}
-				isHebrewFriend={isHebrewFriend}
-				isSpanishFriend={isSpanishFriend}
-				isEnglishFriend={isEnglishFriend}
-				isTester={isTester}
-			/>
+		<nav className="sticky top-0 z-40 flex h-[56px] items-center justify-between border-b border-sidebar-border bg-sidebar px-4 lg:hidden">
+			<SidebarTrigger className="text-sidebar-foreground hover:bg-sidebar-accent" />
+			<Link href="/courses" className="text-lg font-extrabold tracking-tight text-sidebar-primary">
+				Idiom Go
+			</Link>
+			<div className="w-10" />
 		</nav>
 	)
 }

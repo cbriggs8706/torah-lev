@@ -119,7 +119,7 @@ export const SpanishLessonButton = ({
 		>
 			{/* Floating start banner */}
 			{current && (
-				<div className="absolute -top-6 inset-x-0 mx-auto w-fit px-3 py-2.5 border-2 font-bold text-md uppercase text-sky-600 bg-white rounded-xl animate-bounce tracking-wide z-20">
+				<div className="absolute -top-6 inset-x-0 mx-auto w-fit rounded-xl border-2 bg-white px-3 py-2.5 font-nunito text-md font-bold uppercase tracking-wide text-sky-600 animate-bounce z-20">
 					Start
 					<div className="absolute left-1/2 -bottom-2 w-0 h-0 border-x-8 border-x-transparent border-t-8 transform -translate-x-1/2" />
 				</div>

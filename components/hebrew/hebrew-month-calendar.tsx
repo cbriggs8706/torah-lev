@@ -1,7 +1,8 @@
 'use client'
 
+import Image from 'next/image'
 import { useEffect, useState } from 'react'
-import { HDate, HebrewCalendar, Location } from '@hebcal/core'
+import { HDate } from '@hebcal/core'
 import clsx from 'clsx'
 import { HebrewClock } from './hebrew-clock'
 
@@ -188,6 +189,12 @@ function getHebrewOrdinalDay(n: number): string {
 	return `יּוֹם ${ordinals[n] || n}`
 }
 
+function getMoonIconForDay(day: number, daysInMonth: number): string {
+	const normalizedDay = day >= daysInMonth ? 1 : day
+	const iconIndex = Math.floor(((normalizedDay - 1) / 28) * 16) + 1
+	return `/moon/moon-${iconIndex}.svg`
+}
+
 export default function HebrewMonthCalendar() {
 	const [monthData, setMonthData] = useState<any[]>([])
 	const [monthName, setMonthName] = useState('')
@@ -231,6 +238,7 @@ export default function HebrewMonthCalendar() {
 				weekday,
 				holiday: holiday?.desc,
 				color: holiday?.color,
+				moonIcon: getMoonIconForDay(d, start.daysInMonth()),
 				isToday: d === todayDay && month === todayMonth && year === todayYear,
 			})
 		}
@@ -341,14 +349,14 @@ export default function HebrewMonthCalendar() {
 							<div
 								key={`${wi}-${di}`}
 								className={clsx(
-									'border p-2 h-36 flex flex-col justify-between text-right',
+									'border p-2 h-36 flex flex-col justify-between text-center',
 									!day && 'bg-gray-100',
 									day?.isToday && 'bg-sky-100 border-sky-600'
 								)}
 							>
 								{day && (
 									<>
-										<div className="flex flex-col h-full justify-between text-right">
+										<div className="flex flex-col h-full items-center justify-between text-center">
 											<div className="text-xs md:text-lg leading-none font-serif">
 												{day.hebrewDate}
 											</div>
@@ -357,10 +365,21 @@ export default function HebrewMonthCalendar() {
 											</div>
 
 											{/* Spacer */}
-											<div className="flex-1 flex items-center">
+											<div className="flex-1 flex flex-col items-center justify-center gap-2">
+												{day.moonIcon && (
+													<div className="rounded-full bg-[#0f172f] p-1">
+														<Image
+															src={day.moonIcon}
+															alt="Moon phase"
+															width={28}
+															height={28}
+															className="shrink-0"
+														/>
+													</div>
+												)}
 												{day.holiday && (
 													<div
-														className={`${day.color} text-[10px] px-1 rounded-sm truncate`}
+														className={`${day.color} max-w-full text-[10px] px-1 rounded-sm truncate`}
 													>
 														{day.holiday}
 													</div>

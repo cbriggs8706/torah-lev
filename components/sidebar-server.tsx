@@ -1,11 +1,9 @@
 import { getUserProgress, getUserSubscription } from '@/db/queries'
 import { getSession } from '@/lib/auth'
-import SidebarClient from './sidebar-client'
 import { cookies } from 'next/headers'
+import AppSidebar from './app-sidebar'
 
 export default async function SidebarServer({
-	className,
-	onItemClick,
 }: {
 	className?: string
 	onItemClick?: () => void
@@ -15,6 +13,7 @@ export default async function SidebarServer({
 	const cookieStore = await cookies()
 	const guestCourseId = cookieStore.get('guestActiveCourseId')?.value
 	const guestId = cookieStore.get('guestId')?.value
+	const sidebarLocale = cookieStore.get('sidebarLocale')?.value
 
 	let userProgress = null
 	let userSubscription = null
@@ -50,15 +49,14 @@ export default async function SidebarServer({
 	const isTester = userProgress?.isTester ?? false
 
 	return (
-		<SidebarClient
-			className={className}
-			onItemClick={onItemClick}
+		<AppSidebar
 			userProgress={displayProgress}
 			isPro={!!userSubscription?.isActive}
 			isHebrewFriend={isHebrewFriend}
 			isSpanishFriend={isSpanishFriend}
 			isEnglishFriend={isEnglishFriend}
 			isTester={isTester}
+			initialSidebarLocale={sidebarLocale}
 		/>
 	)
 }

@@ -1,11 +1,12 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import Image from 'next/image'
-import { HDate, Location } from '@hebcal/core'
+import { HDate } from '@hebcal/core'
 import SunCalc from 'suncalc'
 import Link from 'next/link'
 import { ChevronDown } from 'lucide-react'
+import { cn } from '@/lib/utils'
 
 // Map for modern Hebrew month names (no niqqud)
 const hebrewMonthMap: Record<string, string> = {
@@ -190,17 +191,6 @@ function getMoonIconByPhase(phaseFraction: number): string {
 	return `/moon/moon-${iconIndex}.svg`
 }
 
-function getPhaseName(phase: number): string {
-	if (phase === 0) return 'New Moon'
-	if (phase < 7) return 'Waxing Crescent'
-	if (phase === 7) return 'First Quarter'
-	if (phase < 14) return 'Waxing Gibbous'
-	if (phase === 14) return 'Full Moon'
-	if (phase < 21) return 'Waning Gibbous'
-	if (phase === 21) return 'Last Quarter'
-	return 'Waning Crescent'
-}
-
 // Convert Hebrew year to gematria string
 function hebrewYearGematria(year: number): string {
 	const gematriaMap: Record<number, string> = {
@@ -257,37 +247,36 @@ type HebrewClockProps = {
 	isWidget: boolean
 }
 
-export function HebrewClock({ onClick, isWidget }: HebrewClockProps) {
-	const [hebrewDate, setHebrewDate] = useState<{
-		day: number
-		monthNum: number
-		monthNameEnglish: string
-		monthNameHebrew: string
-		year: number
-	} | null>(null)
+function getHebrewClockSnapshot() {
+	const now = new Date()
+	const hd = new HDate(now)
+	const monthNum = hd.getMonth()
+	const monthName = hd.getMonthName()
+	const phaseFraction = SunCalc.getMoonIllumination(now).phase
 
-	const [moonPhase, setMoonPhase] = useState<string>('')
-	const [isExpanded, setIsExpanded] = useState(!isWidget)
-
-	useEffect(() => {
-		console.log('mount')
-		const now = new Date()
-		const hd = new HDate(now)
-		const monthNum = hd.getMonth()
-		const monthName = hd.getMonthName()
-
-		setHebrewDate({
+	return {
+		hebrewDate: {
 			day: hd.getDate(),
 			monthNum,
 			monthNameEnglish: monthName,
 			monthNameHebrew: hebrewMonthMap[monthName] || monthName,
 			year: hd.getFullYear(),
-		})
+		},
+		moonPhase: getMoonIconByPhase(phaseFraction),
+	}
+}
 
-		const phaseFraction = SunCalc.getMoonIllumination(now).phase
-		const moonIcon = getMoonIconByPhase(phaseFraction)
-		setMoonPhase(moonIcon)
-	}, [])
+export function HebrewClock({ onClick, isWidget }: HebrewClockProps) {
+	const [hebrewDate] = useState<{
+		day: number
+		monthNum: number
+		monthNameEnglish: string
+		monthNameHebrew: string
+		year: number
+	} | null>(() => getHebrewClockSnapshot().hebrewDate)
+
+	const [moonPhase] = useState<string>(() => getHebrewClockSnapshot().moonPhase)
+	const [isExpanded, setIsExpanded] = useState(!isWidget)
 
 	if (!hebrewDate) return null
 
@@ -301,21 +290,45 @@ export function HebrewClock({ onClick, isWidget }: HebrewClockProps) {
 	const biblicalPhrase = `הַיּוֹם ${dayHebrew} לַחֹדֶשׁ ${monthHebrewOrdinal} ${hebrewYearPhrase} לְבְּרִיאָת הָעוֹלָם`
 	const dayEng = englishOrdinals[hebrewDate.day]
 	const monthEng = englishOrdinals[hebrewDate.monthNum]
-	const englishPhrase = `The ${dayEng} day of the ${monthEng} month in the year ${hebrewDate.year} from the creation of the world `
+	const englishPhrase = `The ${dayEng} day of the ${monthEng} month in the year ${hebrewDate.year} from the creation of the world`
 	const shortEnglishPhrase = `${dayEng} Day of the ${monthEng} Month`
+	const widgetBodyId = 'hebrew-clock-widget-body'
 
 	return (
-		<div className="border rounded-xl shadow-md overflow-hidden max-w-md w-full bg-white mb-2">
-			{/* Blue Header with Big Month Name */}
+		<div
+			className={cn(
+				'w-full overflow-hidden',
+				isWidget
+					? 'rounded-2xl border border-sidebar-border bg-white/60 shadow-sm'
+					: 'max-w-md w-full rounded-xl border bg-white shadow-md',
+			)}
+		>
 			<div
-				className={`bg-sky-600 text-white text-center py-3 px-4 font-semibold ${
+				className={cn(
+					'font-semibold',
 					isWidget
-						? 'cursor-pointer flex justify-between items-center'
-						: 'cursor-default'
-				}`}
+						? 'flex min-h-[76px] cursor-pointer items-center justify-between bg-sidebar-accent/80 px-4 py-3 text-sidebar-foreground'
+						: 'cursor-default bg-sky-600 px-4 py-3 text-center text-white',
+				)}
 				onClick={isWidget ? () => setIsExpanded(!isExpanded) : undefined}
+				aria-expanded={isWidget ? isExpanded : undefined}
+				aria-controls={isWidget ? widgetBodyId : undefined}
 			>
-				<h2 className="text-xl font-nunito">{shortEnglishPhrase}</h2>
+				<div className={cn(isWidget ? 'text-left' : 'w-full text-center')}>
+					<p
+						className={cn(
+							'font-cardo tracking-wide',
+							isWidget
+								? 'text-xs uppercase text-sidebar-foreground/55'
+								: 'text-xs uppercase text-white/75',
+						)}
+					>
+						Hebrew calendar
+					</p>
+					<h2 className={cn('font-nunito', isWidget ? 'text-base' : 'text-xl')}>
+						{shortEnglishPhrase}
+					</h2>
+				</div>
 				{isWidget && (
 					<ChevronDown
 						className={`transition-transform duration-300 ${
@@ -325,28 +338,48 @@ export function HebrewClock({ onClick, isWidget }: HebrewClockProps) {
 				)}
 			</div>
 
-			{/* Calendar Body */}
 			{isExpanded && (
-				<div className="p-4 space-y-4 bg-sky-50">
-					{/* Hebrew and English Date */}
-					<div className="text-right font-frank text-3xl leading-tight">
+				<div
+					id={isWidget ? widgetBodyId : undefined}
+					className={cn(
+						'space-y-4',
+						isWidget ? 'bg-transparent p-4' : 'bg-sky-50 p-4',
+					)}
+				>
+					<div
+						className={cn(
+							'text-right font-frank leading-tight',
+							isWidget ? 'text-2xl' : 'text-3xl',
+						)}
+					>
 						<div>{biblicalPhrase}</div>
 					</div>
 
-					<div className="text-sm text-gray-700 italic">{englishPhrase}</div>
+					<div
+						className={cn(
+							'italic',
+							isWidget ? 'text-xs text-sidebar-foreground/70' : 'text-sm text-gray-700',
+						)}
+					>
+						{englishPhrase}
+					</div>
 
-					{/* Month Info & Moon Phase */}
 					<div className="flex justify-between items-center gap-4">
-						<div className="text-sm leading-relaxed space-y-1">
+						<div
+							className={cn(
+								'leading-relaxed space-y-1',
+								isWidget ? 'text-xs text-sidebar-foreground/80' : 'text-sm',
+							)}
+						>
 							<div>
 								<span className="font-semibold">Pre-Exile: </span>
-								<span className="font-frank text-2xl">
+								<span className={cn('font-frank', isWidget ? 'text-xl' : 'text-2xl')}>
 									{monthInfo.preExile || '—'}
 								</span>
 							</div>
 							<div>
 								<span className="font-semibold">Post-Exile: </span>
-								<span className="font-frank text-2xl">
+								<span className={cn('font-frank', isWidget ? 'text-xl' : 'text-2xl')}>
 									{monthInfo.postExile}
 								</span>
 							</div>
@@ -356,7 +389,12 @@ export function HebrewClock({ onClick, isWidget }: HebrewClockProps) {
 							</div>
 						</div>
 						{moonPhase && (
-							<div className="bg-sky-900 p-1 rounded-lg">
+							<div
+								className={cn(
+									'rounded-lg p-1',
+									isWidget ? 'bg-sidebar-primary/10' : 'bg-sky-900',
+								)}
+							>
 								<Image
 									src={moonPhase}
 									alt="Moon phase"
@@ -371,7 +409,7 @@ export function HebrewClock({ onClick, isWidget }: HebrewClockProps) {
 					{isWidget && (
 						<Link
 							href="/calendar"
-							className="flex justify-center text-center"
+							className="flex justify-center rounded-xl bg-sidebar-accent px-3 py-2 text-center text-sm font-semibold text-sidebar-foreground transition-colors hover:bg-sidebar-accent/80"
 							onClick={onClick}
 						>
 							View full calendar

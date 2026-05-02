@@ -1,22 +1,27 @@
-import { headers } from 'next/headers'
 import SidebarServer from '@/components/sidebar-server'
 import MobileHeader from '@/components/mobile-header'
+import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 
 type Props = {
 	children: React.ReactNode
 }
 
 const MainLayout = async ({ children }: Props) => {
-	const pathname = (await headers()).get('x-pathname') || ''
-	const isCoursesPage = pathname.startsWith('/courses')
 	return (
-		<>
-			<MobileHeader />
-			{!isCoursesPage && <SidebarServer className="hidden lg:flex" />}
-			<main className="lg:pl-[256px] h-full pt-[50px] lg:pt-0">
-				<div className="max-w-[1056px] mx-auto pt-6 h-full">{children}</div>
-			</main>
-		</>
+		<SidebarProvider>
+			<SidebarServer />
+			<SidebarInset className="bg-sidebar">
+				<MobileHeader />
+				<div className="flex-1">
+					<div className="hidden items-center border-b border-sidebar-border bg-white/80 px-4 py-3 backdrop-blur lg:flex">
+						<SidebarTrigger className="text-sidebar-foreground hover:bg-sidebar-accent" />
+					</div>
+					<div className="mx-auto h-full max-w-[1056px] px-4 py-6 md:px-6">
+						{children}
+					</div>
+				</div>
+			</SidebarInset>
+		</SidebarProvider>
 	)
 }
 

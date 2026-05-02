@@ -26,7 +26,7 @@ export const tanakhSections: TanakhSection[] = [
 	{
 		id: 'torah',
 		title: 'תּוֹרָה',
-		englishTitle: 'Torah',
+		englishTitle: 'Torah (the law)',
 		audioSrc: '/audio/tanakh-books/torah.mp3',
 		tintClassName: 'bg-sky-100/85 border-sky-200',
 		subgroups: [
@@ -72,7 +72,7 @@ export const tanakhSections: TanakhSection[] = [
 	{
 		id: 'neviim',
 		title: 'נְבִיאִים',
-		englishTitle: 'Neviim',
+		englishTitle: 'Neviim (the prophets)',
 		audioSrc: '/audio/tanakh-books/neviim.mp3',
 		tintClassName: 'bg-emerald-100/80 border-emerald-200',
 		subgroups: [
@@ -137,7 +137,7 @@ export const tanakhSections: TanakhSection[] = [
 			{
 				id: 'shnei-asar',
 				title: 'שְׁנֵים־עָשָׂר',
-				englishTitle: 'The Twelve',
+				englishTitle: 'The Twelve (latter prophets)',
 				audioSrc: '/audio/tanakh-books/shnei-asar.mp3',
 				books: [
 					{
@@ -219,7 +219,7 @@ export const tanakhSections: TanakhSection[] = [
 	{
 		id: 'ketuvim',
 		title: 'כְּתוּבִים',
-		englishTitle: 'Ketuvim',
+		englishTitle: 'Ketuvim (the writings)',
 		audioSrc: '/audio/tanakh-books/ketuvim.mp3',
 		tintClassName: 'bg-amber-100/80 border-amber-200',
 		subgroups: [
@@ -252,13 +252,13 @@ export const tanakhSections: TanakhSection[] = [
 			{
 				id: 'chamesh-megillot',
 				title: 'חָמֵשׁ מְגִלּוֹת',
-				englishTitle: 'Five Megillot',
+				englishTitle: 'Five Scrolls',
 				audioSrc: '/audio/tanakh-books/chamesh-megillot.mp3',
 				books: [
 					{
 						slug: 'shir-hashirim',
 						hebrew: 'שִׁיר הַשִּׁירִים',
-						english: 'Song of Songs',
+						english: 'Song of Songs/Solomon',
 						audioSrc: '/audio/tanakh-books/shir-hashirim.mp3',
 					},
 					{
@@ -308,7 +308,7 @@ export const tanakhSections: TanakhSection[] = [
 					{
 						slug: 'divrei-hayamim',
 						hebrew: 'דִּבְרֵי הַיָּמִים',
-						english: 'Chronicles',
+						english: 'Chronicles (words of the days)',
 						audioSrc: '/audio/tanakh-books/divrei-hayamim.mp3',
 					},
 				],
