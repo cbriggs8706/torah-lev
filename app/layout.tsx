@@ -100,7 +100,16 @@ export default async function RootLayout({
 	const session = await getSession()
 
 	if (session?.user?.id) {
-		await updateLastSeen()
+		try {
+			await updateLastSeen({
+				id: session.user.id,
+				email: session.user.email,
+				name: session.user.name,
+				image: session.user.image,
+			})
+		} catch (error) {
+			console.error('Failed to update last seen in RootLayout:', error)
+		}
 	}
 	return (
 		<SessionProvider>

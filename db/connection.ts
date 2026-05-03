@@ -7,6 +7,12 @@ type DatabaseConfig = {
 	database?: string
 }
 
+const runtimeDatabaseFallbackEnvVars = [
+	'DIRECT_DATABASE_URL',
+	'POSTGRES_URL_NON_POOLING',
+	'SUPABASE_DIRECT_URL',
+]
+
 function parsePossiblyRawConnectionString(value: string): DatabaseConfig {
 	try {
 		const url = new URL(value)
@@ -29,7 +35,9 @@ function parsePossiblyRawConnectionString(value: string): DatabaseConfig {
 
 		const authPart = value.slice(schemeIndex + 3, atIndex)
 		const hostPart = value.slice(atIndex + 1, slashIndex)
-		const database = value.slice(slashIndex + 1).split(/[?#]/, 1)[0]
+		const databasePartWithSuffix = value.slice(slashIndex + 1)
+		const database = databasePartWithSuffix.split(/[?#]/, 1)[0]
+		const suffix = databasePartWithSuffix.slice(database.length)
 		const authSeparator = authPart.indexOf(':')
 		const portSeparator = hostPart.lastIndexOf(':')
 
@@ -46,9 +54,9 @@ function parsePossiblyRawConnectionString(value: string): DatabaseConfig {
 		const host = hostPart.slice(0, portSeparator)
 		const port = hostPart.slice(portSeparator + 1)
 
-		const safeUrl = `postgresql://${encodeURIComponent(user)}:${encodeURIComponent(
-			password
-		)}@${host}:${port}/${database}`
+		const safeUrl = `postgresql://${encodeURIComponent(
+			user
+		)}:${encodeURIComponent(password)}@${host}:${port}/${database}${suffix}`
 
 		return {
 			connectionString: safeUrl,
@@ -61,8 +69,25 @@ function parsePossiblyRawConnectionString(value: string): DatabaseConfig {
 	}
 }
 
+function resolveDatabaseEnvValue(envVar: string) {
+	const envVars =
+		envVar === 'DATABASE_URL'
+			? [...runtimeDatabaseFallbackEnvVars, envVar]
+			: [envVar]
+
+	for (const candidate of envVars) {
+		const value = process.env[candidate]?.trim()
+
+		if (value) {
+			return value
+		}
+	}
+
+	return null
+}
+
 export function getDatabaseConfig(envVar = 'DATABASE_URL') {
-	const value = process.env[envVar]?.trim()
+	const value = resolveDatabaseEnvValue(envVar)
 
 	if (!value) {
 		throw new Error(`${envVar} is not set`)

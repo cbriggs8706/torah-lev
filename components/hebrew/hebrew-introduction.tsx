@@ -17,6 +17,9 @@ type SessionPhase = 'idle' | 'teaching' | 'quiz' | 'complete'
 
 const SUCCESS_SOUND = '/correct.wav'
 const INCORRECT_SOUND = '/incorrect.wav'
+const REPEAT_COUNT = 3
+const REPEAT_PAUSE_MS = 1400
+const POST_WORD_PAUSE_MS = 450
 
 export default function HebrewIntroduction({
 	data,
@@ -149,16 +152,18 @@ export default function HebrewIntroduction({
 				setTeachingCardIndex(index)
 				setStatusText(`Listen and look: ${card.eng}`)
 
-				for (let repeat = 0; repeat < 3; repeat += 1) {
+				for (let repeat = 0; repeat < REPEAT_COUNT; repeat += 1) {
 					if (runIdRef.current !== runId) return
-					setActiveRepeatNumber(3 - repeat)
+					setActiveRepeatNumber(REPEAT_COUNT - repeat)
 					setPulseTick((prev) => prev + 1)
 					await playAudio(card.hebAudio)
-					await wait(2350)
+					if (repeat < REPEAT_COUNT - 1) {
+						await wait(REPEAT_PAUSE_MS)
+					}
 				}
 
 				setActiveRepeatNumber(null)
-				await wait(450)
+				await wait(POST_WORD_PAUSE_MS)
 			}
 
 			if (runIdRef.current !== runId) return

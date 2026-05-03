@@ -208,13 +208,20 @@ function preloadImage(src: string) {
 	image.src = src
 }
 
-function waitForImageLoad(src: string) {
-	return new Promise<void>((resolve, reject) => {
-		if (typeof window === 'undefined' || !src) {
-			resolve()
-			return
-		}
+function waitForImageLoad(
+	src: string,
+	cache: Map<string, Promise<void>>
+) {
+	if (typeof window === 'undefined' || !src) {
+		return Promise.resolve()
+	}
 
+	const cached = cache.get(src)
+	if (cached) {
+		return cached
+	}
+
+	const loadPromise = new Promise<void>((resolve, reject) => {
 		const image = new window.Image()
 		image.onload = () => resolve()
 		image.onerror = () => reject(new Error(`Failed to load image: ${src}`))
@@ -223,7 +230,13 @@ function waitForImageLoad(src: string) {
 		if (image.complete) {
 			resolve()
 		}
+	}).catch((error) => {
+		cache.delete(src)
+		throw error
 	})
+
+	cache.set(src, loadPromise)
+	return loadPromise
 }
 
 export default function VocabQuiz({
@@ -261,6 +274,7 @@ export default function VocabQuiz({
 	const promptAudioRef = useRef<HTMLAudioElement | null>(null)
 	const answerAudioRef = useRef<HTMLAudioElement | null>(null)
 	const hasAwardedRef = useRef(false)
+	const imageLoadCacheRef = useRef<Map<string, Promise<void>>>(new Map())
 	const { width, height } = useWindowSize()
 
 	const availablePromptOptions = useMemo(
@@ -337,11 +351,15 @@ export default function VocabQuiz({
 			: null
 
 		if (Array.isArray(currentValue) && currentValue[0]) {
-			preloadImage(currentValue[0])
+			void waitForImageLoad(currentValue[0], imageLoadCacheRef.current).catch(() => {
+				preloadImage(currentValue[0])
+			})
 		}
 
 		if (Array.isArray(nextValue) && nextValue[0]) {
-			preloadImage(nextValue[0])
+			void waitForImageLoad(nextValue[0], imageLoadCacheRef.current).catch(() => {
+				preloadImage(nextValue[0])
+			})
 		}
 	}, [cards, currentCard, currentIndex, selectedPromptConfig])
 
@@ -368,7 +386,7 @@ export default function VocabQuiz({
 
 		setPromptReady(false)
 
-		waitForImageLoad(imageUrl)
+		waitForImageLoad(imageUrl, imageLoadCacheRef.current)
 			.then(() => {
 				if (!cancelled) setPromptReady(true)
 			})
@@ -443,6 +461,15 @@ export default function VocabQuiz({
 			answerAudioRef.current?.pause()
 		}
 	}, [])
+
+	const activityReady =
+		!gameStarted ||
+		studyMode ||
+		finished ||
+		!currentCard ||
+		!selectedPromptConfig ||
+		selectedPromptConfig.kind !== 'image' ||
+		promptReady
 
 	const awardPoints = useCallback(async () => {
 		if (userId === 'guest') return
@@ -811,17 +838,18 @@ export default function VocabQuiz({
 					</button>
 				</div>
 			) : currentCard ? (
+				!activityReady ? (
+					<div className="flex min-h-[420px] items-center justify-center">
+						<TorahScrollLoader size={180} speedSec={40} fontSize={40} />
+					</div>
+				) : (
 				<div className="space-y-6">
 					<div>
 						<p className="text-sm font-semibold uppercase tracking-wide text-slate-500">
 							{selectedPromptConfig?.label}
 						</p>
 						<div className="mt-4 flex min-h-[220px] items-center justify-center text-center">
-							{!promptReady && selectedPromptConfig?.kind === 'image' ? (
-								<TorahScrollLoader size={180} speedSec={40} fontSize={40} />
-							) : (
-								renderPrompt(currentCard)
-							)}
+							{renderPrompt(currentCard)}
 						</div>
 					</div>
 
@@ -908,6 +936,7 @@ export default function VocabQuiz({
 						</div>
 					</div>
 				</div>
+				)
 			) : (
 				<p className="text-slate-600">{config.emptyState}</p>
 			)}

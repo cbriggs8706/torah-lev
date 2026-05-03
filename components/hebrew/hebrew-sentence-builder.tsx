@@ -23,13 +23,14 @@ interface DragPayload {
 }
 
 const DRAG_PAYLOAD_MIME = 'application/x-sentence-builder-word'
+const TARGET_PHRASE_OPTIONS = [5, 10, 15, 20, 25, 30] as const
 
-function pickInitialPhrasePool() {
-	return phrases.slice(0, 5)
+function pickInitialPhrasePool(targetCount: number) {
+	return phrases.slice(0, targetCount)
 }
 
-function shufflePhrasePool(source: typeof phrases) {
-	return [...source].sort(() => Math.random() - 0.5).slice(0, 5)
+function shufflePhrasePool(source: typeof phrases, targetCount: number) {
+	return [...source].sort(() => Math.random() - 0.5).slice(0, targetCount)
 }
 
 function setDragPayload(
@@ -77,6 +78,8 @@ export default function HebrewSentenceBuilder({
 	const [singleDropIndex, setSingleDropIndex] = useState<number | null>(null)
 	const [selectedLevels, setSelectedLevels] = useState<number[]>([1])
 	const [selectedQuantities, setSelectedQuantities] = useState<string[]>(['s'])
+	const [selectedTargetCount, setSelectedTargetCount] = useState(5)
+	const [awardedMilestones, setAwardedMilestones] = useState(0)
 
 	// Extract all available levels dynamically
 	const levelOptions = useMemo(
@@ -96,19 +99,36 @@ export default function HebrewSentenceBuilder({
 		})
 	}, [selectedLevels, selectedQuantities])
 
-	// Shuffle and pick 5
-	const [phrasePool, setPhrasePool] = useState(pickInitialPhrasePool)
+	const effectiveTargetCount = useMemo(() => {
+		const cappedTarget = Math.min(selectedTargetCount, filteredPhrases.length)
+		const matchingOption = [...TARGET_PHRASE_OPTIONS]
+			.reverse()
+			.find((count) => count <= cappedTarget)
+
+		return matchingOption ?? filteredPhrases.length
+	}, [filteredPhrases.length, selectedTargetCount])
+
+	const [phrasePool, setPhrasePool] = useState(() =>
+		pickInitialPhrasePool(5),
+	)
 
 	useEffect(() => {
-		setPhrasePool(shufflePhrasePool(filteredPhrases))
+		setPhrasePool(shufflePhrasePool(filteredPhrases, effectiveTargetCount))
 		setCurrentIndex(0)
-	}, [filteredPhrases])
+		setCompletedCount(0)
+		setFinished(false)
+		setHasAwardedPoints(false)
+		setAwardedMilestones(0)
+		setShowFeedback(null)
+		setUserOrder([])
+		setUserZones(null)
+	}, [filteredPhrases, effectiveTargetCount])
 
 	const currentPhrase = phrasePool[currentIndex]
-	const verbMatch = currentPhrase.english.match(/\(([^)]+)\)/)
+	const verbMatch = currentPhrase?.english.match(/\(([^)]+)\)/)
 	const verbWord = verbMatch ? verbMatch[1] : null
-	const displayEnglish = currentPhrase.english.replace(/\s*\([^)]+\)\s*/g, ' ')
-	const correctOrder = currentPhrase.hebrew.split(' ')
+	const correctOrder = currentPhrase?.hebrew.split(' ') ?? []
+	const totalTargets = phrasePool.length
 
 	// --- Filtered Word Bank ---
 	const filteredVocab = useMemo(() => {
@@ -187,9 +207,10 @@ export default function HebrewSentenceBuilder({
 	)
 
 	useEffect(() => {
-		if (!hasAwardedPoints && completedCount >= 5) {
-			setHasAwardedPoints(true)
-			setFinished(true)
+		const completedMilestones = Math.floor(completedCount / 5)
+
+		if (completedMilestones > awardedMilestones) {
+			setAwardedMilestones(completedMilestones)
 			celebrate()
 
 			const shofar = new Audio('/shofar.mp3')
@@ -198,12 +219,19 @@ export default function HebrewSentenceBuilder({
 			const points = calculatePoints()
 			awardPoints(points)
 		}
+
+		if (!hasAwardedPoints && totalTargets > 0 && completedCount >= totalTargets) {
+			setHasAwardedPoints(true)
+			setFinished(true)
+		}
 	}, [
 		completedCount,
+		awardedMilestones,
 		hasAwardedPoints,
 		celebrate,
 		awardPoints,
 		calculatePoints,
+		totalTargets,
 	])
 
 	useEffect(() => {
@@ -365,14 +393,16 @@ export default function HebrewSentenceBuilder({
 		setHasAwardedPoints(false)
 		setFinished(false)
 		setCompletedCount(0)
+		setAwardedMilestones(0)
 		setShowFeedback(null)
 		setUserOrder([])
 		setUserZones(null)
 		setCurrentIndex(0)
 		setSelectedLevels([1])
 		setSelectedQuantities(['s'])
+		setSelectedTargetCount(5)
 		setShowFilter(true)
-		setPhrasePool(shufflePhrasePool(phrases))
+		setPhrasePool(shufflePhrasePool(phrases, 5))
 	}
 
 	// --- Render section helper ---
@@ -495,6 +525,59 @@ export default function HebrewSentenceBuilder({
 						</button>
 					))}
 				</div>
+
+				<h2 className="text-xl font-semibold mb-2 mt-4">Target Phrases</h2>
+				<div className="flex flex-wrap justify-center gap-2">
+					{TARGET_PHRASE_OPTIONS.map((count) => {
+						const disabled = filteredPhrases.length < count
+
+						return (
+							<button
+								key={count}
+								onClick={() => setSelectedTargetCount(count)}
+								disabled={disabled}
+								className={`px-3 py-1 border rounded-full text-xs ${
+									selectedTargetCount === count
+										? 'bg-sky-600 text-white'
+										: 'bg-gray-200'
+								} ${disabled ? 'cursor-not-allowed opacity-50' : ''}`}
+							>
+								{count}
+							</button>
+						)
+					})}
+				</div>
+				<p className="text-center text-xs text-gray-600">
+					Points are awarded every 5 completed phrases.
+				</p>
+			</div>
+		)
+	}
+
+	if (!currentPhrase) {
+		return (
+			<div className="p-4 max-w-5xl mx-auto text-center">
+				<div className="mb-4 flex justify-center gap-3 flex-wrap">
+					<button
+						onClick={() => setShowFilter((prev) => !prev)}
+						className={`px-4 py-2 rounded shadow flex items-center justify-center gap-3 ${
+							showFilter ? 'bg-sky-600 text-white' : 'bg-gray-200'
+						}`}
+					>
+						<Image
+							src="/books-svgrepo-com.svg"
+							alt="Filter icon"
+							width={30}
+							height={30}
+						/>
+						Filter
+					</button>
+				</div>
+				{showFilter && renderFilters()}
+				<p className="text-lg text-gray-700">
+					No phrases match the current filters. Adjust the filters to keep
+					building.
+				</p>
 			</div>
 		)
 	}
@@ -505,7 +588,7 @@ export default function HebrewSentenceBuilder({
 			<div className="p-8 max-w-4xl mx-auto text-center">
 				{Confetti}
 				<h1 className="text-5xl font-bold text-green-700 mb-6">
-					You finished all 5 phrases!
+					You finished all {totalTargets} phrases!
 					<Image
 						src="/icons/iconShofar.png"
 						alt="Shofar Celebration"
@@ -517,7 +600,8 @@ export default function HebrewSentenceBuilder({
 				<p className="text-2xl mb-6">
 					You’ve earned{' '}
 					<strong>
-						+{calculatePoints()} point{calculatePoints() > 1 ? 's' : ''}
+						+{awardedMilestones * calculatePoints()} point
+						{awardedMilestones * calculatePoints() !== 1 ? 's' : ''}
 					</strong>
 					!
 				</p>

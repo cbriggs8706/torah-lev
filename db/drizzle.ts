@@ -10,14 +10,30 @@ if (typeof window !== 'undefined') {
 	)
 }
 
-export const pool = new Pool({
-	...getDatabaseConfig(),
-	ssl: { rejectUnauthorized: false },
-	allowExitOnIdle: true,
-	idleTimeoutMillis: 5_000,
-	max: 1,
-})
+declare global {
+	var __idiomGoPgPool: Pool | undefined
+	var __idiomGoDb: ReturnType<typeof drizzle<typeof schema>> | undefined
+}
 
-const db = drizzle(pool, { schema })
+const createPool = () =>
+	new Pool({
+		...getDatabaseConfig(),
+		ssl: { rejectUnauthorized: false },
+		allowExitOnIdle: true,
+		idleTimeoutMillis: 5_000,
+		max: 1,
+	})
+
+export const pool = globalThis.__idiomGoPgPool ?? createPool()
+
+if (!globalThis.__idiomGoPgPool) {
+	globalThis.__idiomGoPgPool = pool
+}
+
+const db = globalThis.__idiomGoDb ?? drizzle(pool, { schema })
+
+if (!globalThis.__idiomGoDb) {
+	globalThis.__idiomGoDb = db
+}
 
 export default db
