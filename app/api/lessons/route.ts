@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import db from '@/db/drizzle'
-import { lessons } from '@/db/schema'
+import { courses, lessons, units } from '@/db/schema'
 import { asc, desc, eq, sql } from 'drizzle-orm'
 import { isAdmin } from '@/lib/admin'
 
@@ -43,14 +43,40 @@ export const GET = async (req: Request) => {
 	if (filter.title) {
 		whereClause = sql`${lessons.title} ILIKE ${'%' + filter.title + '%'}`
 	}
+	if (typeof filter.q === 'string' && filter.q.trim()) {
+		whereClause = sql`${lessons.title} ILIKE ${'%' + filter.q.trim() + '%'}`
+	}
 
-	// Query
-	const rows = await db.query.lessons.findMany({
-		where: whereClause,
-		orderBy: sortDirection(sortColumn),
-		limit: perPage,
-		offset,
-	})
+	const rawRows = await db
+		.select({
+			id: lessons.id,
+			title: lessons.title,
+			unitId: lessons.unitId,
+			order: lessons.order,
+			lessonNumber: lessons.lessonNumber,
+			unitTitle: units.title,
+			unitOrder: units.order,
+			courseId: courses.id,
+			courseTitle: courses.title,
+		})
+		.from(lessons)
+		.innerJoin(units, eq(lessons.unitId, units.id))
+		.innerJoin(courses, eq(units.courseId, courses.id))
+		.where(whereClause ?? sql`TRUE`)
+		.orderBy(asc(courses.title), asc(units.order), sortDirection(sortColumn))
+		.limit(perPage)
+		.offset(offset)
+
+	const rows = rawRows.map((lesson) => ({
+		...lesson,
+		lessonLabel: `${lesson.courseTitle} > ${lesson.unitTitle} > ${
+			lesson.lessonNumber || lesson.order
+		} - ${lesson.title}`,
+		lessonSort: `${lesson.courseTitle}:${String(lesson.unitOrder).padStart(
+			4,
+			'0'
+		)}:${String(lesson.order).padStart(4, '0')}`,
+	}))
 
 	const [{ count }] = await db
 		.select({ count: sql<number>`count(*)` })

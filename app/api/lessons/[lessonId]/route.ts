@@ -15,9 +15,27 @@ export const GET = async (
 	const id = Number((await params).lessonId)
 	const data = await db.query.lessons.findFirst({
 		where: eq(lessons.id, id),
+		with: {
+			unit: {
+				with: {
+					course: true,
+				},
+			},
+		},
 	})
 
-	return NextResponse.json(data)
+	return NextResponse.json(
+		data
+			? {
+					...data,
+					courseTitle: data.unit?.course?.title ?? null,
+					unitTitle: data.unit?.title ?? null,
+					lessonLabel: `${data.unit?.course?.title ?? 'Course'} > ${
+						data.unit?.title ?? 'Unit'
+					} > ${data.lessonNumber || data.order} - ${data.title}`,
+			  }
+			: null
+	)
 }
 
 export const PUT = async (

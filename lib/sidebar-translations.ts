@@ -1,6 +1,9 @@
 import type { SidebarLocale, SidebarTranslationKey } from '@/types/sidebar'
 
-const translations: Record<SidebarLocale, Record<SidebarTranslationKey, string>> = {
+const translations: Record<
+	SidebarLocale,
+	Record<SidebarTranslationKey, string>
+> = {
 	en: {
 		'sections.study': 'Lesson Activities',
 		'sections.games': 'Grammar Activities',
@@ -39,6 +42,9 @@ const translations: Record<SidebarLocale, Record<SidebarTranslationKey, string>>
 		'nav.speedQuiz': 'Speed Quiz',
 		'nav.scramble': 'Scramble',
 		'nav.sentenceBuilder': 'Sentence Builder',
+		'nav.constructAbsolute': 'Construct',
+		'nav.wordSort': 'Word Sort',
+		'nav.conversionGame': 'Conversion Game',
 		'nav.prayer': 'Prayer',
 		'nav.slides': 'Slides',
 		'nav.startsWith': 'Starts With',
@@ -89,6 +95,9 @@ const translations: Record<SidebarLocale, Record<SidebarTranslationKey, string>>
 		'nav.speedQuiz': 'Quiz rápido',
 		'nav.scramble': 'Ordenar',
 		'nav.sentenceBuilder': 'Constructor de frases',
+		'nav.constructAbsolute': 'Constructo vs. absoluto',
+		'nav.wordSort': 'Clasificar palabras',
+		'nav.conversionGame': 'Juego de conversión',
 		'nav.prayer': 'Oración',
 		'nav.slides': 'Diapositivas',
 		'nav.startsWith': 'Empieza con',
@@ -139,6 +148,9 @@ const translations: Record<SidebarLocale, Record<SidebarTranslationKey, string>>
 		'nav.speedQuiz': 'חידון מהיר',
 		'nav.scramble': 'ערבוב',
 		'nav.sentenceBuilder': 'משפטים',
+		'nav.constructAbsolute': 'נסמך מול מוחלט',
+		'nav.wordSort': 'מיון מילים',
+		'nav.conversionGame': 'משחק המרה',
 		'nav.prayer': 'תפילות',
 		'nav.slides': 'שקופיות',
 		'nav.startsWith': 'מתחיל ב',
@@ -189,6 +201,9 @@ const translations: Record<SidebarLocale, Record<SidebarTranslationKey, string>>
 		'nav.speedQuiz': 'Γρήγορο κουίζ',
 		'nav.scramble': 'Ανακάτεμα',
 		'nav.sentenceBuilder': 'Χτίσιμο πρότασης',
+		'nav.constructAbsolute': 'Construct',
+		'nav.wordSort': 'Ταξινόμηση λέξεων',
+		'nav.conversionGame': 'Παιχνίδι μετατροπής',
 		'nav.prayer': 'Προσευχή',
 		'nav.slides': 'Διαφάνειες',
 		'nav.startsWith': 'Αρχίζει με',

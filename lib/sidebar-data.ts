@@ -73,6 +73,24 @@ export function buildSidebarSections({
 			{ key: 'verbs', label: localize(resolvedLocale, 'nav.verbs'), href: '/he/verbs', iconSrc: '/icons/iconRunning.png' },
 			{ key: 'scramble', label: localize(resolvedLocale, 'nav.scramble'), href: '/he/scramble', iconSrc: '/icons/iconScrambled.png' },
 			{ key: 'sentence-builder', label: localize(resolvedLocale, 'nav.sentenceBuilder'), href: '/he/sentence-builder', iconSrc: '/icons/iconBuilding.png' },
+			{
+				key: 'construct-absolute',
+				label: localize(resolvedLocale, 'nav.constructAbsolute'),
+				href: '/he/construct-absolute',
+				iconSrc: '/construction-worker-medium-skin-tone-svgrepo-com.svg',
+				children: [
+					{
+						key: 'construct-absolute-word-sort',
+						label: localize(resolvedLocale, 'nav.wordSort'),
+						href: '/he/construct-absolute/word-sort',
+					},
+					{
+						key: 'construct-absolute-conversion',
+						label: localize(resolvedLocale, 'nav.conversionGame'),
+						href: '/he/construct-absolute/conversion',
+					},
+				],
+			},
 		)
 
 		toolItems.push(

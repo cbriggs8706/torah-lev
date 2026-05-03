@@ -125,7 +125,7 @@ export default function HebrewDictionary({ data }: DictionaryProps) {
 	const [expandedId, setExpandedId] = useState<number | null>(null)
 	const [activeLetter, setActiveLetter] = useState<string>('א')
 	const [sortMode, setSortMode] = useState<'alphabetical' | 'lesson'>(
-		'alphabetical'
+		'lesson'
 	)
 	const audioRefs = useRef<Record<number, HTMLAudioElement>>({})
 	const [videoUrl, setVideoUrl] = useState<string | null>(null)
@@ -351,7 +351,7 @@ export default function HebrewDictionary({ data }: DictionaryProps) {
 				>
 					{entry.images?.length > 0 && (
 						<Image
-							src={entry.images[0]}
+							src={toAbsoluteUrl(entry.images[0])}
 							alt="Word visual"
 							width={200}
 							height={200}
@@ -430,11 +430,11 @@ export default function HebrewDictionary({ data }: DictionaryProps) {
 		data.forEach((entry) => {
 			if (entry.images?.[0]) {
 				const img = document.createElement('img') // ✅ no TS error
-				img.src = entry.images[0]
+				img.src = toAbsoluteUrl(entry.images[0])
 				img.onerror = () => {
 					console.warn(
 						'❌ Broken image URL:',
-						entry.images![0],
+						toAbsoluteUrl(entry.images![0]),
 						'for',
 						entry.heb
 					)

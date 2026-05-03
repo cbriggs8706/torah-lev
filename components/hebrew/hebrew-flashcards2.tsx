@@ -1,6 +1,7 @@
 'use client'
 
 import { HebrewVocab } from '@/lib/vocab'
+import { resolveVocabMediaUrl } from '@/lib/vocab-media'
 import Image from 'next/image'
 import { useState, useMemo, useEffect, useCallback } from 'react'
 import { useCelebration } from '@/hooks/useCelebration'
@@ -453,7 +454,7 @@ export default function HebrewFlashcards2({
 		if (!value) return null
 
 		if (field === 'images' && Array.isArray(value) && value.length > 0) {
-			const imageUrl = value[0]
+			const imageUrl = resolveVocabMediaUrl(value[0])
 			return (
 				//TODO fix the console errors of position
 				<div

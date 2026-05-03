@@ -22,6 +22,27 @@
       "when": 1773501134465,
       "tag": "0002_far_goblin_queen",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1773501134466,
+      "tag": "0003_spotty_construct_absolute",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1773501134467,
+      "tag": "0004_tidy_construct_absolute",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1773501134468,
+      "tag": "0005_slim_construct_absolute",
+      "breakpoints": true
     }
   ]
 }

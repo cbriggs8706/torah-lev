@@ -2,6 +2,7 @@
 'use client'
 
 import { Admin, CustomRoutes, Layout, Resource } from 'react-admin'
+import { createTheme } from '@mui/material/styles'
 import simpleRestProvider from 'ra-data-simple-rest'
 import { Route } from 'react-router-dom'
 
@@ -52,14 +53,92 @@ import { EnglishLessonScriptEdit } from './english-lesson-scripts/edit'
 import { VocabEntryList } from './vocab-entries/list'
 import { VocabEntryCreate } from './vocab-entries/create'
 import { VocabEntryEdit } from './vocab-entries/edit'
+import { ConstructAbsoluteWordList } from './construct-absolute-words/list'
+import { ConstructAbsoluteWordCreate } from './construct-absolute-words/create'
+import { ConstructAbsoluteWordEdit } from './construct-absolute-words/edit'
 
-const dataProvider = simpleRestProvider('/api')
+const dataProvider = simpleRestProvider('/api', undefined, 'X-Total-Count')
 
-const AdminLayout = (props: any) => <Layout {...props} menu={AdminMenu} />
+const adminTheme = createTheme({
+	components: {
+		RaDatagrid: {
+			styleOverrides: {
+				root: {
+					display: 'block',
+					width: '100%',
+					maxWidth: '100%',
+					overflowX: 'auto',
+					overflowY: 'hidden',
+					scrollbarGutter: 'stable',
+					WebkitOverflowScrolling: 'touch',
+					'& .RaDatagrid-tableWrapper': {
+						maxHeight: 'calc(100vh - 260px)',
+						overflowX: 'auto',
+						overflowY: 'auto',
+						WebkitOverflowScrolling: 'touch',
+					},
+					'& .RaDatagrid-table': {
+						width: 'max-content',
+						minWidth: '100%',
+						tableLayout: 'auto',
+					},
+					'& .RaDatagrid-headerCell, & .RaDatagrid-rowCell': {
+						whiteSpace: 'nowrap',
+					},
+				},
+			},
+		},
+		RaDataTable: {
+			styleOverrides: {
+				root: {
+					display: 'block',
+					width: '100%',
+					maxWidth: '100%',
+					overflowX: 'auto',
+					overflowY: 'hidden',
+					scrollbarGutter: 'stable',
+					WebkitOverflowScrolling: 'touch',
+					'& .RaDataTable-tableWrapper': {
+						maxHeight: 'calc(100vh - 260px)',
+						overflowX: 'auto',
+						overflowY: 'auto',
+						WebkitOverflowScrolling: 'touch',
+					},
+					'& .RaDataTable-table': {
+						width: 'max-content',
+						minWidth: '100%',
+						tableLayout: 'auto',
+					},
+					'& .RaDataTable-headerCell, & .RaDataTable-rowCell': {
+						whiteSpace: 'nowrap',
+					},
+				},
+			},
+		},
+	},
+})
+
+const adminLayoutSx = {
+	'& .RaLayout-content': {
+		minWidth: 0,
+		overflowX: 'auto',
+	},
+	'& .RaList-main': {
+		minWidth: 0,
+	},
+	'& .RaList-content': {
+		minWidth: 0,
+		overflowX: 'auto',
+	},
+} as const
+
+const AdminLayout = (props: any) => (
+	<Layout {...props} menu={AdminMenu} sx={adminLayoutSx} />
+)
 
 const App = () => {
 	return (
-		<Admin dataProvider={dataProvider} layout={AdminLayout}>
+		<Admin dataProvider={dataProvider} layout={AdminLayout} theme={adminTheme}>
 			<Resource
 				name="courses"
 				list={CourseList}
@@ -143,6 +222,14 @@ const App = () => {
 				edit={VocabEntryEdit}
 				recordRepresentation="eng"
 				options={{ label: 'Vocab' }}
+			/>
+			<Resource
+				name="construct-absolute-words"
+				list={ConstructAbsoluteWordList}
+				create={ConstructAbsoluteWordCreate}
+				edit={ConstructAbsoluteWordEdit}
+				recordRepresentation="absolute"
+				options={{ label: 'Construct / Absolute Words' }}
 			/>
 			<CustomRoutes>
 				<Route

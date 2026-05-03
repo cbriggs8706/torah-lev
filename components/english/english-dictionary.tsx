@@ -2,6 +2,7 @@
 
 import { useState, useMemo, useRef, useEffect } from 'react'
 import { EnglishVocab } from '@/lib/vocab'
+import { resolveVocabMediaUrl } from '@/lib/vocab-media'
 import Image from 'next/image'
 import FemaleIcon from '@/public/female-sign-svgrepo-com.svg'
 import MaleIcon from '@/public/male-sign-svgrepo-com.svg'
@@ -228,7 +229,7 @@ export default function EnglishDictionary({ data }: DictionaryProps) {
 				>
 					{entry.images?.length > 0 && (
 						<Image
-							src={entry.images[0]}
+							src={resolveVocabMediaUrl(entry.images[0])}
 							alt="Word visual"
 							width={200}
 							height={200}
@@ -290,11 +291,11 @@ export default function EnglishDictionary({ data }: DictionaryProps) {
 		data.forEach((entry) => {
 			if (entry.images?.[0]) {
 				const img = document.createElement('img')
-				img.src = entry.images[0]
+				img.src = resolveVocabMediaUrl(entry.images[0])
 				img.onerror = () => {
 					console.warn(
 						'❌ Broken image URL:',
-						entry.images![0],
+						resolveVocabMediaUrl(entry.images![0]),
 						'for',
 						entry.eng
 					)

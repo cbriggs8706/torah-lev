@@ -39,8 +39,15 @@ import {
 	studyGroups,
 	studyGroupMembers,
 	users,
+	constructAbsoluteWords,
 } from '@/db/schema'
 import { tr } from 'date-fns/locale'
+import {
+	fallbackConstructAbsoluteWords,
+	toConstructAbsoluteWord,
+	type ConstructAbsoluteWord,
+} from '@/lib/data/hebrew/construct-absolute'
+import { toConstructAbsoluteActivityWord } from '@/lib/construct-absolute'
 
 export async function getUserProgress(userIdOverride?: string | null) {
 	const userId = userIdOverride ?? (await getUserId())
@@ -462,6 +469,109 @@ export const getCourseProgress = cache(
 		}
 	}
 )
+
+export const getConstructAbsoluteWords = cache(
+	async ({
+		courseId,
+		activeLessonId,
+		activity,
+	}: {
+		courseId: number
+		activeLessonId?: number | null
+		activity: 'wordSort' | 'converter'
+	}) => {
+		const getFirstLessonRows = <
+			T extends {
+				unitOrder: number
+				lessonOrder: number
+			},
+		>(
+			items: T[]
+		) => {
+			const first = items[0]
+			if (!first) return items
+
+			return items.filter(
+				(item) =>
+					item.unitOrder === first.unitOrder &&
+					item.lessonOrder === first.lessonOrder
+			)
+		}
+
+		try {
+			const rows = await db
+				.select({
+					id: constructAbsoluteWords.id,
+					lessonId: constructAbsoluteWords.lessonId,
+					lessonNumber: lessons.lessonNumber,
+					lessonTitle: lessons.title,
+					unitOrder: units.order,
+					lessonOrder: lessons.order,
+					absolute: constructAbsoluteWords.absolute,
+					construct: constructAbsoluteWords.construct,
+				})
+				.from(constructAbsoluteWords)
+				.innerJoin(lessons, eq(constructAbsoluteWords.lessonId, lessons.id))
+				.innerJoin(units, eq(lessons.unitId, units.id))
+				.where(eq(units.courseId, courseId))
+				.orderBy(
+					asc(units.order),
+					asc(lessons.order),
+					asc(constructAbsoluteWords.id)
+				)
+
+			if (!rows.length) {
+				return getFallbackConstructAbsoluteWords(activity)
+			}
+
+			let activePosition:
+				| {
+						unitOrder: number
+						lessonOrder: number
+				  }
+				| undefined
+
+			if (activeLessonId) {
+				const [currentLesson] = await db
+					.select({
+						unitOrder: units.order,
+						lessonOrder: lessons.order,
+					})
+					.from(lessons)
+					.innerJoin(units, eq(lessons.unitId, units.id))
+					.where(and(eq(lessons.id, activeLessonId), eq(units.courseId, courseId)))
+					.limit(1)
+
+				activePosition = currentLesson
+			}
+
+			const visibleRows = rows.filter((row) => {
+				if (!activePosition) {
+					return (
+						row.unitOrder === rows[0].unitOrder &&
+						row.lessonOrder === rows[0].lessonOrder
+					)
+				}
+				if (row.unitOrder < activePosition.unitOrder) return true
+				if (row.unitOrder > activePosition.unitOrder) return false
+				return row.lessonOrder <= activePosition.lessonOrder
+			})
+
+			return (visibleRows.length ? visibleRows : getFirstLessonRows(rows)).map(
+				(row) => toConstructAbsoluteActivityWord(row)
+			)
+		} catch (error) {
+			console.warn('Falling back to local construct/absolute words.', error)
+			return getFallbackConstructAbsoluteWords(activity)
+		}
+	}
+)
+
+function getFallbackConstructAbsoluteWords(
+	activity: 'wordSort' | 'converter'
+): ConstructAbsoluteWord[] {
+	return fallbackConstructAbsoluteWords.map(toConstructAbsoluteWord)
+}
 
 // export const getCourseProgress = cache(async () => {
 // 	const userId = await getUserId()

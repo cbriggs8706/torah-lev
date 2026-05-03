@@ -1,0 +1,58 @@
+import Image from 'next/image'
+
+import { getSession } from '@/lib/auth'
+import {
+	getConstructAbsoluteWords,
+	getCourseProgress,
+	getUserProgress,
+} from '@/db/queries'
+import { DismissibleAlert } from '@/components/dismissible-alert'
+import { FeedWrapper } from '@/components/feed-wrapper'
+import HebrewConstructAbsoluteConversion from '@/components/hebrew/hebrew-construct-absolute-conversion'
+
+export default async function HebrewConstructAbsoluteConversionPage() {
+	const session = await getSession()
+	const userId = session?.user?.id ?? null
+
+	const [userProgress, courseProgress] = userId
+		? await Promise.all([getUserProgress(), getCourseProgress()])
+		: [null, null]
+
+	const activeCourseId = userProgress?.activeCourseId ?? 6
+	const words = await getConstructAbsoluteWords({
+		courseId: activeCourseId,
+		activeLessonId: courseProgress?.activeLessonId ?? null,
+		activity: 'converter',
+	})
+
+	return (
+		<div className="flex flex-row-reverse gap-[48px] px-6">
+			<FeedWrapper>
+				<div className="w-full flex flex-col items-center">
+					<Image
+						src="/construction-worker-medium-skin-tone-svgrepo-com.svg"
+						alt="Construct Conversion"
+						height={90}
+						width={90}
+					/>
+					<h1 className="text-center font-cardo text-neutral-800 text-6xl my-6">
+						הֲמָרַת מוּחְלָט לְנִסְמָךְ
+					</h1>
+					<p className="text-center font-bold text-neutral-800 mb-2">
+						Absolute To Construct
+					</p>
+
+					<DismissibleAlert
+						storageKey="construct-absolute-conversion"
+						className="mb-4 max-w-3xl"
+					>
+						Start with the absolute form, tap the changing letter-group, and
+						submit to see whether you built the construct form correctly.
+					</DismissibleAlert>
+
+					<HebrewConstructAbsoluteConversion words={words} />
+				</div>
+			</FeedWrapper>
+		</div>
+	)
+}

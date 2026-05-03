@@ -3,6 +3,6 @@ import { VocabEntryForm } from './form'
 
 export const VocabEntryCreate = () => (
 	<Create>
-		<VocabEntryForm />
+		<VocabEntryForm includeEntryId={false} />
 	</Create>
 )

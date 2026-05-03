@@ -1,6 +1,7 @@
 'use client'
 
 import { EnglishVocab } from '@/lib/vocab'
+import { resolveVocabMediaUrl } from '@/lib/vocab-media'
 import Image from 'next/image'
 import { useState, useMemo, useEffect, useCallback } from 'react'
 import ReactConfetti from 'react-confetti'
@@ -847,7 +848,7 @@ export default function EnglishFlashcards({
 
 		if (field === 'images' && Array.isArray(value)) {
 			if (value.length > 0) {
-				const imageUrl = value[0]
+				const imageUrl = resolveVocabMediaUrl(value[0])
 				return (
 					//TODO fix the console errors of position
 					<div

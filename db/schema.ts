@@ -926,6 +926,34 @@ export const vocabEntries = pgTable(
 	})
 )
 
+export const constructAbsoluteWords = pgTable(
+	'construct_absolute_words',
+	{
+		id: serial('id').primaryKey(),
+		lessonId: integer('lesson_id')
+			.references(() => lessons.id, { onDelete: 'cascade' })
+			.notNull(),
+		absolute: text('absolute').notNull(),
+		construct: text('construct').notNull(),
+		payload: jsonb('payload').notNull().default({}),
+		createdAt: timestamp('created_at').defaultNow().notNull(),
+		updatedAt: timestamp('updated_at').defaultNow().notNull(),
+	},
+	(table) => ({
+		lessonIdx: index('idx_construct_absolute_lesson_id').on(table.lessonId),
+	})
+)
+
+export const constructAbsoluteWordsRelations = relations(
+	constructAbsoluteWords,
+	({ one }) => ({
+		lesson: one(lessons, {
+			fields: [constructAbsoluteWords.lessonId],
+			references: [lessons.id],
+		}),
+	})
+)
+
 export const hebrewWords = pgTable('hebrew_words', {
 	id: serial('id').primaryKey(),
 	heb: text('heb').notNull(),

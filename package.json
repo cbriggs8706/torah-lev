@@ -12,7 +12,7 @@
 		"start": "next start",
 		"lint": "eslint .",
 		"db:studio": "npx drizzle-kit studio",
-		"db:push": "npx drizzle-kit push:pg",
+		"db:push": "npx drizzle-kit push",
 		"db:seed": "tsx ./scripts/seed.ts",
 		"db:prod": "tsx ./scripts/prod.ts",
 		"db:migrate:to-supabase": "tsx ./scripts/migrate-neon-to-supabase.ts",

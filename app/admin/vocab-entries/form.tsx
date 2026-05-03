@@ -11,7 +11,13 @@ import { VocabMediaUploadInput } from '@/components/admin/vocab-media-upload-inp
 
 const longTextSx = { width: '100%' }
 
-export function VocabEntryForm() {
+type VocabEntryFormProps = {
+	includeEntryId?: boolean
+}
+
+export function VocabEntryForm({
+	includeEntryId = true,
+}: VocabEntryFormProps = {}) {
 	return (
 		<SimpleForm>
 			<SelectInput
@@ -27,7 +33,7 @@ export function VocabEntryForm() {
 				validate={[required()]}
 			/>
 			<NumberInput source="courseId" label="Course ID" />
-			<NumberInput source="entryId" label="Entry ID" validate={[required()]} />
+			{includeEntryId ? <NumberInput source="entryId" label="Entry ID" /> : null}
 			<TextInput source="lessonsText" label="Lessons" multiline sx={longTextSx} />
 			<TextInput source="type" label="Type" />
 			<TextInput source="category" label="Category" />

@@ -112,7 +112,7 @@ export default function HebrewSpelling({
 			)
 
 		const valid = filtered.filter((card) => {
-			if (formatType === 'image') return card.images[0]
+			if (formatType === 'image') return resolveVocabMediaUrl(card.images[0])
 			if (formatType === 'audio') return card.hebAudio
 			if (formatType === 'translation') return !!card.eng
 			if (formatType === 'letter-by-letter') return !!card.heb
@@ -477,7 +477,7 @@ export default function HebrewSpelling({
 
 					{formatType === 'image' && currentCard.images[0] && (
 						<Image
-							src={currentCard.images[0]}
+							src={resolveVocabMediaUrl(currentCard.images[0])}
 							alt="Prompt Image"
 							width={300}
 							height={200}

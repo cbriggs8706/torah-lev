@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { asc, desc } from 'drizzle-orm'
+import { asc, desc, eq } from 'drizzle-orm'
 import db from '@/db/drizzle'
 import { vocabEntries } from '@/db/schema'
 import { isAdmin } from '@/lib/admin'
@@ -78,6 +78,17 @@ function normalizeRecord(body: Record<string, unknown>) {
 	}
 }
 
+async function getNextEntryId(sourceKey: string) {
+	const [latestRow] = await db
+		.select({ entryId: vocabEntries.entryId })
+		.from(vocabEntries)
+		.where(eq(vocabEntries.sourceKey, sourceKey))
+		.orderBy(desc(vocabEntries.entryId))
+		.limit(1)
+
+	return (latestRow?.entryId ?? 0) + 1
+}
+
 export const GET = async (req: Request) => {
 	if (!(await isAdmin())) {
 		return new NextResponse('Unauthorized', { status: 401 })
@@ -131,6 +142,15 @@ export const GET = async (req: Request) => {
 
 	if (typeof filter.sourceKey === 'string' && filter.sourceKey.trim()) {
 		rows = rows.filter((row) => row.sourceKey === filter.sourceKey)
+	}
+
+	if (typeof filter.category === 'string' && filter.category.trim()) {
+		const categoryQuery = filter.category.trim().toLowerCase()
+		rows = rows.filter((row) =>
+			String(row.category ?? '')
+				.toLowerCase()
+				.includes(categoryQuery)
+		)
 	}
 
 	if (typeof filter.lesson === 'string' && filter.lesson.trim()) {
@@ -200,11 +220,15 @@ export const POST = async (req: Request) => {
 
 	const body = (await req.json()) as Record<string, unknown>
 	const normalized = normalizeRecord(body)
+	const entryId = normalized.entryId > 0
+		? normalized.entryId
+		: await getNextEntryId(normalized.sourceKey)
 
 	const data = await db
 		.insert(vocabEntries)
 		.values({
 			...normalized,
+			entryId,
 			createdAt: new Date(),
 		})
 		.returning()

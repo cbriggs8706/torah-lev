@@ -1,5 +1,6 @@
 import {
 	BooleanField,
+	BooleanInput,
 	Datagrid,
 	FunctionField,
 	List,
@@ -7,7 +8,6 @@ import {
 	SelectInput,
 	TextField,
 	TextInput,
-	BooleanInput,
 } from 'react-admin'
 import { vocabLanguageChoices, vocabSourceChoices } from '@/lib/admin-vocab'
 
@@ -27,6 +27,7 @@ const filters = [
 		choices={[...vocabSourceChoices]}
 		emptyText="All"
 	/>,
+	<TextInput key="category" source="category" label="Category" />,
 	<TextInput key="lesson" source="lesson" label="Lesson" />,
 	<BooleanInput key="missingImage" source="missingImage" label="Missing image" />,
 	<BooleanInput key="missingAudio" source="missingAudio" label="Missing audio" />,

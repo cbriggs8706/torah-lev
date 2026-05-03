@@ -26,6 +26,12 @@ export const AdminMenu = () => {
 				leftIcon={<BuildIcon />}
 				selected={location.pathname === '/generate-challenges'}
 			/>
+			<MenuItemLink
+				to="/construct-absolute-words"
+				primaryText="Construct / Absolute"
+				leftIcon={<BookIcon />}
+				selected={location.pathname.startsWith('/construct-absolute-words')}
+			/>
 			<Menu.ResourceItems />
 		</Menu>
 	)
