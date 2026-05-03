@@ -89,6 +89,11 @@ export function buildSidebarSections({
 						label: localize(resolvedLocale, 'nav.conversionGame'),
 						href: '/he/construct-absolute/conversion',
 					},
+					{
+						key: 'construct-absolute-identify-form',
+						label: localize(resolvedLocale, 'nav.identifyForm'),
+						href: '/he/construct-absolute/identify-form',
+					},
 				],
 			},
 		)

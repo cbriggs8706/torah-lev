@@ -475,11 +475,11 @@ export const getConstructAbsoluteWords = cache(
 		courseId,
 		activeLessonId,
 		activity,
-	}: {
-		courseId: number
-		activeLessonId?: number | null
-		activity: 'wordSort' | 'converter'
-	}) => {
+		}: {
+			courseId: number
+			activeLessonId?: number | null
+			activity: 'wordSort' | 'converter' | 'identifyForm'
+		}) => {
 		const getFirstLessonRows = <
 			T extends {
 				unitOrder: number
@@ -568,7 +568,7 @@ export const getConstructAbsoluteWords = cache(
 )
 
 function getFallbackConstructAbsoluteWords(
-	activity: 'wordSort' | 'converter'
+	activity: 'wordSort' | 'converter' | 'identifyForm'
 ): ConstructAbsoluteWord[] {
 	return fallbackConstructAbsoluteWords.map(toConstructAbsoluteWord)
 }

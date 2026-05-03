@@ -6,10 +6,53 @@ import { phrases } from '@/lib/sentence-builder-phrases'
 import { vocab, VocabEntry } from '@/lib/sentence-builder-specifics'
 import { useCelebration } from '@/hooks/useCelebration'
 import Image from 'next/image'
+import { CircleHelp, X } from 'lucide-react'
 
 interface HebrewSentenceBuilderProps {
 	userId: string
 	courseId: number | null
+}
+
+type VerbZone = 'first' | 'second'
+type DragSource = 'bank' | 'single' | VerbZone
+
+interface DragPayload {
+	word: string
+	source: DragSource
+	index?: number
+}
+
+const DRAG_PAYLOAD_MIME = 'application/x-sentence-builder-word'
+
+function pickInitialPhrasePool() {
+	return phrases.slice(0, 5)
+}
+
+function shufflePhrasePool(source: typeof phrases) {
+	return [...source].sort(() => Math.random() - 0.5).slice(0, 5)
+}
+
+function setDragPayload(
+	dataTransfer: DataTransfer,
+	payload: DragPayload,
+) {
+	dataTransfer.setData(DRAG_PAYLOAD_MIME, JSON.stringify(payload))
+	dataTransfer.setData('text/plain', payload.word)
+	dataTransfer.effectAllowed = 'move'
+}
+
+function getDragPayload(dataTransfer: DataTransfer): DragPayload | null {
+	const rawPayload = dataTransfer.getData(DRAG_PAYLOAD_MIME)
+	if (rawPayload) {
+		try {
+			return JSON.parse(rawPayload) as DragPayload
+		} catch {
+			return null
+		}
+	}
+
+	const word = dataTransfer.getData('text/plain')
+	return word ? { word, source: 'bank' } : null
 }
 
 export default function HebrewSentenceBuilder({
@@ -17,6 +60,7 @@ export default function HebrewSentenceBuilder({
 	courseId,
 }: HebrewSentenceBuilderProps) {
 	const [currentIndex, setCurrentIndex] = useState(0)
+	const [isDraggingWord, setIsDraggingWord] = useState(false)
 	const [userOrder, setUserOrder] = useState<string[]>([])
 	const [userZones, setUserZones] = useState<{
 		first: string[]
@@ -29,6 +73,8 @@ export default function HebrewSentenceBuilder({
 	const { Confetti, celebrate } = useCelebration()
 	const [hasAwardedPoints, setHasAwardedPoints] = useState(false)
 	const [showFilter, setShowFilter] = useState(false)
+	const [showHelp, setShowHelp] = useState(false)
+	const [singleDropIndex, setSingleDropIndex] = useState<number | null>(null)
 	const [selectedLevels, setSelectedLevels] = useState<number[]>([1])
 	const [selectedQuantities, setSelectedQuantities] = useState<string[]>(['s'])
 
@@ -51,14 +97,10 @@ export default function HebrewSentenceBuilder({
 	}, [selectedLevels, selectedQuantities])
 
 	// Shuffle and pick 5
-	const [phrasePool, setPhrasePool] = useState(() =>
-		[...phrases].sort(() => Math.random() - 0.5).slice(0, 5),
-	)
+	const [phrasePool, setPhrasePool] = useState(pickInitialPhrasePool)
 
 	useEffect(() => {
-		setPhrasePool(
-			[...filteredPhrases].sort(() => Math.random() - 0.5).slice(0, 5),
-		)
+		setPhrasePool(shufflePhrasePool(filteredPhrases))
 		setCurrentIndex(0)
 	}, [filteredPhrases])
 
@@ -210,11 +252,37 @@ export default function HebrewSentenceBuilder({
 
 	// --- Handlers ---
 	function handleSelectWord(word: string) {
+		if (userOrder.includes(word)) return
 		setUserOrder((prev) => [...prev, word])
 	}
 
 	function handleRemoveWord(index: number) {
 		setUserOrder((prev) => prev.filter((_, i) => i !== index))
+	}
+
+	function insertWordIntoOrder(payload: DragPayload, targetIndex?: number) {
+		setUserOrder((prev) => {
+			if (!payload.word) return prev
+
+			const next = [...prev]
+			let insertionIndex = targetIndex ?? next.length
+
+			if (payload.source === 'single' && payload.index !== undefined) {
+				const [movedWord] = next.splice(payload.index, 1)
+				if (!movedWord) return prev
+
+				if (payload.index < insertionIndex) {
+					insertionIndex -= 1
+				}
+
+				next.splice(insertionIndex, 0, movedWord)
+				return next
+			}
+
+			if (next.includes(payload.word)) return prev
+			next.splice(insertionIndex, 0, payload.word)
+			return next
+		})
 	}
 
 	function normalizeHebrew(text: string): string {
@@ -304,7 +372,7 @@ export default function HebrewSentenceBuilder({
 		setSelectedLevels([1])
 		setSelectedQuantities(['s'])
 		setShowFilter(true)
-		setPhrasePool([...phrases].sort(() => Math.random() - 0.5).slice(0, 5))
+		setPhrasePool(shufflePhrasePool(phrases))
 	}
 
 	// --- Render section helper ---
@@ -317,6 +385,18 @@ export default function HebrewSentenceBuilder({
 					{words.map((v) => (
 						<button
 							key={v.id}
+							draggable={!userOrder.includes(v.word)}
+							onDragStart={(e) => {
+								setIsDraggingWord(true)
+								setDragPayload(e.dataTransfer, {
+									word: v.word,
+									source: 'bank',
+								})
+							}}
+							onDragEnd={() => {
+								setIsDraggingWord(false)
+								setSingleDropIndex(null)
+							}}
 							onClick={() => {
 								if (verbWord) {
 									const event = new CustomEvent('addWordToActiveZone', {
@@ -459,8 +539,8 @@ export default function HebrewSentenceBuilder({
 	return (
 		<div className="p-4 max-w-5xl mx-auto text-center">
 			{Confetti}
-			{/* 🔹 Filter Button */}
-			<div className="mb-6 flex justify-center">
+			{/* 🔹 Top controls */}
+			<div className="mb-4 flex justify-center gap-3 flex-wrap">
 				<button
 					onClick={() => setShowFilter((prev) => !prev)}
 					className={`px-4 py-2 rounded shadow flex items-center justify-center gap-3 ${
@@ -475,9 +555,126 @@ export default function HebrewSentenceBuilder({
 					/>
 					Filter
 				</button>
+				<button
+					onClick={() => setShowHelp((prev) => !prev)}
+					aria-expanded={showHelp}
+					aria-controls="sentence-builder-help"
+					className={`px-4 py-2 rounded shadow flex items-center justify-center gap-2 ${
+						showHelp ? 'bg-amber-500 text-white' : 'bg-amber-100 text-amber-900'
+					}`}
+				>
+					<CircleHelp className="h-5 w-5" />
+					Help
+				</button>
 			</div>
 
 			{showFilter && renderFilters()}
+			{showHelp && (
+				<div
+					id="sentence-builder-help"
+					className="mb-6 rounded-2xl border border-amber-300 bg-amber-50 p-5 text-left shadow-sm"
+				>
+					<div className="mb-3 flex items-start justify-between gap-3">
+						<div>
+							<h2 className="text-lg font-bold text-amber-950">
+								How to use Sentence Builder
+							</h2>
+						</div>
+						<button
+							onClick={() => setShowHelp(false)}
+							aria-label="Close help"
+							className="rounded-full p-1 text-amber-900 hover:bg-amber-200"
+						>
+							<X className="h-4 w-4" />
+						</button>
+					</div>
+					<div className="space-y-4 text-sm leading-6 text-amber-950">
+						<p>
+							Hebrew typically uses a Subject-Verb-Object (SVO) word order when
+							constructing sentences.
+						</p>
+						<p>
+							{' '}
+							The <strong>subject</strong> is the person or thing performing the
+							action of the verb.{' '}
+						</p>
+						<p>
+							The <strong>object</strong> is the person or thing receiving the
+							action of the verb.
+						</p>
+						<p>
+							Both the <strong>subject</strong> and the <strong>object</strong>{' '}
+							may include descriptive words such as <strong>adjectives</strong>{' '}
+							(e.g., big, good) or <strong>demonstratives</strong> (e.g., this,
+							these). When these are present, they must{' '}
+							<strong>agree with the noun in gender and number.</strong>
+						</p>
+						<p>
+							In Hebrew, the order within a noun phrase is:
+							<br />
+							<strong>Noun → Adjective → Demonstrative</strong>
+						</p>
+						<p>
+							This is the reverse of English word order, where the descriptive
+							words usually come before the noun.
+						</p>
+						<p>
+							There isn&apos;t a direct equivalent of the verb is/are in Hebrew.
+							This is implied for now. Future verbs will take it&apos;s place
+							soon. Also the indefinite (meaning not specific) article
+							&apos;a&apos; or &apos;a&apos; are implied in Hebrew.
+						</p>
+						<div>
+							<h2 className="text-lg font-bold text-amber-950">
+								Steps for Building a Sentence
+							</h2>
+							<ol className="mt-2 list-decimal space-y-2 pl-5">
+								<li>
+									<strong>Locate the verb (if there is one).</strong> This will
+									help you determine whether you are building a{' '}
+									<strong>phrase</strong> or a
+									<strong>complete sentence.</strong> If it is a full sentence,
+									work on one side of the verb at a time.
+								</li>
+								<li>
+									<strong>Translate the subject first, then the object.</strong>{' '}
+									Remember that Hebrew is read <strong>right to left,</strong>{' '}
+									so words that appear on the left side in English will appear
+									on the right side in Hebrew.
+								</li>
+								<li>
+									<strong>
+										Arrange the words correctly within each phrase.
+									</strong>{' '}
+									Place the <strong>noun first,</strong> followed by any{' '}
+									<strong>adjectives</strong>, and finally any{' '}
+									<strong>demonstratives.</strong>
+								</li>
+								<li>
+									<strong>
+										Determine whether the noun is specific or ambiguous.
+									</strong>{' '}
+									If the noun is <strong>specific</strong>, it will take the ה־
+									(ha-) definite article as a prefix. Any adjectives or
+									demonstratives modifying that noun must also take the definite
+									article. In English, specificity is usually indicated by{' '}
+									<strong>subject“the,” “this,” or “these.”</strong>
+								</li>
+							</ol>
+						</div>
+						<div>
+							<h2 className="text-lg font-bold text-amber-950">Levels</h2>
+							<p>
+								There are 9 levels in ascending difficulty. Each have their own
+								nuance to help you learn the steps listed above. Try them one at
+								a time but then you&apos;ll want to mix and match them to keep
+								progressing. Make sure to add in the plurals as well as
+								you&apos;re learning.
+							</p>
+						</div>
+					</div>
+				</div>
+			)}
 
 			{/* Prompt */}
 			<div className="mb-6 p-4 border-2 border-sky-300 bg-sky-50 rounded-xl shadow text-2xl font-bold">
@@ -490,32 +687,119 @@ export default function HebrewSentenceBuilder({
 				<DropAreaWithVerb
 					verbWord={verbWord}
 					userOrder={userOrder}
-					handleRemoveWord={handleRemoveWord}
 					getGenderColor={getGenderColor}
 					vocab={[...vocab]}
 					currentIndex={currentIndex} // ✅ NEW PROP
 				/>
 			) : (
 				<div
+					onDragOver={(e) => {
+						e.preventDefault()
+						e.dataTransfer.dropEffect = 'move'
+						if (userOrder.length === 0) {
+							setSingleDropIndex(0)
+						}
+					}}
+					onDrop={(e) => {
+						e.preventDefault()
+						const payload = getDragPayload(e.dataTransfer)
+						if (payload) {
+							insertWordIntoOrder(payload, singleDropIndex ?? userOrder.length)
+						}
+						setIsDraggingWord(false)
+						setSingleDropIndex(null)
+					}}
+					onDragLeave={() => {
+						if (userOrder.length === 0) {
+							setSingleDropIndex(null)
+						}
+					}}
 					className="min-h-[100px] border-2 border-dashed border-gray-400 rounded-lg flex flex-wrap justify-center items-center p-4 mb-6"
 					dir="rtl"
 				>
 					{userOrder.length === 0 ? (
-						<span className="text-gray-400 italic">Build the phrase here</span>
+						<span
+							className={`italic ${
+								singleDropIndex === 0
+									? 'font-semibold text-sky-700'
+									: 'text-gray-400'
+							}`}
+						>
+							{singleDropIndex === 0 && isDraggingWord
+								? 'Drop the word here'
+								: 'Build the phrase here'}
+						</span>
 					) : (
-						userOrder.map((word, idx) => {
-							const vocabEntry = vocab.find((v) => v.word === word)
-							const color = vocabEntry ? getGenderColor(vocabEntry.gender) : ''
-							return (
-								<span
-									key={idx}
-									onClick={() => handleRemoveWord(idx)}
-									className={`px-3 py-2 mx-1 my-1 rounded text-2xl sm:text-3xl md:text-4xl font-times cursor-pointer hover:opacity-80 border-2 ${color}`}
-								>
-									{word}
-								</span>
-							)
-						})
+						<div className="flex flex-wrap justify-center items-center" dir="rtl">
+							{userOrder.map((word, idx) => {
+								const vocabEntry = vocab.find((v) => v.word === word)
+								const color = vocabEntry ? getGenderColor(vocabEntry.gender) : ''
+								return (
+									<div key={idx} className="flex items-center my-1">
+										<DropSlot
+											active={singleDropIndex === idx}
+											visible={isDraggingWord}
+											onDragOver={(e) => {
+												e.preventDefault()
+												e.stopPropagation()
+												e.dataTransfer.dropEffect = 'move'
+												setSingleDropIndex(idx)
+											}}
+											onDrop={(e) => {
+												e.preventDefault()
+												e.stopPropagation()
+												const payload = getDragPayload(e.dataTransfer)
+												if (payload) insertWordIntoOrder(payload, idx)
+												setIsDraggingWord(false)
+												setSingleDropIndex(null)
+											}}
+										/>
+										<span
+											draggable
+											onDragStart={(e) => {
+												e.stopPropagation()
+												setIsDraggingWord(true)
+												setDragPayload(e.dataTransfer, {
+													word,
+													source: 'single',
+													index: idx,
+												})
+											}}
+											onDragEnd={() => {
+												setIsDraggingWord(false)
+												setSingleDropIndex(null)
+											}}
+											onClick={() => handleRemoveWord(idx)}
+											className={`px-3 py-2 mx-1 rounded text-2xl sm:text-3xl md:text-4xl font-times cursor-pointer hover:opacity-80 border-2 ${color}`}
+										>
+											{word}
+										</span>
+										{idx === userOrder.length - 1 ? (
+											<DropSlot
+												active={singleDropIndex === userOrder.length}
+												visible={isDraggingWord}
+												onDragOver={(e) => {
+													e.preventDefault()
+													e.stopPropagation()
+													e.dataTransfer.dropEffect = 'move'
+													setSingleDropIndex(userOrder.length)
+												}}
+												onDrop={(e) => {
+													e.preventDefault()
+													e.stopPropagation()
+													const payload = getDragPayload(e.dataTransfer)
+													if (payload) {
+														insertWordIntoOrder(payload, userOrder.length)
+													}
+													setIsDraggingWord(false)
+													setSingleDropIndex(null)
+												}}
+											/>
+										) : null}
+									</div>
+								)
+							})}
+						</div>
 					)}
 				</div>
 			)}
@@ -547,7 +831,7 @@ export default function HebrewSentenceBuilder({
 
 			{/* Feedback */}
 			{showFeedback !== null && (
-				<p
+				<div
 					className={`text-xl mt-4 font-semibold ${
 						showFeedback ? 'text-green-600' : 'text-red-500'
 					}`}
@@ -567,7 +851,7 @@ export default function HebrewSentenceBuilder({
 							</p>
 						</div>
 					)}
-				</p>
+				</div>
 			)}
 
 			{/* Word bank (scrollable area) */}
@@ -590,19 +874,22 @@ export default function HebrewSentenceBuilder({
 function DropAreaWithVerb({
 	verbWord,
 	userOrder,
-	handleRemoveWord,
 	getGenderColor,
 	vocab,
 	currentIndex, // ✅ NEW
 }: {
 	verbWord: string
 	userOrder: string[]
-	handleRemoveWord: (index: number) => void
 	getGenderColor: (gender: string) => string
 	vocab: readonly VocabEntry[]
 	currentIndex: number // ✅ NEW
 }) {
-	const [activeZone, setActiveZone] = useState<'first' | 'second'>('first')
+	const [activeZone, setActiveZone] = useState<VerbZone>('first')
+	const [isDraggingWord, setIsDraggingWord] = useState(false)
+	const [dropIndicator, setDropIndicator] = useState<{
+		zone: VerbZone
+		index: number
+	} | null>(null)
 	const [zoneWords, setZoneWords] = useState<{
 		first: string[]
 		second: string[]
@@ -614,18 +901,61 @@ function DropAreaWithVerb({
 	useEffect(() => {
 		setZoneWords({ first: [], second: [] })
 		setActiveZone('first')
+		setDropIndicator(null)
+		setIsDraggingWord(false)
 	}, [currentIndex])
 
 	// Handle word selection from word bank
 	const addWordToActiveZone = useCallback(
 		(word: string) => {
+			if (userOrder.includes(word)) return
 			setZoneWords((prev) => {
 				const newZones = { ...prev }
 				newZones[activeZone] = [...newZones[activeZone], word]
 				return newZones
 			})
 		},
-		[activeZone],
+		[activeZone, userOrder],
+	)
+
+	const moveWordToZone = useCallback(
+		(targetZone: VerbZone, payload: DragPayload, targetIndex?: number) => {
+			setZoneWords((prev) => {
+				if (!payload.word) return prev
+
+				const next = {
+					first: [...prev.first],
+					second: [...prev.second],
+				}
+
+				let insertionIndex = targetIndex ?? next[targetZone].length
+
+				if (payload.source === 'first' || payload.source === 'second') {
+					const sourceZone = payload.source
+					const removalIndex =
+						payload.index ??
+						next[sourceZone].findIndex((word) => word === payload.word)
+					if (removalIndex < 0) return prev
+
+					const [movedWord] = next[sourceZone].splice(removalIndex, 1)
+					if (!movedWord) return prev
+
+					if (sourceZone === targetZone && removalIndex < insertionIndex) {
+						insertionIndex -= 1
+					}
+
+					next[targetZone].splice(insertionIndex, 0, movedWord)
+					return next
+				}
+
+				if (userOrder.includes(payload.word)) return prev
+				next[targetZone].splice(insertionIndex, 0, payload.word)
+				return next
+			})
+			setActiveZone(targetZone)
+			setDropIndicator(null)
+		},
+		[userOrder],
 	)
 
 	// Listen for new words to add from main component
@@ -661,7 +991,7 @@ function DropAreaWithVerb({
 	}, [zoneWords, userOrder])
 
 	// Handle removing a word from one of the zones
-	const removeWord = (zone: 'first' | 'second', idx: number) => {
+	const removeWord = (zone: VerbZone, idx: number) => {
 		setZoneWords((prev) => ({
 			...prev,
 			[zone]: prev[zone].filter((_, i) => i !== idx),
@@ -676,6 +1006,33 @@ function DropAreaWithVerb({
 			{/* First zone */}
 			<div
 				onClick={() => setActiveZone('first')}
+				onDragOver={(e) => {
+					e.preventDefault()
+					e.dataTransfer.dropEffect = 'move'
+					if (zoneWords.first.length === 0) {
+						setDropIndicator({ zone: 'first', index: 0 })
+					}
+				}}
+				onDrop={(e) => {
+					e.preventDefault()
+					const payload = getDragPayload(e.dataTransfer)
+					if (payload) {
+						moveWordToZone(
+							'first',
+							payload,
+							dropIndicator?.zone === 'first'
+								? dropIndicator.index
+								: zoneWords.first.length,
+						)
+					}
+					setIsDraggingWord(false)
+					setDropIndicator(null)
+				}}
+				onDragLeave={() => {
+					if (zoneWords.first.length === 0 && dropIndicator?.zone === 'first') {
+						setDropIndicator(null)
+					}
+				}}
 				className={`min-h-[100px] border-2 border-dashed rounded-lg flex flex-wrap justify-center items-center p-4 flex-1 cursor-pointer transition-all ${
 					activeZone === 'first'
 						? 'border-sky-600 bg-sky-50'
@@ -683,26 +1040,104 @@ function DropAreaWithVerb({
 				}`}
 			>
 				{zoneWords.first.length === 0 ? (
-					<span className="text-gray-400 italic">
-						Click here to build first part
+					<span
+						className={`italic ${
+							dropIndicator?.zone === 'first' && dropIndicator.index === 0
+								? 'font-semibold text-sky-700'
+								: 'text-gray-400'
+						}`}
+					>
+						{dropIndicator?.zone === 'first' && dropIndicator.index === 0
+							? 'Drop the subject here'
+							: 'build the subject of the sentence here'}
 					</span>
 				) : (
-					zoneWords.first.map((word, idx) => {
-						const vocabEntry = vocab.find((v) => v.word === word)
-						const color = vocabEntry ? getGenderColor(vocabEntry.gender) : ''
-						return (
-							<span
-								key={`first-${idx}`}
-								onClick={(e) => {
-									e.stopPropagation()
-									removeWord('first', idx)
-								}}
-								className={`px-3 py-2 mx-1 my-1 rounded text-3xl font-times cursor-pointer hover:opacity-80 border-2 ${color}`}
-							>
-								{word}
-							</span>
-						)
-					})
+					<div className="flex flex-wrap justify-center items-center" dir="rtl">
+						{zoneWords.first.map((word, idx) => {
+							const vocabEntry = vocab.find((v) => v.word === word)
+							const color = vocabEntry ? getGenderColor(vocabEntry.gender) : ''
+							return (
+								<div key={`first-${idx}`} className="flex items-center my-1">
+									<DropSlot
+										active={
+											dropIndicator?.zone === 'first' &&
+											dropIndicator.index === idx
+										}
+										visible={isDraggingWord}
+										onDragOver={(e) => {
+											e.preventDefault()
+											e.stopPropagation()
+											e.dataTransfer.dropEffect = 'move'
+											setDropIndicator({ zone: 'first', index: idx })
+										}}
+										onDrop={(e) => {
+											e.preventDefault()
+											e.stopPropagation()
+											const payload = getDragPayload(e.dataTransfer)
+											if (payload) moveWordToZone('first', payload, idx)
+											setIsDraggingWord(false)
+											setDropIndicator(null)
+										}}
+									/>
+									<span
+										draggable
+										onDragStart={(e) => {
+											e.stopPropagation()
+											setIsDraggingWord(true)
+											setDragPayload(e.dataTransfer, {
+												word,
+												source: 'first',
+												index: idx,
+											})
+										}}
+										onDragEnd={() => {
+											setIsDraggingWord(false)
+											setDropIndicator(null)
+										}}
+										onClick={(e) => {
+											e.stopPropagation()
+											removeWord('first', idx)
+										}}
+										className={`px-3 py-2 mx-1 rounded text-3xl font-times cursor-pointer hover:opacity-80 border-2 ${color}`}
+									>
+										{word}
+									</span>
+									{idx === zoneWords.first.length - 1 ? (
+										<DropSlot
+											active={
+												dropIndicator?.zone === 'first' &&
+												dropIndicator.index === zoneWords.first.length
+											}
+											visible={isDraggingWord}
+											onDragOver={(e) => {
+												e.preventDefault()
+												e.stopPropagation()
+												e.dataTransfer.dropEffect = 'move'
+												setDropIndicator({
+													zone: 'first',
+													index: zoneWords.first.length,
+												})
+											}}
+											onDrop={(e) => {
+												e.preventDefault()
+												e.stopPropagation()
+												const payload = getDragPayload(e.dataTransfer)
+												if (payload) {
+													moveWordToZone(
+														'first',
+														payload,
+														zoneWords.first.length,
+													)
+												}
+												setIsDraggingWord(false)
+												setDropIndicator(null)
+											}}
+										/>
+									) : null}
+								</div>
+							)
+						})}
+					</div>
 				)}
 			</div>
 
@@ -714,6 +1149,33 @@ function DropAreaWithVerb({
 			{/* Second zone */}
 			<div
 				onClick={() => setActiveZone('second')}
+				onDragOver={(e) => {
+					e.preventDefault()
+					e.dataTransfer.dropEffect = 'move'
+					if (zoneWords.second.length === 0) {
+						setDropIndicator({ zone: 'second', index: 0 })
+					}
+				}}
+				onDrop={(e) => {
+					e.preventDefault()
+					const payload = getDragPayload(e.dataTransfer)
+					if (payload) {
+						moveWordToZone(
+							'second',
+							payload,
+							dropIndicator?.zone === 'second'
+								? dropIndicator.index
+								: zoneWords.second.length,
+						)
+					}
+					setIsDraggingWord(false)
+					setDropIndicator(null)
+				}}
+				onDragLeave={() => {
+					if (zoneWords.second.length === 0 && dropIndicator?.zone === 'second') {
+						setDropIndicator(null)
+					}
+				}}
 				className={`min-h-[100px] border-2 border-dashed rounded-lg flex flex-wrap justify-center items-center p-4 flex-1 cursor-pointer transition-all ${
 					activeZone === 'second'
 						? 'border-sky-600 bg-sky-50'
@@ -721,28 +1183,129 @@ function DropAreaWithVerb({
 				}`}
 			>
 				{zoneWords.second.length === 0 ? (
-					<span className="text-gray-400 italic">
-						Click here to build second part
+					<span
+						className={`italic ${
+							dropIndicator?.zone === 'second' && dropIndicator.index === 0
+								? 'font-semibold text-sky-700'
+								: 'text-gray-400'
+						}`}
+					>
+						{dropIndicator?.zone === 'second' && dropIndicator.index === 0
+							? 'Drop the object here'
+							: 'build the object of the sentence here'}
 					</span>
 				) : (
-					zoneWords.second.map((word, idx) => {
-						const vocabEntry = vocab.find((v) => v.word === word)
-						const color = vocabEntry ? getGenderColor(vocabEntry.gender) : ''
-						return (
-							<span
-								key={`second-${idx}`}
-								onClick={(e) => {
-									e.stopPropagation()
-									removeWord('second', idx)
-								}}
-								className={`px-3 py-2 mx-1 my-1 rounded text-3xl font-times cursor-pointer hover:opacity-80 border-2 ${color}`}
-							>
-								{word}
-							</span>
-						)
-					})
+					<div className="flex flex-wrap justify-center items-center" dir="rtl">
+						{zoneWords.second.map((word, idx) => {
+							const vocabEntry = vocab.find((v) => v.word === word)
+							const color = vocabEntry ? getGenderColor(vocabEntry.gender) : ''
+							return (
+								<div key={`second-${idx}`} className="flex items-center my-1">
+									<DropSlot
+										active={
+											dropIndicator?.zone === 'second' &&
+											dropIndicator.index === idx
+										}
+										visible={isDraggingWord}
+										onDragOver={(e) => {
+											e.preventDefault()
+											e.stopPropagation()
+											e.dataTransfer.dropEffect = 'move'
+											setDropIndicator({ zone: 'second', index: idx })
+										}}
+										onDrop={(e) => {
+											e.preventDefault()
+											e.stopPropagation()
+											const payload = getDragPayload(e.dataTransfer)
+											if (payload) moveWordToZone('second', payload, idx)
+											setIsDraggingWord(false)
+											setDropIndicator(null)
+										}}
+									/>
+									<span
+										draggable
+										onDragStart={(e) => {
+											e.stopPropagation()
+											setIsDraggingWord(true)
+											setDragPayload(e.dataTransfer, {
+												word,
+												source: 'second',
+												index: idx,
+											})
+										}}
+										onDragEnd={() => {
+											setIsDraggingWord(false)
+											setDropIndicator(null)
+										}}
+										onClick={(e) => {
+											e.stopPropagation()
+											removeWord('second', idx)
+										}}
+										className={`px-3 py-2 mx-1 rounded text-3xl font-times cursor-pointer hover:opacity-80 border-2 ${color}`}
+									>
+										{word}
+									</span>
+									{idx === zoneWords.second.length - 1 ? (
+										<DropSlot
+											active={
+												dropIndicator?.zone === 'second' &&
+												dropIndicator.index === zoneWords.second.length
+											}
+											visible={isDraggingWord}
+											onDragOver={(e) => {
+												e.preventDefault()
+												e.stopPropagation()
+												e.dataTransfer.dropEffect = 'move'
+												setDropIndicator({
+													zone: 'second',
+													index: zoneWords.second.length,
+												})
+											}}
+											onDrop={(e) => {
+												e.preventDefault()
+												e.stopPropagation()
+												const payload = getDragPayload(e.dataTransfer)
+												if (payload) {
+													moveWordToZone(
+														'second',
+														payload,
+														zoneWords.second.length,
+													)
+												}
+												setIsDraggingWord(false)
+												setDropIndicator(null)
+											}}
+										/>
+									) : null}
+								</div>
+							)
+						})}
+					</div>
 				)}
 			</div>
 		</div>
+	)
+}
+
+function DropSlot({
+	active,
+	visible,
+	onDragOver,
+	onDrop,
+}: {
+	active: boolean
+	visible: boolean
+	onDragOver: React.DragEventHandler<HTMLSpanElement>
+	onDrop: React.DragEventHandler<HTMLSpanElement>
+}) {
+	return (
+		<span
+			onDragOver={onDragOver}
+			onDrop={onDrop}
+			className={`mx-1 inline-flex h-12 items-center justify-center rounded-full transition-all ${
+				visible ? 'w-4 opacity-100' : 'w-0 opacity-0'
+			} ${active ? 'bg-sky-500 shadow-[0_0_0_4px_rgba(14,165,233,0.18)]' : 'bg-sky-200/70'}`}
+			aria-hidden="true"
+		/>
 	)
 }

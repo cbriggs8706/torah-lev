@@ -43,6 +43,7 @@ export type SidebarTranslationKey =
 	| 'nav.constructAbsolute'
 	| 'nav.wordSort'
 	| 'nav.conversionGame'
+	| 'nav.identifyForm'
 	| 'nav.prayer'
 	| 'nav.slides'
 	| 'nav.startsWith'

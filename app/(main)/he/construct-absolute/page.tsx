@@ -111,6 +111,42 @@ export default function HebrewConstructAbsolutePage() {
 								</Button>
 							</CardContent>
 						</Card>
+
+						<Card className="border-sidebar-border bg-white/85 shadow-sm md:col-span-2">
+							<CardHeader className="space-y-3">
+								<div className="flex items-center gap-3">
+									<div className="rounded-2xl bg-sidebar-accent/70 p-3">
+										<Image
+											src="/construction-worker-medium-skin-tone-svgrepo-com.svg"
+											alt=""
+											aria-hidden="true"
+											width={34}
+											height={34}
+										/>
+									</div>
+									<div>
+										<CardTitle className="text-2xl font-cardo text-neutral-800">
+											זִהוּי צוּרָה
+										</CardTitle>
+										<CardDescription className="text-sm font-semibold text-neutral-600">
+											Identify The Form
+										</CardDescription>
+									</div>
+								</div>
+							</CardHeader>
+							<CardContent className="space-y-5">
+								<p className="text-sm leading-6 text-neutral-700">
+									See one Hebrew word at a time and decide whether it is an
+									absolute form or a construct form. This keeps the practice
+									simple and fast, like the site&apos;s other quiz activities.
+								</p>
+								<Button asChild variant="primary" className="w-full md:w-auto">
+									<Link href="/he/construct-absolute/identify-form">
+										Start Identify The Form
+									</Link>
+								</Button>
+							</CardContent>
+						</Card>
 					</div>
 				</div>
 			</FeedWrapper>
