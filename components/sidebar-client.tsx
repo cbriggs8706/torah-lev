@@ -125,6 +125,13 @@ export default function SidebarClient({
 								className="font-cardo text-xl"
 							/>
 							<SidebarItem
+								label="חידון"
+								href="/he/quiz"
+								iconSrc="/gameIcons/quiz.png"
+								onClick={onItemClick}
+								className="font-cardo text-xl"
+							/>
+							<SidebarItem
 								label="כרטיסיות"
 								href="/he/flashcards"
 								iconSrc="/icons/iconFlashcards.png"
@@ -246,6 +253,12 @@ export default function SidebarClient({
 								onClick={onItemClick}
 							/>
 							<SidebarItem
+								label="Quiz"
+								href="/en/quiz"
+								iconSrc="/gameIcons/quiz.png"
+								onClick={onItemClick}
+							/>
+							<SidebarItem
 								label="Flashcards"
 								href="/en/flashcards"
 								iconSrc="/card-file-box.svg"
@@ -360,6 +373,12 @@ export default function SidebarClient({
 								label="Learn"
 								href="/el/learn"
 								iconSrc="/youtube.svg"
+								onClick={onItemClick}
+							/>
+							<SidebarItem
+								label="Quiz"
+								href="/el/quiz"
+								iconSrc="/gameIcons/quiz.png"
 								onClick={onItemClick}
 							/>
 							<SidebarItem

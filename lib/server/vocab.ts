@@ -6,16 +6,6 @@ import { vocabEntries } from '@/db/schema'
 import type { EnglishVocab, GreekVocab, HebrewVocab } from '@/lib/vocab'
 import { resolveVocabMediaUrl, resolveVocabMediaUrls } from '@/lib/vocab-media'
 
-import awbHebrewVocab from '@/lib/data/vocab/awbVocab.json'
-import abcHebrewVocab from '@/lib/data/vocab/abcVocab.json'
-import awaGreekVocab from '@/lib/data/vocab/awaVocab.json'
-import ec1EnglishVocab from '@/lib/data/vocab/ec1Vocab.json'
-import ec2EnglishVocab from '@/lib/data/vocab/ec2Vocab.json'
-import efwEnglishVocab from '@/lib/data/vocab/efwVocab.json'
-import ewbEnglishVocab from '@/lib/data/vocab/ewbVocab.json'
-import hsHebrewVocab from '@/lib/data/vocab/hsVocab.json'
-import lrEnglishVocab from '@/lib/data/vocab/lrVocab.json'
-
 type VocabLanguage = 'he' | 'en' | 'el'
 export type VocabSourceKey =
 	| 'awb'
@@ -28,23 +18,22 @@ export type VocabSourceKey =
 	| 'ec1'
 	| 'ec2'
 
-type VocabSourceConfig<T> = {
+type VocabSourceConfig = {
 	language: VocabLanguage
 	courseId: number
-	fallback: T[]
 }
 
 const VOCAB_SOURCE_CONFIG = {
-	awb: { language: 'he', courseId: 6, fallback: awbHebrewVocab as HebrewVocab[] },
-	hs: { language: 'he', courseId: 11, fallback: hsHebrewVocab as HebrewVocab[] },
-	abc: { language: 'he', courseId: 14, fallback: abcHebrewVocab as HebrewVocab[] },
-	awa: { language: 'el', courseId: 12, fallback: awaGreekVocab as GreekVocab[] },
-	efw: { language: 'en', courseId: 16, fallback: efwEnglishVocab as EnglishVocab[] },
-	ewb: { language: 'en', courseId: 13, fallback: ewbEnglishVocab as EnglishVocab[] },
-	lr: { language: 'en', courseId: 17, fallback: lrEnglishVocab as EnglishVocab[] },
-	ec1: { language: 'en', courseId: 3, fallback: ec1EnglishVocab as EnglishVocab[] },
-	ec2: { language: 'en', courseId: 4, fallback: ec2EnglishVocab as EnglishVocab[] },
-} satisfies Record<VocabSourceKey, VocabSourceConfig<EnglishVocab | HebrewVocab | GreekVocab>>
+	awb: { language: 'he', courseId: 6 },
+	hs: { language: 'he', courseId: 11 },
+	abc: { language: 'he', courseId: 14 },
+	awa: { language: 'el', courseId: 12 },
+	efw: { language: 'en', courseId: 16 },
+	ewb: { language: 'en', courseId: 13 },
+	lr: { language: 'en', courseId: 17 },
+	ec1: { language: 'en', courseId: 3 },
+	ec2: { language: 'en', courseId: 4 },
+} satisfies Record<VocabSourceKey, VocabSourceConfig>
 
 type VocabEntryRow = typeof vocabEntries.$inferSelect
 
@@ -72,21 +61,6 @@ function normalizeGreekEntry(entry: GreekVocab): GreekVocab {
 		grkAudio: resolveVocabMediaUrl(entry.grkAudio),
 		engAudio: resolveVocabMediaUrl(entry.engAudio),
 	}
-}
-
-function normalizeFallback<T extends EnglishVocab | HebrewVocab | GreekVocab>(
-	items: T[],
-	language: VocabLanguage
-) {
-	if (language === 'he') {
-		return items.map((item) => normalizeHebrewEntry(item as HebrewVocab)) as T[]
-	}
-
-	if (language === 'el') {
-		return items.map((item) => normalizeGreekEntry(item as GreekVocab)) as T[]
-	}
-
-	return items.map((item) => normalizeEnglishEntry(item as EnglishVocab)) as T[]
 }
 
 function mapRowToHebrewVocab(row: VocabEntryRow): HebrewVocab {
@@ -186,9 +160,7 @@ async function getSourceData<T extends EnglishVocab | HebrewVocab | GreekVocab>(
 
 	try {
 		const rows = await getRowsForSource(sourceKey)
-		if (!rows.length) {
-			return normalizeFallback(config.fallback as T[], config.language)
-		}
+		if (!rows.length) return []
 
 		if (config.language === 'he') {
 			return rows.map((row) => mapRowToHebrewVocab(row)) as T[]
@@ -200,8 +172,11 @@ async function getSourceData<T extends EnglishVocab | HebrewVocab | GreekVocab>(
 
 		return rows.map((row) => mapRowToEnglishVocab(row)) as T[]
 	} catch (error) {
-		console.warn(`Falling back to local vocab for "${sourceKey}".`, error)
-		return normalizeFallback(config.fallback as T[], config.language)
+		console.warn(
+			`Failed to load vocab entries for "${sourceKey}" from the database.`,
+			error
+		)
+		return []
 	}
 }
 
@@ -212,7 +187,7 @@ function getSourceKeyForCourseId(
 ) {
 	const match = (Object.entries(VOCAB_SOURCE_CONFIG) as [
 		VocabSourceKey,
-		VocabSourceConfig<EnglishVocab | HebrewVocab | GreekVocab>,
+		VocabSourceConfig,
 	][]).find(([, config]) => {
 		return config.language === language && config.courseId === courseId
 	})

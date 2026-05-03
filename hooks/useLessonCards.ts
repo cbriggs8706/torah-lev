@@ -1,12 +1,13 @@
 'use client'
 import { useEffect, useMemo, useState } from 'react'
-import { EnglishVocab, HebrewVocab } from '@/lib/vocab'
+import { EnglishVocab, GreekVocab, HebrewVocab } from '@/lib/vocab'
 
 export function parseLessonKey(key: string) {
 	if (typeof key !== 'string') return { num: NaN, text: '' }
 
-	// Match any digits followed by optional letters
-	const match = key.match(/(\d+)([a-zA-Z]*)$/)
+	// Match only lesson keys that are entirely numeric with an optional letter suffix,
+	// such as "41" or "41b". Labels like "Classroom1" should not be auto-selected.
+	const match = key.match(/^(\d+)([a-zA-Z]*)$/)
 	if (!match) return { num: NaN, text: key }
 
 	return {
@@ -16,7 +17,7 @@ export function parseLessonKey(key: string) {
 }
 
 export function useLessonCards(
-	data: HebrewVocab[] | EnglishVocab[],
+	data: HebrewVocab[] | EnglishVocab[] | GreekVocab[],
 	currentLesson: string
 ) {
 	const [selectedLessons, setSelectedLessons] = useState<string[]>([])

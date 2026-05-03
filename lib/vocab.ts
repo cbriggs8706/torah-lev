@@ -63,3 +63,5 @@ export type EnglishVocab = {
 	engAudio: string
 	category?: string
 }
+
+export type AnyVocab = EnglishVocab | HebrewVocab | GreekVocab

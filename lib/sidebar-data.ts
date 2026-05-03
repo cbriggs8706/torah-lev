@@ -59,7 +59,9 @@ export function buildSidebarSections({
 	if ([6, 11, 14].includes(activeCourseId ?? -1)) {
 		studyItems.push(
 			{ key: 'learn', label: localize(resolvedLocale, 'nav.learn'), href: '/he/learn', iconSrc: '/icons/iconYoutube.png' },
+			{ key: 'introduction', label: localize(resolvedLocale, 'nav.introduction'), href: '/he/introduction', iconSrc: '/speech-balloon-svgrepo-com.svg', icon: BookAudio },
 			{ key: 'flashcards', label: localize(resolvedLocale, 'nav.flashcards'), href: '/he/flashcards', iconSrc: '/icons/iconFlashcards.png' },
+			{ key: 'quiz', label: localize(resolvedLocale, 'nav.quiz'), href: '/he/quiz', iconSrc: '/gameIcons/quiz.png' },
 			{ key: 'dictionary', label: localize(resolvedLocale, 'nav.dictionary'), href: '/he/dictionary', iconSrc: '/icons/iconDictionary.png' },
 			{ key: 'lesson-scripts', label: localize(resolvedLocale, 'nav.lessonScripts'), href: '/he/lesson-scripts', iconSrc: '/icons/iconNotebook.png' },
 			{ key: 'matchup', label: localize(resolvedLocale, 'nav.matchup'), href: '/he/matchup', iconSrc: '/icons/iconSocks.png' },

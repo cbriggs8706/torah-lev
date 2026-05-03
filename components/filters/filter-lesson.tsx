@@ -1,10 +1,10 @@
 'use client'
 
-import { EnglishVocab, HebrewVocab } from '@/lib/vocab'
+import { EnglishVocab, GreekVocab, HebrewVocab } from '@/lib/vocab'
 import { useMemo } from 'react'
 
 interface LessonFilterProps {
-	data: HebrewVocab[] | EnglishVocab[]
+	data: HebrewVocab[] | EnglishVocab[] | GreekVocab[]
 	selectedLessons: string[]
 	setSelectedLessons: React.Dispatch<React.SetStateAction<string[]>>
 	showRanges?: boolean
@@ -80,7 +80,7 @@ export default function LessonFilter({
 
 	return (
 		<div className="space-y-3 mb-4">
-			<h2 className="text-xl font-semibold mb-2">Select Lessons</h2>
+			<h2 className="text-xl font-semibold text-center mb-2">Select Lessons</h2>
 			<div className="flex flex-wrap justify-center gap-2">
 				{/* Clear All */}
 				<button

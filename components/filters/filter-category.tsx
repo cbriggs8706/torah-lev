@@ -1,10 +1,10 @@
 'use client'
 
-import { EnglishVocab, HebrewVocab } from '@/lib/vocab'
+import { EnglishVocab, GreekVocab, HebrewVocab } from '@/lib/vocab'
 import { useMemo } from 'react'
 
 interface CategoryFilterProps {
-	data: HebrewVocab[] | EnglishVocab[]
+	data: HebrewVocab[] | EnglishVocab[] | GreekVocab[]
 	selectedCategory: string
 	setSelectedCategory: React.Dispatch<React.SetStateAction<string>>
 }
@@ -24,7 +24,7 @@ export default function CategoryFilter({
 
 	return (
 		<div className="space-y-3 mb-4">
-			<h2 className="text-xl font-semibold">Select Category</h2>
+			<h2 className="text-xl font-semibold text-center">Select Category</h2>
 			<div className="flex flex-wrap justify-center gap-2">
 				{/* "All" button */}
 				<button
