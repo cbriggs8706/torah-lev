@@ -88,6 +88,7 @@ export function toVocabAdminRecord(
 		entryId: number
 		lessons: string[]
 		type: string | null
+		definite: boolean
 		category: string | null
 		eng: string | null
 		engDefinition: string | null
@@ -115,6 +116,7 @@ export function toVocabAdminRecord(
 		scriptures: string[] | null
 		strongs: string | null
 		introduction: string | null
+		absoluteEntryId: number | null
 		payload: unknown
 		createdAt: Date
 		updatedAt: Date

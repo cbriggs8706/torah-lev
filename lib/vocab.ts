@@ -18,6 +18,7 @@ export type HebrewVocab = {
 	scriptures?: string[]
 	strongs?: string
 	type?: string
+	definite?: boolean
 	category?: string
 	introduction?: string
 }
@@ -41,6 +42,7 @@ export type GreekVocab = {
 	scriptures?: string[]
 	strongs?: string
 	type?: string
+	definite?: boolean
 	category?: string
 }
 
@@ -48,6 +50,7 @@ export type EnglishVocab = {
 	id: number | null
 	lessons: string[]
 	type?: string
+	definite?: boolean
 	engDefinition?: string
 	eng: string
 	spa: string

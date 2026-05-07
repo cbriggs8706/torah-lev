@@ -15,8 +15,10 @@ import {
 import { CSS } from '@dnd-kit/utilities'
 import { Check, RotateCcw } from 'lucide-react'
 
+import LessonFilter from '@/components/filters/filter-lesson'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { useLessonCards } from '@/hooks/useLessonCards'
 import type { ConstructAbsoluteWord } from '@/lib/data/hebrew/construct-absolute'
 import { cn } from '@/lib/utils'
 
@@ -28,8 +30,21 @@ type SortWord = {
 	type: SortBucket
 }
 
+const hebrewWordCollator = new Intl.Collator('he', {
+	numeric: true,
+	sensitivity: 'base',
+})
+
 function shuffle<T>(items: T[]) {
 	return [...items].sort(() => Math.random() - 0.5)
+}
+
+function sortWordsAlphabetically(words: SortWord[]) {
+	return [...words].sort(
+		(a, b) =>
+			hebrewWordCollator.compare(a.hebrew, b.hebrew) ||
+			a.id.localeCompare(b.id)
+	)
 }
 
 function DraggableWord({
@@ -127,12 +142,37 @@ function DropZone({
 
 export default function HebrewConstructAbsoluteWordSort({
 	words,
+	currentLesson,
 }: {
 	words: ConstructAbsoluteWord[]
+	currentLesson: string
 }) {
+	const lessonFilterData = useMemo(
+		() =>
+			words.map((word) => ({
+				lessons: word.lessonNumber ? [word.lessonNumber] : [],
+			})),
+		[words]
+	)
+
+	const { selectedLessons, setSelectedLessons } = useLessonCards(
+		lessonFilterData,
+		currentLesson
+	)
+
+	const filteredWords = useMemo(
+		() =>
+			words.filter(
+				(word) =>
+					selectedLessons.length === 0 ||
+					selectedLessons.includes(word.lessonNumber)
+			),
+		[words, selectedLessons]
+	)
+
 	const allCards = useMemo<SortWord[]>(
 		() =>
-			words.flatMap((word) => [
+			filteredWords.flatMap((word) => [
 				{
 					id: `${word.id}-absolute`,
 					hebrew: word.absolute,
@@ -144,7 +184,7 @@ export default function HebrewConstructAbsoluteWordSort({
 					type: 'construct' as const,
 				},
 			]),
-		[words]
+		[filteredWords]
 	)
 
 	const [deck, setDeck] = useState(() => shuffle(allCards))
@@ -172,12 +212,18 @@ export default function HebrewConstructAbsoluteWordSort({
 	)
 
 	const absoluteWords = useMemo(
-		() => deck.filter((word) => placements[word.id] === 'absolute'),
+		() =>
+			sortWordsAlphabetically(
+				deck.filter((word) => placements[word.id] === 'absolute')
+			),
 		[deck, placements]
 	)
 
 	const constructWords = useMemo(
-		() => deck.filter((word) => placements[word.id] === 'construct'),
+		() =>
+			sortWordsAlphabetically(
+				deck.filter((word) => placements[word.id] === 'construct')
+			),
 		[deck, placements]
 	)
 
@@ -216,6 +262,13 @@ export default function HebrewConstructAbsoluteWordSort({
 
 	return (
 		<div className="w-full max-w-6xl space-y-6">
+			<LessonFilter
+				data={lessonFilterData}
+				selectedLessons={selectedLessons}
+				setSelectedLessons={setSelectedLessons}
+				showRanges
+			/>
+
 			<Card className="border-sidebar-border bg-white/85 shadow-sm">
 				<CardContent className="flex flex-col gap-4 p-6 md:flex-row md:items-center md:justify-between">
 					<div className="grid gap-4 sm:grid-cols-3">

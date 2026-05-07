@@ -1,6 +1,9 @@
 'use client'
 import { useEffect, useMemo, useState } from 'react'
-import { EnglishVocab, GreekVocab, HebrewVocab } from '@/lib/vocab'
+
+type LessonCard = {
+	lessons?: Array<string | number | null | undefined>
+}
 
 export function parseLessonKey(key: string) {
 	if (typeof key !== 'string') return { num: NaN, text: '' }
@@ -17,7 +20,7 @@ export function parseLessonKey(key: string) {
 }
 
 export function useLessonCards(
-	data: HebrewVocab[] | EnglishVocab[] | GreekVocab[],
+	data: LessonCard[],
 	currentLesson: string
 ) {
 	const [selectedLessons, setSelectedLessons] = useState<string[]>([])

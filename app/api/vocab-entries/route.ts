@@ -23,6 +23,10 @@ function normalizeOptionalNumber(value: unknown) {
 	return Number.isFinite(parsed) ? parsed : null
 }
 
+function normalizeBoolean(value: unknown) {
+	return value === true || value === 'true' || value === 1 || value === '1'
+}
+
 function normalizeRecord(body: Record<string, unknown>) {
 	const language = normalizeNullableString(body.language) ?? 'he'
 	const images = normalizeMediaList(body.imagesText ?? body.images)
@@ -42,6 +46,7 @@ function normalizeRecord(body: Record<string, unknown>) {
 		entryId: normalizeOptionalNumber(body.entryId) ?? 0,
 		lessons,
 		type: normalizeNullableString(body.type),
+		definite: normalizeBoolean(body.definite),
 		category: normalizeNullableString(body.category),
 		eng: normalizeNullableString(body.eng),
 		engDefinition: normalizeNullableString(body.engDefinition),
@@ -69,6 +74,7 @@ function normalizeRecord(body: Record<string, unknown>) {
 		scriptures,
 		strongs: normalizeNullableString(body.strongs),
 		introduction: normalizeNullableString(body.introduction),
+		absoluteEntryId: normalizeOptionalNumber(body.absoluteEntryId),
 	}
 
 	return {
@@ -76,6 +82,32 @@ function normalizeRecord(body: Record<string, unknown>) {
 		payload: row,
 		updatedAt: new Date(),
 	}
+}
+
+async function validateConstructAbsoluteLink(
+	normalized: ReturnType<typeof normalizeRecord>
+) {
+	if (
+		normalized.category?.trim().toLowerCase() === 'construct' &&
+		!normalized.absoluteEntryId
+	) {
+		return 'Construct entries require an absolute entry.'
+	}
+
+	if (!normalized.absoluteEntryId) {
+		return null
+	}
+
+	const target = await db.query.vocabEntries.findFirst({
+		where: eq(vocabEntries.id, normalized.absoluteEntryId),
+		columns: { id: true },
+	})
+
+	if (!target) {
+		return 'Absolute entry not found.'
+	}
+
+	return null
 }
 
 async function getNextEntryId(sourceKey: string) {
@@ -220,6 +252,10 @@ export const POST = async (req: Request) => {
 
 	const body = (await req.json()) as Record<string, unknown>
 	const normalized = normalizeRecord(body)
+	const validationError = await validateConstructAbsoluteLink(normalized)
+	if (validationError) {
+		return new NextResponse(validationError, { status: 400 })
+	}
 	const entryId = normalized.entryId > 0
 		? normalized.entryId
 		: await getNextEntryId(normalized.sourceKey)

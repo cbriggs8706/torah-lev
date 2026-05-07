@@ -87,6 +87,7 @@ function mapRowToHebrewVocab(row: VocabEntryRow): HebrewVocab {
 		scriptures: row.scriptures ?? payload.scriptures ?? [],
 		strongs: row.strongs ?? payload.strongs ?? '',
 		type: row.type ?? payload.type ?? '',
+		definite: row.definite ?? payload.definite ?? false,
 		category: row.category ?? payload.category ?? '',
 		introduction: row.introduction ?? payload.introduction ?? '',
 	})
@@ -99,6 +100,7 @@ function mapRowToEnglishVocab(row: VocabEntryRow): EnglishVocab {
 		id: row.entryId,
 		lessons: row.lessons ?? payload.lessons ?? [],
 		type: row.type ?? payload.type ?? '',
+		definite: row.definite ?? payload.definite ?? false,
 		engDefinition: row.engDefinition ?? payload.engDefinition ?? '',
 		eng: row.eng ?? payload.eng ?? '',
 		spa: row.spa ?? payload.spa ?? '',
@@ -141,6 +143,7 @@ function mapRowToGreekVocab(row: VocabEntryRow): GreekVocab {
 		scriptures: row.scriptures ?? payload.scriptures ?? [],
 		strongs: row.strongs ?? payload.strongs ?? '',
 		type: row.type ?? payload.type ?? '',
+		definite: row.definite ?? payload.definite ?? false,
 		category: row.category ?? payload.category ?? '',
 	})
 }

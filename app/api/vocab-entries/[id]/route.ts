@@ -20,6 +20,10 @@ function normalizeOptionalNumber(value: unknown) {
 	return Number.isFinite(parsed) ? parsed : null
 }
 
+function normalizeBoolean(value: unknown) {
+	return value === true || value === 'true' || value === 1 || value === '1'
+}
+
 function parseStringList(input: unknown) {
 	if (Array.isArray(input)) {
 		return input
@@ -51,6 +55,7 @@ function normalizeRecord(body: Record<string, unknown>) {
 		entryId: normalizeOptionalNumber(body.entryId) ?? 0,
 		lessons: parseStringList(body.lessonsText ?? body.lessons),
 		type: normalizeNullableString(body.type),
+		definite: normalizeBoolean(body.definite),
 		category: normalizeNullableString(body.category),
 		eng: normalizeNullableString(body.eng),
 		engDefinition: normalizeNullableString(body.engDefinition),
@@ -78,6 +83,7 @@ function normalizeRecord(body: Record<string, unknown>) {
 		scriptures: parseStringList(body.scripturesText ?? body.scriptures),
 		strongs: normalizeNullableString(body.strongs),
 		introduction: normalizeNullableString(body.introduction),
+		absoluteEntryId: normalizeOptionalNumber(body.absoluteEntryId),
 	}
 
 	return {
@@ -85,6 +91,37 @@ function normalizeRecord(body: Record<string, unknown>) {
 		payload: row,
 		updatedAt: new Date(),
 	}
+}
+
+async function validateConstructAbsoluteLink(
+	id: number,
+	normalized: ReturnType<typeof normalizeRecord>
+) {
+	if (
+		normalized.category?.trim().toLowerCase() === 'construct' &&
+		!normalized.absoluteEntryId
+	) {
+		return 'Construct entries require an absolute entry.'
+	}
+
+	if (!normalized.absoluteEntryId) {
+		return null
+	}
+
+	if (normalized.absoluteEntryId === id) {
+		return 'A vocab entry cannot point to itself as its absolute form.'
+	}
+
+	const target = await db.query.vocabEntries.findFirst({
+		where: eq(vocabEntries.id, normalized.absoluteEntryId),
+		columns: { id: true },
+	})
+
+	if (!target) {
+		return 'Absolute entry not found.'
+	}
+
+	return null
 }
 
 function parseId(id: string) {
@@ -118,6 +155,10 @@ export const PUT = async (req: Request, { params }: Params) => {
 
 	const body = (await req.json()) as Record<string, unknown>
 	const normalized = normalizeRecord(body)
+	const validationError = await validateConstructAbsoluteLink(id, normalized)
+	if (validationError) {
+		return new NextResponse(validationError, { status: 400 })
+	}
 
 	const data = await db
 		.update(vocabEntries)

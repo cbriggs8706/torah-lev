@@ -19,6 +19,10 @@ export default async function HebrewConstructAbsoluteIdentifyFormPage() {
 		: [null, null]
 
 	const activeCourseId = userProgress?.activeCourseId ?? 6
+	const currentLesson =
+		userProgress?.activeLessonNumber ??
+		courseProgress?.activeLesson?.lessonNumber ??
+		''
 	const words = await getConstructAbsoluteWords({
 		courseId: activeCourseId,
 		activeLessonId: courseProgress?.activeLessonId ?? null,
@@ -51,7 +55,10 @@ export default async function HebrewConstructAbsoluteIdentifyFormPage() {
 						the other construct activities.
 					</DismissibleAlert>
 
-					<HebrewConstructAbsoluteIdentifyForm words={words} />
+					<HebrewConstructAbsoluteIdentifyForm
+						words={words}
+						currentLesson={currentLesson}
+					/>
 				</div>
 			</FeedWrapper>
 		</div>

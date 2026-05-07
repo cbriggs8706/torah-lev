@@ -4,9 +4,9 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useAudio, useWindowSize } from 'react-use'
 import ReactConfetti from 'react-confetti'
 import Image from 'next/image'
+
 interface HebrewLetterQuizProps {
 	letters: HebrewLetter[]
-	niqqud: HebrewNiqqud[]
 	userId: string
 	courseId: number
 	pointsOnPass?: number
@@ -23,15 +23,7 @@ interface HebrewLetter {
 	category?: string
 	imageKey?: string
 }
-interface HebrewNiqqud {
-	char: string
-	name: string
-	nameAudio: string
-	soundAudio: string
-	imageKey?: string
-}
-
-type Mode = 'name' | 'sound' | 'syllable' | 'niqqud'
+type Mode = 'name' | 'sound'
 type FontChoice =
 	| 'arial'
 	| 'times'
@@ -98,31 +90,8 @@ function CountdownCircle({ seconds }: { seconds: number }) {
 	)
 }
 
-const syllableOptions = [
-	{ key: 'qamats', symbol: 'ָ' },
-	{ key: 'patach', symbol: 'ַ' },
-	{ key: 'chataf-patach', symbol: 'ֲ' },
-	{ key: 'tsere', symbol: 'ֵ' },
-	{ key: 'tsere-yod', symbol: 'י ֵ' },
-	{ key: 'segol', symbol: 'ֶ' },
-	{ key: 'segol-yod', symbol: 'י ֶ' },
-	{ key: 'chataf-segol', symbol: 'ֱ' },
-	{ key: 'hiriq', symbol: 'ִ' },
-	{ key: 'hiriq-yod', symbol: 'י ִ' },
-	{ key: 'holam', symbol: 'ֹ' },
-	{ key: 'holam-male', symbol: 'וֹ' },
-	{ key: 'chataf-qamats', symbol: 'ֳ' },
-	{ key: 'shuruk', symbol: 'וּ' },
-	{ key: 'qubutz', symbol: 'ֻ' },
-	{ key: 'patach-yod', symbol: 'י ַ' },
-	{ key: 'qamats-hey', symbol: 'ה ָ' },
-	{ key: 'shva', symbol: 'ְ' },
-	// { key: 'dagesh', symbol: 'ּ' },
-] as const
-
 export default function HebrewLetterQuiz({
 	letters,
-	niqqud,
 	userId,
 	courseId,
 	pointsOnPass,
@@ -143,7 +112,6 @@ export default function HebrewLetterQuiz({
 	const [wrongAnswers, setWrongAnswers] = useState<HebrewLetter[]>([])
 	const [finishAudio] = useAudio({ src: '/shofar.mp3', autoPlay: true })
 	const { width, height } = useWindowSize()
-	const [selectedVowel, setSelectedVowels] = useState<string[]>([])
 	const [disabledButtons, setDisabledButtons] = useState(false)
 	const [studyMode, setStudyMode] = useState(false)
 	const [awardedPoints, setAwardedPoints] = useState<number>(0)
@@ -169,22 +137,9 @@ export default function HebrewLetterQuiz({
 
 	// Filter the dataset by mode selection
 	const filteredLetters = useMemo(() => {
-		let base: HebrewLetter[] = []
-
-		if (selectedMode === 'name' || selectedMode === 'sound') {
-			base = letters.filter((l) =>
-				(getActiveNameAudio(l) ?? '').includes('base')
-			)
-		} else if (selectedMode === 'syllable') {
-			if (selectedVowel.length === 0) return []
-			base = letters.filter((l) => {
-				const activeName = getActiveNameAudio(l) ?? ''
-				const match = activeName.match(/name-[^-]+-(.+)\.mp3$/)
-				if (!match) return false
-				const syllableKey = match[1]
-				return selectedVowel.includes(syllableKey)
-			})
-		}
+		const base = letters.filter((l) =>
+			(getActiveNameAudio(l) ?? '').includes('base')
+		)
 
 		return base.filter((l) => {
 			// Exclude letters without an imageKey for image-based fonts
@@ -198,17 +153,12 @@ export default function HebrewLetterQuiz({
 
 			return true
 		})
-	}, [letters, selectedMode, selectedVowel, fontChoice, getActiveNameAudio])
-
-	const filteredNiqqud = useMemo(() => {
-		if (selectedMode !== 'niqqud') return []
-		return niqqud
-	}, [selectedMode, niqqud])
+	}, [letters, fontChoice, getActiveNameAudio])
 
 	useEffect(() => {
 		if (!gameStarted) return
 
-		const pool = selectedMode === 'niqqud' ? filteredNiqqud : filteredLetters
+		const pool = filteredLetters
 
 		if (pool.length === 0) return
 
@@ -220,7 +170,7 @@ export default function HebrewLetterQuiz({
 		setCorrectCount(0)
 		setWrongCount(0)
 		setWrongAnswers([])
-	}, [gameStarted, filteredLetters, filteredNiqqud, selectedMode])
+	}, [gameStarted, filteredLetters])
 
 	const currentLetter = shuffledLetters[currentIndex]
 
@@ -228,10 +178,8 @@ export default function HebrewLetterQuiz({
 		if (!currentLetter) return ''
 		if (selectedMode === 'name')
 			return getActiveNameAudio(currentLetter as HebrewLetter)
-		if (selectedMode === 'sound' || selectedMode === 'syllable')
+		if (selectedMode === 'sound')
 			return getActiveSoundAudio(currentLetter as HebrewLetter)
-		if (selectedMode === 'niqqud')
-			return (currentLetter as HebrewNiqqud).soundAudio
 		return ''
 	}, [currentLetter, selectedMode, getActiveNameAudio, getActiveSoundAudio])
 
@@ -311,11 +259,7 @@ export default function HebrewLetterQuiz({
 	const total = shuffledLetters.length
 	const passed = wrongCount <= 2 && timeLimit <= 3
 	const hebrewExample = 'א'
-
-	const isStartDisabled =
-		(selectedMode === 'syllable' && selectedVowel.length === 0) ||
-		(selectedMode === 'niqqud' && filteredNiqqud.length === 0) ||
-		(selectedMode !== 'niqqud' && filteredLetters.length === 0)
+	const isStartDisabled = filteredLetters.length === 0
 
 	useEffect(() => {
 		if (!gameStarted || finished || !currentLetter) return
@@ -433,7 +377,7 @@ export default function HebrewLetterQuiz({
 					<div className="mb-6">
 						<p className="font-medium mb-2">Select Mode</p>
 						<div className="flex justify-center gap-2">
-							{(['name', 'sound', 'syllable', 'niqqud'] as Mode[]).map(
+							{(['name', 'sound'] as Mode[]).map(
 								(mode) => (
 									<button
 										key={mode}
@@ -446,11 +390,7 @@ export default function HebrewLetterQuiz({
 									>
 										{mode === 'name'
 											? 'Names'
-											: mode === 'sound'
-											? 'Sounds'
-											: mode === 'syllable'
-											? 'Syllables'
-											: 'Niqqud Names'}
+											: 'Sounds'}
 									</button>
 								)
 							)}
@@ -474,51 +414,6 @@ export default function HebrewLetterQuiz({
 							))}
 						</div>
 					</div>
-					{selectedMode === 'syllable' && (
-						<div className="mb-6">
-							<p className="font-medium mb-2">Select Vowel(s)</p>
-							<div className="flex flex-wrap gap-2 justify-center">
-								<button
-									onClick={() => {
-										if (selectedVowel.length === syllableOptions.length) {
-											setSelectedVowels([])
-										} else {
-											setSelectedVowels(syllableOptions.map((n) => n.key))
-										}
-									}}
-									className={`px-4 py-2 border rounded-full font-semibold ${
-										selectedVowel.length === syllableOptions.length
-											? 'bg-red-500 text-white'
-											: 'bg-green-600 text-white'
-									}`}
-								>
-									{selectedVowel.length === syllableOptions.length
-										? 'Clear All'
-										: 'Select All'}
-								</button>
-								{syllableOptions.map(({ key, symbol }) => (
-									<button
-										key={key}
-										onClick={() =>
-											setSelectedVowels((prev) =>
-												prev.includes(key)
-													? prev.filter((v) => v !== key)
-													: [...prev, key]
-											)
-										}
-										className={`text-5xl font-times w-16 h-16 border rounded-full ${
-											selectedVowel.includes(key)
-												? 'bg-sky-600 text-white'
-												: 'bg-gray-200 text-black'
-										}`}
-									>
-										{symbol}
-									</button>
-								))}
-							</div>
-						</div>
-					)}
-
 					<div className="mb-6">
 						<p className="font-medium mb-2">Font</p>
 						<div className="flex justify-center gap-2 flex-wrap">
@@ -668,11 +563,6 @@ export default function HebrewLetterQuiz({
 							className="w-24 p-2 border text-center rounded mt-4"
 						/>
 					</div>
-					{selectedMode === 'syllable' && selectedVowel.length === 0 && (
-						<p className="text-red-600 font-medium mb-2">
-							Please select at least one syllable to begin.
-						</p>
-					)}
 					<button
 						onClick={() => {
 							if (!isStartDisabled) {
@@ -715,8 +605,7 @@ export default function HebrewLetterQuiz({
 					<h2 className="text-2xl font-bold mb-4">Study the Alphabet</h2>
 					<div className="flex flex-wrap justify-center gap-6" dir="rtl">
 						{/* {filteredLetters.map((l, i) => ( */}
-						{(selectedMode === 'niqqud' ? filteredNiqqud : filteredLetters).map(
-							(l, i) => (
+						{filteredLetters.map((l, i) => (
 								<div
 									key={i}
 									className="p-4 border rounded-lg flex flex-col items-center w-24"
@@ -742,14 +631,11 @@ export default function HebrewLetterQuiz({
 
 									<button
 										onClick={() => {
-											const audio =
-												selectedMode === 'niqqud'
-													? new Audio((l as HebrewNiqqud).soundAudio)
-													: new Audio(
-															selectedMode === 'name'
-																? getActiveNameAudio(l as HebrewLetter)
-																: getActiveSoundAudio(l as HebrewLetter)
-													  )
+											const audio = new Audio(
+												selectedMode === 'name'
+													? getActiveNameAudio(l as HebrewLetter)
+													: getActiveSoundAudio(l as HebrewLetter)
+											)
 											audio.play()
 										}}
 										className="text-xl text-sky-600 hover:text-sky-800"

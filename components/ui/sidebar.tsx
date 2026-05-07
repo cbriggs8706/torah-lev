@@ -19,6 +19,8 @@ type SidebarContextValue = {
 	setOpen: (open: boolean) => void
 	openMobile: boolean
 	setOpenMobile: (open: boolean) => void
+	side: 'left' | 'right'
+	setSide: (side: 'left' | 'right') => void
 	toggleSidebar: () => void
 }
 
@@ -42,6 +44,7 @@ export function SidebarProvider({
 	const isMobile = useIsMobile()
 	const [open, setOpen] = React.useState(defaultOpen)
 	const [openMobile, setOpenMobile] = React.useState(false)
+	const [side, setSide] = React.useState<'left' | 'right'>('left')
 
 	const toggleSidebar = React.useCallback(() => {
 		if (isMobile) {
@@ -59,6 +62,8 @@ export function SidebarProvider({
 				setOpen,
 				openMobile,
 				setOpenMobile,
+				side,
+				setSide,
 				toggleSidebar,
 			}}
 		>
@@ -83,7 +88,11 @@ export function Sidebar({
 	className,
 	side = 'left',
 }: React.ComponentProps<'div'> & { side?: 'left' | 'right' }) {
-	const { isMobile, open, openMobile, setOpenMobile } = useSidebar()
+	const { isMobile, open, openMobile, setOpenMobile, setSide } = useSidebar()
+
+	React.useEffect(() => {
+		setSide(side)
+	}, [setSide, side])
 
 	if (isMobile) {
 		return (
@@ -303,13 +312,13 @@ export function SidebarTrigger({
 	onClick,
 	...props
 }: React.ComponentProps<typeof Button>) {
-	const { toggleSidebar } = useSidebar()
+	const { side, toggleSidebar } = useSidebar()
 
 	return (
 		<Button
 			variant="ghost"
 			size="icon"
-			className={cn('rounded-full', className)}
+			className={cn('rounded-full', side === 'right' && 'ml-auto', className)}
 			onClick={(event) => {
 				onClick?.(event)
 				toggleSidebar()

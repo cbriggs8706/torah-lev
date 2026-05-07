@@ -1,9 +1,8 @@
 import Image from 'next/image'
 import { getSession } from '@/lib/auth'
 import { FeedWrapper } from '@/components/feed-wrapper'
-import { getUserProgress, getUserSubscription } from '@/db/queries'
+import { getUserProgress } from '@/db/queries'
 import { hebrewLetters } from '@/lib/data/hebrew/hebrew-letters'
-import { hebrewNiqqud } from '@/lib/data/hebrew/hebrew-niqqud'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 import HebrewLetterQuiz from '@/components/hebrew/hebrew-letter-quiz'
 
@@ -12,13 +11,10 @@ export default async function HebrewLetterQuizPage() {
 	const userId = session?.user?.id ?? null
 
 	// ✅ Fetch user data only if signed in
-	const [userProgress, userSubscription] = userId
-		? await Promise.all([getUserProgress(), getUserSubscription()])
-		: [null, null]
+	const userProgress = userId ? await getUserProgress() : null
 
 	// ✅ Fallbacks for guests
 	const courseId = userProgress?.activeCourseId ?? 6 // Default to AwB for guests
-	const isPro = !!userSubscription?.isActive
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
@@ -45,9 +41,8 @@ export default async function HebrewLetterQuizPage() {
 					)}
 
 					<DismissibleAlert storageKey="letter1" className="mb-4">
-						Quiz yourself on letter names, letter sounds or syllable sounds.
-						Play around with different fonts. New Study Alphabet button! More
-						fonts coming soon.
+						Quiz yourself on letter names or letter sounds. Play around with
+						different fonts. New Study Alphabet button! More fonts coming soon.
 					</DismissibleAlert>
 
 					<DismissibleAlert storageKey="letter2" className="mb-4">
@@ -57,7 +52,6 @@ export default async function HebrewLetterQuizPage() {
 
 					<HebrewLetterQuiz
 						letters={hebrewLetters}
-						niqqud={hebrewNiqqud}
 						userId={userId ?? 'guest'}
 						courseId={courseId}
 					/>

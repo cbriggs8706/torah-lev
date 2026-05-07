@@ -58,6 +58,7 @@ export const VocabEntryList = () => (
 			/>
 			<TextField source="eng" />
 			<TextField source="category" />
+			<TextField source="absoluteEntryId" label="Absolute ID" />
 			<TextField source="type" />
 			<BooleanField source="missingImage" />
 			<BooleanField source="missingAudio" />

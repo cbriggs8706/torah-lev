@@ -1,6 +1,7 @@
 import { relations, sql } from 'drizzle-orm'
 import { uniqueIndex, index } from 'drizzle-orm/pg-core'
 import {
+	AnyPgColumn,
 	boolean,
 	doublePrecision,
 	integer,
@@ -884,6 +885,7 @@ export const vocabEntries = pgTable(
 		entryId: integer('entry_id').notNull(),
 		lessons: text('lessons').array().notNull().default(sql`'{}'::text[]`),
 		type: text('type'),
+		definite: boolean('definite').notNull().default(false),
 		category: text('category'),
 		eng: text('eng'),
 		engDefinition: text('eng_definition'),
@@ -911,6 +913,10 @@ export const vocabEntries = pgTable(
 		scriptures: text('scriptures').array(),
 		strongs: text('strongs'),
 		introduction: text('introduction'),
+		absoluteEntryId: integer('absolute_entry_id').references(
+			(): AnyPgColumn => vocabEntries.id,
+			{ onDelete: 'set null' }
+		),
 		payload: jsonb('payload').notNull().default({}),
 		createdAt: timestamp('created_at').defaultNow().notNull(),
 		updatedAt: timestamp('updated_at').defaultNow().notNull(),
@@ -923,6 +929,9 @@ export const vocabEntries = pgTable(
 		sourceIdx: index('idx_vocab_source_key').on(table.sourceKey),
 		courseIdx: index('idx_vocab_course_id').on(table.courseId),
 		languageIdx: index('idx_vocab_language').on(table.language),
+		absoluteEntryIdx: index('idx_vocab_absolute_entry_id').on(
+			table.absoluteEntryId
+		),
 	})
 )
 

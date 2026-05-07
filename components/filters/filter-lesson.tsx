@@ -1,10 +1,13 @@
 'use client'
 
-import { EnglishVocab, GreekVocab, HebrewVocab } from '@/lib/vocab'
 import { useMemo } from 'react'
 
+type LessonFilterItem = {
+	lessons: Array<string | number | null | undefined>
+}
+
 interface LessonFilterProps {
-	data: HebrewVocab[] | EnglishVocab[] | GreekVocab[]
+	data: LessonFilterItem[]
 	selectedLessons: string[]
 	setSelectedLessons: React.Dispatch<React.SetStateAction<string[]>>
 	showRanges?: boolean
@@ -26,7 +29,10 @@ export default function LessonFilter({
 	}
 
 	const lessonOptions = useMemo(() => {
-		const allLessons = data.flatMap((card) => card.lessons)
+		const allLessons = data
+			.flatMap((card) => card.lessons)
+			.filter((lesson): lesson is string | number => lesson != null)
+			.map((lesson) => String(lesson))
 		const uniqueLessons = Array.from(new Set(allLessons))
 
 		return uniqueLessons.sort((a, b) => {

@@ -19,6 +19,10 @@ export default async function HebrewConstructAbsoluteConversionPage() {
 		: [null, null]
 
 	const activeCourseId = userProgress?.activeCourseId ?? 6
+	const currentLesson =
+		userProgress?.activeLessonNumber ??
+		courseProgress?.activeLesson?.lessonNumber ??
+		''
 	const words = await getConstructAbsoluteWords({
 		courseId: activeCourseId,
 		activeLessonId: courseProgress?.activeLessonId ?? null,
@@ -46,11 +50,14 @@ export default async function HebrewConstructAbsoluteConversionPage() {
 						storageKey="construct-absolute-conversion"
 						className="mb-4 max-w-3xl"
 					>
-						Start with the absolute form, tap the changing letter-group, and
-						submit to see whether you built the construct form correctly.
+						Start with the absolute form, then drag vowels from the bank onto
+						the consonants to build the construct form.
 					</DismissibleAlert>
 
-					<HebrewConstructAbsoluteConversion words={words} />
+					<HebrewConstructAbsoluteConversion
+						words={words}
+						currentLesson={currentLesson}
+					/>
 				</div>
 			</FeedWrapper>
 		</div>

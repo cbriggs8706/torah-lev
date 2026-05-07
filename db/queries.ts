@@ -39,7 +39,7 @@ import {
 	studyGroups,
 	studyGroupMembers,
 	users,
-	constructAbsoluteWords,
+	vocabEntries,
 } from '@/db/schema'
 import { tr } from 'date-fns/locale'
 import {
@@ -499,26 +499,87 @@ export const getConstructAbsoluteWords = cache(
 		}
 
 		try {
-			const rows = await db
+			const lessonRows = await db
 				.select({
-					id: constructAbsoluteWords.id,
-					lessonId: constructAbsoluteWords.lessonId,
 					lessonNumber: lessons.lessonNumber,
 					lessonTitle: lessons.title,
+					lessonId: lessons.id,
 					unitOrder: units.order,
 					lessonOrder: lessons.order,
-					absolute: constructAbsoluteWords.absolute,
-					construct: constructAbsoluteWords.construct,
 				})
-				.from(constructAbsoluteWords)
-				.innerJoin(lessons, eq(constructAbsoluteWords.lessonId, lessons.id))
+				.from(lessons)
 				.innerJoin(units, eq(lessons.unitId, units.id))
 				.where(eq(units.courseId, courseId))
-				.orderBy(
-					asc(units.order),
-					asc(lessons.order),
-					asc(constructAbsoluteWords.id)
+				.orderBy(asc(units.order), asc(lessons.order))
+
+			const lessonPositionByNumber = new Map(
+				lessonRows.map((row) => [row.lessonNumber, row])
+			)
+
+			const constructRows = await db.query.vocabEntries.findMany({
+				where: and(eq(vocabEntries.courseId, courseId), eq(vocabEntries.language, 'he')),
+				orderBy: asc(vocabEntries.id),
+			})
+
+			const linkedConstructRows = constructRows.filter(
+				(row) =>
+					row.category?.trim().toLowerCase() === 'construct' &&
+					typeof row.absoluteEntryId === 'number'
+			)
+
+			const absoluteEntryIds = Array.from(
+				new Set(
+					linkedConstructRows
+						.map((row) => row.absoluteEntryId)
+						.filter((value): value is number => typeof value === 'number')
 				)
+			)
+
+			const absoluteRows = absoluteEntryIds.length
+				? await db.query.vocabEntries.findMany({
+						where: inArray(vocabEntries.id, absoluteEntryIds),
+					})
+				: []
+
+			const absoluteById = new Map(absoluteRows.map((row) => [row.id, row]))
+
+			const rows = linkedConstructRows
+				.map((constructRow) => {
+					const absoluteRow = absoluteById.get(constructRow.absoluteEntryId!)
+					if (!absoluteRow) return null
+
+					const absolute =
+						absoluteRow.hebNiqqud?.trim() ||
+						absoluteRow.heb?.trim() ||
+						null
+					const construct =
+						constructRow.hebNiqqud?.trim() ||
+						constructRow.heb?.trim() ||
+						null
+
+					if (!absolute || !construct) return null
+
+					if (activity !== 'identifyForm' && absolute.normalize('NFC') === construct.normalize('NFC')) {
+						return null
+					}
+
+					const firstLessonNumber =
+						constructRow.lessons[0] ?? absoluteRow.lessons[0] ?? ''
+					const lessonPosition = lessonPositionByNumber.get(firstLessonNumber)
+					if (!lessonPosition) return null
+
+					return {
+						id: constructRow.id,
+						lessonId: lessonPosition.lessonId,
+						lessonNumber: lessonPosition.lessonNumber,
+						lessonTitle: lessonPosition.lessonTitle,
+						unitOrder: lessonPosition.unitOrder,
+						lessonOrder: lessonPosition.lessonOrder,
+						absolute,
+						construct,
+					}
+				})
+				.filter((row): row is NonNullable<typeof row> => row !== null)
 
 			if (!rows.length) {
 				return getFallbackConstructAbsoluteWords(activity)

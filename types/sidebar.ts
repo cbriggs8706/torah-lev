@@ -29,6 +29,8 @@ export type SidebarTranslationKey =
 	| 'nav.matchup'
 	| 'nav.quiz'
 	| 'nav.letterQuiz'
+	| 'nav.vowels'
+	| 'nav.syllables'
 	| 'nav.numberQuiz'
 	| 'nav.lessonScripts'
 	| 'nav.spelling'

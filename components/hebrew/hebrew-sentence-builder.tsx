@@ -33,10 +33,7 @@ function shufflePhrasePool(source: typeof phrases, targetCount: number) {
 	return [...source].sort(() => Math.random() - 0.5).slice(0, targetCount)
 }
 
-function setDragPayload(
-	dataTransfer: DataTransfer,
-	payload: DragPayload,
-) {
+function setDragPayload(dataTransfer: DataTransfer, payload: DragPayload) {
 	dataTransfer.setData(DRAG_PAYLOAD_MIME, JSON.stringify(payload))
 	dataTransfer.setData('text/plain', payload.word)
 	dataTransfer.effectAllowed = 'move'
@@ -108,9 +105,7 @@ export default function HebrewSentenceBuilder({
 		return matchingOption ?? filteredPhrases.length
 	}, [filteredPhrases.length, selectedTargetCount])
 
-	const [phrasePool, setPhrasePool] = useState(() =>
-		pickInitialPhrasePool(5),
-	)
+	const [phrasePool, setPhrasePool] = useState(() => pickInitialPhrasePool(5))
 
 	useEffect(() => {
 		setPhrasePool(shufflePhrasePool(filteredPhrases, effectiveTargetCount))
@@ -220,7 +215,11 @@ export default function HebrewSentenceBuilder({
 			awardPoints(points)
 		}
 
-		if (!hasAwardedPoints && totalTargets > 0 && completedCount >= totalTargets) {
+		if (
+			!hasAwardedPoints &&
+			totalTargets > 0 &&
+			completedCount >= totalTargets
+		) {
 			setHasAwardedPoints(true)
 			setFinished(true)
 		}
@@ -710,33 +709,34 @@ export default function HebrewSentenceBuilder({
 						</p>
 						<div>
 							<h2 className="text-lg font-bold text-amber-950">
-								Steps for Building a Sentence
+								3 Easy Steps for Building a Sentence
 							</h2>
 							<ol className="mt-2 list-decimal space-y-2 pl-5">
 								<li>
 									<strong>Locate the verb (if there is one).</strong> This will
 									help you determine whether you are building a{' '}
 									<strong>phrase</strong> or a
-									<strong>complete sentence.</strong> If it is a full sentence,
+									<strong> complete sentence.</strong> If it is a full sentence,
 									work on one side of the verb at a time.
-								</li>
-								<li>
-									<strong>Translate the subject first, then the object.</strong>{' '}
-									Remember that Hebrew is read <strong>right to left,</strong>{' '}
+									<strong>
+										{' '}
+										Translate the subject first, then the object.
+									</strong>{' '}
+									Remember that Hebrew is read <strong>
+										right to left,
+									</strong>{' '}
 									so words that appear on the left side in English will appear
 									on the right side in Hebrew.
 								</li>
 								<li>
-									<strong>
-										Arrange the words correctly within each phrase.
-									</strong>{' '}
-									Place the <strong>noun first,</strong> followed by any{' '}
+									<strong>Place the noun first,</strong> followed by any{' '}
 									<strong>adjectives</strong>, and finally any{' '}
 									<strong>demonstratives.</strong>
 								</li>
 								<li>
 									<strong>
-										Determine whether the noun is specific or ambiguous.
+										Determine whether the noun is definite (specific) or
+										indefinite.
 									</strong>{' '}
 									If the noun is <strong>specific</strong>, it will take the ה־
 									(ha-) definite article as a prefix. Any adjectives or
@@ -755,6 +755,53 @@ export default function HebrewSentenceBuilder({
 								progressing. Make sure to add in the plurals as well as
 								you&apos;re learning.
 							</p>
+						</div>
+						<div>
+							<ul>
+								<li className="text-amber-950">
+									<strong>Level 1: </strong>Noun comes first, then the
+									adjective. The adjective must agree with the noun in gender
+									and number.
+								</li>
+								<li className="text-amber-950">
+									<strong>Level 2: </strong>Both the noun and adjective need the
+									definite article ה־ (ha-).
+								</li>
+								<li className="text-amber-950">
+									<strong>Level 3: </strong>The noun needs the definite article
+									on the right side of the sentence. The adjective does not
+									modify the subject noun directly so it goes on the left side
+									without the article.
+								</li>
+								<li className="text-amber-950">
+									<strong>Level 4: </strong>The demonstrative belongs on the
+									right side of the sentence and the noun on the left, both
+									without the definite article.
+								</li>
+								<li className="text-amber-950">
+									<strong>Level 5: </strong>The noun comes first, then the
+									demonstrative. Since it has a demonstrative it is specific and
+									both need the definite article ה־ (ha-).
+								</li>
+								<li className="text-amber-950">
+									<strong>Level 6: </strong>Same as Level 5, but insert the
+									adjective in the middle of the noun and the demonstrative.
+								</li>
+								<li className="text-amber-950">
+									<strong>Level 7: </strong>Same as Level 3 in that the
+									adjective does not directly modify the noun. The right hand
+									will be the same as Level 5.
+								</li>
+								<li className="text-amber-950">
+									<strong>Level 8: </strong>Same as Level 4 but add the
+									adjective after the noun on the left side without the definite
+									article.
+								</li>
+								<li className="text-amber-950">
+									<strong>Level 9: </strong>Same as Level 8 but both the noun
+									and adjective on the left need the definite article ה־ (ha-).
+								</li>
+							</ul>
 						</div>
 					</div>
 				</div>
@@ -814,10 +861,15 @@ export default function HebrewSentenceBuilder({
 								: 'Build the phrase here'}
 						</span>
 					) : (
-						<div className="flex flex-wrap justify-center items-center" dir="rtl">
+						<div
+							className="flex flex-wrap justify-center items-center"
+							dir="rtl"
+						>
 							{userOrder.map((word, idx) => {
 								const vocabEntry = vocab.find((v) => v.word === word)
-								const color = vocabEntry ? getGenderColor(vocabEntry.gender) : ''
+								const color = vocabEntry
+									? getGenderColor(vocabEntry.gender)
+									: ''
 								return (
 									<div key={idx} className="flex items-center my-1">
 										<DropSlot
@@ -1256,7 +1308,10 @@ function DropAreaWithVerb({
 					setDropIndicator(null)
 				}}
 				onDragLeave={() => {
-					if (zoneWords.second.length === 0 && dropIndicator?.zone === 'second') {
+					if (
+						zoneWords.second.length === 0 &&
+						dropIndicator?.zone === 'second'
+					) {
 						setDropIndicator(null)
 					}
 				}}

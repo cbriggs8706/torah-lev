@@ -36,7 +36,13 @@ export function VocabEntryForm({
 			{includeEntryId ? <NumberInput source="entryId" label="Entry ID" /> : null}
 			<TextInput source="lessonsText" label="Lessons" multiline sx={longTextSx} />
 			<TextInput source="type" label="Type" />
+			<BooleanInput source="definite" label="Definite" />
 			<TextInput source="category" label="Category" />
+			<NumberInput
+				source="absoluteEntryId"
+				label="Absolute Entry ID"
+				helperText="Required when category is construct."
+			/>
 
 			<TextInput source="eng" label="English" sx={longTextSx} />
 			<TextInput source="engDefinition" label="Definition" multiline sx={longTextSx} />

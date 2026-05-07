@@ -3,8 +3,10 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Check, RefreshCw, X } from 'lucide-react'
 
+import LessonFilter from '@/components/filters/filter-lesson'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { useLessonCards } from '@/hooks/useLessonCards'
 import type { ConstructAbsoluteWord } from '@/lib/data/hebrew/construct-absolute'
 import { cn } from '@/lib/utils'
 
@@ -99,12 +101,37 @@ function shuffle<T>(items: T[]) {
 
 export default function HebrewConstructAbsoluteIdentifyForm({
 	words,
+	currentLesson,
 }: {
 	words: ConstructAbsoluteWord[]
+	currentLesson: string
 }) {
+	const lessonFilterData = useMemo(
+		() =>
+			words.map((word) => ({
+				lessons: word.lessonNumber ? [word.lessonNumber] : [],
+			})),
+		[words]
+	)
+
+	const { selectedLessons, setSelectedLessons } = useLessonCards(
+		lessonFilterData,
+		currentLesson
+	)
+
+	const filteredWords = useMemo(
+		() =>
+			words.filter(
+				(word) =>
+					selectedLessons.length === 0 ||
+					selectedLessons.includes(word.lessonNumber)
+			),
+		[words, selectedLessons]
+	)
+
 	const cards = useMemo<QuizCard[]>(
 		() =>
-			words.flatMap((word) => [
+			filteredWords.flatMap((word) => [
 				{
 					id: `${word.id}-absolute`,
 					hebrew: word.absolute,
@@ -120,7 +147,7 @@ export default function HebrewConstructAbsoluteIdentifyForm({
 					lessonTitle: word.lessonTitle,
 				},
 			]),
-		[words]
+		[filteredWords]
 	)
 
 	const [gameStarted, setGameStarted] = useState(false)
@@ -209,134 +236,168 @@ export default function HebrewConstructAbsoluteIdentifyForm({
 
 	if (!cards.length) {
 		return (
-			<Card className="w-full max-w-3xl border-sidebar-border bg-white/85 shadow-sm">
-				<CardContent className="p-8 text-center text-neutral-600">
-					No construct/absolute words are available yet.
-				</CardContent>
-			</Card>
+			<div className="w-full max-w-3xl space-y-6">
+				<LessonFilter
+					data={lessonFilterData}
+					selectedLessons={selectedLessons}
+					setSelectedLessons={setSelectedLessons}
+					showRanges
+				/>
+				<Card className="border-sidebar-border bg-white/85 shadow-sm">
+					<CardContent className="p-8 text-center text-neutral-600">
+						No construct/absolute words are available yet.
+					</CardContent>
+				</Card>
+			</div>
 		)
 	}
 
 	if (!gameStarted) {
 		return (
-			<Card className="w-full max-w-3xl border-sidebar-border bg-white/85 shadow-sm">
-				<CardHeader className="text-center">
-					<CardTitle className="text-3xl font-nunito text-neutral-800">
-						Absolute or Construct?
-					</CardTitle>
-				</CardHeader>
-				<CardContent className="space-y-6 px-8 pb-8 text-center">
-					<p className="text-sm leading-6 text-neutral-600">
-						You&apos;ll see one Hebrew form at a time. Choose whether it is
-						absolute or construct, then move to the next card.
-					</p>
-					<div className="grid gap-4 sm:grid-cols-3">
-						<div className="rounded-2xl border border-sidebar-border bg-sidebar-accent/20 p-4">
-							<p className="text-[11px] font-bold uppercase tracking-[0.2em] text-neutral-500">
-								Cards
-							</p>
-							<p className="mt-2 text-3xl font-extrabold text-neutral-800">
-								{totalCards}
-							</p>
+			<div className="w-full max-w-3xl space-y-6">
+				<LessonFilter
+					data={lessonFilterData}
+					selectedLessons={selectedLessons}
+					setSelectedLessons={setSelectedLessons}
+					showRanges
+				/>
+				<Card className="border-sidebar-border bg-white/85 shadow-sm">
+					<CardHeader className="text-center">
+						<CardTitle className="text-3xl font-nunito text-neutral-800">
+							Absolute or Construct?
+						</CardTitle>
+					</CardHeader>
+					<CardContent className="space-y-6 px-8 pb-8 text-center">
+						<p className="text-sm leading-6 text-neutral-600">
+							You&apos;ll see one Hebrew form at a time. Choose whether it is
+							absolute or construct, then move to the next card.
+						</p>
+						<div className="grid gap-4 sm:grid-cols-3">
+							<div className="rounded-2xl border border-sidebar-border bg-sidebar-accent/20 p-4">
+								<p className="text-[11px] font-bold uppercase tracking-[0.2em] text-neutral-500">
+									Cards
+								</p>
+								<p className="mt-2 text-3xl font-extrabold text-neutral-800">
+									{totalCards}
+								</p>
+							</div>
+							<div className="rounded-2xl border border-sidebar-border bg-sidebar-accent/20 p-4">
+								<p className="text-[11px] font-bold uppercase tracking-[0.2em] text-neutral-500">
+									Choices
+								</p>
+								<p className="mt-2 text-3xl font-extrabold text-neutral-800">
+									2
+								</p>
+							</div>
+							<div className="rounded-2xl border border-sidebar-border bg-sidebar-accent/20 p-4">
+								<p className="text-[11px] font-bold uppercase tracking-[0.2em] text-neutral-500">
+									Focus
+								</p>
+								<p className="mt-2 text-lg font-bold text-neutral-700">
+									Quick recognition
+								</p>
+							</div>
 						</div>
-						<div className="rounded-2xl border border-sidebar-border bg-sidebar-accent/20 p-4">
-							<p className="text-[11px] font-bold uppercase tracking-[0.2em] text-neutral-500">
-								Choices
-							</p>
-							<p className="mt-2 text-3xl font-extrabold text-neutral-800">2</p>
+						<div className="mb-2">
+							<p className="font-medium mb-2">Seconds to Answer</p>
+							<div className="flex gap-4 justify-center">
+								{([1, 3, 5, 8] as const).map((seconds) => (
+									<button
+										key={seconds}
+										onClick={() => setTimeLimit(seconds)}
+										className={`px-4 py-2 border rounded-full ${
+											timeLimit === seconds
+												? 'bg-sky-600 text-white'
+												: 'bg-gray-200'
+										}`}
+									>
+										{seconds}s
+									</button>
+								))}
+							</div>
+							<input
+								type="number"
+								min={1}
+								max={10}
+								value={timeLimit}
+								onChange={(event) => setTimeLimit(Number(event.target.value))}
+								className="w-24 p-2 border text-center rounded mt-4"
+							/>
 						</div>
-						<div className="rounded-2xl border border-sidebar-border bg-sidebar-accent/20 p-4">
-							<p className="text-[11px] font-bold uppercase tracking-[0.2em] text-neutral-500">
-								Focus
-							</p>
-							<p className="mt-2 text-lg font-bold text-neutral-700">
-								Quick recognition
-							</p>
-						</div>
-					</div>
-					<div className="mb-2">
-						<p className="font-medium mb-2">Seconds to Answer</p>
-						<div className="flex gap-4 justify-center">
-							{([1, 3, 5, 8] as const).map((seconds) => (
-								<button
-									key={seconds}
-									onClick={() => setTimeLimit(seconds)}
-									className={`px-4 py-2 border rounded-full ${
-										timeLimit === seconds ? 'bg-sky-600 text-white' : 'bg-gray-200'
-									}`}
-								>
-									{seconds}s
-								</button>
-							))}
-						</div>
-						<input
-							type="number"
-							min={1}
-							max={10}
-							value={timeLimit}
-							onChange={(event) => setTimeLimit(Number(event.target.value))}
-							className="w-24 p-2 border text-center rounded mt-4"
-						/>
-					</div>
-					<Button type="button" variant="primary" size="lg" onClick={startGame}>
-						Start Quiz
-					</Button>
-				</CardContent>
-			</Card>
+						<Button type="button" variant="primary" size="lg" onClick={startGame}>
+							Start Quiz
+						</Button>
+					</CardContent>
+				</Card>
+			</div>
 		)
 	}
 
 	if (finished) {
 		return (
-			<Card className="w-full max-w-3xl border-sidebar-border bg-white/85 shadow-sm">
-				<CardHeader className="text-center">
-					<CardTitle className="text-3xl font-nunito text-neutral-800">
-						Round Complete
-					</CardTitle>
-				</CardHeader>
-				<CardContent className="space-y-6 px-8 pb-8 text-center">
-					<div className="grid gap-4 sm:grid-cols-3">
-						<div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4">
-							<p className="text-[11px] font-bold uppercase tracking-[0.2em] text-emerald-700">
-								Correct
-							</p>
-							<p className="mt-2 text-3xl font-extrabold text-emerald-800">
-								{correctCount}
-							</p>
+			<div className="w-full max-w-3xl space-y-6">
+				<LessonFilter
+					data={lessonFilterData}
+					selectedLessons={selectedLessons}
+					setSelectedLessons={setSelectedLessons}
+					showRanges
+				/>
+				<Card className="border-sidebar-border bg-white/85 shadow-sm">
+					<CardHeader className="text-center">
+						<CardTitle className="text-3xl font-nunito text-neutral-800">
+							Round Complete
+						</CardTitle>
+					</CardHeader>
+					<CardContent className="space-y-6 px-8 pb-8 text-center">
+						<div className="grid gap-4 sm:grid-cols-3">
+							<div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4">
+								<p className="text-[11px] font-bold uppercase tracking-[0.2em] text-emerald-700">
+									Correct
+								</p>
+								<p className="mt-2 text-3xl font-extrabold text-emerald-800">
+									{correctCount}
+								</p>
+							</div>
+							<div className="rounded-2xl border border-rose-200 bg-rose-50 p-4">
+								<p className="text-[11px] font-bold uppercase tracking-[0.2em] text-rose-700">
+									Wrong
+								</p>
+								<p className="mt-2 text-3xl font-extrabold text-rose-800">
+									{wrongCount}
+								</p>
+							</div>
+							<div className="rounded-2xl border border-sidebar-border bg-sidebar-accent/20 p-4">
+								<p className="text-[11px] font-bold uppercase tracking-[0.2em] text-neutral-500">
+									Accuracy
+								</p>
+								<p className="mt-2 text-3xl font-extrabold text-neutral-800">
+									{accuracy}%
+								</p>
+							</div>
 						</div>
-						<div className="rounded-2xl border border-rose-200 bg-rose-50 p-4">
-							<p className="text-[11px] font-bold uppercase tracking-[0.2em] text-rose-700">
-								Wrong
-							</p>
-							<p className="mt-2 text-3xl font-extrabold text-rose-800">
-								{wrongCount}
-							</p>
-						</div>
-						<div className="rounded-2xl border border-sidebar-border bg-sidebar-accent/20 p-4">
-							<p className="text-[11px] font-bold uppercase tracking-[0.2em] text-neutral-500">
-								Accuracy
-							</p>
-							<p className="mt-2 text-3xl font-extrabold text-neutral-800">
-								{accuracy}%
-							</p>
-						</div>
-					</div>
-					<Button
-						type="button"
-						variant="secondary"
-						className="gap-2"
-						onClick={startGame}
-					>
-						<RefreshCw className="h-4 w-4" />
-						Play Again
-					</Button>
-				</CardContent>
-			</Card>
+						<Button
+							type="button"
+							variant="secondary"
+							className="gap-2"
+							onClick={startGame}
+						>
+							<RefreshCw className="h-4 w-4" />
+							Play Again
+						</Button>
+					</CardContent>
+				</Card>
+			</div>
 		)
 	}
 
 	return (
 		<div className="w-full max-w-3xl space-y-6">
+			<LessonFilter
+				data={lessonFilterData}
+				selectedLessons={selectedLessons}
+				setSelectedLessons={setSelectedLessons}
+				showRanges
+			/>
 			<Card className="border-sidebar-border bg-white/85 shadow-sm">
 				<CardContent className="flex flex-col gap-4 p-6 sm:flex-row sm:items-center sm:justify-between">
 					<div className="grid gap-4 sm:grid-cols-3">

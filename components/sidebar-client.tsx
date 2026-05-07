@@ -163,6 +163,20 @@ export default function SidebarClient({
 								onClick={onItemClick}
 								className="font-cardo text-xl"
 							/>
+							<SidebarItem
+								label="תנועות"
+								href="/he/vowels"
+								iconSrc="/gameIcons/groupSort.png"
+								onClick={onItemClick}
+								className="font-cardo text-xl"
+							/>
+							<SidebarItem
+								label="הברות"
+								href="/he/syllables"
+								iconSrc="/gameIcons/groupSort.png"
+								onClick={onItemClick}
+								className="font-cardo text-xl"
+							/>
 
 							<SidebarItem
 								label="חידון מספרים"

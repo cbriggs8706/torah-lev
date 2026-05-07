@@ -12,48 +12,35 @@ import {
 	CardTitle,
 } from '@/components/ui/card'
 
-function DifficultyStars({ level }: { level: 1 | 2 | 3 }) {
-	return (
-		<p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-700">
-			Difficulty {'★'.repeat(level)}
-		</p>
-	)
-}
-
-export default function HebrewConstructAbsolutePage() {
+export default function HebrewVowelsPage() {
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">
 					<Image
-						src="/construction-worker-medium-skin-tone-svgrepo-com.svg"
-						alt="Construct"
+						src="/gameIcons/groupSort.png"
+						alt="Vowels"
 						height={90}
 						width={90}
 					/>
-					<h1 className="text-center font-cardo text-neutral-800 text-6xl my-6">
-						נִסְמָךְ וּמוּחְלָט
+					<h1 className="my-6 text-center font-cardo text-6xl text-neutral-800">
+						תְּנוּעוֹת
 					</h1>
-					<p className="text-center font-bold text-neutral-800 mb-2">
-						Construct
-					</p>
+					<p className="mb-2 text-center font-bold text-neutral-800">Vowels</p>
 
-					<DismissibleAlert
-						storageKey="construct-absolute-topic"
-						className="mb-6 max-w-3xl"
-					>
-						This grammar topic will hold multiple practice activities. Start
-						with the word sort, and future construct-vs-absolute games can live
-						here without changing the sidebar structure again.
+					<DismissibleAlert storageKey="vowels-topic" className="mb-6 max-w-3xl">
+						Choose a vowels activity from here. The Niqqud quiz, syllables
+						quiz, sorting drill, and historic short vowel chart each have
+						their own route now.
 					</DismissibleAlert>
 
-					<div className="grid w-full max-w-4xl gap-5 md:grid-cols-2">
+					<div className="grid w-full max-w-5xl gap-5 md:grid-cols-2 xl:grid-cols-3">
 						<Card className="border-sidebar-border bg-white/85 shadow-sm">
 							<CardHeader className="space-y-3">
 								<div className="flex items-center gap-3">
 									<div className="rounded-2xl bg-sidebar-accent/70 p-3">
 										<Image
-											src="/construction-worker-medium-skin-tone-svgrepo-com.svg"
+											src="/gameIcons/groupSort.png"
 											alt=""
 											aria-hidden="true"
 											width={34}
@@ -62,25 +49,21 @@ export default function HebrewConstructAbsolutePage() {
 									</div>
 									<div>
 										<CardTitle className="text-2xl font-cardo text-neutral-800">
-											מִיּוּן מִלִּים
+											חִידוֹן הֲבָרוֹת
 										</CardTitle>
 										<CardDescription className="text-sm font-semibold text-neutral-600">
-											Word Sort
+											Syllables
 										</CardDescription>
-										<DifficultyStars level={1} />
 									</div>
 								</div>
 							</CardHeader>
 							<CardContent className="space-y-5">
 								<p className="text-sm leading-6 text-neutral-700">
-									Drag each Hebrew form into the correct zone: absolute or
-									construct. It&apos;s a quick way to train your eye to spot the
-									form before reading the whole phrase.
+									Practice syllable sounds with the same study and timed quiz
+									flow that used to live inside Letter Quiz.
 								</p>
 								<Button asChild variant="primary" className="w-full">
-									<Link href="/he/construct-absolute/word-sort">
-										Start Word Sort
-									</Link>
+									<Link href="/he/syllables">Start Syllables Quiz</Link>
 								</Button>
 							</CardContent>
 						</Card>
@@ -90,7 +73,7 @@ export default function HebrewConstructAbsolutePage() {
 								<div className="flex items-center gap-3">
 									<div className="rounded-2xl bg-sidebar-accent/70 p-3">
 										<Image
-											src="/construction-worker-medium-skin-tone-svgrepo-com.svg"
+											src="/icons/iconLetter.png"
 											alt=""
 											aria-hidden="true"
 											width={34}
@@ -99,35 +82,31 @@ export default function HebrewConstructAbsolutePage() {
 									</div>
 									<div>
 										<CardTitle className="text-2xl font-cardo text-neutral-800">
-											זִהוּי צוּרָה
+											חִידוֹן תְּנוּעוֹת
 										</CardTitle>
 										<CardDescription className="text-sm font-semibold text-neutral-600">
-											Identify The Form
+											Vowels Quiz
 										</CardDescription>
-										<DifficultyStars level={2} />
 									</div>
 								</div>
 							</CardHeader>
 							<CardContent className="space-y-5">
 								<p className="text-sm leading-6 text-neutral-700">
-									See one Hebrew word at a time and decide whether it is an
-									absolute form or a construct form. This keeps the practice
-									simple and fast, like the site&apos;s other quiz activities.
+									Practice Niqqud Names with the same timed quiz feel that used
+									to live inside Letter Quiz.
 								</p>
 								<Button asChild variant="primary" className="w-full">
-									<Link href="/he/construct-absolute/identify-form">
-										Start Identify The Form
-									</Link>
+									<Link href="/he/vowel-quiz">Start Vowels Quiz</Link>
 								</Button>
 							</CardContent>
 						</Card>
 
-						<Card className="border-sidebar-border bg-white/85 shadow-sm md:col-span-2">
+						<Card className="border-sidebar-border bg-white/85 shadow-sm">
 							<CardHeader className="space-y-3">
 								<div className="flex items-center gap-3">
 									<div className="rounded-2xl bg-sidebar-accent/70 p-3">
 										<Image
-											src="/construction-worker-medium-skin-tone-svgrepo-com.svg"
+											src="/gameIcons/groupSort.png"
 											alt=""
 											aria-hidden="true"
 											width={34}
@@ -136,25 +115,54 @@ export default function HebrewConstructAbsolutePage() {
 									</div>
 									<div>
 										<CardTitle className="text-2xl font-cardo text-neutral-800">
-											הֲמָרָה
+											מִיּוּן תְּנוּעוֹת
 										</CardTitle>
 										<CardDescription className="text-sm font-semibold text-neutral-600">
-											Conversion Game
+											Sorting Activity
 										</CardDescription>
-										<DifficultyStars level={3} />
 									</div>
 								</div>
 							</CardHeader>
 							<CardContent className="space-y-5">
 								<p className="text-sm leading-6 text-neutral-700">
-									Start with an absolute form and tap the changing part of the
-									word until you think you&apos;ve built the correct construct
-									form. Then submit to check yourself.
+									Choose length or class, then drag vowels from the shared bank
+									into the right category.
 								</p>
-								<Button asChild variant="primary" className="w-full md:w-auto">
-									<Link href="/he/construct-absolute/conversion">
-										Start Conversion Game
-									</Link>
+								<Button asChild variant="primary" className="w-full">
+									<Link href="/he/vowels/sorting">Start Sorting Activity</Link>
+								</Button>
+							</CardContent>
+						</Card>
+
+						<Card className="border-sidebar-border bg-white/85 shadow-sm">
+							<CardHeader className="space-y-3">
+								<div className="flex items-center gap-3">
+									<div className="rounded-2xl bg-sidebar-accent/70 p-3">
+										<Image
+											src="/gameIcons/groupSort.png"
+											alt=""
+											aria-hidden="true"
+											width={34}
+											height={34}
+										/>
+									</div>
+									<div>
+										<CardTitle className="text-2xl font-cardo text-neutral-800">
+											שִׁנּוּיֵי תְּנוּעוֹת
+										</CardTitle>
+										<CardDescription className="text-sm font-semibold text-neutral-600">
+											Historic Short Vowels
+										</CardDescription>
+									</div>
+								</div>
+							</CardHeader>
+							<CardContent className="space-y-5">
+								<p className="text-sm leading-6 text-neutral-700">
+									Practice reducing or lengthening the historic short vowels in a
+									chart-style activity based on the vowel change pattern.
+								</p>
+								<Button asChild variant="primary" className="w-full">
+									<Link href="/he/vowels/historic-short">Start Chart Activity</Link>
 								</Button>
 							</CardContent>
 						</Card>

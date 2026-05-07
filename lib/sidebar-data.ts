@@ -70,6 +70,8 @@ export function buildSidebarSections({
 
 		gameItems.push(
 			{ key: 'letter-quiz', label: localize(resolvedLocale, 'nav.letterQuiz'), href: '/he/letter-quiz', iconSrc: '/icons/iconLetter.png' },
+			{ key: 'vowels', label: localize(resolvedLocale, 'nav.vowels'), href: '/he/vowels', iconSrc: '/gameIcons/groupSort.png' },
+			{ key: 'syllables', label: localize(resolvedLocale, 'nav.syllables'), href: '/he/syllables', iconSrc: '/gameIcons/groupSort.png' },
 			{ key: 'number-quiz', label: localize(resolvedLocale, 'nav.numberQuiz'), href: '/he/number-quiz', iconSrc: '/icons/iconNumber.png' },
 			{ key: 'spelling', label: localize(resolvedLocale, 'nav.spelling'), href: '/he/spelling', iconSrc: '/icons/iconSpelling.png' },
 			{ key: 'verbs', label: localize(resolvedLocale, 'nav.verbs'), href: '/he/verbs', iconSrc: '/icons/iconRunning.png' },
@@ -80,23 +82,6 @@ export function buildSidebarSections({
 				label: localize(resolvedLocale, 'nav.constructAbsolute'),
 				href: '/he/construct-absolute',
 				iconSrc: '/construction-worker-medium-skin-tone-svgrepo-com.svg',
-				children: [
-					{
-						key: 'construct-absolute-word-sort',
-						label: localize(resolvedLocale, 'nav.wordSort'),
-						href: '/he/construct-absolute/word-sort',
-					},
-					{
-						key: 'construct-absolute-conversion',
-						label: localize(resolvedLocale, 'nav.conversionGame'),
-						href: '/he/construct-absolute/conversion',
-					},
-					{
-						key: 'construct-absolute-identify-form',
-						label: localize(resolvedLocale, 'nav.identifyForm'),
-						href: '/he/construct-absolute/identify-form',
-					},
-				],
 			},
 		)
 
