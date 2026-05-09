@@ -139,13 +139,13 @@ export const hebrewNiqqud = [
 		soundAudio: '/alphabet/heb/dagesh.mp3',
 		nameAudio: '/audio/sound-alef-dagesh.mp3',
 	},
-	{
-		char: 'אֿ',
-		name: 'Rafe',
-		key: 'rafe',
-		soundAudio: '/alphabet/heb/rafe.mp3',
-		nameAudio: '/audio/sound-alef-base.mp3',
-	},
+	// {
+	// 	char: 'אֿ',
+	// 	name: 'Rafe',
+	// 	key: 'rafe',
+	// 	soundAudio: '/alphabet/heb/rafe.mp3',
+	// 	nameAudio: '/audio/sound-alef-base.mp3',
+	// },
 	{
 		char: 'שׁ',
 		name: 'Shin Ymanit',

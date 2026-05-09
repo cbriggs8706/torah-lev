@@ -8,6 +8,7 @@ import HebrewKeyboard from './hebrew-keyboard'
 import { HebrewVocab } from '@/lib/vocab'
 import { resolveVocabMediaUrl } from '@/lib/vocab-media'
 import { hebrewLetters } from '@/lib/data/hebrew/hebrew-letters'
+import { hebrewNiqqud } from '@/lib/data/hebrew/hebrew-niqqud'
 import { useCelebration } from '@/hooks/useCelebration'
 import { parseLessonKey, useLessonCards } from '@/hooks/useLessonCards'
 import FormatFilter, { FormatType } from '../filters/filter-format'
@@ -28,6 +29,8 @@ const formatOptions: FormatType[] = [
 	'translation',
 	'letter-by-letter',
 ]
+
+type GradingMode = 'consonants-only' | 'consonants-and-vowels'
 
 export default function HebrewSpelling({
 	data,
@@ -51,6 +54,8 @@ export default function HebrewSpelling({
 
 	const [selectedCategory, setSelectedCategory] = useState('all')
 	const [formatType, setFormatType] = useState<FormatType>('image')
+	const [gradingMode, setGradingMode] =
+		useState<GradingMode>('consonants-only')
 	const [showFeedback, setShowFeedback] = useState<null | boolean>(null)
 	const [value, setValue] = useState('')
 	const [audioVolume, setAudioVolume] = useState(1) // default: 100%
@@ -178,14 +183,37 @@ export default function HebrewSpelling({
 			.replace(/[שׁשׂ]/g, 'ש') // שׁ (U+FB2A) and שׂ (U+FB2B) → ש
 	}
 
+	function normalizeHebrewPointedInput(input: string): string {
+		return input
+			.normalize('NFKC')
+			.replace(/[\u0591-\u05AF]/g, '')
+			.replace(/[שׁ]/g, 'שׁ')
+			.replace(/[שׂ]/g, 'שׂ')
+	}
+
+	function getExpectedAnswer(card: HebrewVocab): string {
+		if (gradingMode === 'consonants-and-vowels') {
+			return card.hebNiqqud?.trim() || card.heb.trim()
+		}
+
+		return card.heb.trim()
+	}
+
 	function handleCheck() {
 		const inputEl = document.getElementById(
 			'spelling-input'
 		) as HTMLInputElement
 		if (!inputEl || !currentCard) return
 
-		const cleanedInput = normalizeHebrewInput(inputEl.value.trim())
-		const cleanedAnswer = normalizeHebrewInput(currentCard.heb.trim())
+		const answer = getExpectedAnswer(currentCard)
+		const cleanedInput =
+			gradingMode === 'consonants-and-vowels'
+				? normalizeHebrewPointedInput(inputEl.value.trim())
+				: normalizeHebrewInput(inputEl.value.trim())
+		const cleanedAnswer =
+			gradingMode === 'consonants-and-vowels'
+				? normalizeHebrewPointedInput(answer)
+				: normalizeHebrewInput(answer)
 		const isCorrect = cleanedInput === cleanedAnswer
 
 		setShowFeedback(isCorrect)
@@ -239,7 +267,9 @@ export default function HebrewSpelling({
 				filteredCards[nextIndex]?.heb
 			) {
 				setTimeout(() => {
-					playLetterByLetter(filteredCards[nextIndex].heb)
+					playLetterByLetter(
+						filteredCards[nextIndex].hebNiqqud || filteredCards[nextIndex].heb
+					)
 				}, 100)
 			}
 
@@ -269,44 +299,243 @@ export default function HebrewSpelling({
 
 	// Prefer Sephardic audio if present; otherwise fall back
 	const getActiveNameAudio = (l: any) => l.sephardicNameAudio ?? l.nameAudio
-	const getActiveSoundAudio = (l: any) => l.sephardicSoundAudio ?? l.soundAudio
 
-	function playLetterByLetter(word: string) {
-		const normalized = word
-			.normalize('NFKC')
-			.replace(/[\u0591-\u05BD\u05BF-\u05C7\u05C1\u05C2]/g, '') // remove niqqud + shin/sin dots
-			.replace(/[שׁשׂ]/g, 'ש') // normalize presentation forms
+	const niqqudAudioByMark: Record<string, string> = {
+		'\u05B0': '/alphabet/heb/shva.mp3',
+		'\u05B1': '/alphabet/heb/chataf-segol.mp3',
+		'\u05B2': '/alphabet/heb/chataf-patach.mp3',
+		'\u05B3': '/alphabet/heb/chataf-kamatz.mp3',
+		'\u05B4': '/alphabet/heb/chiriq.mp3',
+		'\u05B5': '/alphabet/heb/tsere.mp3',
+		'\u05B6': '/alphabet/heb/segol.mp3',
+		'\u05B7': '/alphabet/heb/patach.mp3',
+		'\u05B8': '/alphabet/heb/kamatz-gadol.mp3',
+		'\u05B9': '/alphabet/heb/cholam.mp3',
+		'\u05BB': '/alphabet/heb/kubutz.mp3',
+		'\u05BC': '/alphabet/heb/dagesh.mp3',
+		'\u05C7': '/alphabet/heb/kamatz-katan.mp3',
+	}
 
-		const chars = Array.from(normalized)
-		const audioPaths: string[] = []
+	type HebrewCluster = {
+		base: string
+		marks: string[]
+		suffix?: string
+	}
 
-		for (const char of chars) {
-			const normalizedChar = char
-				.normalize('NFKC')
-				.replace(/[\u0591-\u05BD\u05BF-\u05C7\u05C1\u05C2]/g, '')
+	const mergedDageshNameChars: Record<string, string> = {
+		ב: 'בּ',
+		כ: 'כּ',
+		פ: 'פּ',
+	}
 
-			// Find the letter object by character
-			let match = hebrewLetters.find((l) => l.char === normalizedChar)
+	const maleiAudioByPair: Record<string, string> = {
+		'\u05D5\u05BC': '/alphabet/heb/shuruk.mp3',
+		'\u05B4\u05D9': '/alphabet/heb/chiriq-malei.mp3',
+		'\u05B5\u05D9': '/alphabet/heb/tsere-malei.mp3',
+		'\u05B6\u05D9': '/alphabet/heb/segol-malei.mp3',
+		'\u05B7\u05D4': '/alphabet/heb/patach-malei.mp3',
+		'\u05B8\u05D4': '/alphabet/heb/kamatz-malei.mp3',
+		'\u05B9\u05D5': '/alphabet/heb/cholam-malei.mp3',
+	}
 
-			// Special case: plain shin (ש) without dot → use shin audio entry
-			if (!match && normalizedChar === 'ש') {
-				match =
-					hebrewLetters.find((l) => l.char === 'ש') ||
-					hebrewLetters.find((l) =>
-						(l.nameAudio ?? '').includes('name-shin-base.mp3')
-					)
+	function tokenizePointedHebrew(text: string): HebrewCluster[] {
+		const normalized = text.normalize('NFKC')
+		const tokens: HebrewCluster[] = []
+		let index = 0
+
+		while (index < normalized.length) {
+			const char = normalized[index]
+
+			if (/\s/.test(char) || char === '־') {
+				index += 1
+				continue
 			}
 
-			const nameAudio = match ? getActiveNameAudio(match) : undefined
+			let nextIndex = index + 1
 
-			if (nameAudio) {
-				console.log(`✅ Matched ${char} → ${match?.char} → ${nameAudio}`)
-				audioPaths.push(nameAudio)
+			while (
+				nextIndex < normalized.length &&
+				/[\u0591-\u05BD\u05BF-\u05C7]/.test(normalized[nextIndex])
+			) {
+				nextIndex += 1
+			}
+
+			if (
+				char === '\u05D5' &&
+				nextIndex < normalized.length &&
+				normalized[nextIndex] === '\u05BC'
+			) {
+				tokens.push({ base: char, marks: ['\u05BC'], suffix: '\u05BC' })
+				index = nextIndex + 1
+				continue
+			}
+
+			const token = normalized.slice(index, nextIndex)
+			const [base, ...marks] = Array.from(token)
+			let suffix: string | undefined
+
+			const vowelMarks = marks.filter((mark) =>
+				['\u05B4', '\u05B5', '\u05B6', '\u05B7', '\u05B8', '\u05B9'].includes(
+					mark
+				)
+			)
+
+			if (
+				vowelMarks.length > 0 &&
+				nextIndex < normalized.length &&
+				/[\u05D0-\u05EA]/.test(normalized[nextIndex])
+			) {
+				const candidateSuffix = normalized[nextIndex]
+				const pairKey = `${vowelMarks[0]}${candidateSuffix}`
+
+				if (maleiAudioByPair[pairKey]) {
+					suffix = candidateSuffix
+					nextIndex += 1
+				}
+			}
+
+			if (base) {
+				tokens.push({ base, marks, suffix })
+			}
+			index = nextIndex
+		}
+
+		return tokens
+	}
+
+	function playConsonantsOnlyLetterByLetter(word: string) {
+		const normalized = word
+			.normalize('NFKC')
+			.replace(/[\u0591-\u05C7]/g, '')
+			.replace(/[שׁ]/g, 'ש')
+			.replace(/[שׂ]/g, 'ש')
+		const audioPaths: string[] = []
+
+		for (const char of Array.from(normalized)) {
+			if (/\s/.test(char) || char === '־') {
+				continue
+			}
+
+			let match = hebrewLetters.find((l) => l.char === char)
+
+			if (!match && char === 'ש') {
+				match =
+					hebrewLetters.find((l) =>
+						(l.nameAudio ?? '').includes('name-shin-base.mp3')
+					) ||
+					hebrewLetters.find((l) => l.char === 'ש')
+			}
+
+			const consonantAudio = match ? getActiveNameAudio(match) : undefined
+			if (consonantAudio) {
+				audioPaths.push(consonantAudio)
 			} else {
-				console.warn(`❌ No match for: ${char} (normalized: ${normalizedChar})`)
+				console.warn(`No consonant audio match for token: ${char}`)
 			}
 		}
 
+		playAudioPaths(audioPaths)
+	}
+
+	function playPointedLetterByLetter(word: string) {
+		const tokens = tokenizePointedHebrew(word)
+		const audioPaths: string[] = []
+
+		for (const token of tokens) {
+			const normalizedBase = token.base.normalize('NFKC')
+			const hasDagesh = token.marks.includes('\u05BC')
+			const maleiMark = token.suffix
+				? token.suffix === '\u05BC'
+					? '\u05D5'
+					: token.marks.find((mark) => maleiAudioByPair[`${mark}${token.suffix}`])
+				: undefined
+			const isStandaloneCholamMalei =
+				normalizedBase === '\u05D5' &&
+				token.marks.includes('\u05B9') &&
+				!token.marks.includes('\u05BC')
+			const isStandaloneShuruk =
+				normalizedBase === '\u05D5' &&
+				token.marks.includes('\u05BC') &&
+				token.marks.length === 1
+			let match = hebrewLetters.find((l) => l.char === normalizedBase)
+
+			if (!match && normalizedBase === 'ש') {
+				if (token.marks.includes('\u05C2')) {
+					match =
+						hebrewLetters.find((l) => (l.nameAudio ?? '').includes('name-sin-base.mp3')) ||
+						hebrewLetters.find((l) => l.char === 'שׂ')
+				} else {
+					match =
+						hebrewLetters.find((l) => (l.nameAudio ?? '').includes('name-shin-base.mp3')) ||
+						hebrewLetters.find((l) => l.char === 'שׁ') ||
+						hebrewLetters.find((l) => l.char === 'ש')
+				}
+			}
+
+			if (hasDagesh && mergedDageshNameChars[normalizedBase]) {
+				match =
+					hebrewLetters.find(
+						(l) => l.char === mergedDageshNameChars[normalizedBase]
+					) ?? match
+			}
+
+			if (!isStandaloneCholamMalei && !isStandaloneShuruk) {
+				const consonantAudio = match ? getActiveNameAudio(match) : undefined
+				if (consonantAudio) {
+					audioPaths.push(consonantAudio)
+				} else {
+					console.warn(`No consonant audio match for token: ${normalizedBase}`)
+				}
+			}
+
+			const orderedMarks = [...token.marks].sort((a, b) => {
+				if (a === '\u05BC' && b !== '\u05BC') return -1
+				if (a !== '\u05BC' && b === '\u05BC') return 1
+				return 0
+			})
+
+			for (const mark of orderedMarks) {
+				if (mark === '\u05C1' || mark === '\u05C2') {
+					continue
+				}
+
+				if (isStandaloneShuruk && mark === '\u05BC') {
+					audioPaths.push(maleiAudioByPair['\u05D5\u05BC'])
+					continue
+				}
+
+				if (isStandaloneCholamMalei && mark === '\u05B9') {
+					audioPaths.push(maleiAudioByPair['\u05B9\u05D5'])
+					continue
+				}
+
+				if (normalizedBase === '\u05D5' && mark === '\u05BC' && token.suffix === '\u05BC') {
+					audioPaths.push(maleiAudioByPair['\u05D5\u05BC'])
+					continue
+				}
+
+				if (mark === '\u05BC' && mergedDageshNameChars[normalizedBase]) {
+					continue
+				}
+
+				const niqqudAudio =
+					mark === maleiMark && token.suffix
+						? maleiAudioByPair[`${mark}${token.suffix}`]
+						: niqqudAudioByMark[mark] ??
+							hebrewNiqqud.find((entry) => entry.char.endsWith(mark))?.soundAudio
+
+				if (niqqudAudio) {
+					audioPaths.push(niqqudAudio)
+				} else {
+					console.warn(`No niqqud audio match for mark: ${mark}`)
+				}
+			}
+		}
+
+		playAudioPaths(audioPaths)
+	}
+
+	function playAudioPaths(audioPaths: string[]) {
 		function playSequentially(index = 0) {
 			if (index >= audioPaths.length) return
 
@@ -323,6 +552,15 @@ export default function HebrewSpelling({
 		}
 
 		playSequentially()
+	}
+
+	function playLetterByLetter(word: string) {
+		if (gradingMode === 'consonants-only') {
+			playConsonantsOnlyLetterByLetter(word)
+			return
+		}
+
+		playPointedLetterByLetter(word)
 	}
 
 	function playWithBoostedVolume(url: string, volume: number, speed: number) {
@@ -457,6 +695,31 @@ export default function HebrewSpelling({
 						setSelectedLessons={setSelectedLessons}
 						showRanges={true}
 					/>
+					<div className="mb-4 space-y-3">
+						<h2 className="text-xl font-semibold text-center">Grading</h2>
+						<div className="flex flex-wrap justify-center gap-2">
+							{(
+								[
+									'consonants-only',
+									'consonants-and-vowels',
+								] as GradingMode[]
+							).map((mode) => (
+								<button
+									key={mode}
+									onClick={() => setGradingMode(mode)}
+									className={`px-3 py-1 border rounded-full text-xs ${
+										gradingMode === mode
+											? 'bg-sky-600 text-white'
+											: 'bg-gray-200'
+									}`}
+								>
+									{mode === 'consonants-only'
+										? 'Consonants Only'
+										: 'Consonants and Vowels'}
+								</button>
+							))}
+						</div>
+					</div>
 				</>
 			)}
 
@@ -507,7 +770,7 @@ export default function HebrewSpelling({
 							className="text-4xl mt-2 hover:text-sky-700"
 							onClick={(e) => {
 								e.preventDefault()
-								playLetterByLetter(currentCard.heb)
+								playLetterByLetter(currentCard.hebNiqqud || currentCard.heb)
 							}}
 						>
 							🔊
@@ -566,7 +829,7 @@ export default function HebrewSpelling({
 								<>
 									Incorrect. Correct answer:{' '}
 									<span className="font-times font-medium text-4xl">
-										{currentCard?.heb}
+										{currentCard ? getExpectedAnswer(currentCard) : ''}
 									</span>
 								</>
 							)}

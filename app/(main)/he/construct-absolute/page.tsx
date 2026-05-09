@@ -62,43 +62,6 @@ export default function HebrewConstructAbsolutePage() {
 									</div>
 									<div>
 										<CardTitle className="text-2xl font-cardo text-neutral-800">
-											מִיּוּן מִלִּים
-										</CardTitle>
-										<CardDescription className="text-sm font-semibold text-neutral-600">
-											Word Sort
-										</CardDescription>
-										<DifficultyStars level={1} />
-									</div>
-								</div>
-							</CardHeader>
-							<CardContent className="space-y-5">
-								<p className="text-sm leading-6 text-neutral-700">
-									Drag each Hebrew form into the correct zone: absolute or
-									construct. It&apos;s a quick way to train your eye to spot the
-									form before reading the whole phrase.
-								</p>
-								<Button asChild variant="primary" className="w-full">
-									<Link href="/he/construct-absolute/word-sort">
-										Start Word Sort
-									</Link>
-								</Button>
-							</CardContent>
-						</Card>
-
-						<Card className="border-sidebar-border bg-white/85 shadow-sm">
-							<CardHeader className="space-y-3">
-								<div className="flex items-center gap-3">
-									<div className="rounded-2xl bg-sidebar-accent/70 p-3">
-										<Image
-											src="/construction-worker-medium-skin-tone-svgrepo-com.svg"
-											alt=""
-											aria-hidden="true"
-											width={34}
-											height={34}
-										/>
-									</div>
-									<div>
-										<CardTitle className="text-2xl font-cardo text-neutral-800">
 											זִהוּי צוּרָה
 										</CardTitle>
 										<CardDescription className="text-sm font-semibold text-neutral-600">
@@ -121,7 +84,42 @@ export default function HebrewConstructAbsolutePage() {
 								</Button>
 							</CardContent>
 						</Card>
-
+						<Card className="border-sidebar-border bg-white/85 shadow-sm">
+							<CardHeader className="space-y-3">
+								<div className="flex items-center gap-3">
+									<div className="rounded-2xl bg-sidebar-accent/70 p-3">
+										<Image
+											src="/construction-worker-medium-skin-tone-svgrepo-com.svg"
+											alt=""
+											aria-hidden="true"
+											width={34}
+											height={34}
+										/>
+									</div>
+									<div>
+										<CardTitle className="text-2xl font-cardo text-neutral-800">
+											מִיּוּן מִלִּים
+										</CardTitle>
+										<CardDescription className="text-sm font-semibold text-neutral-600">
+											Word Sort
+										</CardDescription>
+										<DifficultyStars level={1} />
+									</div>
+								</div>
+							</CardHeader>
+							<CardContent className="space-y-5">
+								<p className="text-sm leading-6 text-neutral-700">
+									Drag each Hebrew form into the correct zone: absolute or
+									construct. It&apos;s a quick way to train your eye to spot the
+									form before reading the whole phrase.
+								</p>
+								<Button asChild variant="primary" className="w-full">
+									<Link href="/he/construct-absolute/word-sort">
+										Start Word Sort
+									</Link>
+								</Button>
+							</CardContent>
+						</Card>
 						<Card className="border-sidebar-border bg-white/85 shadow-sm md:col-span-2">
 							<CardHeader className="space-y-3">
 								<div className="flex items-center gap-3">

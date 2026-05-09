@@ -107,6 +107,8 @@ const syllableOptions = [
 	{ key: 'shva', symbol: 'ְ' },
 ] as const
 
+const quizSizeOptions = [10, 20, 30, 40, 50] as const
+
 export default function HebrewSyllablesQuiz({
 	letters,
 	userId,
@@ -133,6 +135,7 @@ export default function HebrewSyllablesQuiz({
 	const [studyMode, setStudyMode] = useState(false)
 	const [awardedPoints, setAwardedPoints] = useState<number>(0)
 	const [pronunciation, setPronunciation] = useState<Pronunciation>('sephardic')
+	const [quizSize, setQuizSize] = useState<(typeof quizSizeOptions)[number]>(10)
 
 	const getActiveNameAudio = useCallback(
 		(letter: HebrewLetter) => {
@@ -168,19 +171,32 @@ export default function HebrewSyllablesQuiz({
 		})
 	}, [getActiveNameAudio, letters, selectedVowel])
 
+	const availableQuizSizes = useMemo(
+		() => quizSizeOptions.filter((size) => size <= filteredLetters.length),
+		[filteredLetters.length]
+	)
+
+	useEffect(() => {
+		if (availableQuizSizes.length === 0) return
+
+		if (!availableQuizSizes.includes(quizSize)) {
+			setQuizSize(availableQuizSizes[availableQuizSizes.length - 1])
+		}
+	}, [availableQuizSizes, quizSize])
+
 	useEffect(() => {
 		if (!gameStarted) return
 
 		if (filteredLetters.length === 0) return
 
 		const shuffled = [...filteredLetters].sort(() => Math.random() - 0.5)
-		setShuffledLetters(shuffled)
+		setShuffledLetters(shuffled.slice(0, Math.min(quizSize, shuffled.length)))
 		setCurrentIndex(0)
 		setFinished(false)
 		setCorrectCount(0)
 		setWrongCount(0)
 		setWrongAnswers([])
-	}, [filteredLetters, gameStarted])
+	}, [filteredLetters, gameStarted, quizSize])
 
 	const currentLetter = shuffledLetters[currentIndex]
 
@@ -410,6 +426,37 @@ export default function HebrewSyllablesQuiz({
 					</div>
 
 					<div className="mb-6">
+						<p className="mb-2 font-medium">Quiz Size</p>
+						<div className="flex flex-wrap justify-center gap-2">
+							{quizSizeOptions.map((size) => {
+								const isAvailable = size <= filteredLetters.length
+
+								return (
+									<button
+										key={size}
+										onClick={() => isAvailable && setQuizSize(size)}
+										disabled={!isAvailable}
+										className={`rounded-full border px-4 py-2 font-semibold transition-colors ${
+											quizSize === size
+												? 'bg-sky-600 text-white'
+												: isAvailable
+													? 'bg-gray-200 text-gray-900 hover:bg-gray-300'
+													: 'cursor-not-allowed bg-gray-100 text-gray-400'
+										}`}
+									>
+										{size}
+									</button>
+								)
+							})}
+						</div>
+						<p className="mt-2 text-sm text-gray-600">
+							{filteredLetters.length > 0
+								? `Available syllables: ${filteredLetters.length}. Each round uses a random set of ${Math.min(quizSize, filteredLetters.length)}.`
+								: 'Select at least one syllable group to choose a quiz size.'}
+						</p>
+					</div>
+
+					<div className="mb-6">
 						<p className="mb-2 font-medium">Font</p>
 						<div className="flex flex-wrap justify-center gap-2">
 							{(
@@ -530,7 +577,7 @@ export default function HebrewSyllablesQuiz({
 				<div className="space-y-4">
 					<h2 className="mb-4 text-2xl font-bold">Study the Alphabet</h2>
 					<div className="flex flex-wrap justify-center gap-6" dir="rtl">
-						{filteredLetters.map((letter, index) => (
+						{shuffledLetters.map((letter, index) => (
 							<div
 								key={index}
 								className="flex w-24 flex-col items-center rounded-lg border p-4"
