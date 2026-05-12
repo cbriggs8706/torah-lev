@@ -7,6 +7,7 @@ import { useAudio } from 'react-use'
 import HebrewKeyboard from './hebrew-keyboard'
 import { HebrewVocab } from '@/lib/vocab'
 import { resolveVocabMediaUrl } from '@/lib/vocab-media'
+import { matchesSelectedCategory } from '@/lib/category'
 import { hebrewLetters } from '@/lib/data/hebrew/hebrew-letters'
 import { hebrewNiqqud } from '@/lib/data/hebrew/hebrew-niqqud'
 import { useCelebration } from '@/hooks/useCelebration'
@@ -111,9 +112,8 @@ export default function HebrewSpelling({
 					card.lessons.some((l) => selectedLessons.includes(l))
 			)
 			.filter((card) => selectedType === 'all' || card.type === selectedType)
-			.filter(
-				(card) =>
-					selectedCategory === 'all' || card.category === selectedCategory
+			.filter((card) =>
+				matchesSelectedCategory(card.category, selectedCategory)
 			)
 
 		const valid = filtered.filter((card) => {

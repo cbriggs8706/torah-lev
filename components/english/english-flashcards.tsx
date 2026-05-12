@@ -1,6 +1,7 @@
 'use client'
 
 import { EnglishVocab } from '@/lib/vocab'
+import { matchesSelectedCategory, splitCategoryValues } from '@/lib/category'
 import { resolveVocabMediaUrl } from '@/lib/vocab-media'
 import Image from 'next/image'
 import { useState, useMemo, useEffect, useCallback } from 'react'
@@ -431,7 +432,7 @@ export default function EnglishFlashcards({
 
 	const categoryOptions = useMemo(() => {
 		const all = cardsForPrefix
-			.map((card) => card.category)
+			.flatMap((card) => splitCategoryValues(card.category))
 			.filter((c): c is string => typeof c === 'string')
 		const unique = Array.from(new Set(all))
 		return unique.sort()
@@ -445,8 +446,10 @@ export default function EnglishFlashcards({
 				card.lessons.some((l) => selectedLessons.includes(l))
 
 			const matchesType = selectedType === 'all' || card.type === selectedType
-			const matchesCategory =
-				selectedCategory === 'all' || card.category === selectedCategory
+			const matchesCategory = matchesSelectedCategory(
+				card.category,
+				selectedCategory
+			)
 
 			const hasMiddleFrontImage =
 				frontMiddleCenter !== 'images' || card.images.length > 0

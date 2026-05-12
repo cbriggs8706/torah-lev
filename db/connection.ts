@@ -72,7 +72,7 @@ function parsePossiblyRawConnectionString(value: string): DatabaseConfig {
 function resolveDatabaseEnvValue(envVar: string) {
 	const envVars =
 		envVar === 'DATABASE_URL'
-			? [...runtimeDatabaseFallbackEnvVars, envVar]
+			? [envVar, ...runtimeDatabaseFallbackEnvVars]
 			: [envVar]
 
 	for (const candidate of envVars) {

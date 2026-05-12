@@ -12,6 +12,7 @@ import {
 } from '@dnd-kit/core'
 import Image from 'next/image'
 import { HebrewVocab } from '@/lib/vocab'
+import { matchesSelectedCategory } from '@/lib/category'
 import { resolveVocabMediaUrl } from '@/lib/vocab-media'
 import { useAudio, useWindowSize } from 'react-use'
 import ReactConfetti from 'react-confetti'
@@ -174,8 +175,10 @@ export default function WordMatchGame({
 					: !!card[matchField]
 			const matchesType = selectedType === 'all' || card.type === selectedType
 
-			const matchesCategory =
-				selectedCategory === 'all' || card.category === selectedCategory
+			const matchesCategory = matchesSelectedCategory(
+				card.category,
+				selectedCategory
+			)
 
 			return (
 				inLesson && hasHebrew && hasMatchField && matchesType && matchesCategory

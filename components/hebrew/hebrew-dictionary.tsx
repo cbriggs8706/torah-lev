@@ -6,7 +6,7 @@ import { resolveVocabMediaUrl } from '@/lib/vocab-media'
 import Image from 'next/image'
 import FemaleIcon from '@/public/female-sign-svgrepo-com.svg'
 import MaleIcon from '@/public/male-sign-svgrepo-com.svg'
-import { PlayCircle } from 'lucide-react'
+import { ImageIcon } from 'lucide-react'
 import HebrewKeyboard from './hebrew-keyboard'
 
 interface DictionaryProps {
@@ -332,6 +332,15 @@ export default function HebrewDictionary({ data }: DictionaryProps) {
 									className="inline-block"
 								/>
 							</button>
+						)}
+						{entry.images?.length > 0 && (
+							<span
+								className="flex items-center text-slate-500"
+								title="This entry has an image"
+								aria-hidden="true"
+							>
+								<ImageIcon className="h-5 w-5" />
+							</span>
 						)}
 						<div className="ml-auto flex items-center gap-6">
 							{parseGenderPerson(entry.genderPerson)}

@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { useAudio } from 'react-use'
 
 import { EnglishVocab } from '@/lib/vocab'
+import { matchesSelectedCategory } from '@/lib/category'
 import { resolveVocabMediaUrl } from '@/lib/vocab-media'
 import { englishLetters } from '@/lib/data/english/english-letters'
 import { useCelebration } from '@/hooks/useCelebration'
@@ -106,9 +107,8 @@ export default function EnglishSpelling({
 					card.lessons.some((l) => selectedLessons.includes(l))
 			)
 			.filter((card) => selectedType === 'all' || card.type === selectedType)
-			.filter(
-				(card) =>
-					selectedCategory === 'all' || card.category === selectedCategory
+			.filter((card) =>
+				matchesSelectedCategory(card.category, selectedCategory)
 			)
 
 		const valid = filtered.filter((card) => {

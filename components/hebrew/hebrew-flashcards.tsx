@@ -2,6 +2,7 @@
 
 import { HebrewVocab } from '@/lib/vocab'
 import { resolveVocabMediaUrl } from '@/lib/vocab-media'
+import { matchesSelectedCategory } from '@/lib/category'
 import Image from 'next/image'
 import { useState, useMemo, useEffect, useCallback } from 'react'
 import { useCelebration } from '@/hooks/useCelebration'
@@ -220,8 +221,10 @@ HebrewVocabProps) {
 				card.lessons.some((l) => selectedLessons.includes(l))
 
 			const matchesType = selectedType === 'all' || card.type === selectedType
-			const matchesCategory =
-				selectedCategory === 'all' || card.category === selectedCategory
+			const matchesCategory = matchesSelectedCategory(
+				card.category,
+				selectedCategory
+			)
 
 			// Ensure middle-center image/audio (front)
 			const hasMiddleFrontImage =

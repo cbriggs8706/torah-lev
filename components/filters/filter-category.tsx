@@ -1,5 +1,6 @@
 'use client'
 
+import { splitCategoryValues } from '@/lib/category'
 import { EnglishVocab, GreekVocab, HebrewVocab } from '@/lib/vocab'
 import { useMemo } from 'react'
 
@@ -17,7 +18,7 @@ export default function CategoryFilter({
 	// Get unique categories
 	const categoryOptions = useMemo(() => {
 		const all = data
-			.map((card) => card.category)
+			.flatMap((card) => splitCategoryValues(card.category))
 			.filter((c): c is string => !!c)
 		return Array.from(new Set(all)).sort()
 	}, [data])

@@ -12,6 +12,7 @@ import {
 } from '@dnd-kit/core'
 import Image from 'next/image'
 import { EnglishVocab } from '@/lib/vocab'
+import { matchesSelectedCategory } from '@/lib/category'
 import { useAudio, useWindowSize } from 'react-use'
 import ReactConfetti from 'react-confetti'
 import FormatFilter, { FormatType } from '../filters/filter-format'
@@ -152,8 +153,10 @@ export default function EnglishWordMatchGame({
 					: !!card[matchField]
 			const matchesType = selectedType === 'all' || card.type === selectedType
 
-			const matchesCategory =
-				selectedCategory === 'all' || card.category === selectedCategory
+			const matchesCategory = matchesSelectedCategory(
+				card.category,
+				selectedCategory
+			)
 
 			return hasMatchField && matchesType && matchesCategory
 		})
