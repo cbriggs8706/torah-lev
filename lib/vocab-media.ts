@@ -1,4 +1,5 @@
 const ABSOLUTE_URL_PATTERN = /^https?:\/\//i
+const DEFAULT_VOCAB_BUCKET = 'vocab-media'
 
 function trimLeadingSlash(value: string) {
 	return value.replace(/^\/+/, '')
@@ -24,7 +25,9 @@ export function resolveVocabMediaUrl(value?: string | null) {
 
 	const normalizedPath = trimLeadingSlash(value)
 	const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.replace(/\/+$/, '')
-	const bucket = process.env.NEXT_PUBLIC_SUPABASE_VOCAB_BUCKET?.trim()
+	const bucket =
+		process.env.NEXT_PUBLIC_SUPABASE_VOCAB_BUCKET?.trim() ||
+		DEFAULT_VOCAB_BUCKET
 
 	if (supabaseUrl && bucket) {
 		return `${supabaseUrl}/storage/v1/object/public/${bucket}/${normalizeVocabStoragePath(value)}`

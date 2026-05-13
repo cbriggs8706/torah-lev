@@ -8,34 +8,28 @@ const nextConfig = {
 		remotePatterns: [
 			{
 				protocol: 'https',
-				hostname: 'supabase.co',
-				pathname: '/**',
-			},
-			{
-				protocol: 'https',
-				hostname: 'lh3.googleusercontent.com', // ✅ Google profile photos
-				pathname: '/**',
-			},
-			{
-				protocol: 'https',
-				hostname: 'avatars.githubusercontent.com', // optional (GitHub)
-				pathname: '/**',
-			},
-			{
-				protocol: 'https',
-				hostname: 'pbs.twimg.com', // optional (Twitter)
-				pathname: '/**',
-			},
-			{
-				protocol: 'https',
-				hostname: 'platform-lookaside.fbsbx.com', // optional (Facebook)
-				pathname: '/**',
-			},
-			{
-				protocol: 'https',
-				hostname: 'wsdmzszpqaxeftyebiqg.supabase.co',
-				port: '',
+				hostname: '**.supabase.co',
 				pathname: '/storage/v1/object/public/**',
+			},
+			{
+				protocol: 'https',
+				hostname: 'lh3.googleusercontent.com',
+				pathname: '/**',
+			},
+			{
+				protocol: 'https',
+				hostname: 'avatars.githubusercontent.com',
+				pathname: '/**',
+			},
+			{
+				protocol: 'https',
+				hostname: 'pbs.twimg.com',
+				pathname: '/**',
+			},
+			{
+				protocol: 'https',
+				hostname: 'platform-lookaside.fbsbx.com',
+				pathname: '/**',
 			},
 		],
 		// remotePatterns: [
