@@ -7,7 +7,13 @@ import {
 	TextInput,
 	required,
 } from 'react-admin'
-import { vocabLanguageChoices, vocabSourceChoices } from '@/lib/admin-vocab'
+import {
+	vocabBinyanChoices,
+	vocabLanguageChoices,
+	vocabSourceChoices,
+	vocabStateChoices,
+	vocabTenseAspectChoices,
+} from '@/lib/admin-vocab'
 import { VocabMediaUploadInput } from '@/components/admin/vocab-media-upload-input'
 
 const longTextSx = { width: '100%' }
@@ -104,8 +110,8 @@ export function VocabEntryForm({
 			</Box>
 
 			<TextInput
-				source="engDefinition"
-				label="Definition"
+				source="hebDefinition"
+				label="Hebrew Definition"
 				multiline
 				sx={longTextSx}
 			/>
@@ -121,8 +127,8 @@ export function VocabEntryForm({
 				}}
 			>
 				<TextInput
-					source="hebNiqqud"
-					label="Hebrew With Niqqud"
+					source="lemma"
+					label="Lemma"
 					sx={longTextSx}
 				/>
 				<TextInput source="heb" label="Hebrew" sx={longTextSx} />
@@ -138,7 +144,7 @@ export function VocabEntryForm({
 					},
 				}}
 			>
-				<TextInput source="eng" label="English" sx={longTextSx} />
+				<TextInput source="gloss" label="Gloss" sx={longTextSx} />
 				<TextInput
 					source="engTransliteration"
 					label="English Transliteration"
@@ -183,6 +189,46 @@ export function VocabEntryForm({
 			</Box>
 			<TextInput source="grk" label="Greek" sx={longTextSx} />
 			<TextInput source="ipa" label="IPA" />
+			<Box
+				sx={{
+					display: 'grid',
+					gap: 2,
+					width: '100%',
+					gridTemplateColumns: {
+						xs: '1fr',
+						md: 'repeat(2, minmax(0, 1fr))',
+						lg: 'repeat(4, minmax(0, 1fr))',
+					},
+				}}
+			>
+				<TextInput
+					source="rootVerb"
+					label="Root Verb"
+					helperText="Enter the 3 Hebrew consonants."
+					sx={longTextSx}
+				/>
+				<SelectInput
+					source="binyan"
+					label="Binyan"
+					choices={[...vocabBinyanChoices]}
+					emptyText="None"
+					fullWidth
+				/>
+				<SelectInput
+					source="tenseAspect"
+					label="Tense / Aspect"
+					choices={[...vocabTenseAspectChoices]}
+					emptyText="None"
+					fullWidth
+				/>
+				<SelectInput
+					source="state"
+					label="State"
+					choices={[...vocabStateChoices]}
+					emptyText="None"
+					fullWidth
+				/>
+			</Box>
 			<Box
 				sx={{
 					display: 'grid',

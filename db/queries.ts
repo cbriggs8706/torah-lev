@@ -549,11 +549,11 @@ export const getConstructAbsoluteWords = cache(
 					if (!rootRow) return null
 
 					const absolute =
-						rootRow.hebNiqqud?.trim() ||
+						rootRow.lemma?.trim() ||
 						rootRow.heb?.trim() ||
 						null
 					const construct =
-						constructRow.hebNiqqud?.trim() ||
+						constructRow.lemma?.trim() ||
 						constructRow.heb?.trim() ||
 						null
 

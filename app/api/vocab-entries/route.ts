@@ -48,12 +48,18 @@ function normalizeRecord(body: Record<string, unknown>) {
 		type: normalizeNullableString(body.type),
 		definite: normalizeBoolean(body.definite),
 		category: normalizeNullableString(body.category),
-		eng: normalizeNullableString(body.eng),
-		engDefinition: normalizeNullableString(body.engDefinition),
+		gloss:
+			normalizeNullableString(body.gloss) ??
+			normalizeNullableString(body.eng),
+		hebDefinition:
+			normalizeNullableString(body.hebDefinition) ??
+			normalizeNullableString(body.engDefinition),
 		partOfSpeech,
 		ipa: normalizeNullableString(body.ipa),
 		images,
-		hebNiqqud: normalizeNullableString(body.hebNiqqud),
+		lemma:
+			normalizeNullableString(body.lemma) ??
+			normalizeNullableString(body.hebNiqqud),
 		heb: normalizeNullableString(body.heb),
 		hebAudio: hebAudio ? normalizeVocabStoragePath(hebAudio) : null,
 		grk: normalizeNullableString(body.grk),
@@ -80,6 +86,10 @@ function normalizeRecord(body: Record<string, unknown>) {
 		scriptures,
 		strongs: normalizeNullableString(body.strongs),
 		introduction: normalizeNullableString(body.introduction),
+		rootVerb: normalizeNullableString(body.rootVerb),
+		binyan: normalizeNullableString(body.binyan),
+		tenseAspect: normalizeNullableString(body.tenseAspect),
+		state: normalizeNullableString(body.state),
 		rootId:
 			normalizeOptionalNumber(body.rootId) ??
 			normalizeOptionalNumber(body.absoluteEntryId),
@@ -160,16 +170,20 @@ export const GET = async (req: Request) => {
 		const query = filter.q.trim().toLowerCase()
 		rows = rows.filter((row) =>
 			[
-				row.eng,
+				row.gloss,
 				row.heb,
-				row.hebNiqqud,
+				row.lemma,
 				row.grk,
 				row.spa,
 				row.por,
-				row.engDefinition,
+				row.hebDefinition,
 				row.sourceKey,
 				row.category,
 				row.type,
+				row.rootVerb,
+				row.binyan,
+				row.tenseAspect,
+				row.state,
 				row.rootPerson,
 				row.rootGender,
 				row.rootNumber,

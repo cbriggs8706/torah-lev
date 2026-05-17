@@ -49,15 +49,18 @@ export const VocabEntryList = () => (
 			<FunctionField
 				label="Word"
 				render={(record: any) =>
-					record.hebNiqqud ||
+					record.lemma ||
 					record.heb ||
 					record.grk ||
-					record.eng ||
+					record.gloss ||
 					'(untitled)'
 				}
 			/>
-			<TextField source="eng" />
+			<TextField source="gloss" />
 			<TextField source="category" />
+			<TextField source="binyan" />
+			<TextField source="tenseAspect" label="Tense/Aspect" />
+			<TextField source="state" />
 			<TextField source="rootId" label="Root" />
 			<TextField source="type" />
 			<BooleanField source="missingImage" />

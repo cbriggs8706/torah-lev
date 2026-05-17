@@ -68,10 +68,10 @@ function mapRowToHebrewVocab(row: VocabEntryRow): HebrewVocab {
 
 	return normalizeHebrewEntry({
 		id: row.entryId,
-		hebNiqqud: row.hebNiqqud ?? payload.hebNiqqud ?? '',
+		hebNiqqud: row.lemma ?? payload.hebNiqqud ?? '',
 		heb: row.heb ?? payload.heb ?? '',
-		eng: row.eng ?? payload.eng ?? '',
-		engDefinition: row.engDefinition ?? payload.engDefinition ?? '',
+		eng: row.gloss ?? payload.eng ?? '',
+		engDefinition: row.hebDefinition ?? payload.engDefinition ?? '',
 		genderPerson: row.genderPerson ?? payload.genderPerson ?? '',
 		rootPerson:
 			row.rootPerson ?? payload.rootPerson ?? (payload as { person?: string }).person ?? '',
@@ -110,8 +110,8 @@ function mapRowToEnglishVocab(row: VocabEntryRow): EnglishVocab {
 		lessons: row.lessons ?? payload.lessons ?? [],
 		type: row.type ?? payload.type ?? '',
 		definite: row.definite ?? payload.definite ?? false,
-		engDefinition: row.engDefinition ?? payload.engDefinition ?? '',
-		eng: row.eng ?? payload.eng ?? '',
+		engDefinition: row.hebDefinition ?? payload.engDefinition ?? '',
+		eng: row.gloss ?? payload.eng ?? '',
 		spa: row.spa ?? payload.spa ?? '',
 		por: row.por ?? payload.por ?? '',
 		spaTransliteration:
@@ -141,8 +141,8 @@ function mapRowToGreekVocab(row: VocabEntryRow): GreekVocab {
 	return normalizeGreekEntry({
 		id: row.entryId,
 		grk: row.grk ?? payload.grk ?? '',
-		eng: row.eng ?? payload.eng ?? '',
-		engDefinition: row.engDefinition ?? payload.engDefinition ?? '',
+		eng: row.gloss ?? payload.eng ?? '',
+		engDefinition: row.hebDefinition ?? payload.engDefinition ?? '',
 		genderPerson: row.genderPerson ?? payload.genderPerson ?? '',
 		partOfSpeech: row.partOfSpeech ?? payload.partOfSpeech ?? [],
 		ipa: row.ipa ?? payload.ipa ?? '',

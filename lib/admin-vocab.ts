@@ -18,6 +18,32 @@ export const vocabSourceChoices = [
 	{ id: 'ec2', name: 'EC2' },
 ] as const
 
+export const vocabBinyanChoices = [
+	{ id: 'qal', name: 'Qal' },
+	{ id: 'niphal', name: 'Niphal' },
+	{ id: 'piel', name: 'Piel' },
+	{ id: 'pual', name: 'Pual' },
+	{ id: 'hiphil', name: 'Hiphil' },
+	{ id: 'hophal', name: 'Hophal' },
+	{ id: 'hithpael', name: 'Hithpael' },
+] as const
+
+export const vocabTenseAspectChoices = [
+	{ id: 'qatal', name: 'Qatal (Perfect)' },
+	{ id: 'yiqtol', name: 'Yiqtol (Imperfect)' },
+	{ id: 'wayyiqtol', name: 'Wayyiqtol' },
+	{ id: 'weqatal', name: 'Weqatal' },
+	{ id: 'participle', name: 'Participle' },
+	{ id: 'infinitiveConstruct', name: 'Infinitive Construct' },
+	{ id: 'infinitiveAbsolute', name: 'Infinitive Absolute' },
+	{ id: 'imperative', name: 'Imperative' },
+] as const
+
+export const vocabStateChoices = [
+	{ id: 'absolute', name: 'Absolute' },
+	{ id: 'construct', name: 'Construct' },
+] as const
+
 export function parseStringList(input: unknown) {
 	if (Array.isArray(input)) {
 		return input
@@ -90,12 +116,12 @@ export function toVocabAdminRecord(
 		type: string | null
 		definite: boolean
 		category: string | null
-		eng: string | null
-		engDefinition: string | null
+		gloss: string | null
+		hebDefinition: string | null
 		partOfSpeech: string[] | null
 		ipa: string | null
 		images: string[]
-		hebNiqqud: string | null
+		lemma: string | null
 		heb: string | null
 		hebAudio: string | null
 		grk: string | null
@@ -119,6 +145,10 @@ export function toVocabAdminRecord(
 		scriptures: string[] | null
 		strongs: string | null
 		introduction: string | null
+		rootVerb: string | null
+		binyan: string | null
+		tenseAspect: string | null
+		state: string | null
 		rootId: number | null
 		payload: unknown
 		createdAt: Date
@@ -132,6 +162,9 @@ export function toVocabAdminRecord(
 
 	return {
 		...entry,
+		hebNiqqud: entry.lemma,
+		eng: entry.gloss,
+		engDefinition: entry.hebDefinition,
 		firstLesson,
 		lessonSort,
 		missingImage,

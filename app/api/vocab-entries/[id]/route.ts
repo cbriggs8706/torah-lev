@@ -57,12 +57,18 @@ function normalizeRecord(body: Record<string, unknown>) {
 		type: normalizeNullableString(body.type),
 		definite: normalizeBoolean(body.definite),
 		category: normalizeNullableString(body.category),
-		eng: normalizeNullableString(body.eng),
-		engDefinition: normalizeNullableString(body.engDefinition),
+		gloss:
+			normalizeNullableString(body.gloss) ??
+			normalizeNullableString(body.eng),
+		hebDefinition:
+			normalizeNullableString(body.hebDefinition) ??
+			normalizeNullableString(body.engDefinition),
 		partOfSpeech: parseStringList(body.partOfSpeechText ?? body.partOfSpeech),
 		ipa: normalizeNullableString(body.ipa),
 		images: normalizeMediaList(body.imagesText ?? body.images),
-		hebNiqqud: normalizeNullableString(body.hebNiqqud),
+		lemma:
+			normalizeNullableString(body.lemma) ??
+			normalizeNullableString(body.hebNiqqud),
 		heb: normalizeNullableString(body.heb),
 		hebAudio: hebAudio ? normalizeVocabStoragePath(hebAudio) : null,
 		grk: normalizeNullableString(body.grk),
@@ -89,6 +95,10 @@ function normalizeRecord(body: Record<string, unknown>) {
 		scriptures: parseStringList(body.scripturesText ?? body.scriptures),
 		strongs: normalizeNullableString(body.strongs),
 		introduction: normalizeNullableString(body.introduction),
+		rootVerb: normalizeNullableString(body.rootVerb),
+		binyan: normalizeNullableString(body.binyan),
+		tenseAspect: normalizeNullableString(body.tenseAspect),
+		state: normalizeNullableString(body.state),
 		rootId:
 			normalizeOptionalNumber(body.rootId) ??
 			normalizeOptionalNumber(body.absoluteEntryId),

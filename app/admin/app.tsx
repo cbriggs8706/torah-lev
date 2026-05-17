@@ -220,7 +220,7 @@ const App = () => {
 				list={VocabEntryList}
 				create={VocabEntryCreate}
 				edit={VocabEntryEdit}
-				recordRepresentation="eng"
+				recordRepresentation="gloss"
 				options={{ label: 'Vocab' }}
 			/>
 			<Resource
