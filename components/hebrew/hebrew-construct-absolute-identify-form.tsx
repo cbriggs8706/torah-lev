@@ -264,13 +264,13 @@ export default function HebrewConstructAbsoluteIdentifyForm({
 				<Card className="border-sidebar-border bg-white/85 shadow-sm">
 					<CardHeader className="text-center">
 						<CardTitle className="text-3xl font-nunito text-neutral-800">
-							Absolute or Construct?
+							Absolute or Construct State?
 						</CardTitle>
 					</CardHeader>
 					<CardContent className="space-y-6 px-8 pb-8 text-center">
 						<p className="text-sm leading-6 text-neutral-600">
-							You&apos;ll see one Hebrew form at a time. Choose whether it is
-							absolute or construct, then move to the next card.
+							You&apos;ll see one Hebrew word at a time. Choose whether it is in
+							the absolute state or construct state, then move to the next card.
 						</p>
 						<div className="grid gap-4 sm:grid-cols-3">
 							<div className="rounded-2xl border border-sidebar-border bg-sidebar-accent/20 p-4">
@@ -533,15 +533,15 @@ export default function HebrewConstructAbsoluteIdentifyForm({
 							)}
 							<p>
 								{timedOut
-									? `Time ran out. ${currentCard.hebrew} is ${currentCard.type}.`
+									? `Time ran out. ${currentCard.hebrew} is in the ${currentCard.type} state.`
 									: selectedAnswer === currentCard?.type
-									? `Correct. ${currentCard.hebrew} is ${currentCard.type}.`
-									: `Not quite. ${currentCard.hebrew} is ${currentCard?.type}.`}
+									? `Correct. ${currentCard.hebrew} is in the ${currentCard.type} state.`
+									: `Not quite. ${currentCard.hebrew} is in the ${currentCard?.type} state.`}
 							</p>
 						</div>
 					) : (
 						<p className="text-center text-sm leading-6 text-neutral-600">
-							Choose the form that matches the word above.
+							Choose the state that matches the word above.
 						</p>
 					)}
 

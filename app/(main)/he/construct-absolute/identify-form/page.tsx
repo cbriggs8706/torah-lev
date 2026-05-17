@@ -50,8 +50,8 @@ export default async function HebrewConstructAbsoluteIdentifyFormPage() {
 						storageKey="construct-absolute-identify-form"
 						className="mb-4 max-w-3xl"
 					>
-						See one Hebrew word and choose whether it is in the absolute form
-						or the construct form. It uses the same lesson-based word bank as
+						See one Hebrew word and choose whether it is in the absolute state
+						or the construct state. It uses the same lesson-based word bank as
 						the other construct activities.
 					</DismissibleAlert>
 

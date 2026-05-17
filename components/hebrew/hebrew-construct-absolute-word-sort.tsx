@@ -323,7 +323,7 @@ export default function HebrewConstructAbsoluteWordSort({
 								Word Bank
 							</CardTitle>
 							<p className="text-sm leading-6 text-neutral-600">
-								Drag each form into the correct category. This deck grows as
+								Drag each word into the correct state. This deck grows as
 								more lesson words unlock, and a word only locks in when it lands
 								in the right place.
 							</p>
@@ -350,21 +350,21 @@ export default function HebrewConstructAbsoluteWordSort({
 					</Card>
 
 					<div className="grid gap-6 md:grid-cols-2">
-					<DropZone
-						id="absolute"
-						label="Absolute"
-						description="Absolute forms can stand on their own as the regular citation form."
-						words={absoluteWords}
-						tone="amber"
-					/>
+						<DropZone
+							id="absolute"
+							label="Absolute"
+							description="Absolute-state words can stand on their own as the regular citation form."
+							words={absoluteWords}
+							tone="amber"
+						/>
 
-					<DropZone
-						id="construct"
-						label="Construct"
-						description="Construct forms are bound to what follows and often feel incomplete by themselves."
-						words={constructWords}
-						tone="sky"
-					/>
+						<DropZone
+							id="construct"
+							label="Construct"
+							description="Construct-state words are bound to what follows and often feel incomplete by themselves."
+							words={constructWords}
+							tone="sky"
+						/>
 					</div>
 				</div>
 

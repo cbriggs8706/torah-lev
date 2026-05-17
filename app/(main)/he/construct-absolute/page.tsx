@@ -74,7 +74,7 @@ export default function HebrewConstructAbsolutePage() {
 							<CardContent className="space-y-5">
 								<p className="text-sm leading-6 text-neutral-700">
 									See one Hebrew word at a time and decide whether it is an
-									absolute form or a construct form. This keeps the practice
+									absolute state or a construct state. This keeps the practice
 									simple and fast, like the site&apos;s other quiz activities.
 								</p>
 								<Button asChild variant="primary" className="w-full">
@@ -109,9 +109,9 @@ export default function HebrewConstructAbsolutePage() {
 							</CardHeader>
 							<CardContent className="space-y-5">
 								<p className="text-sm leading-6 text-neutral-700">
-									Drag each Hebrew form into the correct zone: absolute or
+									Drag each Hebrew word into the correct state zone: absolute or
 									construct. It&apos;s a quick way to train your eye to spot the
-									form before reading the whole phrase.
+									state before reading the whole phrase.
 								</p>
 								<Button asChild variant="primary" className="w-full">
 									<Link href="/he/construct-absolute/word-sort">
@@ -145,9 +145,9 @@ export default function HebrewConstructAbsolutePage() {
 							</CardHeader>
 							<CardContent className="space-y-5">
 								<p className="text-sm leading-6 text-neutral-700">
-									Start with an absolute form and tap the changing part of the
-									word until you think you&apos;ve built the correct construct
-									form. Then submit to check yourself.
+									Start with an absolute-state word and tap the changing part of
+									the word until you think you&apos;ve built the correct construct-state
+									version. Then submit to check yourself.
 								</p>
 								<Button asChild variant="primary" className="w-full md:w-auto">
 									<Link href="/he/construct-absolute/conversion">

@@ -523,7 +523,7 @@ export const getConstructAbsoluteWords = cache(
 
 			const linkedConstructRows = constructRows.filter(
 				(row) =>
-					row.category?.trim().toLowerCase() === 'construct' &&
+					row.state?.trim().toLowerCase() === 'construct' &&
 					typeof row.rootId === 'number'
 			)
 

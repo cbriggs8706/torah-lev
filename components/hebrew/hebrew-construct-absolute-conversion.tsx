@@ -443,7 +443,7 @@ export default function HebrewConstructAbsoluteConversion({
 			<Card className="border-sidebar-border bg-white/90 shadow-sm">
 				<CardHeader className="space-y-3">
 					<CardTitle className="text-2xl text-neutral-800">
-						Build The Construct Form
+						Build The Construct-State Word
 					</CardTitle>
 					<p className="text-sm leading-6 text-neutral-600">
 						Drag vowels from the full bank onto the consonants. The maqqef has
@@ -641,7 +641,7 @@ export default function HebrewConstructAbsoluteConversion({
 									<Check className="mt-0.5 h-5 w-5 shrink-0" />
 									<div>
 										<p className="font-bold">Correct.</p>
-										<p>You built the construct form from the consonant frame.</p>
+										<p>You built the construct-state word from the consonant frame.</p>
 									</div>
 								</div>
 							) : (
@@ -659,7 +659,7 @@ export default function HebrewConstructAbsoluteConversion({
 					{showAnswer ? (
 						<div className="rounded-2xl border border-emerald-300 bg-white p-4">
 							<p className="text-[11px] font-bold uppercase tracking-[0.2em] text-neutral-500">
-								Construct Form
+								Construct State
 							</p>
 							<p className="mt-2 font-cardo text-3xl text-neutral-800">
 								{currentWord.construct}

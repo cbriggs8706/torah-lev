@@ -105,13 +105,6 @@ function normalizeRecord(body: Record<string, unknown>) {
 async function validateConstructAbsoluteLink(
 	normalized: ReturnType<typeof normalizeRecord>
 ) {
-	if (
-		normalized.category?.trim().toLowerCase() === 'construct' &&
-		!normalized.rootId
-	) {
-		return 'Construct entries require a root entry.'
-	}
-
 	if (!normalized.rootId) {
 		return null
 	}
@@ -210,6 +203,15 @@ export const GET = async (req: Request) => {
 			String(row.category ?? '')
 				.toLowerCase()
 				.includes(categoryQuery)
+		)
+	}
+
+	if (typeof filter.type === 'string' && filter.type.trim()) {
+		const typeQuery = filter.type.trim().toLowerCase()
+		rows = rows.filter((row) =>
+			String(row.type ?? '')
+				.toLowerCase()
+				.includes(typeQuery)
 		)
 	}
 

@@ -28,6 +28,7 @@ const filters = [
 		emptyText="All"
 	/>,
 	<TextInput key="category" source="category" label="Category" />,
+	<TextInput key="type" source="type" label="Type" />,
 	<TextInput key="lesson" source="lesson" label="Lesson" />,
 	<BooleanInput key="missingImage" source="missingImage" label="Missing image" />,
 	<BooleanInput key="missingAudio" source="missingAudio" label="Missing audio" />,
@@ -42,9 +43,7 @@ export const VocabEntryList = () => (
 	>
 		<Datagrid rowClick="edit" bulkActionButtons={false}>
 			<TextField source="id" />
-			<TextField source="language" />
-			<TextField source="sourceKey" />
-			<TextField source="entryId" />
+			<TextField source="rootId" label="Root" />
 			<TextField source="firstLesson" label="First Lesson" />
 			<FunctionField
 				label="Word"
@@ -57,12 +56,9 @@ export const VocabEntryList = () => (
 				}
 			/>
 			<TextField source="gloss" />
-			<TextField source="category" />
-			<TextField source="binyan" />
-			<TextField source="tenseAspect" label="Tense/Aspect" />
-			<TextField source="state" />
-			<TextField source="rootId" label="Root" />
 			<TextField source="type" />
+			<TextField source="partOfSpeechText" label="Part of Speech" />
+			<TextField source="category" />
 			<BooleanField source="missingImage" />
 			<BooleanField source="missingAudio" />
 			<FunctionField

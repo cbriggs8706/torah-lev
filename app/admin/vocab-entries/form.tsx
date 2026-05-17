@@ -102,7 +102,6 @@ export function VocabEntryForm({
 				<TextInput
 					source="rootId"
 					label="Root"
-					helperText="Required when category is construct."
 					InputLabelProps={{ shrink: true }}
 					placeholder="Root id"
 					fullWidth
@@ -126,11 +125,7 @@ export function VocabEntryForm({
 					},
 				}}
 			>
-				<TextInput
-					source="lemma"
-					label="Lemma"
-					sx={longTextSx}
-				/>
+				<TextInput source="lemma" label="Lemma" sx={longTextSx} />
 				<TextInput source="heb" label="Hebrew" sx={longTextSx} />
 			</Box>
 			<Box

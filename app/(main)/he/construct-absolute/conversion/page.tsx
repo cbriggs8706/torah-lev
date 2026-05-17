@@ -50,8 +50,8 @@ export default async function HebrewConstructAbsoluteConversionPage() {
 						storageKey="construct-absolute-conversion"
 						className="mb-4 max-w-3xl"
 					>
-						Start with the absolute form, then drag vowels from the bank onto
-						the consonants to build the construct form.
+						Start with the absolute-state word, then drag vowels from the bank
+						onto the consonants to build the construct-state version.
 					</DismissibleAlert>
 
 					<HebrewConstructAbsoluteConversion

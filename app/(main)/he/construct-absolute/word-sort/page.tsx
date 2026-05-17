@@ -50,7 +50,7 @@ export default async function HebrewConstructAbsoluteWordSortPage() {
 						storageKey="construct-absolute-word-sort"
 						className="mb-4 max-w-3xl"
 					>
-						Drag each word into the correct drop zone. This activity uses the
+						Drag each word into the correct state zone. This activity uses the
 						same lesson-based word bank as the conversion game, so new words can
 						open up as lessons are added.
 					</DismissibleAlert>

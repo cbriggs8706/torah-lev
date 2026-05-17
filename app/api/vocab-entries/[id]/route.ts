@@ -115,13 +115,6 @@ async function validateConstructAbsoluteLink(
 	id: number,
 	normalized: ReturnType<typeof normalizeRecord>
 ) {
-	if (
-		normalized.category?.trim().toLowerCase() === 'construct' &&
-		!normalized.rootId
-	) {
-		return 'Construct entries require a root entry.'
-	}
-
 	if (!normalized.rootId) {
 		return null
 	}
