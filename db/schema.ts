@@ -904,16 +904,19 @@ export const vocabEntries = pgTable(
 		spaTransliteration: text('spa_transliteration'),
 		porTransliteration: text('por_transliteration'),
 		genderPerson: text('gender_person'),
-		person: text('person'),
-		gender: text('gender'),
-		number: text('number'),
+		rootPerson: text('root_person'),
+		rootGender: text('root_gender'),
+		rootNumber: text('root_number'),
+		suffixPerson: text('suffix_person'),
+		suffixGender: text('suffix_gender'),
+		suffixNumber: text('suffix_number'),
 		dictionaryUrl: text('dictionary_url'),
 		synonyms: text('synonyms').array(),
 		antonyms: text('antonyms').array(),
 		scriptures: text('scriptures').array(),
 		strongs: text('strongs'),
 		introduction: text('introduction'),
-		absoluteEntryId: integer('absolute_entry_id').references(
+		rootId: integer('root_id').references(
 			(): AnyPgColumn => vocabEntries.id,
 			{ onDelete: 'set null' }
 		),
@@ -929,9 +932,7 @@ export const vocabEntries = pgTable(
 		sourceIdx: index('idx_vocab_source_key').on(table.sourceKey),
 		courseIdx: index('idx_vocab_course_id').on(table.courseId),
 		languageIdx: index('idx_vocab_language').on(table.language),
-		absoluteEntryIdx: index('idx_vocab_absolute_entry_id').on(
-			table.absoluteEntryId
-		),
+		rootIdx: index('idx_vocab_root_id').on(table.rootId),
 	})
 )
 

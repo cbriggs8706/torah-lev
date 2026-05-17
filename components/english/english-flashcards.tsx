@@ -9,6 +9,7 @@ import ReactConfetti from 'react-confetti'
 import { useAudio, useWindowSize } from 'react-use'
 import { toast } from 'sonner'
 import { useUserId } from '@/hooks/useUserId'
+import { formatRootGenderDisplay } from '@/lib/vocab-morphology'
 import {
 	applyReview,
 	type FlashcardScheduling,
@@ -50,8 +51,12 @@ const FIELD_LABELS: Partial<Record<keyof EnglishVocab, string>> = {
 	spa: 'Spanish',
 	por: 'Portuguese',
 	engDefinition: 'Definition',
-	gender: 'Gender',
-	person: 'Person',
+	rootGender: 'Root Gender',
+	rootPerson: 'Root Person',
+	rootNumber: 'Root Number',
+	suffixGender: 'Suffix Gender',
+	suffixPerson: 'Suffix Person',
+	suffixNumber: 'Suffix Number',
 	partOfSpeech: 'Part of Speech',
 	ipa: 'IPA (Pronunciation)',
 	spaTransliteration: 'Spanish Transliteration',
@@ -210,7 +215,7 @@ export default function EnglishFlashcards({
 		setFrontTopCenter('none')
 		setFrontTopRight('engAudio')
 		setFrontBottomLeft('none')
-		setFrontBottomCenter('gender')
+		setFrontBottomCenter('rootGender')
 		setFrontBottomRight('none')
 
 		setBackTopLeft('none')
@@ -657,12 +662,12 @@ export default function EnglishFlashcards({
 		} finally {
 			setIsLoadingHistory(false)
 		}
-	}, [courseId, currentCard?.id, isGuest, useSpacedRepetition])
+	}, [courseId, currentCard, isGuest, useSpacedRepetition])
 
 	useEffect(() => {
 		if (!showHistory) return
 		fetchHistory()
-	}, [fetchHistory, showHistory, currentCard?.id])
+	}, [fetchHistory, showHistory, currentCard])
 
 	function formatSuccessRate(stats: any | null) {
 		const total = Number(stats?.total ?? 0)
@@ -814,9 +819,12 @@ export default function EnglishFlashcards({
 		'eng',
 		'ipa',
 		'engAudio',
-		'gender',
-		'person',
-		'number',
+		'rootGender',
+		'rootPerson',
+		'rootNumber',
+		'suffixGender',
+		'suffixPerson',
+		'suffixNumber',
 		'spa',
 		'por',
 		'spaTransliteration',
@@ -929,6 +937,14 @@ export default function EnglishFlashcards({
 
 		if (Array.isArray(value)) {
 			return value.join(', ')
+		}
+
+		if (field === 'rootGender') {
+			return (
+				<span className={!isMiddle ? 'font-serif text-lg' : ''}>
+					{formatRootGenderDisplay(value as string)}
+				</span>
+			)
 		}
 
 		const className = !isMiddle ? 'font-serif text-lg' : ''

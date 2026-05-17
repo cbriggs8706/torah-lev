@@ -1,3 +1,4 @@
+import { Box } from '@mui/material'
 import {
 	BooleanInput,
 	NumberInput,
@@ -10,6 +11,16 @@ import { vocabLanguageChoices, vocabSourceChoices } from '@/lib/admin-vocab'
 import { VocabMediaUploadInput } from '@/components/admin/vocab-media-upload-input'
 
 const longTextSx = { width: '100%' }
+const metadataRowSx = {
+	display: 'grid',
+	gap: 2,
+	width: '100%',
+	gridTemplateColumns: {
+		xs: '1fr',
+		sm: 'repeat(2, minmax(0, 1fr))',
+		lg: 'repeat(4, minmax(0, 1fr))',
+	},
+}
 
 type VocabEntryFormProps = {
 	includeEntryId?: boolean
@@ -20,54 +31,243 @@ export function VocabEntryForm({
 }: VocabEntryFormProps = {}) {
 	return (
 		<SimpleForm>
-			<SelectInput
-				source="language"
-				label="Language"
-				choices={[...vocabLanguageChoices]}
-				validate={[required()]}
-			/>
-			<SelectInput
-				source="sourceKey"
-				label="Source"
-				choices={[...vocabSourceChoices]}
-				validate={[required()]}
-			/>
-			<NumberInput source="courseId" label="Course ID" />
-			{includeEntryId ? <NumberInput source="entryId" label="Entry ID" /> : null}
-			<TextInput source="lessonsText" label="Lessons" multiline sx={longTextSx} />
-			<TextInput source="type" label="Type" />
-			<BooleanInput source="definite" label="Definite" />
-			<TextInput source="category" label="Category" />
-			<NumberInput
-				source="absoluteEntryId"
-				label="Absolute Entry ID"
-				helperText="Required when category is construct."
-			/>
+			<Box sx={metadataRowSx}>
+				<SelectInput
+					source="language"
+					label="Language"
+					choices={[...vocabLanguageChoices]}
+					validate={[required()]}
+					fullWidth
+				/>
+				<SelectInput
+					source="sourceKey"
+					label="Source"
+					choices={[...vocabSourceChoices]}
+					validate={[required()]}
+					fullWidth
+				/>
+				<NumberInput source="courseId" label="Course ID" fullWidth />
+				<TextInput
+					source="lessonsText"
+					label="Lessons"
+					multiline
+					minRows={1}
+					sx={longTextSx}
+				/>
+			</Box>
+			{includeEntryId ? (
+				<NumberInput source="entryId" label="Entry ID" />
+			) : null}
+			<Box
+				sx={{
+					display: 'grid',
+					gap: 2,
+					width: '100%',
+					gridTemplateColumns: {
+						xs: '1fr',
+						sm: 'repeat(2, minmax(0, 1fr))',
+						md: 'repeat(3, minmax(0, 1fr))',
+					},
+				}}
+			>
+				<TextInput source="type" label="Type" fullWidth />
+				<TextInput
+					source="partOfSpeechText"
+					label="Part of Speech"
+					multiline
+					minRows={1}
+					sx={longTextSx}
+				/>
+				<TextInput source="category" label="Category" fullWidth />
+			</Box>
+			<Box
+				sx={{
+					display: 'grid',
+					gap: 2,
+					width: '100%',
+					alignItems: 'center',
+					gridTemplateColumns: {
+						xs: '1fr',
+						sm: 'auto minmax(0, 1fr)',
+					},
+				}}
+			>
+				<BooleanInput source="definite" label="Definite" />
+				<TextInput
+					source="rootId"
+					label="Root"
+					helperText="Required when category is construct."
+					InputLabelProps={{ shrink: true }}
+					placeholder="Root id"
+					fullWidth
+				/>
+			</Box>
 
-			<TextInput source="eng" label="English" sx={longTextSx} />
-			<TextInput source="engDefinition" label="Definition" multiline sx={longTextSx} />
-			<TextInput source="hebNiqqud" label="Hebrew With Niqqud" sx={longTextSx} />
-			<TextInput source="heb" label="Hebrew" sx={longTextSx} />
+			<TextInput
+				source="engDefinition"
+				label="Definition"
+				multiline
+				sx={longTextSx}
+			/>
+			<Box
+				sx={{
+					display: 'grid',
+					gap: 2,
+					width: '100%',
+					gridTemplateColumns: {
+						xs: '1fr',
+						md: 'repeat(2, minmax(0, 1fr))',
+					},
+				}}
+			>
+				<TextInput
+					source="hebNiqqud"
+					label="Hebrew With Niqqud"
+					sx={longTextSx}
+				/>
+				<TextInput source="heb" label="Hebrew" sx={longTextSx} />
+			</Box>
+			<Box
+				sx={{
+					display: 'grid',
+					gap: 2,
+					width: '100%',
+					gridTemplateColumns: {
+						xs: '1fr',
+						md: 'repeat(2, minmax(0, 1fr))',
+					},
+				}}
+			>
+				<TextInput source="eng" label="English" sx={longTextSx} />
+				<TextInput
+					source="engTransliteration"
+					label="English Transliteration"
+					sx={longTextSx}
+				/>
+			</Box>
+			<Box
+				sx={{
+					display: 'grid',
+					gap: 2,
+					width: '100%',
+					gridTemplateColumns: {
+						xs: '1fr',
+						md: 'repeat(2, minmax(0, 1fr))',
+					},
+				}}
+			>
+				<TextInput source="spa" label="Spanish" sx={longTextSx} />
+				<TextInput
+					source="spaTransliteration"
+					label="Spanish Transliteration"
+					sx={longTextSx}
+				/>
+			</Box>
+			<Box
+				sx={{
+					display: 'grid',
+					gap: 2,
+					width: '100%',
+					gridTemplateColumns: {
+						xs: '1fr',
+						md: 'repeat(2, minmax(0, 1fr))',
+					},
+				}}
+			>
+				<TextInput source="por" label="Portuguese" sx={longTextSx} />
+				<TextInput
+					source="porTransliteration"
+					label="Portuguese Transliteration"
+					sx={longTextSx}
+				/>
+			</Box>
 			<TextInput source="grk" label="Greek" sx={longTextSx} />
-			<TextInput source="spa" label="Spanish" sx={longTextSx} />
-			<TextInput source="por" label="Portuguese" sx={longTextSx} />
-
-			<TextInput source="engTransliteration" label="English Transliteration" />
-			<TextInput source="spaTransliteration" label="Spanish Transliteration" />
-			<TextInput source="porTransliteration" label="Portuguese Transliteration" />
-			<TextInput source="genderPerson" label="Gender / Person" />
-			<TextInput source="person" label="Person" />
-			<TextInput source="gender" label="Gender" />
-			<TextInput source="number" label="Number" />
 			<TextInput source="ipa" label="IPA" />
-			<TextInput source="dictionaryUrl" label="Dictionary URL" sx={longTextSx} />
-			<TextInput source="strongs" label="Strongs" />
+			<Box
+				sx={{
+					display: 'grid',
+					gap: 2,
+					width: '100%',
+					gridTemplateColumns: {
+						xs: '1fr',
+						md: 'repeat(3, minmax(0, 1fr))',
+					},
+				}}
+			>
+				<TextInput source="rootPerson" label="Root Person" fullWidth />
+				<TextInput source="rootGender" label="Root Gender" fullWidth />
+				<TextInput source="rootNumber" label="Root Number" fullWidth />
+			</Box>
+			<Box
+				sx={{
+					display: 'grid',
+					gap: 2,
+					width: '100%',
+					gridTemplateColumns: {
+						xs: '1fr',
+						md: 'repeat(3, minmax(0, 1fr))',
+					},
+				}}
+			>
+				<TextInput source="suffixPerson" label="Suffix Person" fullWidth />
+				<TextInput source="suffixGender" label="Suffix Gender" fullWidth />
+				<TextInput source="suffixNumber" label="Suffix Number" fullWidth />
+			</Box>
+			<Box
+				sx={{
+					display: 'grid',
+					gap: 2,
+					width: '100%',
+					gridTemplateColumns: {
+						xs: '1fr',
+						md: 'repeat(2, minmax(0, 1fr))',
+					},
+				}}
+			>
+				<TextInput
+					source="dictionaryUrl"
+					label="Dictionary URL"
+					sx={longTextSx}
+				/>
+				<TextInput source="strongs" label="Strongs" fullWidth />
+			</Box>
 
-			<TextInput source="partOfSpeechText" label="Part of Speech" multiline sx={longTextSx} />
-			<TextInput source="synonymsText" label="Synonyms" multiline sx={longTextSx} />
-			<TextInput source="antonymsText" label="Antonyms" multiline sx={longTextSx} />
-			<TextInput source="scripturesText" label="Scriptures" multiline sx={longTextSx} />
-			<TextInput source="introduction" label="Introduction / Video" multiline sx={longTextSx} />
+			<Box
+				sx={{
+					display: 'grid',
+					gap: 2,
+					width: '100%',
+					gridTemplateColumns: {
+						xs: '1fr',
+						md: 'repeat(2, minmax(0, 1fr))',
+					},
+				}}
+			>
+				<TextInput
+					source="synonymsText"
+					label="Synonyms"
+					multiline
+					sx={longTextSx}
+				/>
+				<TextInput
+					source="antonymsText"
+					label="Antonyms"
+					multiline
+					sx={longTextSx}
+				/>
+			</Box>
+			<TextInput
+				source="scripturesText"
+				label="Scriptures"
+				multiline
+				sx={longTextSx}
+			/>
+			<TextInput
+				source="introduction"
+				label="Introduction / Video"
+				multiline
+				sx={longTextSx}
+			/>
 
 			<TextInput source="imagesText" label="Images" multiline sx={longTextSx} />
 			<VocabMediaUploadInput
@@ -77,23 +277,33 @@ export function VocabEntryForm({
 				mode="append"
 			/>
 
-			<TextInput source="hebAudio" label="Hebrew Audio" sx={longTextSx} />
+			<Box
+				sx={{
+					display: 'grid',
+					gap: 2,
+					width: '100%',
+					gridTemplateColumns: {
+						xs: '1fr',
+						md: 'repeat(3, minmax(0, 1fr))',
+					},
+				}}
+			>
+				<TextInput source="hebAudio" label="Hebrew Audio" sx={longTextSx} />
+				<TextInput source="engAudio" label="English Audio" sx={longTextSx} />
+				<TextInput source="grkAudio" label="Greek Audio" sx={longTextSx} />
+			</Box>
 			<VocabMediaUploadInput
 				source="hebAudio"
 				label="Hebrew Audio"
 				accept="audio/*"
 				mode="replace"
 			/>
-
-			<TextInput source="engAudio" label="English Audio" sx={longTextSx} />
 			<VocabMediaUploadInput
 				source="engAudio"
 				label="English Audio"
 				accept="audio/*"
 				mode="replace"
 			/>
-
-			<TextInput source="grkAudio" label="Greek Audio" sx={longTextSx} />
 			<VocabMediaUploadInput
 				source="grkAudio"
 				label="Greek Audio"

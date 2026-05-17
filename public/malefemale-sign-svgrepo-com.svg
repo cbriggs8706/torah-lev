@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?><!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="512" height="512" rx="64" fill="#FACC15"/>
+
+  <!-- Combined male/female symbol -->
+  <g fill="none" stroke="white" stroke-width="28" stroke-linecap="round" stroke-linejoin="round">
+    
+    <!-- Circle -->
+    <circle cx="256" cy="250" r="95"/>
+
+    <!-- Male arrow -->
+    <line x1="322" y1="184" x2="395" y2="111"/>
+    <line x1="360" y1="111" x2="395" y2="111"/>
+    <line x1="395" y1="111" x2="395" y2="146"/>
+
+    <!-- Female cross -->
+    <line x1="256" y1="345" x2="256" y2="420"/>
+    <line x1="220" y1="382" x2="292" y2="382"/>
+
+  </g>
+</svg>

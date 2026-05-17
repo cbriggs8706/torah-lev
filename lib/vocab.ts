@@ -5,6 +5,12 @@ export type HebrewVocab = {
 	eng: string
 	engDefinition?: string
 	genderPerson?: string
+	rootPerson?: string
+	rootGender?: string
+	rootNumber?: string
+	suffixPerson?: string
+	suffixGender?: string
+	suffixNumber?: string
 	partOfSpeech?: string[] // or string if singular
 	ipa?: string
 	engTransliteration?: string
@@ -57,9 +63,12 @@ export type EnglishVocab = {
 	por: string
 	spaTransliteration: string
 	porTransliteration: string
-	person?: string
-	gender?: string
-	number?: string
+	rootPerson?: string
+	rootGender?: string
+	rootNumber?: string
+	suffixPerson?: string
+	suffixGender?: string
+	suffixNumber?: string
 	partOfSpeech?: string[] // or string if singular
 	ipa?: string
 	images: string[]

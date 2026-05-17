@@ -12,6 +12,7 @@ import {
 } from '@dnd-kit/core'
 import Image from 'next/image'
 import { HebrewVocab } from '@/lib/vocab'
+import { formatRootMorphology, hasRootMorphology } from '@/lib/vocab-morphology'
 import { matchesSelectedCategory } from '@/lib/category'
 import { resolveVocabMediaUrl } from '@/lib/vocab-media'
 import { useAudio, useWindowSize } from 'react-use'
@@ -507,9 +508,9 @@ export default function WordMatchGame({
 													matchField={matchField}
 													size={targetSize} // NEW
 												/>
-												{card.genderPerson && (
+												{hasRootMorphology(card) && (
 													<div className="text-xs text-gray-500 mt-1">
-														({card.genderPerson})
+														({formatRootMorphology(card)})
 													</div>
 												)}
 											</div>

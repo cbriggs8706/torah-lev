@@ -46,6 +46,9 @@ function mapWordToVocab(w: Word): HebrewVocab {
 				.filter(Boolean)
 				.join(' ')
 		),
+		rootPerson: toStr(w.person ? String(w.person) : ''),
+		rootGender: toStr(w.gender),
+		rootNumber: toStr(w.number),
 		partOfSpeech: toArr(w.partOfSpeech),
 		ipa: toStr(w.ipa),
 		engTransliteration: toStr(w.engTransliteration),
@@ -69,6 +72,9 @@ function mapFormToVocab(f: WordForm): HebrewVocab {
 				.filter(Boolean)
 				.join(' ')
 		),
+		rootPerson: toStr(f.person ? String(f.person) : ''),
+		rootGender: toStr(f.gender),
+		rootNumber: toStr(f.number),
 		partOfSpeech: [], // or derive from base if you want
 		ipa: toStr(f.ipa),
 		engTransliteration: toStr(f.engTransliteration),

@@ -107,16 +107,19 @@ export function toVocabAdminRecord(
 		spaTransliteration: string | null
 		porTransliteration: string | null
 		genderPerson: string | null
-		person: string | null
-		gender: string | null
-		number: string | null
+		rootPerson: string | null
+		rootGender: string | null
+		rootNumber: string | null
+		suffixPerson: string | null
+		suffixGender: string | null
+		suffixNumber: string | null
 		dictionaryUrl: string | null
 		synonyms: string[] | null
 		antonyms: string[] | null
 		scriptures: string[] | null
 		strongs: string | null
 		introduction: string | null
-		absoluteEntryId: number | null
+		rootId: number | null
 		payload: unknown
 		createdAt: Date
 		updatedAt: Date

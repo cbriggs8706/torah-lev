@@ -73,6 +73,15 @@ function mapRowToHebrewVocab(row: VocabEntryRow): HebrewVocab {
 		eng: row.eng ?? payload.eng ?? '',
 		engDefinition: row.engDefinition ?? payload.engDefinition ?? '',
 		genderPerson: row.genderPerson ?? payload.genderPerson ?? '',
+		rootPerson:
+			row.rootPerson ?? payload.rootPerson ?? (payload as { person?: string }).person ?? '',
+		rootGender:
+			row.rootGender ?? payload.rootGender ?? (payload as { gender?: string }).gender ?? '',
+		rootNumber:
+			row.rootNumber ?? payload.rootNumber ?? (payload as { number?: string }).number ?? '',
+		suffixPerson: row.suffixPerson ?? payload.suffixPerson ?? '',
+		suffixGender: row.suffixGender ?? payload.suffixGender ?? '',
+		suffixNumber: row.suffixNumber ?? payload.suffixNumber ?? '',
 		partOfSpeech: row.partOfSpeech ?? payload.partOfSpeech ?? [],
 		ipa: row.ipa ?? payload.ipa ?? '',
 		engTransliteration:
@@ -109,9 +118,15 @@ function mapRowToEnglishVocab(row: VocabEntryRow): EnglishVocab {
 			row.spaTransliteration ?? payload.spaTransliteration ?? '',
 		porTransliteration:
 			row.porTransliteration ?? payload.porTransliteration ?? '',
-		person: row.person ?? payload.person ?? '',
-		gender: row.gender ?? payload.gender ?? '',
-		number: row.number ?? payload.number ?? '',
+		rootPerson:
+			row.rootPerson ?? payload.rootPerson ?? (payload as { person?: string }).person ?? '',
+		rootGender:
+			row.rootGender ?? payload.rootGender ?? (payload as { gender?: string }).gender ?? '',
+		rootNumber:
+			row.rootNumber ?? payload.rootNumber ?? (payload as { number?: string }).number ?? '',
+		suffixPerson: row.suffixPerson ?? payload.suffixPerson ?? '',
+		suffixGender: row.suffixGender ?? payload.suffixGender ?? '',
+		suffixNumber: row.suffixNumber ?? payload.suffixNumber ?? '',
 		partOfSpeech: row.partOfSpeech ?? payload.partOfSpeech ?? [],
 		ipa: row.ipa ?? payload.ipa ?? '',
 		images: row.images ?? payload.images ?? [],

@@ -11,6 +11,7 @@ import TypeFilter from '../filters/filter-type'
 import CategoryFilter from '../filters/filter-category'
 import LessonFilter from '../filters/filter-lesson'
 import ProgressBar from '../progress-bar'
+import { RootMorphologyIcons } from './root-morphology-icons'
 
 type FontChoice =
 	| 'arial'
@@ -56,7 +57,9 @@ const FIELD_LABELS: Partial<Record<keyof HebrewVocab, string>> = {
 	hebNiqqud: 'With Niqqud',
 	eng: 'Translation',
 	engDefinition: 'Definition',
-	genderPerson: 'Gender / Person',
+	rootPerson: 'Root Person',
+	rootGender: 'Root Gender',
+	rootNumber: 'Root Number',
 	partOfSpeech: 'Part of Speech',
 	ipa: 'IPA (Pronunciation)',
 	engTransliteration: 'English Transliteration',
@@ -122,13 +125,13 @@ export default function HebrewFlashcards2({
 	>('images')
 	const [frontBottomLeft, setFrontBottomLeft] = useState<
 		keyof HebrewVocab | 'none'
-	>('none')
+	>('rootPerson')
 	const [frontBottomCenter, setFrontBottomCenter] = useState<
-		keyof HebrewVocab | 'genderPerson'
-	>('genderPerson')
+		keyof HebrewVocab | 'none'
+	>('rootGender')
 	const [frontBottomRight, setFrontBottomRight] = useState<
 		keyof HebrewVocab | 'none'
-	>('none')
+	>('rootNumber')
 	const [backTopLeft, setBackTopLeft] = useState<keyof HebrewVocab | 'none'>(
 		'none'
 	)
@@ -190,9 +193,9 @@ export default function HebrewFlashcards2({
 		setFrontTopLeft('none')
 		setFrontTopCenter('none')
 		setFrontTopRight('hebAudio')
-		setFrontBottomLeft('none')
-		setFrontBottomCenter('genderPerson')
-		setFrontBottomRight('none')
+		setFrontBottomLeft('rootPerson')
+		setFrontBottomCenter('rootGender')
+		setFrontBottomRight('rootNumber')
 
 		setBackTopLeft('none')
 		setBackTopCenter('none')
@@ -432,7 +435,9 @@ export default function HebrewFlashcards2({
 		'hebNiqqud',
 		'ipa',
 		'hebAudio',
-		'genderPerson',
+		'rootPerson',
+		'rootGender',
+		'rootNumber',
 		'engTransliteration',
 	]
 
@@ -498,6 +503,20 @@ export default function HebrewFlashcards2({
 
 		if (Array.isArray(value)) {
 			return value.join(', ')
+		}
+
+		if (
+			field === 'rootPerson' ||
+			field === 'rootGender' ||
+			field === 'rootNumber'
+		) {
+			return (
+				<RootMorphologyIcons
+					entry={currentCard}
+					fields={[field]}
+					className="flex items-center justify-center text-slate-600"
+				/>
+			)
 		}
 
 		const isHebrewField = field === 'heb' || field === 'hebNiqqud'

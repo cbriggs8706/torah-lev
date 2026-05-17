@@ -6,6 +6,7 @@ import { useAudio } from 'react-use'
 
 import HebrewKeyboard from './hebrew-keyboard'
 import { HebrewVocab } from '@/lib/vocab'
+import { formatRootMorphology, hasRootMorphology } from '@/lib/vocab-morphology'
 import { resolveVocabMediaUrl } from '@/lib/vocab-media'
 import { matchesSelectedCategory } from '@/lib/category'
 import { hebrewLetters } from '@/lib/data/hebrew/hebrew-letters'
@@ -729,10 +730,10 @@ export default function HebrewSpelling({
 					{formatType === 'translation' && (
 						<div className="mb-6 p-4 border-2 border-sky-300 bg-sky-50 rounded-xl shadow text-3xl font-bold">
 							{currentCard.eng}
-							{currentCard.genderPerson && (
+							{hasRootMorphology(currentCard) && (
 								<span className="text-xl font-medium text-gray-600">
 									{' '}
-									({currentCard.genderPerson})
+									({formatRootMorphology(currentCard)})
 								</span>
 							)}
 						</div>

@@ -2,12 +2,16 @@
 
 import { useState, useMemo, useRef, useEffect } from 'react'
 import { HebrewVocab } from '@/lib/vocab'
+import {
+	formatRootGenderDisplay,
+	getRootMorphologyParts,
+	hasRootMorphology,
+} from '@/lib/vocab-morphology'
 import { resolveVocabMediaUrl } from '@/lib/vocab-media'
 import Image from 'next/image'
-import FemaleIcon from '@/public/female-sign-svgrepo-com.svg'
-import MaleIcon from '@/public/male-sign-svgrepo-com.svg'
 import { ImageIcon } from 'lucide-react'
 import HebrewKeyboard from './hebrew-keyboard'
+import { RootMorphologyIcons } from './root-morphology-icons'
 
 interface DictionaryProps {
 	data: HebrewVocab[]
@@ -51,74 +55,6 @@ function getLessonNumberFromString(input: string | undefined): number | null {
 	if (!input) return null
 	const match = input.match(/\d+/) // Finds first number in string
 	return match ? parseInt(match[0], 10) : null
-}
-
-function parseGenderPerson(code: string | undefined) {
-	if (!code) return null
-	const elements: JSX.Element[] = []
-	if (code.includes('1'))
-		elements.push(
-			<span key="1" className="text-sm font-bold">
-				1
-			</span>
-		)
-	if (code.includes('2'))
-		elements.push(
-			<span key="2" className="text-sm font-bold">
-				2
-			</span>
-		)
-	if (code.includes('3'))
-		elements.push(
-			<span key="3" className="text-sm font-bold">
-				3
-			</span>
-		)
-	if (code.includes('m'))
-		elements.push(
-			// <span
-			// 	key="m"
-			// 	className="inline-block w-2 h-2 bg-sky-600 rounded-full"
-			// ></span>
-			<span key="m" title="male">
-				<Image
-					src={MaleIcon}
-					alt="male"
-					width={16}
-					height={16}
-					className="inline-block"
-				/>
-			</span>
-		)
-	if (code.includes('f'))
-		elements.push(
-			// <span
-			// 	key="f"
-			// 	className="inline-block w-2 h-2 bg-pink-400 rounded-full"
-			// ></span>
-			<span key="f" title="female">
-				<Image
-					src={FemaleIcon}
-					alt="female"
-					width={16}
-					height={16}
-					className="inline-block"
-				/>
-			</span>
-		)
-	if (code.includes('s'))
-		elements.push(
-			<span key="s" title="singular">
-				👤
-			</span>
-		)
-	if (code.includes('p'))
-		elements.push(
-			<span key="p" title="plural">
-				👥
-			</span>
-		)
-	return <div className="flex gap-1 items-center">{elements}</div>
 }
 
 export default function HebrewDictionary({ data }: DictionaryProps) {
@@ -343,7 +279,7 @@ export default function HebrewDictionary({ data }: DictionaryProps) {
 							</span>
 						)}
 						<div className="ml-auto flex items-center gap-6">
-							{parseGenderPerson(entry.genderPerson)}
+										<RootMorphologyIcons entry={entry} />
 							<span className="text-3xl font-serif">{entry.hebNiqqud}</span>
 						</div>
 					</div>
@@ -385,9 +321,39 @@ export default function HebrewDictionary({ data }: DictionaryProps) {
 							<strong>IPA:</strong> {entry.ipa}
 						</p>
 					)}
-					{entry.genderPerson && (
+					{hasRootMorphology(entry) && (
+						<>
+							{entry.rootPerson && (
+								<p>
+									<strong>Root Person:</strong> {entry.rootPerson}
+								</p>
+							)}
+							{entry.rootGender && (
+								<p>
+									<strong>Root Gender:</strong>{' '}
+									{formatRootGenderDisplay(entry.rootGender)}
+								</p>
+							)}
+							{entry.rootNumber && (
+								<p>
+									<strong>Root Number:</strong> {entry.rootNumber}
+								</p>
+							)}
+						</>
+					)}
+					{entry.suffixPerson && (
 						<p>
-							<strong>Gender/Person:</strong> {entry.genderPerson}
+							<strong>Suffix Person:</strong> {entry.suffixPerson}
+						</p>
+					)}
+					{entry.suffixGender && (
+						<p>
+							<strong>Suffix Gender:</strong> {entry.suffixGender}
+						</p>
+					)}
+					{entry.suffixNumber && (
+						<p>
+							<strong>Suffix Number:</strong> {entry.suffixNumber}
 						</p>
 					)}
 					{Array.isArray(entry.partOfSpeech) &&

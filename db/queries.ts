@@ -524,33 +524,33 @@ export const getConstructAbsoluteWords = cache(
 			const linkedConstructRows = constructRows.filter(
 				(row) =>
 					row.category?.trim().toLowerCase() === 'construct' &&
-					typeof row.absoluteEntryId === 'number'
+					typeof row.rootId === 'number'
 			)
 
-			const absoluteEntryIds = Array.from(
+			const rootIds = Array.from(
 				new Set(
 					linkedConstructRows
-						.map((row) => row.absoluteEntryId)
+						.map((row) => row.rootId)
 						.filter((value): value is number => typeof value === 'number')
 				)
 			)
 
-			const absoluteRows = absoluteEntryIds.length
+			const rootRows = rootIds.length
 				? await db.query.vocabEntries.findMany({
-						where: inArray(vocabEntries.id, absoluteEntryIds),
+						where: inArray(vocabEntries.id, rootIds),
 					})
 				: []
 
-			const absoluteById = new Map(absoluteRows.map((row) => [row.id, row]))
+			const rootById = new Map(rootRows.map((row) => [row.id, row]))
 
 			const rows = linkedConstructRows
 				.map((constructRow) => {
-					const absoluteRow = absoluteById.get(constructRow.absoluteEntryId!)
-					if (!absoluteRow) return null
+					const rootRow = rootById.get(constructRow.rootId!)
+					if (!rootRow) return null
 
 					const absolute =
-						absoluteRow.hebNiqqud?.trim() ||
-						absoluteRow.heb?.trim() ||
+						rootRow.hebNiqqud?.trim() ||
+						rootRow.heb?.trim() ||
 						null
 					const construct =
 						constructRow.hebNiqqud?.trim() ||

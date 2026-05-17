@@ -74,16 +74,24 @@ function normalizeRecord(body: Record<string, unknown>) {
 		spaTransliteration: normalizeNullableString(body.spaTransliteration),
 		porTransliteration: normalizeNullableString(body.porTransliteration),
 		genderPerson: normalizeNullableString(body.genderPerson),
-		person: normalizeNullableString(body.person),
-		gender: normalizeNullableString(body.gender),
-		number: normalizeNullableString(body.number),
+		rootPerson:
+			normalizeNullableString(body.rootPerson) ?? normalizeNullableString(body.person),
+		rootGender:
+			normalizeNullableString(body.rootGender) ?? normalizeNullableString(body.gender),
+		rootNumber:
+			normalizeNullableString(body.rootNumber) ?? normalizeNullableString(body.number),
+		suffixPerson: normalizeNullableString(body.suffixPerson),
+		suffixGender: normalizeNullableString(body.suffixGender),
+		suffixNumber: normalizeNullableString(body.suffixNumber),
 		dictionaryUrl: normalizeNullableString(body.dictionaryUrl),
 		synonyms: parseStringList(body.synonymsText ?? body.synonyms),
 		antonyms: parseStringList(body.antonymsText ?? body.antonyms),
 		scriptures: parseStringList(body.scripturesText ?? body.scriptures),
 		strongs: normalizeNullableString(body.strongs),
 		introduction: normalizeNullableString(body.introduction),
-		absoluteEntryId: normalizeOptionalNumber(body.absoluteEntryId),
+		rootId:
+			normalizeOptionalNumber(body.rootId) ??
+			normalizeOptionalNumber(body.absoluteEntryId),
 	}
 
 	return {
@@ -99,26 +107,26 @@ async function validateConstructAbsoluteLink(
 ) {
 	if (
 		normalized.category?.trim().toLowerCase() === 'construct' &&
-		!normalized.absoluteEntryId
+		!normalized.rootId
 	) {
-		return 'Construct entries require an absolute entry.'
+		return 'Construct entries require a root entry.'
 	}
 
-	if (!normalized.absoluteEntryId) {
+	if (!normalized.rootId) {
 		return null
 	}
 
-	if (normalized.absoluteEntryId === id) {
-		return 'A vocab entry cannot point to itself as its absolute form.'
+	if (normalized.rootId === id) {
+		return 'A vocab entry cannot point to itself as its root form.'
 	}
 
 	const target = await db.query.vocabEntries.findFirst({
-		where: eq(vocabEntries.id, normalized.absoluteEntryId),
+		where: eq(vocabEntries.id, normalized.rootId),
 		columns: { id: true },
 	})
 
 	if (!target) {
-		return 'Absolute entry not found.'
+		return 'Root entry not found.'
 	}
 
 	return null

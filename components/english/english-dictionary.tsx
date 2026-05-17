@@ -3,8 +3,10 @@
 import { useState, useMemo, useRef, useEffect } from 'react'
 import { EnglishVocab } from '@/lib/vocab'
 import { resolveVocabMediaUrl } from '@/lib/vocab-media'
+import { formatRootGenderDisplay } from '@/lib/vocab-morphology'
 import Image from 'next/image'
 import FemaleIcon from '@/public/female-sign-svgrepo-com.svg'
+import MaleFemaleIcon from '@/public/malefemale-sign-svgrepo-com.svg'
 import MaleIcon from '@/public/male-sign-svgrepo-com.svg'
 
 interface DictionaryProps {
@@ -59,7 +61,7 @@ export default function EnglishDictionary({ data }: DictionaryProps) {
 	const [activeLetter, setActiveLetter] = useState<string>('A')
 	const [activeLesson, setActiveLesson] = useState<number | null>(null)
 	const [sortMode, setSortMode] = useState<'alphabetical' | 'lesson'>(
-		'alphabetical'
+		'alphabetical',
 	)
 
 	const audioRefs = useRef<Record<number, HTMLAudioElement>>({})
@@ -86,7 +88,7 @@ export default function EnglishDictionary({ data }: DictionaryProps) {
 
 		for (const letter of englishAlphabet) {
 			byLetter[letter].sort((a, b) =>
-				a.eng.localeCompare(b.eng, undefined, { sensitivity: 'base' })
+				a.eng.localeCompare(b.eng, undefined, { sensitivity: 'base' }),
 			)
 		}
 
@@ -102,7 +104,7 @@ export default function EnglishDictionary({ data }: DictionaryProps) {
 	useEffect(() => {
 		data.forEach((w) => {
 			const nums = (w.lessons ?? []).map((v) =>
-				typeof v === 'string' ? Number(v) : v
+				typeof v === 'string' ? Number(v) : v,
 			)
 			if (nums.some((n) => !Number.isFinite(n))) {
 				console.warn('Bad lessons for', w.eng, w.lessons)
@@ -162,7 +164,7 @@ export default function EnglishDictionary({ data }: DictionaryProps) {
 					}
 				}
 			},
-			{ rootMargin: '-20% 0px -75% 0px' }
+			{ rootMargin: '-20% 0px -75% 0px' },
 		)
 
 		englishAlphabet.forEach((letter) => {
@@ -187,7 +189,7 @@ export default function EnglishDictionary({ data }: DictionaryProps) {
 					}
 				}
 			},
-			{ rootMargin: '-20% 0px -75% 0px' }
+			{ rootMargin: '-20% 0px -75% 0px' },
 		)
 
 		allFirstLessons.forEach((n) => {
@@ -271,6 +273,37 @@ export default function EnglishDictionary({ data }: DictionaryProps) {
 							<strong>IPA:</strong> {entry.ipa}
 						</p>
 					)}
+					{entry.rootPerson && (
+						<p>
+							<strong>Root Person:</strong> {entry.rootPerson}
+						</p>
+					)}
+					{entry.rootGender && (
+						<p>
+							<strong>Root Gender:</strong>{' '}
+							{formatRootGenderDisplay(entry.rootGender)}
+						</p>
+					)}
+					{entry.rootNumber && (
+						<p>
+							<strong>Root Number:</strong> {entry.rootNumber}
+						</p>
+					)}
+					{entry.suffixPerson && (
+						<p>
+							<strong>Suffix Person:</strong> {entry.suffixPerson}
+						</p>
+					)}
+					{entry.suffixGender && (
+						<p>
+							<strong>Suffix Gender:</strong> {entry.suffixGender}
+						</p>
+					)}
+					{entry.suffixNumber && (
+						<p>
+							<strong>Suffix Number:</strong> {entry.suffixNumber}
+						</p>
+					)}
 					{Array.isArray(entry.partOfSpeech) &&
 						entry.partOfSpeech.length > 0 && (
 							<p>
@@ -297,7 +330,7 @@ export default function EnglishDictionary({ data }: DictionaryProps) {
 						'❌ Broken image URL:',
 						resolveVocabMediaUrl(entry.images![0]),
 						'for',
-						entry.eng
+						entry.eng,
 					)
 				}
 			}
@@ -351,14 +384,14 @@ export default function EnglishDictionary({ data }: DictionaryProps) {
 											{grouped[letter].map(renderEntry)}
 										</div>
 									</div>
-								)
+								),
 						)}
 					</>
 				) : (
 					<>
 						{Object.entries(groupedByLessonRange)
 							.sort(
-								([a], [b]) => Number(a.split('-')[0]) - Number(b.split('-')[0])
+								([a], [b]) => Number(a.split('-')[0]) - Number(b.split('-')[0]),
 							)
 							.map(([range, entries]) => {
 								const byLesson: Record<number, EnglishVocab[]> = {}
@@ -410,7 +443,7 @@ export default function EnglishDictionary({ data }: DictionaryProps) {
 							>
 								{letter}
 							</a>
-					  ))
+						))
 					: allFirstLessons.map((lessonNum) => (
 							<a
 								key={lessonNum}
@@ -420,7 +453,7 @@ export default function EnglishDictionary({ data }: DictionaryProps) {
 							>
 								{lessonNum}
 							</a>
-					  ))}
+						))}
 			</div>
 
 			<button

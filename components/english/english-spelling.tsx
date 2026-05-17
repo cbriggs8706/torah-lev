@@ -7,6 +7,7 @@ import { useAudio } from 'react-use'
 import { EnglishVocab } from '@/lib/vocab'
 import { matchesSelectedCategory } from '@/lib/category'
 import { resolveVocabMediaUrl } from '@/lib/vocab-media'
+import { formatRootMorphology } from '@/lib/vocab-morphology'
 import { englishLetters } from '@/lib/data/english/english-letters'
 import { useCelebration } from '@/hooks/useCelebration'
 import { parseLessonKey, useLessonCards } from '@/hooks/useLessonCards'
@@ -468,12 +469,30 @@ export default function EnglishSpelling({
 					{formatType === 'translation' && (
 						<div className="mb-6 p-4 border-2 border-sky-300 bg-sky-50 rounded-xl shadow text-3xl font-bold">
 							{selectedLang === 'spa' ? currentCard.spa : currentCard.por}
-							{currentCard.gender && (
+							{(currentCard.rootPerson ||
+								currentCard.rootGender ||
+								currentCard.rootNumber ||
+								currentCard.suffixPerson ||
+								currentCard.suffixGender ||
+								currentCard.suffixNumber) && (
 								<span className="text-xl font-medium text-gray-600">
 									{' '}
-									({currentCard.person}
-									{currentCard.gender}
-									{currentCard.number})
+									(
+									{formatRootMorphology(currentCard)}
+									{[
+										currentCard.suffixPerson,
+										currentCard.suffixGender,
+										currentCard.suffixNumber,
+									].some(Boolean)
+										? ` / ${[
+												currentCard.suffixPerson,
+												currentCard.suffixGender,
+												currentCard.suffixNumber,
+											]
+												.filter(Boolean)
+												.join('')}`
+										: ''}
+									)
 								</span>
 							)}
 						</div>

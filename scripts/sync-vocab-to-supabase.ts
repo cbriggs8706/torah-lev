@@ -29,6 +29,13 @@ function cleanStringArray(values?: string[] | null) {
 	return (values ?? []).filter((value): value is string => !!value?.trim())
 }
 
+function getLegacyMorphologyValue(
+	item: EnglishVocab & Partial<Record<'person' | 'gender' | 'number', string>>,
+	key: 'person' | 'gender' | 'number'
+) {
+	return item[key] ?? null
+}
+
 function toHebrewRows(
 	sourceKey: 'awb' | 'hs' | 'abc',
 	courseId: number,
@@ -88,10 +95,21 @@ function toEnglishRows(
 		engAudio: cleanMediaPath(item.engAudio),
 		spaTransliteration: item.spaTransliteration ?? null,
 		porTransliteration: item.porTransliteration ?? null,
-		person: item.person ?? null,
-		gender: item.gender ?? null,
-		number: item.number ?? null,
-		payload: item,
+		rootPerson: item.rootPerson ?? getLegacyMorphologyValue(item, 'person'),
+		rootGender: item.rootGender ?? getLegacyMorphologyValue(item, 'gender'),
+		rootNumber: item.rootNumber ?? getLegacyMorphologyValue(item, 'number'),
+		suffixPerson: item.suffixPerson ?? null,
+		suffixGender: item.suffixGender ?? null,
+		suffixNumber: item.suffixNumber ?? null,
+		payload: {
+			...item,
+			rootPerson: item.rootPerson ?? getLegacyMorphologyValue(item, 'person') ?? '',
+			rootGender: item.rootGender ?? getLegacyMorphologyValue(item, 'gender') ?? '',
+			rootNumber: item.rootNumber ?? getLegacyMorphologyValue(item, 'number') ?? '',
+			suffixPerson: item.suffixPerson ?? '',
+			suffixGender: item.suffixGender ?? '',
+			suffixNumber: item.suffixNumber ?? '',
+		},
 		createdAt: now,
 		updatedAt: now,
 	}))
@@ -173,9 +191,12 @@ async function main() {
 					spaTransliteration: row.spaTransliteration,
 					porTransliteration: row.porTransliteration,
 					genderPerson: row.genderPerson,
-					person: row.person,
-					gender: row.gender,
-					number: row.number,
+					rootPerson: row.rootPerson,
+					rootGender: row.rootGender,
+					rootNumber: row.rootNumber,
+					suffixPerson: row.suffixPerson,
+					suffixGender: row.suffixGender,
+					suffixNumber: row.suffixNumber,
 					dictionaryUrl: row.dictionaryUrl,
 					synonyms: row.synonyms,
 					antonyms: row.antonyms,
