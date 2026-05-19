@@ -2,14 +2,23 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { usePathname } from 'next/navigation'
-import { ArrowLeftRight, Loader, LogIn, LogOut } from 'lucide-react'
+import {
+	ArrowLeftRight,
+	ChevronDown,
+	ChevronUp,
+	Loader,
+	LogIn,
+	LogOut,
+	UserPlus,
+} from 'lucide-react'
 
 import { signOut, useSession } from '@/components/providers/session-provider'
 import { HebrewSidebarCalendar } from '@/components/hebrew/hebrew-sidebar-calendar'
 import { NavMain } from '@/components/nav-main'
 import { SidebarLocaleSwitcher } from '@/components/sidebar-locale-switcher'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import {
 	Sidebar,
 	SidebarContent,
@@ -29,6 +38,53 @@ const HEBREW_CHARACTER_REGEX = /[\u0590-\u05FF]/
 
 function containsHebrew(text: string) {
 	return HEBREW_CHARACTER_REGEX.test(text)
+}
+
+function getFooterAccountLinks(
+	activeCourseId: number | null,
+	labels: {
+		leaderboard: string
+		dashboard: string
+	},
+) {
+	const links: Array<{ key: string; label: string; href: string; iconSrc: string }> = []
+
+	if ([6, 11, 14].includes(activeCourseId ?? -1)) {
+		links.push(
+			{
+				key: 'leaderboard',
+				label: labels.leaderboard,
+				href: '/he/leaderboard',
+				iconSrc: '/icons/iconTrophy.png',
+			},
+			{
+				key: 'dashboard',
+				label: labels.dashboard,
+				href: '/he/dashboard',
+				iconSrc: '/icons/iconName.png',
+			},
+		)
+	}
+
+	if ([3, 4, 13, 16, 17].includes(activeCourseId ?? -1)) {
+		links.push({
+			key: 'leaderboard',
+			label: labels.leaderboard,
+			href: '/en/leaderboard',
+			iconSrc: '/trophy-svgrepo-com.svg',
+		})
+	}
+
+	if (activeCourseId === 19) {
+		links.push({
+			key: 'dashboard',
+			label: labels.dashboard,
+			href: '/he/dashboard',
+			iconSrc: '/mascot.svg',
+		})
+	}
+
+	return links
 }
 
 type Props = {
@@ -102,6 +158,7 @@ function CourseSummaryCard({
 	isPro,
 	onNavigate,
 	swapCourseLabel,
+	viewCoursesLabel,
 	currentlyViewingLabel,
 	coursesLabel,
 	heartsLabel,
@@ -111,6 +168,7 @@ function CourseSummaryCard({
 	isPro: boolean
 	onNavigate: () => void
 	swapCourseLabel: string
+	viewCoursesLabel: string
 	currentlyViewingLabel: string
 	coursesLabel: string
 	heartsLabel: string
@@ -153,9 +211,18 @@ function CourseSummaryCard({
 					<p className="text-[11px] font-bold uppercase tracking-[0.24em] text-sidebar-foreground/55">
 						{currentlyViewingLabel}
 					</p>
-					<p className="mt-1 text-sm font-semibold leading-snug text-sidebar-primary">
-						{userProgress.activeCourse?.title || coursesLabel}
-					</p>
+					<div className="mt-1 flex items-start justify-between gap-2">
+						<p className="min-w-0 text-sm font-semibold leading-snug text-sidebar-primary">
+							{userProgress.activeCourse?.title || coursesLabel}
+						</p>
+						<Link
+							href="/courses"
+							onClick={onNavigate}
+							className="shrink-0 rounded-full border border-sidebar-border bg-sidebar-accent/75 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-sidebar-primary transition hover:bg-sidebar-accent"
+						>
+							{viewCoursesLabel}
+						</Link>
+					</div>
 				</div>
 			</div>
 
@@ -210,15 +277,19 @@ function UserCard({
 	isSignedIn,
 	session,
 	userProgress,
-	authLabel,
+	loginLabel,
+	logoutLabel,
+	createAccountLabel,
 	handleNavigate,
 	resolvedLocale,
 	handleLocaleChange,
 	languageLabel,
 	isHebrewUi,
-	showMobileDetails = false,
 	isPro,
+	compactSignedInMenu = false,
+	accountLinks,
 	swapCourseLabel,
+	viewCoursesLabel,
 	currentlyViewingLabel,
 	coursesLabel,
 	heartsLabel,
@@ -228,20 +299,200 @@ function UserCard({
 	isSignedIn: boolean
 	session: ReturnType<typeof useSession>['data']
 	userProgress: SidebarUserProgress
-	authLabel: string
+	loginLabel: string
+	logoutLabel: string
+	createAccountLabel: string
 	handleNavigate: () => void
 	resolvedLocale: SidebarLocale
 	handleLocaleChange: (nextLocale: SidebarLocale) => void
 	languageLabel: string
 	isHebrewUi: boolean
-	showMobileDetails?: boolean
 	isPro: boolean
+	compactSignedInMenu?: boolean
+	accountLinks: Array<{ key: string; label: string; href: string; iconSrc: string }>
 	swapCourseLabel: string
+	viewCoursesLabel: string
 	currentlyViewingLabel: string
 	coursesLabel: string
 	heartsLabel: string
 	pointsLabel: string
 }) {
+	const [isMenuOpen, setIsMenuOpen] = useState(false)
+	const handleAccountNavigate = () => {
+		handleNavigate()
+		setIsMenuOpen(false)
+	}
+
+	const signedInSummary = (
+		<>
+			<SidebarLocaleSwitcher
+				value={resolvedLocale}
+				label={languageLabel}
+				onChange={handleLocaleChange}
+				isHebrewUi={isHebrewUi}
+			/>
+
+			<CourseSummaryCard
+				userProgress={userProgress}
+				isPro={isPro}
+				onNavigate={handleNavigate}
+				swapCourseLabel={swapCourseLabel}
+				viewCoursesLabel={viewCoursesLabel}
+				currentlyViewingLabel={currentlyViewingLabel}
+				coursesLabel={coursesLabel}
+				heartsLabel={heartsLabel}
+				pointsLabel={pointsLabel}
+			/>
+
+			{accountLinks.length ? (
+				<SidebarMenu>
+					{accountLinks.map((item) => (
+						<SidebarMenuItem key={item.key}>
+							<SidebarMenuButton
+								asChild
+								size="sm"
+								className="bg-sidebar-accent/65 hover:bg-sidebar-accent"
+							>
+								<Link href={item.href} onClick={handleAccountNavigate}>
+									<Image
+										src={item.iconSrc}
+										alt=""
+										aria-hidden="true"
+										width={16}
+										height={16}
+										className="h-4 w-4 shrink-0 object-contain"
+									/>
+									<span
+										className={cn(
+											'font-semibold',
+											containsHebrew(item.label) && 'font-cardo',
+										)}
+									>
+										{item.label}
+									</span>
+								</Link>
+							</SidebarMenuButton>
+						</SidebarMenuItem>
+					))}
+				</SidebarMenu>
+			) : null}
+
+			<SidebarMenu>
+				<SidebarMenuItem>
+					<SidebarMenuButton
+						asChild
+						size="sm"
+						className="bg-sidebar-accent/65 hover:bg-sidebar-accent"
+					>
+						<button
+							type="button"
+							onClick={() => {
+								handleNavigate()
+								signOut({ callbackUrl: '/' })
+							}}
+						>
+							<LogOut className="h-4 w-4" />
+							<span
+								className={cn(
+									'font-semibold',
+									containsHebrew(logoutLabel) && 'font-cardo',
+								)}
+							>
+								{logoutLabel}
+							</span>
+						</button>
+					</SidebarMenuButton>
+				</SidebarMenuItem>
+			</SidebarMenu>
+		</>
+	)
+
+	if (isSignedIn && compactSignedInMenu && !isLoading) {
+		return (
+			<Popover open={isMenuOpen} onOpenChange={setIsMenuOpen}>
+				<PopoverTrigger asChild>
+					<button
+						type="button"
+						className="flex w-full items-center gap-3 rounded-2xl border border-sidebar-border bg-white/60 p-3 text-left shadow-sm transition hover:bg-white/80"
+					>
+						<Image
+							src={session?.user?.image || userProgress.userImageSrc || '/mascot.svg'}
+							alt={session?.user?.name || userProgress.userName || 'User'}
+							width={40}
+							height={40}
+							className="rounded-full border border-sidebar-border object-cover"
+						/>
+						<div className="min-w-0 flex-1">
+							<p className="truncate text-sm font-semibold text-sidebar-foreground">
+								{session?.user?.name || userProgress.userName || 'Guest'}
+							</p>
+							<p className="truncate text-xs text-sidebar-foreground/65">
+								{session?.user?.email || userProgress.activeCourse?.title || ''}
+							</p>
+							<div className="mt-1 flex items-center gap-3 text-[11px] font-semibold text-sidebar-foreground/70">
+								<div className="flex items-center gap-1">
+									<Image
+										src="/icons/iconHeart.png"
+										alt=""
+										aria-hidden="true"
+										width={12}
+										height={12}
+										className="h-3 w-3 shrink-0 object-contain"
+									/>
+									<span>{isPro ? '∞' : userProgress.hearts}</span>
+								</div>
+								<div className="flex items-center gap-1">
+									<Image
+										src="/icons/iconLightning.png"
+										alt=""
+										aria-hidden="true"
+										width={12}
+										height={12}
+										className="h-3 w-3 shrink-0 object-contain"
+									/>
+									<span>{userProgress.points}</span>
+								</div>
+							</div>
+						</div>
+						{isMenuOpen ? (
+							<ChevronUp className="h-5 w-5 shrink-0 text-sidebar-foreground/70" />
+						) : (
+							<ChevronDown className="h-5 w-5 shrink-0 text-sidebar-foreground/70" />
+						)}
+					</button>
+				</PopoverTrigger>
+				<PopoverContent
+					side={isHebrewUi ? 'left' : 'right'}
+					align="end"
+					sideOffset={8}
+					className="w-[min(26rem,calc(100vw-2rem))] rounded-3xl border-sidebar-border bg-sidebar p-3 shadow-xl"
+				>
+					<div className="space-y-3">
+						<div className="flex items-center gap-3 rounded-2xl border border-sidebar-border bg-white/60 p-3 shadow-sm">
+							<Image
+								src={session?.user?.image || userProgress.userImageSrc || '/mascot.svg'}
+								alt={session?.user?.name || userProgress.userName || 'User'}
+								width={40}
+								height={40}
+								className="rounded-full border border-sidebar-border object-cover"
+							/>
+							<div className="min-w-0">
+								<p className="truncate text-sm font-semibold text-sidebar-foreground">
+									{session?.user?.name || userProgress.userName || 'Guest'}
+								</p>
+								<p className="truncate text-xs text-sidebar-foreground/65">
+									{session?.user?.email || userProgress.activeCourse?.title || ''}
+								</p>
+							</div>
+						</div>
+
+						{signedInSummary}
+					</div>
+				</PopoverContent>
+			</Popover>
+		)
+	}
+
 	return (
 		<div className="rounded-2xl border border-sidebar-border bg-white/60 p-3 shadow-sm">
 			{isLoading ? (
@@ -264,72 +515,77 @@ function UserCard({
 								{session?.user?.name || userProgress.userName || 'Guest'}
 							</p>
 							<p className="truncate text-xs text-sidebar-foreground/65">
-								{session?.user?.email || userProgress.activeCourse?.title || ''}
+								{isSignedIn ? session?.user?.email || userProgress.activeCourse?.title || '' : ''}
 							</p>
 						</div>
 					</div>
 
-					{showMobileDetails ? (
-						<>
-							<CourseSummaryCard
-								userProgress={userProgress}
-								isPro={isPro}
-								onNavigate={handleNavigate}
-								swapCourseLabel={swapCourseLabel}
-								currentlyViewingLabel={currentlyViewingLabel}
-								coursesLabel={coursesLabel}
-								heartsLabel={heartsLabel}
-								pointsLabel={pointsLabel}
-							/>
-							<SidebarLocaleSwitcher
-								value={resolvedLocale}
-								label={languageLabel}
-								onChange={handleLocaleChange}
-								isHebrewUi={isHebrewUi}
-							/>
-						</>
-					) : null}
-
-					<SidebarMenu>
-						<SidebarMenuItem>
-							<SidebarMenuButton
-								asChild
-								size="sm"
-								className={cn(
-									'bg-sidebar-accent/65',
-									isSignedIn
-										? 'hover:bg-sidebar-accent'
-										: 'hover:bg-sidebar-primary hover:text-sidebar-primary-foreground',
-								)}
-							>
-								<button
-									type="button"
-									onClick={() => {
-										handleNavigate()
-										if (isSignedIn) {
-											signOut({ callbackUrl: '/' })
-										} else {
-											window.location.assign('/auth/signin?callbackUrl=/courses')
-										}
-									}}
-								>
-									{isSignedIn ? (
-										<LogOut className="h-4 w-4" />
-									) : (
-										<LogIn className="h-4 w-4" />
-									)}
-									<span
-										className={cn(
-											'font-semibold',
-											containsHebrew(authLabel) && 'font-cardo',
-										)}
-									>
-										{authLabel}
-									</span>
-								</button>
-							</SidebarMenuButton>
-						</SidebarMenuItem>
-					</SidebarMenu>
+					<div className="space-y-3 border-t border-sidebar-border/80 pt-3">
+						{isSignedIn ? (
+							signedInSummary
+						) : (
+							<>
+								<SidebarLocaleSwitcher
+									value={resolvedLocale}
+									label={languageLabel}
+									onChange={handleLocaleChange}
+									isHebrewUi={isHebrewUi}
+								/>
+								<SidebarMenu>
+									<SidebarMenuItem>
+										<SidebarMenuButton
+											asChild
+											size="sm"
+											className="bg-sidebar-primary text-sidebar-primary-foreground hover:bg-sidebar-primary/90 hover:text-sidebar-primary-foreground"
+										>
+											<button
+												type="button"
+												onClick={() => {
+													handleNavigate()
+													window.location.assign('/auth/signin?callbackUrl=/courses')
+												}}
+											>
+												<LogIn className="h-4 w-4" />
+												<span
+													className={cn(
+														'font-semibold',
+														containsHebrew(loginLabel) && 'font-cardo',
+													)}
+												>
+													{loginLabel}
+												</span>
+											</button>
+										</SidebarMenuButton>
+									</SidebarMenuItem>
+									<SidebarMenuItem>
+										<SidebarMenuButton
+											asChild
+											size="sm"
+											className="bg-sidebar-accent/65 hover:bg-sidebar-accent"
+										>
+											<button
+												type="button"
+												onClick={() => {
+													handleNavigate()
+													window.location.assign('/auth/signin?callbackUrl=/courses')
+												}}
+											>
+												<UserPlus className="h-4 w-4" />
+												<span
+													className={cn(
+														'font-semibold',
+														containsHebrew(createAccountLabel) && 'font-cardo',
+													)}
+												>
+													{createAccountLabel}
+												</span>
+											</button>
+										</SidebarMenuButton>
+									</SidebarMenuItem>
+								</SidebarMenu>
+							</>
+						)}
+					</div>
 				</div>
 			)}
 		</div>
@@ -351,6 +607,8 @@ export default function AppSidebar({
 	const [manualLocale, setManualLocale] = useState<SidebarLocale | null>(
 		initialSidebarLocale ? normalizeSidebarLocale(initialSidebarLocale) : null,
 	)
+	const contentRef = useRef<HTMLDivElement | null>(null)
+	const [showScrollCue, setShowScrollCue] = useState(false)
 
 	const resolvedLocale = manualLocale ?? inferLocaleFromPath(pathname, userProgress.activeCourseId)
 	const sections = useMemo(
@@ -375,6 +633,10 @@ export default function AppSidebar({
 
 	const t = (key: Parameters<typeof getSidebarLabel>[1]) =>
 		getSidebarLabel(resolvedLocale, key)
+	const accountLinks = getFooterAccountLinks(userProgress.activeCourseId, {
+		leaderboard: t('nav.leaderboard'),
+		dashboard: t('nav.dashboard'),
+	})
 
 	const handleNavigate = () => {
 		if (isMobile) {
@@ -398,7 +660,30 @@ export default function AppSidebar({
 	const isHebrewUi = resolvedLocale === 'he'
 	const sidebarSide = isHebrewUi ? 'right' : 'left'
 	const showHebrewCalendar = [6, 11, 14].includes(userProgress.activeCourseId ?? 0)
-	const authLabel = isSignedIn ? t('actions.logOut') : t('actions.logIn')
+
+	useEffect(() => {
+		const element = contentRef.current
+		if (!element) return
+
+		const updateScrollCue = () => {
+			const remainingScroll =
+				element.scrollHeight - element.clientHeight - element.scrollTop
+			setShowScrollCue(remainingScroll > 16)
+		}
+
+		const frameId = window.requestAnimationFrame(updateScrollCue)
+		const resizeObserver = new ResizeObserver(updateScrollCue)
+		resizeObserver.observe(element)
+		element.addEventListener('scroll', updateScrollCue, { passive: true })
+		window.addEventListener('resize', updateScrollCue)
+
+		return () => {
+			window.cancelAnimationFrame(frameId)
+			resizeObserver.disconnect()
+			element.removeEventListener('scroll', updateScrollCue)
+			window.removeEventListener('resize', updateScrollCue)
+		}
+	}, [isMobile, pathname, resolvedLocale, sections.length, showHebrewCalendar, isSignedIn])
 
 	if (!userProgress.activeCourseId) {
 		return (
@@ -428,7 +713,7 @@ export default function AppSidebar({
 
 	return (
 		<Sidebar side={sidebarSide}>
-			<div dir={isHebrewUi ? 'rtl' : 'ltr'} className="flex h-full flex-col">
+			<div dir={isHebrewUi ? 'rtl' : 'ltr'} className="flex h-full min-h-0 flex-col">
 				{isMobile ? null : (
 					<SidebarHeader className="space-y-4 bg-gradient-to-b from-sidebar-accent/80 to-transparent">
 						<BrandCard
@@ -439,79 +724,85 @@ export default function AppSidebar({
 					</SidebarHeader>
 				)}
 
-				<SidebarContent>
-					{isMobile ? (
-						<BrandCard
-							title={t('brand.title')}
-							subtitle={t('brand.subtitle')}
-							onNavigate={handleNavigate}
-						/>
+				<div className="relative min-h-0 flex-1 overflow-hidden">
+					<SidebarContent ref={contentRef} className="pb-20">
+						{isMobile ? (
+							<BrandCard
+								title={t('brand.title')}
+								subtitle={t('brand.subtitle')}
+								onNavigate={handleNavigate}
+							/>
+						) : null}
+						{showHebrewCalendar ? (
+							<HebrewSidebarCalendar onClick={handleNavigate} />
+						) : null}
+						{sections.map((section) => (
+							<NavMain
+								key={section.key}
+								section={section}
+								onNavigate={handleNavigate}
+								isHebrewUi={isHebrewUi}
+							/>
+						))}
+						{isMobile ? (
+							<UserCard
+								isLoading={isLoading}
+								isSignedIn={isSignedIn}
+								session={session}
+								userProgress={userProgress}
+								loginLabel={t('actions.logIn')}
+								logoutLabel={t('actions.logOut')}
+								createAccountLabel={t('actions.createAccount')}
+								handleNavigate={handleNavigate}
+								resolvedLocale={resolvedLocale}
+								handleLocaleChange={handleLocaleChange}
+								languageLabel={t('actions.language')}
+								isHebrewUi={isHebrewUi}
+								isPro={isPro}
+								compactSignedInMenu={false}
+								accountLinks={accountLinks}
+								swapCourseLabel={t('actions.swapCourse')}
+								viewCoursesLabel={t('courses.viewCourses')}
+								currentlyViewingLabel={t('actions.currentlyViewing')}
+								coursesLabel={t('nav.courses')}
+								heartsLabel={t('stats.hearts')}
+								pointsLabel={t('stats.points')}
+							/>
+						) : null}
+					</SidebarContent>
+
+					{showScrollCue ? (
+						<div className="pointer-events-none absolute inset-x-4 bottom-3 z-10">
+							<div className="rounded-2xl bg-gradient-to-t from-sidebar via-sidebar/95 to-transparent px-3 pb-1 pt-6 text-center">
+								<div className="inline-flex items-center gap-2 rounded-full border border-sidebar-border bg-white/90 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.18em] text-sidebar-foreground/70 shadow-sm">
+									<ChevronDown className="h-3.5 w-3.5 animate-bounce" />
+									<span>Scroll for more</span>
+								</div>
+							</div>
+						</div>
 					) : null}
-					{showHebrewCalendar ? (
-						<HebrewSidebarCalendar onClick={handleNavigate} />
-					) : null}
-					{sections.map((section) => (
-						<NavMain
-							key={section.key}
-							section={section}
-							onNavigate={handleNavigate}
-							isHebrewUi={isHebrewUi}
-						/>
-					))}
-					{isMobile ? (
-						<UserCard
-							isLoading={isLoading}
-							isSignedIn={isSignedIn}
-							session={session}
-							userProgress={userProgress}
-							authLabel={authLabel}
-							handleNavigate={handleNavigate}
-							resolvedLocale={resolvedLocale}
-							handleLocaleChange={handleLocaleChange}
-							languageLabel={t('actions.language')}
-							isHebrewUi={isHebrewUi}
-							showMobileDetails
-							isPro={isPro}
-							swapCourseLabel={t('actions.swapCourse')}
-							currentlyViewingLabel={t('actions.currentlyViewing')}
-							coursesLabel={t('nav.courses')}
-							heartsLabel={t('stats.hearts')}
-							pointsLabel={t('stats.points')}
-						/>
-					) : null}
-				</SidebarContent>
+				</div>
 
 				{isMobile ? null : (
-					<SidebarFooter className="space-y-3">
-						<SidebarLocaleSwitcher
-							value={resolvedLocale}
-							label={t('actions.language')}
-							onChange={handleLocaleChange}
-							isHebrewUi={isHebrewUi}
-						/>
-						<CourseSummaryCard
-							userProgress={userProgress}
-							isPro={isPro}
-							onNavigate={handleNavigate}
-							swapCourseLabel={t('actions.swapCourse')}
-							currentlyViewingLabel={t('actions.currentlyViewing')}
-							coursesLabel={t('nav.courses')}
-							heartsLabel={t('stats.hearts')}
-							pointsLabel={t('stats.points')}
-						/>
+					<SidebarFooter>
 						<UserCard
 							isLoading={isLoading}
 							isSignedIn={isSignedIn}
 							session={session}
 							userProgress={userProgress}
-							authLabel={authLabel}
+							loginLabel={t('actions.logIn')}
+							logoutLabel={t('actions.logOut')}
+							createAccountLabel={t('actions.createAccount')}
 							handleNavigate={handleNavigate}
 							resolvedLocale={resolvedLocale}
 							handleLocaleChange={handleLocaleChange}
 							languageLabel={t('actions.language')}
 							isHebrewUi={isHebrewUi}
 							isPro={isPro}
+							compactSignedInMenu
+							accountLinks={accountLinks}
 							swapCourseLabel={t('actions.swapCourse')}
+							viewCoursesLabel={t('courses.viewCourses')}
 							currentlyViewingLabel={t('actions.currentlyViewing')}
 							coursesLabel={t('nav.courses')}
 							heartsLabel={t('stats.hearts')}

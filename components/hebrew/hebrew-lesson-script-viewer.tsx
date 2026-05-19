@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button } from '../ui/button'
 import { useRouter } from 'next/navigation'
 
@@ -37,6 +37,10 @@ export default function LessonScriptViewer({
 	const [fontSize, setFontSize] = useState(36)
 	const router = useRouter()
 
+	useEffect(() => {
+		window.scrollTo({ top: 0, behavior: 'auto' })
+	}, [])
+
 	// Handle font change from dropdown
 	const handleFontChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
 		setFontClass(event.target.value)
@@ -59,7 +63,7 @@ export default function LessonScriptViewer({
 				<Button
 					variant={'default'}
 					onClick={() => {
-						router.push('/he/lesson-scripts')
+						router.push('/he/lesson-scripts', { scroll: true })
 						router.refresh() // revalidate the next route after the push
 					}}
 				>

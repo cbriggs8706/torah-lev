@@ -18,7 +18,7 @@ export default function FormatFilter({
 	return (
 		<div className="mb-4 space-y-3">
 			<h2 className="font-semibold text-xl mb-2">Select Prompt Type</h2>
-			<div className="flex justify-center gap-2 flex-wrap">
+			<div className="flex flex-row-reverse justify-center gap-2 flex-wrap">
 				{options.map((type) => (
 					<button
 						key={type}

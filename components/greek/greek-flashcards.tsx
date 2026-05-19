@@ -1463,7 +1463,7 @@ export default function GreekFlashcards({
 				<>
 					<div className="mb-4">
 						<h2 className="text-xl font-semibold">Select Type</h2>
-						<div className="flex flex-wrap justify-center gap-2">
+						<div className="flex flex-row-reverse flex-wrap justify-center gap-2">
 							{['all', 'word', 'phrase'].map((typeOption) => (
 								<button
 									key={typeOption}
@@ -1483,7 +1483,7 @@ export default function GreekFlashcards({
 					</div>
 					<div className="mb-4">
 						<h2 className="text-xl font-semibold">Select Category</h2>
-						<div className="flex flex-wrap justify-center gap-2">
+						<div className="flex flex-row-reverse flex-wrap justify-center gap-2">
 							<button
 								onClick={() => setSelectedCategory('all')}
 								className={`px-3 py-1 border rounded-full text-sm ${
@@ -1513,7 +1513,7 @@ export default function GreekFlashcards({
 						<h2 className="text-xl font-semibold mb-2">Select Lessons</h2>
 
 						{/* Lesson Buttons */}
-						<div className="flex flex-wrap justify-center gap-2">
+						<div className="flex flex-row-reverse flex-wrap justify-center gap-2">
 							{/* Clear All Button */}
 							<button
 								onClick={() => setSelectedLessons([])}

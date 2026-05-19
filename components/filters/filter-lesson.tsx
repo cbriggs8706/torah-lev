@@ -94,54 +94,53 @@ export default function LessonFilter({
 	return (
 		<div className="space-y-3 mb-4">
 			<h2 className="text-xl font-semibold text-center mb-2">Select Lessons</h2>
-			<div className="flex flex-wrap justify-center gap-2">
-				{selectionMode === 'multiple' ? (
-					<>
-						<button
-							onClick={() => setSelectedLessons([])}
-							className="px-3 py-1 border rounded-full text-xs bg-red-100 hover:bg-red-200"
-						>
-							Clear All
-						</button>
+			{selectionMode === 'multiple' ? (
+				<div className="flex flex-row-reverse flex-wrap justify-center gap-2">
+					<button
+						onClick={() => setSelectedLessons([])}
+						className="px-3 py-1 border rounded-full text-xs bg-red-100 hover:bg-red-200"
+					>
+						Clear All
+					</button>
 
+					<button
+						onClick={() => setSelectedLessons([...lessonOptions])}
+						className={`px-3 py-1 border rounded-full text-xs ${
+							selectedLessons.length === lessonOptions.length
+								? 'bg-sky-600 text-white'
+								: 'bg-gray-200'
+						}`}
+					>
+						All
+					</button>
+
+					{lessonRanges.map((range) => (
 						<button
-							onClick={() => setSelectedLessons([...lessonOptions])}
+							key={range.label}
+							onClick={() =>
+								setSelectedLessons((prev) => {
+									const allSelected = range.lessons.every((l) =>
+										prev.includes(l)
+									)
+									if (allSelected) {
+										return prev.filter((l) => !range.lessons.includes(l))
+									}
+									return Array.from(new Set([...prev, ...range.lessons]))
+								})
+							}
 							className={`px-3 py-1 border rounded-full text-xs ${
-								selectedLessons.length === lessonOptions.length
+								range.lessons.every((l) => selectedLessons.includes(l))
 									? 'bg-sky-600 text-white'
 									: 'bg-gray-200'
 							}`}
 						>
-							All
+							{range.label}
 						</button>
+					))}
+				</div>
+			) : null}
 
-						{lessonRanges.map((range) => (
-							<button
-								key={range.label}
-								onClick={() =>
-									setSelectedLessons((prev) => {
-										const allSelected = range.lessons.every((l) =>
-											prev.includes(l)
-										)
-										if (allSelected) {
-											return prev.filter((l) => !range.lessons.includes(l))
-										}
-										return Array.from(new Set([...prev, ...range.lessons]))
-									})
-								}
-								className={`px-3 py-1 border rounded-full text-xs ${
-									range.lessons.every((l) => selectedLessons.includes(l))
-										? 'bg-sky-600 text-white'
-										: 'bg-gray-200'
-								}`}
-							>
-								{range.label}
-							</button>
-						))}
-					</>
-				) : null}
-
-				{/* Individual Lessons */}
+			<div className="flex flex-row-reverse flex-wrap justify-center gap-2">
 				{lessonOptions.map((lesson) => (
 					<button
 						key={lesson}

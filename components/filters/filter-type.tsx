@@ -16,7 +16,7 @@ export default function TypeFilter({
 	return (
 		<div className="space-y-3 mb-4">
 			<h2 className="text-xl font-semibold">Select Type</h2>
-			<div className="flex flex-wrap justify-center gap-2">
+			<div className="flex flex-row-reverse flex-wrap justify-center gap-2">
 				{typeOptions.map((type) => (
 					<button
 						key={type}

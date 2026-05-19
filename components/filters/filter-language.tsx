@@ -14,7 +14,7 @@ export default function LanguageFilter({
 	return (
 		<div className="space-y-3 mb-4">
 			<h2 className="text-xl font-semibold">Select Language</h2>
-			<div className="flex flex-wrap justify-center gap-2">
+			<div className="flex flex-row-reverse flex-wrap justify-center gap-2">
 				<button
 					onClick={() => setSelectedLang('spa')}
 					className={`px-3 py-1 border rounded-full text-xs ${

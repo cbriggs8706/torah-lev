@@ -17,6 +17,7 @@ export type SidebarTranslationKey =
 	| 'courses.viewCourses'
 	| 'actions.logIn'
 	| 'actions.logOut'
+	| 'actions.createAccount'
 	| 'actions.language'
 	| 'actions.market'
 	| 'actions.currentlyViewing'

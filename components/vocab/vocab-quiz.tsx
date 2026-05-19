@@ -316,7 +316,7 @@ export default function VocabQuiz({
 		selectedLessons,
 		setSelectedLessons,
 		lessonOptions,
-	} = useLessonCards(data, currentLesson)
+	} = useLessonCards(data, currentLesson, { selectionMode: 'single' })
 	const router = useRouter()
 	const [selectedPrompt, setSelectedPrompt] = useState<PromptKey>(
 		config.defaultPrompt
@@ -353,7 +353,7 @@ export default function VocabQuiz({
 	const { width, height } = useWindowSize()
 	const [isPreloadingMedia, setIsPreloadingMedia] = useState(false)
 	const [preloadProgress, setPreloadProgress] = useState({ loaded: 0, total: 0 })
-	const [mediaReady, setMediaReady] = useState(false)
+	const [pendingStartMode, setPendingStartMode] = useState<null | 'quiz'>(null)
 
 	const availablePromptOptions = useMemo(
 		() =>
@@ -394,69 +394,9 @@ export default function VocabQuiz({
 	}, [config.answerField, data, selectedLessons, selectedPromptConfig])
 
 	useEffect(() => {
-		if (gameStarted || filteredCards.length === 0) {
-			setIsPreloadingMedia(false)
-			setMediaReady(filteredCards.length === 0)
-			setPreloadProgress({ loaded: 0, total: 0 })
-			return
-		}
-
-		const runId = preloadRunRef.current + 1
-		preloadRunRef.current = runId
-
-		const uniqueImages = new Set<string>()
-		const uniqueAudio = new Set<string>()
-
-		for (const card of filteredCards) {
-			const { imageSources, audioSources } = getCardMediaSources(card)
-			for (const src of imageSources) uniqueImages.add(src)
-			for (const src of audioSources) uniqueAudio.add(src)
-		}
-
-		const mediaTasks = [
-			...Array.from(uniqueImages, (src) => ({ kind: 'image' as const, src })),
-			...Array.from(uniqueAudio, (src) => ({ kind: 'audio' as const, src })),
-		]
-
-		if (mediaTasks.length === 0) {
-			setIsPreloadingMedia(false)
-			setMediaReady(true)
-			setPreloadProgress({ loaded: 0, total: 0 })
-			return
-		}
-
-		let completed = 0
-		setIsPreloadingMedia(true)
-		setMediaReady(false)
-		setPreloadProgress({ loaded: 0, total: mediaTasks.length })
-
-		void Promise.all(
-			mediaTasks.map(async ({ kind, src }) => {
-				try {
-					if (kind === 'image') {
-						await waitForImageLoad(src, imageLoadCacheRef.current)
-					} else {
-						await waitForAudioLoad(src, audioLoadCacheRef.current)
-					}
-				} catch {
-					if (kind === 'image') {
-						preloadImage(src)
-					} else {
-						preloadAudio(src)
-					}
-				} finally {
-					completed += 1
-					if (preloadRunRef.current === runId) {
-						setPreloadProgress({ loaded: completed, total: mediaTasks.length })
-					}
-				}
-			})
-		).finally(() => {
-			if (preloadRunRef.current !== runId) return
-			setIsPreloadingMedia(false)
-			setMediaReady(true)
-		})
-	}, [filteredCards, gameStarted, timeLimit])
+		if (gameStarted || isPreloadingMedia) return
+		setPreloadProgress({ loaded: 0, total: 0 })
+	}, [filteredCards, gameStarted, isPreloadingMedia, selectedPrompt, timeLimit])
 
 	useEffect(() => {
 		if (!gameStarted) return
@@ -718,8 +658,12 @@ export default function VocabQuiz({
 	function resetToStart() {
 		promptAudioRef.current?.pause()
 		answerAudioRef.current?.pause()
+		preloadRunRef.current += 1
 		setGameStarted(false)
 		setStudyMode(false)
+		setPendingStartMode(null)
+		setIsPreloadingMedia(false)
+		setPreloadProgress({ loaded: 0, total: 0 })
 		setCards([])
 		setCurrentIndex(0)
 		setWaiting(true)
@@ -736,8 +680,80 @@ export default function VocabQuiz({
 		hasAwardedRef.current = false
 	}
 
+	async function preloadQuizMedia(cardsToPreload: VocabCard[]) {
+		if (cardsToPreload.length === 0) return true
+
+		const runId = preloadRunRef.current + 1
+		preloadRunRef.current = runId
+
+		const uniqueImages = new Set<string>()
+		const uniqueAudio = new Set<string>()
+
+		for (const card of cardsToPreload) {
+			const { imageSources, audioSources } = getCardMediaSources(card)
+			for (const src of imageSources) uniqueImages.add(src)
+			for (const src of audioSources) uniqueAudio.add(src)
+		}
+
+		const mediaTasks = [
+			...Array.from(uniqueImages, (src) => ({ kind: 'image' as const, src })),
+			...Array.from(uniqueAudio, (src) => ({ kind: 'audio' as const, src })),
+		]
+
+		if (mediaTasks.length === 0) {
+			setPreloadProgress({ loaded: 0, total: 0 })
+			return preloadRunRef.current === runId
+		}
+
+		let completed = 0
+		setIsPreloadingMedia(true)
+		setPreloadProgress({ loaded: 0, total: mediaTasks.length })
+
+		try {
+			await Promise.all(
+				mediaTasks.map(async ({ kind, src }) => {
+					try {
+						if (kind === 'image') {
+							await waitForImageLoad(src, imageLoadCacheRef.current)
+						} else {
+							await waitForAudioLoad(src, audioLoadCacheRef.current)
+						}
+					} catch {
+						if (kind === 'image') {
+							preloadImage(src)
+						} else {
+							preloadAudio(src)
+						}
+					} finally {
+						completed += 1
+						if (preloadRunRef.current === runId) {
+							setPreloadProgress({ loaded: completed, total: mediaTasks.length })
+						}
+					}
+				})
+			)
+		} finally {
+			if (preloadRunRef.current === runId) {
+				setIsPreloadingMedia(false)
+			}
+		}
+
+		return preloadRunRef.current === runId
+	}
+
 	async function beginActivity(nextStudyMode: boolean) {
-		if (filteredCards.length === 0 || isPreloadingMedia || !mediaReady) return
+		if (filteredCards.length === 0 || isPreloadingMedia) return
+
+		if (!nextStudyMode) {
+			setPendingStartMode('quiz')
+			try {
+				const preloadCompleted = await preloadQuizMedia(filteredCards)
+				if (!preloadCompleted) return
+			} finally {
+				setPendingStartMode(null)
+			}
+		}
+
 		setStudyMode(nextStudyMode)
 		setGameStarted(true)
 	}
@@ -840,6 +856,22 @@ export default function VocabQuiz({
 			)}
 
 			{!gameStarted ? (
+				pendingStartMode === 'quiz' ? (
+					<div className="flex min-h-[420px] flex-col items-center justify-center gap-6">
+						<TorahScrollLoader size={180} speedSec={40} fontSize={40} />
+						<div className="space-y-2">
+							<h2 className="text-2xl font-bold text-slate-900">Loading Quiz</h2>
+							<p className="text-sm text-slate-600">
+								Preloading the media for this lesson before the quiz begins.
+							</p>
+							{preloadProgress.total > 0 && (
+								<p className="text-sm font-semibold text-slate-700">
+									{preloadProgress.loaded}/{preloadProgress.total} ready
+								</p>
+							)}
+						</div>
+					</div>
+				) : (
 				<div className="space-y-6">
 					<div>
 						<h1 className="text-2xl font-bold text-slate-900">
@@ -861,7 +893,7 @@ export default function VocabQuiz({
 
 					<div className="space-y-3">
 						<h2 className="text-xl font-semibold">Select Prompt</h2>
-						<div className="flex flex-wrap justify-center gap-2">
+						<div className="flex flex-row-reverse flex-wrap justify-center gap-2">
 							{availablePromptOptions.map((option) => (
 								<button
 									key={option.key}
@@ -920,18 +952,9 @@ export default function VocabQuiz({
 						<p className="text-sm text-slate-600">
 							Cards ready: <span className="font-semibold">{filteredCards.length}</span>
 						</p>
-						{filteredCards.length > 0 && (
-							<p className="text-sm text-slate-600">
-								Media preload:{' '}
-								<span className="font-semibold">
-									{isPreloadingMedia
-										? `${preloadProgress.loaded}/${preloadProgress.total}`
-										: mediaReady
-											? 'Ready'
-											: 'Waiting'}
-								</span>
-							</p>
-						)}
+						<p className="text-sm text-slate-600">
+							Media loads after you press <span className="font-semibold">Start Quiz</span>.
+						</p>
 					</div>
 
 					{filteredCards.length === 0 && (
@@ -943,22 +966,22 @@ export default function VocabQuiz({
 							onClick={() => {
 								void beginActivity(true)
 							}}
-							disabled={filteredCards.length === 0 || isPreloadingMedia || !mediaReady}
+							disabled={filteredCards.length === 0 || isPreloadingMedia}
 							className={`rounded-xl px-6 py-3 font-semibold text-white ${
-								filteredCards.length === 0 || isPreloadingMedia || !mediaReady
+								filteredCards.length === 0 || isPreloadingMedia
 									? 'bg-slate-300'
 									: 'bg-violet-600 hover:bg-violet-700'
 							}`}
 						>
-							{isPreloadingMedia ? 'Loading Media...' : 'Study Words'}
+							Study Words
 						</button>
 						<button
 							onClick={() => {
 								void beginActivity(false)
 							}}
-							disabled={filteredCards.length === 0 || isPreloadingMedia || !mediaReady}
+							disabled={filteredCards.length === 0 || isPreloadingMedia}
 							className={`rounded-xl px-6 py-3 font-semibold text-white ${
-								filteredCards.length === 0 || isPreloadingMedia || !mediaReady
+								filteredCards.length === 0 || isPreloadingMedia
 									? 'bg-slate-300'
 									: 'bg-green-600 hover:bg-green-700'
 							}`}
@@ -967,6 +990,7 @@ export default function VocabQuiz({
 						</button>
 					</div>
 				</div>
+				)
 			) : studyMode ? (
 				<div className="space-y-6">
 					<h2 className="text-2xl font-bold text-slate-900">Study the Set</h2>

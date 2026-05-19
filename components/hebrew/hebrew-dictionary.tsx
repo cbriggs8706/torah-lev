@@ -627,8 +627,8 @@ export default function HebrewDictionary({ data, courseId }: DictionaryProps) {
 					</div>
 				)}
 				{/* Sort Toggle */}
-				<div className="flex flex-wrap justify-center gap-2 mb-4">
-					<div className="flex flex-wrap justify-center gap-2 mb-4">
+				<div className="flex flex-row-reverse flex-wrap justify-center gap-2 mb-4">
+					<div className="flex flex-row-reverse flex-wrap justify-center gap-2 mb-4">
 						{['alphabetical', 'lesson'].map((mode) => (
 							<button
 								key={mode}

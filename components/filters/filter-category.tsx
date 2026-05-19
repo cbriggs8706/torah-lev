@@ -26,7 +26,7 @@ export default function CategoryFilter({
 	return (
 		<div className="space-y-3 mb-4">
 			<h2 className="text-xl font-semibold text-center">Select Category</h2>
-			<div className="flex flex-wrap justify-center gap-2">
+			<div className="flex flex-row-reverse flex-wrap justify-center gap-2">
 				{/* "All" button */}
 				<button
 					onClick={() => setSelectedCategory('all')}

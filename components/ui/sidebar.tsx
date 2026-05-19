@@ -130,7 +130,7 @@ export function Sidebar({
 		>
 			<div
 				className={cn(
-					'fixed top-0 flex h-screen w-[var(--sidebar-width)] flex-col bg-sidebar',
+					'fixed top-0 flex h-screen min-h-0 w-[var(--sidebar-width)] flex-col overflow-hidden bg-sidebar',
 					side === 'left'
 						? 'left-0 border-r border-sidebar-border'
 						: 'right-0 border-l border-sidebar-border',
@@ -165,26 +165,36 @@ export function SidebarHeader({
 	className,
 	...props
 }: React.ComponentProps<'div'>) {
-	return <div className={cn('border-b border-sidebar-border p-4', className)} {...props} />
+	return <div className={cn('shrink-0 border-b border-sidebar-border p-4', className)} {...props} />
 }
 
-export function SidebarContent({
-	className,
-	...props
-}: React.ComponentProps<'div'>) {
+export const SidebarContent = React.forwardRef<
+	HTMLDivElement,
+	React.ComponentProps<'div'>
+>(({ className, ...props }, ref) => {
 	return (
-		<div
-			className={cn('flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto p-4', className)}
-			{...props}
+			<div
+				ref={ref}
+				className={cn(
+					'h-full min-h-0 flex-1 overflow-y-auto overscroll-contain p-4',
+					className,
+				)}
+				{...props}
 		/>
 	)
-}
+})
+SidebarContent.displayName = 'SidebarContent'
 
 export function SidebarFooter({
 	className,
 	...props
 }: React.ComponentProps<'div'>) {
-	return <div className={cn('border-t border-sidebar-border p-4', className)} {...props} />
+	return (
+		<div
+			className={cn('relative z-20 shrink-0 border-t border-sidebar-border bg-sidebar p-4', className)}
+			{...props}
+		/>
+	)
 }
 
 export function SidebarGroup({

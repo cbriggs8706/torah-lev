@@ -87,8 +87,6 @@ export function buildSidebarSections({
 		toolItems.push(
 			{ key: 'tanakh-books', label: localize(resolvedLocale, 'nav.tanakhBooks'), href: '/he/tanakh-books', iconSrc: '/books-svgrepo-com.svg', icon: ScrollText },
 			{ key: 'memorize', label: localize(resolvedLocale, 'nav.memorize'), href: '/he/memorize', iconSrc: '/icons/iconBrain.png', icon: Brain },
-			{ key: 'leaderboard', label: localize(resolvedLocale, 'nav.leaderboard'), href: '/he/leaderboard', iconSrc: '/icons/iconTrophy.png' },
-			{ key: 'dashboard', label: localize(resolvedLocale, 'nav.dashboard'), href: '/he/dashboard', iconSrc: '/icons/iconName.png' },
 		)
 
 		communityItems.push({
@@ -136,7 +134,6 @@ export function buildSidebarSections({
 		)
 
 		toolItems.push(
-			{ key: 'leaderboard', label: localize(resolvedLocale, 'nav.leaderboard'), href: '/en/leaderboard', iconSrc: '/trophy-svgrepo-com.svg', icon: Trophy },
 			{ key: 'timer', label: localize(resolvedLocale, 'nav.timer'), href: '/timer', iconSrc: '/stopwatch-svgrepo-com.svg', icon: Timer },
 		)
 
@@ -184,13 +181,6 @@ export function buildSidebarSections({
 			href: '/en/memorize',
 			iconSrc: '/brain-svgrepo-com.svg',
 			icon: Brain,
-		})
-		toolItems.push({
-			key: 'dashboard',
-			label: localize(resolvedLocale, 'nav.dashboard'),
-			href: '/he/dashboard',
-			iconSrc: '/mascot.svg',
-			icon: LayoutDashboard,
 		})
 	}
 

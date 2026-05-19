@@ -302,7 +302,7 @@ export default function SpanishNumberQuiz({
 					{/* Filter Selection */}
 					<div className="mb-6">
 						<p className="font-medium mb-2">Conjunto de números</p>
-						<div className="flex flex-wrap justify-center gap-2">
+						<div className="flex flex-row-reverse flex-wrap justify-center gap-2">
 							{['All', ...Object.keys(filters)].map((name) => (
 								<button
 									key={name}
@@ -322,7 +322,7 @@ export default function SpanishNumberQuiz({
 					{/* Prompt Type */}
 					<div className="mb-6">
 						<p className="font-medium mb-2">Tipo de pregunta</p>
-						<div className="flex justify-center gap-2">
+						<div className="flex flex-row-reverse justify-center gap-2">
 							{(['audio', 'visual'] as PromptType[]).map((type) => (
 								<button
 									key={type}

@@ -287,7 +287,7 @@ export default function EnglishNumberQuiz({
 					{/* Number Set Filters */}
 					<div className="mb-6">
 						<p className="font-medium mb-2">Number Sets</p>
-						<div className="flex flex-wrap justify-center gap-2">
+						<div className="flex flex-row-reverse flex-wrap justify-center gap-2">
 							{['All', ...Object.keys(filters)].map((name) => (
 								<button
 									key={name}
@@ -307,7 +307,7 @@ export default function EnglishNumberQuiz({
 					{/* Prompt Type */}
 					<div className="mb-6">
 						<p className="font-medium mb-2">Prompt Type</p>
-						<div className="flex justify-center gap-2">
+						<div className="flex flex-row-reverse justify-center gap-2">
 							{(['audio', 'visual'] as PromptType[]).map((type) => (
 								<button
 									key={type}

@@ -514,7 +514,7 @@ export default function HebrewNumberQuiz({
 						{/* Number Set Filters */}
 						<div className="col-span-3 md:col-span-1 mb-6">
 							<p className="font-medium mb-2">Number Sets</p>
-							<div className="flex flex-wrap justify-center gap-2">
+							<div className="flex flex-row-reverse flex-wrap justify-center gap-2">
 								{['All', ...Object.keys(filters)].map((name) => (
 									<button
 										key={name}
@@ -534,7 +534,7 @@ export default function HebrewNumberQuiz({
 						{/* Prompt Type */}
 						<div className="col-span-3 md:col-span-1 mb-6">
 							<p className="font-medium mb-2">Prompt Type</p>
-							<div className="flex justify-center gap-2">
+							<div className="flex flex-row-reverse justify-center gap-2">
 								{(['audio', 'visual'] as PromptType[]).map((type) => (
 									<button
 										key={type}
@@ -554,7 +554,7 @@ export default function HebrewNumberQuiz({
 						{/* Display Filter */}
 						<div className="col-span-3 md:col-span-1 mb-6">
 							<p className="font-medium mb-2">Display</p>
-							<div className="flex justify-center gap-2">
+							<div className="flex flex-row-reverse justify-center gap-2">
 								{(['number', 'gematria'] as DisplayType[]).map((d) => (
 									<button
 										key={d}

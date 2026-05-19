@@ -16,7 +16,7 @@ export default function NiqqudFilter({
 	return (
 		<div className="mb-4 space-y-3">
 			<h2 className="text-xl font-semibold">Niqqud</h2>
-			<div className="flex flex-wrap justify-center gap-2 mt-2">
+			<div className="flex flex-row-reverse flex-wrap justify-center gap-2 mt-2">
 				{(['heb', 'hebNiqqud'] as const).map((field) => (
 					<button
 						key={field}

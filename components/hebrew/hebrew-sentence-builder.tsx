@@ -457,7 +457,7 @@ export default function HebrewSentenceBuilder({
 			<div className="space-y-3 mb-4">
 				{/* Levels */}
 				<h2 className="text-xl font-semibold mb-2">Select Levels</h2>
-				<div className="flex flex-wrap justify-center gap-2">
+				<div className="flex flex-row-reverse flex-wrap justify-center gap-2">
 					<button
 						onClick={() => setSelectedLevels([])}
 						className="px-3 py-1 border rounded-full text-xs bg-red-100 hover:bg-red-200"
@@ -493,7 +493,7 @@ export default function HebrewSentenceBuilder({
 
 				{/* Quantities */}
 				<h2 className="text-xl font-semibold mb-2 mt-4">Select Quantity</h2>
-				<div className="flex flex-wrap justify-center gap-2">
+				<div className="flex flex-row-reverse flex-wrap justify-center gap-2">
 					<button
 						onClick={() => setSelectedQuantities([])}
 						className="px-3 py-1 border rounded-full text-xs bg-red-100 hover:bg-red-200"
@@ -526,7 +526,7 @@ export default function HebrewSentenceBuilder({
 				</div>
 
 				<h2 className="text-xl font-semibold mb-2 mt-4">Target Phrases</h2>
-				<div className="flex flex-wrap justify-center gap-2">
+				<div className="flex flex-row-reverse flex-wrap justify-center gap-2">
 					{TARGET_PHRASE_OPTIONS.map((count) => {
 						const disabled = filteredPhrases.length < count
 
