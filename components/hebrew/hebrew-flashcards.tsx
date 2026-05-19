@@ -4,15 +4,16 @@ import { HebrewVocab } from '@/lib/vocab'
 import { resolveVocabMediaUrl } from '@/lib/vocab-media'
 import { matchesSelectedCategory } from '@/lib/category'
 import Image from 'next/image'
+import { Bookmark, Star } from 'lucide-react'
 import { useState, useMemo, useEffect, useCallback } from 'react'
 import { useCelebration } from '@/hooks/useCelebration'
 import { useLessonCards } from '@/hooks/useLessonCards'
-import TypeFilter from '../filters/filter-type'
 import CategoryFilter from '../filters/filter-category'
 import LessonFilter from '../filters/filter-lesson'
 import ProgressBar from '../progress-bar'
 import { useUserId } from '@/hooks/useUserId'
 import { RootMorphologyIcons } from './root-morphology-icons'
+import { toast } from 'sonner'
 
 type FontChoice =
 	| 'arial'
@@ -32,6 +33,13 @@ interface HebrewVocabProps {
 	layout: string
 	// userId: string
 	courseId: number
+}
+
+type HebrewCardFilterType = 'all' | 'word' | 'phrase' | 'stack'
+
+type CardStatus = {
+	isMastered: boolean
+	inMyStack: boolean
 }
 
 const FONT_SIZE_MAP = {
@@ -97,9 +105,7 @@ HebrewVocabProps) {
 		setCurrentIndex,
 		lessonOptions,
 	} = useLessonCards(data, currentLesson)
-	const [selectedType, setSelectedType] = useState<'all' | 'word' | 'phrase'>(
-		'word'
-	)
+	const [selectedType, setSelectedType] = useState<HebrewCardFilterType>('word')
 	const [frontField, setFrontField] = useState<keyof HebrewVocab>('hebNiqqud')
 	const [backField, setBackField] = useState<keyof HebrewVocab>('eng')
 	const [showBack, setShowBack] = useState(false)
@@ -160,8 +166,11 @@ HebrewVocabProps) {
 	const [cardsCompleted, setCardsCompleted] = useState(0)
 	const [isRandomized, setIsRandomized] = useState(false)
 	const [filterVersion, setFilterVersion] = useState(0)
+	const [cardStatuses, setCardStatuses] = useState<Record<number, CardStatus>>({})
+	const [isUpdatingStatus, setIsUpdatingStatus] = useState(false)
 
-	const { userId } = useUserId()
+	const { userId, isGuest, ready } = useUserId()
+	const canUseSavedWordFeatures = ready && !isGuest
 	// console.log('newUserId in local', userId)
 
 	const PRESETS = [
@@ -217,13 +226,29 @@ HebrewVocabProps) {
 
 	// Filter to this prefix
 	const cardsForPrefix = useMemo(() => data, [data])
+	const stackCardIds = useMemo(
+		() =>
+			new Set(
+				Object.entries(cardStatuses)
+					.filter(([, status]) => status.inMyStack)
+					.map(([cardId]) => Number(cardId))
+			),
+		[cardStatuses]
+	)
+	const currentCard = filteredCards[currentIndex]
+
 	useEffect(() => {
 		const newFiltered = cardsForPrefix.filter((card) => {
 			const matchesSelectedLesson =
 				selectedLessons.length === 0 ||
 				card.lessons.some((l) => selectedLessons.includes(l))
 
-			const matchesType = selectedType === 'all' || card.type === selectedType
+			const matchesType =
+				selectedType === 'all'
+					? true
+					: selectedType === 'stack'
+						? !!card.id && stackCardIds.has(card.id)
+						: card.type === selectedType
 			const matchesCategory = matchesSelectedCategory(
 				card.category,
 				selectedCategory
@@ -275,8 +300,25 @@ HebrewVocabProps) {
 		}
 		setFilteredCards(finalCards)
 
-		setCurrentIndex(0)
-		setShowBack(false)
+		if (finalCards.length === 0) {
+			setCurrentIndex(0)
+			setShowBack(false)
+			return
+		}
+
+		const currentCardId = currentCard?.id
+		if (currentCardId != null) {
+			const preservedIndex = finalCards.findIndex(
+				(card) => card.id === currentCardId
+			)
+
+			if (preservedIndex !== -1) {
+				setCurrentIndex(preservedIndex)
+				return
+			}
+		}
+
+		setCurrentIndex((prev) => Math.min(prev, finalCards.length - 1))
 	}, [
 		cardsForPrefix,
 		selectedLessons,
@@ -284,14 +326,26 @@ HebrewVocabProps) {
 		selectedCategory,
 		frontField,
 		backField,
+		stackCardIds,
 		frontMiddleCenter,
 		backMiddleCenter,
 		setCurrentIndex,
 		filterVersion,
 		isRandomized,
+		currentCard?.id,
 	])
+	const currentCardStatus =
+		currentCard?.id != null ? cardStatuses[currentCard.id] : undefined
+	const isCurrentCardMastered = !!currentCardStatus?.isMastered
+	const isCurrentCardInMyStack = !!currentCardStatus?.inMyStack
 
-	const currentCard = filteredCards[currentIndex]
+	const typeOptions = useMemo(
+		() =>
+			(canUseSavedWordFeatures
+				? (['all', 'word', 'phrase', 'stack'] as HebrewCardFilterType[])
+				: (['all', 'word', 'phrase'] as HebrewCardFilterType[])),
+		[canUseSavedWordFeatures]
+	)
 
 	function playWithBoostedVolume(url: string, volume: number, speed: number) {
 		const audioContext = new (window.AudioContext ||
@@ -416,6 +470,97 @@ HebrewVocabProps) {
 			awardPoints(pointsToAward)
 		}
 	}, [cardsCompleted, awardPoints])
+
+	useEffect(() => {
+		if (!canUseSavedWordFeatures) {
+			setCardStatuses({})
+			return
+		}
+
+		let cancelled = false
+
+		const loadStatuses = async () => {
+			try {
+				const params = new URLSearchParams({
+					courseId: String(courseId),
+					language: 'he',
+				})
+				const response = await fetch(`/api/flashcards/status?${params.toString()}`)
+				if (!response.ok) throw new Error('Failed to fetch statuses')
+				const payload = await response.json()
+				if (cancelled) return
+
+				const nextStatuses: Record<number, CardStatus> = {}
+				for (const status of payload.statuses ?? []) {
+					if (typeof status.cardId !== 'number') continue
+					nextStatuses[status.cardId] = {
+						isMastered: !!status.isMastered,
+						inMyStack: !!status.inMyStack,
+					}
+				}
+				setCardStatuses(nextStatuses)
+			} catch (error) {
+				console.error('Failed to load card statuses', error)
+			}
+		}
+
+		loadStatuses()
+
+		return () => {
+			cancelled = true
+		}
+	}, [canUseSavedWordFeatures, courseId, userId])
+
+	async function updateCardStatus(
+		action: 'master' | 'unmaster' | 'addToStack' | 'removeFromStack'
+	) {
+		if (!currentCard?.id || !canUseSavedWordFeatures) return
+
+		setIsUpdatingStatus(true)
+		try {
+			const response = await fetch('/api/flashcards/status', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					cardId: currentCard.id,
+					courseId,
+					language: 'he',
+					action,
+				}),
+			})
+
+			if (!response.ok) {
+				throw new Error('Failed to update card status')
+			}
+
+			const payload = await response.json()
+			const nextStatus = payload.status
+			if (typeof nextStatus?.cardId === 'number') {
+				setCardStatuses((prev) => ({
+					...prev,
+					[nextStatus.cardId]: {
+						isMastered: !!nextStatus.isMastered,
+						inMyStack: !!nextStatus.inMyStack,
+					},
+				}))
+			}
+
+			if (action === 'master') {
+				toast.success('Word marked as mastered.')
+			} else if (action === 'unmaster') {
+				toast.success('Word removed from mastered.')
+			} else if (action === 'addToStack') {
+				toast.success('Word added to My Stack.')
+			} else {
+				toast.success('Word removed from My Stack.')
+			}
+		} catch (error) {
+			console.error('Failed to update card status', error)
+			toast.error('Could not update this word right now.')
+		} finally {
+			setIsUpdatingStatus(false)
+		}
+	}
 
 	function handlePreviousCard() {
 		setShowBack(false)
@@ -1060,10 +1205,26 @@ HebrewVocabProps) {
 
 			{showFilter && (
 				<>
-					<TypeFilter
-						selectedType={selectedType}
-						setSelectedType={setSelectedType}
-					/>
+					<div className="space-y-3 mb-4">
+						<h2 className="text-xl font-semibold">Select Type</h2>
+						<div className="flex flex-wrap justify-center gap-2">
+							{typeOptions.map((type) => (
+								<button
+									key={type}
+									onClick={() => setSelectedType(type)}
+									className={`px-3 py-1 border rounded-full text-xs ${
+										selectedType === type
+											? 'bg-sky-600 text-white'
+											: 'bg-gray-200'
+									}`}
+								>
+									{type === 'stack'
+										? 'My Stack'
+										: type.charAt(0).toUpperCase() + type.slice(1)}
+								</button>
+							))}
+						</div>
+					</div>
 					<CategoryFilter
 						data={data}
 						selectedCategory={selectedCategory}
@@ -1135,6 +1296,20 @@ HebrewVocabProps) {
 							{/* Middle Row (flexes to fill) */}
 							{/* <div className="flex-1 flex items-center justify-center text-center overflow-hidden"> */}
 							<div className="flex-1 relative overflow-hidden flex items-center justify-center leading-none">
+								{(isCurrentCardMastered || isCurrentCardInMyStack) && (
+									<div className="absolute right-3 top-3 z-10 flex items-center gap-2">
+										{isCurrentCardInMyStack && (
+											<div className="rounded-full bg-emerald-100 p-1 text-emerald-600 shadow-sm">
+												<Bookmark className="h-4 w-4 fill-current" />
+											</div>
+										)}
+										{isCurrentCardMastered && (
+											<div className="rounded-full bg-amber-100 p-1 text-amber-500 shadow-sm">
+												<Star className="h-4 w-4 fill-current" />
+											</div>
+										)}
+									</div>
+								)}
 								<span
 									className={FONT_CLASS_MAP[frontFont]}
 									style={{ fontSize: FONT_SIZE_MAP[frontFontSize] }}
@@ -1176,6 +1351,20 @@ HebrewVocabProps) {
 								className="flex-1 col-span-3 relative overflow-hidden flex items-center justify-center"
 								style={{ fontSize: FONT_SIZE_MAP[backFontSize] }}
 							>
+								{(isCurrentCardMastered || isCurrentCardInMyStack) && (
+									<div className="absolute right-3 top-3 z-10 flex items-center gap-2">
+										{isCurrentCardInMyStack && (
+											<div className="rounded-full bg-emerald-100 p-1 text-emerald-600 shadow-sm">
+												<Bookmark className="h-4 w-4 fill-current" />
+											</div>
+										)}
+										{isCurrentCardMastered && (
+											<div className="rounded-full bg-amber-100 p-1 text-amber-500 shadow-sm">
+												<Star className="h-4 w-4 fill-current" />
+											</div>
+										)}
+									</div>
+								)}
 								<span className={FONT_CLASS_MAP[backFont]}>
 									{renderMiniContent(backMiddleCenter, true)}
 								</span>
@@ -1212,7 +1401,20 @@ HebrewVocabProps) {
 				<ProgressBar currentIndex={currentIndex} total={filteredCards.length} />
 			)}
 
-			<div className="flex justify-center gap-4">
+			<div className="flex flex-wrap justify-center gap-4">
+				{showBack && canUseSavedWordFeatures && (
+					<button
+						onClick={() =>
+							updateCardStatus(
+								isCurrentCardMastered ? 'unmaster' : 'master'
+							)
+						}
+						disabled={isUpdatingStatus || !currentCard?.id}
+						className="px-4 py-2 bg-amber-500 text-white rounded shadow disabled:opacity-60"
+					>
+						{isCurrentCardMastered ? 'Remove Mastered' : 'Mark as Mastered'}
+					</button>
+				)}
 				<button
 					onClick={handlePreviousCard}
 					className="px-4 py-2 bg-gray-500 text-white rounded shadow"
@@ -1225,6 +1427,23 @@ HebrewVocabProps) {
 				>
 					Next Card
 				</button>
+				{showBack && canUseSavedWordFeatures && (
+					<button
+						onClick={() =>
+							updateCardStatus(
+								isCurrentCardInMyStack ? 'removeFromStack' : 'addToStack'
+							)
+						}
+						disabled={isUpdatingStatus || !currentCard?.id || isCurrentCardMastered}
+						className="px-4 py-2 bg-emerald-600 text-white rounded shadow disabled:opacity-60"
+					>
+						{isCurrentCardMastered
+							? 'Mastered Words Leave My Stack'
+							: isCurrentCardInMyStack
+								? 'Remove from My Stack'
+								: 'Add to My Stack'}
+					</button>
+				)}
 			</div>
 		</div>
 	)

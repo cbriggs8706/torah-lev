@@ -11,6 +11,7 @@ interface LessonFilterProps {
 	selectedLessons: string[]
 	setSelectedLessons: React.Dispatch<React.SetStateAction<string[]>>
 	showRanges?: boolean
+	selectionMode?: 'single' | 'multiple'
 }
 
 export default function LessonFilter({
@@ -18,6 +19,7 @@ export default function LessonFilter({
 	selectedLessons,
 	setSelectedLessons,
 	showRanges = true,
+	selectionMode = 'multiple',
 }: LessonFilterProps) {
 	function parseLessonKey(key: string) {
 		const match = key.match(/^(\d+)?([a-zA-Z]*)$/)
@@ -77,6 +79,11 @@ export default function LessonFilter({
 	}, [lessonOptions, showRanges])
 
 	function toggleLesson(lesson: string) {
+		if (selectionMode === 'single') {
+			setSelectedLessons((prev) => (prev[0] === lesson ? [] : [lesson]))
+			return
+		}
+
 		setSelectedLessons((prev) =>
 			prev.includes(lesson)
 				? prev.filter((l: string) => l !== lesson)
@@ -88,49 +95,51 @@ export default function LessonFilter({
 		<div className="space-y-3 mb-4">
 			<h2 className="text-xl font-semibold text-center mb-2">Select Lessons</h2>
 			<div className="flex flex-wrap justify-center gap-2">
-				{/* Clear All */}
-				<button
-					onClick={() => setSelectedLessons([])}
-					className="px-3 py-1 border rounded-full text-xs bg-red-100 hover:bg-red-200"
-				>
-					Clear All
-				</button>
+				{selectionMode === 'multiple' ? (
+					<>
+						<button
+							onClick={() => setSelectedLessons([])}
+							className="px-3 py-1 border rounded-full text-xs bg-red-100 hover:bg-red-200"
+						>
+							Clear All
+						</button>
 
-				{/* All */}
-				<button
-					onClick={() => setSelectedLessons([...lessonOptions])}
-					className={`px-3 py-1 border rounded-full text-xs ${
-						selectedLessons.length === lessonOptions.length
-							? 'bg-sky-600 text-white'
-							: 'bg-gray-200'
-					}`}
-				>
-					All
-				</button>
+						<button
+							onClick={() => setSelectedLessons([...lessonOptions])}
+							className={`px-3 py-1 border rounded-full text-xs ${
+								selectedLessons.length === lessonOptions.length
+									? 'bg-sky-600 text-white'
+									: 'bg-gray-200'
+							}`}
+						>
+							All
+						</button>
 
-				{/* Range Buttons */}
-				{lessonRanges.map((range) => (
-					<button
-						key={range.label}
-						onClick={() =>
-							setSelectedLessons((prev) => {
-								const allSelected = range.lessons.every((l) => prev.includes(l))
-								if (allSelected) {
-									return prev.filter((l) => !range.lessons.includes(l))
-								} else {
-									return Array.from(new Set([...prev, ...range.lessons]))
+						{lessonRanges.map((range) => (
+							<button
+								key={range.label}
+								onClick={() =>
+									setSelectedLessons((prev) => {
+										const allSelected = range.lessons.every((l) =>
+											prev.includes(l)
+										)
+										if (allSelected) {
+											return prev.filter((l) => !range.lessons.includes(l))
+										}
+										return Array.from(new Set([...prev, ...range.lessons]))
+									})
 								}
-							})
-						}
-						className={`px-3 py-1 border rounded-full text-xs ${
-							range.lessons.every((l) => selectedLessons.includes(l))
-								? 'bg-sky-600 text-white'
-								: 'bg-gray-200'
-						}`}
-					>
-						{range.label}
-					</button>
-				))}
+								className={`px-3 py-1 border rounded-full text-xs ${
+									range.lessons.every((l) => selectedLessons.includes(l))
+										? 'bg-sky-600 text-white'
+										: 'bg-gray-200'
+								}`}
+							>
+								{range.label}
+							</button>
+						))}
+					</>
+				) : null}
 
 				{/* Individual Lessons */}
 				{lessonOptions.map((lesson) => (

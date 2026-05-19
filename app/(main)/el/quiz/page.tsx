@@ -40,6 +40,7 @@ export default async function GreekQuizPage() {
 						courseId={activeCourseId}
 						userId={userId}
 						layout="greek"
+						initialHearts={userProgress?.hearts ?? 5}
 					/>
 				</div>
 			</FeedWrapper>

@@ -17,7 +17,8 @@ export default async function HebrewIntroductionPage() {
 
 	const activeCourseId = userProgress?.activeCourseId ?? 6
 	const currentLesson = userChallengeData?.activeLesson?.lessonNumber ?? ''
-	const hebrewData: HebrewVocab[] = await getHebrewVocabByCourseId(activeCourseId)
+	const hebrewData: HebrewVocab[] =
+		await getHebrewVocabByCourseId(activeCourseId)
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
@@ -35,12 +36,18 @@ export default async function HebrewIntroductionPage() {
 
 					<DismissibleAlert storageKey="hebrew-introduction" className="mb-4">
 						This activity teaches one new Hebrew vocab item at a time, starting
-						with the first two, then quizzes all learned words each round.
+						with the first two, then quizzes all learned words each round. Each
+						new word will repeat 3 times and then present 2-3 images as options
+						to match the audio. Click the audio button to repeat the prompt.
+						Each word of the lesson will earn a point. You will not lose points
+						for incorrect quesses. Select a lesson to begin.
 					</DismissibleAlert>
 
 					<HebrewIntroduction
 						data={hebrewData}
+						activeCourseId={activeCourseId}
 						currentLesson={currentLesson}
+						initialHearts={userProgress?.hearts ?? 5}
 					/>
 				</div>
 			</FeedWrapper>

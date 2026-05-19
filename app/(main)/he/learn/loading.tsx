@@ -1,8 +1,9 @@
-import { Loader } from 'lucide-react'
+import TorahScrollLoader from '@/components/hebrew/hebrew-loader'
 
 const Loading = () => (
 	<div className="h-screen flex items-center justify-center">
-		<Loader />
+		<TorahScrollLoader />
 	</div>
 )
+
 export default Loading

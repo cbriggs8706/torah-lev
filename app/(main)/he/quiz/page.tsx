@@ -41,6 +41,7 @@ export default async function HebrewQuizPage() {
 						courseId={activeCourseId}
 						userId={userId}
 						layout="hebrew"
+						initialHearts={userProgress?.hearts ?? 5}
 					/>
 				</div>
 			</FeedWrapper>

@@ -56,11 +56,11 @@ export default function WordMatchGame({
 	const [showFilter, setShowFilter] = useState(false)
 	const [matchField, setMatchField] = useState<keyof HebrewVocab>('images')
 	const [hebrewField, setHebrewField] = useState<'heb' | 'hebNiqqud'>(
-		'hebNiqqud'
+		'hebNiqqud',
 	)
 	const [matches, setMatches] = useState<Record<string, UniqueIdentifier>>({})
 	const [selectedType, setSelectedType] = useState<'all' | 'word' | 'phrase'>(
-		'word'
+		'word',
 	)
 	const [showConfetti, setShowConfetti] = useState(false)
 	const [audioEl, state, controls] = useAudio({
@@ -68,7 +68,7 @@ export default function WordMatchGame({
 		autoPlay: false,
 	})
 	const [shuffledDraggables, setShuffledDraggables] = useState<HebrewVocab[]>(
-		[]
+		[],
 	)
 	const [shuffledTargets, setShuffledTargets] = useState<HebrewVocab[]>([])
 	const [hasFinished, setHasFinished] = useState(false)
@@ -81,8 +81,8 @@ export default function WordMatchGame({
 			typeof window !== 'undefined'
 				? localStorage.getItem('wm_targetSize') || '140'
 				: '140',
-			10
-		)
+			10,
+		),
 	)
 
 	useEffect(() => {
@@ -96,7 +96,7 @@ export default function WordMatchGame({
 			const containerWidth = window.innerWidth
 			const desiredCols = Math.max(
 				1,
-				Math.floor(containerWidth / (targetSize + 32))
+				Math.floor(containerWidth / (targetSize + 32)),
 			)
 			setCols(desiredCols)
 		}
@@ -151,7 +151,7 @@ export default function WordMatchGame({
 	// 	allLessonsUpToCurrent
 	// )
 	const [selectedLessons, setSelectedLessons] = useState<string[]>(
-		allLessonsUpToCurrent.length > 0 ? allLessonsUpToCurrent : ['1']
+		allLessonsUpToCurrent.length > 0 ? allLessonsUpToCurrent : ['1'],
 	)
 
 	useEffect(() => {
@@ -178,7 +178,7 @@ export default function WordMatchGame({
 
 			const matchesCategory = matchesSelectedCategory(
 				card.category,
-				selectedCategory
+				selectedCategory,
 			)
 
 			return (
@@ -252,7 +252,7 @@ export default function WordMatchGame({
 				console.error('Failed to award points', error)
 			}
 		},
-		[userId, courseId]
+		[userId, courseId],
 	)
 
 	const isTouchDevice =
@@ -265,7 +265,7 @@ export default function WordMatchGame({
 		}),
 		useSensor(TouchSensor, {
 			activationConstraint: { delay: 180, tolerance: 8 },
-		})
+		}),
 	)
 
 	useEffect(() => {
@@ -572,7 +572,7 @@ function DropTarget({
 		<div
 			ref={setNodeRef}
 			className={`border-2 rounded p-3 flex items-center justify-center transition touch-none select-none ${
-				isOver ? 'border-green-500 bg-green-50' : 'border-gray-300'
+				isOver ? 'border-green-500 bg-green-50' : 'border-gray-300 bg-white'
 			} ${matched ? 'hidden' : ''}`} // Hide drop target if matched
 			style={{
 				minHeight: size + 24, // room for padding/label

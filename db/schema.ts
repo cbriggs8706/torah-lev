@@ -382,6 +382,8 @@ export const flashcardUserState = pgTable(
 		lapses: integer('lapses').notNull().default(0),
 		lastReviewedAt: timestamp('last_reviewed_at'),
 		leech: boolean('leech').notNull().default(false),
+		isMastered: boolean('is_mastered').notNull().default(false),
+		inMyStack: boolean('in_my_stack').notNull().default(false),
 		leechSuspendedAt: timestamp('leech_suspended_at'),
 		createdAt: timestamp('created_at').notNull().defaultNow(),
 		updatedAt: timestamp('updated_at').notNull().defaultNow(),

@@ -9,12 +9,19 @@ import {
 } from '@/lib/vocab-morphology'
 import { resolveVocabMediaUrl } from '@/lib/vocab-media'
 import Image from 'next/image'
-import { ImageIcon } from 'lucide-react'
+import { Bookmark, ImageIcon, Star } from 'lucide-react'
 import HebrewKeyboard from './hebrew-keyboard'
 import { RootMorphologyIcons } from './root-morphology-icons'
+import { useUserId } from '@/hooks/useUserId'
+
+type CardStatus = {
+	isMastered: boolean
+	inMyStack: boolean
+}
 
 interface DictionaryProps {
 	data: HebrewVocab[]
+	courseId: number
 }
 
 const hebrewAlphabet = [
@@ -57,7 +64,12 @@ function getLessonNumberFromString(input: string | undefined): number | null {
 	return match ? parseInt(match[0], 10) : null
 }
 
-export default function HebrewDictionary({ data }: DictionaryProps) {
+function getEntryProgressKey(entry: HebrewVocab): string {
+	if (typeof entry.id === 'number') return `id:${entry.id}`
+	return `fallback:${entry.heb}:${entry.hebNiqqud ?? ''}:${entry.eng ?? ''}`
+}
+
+export default function HebrewDictionary({ data, courseId }: DictionaryProps) {
 	const [expandedId, setExpandedId] = useState<number | null>(null)
 	const [activeLetter, setActiveLetter] = useState<string>('א')
 	const [sortMode, setSortMode] = useState<'alphabetical' | 'lesson'>(
@@ -69,6 +81,51 @@ export default function HebrewDictionary({ data }: DictionaryProps) {
 	const [searchQuery, setSearchQuery] = useState('')
 	const [showKeyboard, setShowKeyboard] = useState(true)
 	const [showImagesOnly, setShowImagesOnly] = useState(false)
+	const [showMyStackOnly, setShowMyStackOnly] = useState(false)
+	const [cardStatuses, setCardStatuses] = useState<Record<number, CardStatus>>({})
+	const { isGuest, ready } = useUserId()
+	const canUseSavedWordFeatures = ready && !isGuest
+
+	useEffect(() => {
+		if (!canUseSavedWordFeatures) {
+			setCardStatuses({})
+			setShowMyStackOnly(false)
+			return
+		}
+
+		let cancelled = false
+
+		const loadStatuses = async () => {
+			try {
+				const params = new URLSearchParams({
+					courseId: String(courseId),
+					language: 'he',
+				})
+				const response = await fetch(`/api/flashcards/status?${params.toString()}`)
+				if (!response.ok) throw new Error('Failed to fetch statuses')
+				const payload = await response.json()
+				if (cancelled) return
+
+				const nextStatuses: Record<number, CardStatus> = {}
+				for (const status of payload.statuses ?? []) {
+					if (typeof status.cardId !== 'number') continue
+					nextStatuses[status.cardId] = {
+						isMastered: !!status.isMastered,
+						inMyStack: !!status.inMyStack,
+					}
+				}
+				setCardStatuses(nextStatuses)
+			} catch (error) {
+				console.error('Failed to load dictionary statuses', error)
+			}
+		}
+
+		loadStatuses()
+
+		return () => {
+			cancelled = true
+		}
+	}, [canUseSavedWordFeatures, courseId])
 
 	function handleKeyPress(char: string) {
 		if (char === '\b') {
@@ -79,12 +136,19 @@ export default function HebrewDictionary({ data }: DictionaryProps) {
 	}
 
 	const filteredData = useMemo(() => {
-		if (!searchQuery.trim() && !showImagesOnly) return data
+		if (!searchQuery.trim() && !showImagesOnly && !showMyStackOnly) return data
 
 		const query = searchQuery.trim()
 		const normalizedQuery = stripHebrewMarks(query)
 
 		let results = data.filter((entry) => {
+			if (
+				showMyStackOnly &&
+				(!entry.id || !cardStatuses[entry.id]?.inMyStack)
+			) {
+				return false
+			}
+
 			if (!searchQuery.trim()) return true
 
 			const heb = stripHebrewMarks(entry.heb)
@@ -106,7 +170,7 @@ export default function HebrewDictionary({ data }: DictionaryProps) {
 		}
 
 		return results
-	}, [data, searchQuery, searchMode, showImagesOnly])
+	}, [cardStatuses, data, searchQuery, searchMode, showImagesOnly, showMyStackOnly])
 
 	const grouped = useMemo(() => {
 		const byLetter: Record<string, HebrewVocab[]> = {}
@@ -177,6 +241,36 @@ export default function HebrewDictionary({ data }: DictionaryProps) {
 		return byRange
 	}, [filteredData])
 
+	const lessonRangeProgress = useMemo(() => {
+		const progressByRange: Record<
+			string,
+			{ totalWords: number; masteredWords: number; percent: number }
+		> = {}
+
+		for (const [range, lessons] of Object.entries(groupedByLessonRange)) {
+			const uniqueEntries = new Map<string, HebrewVocab>()
+
+			for (const words of Object.values(lessons)) {
+				for (const word of words) {
+					uniqueEntries.set(getEntryProgressKey(word), word)
+				}
+			}
+
+			const totalWords = uniqueEntries.size
+			const masteredWords = Array.from(uniqueEntries.values()).filter(
+				(word) => typeof word.id === 'number' && cardStatuses[word.id]?.isMastered
+			).length
+
+			progressByRange[range] = {
+				totalWords,
+				masteredWords,
+				percent: totalWords > 0 ? (masteredWords / totalWords) * 100 : 0,
+			}
+		}
+
+		return progressByRange
+	}, [cardStatuses, groupedByLessonRange])
+
 	// Reset expandedId whenever visible lesson groups change
 	useEffect(() => {
 		setExpandedId(null)
@@ -228,6 +322,17 @@ export default function HebrewDictionary({ data }: DictionaryProps) {
 	}
 
 	function renderEntry(entry: HebrewVocab) {
+		const isMastered = !!(entry.id && cardStatuses[entry.id]?.isMastered)
+		const isInMyStack = !!(entry.id && cardStatuses[entry.id]?.inMyStack)
+		const wordAccentClass =
+			isMastered && isInMyStack
+				? 'bg-gradient-to-l from-amber-100 to-emerald-100'
+				: isMastered
+					? 'bg-amber-100'
+					: isInMyStack
+						? 'bg-emerald-100'
+						: ''
+
 		return (
 			<div
 				key={entry.id}
@@ -278,9 +383,45 @@ export default function HebrewDictionary({ data }: DictionaryProps) {
 								<ImageIcon className="h-5 w-5" />
 							</span>
 						)}
-						<div className="ml-auto flex items-center gap-6">
-										<RootMorphologyIcons entry={entry} />
-							<span className="text-3xl font-serif">{entry.hebNiqqud}</span>
+						<div className="mx-auto flex items-center gap-4 sm:gap-6">
+							<RootMorphologyIcons
+								entry={entry}
+								size="compact"
+								className="flex gap-1 items-center text-slate-600 sm:hidden"
+							/>
+							<RootMorphologyIcons
+								entry={entry}
+								className="hidden gap-1 items-center text-slate-600 sm:flex"
+							/>
+						</div>
+						<div className="ml-auto flex items-center gap-3">
+							<div
+								className={`rounded-md px-2 py-1 sm:bg-transparent sm:px-0 sm:py-0 ${wordAccentClass}`}
+							>
+								<div className="flex items-center gap-3">
+									<div className="hidden sm:flex items-center gap-2">
+										{isInMyStack && (
+											<span
+												className="rounded-full bg-emerald-100 p-1 text-emerald-600 shadow-sm"
+												title="In My Stack"
+												aria-label="In My Stack"
+											>
+												<Bookmark className="h-4 w-4 fill-current" />
+											</span>
+										)}
+										{isMastered && (
+											<span
+												className="rounded-full bg-amber-100 p-1 text-amber-500 shadow-sm"
+												title="Mastered word"
+												aria-label="Mastered word"
+											>
+												<Star className="h-4 w-4 fill-current" />
+											</span>
+										)}
+									</div>
+									<span className="text-3xl font-serif">{entry.hebNiqqud}</span>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -503,6 +644,18 @@ export default function HebrewDictionary({ data }: DictionaryProps) {
 						))}
 
 						{/* Image Filter Button */}
+						{canUseSavedWordFeatures && (
+							<button
+								onClick={() => setShowMyStackOnly((prev) => !prev)}
+								className={`px-3 py-1 border rounded-full text-sm font-semibold transition ${
+									showMyStackOnly
+										? 'bg-amber-500 text-white border-amber-500'
+										: 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+								}`}
+							>
+								My Stack
+							</button>
+						)}
 						<button
 							onClick={() => setShowImagesOnly((prev) => !prev)}
 							className={`px-3 py-1 border rounded-full text-sm font-semibold transition ${
@@ -560,6 +713,23 @@ export default function HebrewDictionary({ data }: DictionaryProps) {
 										<h2 className="text-3xl font-bold text-white text-right pr-4 rounded-md bg-sky-600 my-6">
 											Lessons {range}
 										</h2>
+											<div className="mb-4 px-1">
+												<div className="mb-2 flex items-center justify-between gap-3 text-sm font-medium text-amber-900">
+													<span>Mastered words</span>
+													<span>
+														{lessonRangeProgress[range]?.masteredWords ?? 0} /{' '}
+														{lessonRangeProgress[range]?.totalWords ?? 0}
+													</span>
+												</div>
+												<div className="h-3 w-full overflow-hidden rounded-full bg-amber-100">
+													<div
+														className="h-full rounded-full bg-amber-500 transition-all"
+														style={{
+															width: `${lessonRangeProgress[range]?.percent ?? 0}%`,
+														}}
+													/>
+												</div>
+											</div>
 
 										{sortedLessons.map((lessonNum) => (
 											<div key={lessonNum} className="mb-6">

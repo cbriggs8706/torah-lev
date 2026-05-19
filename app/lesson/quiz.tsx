@@ -4,7 +4,7 @@ import { toast } from 'sonner'
 import Image from 'next/image'
 import Confetti from 'react-confetti'
 import { useRouter } from 'next/navigation'
-import { useEffect, useState, useTransition } from 'react'
+import { useEffect, useState } from 'react'
 import { useAudio, useWindowSize, useMount } from 'react-use'
 import ReactPlayer from 'react-player/youtube'
 
@@ -87,9 +87,6 @@ export const Quiz = ({
 	const [incorrectAudio, _i, incorrectControls] = useAudio({
 		src: '/incorrect.wav',
 	})
-
-	const [pending, startTransition] = useTransition()
-
 	const [lessonId] = useState(initialLessonId)
 	const [hearts, setHearts] = useState(initialHearts)
 	const [percentage, setPercentage] = useState(() => {
@@ -404,29 +401,25 @@ export const Quiz = ({
 											width="100%"
 											height="100%"
 											className="react-player"
-											onEnded={() =>
-												startTransition(() => {
-													upsertChallengeProgress(challenge.id)
-														.then(() => {
-															correctControls.play()
-															setSelectedOption(1)
-															setStatus('correct')
-															setPercentage(
-																(prev) => prev + 100 / challenges.length
-															)
+											onEnded={() => {
+												if (status !== 'none') return
 
-															// This is a practice
-															if (initialPercentage === 100) {
-																setHearts((prev) => Math.min(prev + 1, 5))
-															}
-														})
-														.catch(() =>
-															toast.error(
-																'Something went wrong. Please try again.'
-															)
-														)
-												})
-											}
+												correctControls.play()
+												setSelectedOption(1)
+												setStatus('correct')
+												setPercentage((prev) => prev + 100 / challenges.length)
+
+												// This is a practice
+												if (initialPercentage === 100) {
+													setHearts((prev) => Math.min(prev + 1, 5))
+												}
+
+												upsertChallengeProgress(challenge.id).catch(() =>
+													toast.error(
+														'Something went wrong. Please try again.'
+													)
+												)
+											}}
 										/>
 									</div>
 								</>
@@ -436,7 +429,6 @@ export const Quiz = ({
 								onSelect={onSelect}
 								status={status}
 								selectedOption={selectedOption}
-								disabled={pending}
 								type={challenge.type}
 							/>
 						</div>
@@ -444,7 +436,7 @@ export const Quiz = ({
 				</div>
 			</div>
 			<Footer
-				disabled={pending || !selectedOption}
+				disabled={!selectedOption}
 				status={status}
 				onCheck={onContinue}
 			/>

@@ -1,10 +1,13 @@
 'use client'
 
+import { awardVocabQuizCompletion } from '@/actions/vocab-quiz-progress'
 import TorahScrollLoader from '@/components/hebrew/hebrew-loader'
 import LessonFilter from '@/components/filters/filter-lesson'
 import { useLessonCards } from '@/hooks/useLessonCards'
 import type { EnglishVocab, GreekVocab, HebrewVocab } from '@/lib/vocab'
+import { ResultCard } from '@/app/lesson/result-card'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import ReactConfetti from 'react-confetti'
 import { useAudio, useWindowSize } from 'react-use'
@@ -37,23 +40,18 @@ interface VocabQuizProps {
 	courseId: number
 	userId: string
 	layout: QuizLayout
+	initialHearts?: number
 	pointsOnPass?: number
 }
 
-function CountdownCircle({ seconds }: { seconds: number }) {
-	const [progress, setProgress] = useState(0)
-
-	useEffect(() => {
-		let frame = 0
-		const totalFrames = seconds * 60
-		const interval = setInterval(() => {
-			frame += 1
-			setProgress((frame / totalFrames) * 100)
-			if (frame >= totalFrames) clearInterval(interval)
-		}, 1000 / 60)
-		return () => clearInterval(interval)
-	}, [seconds])
-
+function CountdownCircle({
+	seconds,
+	remainingMs,
+}: {
+	seconds: number
+	remainingMs: number
+}) {
+	const progress = seconds <= 0 ? 100 : ((seconds * 1000 - remainingMs) / (seconds * 1000)) * 100
 	const radius = 45
 	const circumference = 2 * Math.PI * radius
 	const offset = circumference - (progress / 100) * circumference
@@ -88,7 +86,7 @@ function CountdownCircle({ seconds }: { seconds: number }) {
 				fill="#111827"
 				fontWeight="bold"
 			>
-				{Math.ceil(seconds - (progress / 100) * seconds)}
+				{Math.ceil(remainingMs / 1000)}
 			</text>
 		</svg>
 	)
@@ -208,6 +206,14 @@ function preloadImage(src: string) {
 	image.src = src
 }
 
+function preloadAudio(src: string) {
+	if (typeof window === 'undefined' || !src) return
+	const audio = new Audio()
+	audio.preload = 'auto'
+	audio.src = src
+	audio.load()
+}
+
 function waitForImageLoad(
 	src: string,
 	cache: Map<string, Promise<void>>
@@ -239,19 +245,79 @@ function waitForImageLoad(
 	return loadPromise
 }
 
+function waitForAudioLoad(
+	src: string,
+	cache: Map<string, Promise<void>>
+) {
+	if (typeof window === 'undefined' || !src) {
+		return Promise.resolve()
+	}
+
+	const cached = cache.get(src)
+	if (cached) {
+		return cached
+	}
+
+	const loadPromise = new Promise<void>((resolve, reject) => {
+		const audio = new Audio()
+		audio.preload = 'auto'
+
+		const handleReady = () => {
+			audio.removeEventListener('canplaythrough', handleReady)
+			audio.removeEventListener('loadeddata', handleReady)
+			audio.removeEventListener('error', handleError)
+			resolve()
+		}
+
+		const handleError = () => {
+			audio.removeEventListener('canplaythrough', handleReady)
+			audio.removeEventListener('loadeddata', handleReady)
+			audio.removeEventListener('error', handleError)
+			reject(new Error(`Failed to load audio: ${src}`))
+		}
+
+		audio.addEventListener('canplaythrough', handleReady, { once: true })
+		audio.addEventListener('loadeddata', handleReady, { once: true })
+		audio.addEventListener('error', handleError, { once: true })
+		audio.src = src
+		audio.load()
+	}).catch((error) => {
+		cache.delete(src)
+		throw error
+	})
+
+	cache.set(src, loadPromise)
+	return loadPromise
+}
+
+function getCardMediaSources(card: VocabCard) {
+	const imageSources = Array.isArray(card.images)
+		? card.images.filter((src): src is string => typeof src === 'string' && src.length > 0)
+		: []
+
+	const audioSources = ['engAudio' in card ? card.engAudio : '', 'hebAudio' in card ? card.hebAudio : '', 'grkAudio' in card ? card.grkAudio : ''].filter(
+		(src): src is string => typeof src === 'string' && src.length > 0
+	)
+
+	return { imageSources, audioSources }
+}
+
 export default function VocabQuiz({
 	data,
 	currentLesson,
 	courseId,
-	userId,
+	userId: _userId,
 	layout,
+	initialHearts = 5,
 	pointsOnPass = 5,
 }: VocabQuizProps) {
 	const config = QUIZ_CONFIG[layout]
 	const {
 		selectedLessons,
 		setSelectedLessons,
+		lessonOptions,
 	} = useLessonCards(data, currentLesson)
+	const router = useRouter()
 	const [selectedPrompt, setSelectedPrompt] = useState<PromptKey>(
 		config.defaultPrompt
 	)
@@ -261,6 +327,8 @@ export default function VocabQuiz({
 	const [cards, setCards] = useState<VocabCard[]>([])
 	const [currentIndex, setCurrentIndex] = useState(0)
 	const [waiting, setWaiting] = useState(true)
+	const [isPaused, setIsPaused] = useState(false)
+	const [remainingMs, setRemainingMs] = useState(timeLimit * 1000)
 	const [promptReady, setPromptReady] = useState(false)
 	const [feedback, setFeedback] = useState<null | boolean>(null)
 	const [showConfetti, setShowConfetti] = useState(false)
@@ -269,13 +337,23 @@ export default function VocabQuiz({
 	const [finished, setFinished] = useState(false)
 	const [wrongAnswers, setWrongAnswers] = useState<VocabCard[]>([])
 	const [disabledButtons, setDisabledButtons] = useState(false)
-	const [awardedPoints, setAwardedPoints] = useState(0)
-	const [finishAudio] = useAudio({ src: '/finish.mp3', autoPlay: true })
+	const [completionHearts, setCompletionHearts] = useState(initialHearts)
+	const [completionRewards, setCompletionRewards] = useState<{
+		awardedPoints: number
+		hearts: number
+		tribePointAwarded: boolean
+	} | null>(null)
+	const [finishAudio] = useAudio({ src: '/shofar.mp3', autoPlay: true })
 	const promptAudioRef = useRef<HTMLAudioElement | null>(null)
 	const answerAudioRef = useRef<HTMLAudioElement | null>(null)
 	const hasAwardedRef = useRef(false)
 	const imageLoadCacheRef = useRef<Map<string, Promise<void>>>(new Map())
+	const audioLoadCacheRef = useRef<Map<string, Promise<void>>>(new Map())
+	const preloadRunRef = useRef(0)
 	const { width, height } = useWindowSize()
+	const [isPreloadingMedia, setIsPreloadingMedia] = useState(false)
+	const [preloadProgress, setPreloadProgress] = useState({ loaded: 0, total: 0 })
+	const [mediaReady, setMediaReady] = useState(false)
 
 	const availablePromptOptions = useMemo(
 		() =>
@@ -316,10 +394,77 @@ export default function VocabQuiz({
 	}, [config.answerField, data, selectedLessons, selectedPromptConfig])
 
 	useEffect(() => {
+		if (gameStarted || filteredCards.length === 0) {
+			setIsPreloadingMedia(false)
+			setMediaReady(filteredCards.length === 0)
+			setPreloadProgress({ loaded: 0, total: 0 })
+			return
+		}
+
+		const runId = preloadRunRef.current + 1
+		preloadRunRef.current = runId
+
+		const uniqueImages = new Set<string>()
+		const uniqueAudio = new Set<string>()
+
+		for (const card of filteredCards) {
+			const { imageSources, audioSources } = getCardMediaSources(card)
+			for (const src of imageSources) uniqueImages.add(src)
+			for (const src of audioSources) uniqueAudio.add(src)
+		}
+
+		const mediaTasks = [
+			...Array.from(uniqueImages, (src) => ({ kind: 'image' as const, src })),
+			...Array.from(uniqueAudio, (src) => ({ kind: 'audio' as const, src })),
+		]
+
+		if (mediaTasks.length === 0) {
+			setIsPreloadingMedia(false)
+			setMediaReady(true)
+			setPreloadProgress({ loaded: 0, total: 0 })
+			return
+		}
+
+		let completed = 0
+		setIsPreloadingMedia(true)
+		setMediaReady(false)
+		setPreloadProgress({ loaded: 0, total: mediaTasks.length })
+
+		void Promise.all(
+			mediaTasks.map(async ({ kind, src }) => {
+				try {
+					if (kind === 'image') {
+						await waitForImageLoad(src, imageLoadCacheRef.current)
+					} else {
+						await waitForAudioLoad(src, audioLoadCacheRef.current)
+					}
+				} catch {
+					if (kind === 'image') {
+						preloadImage(src)
+					} else {
+						preloadAudio(src)
+					}
+				} finally {
+					completed += 1
+					if (preloadRunRef.current === runId) {
+						setPreloadProgress({ loaded: completed, total: mediaTasks.length })
+					}
+				}
+			})
+		).finally(() => {
+			if (preloadRunRef.current !== runId) return
+			setIsPreloadingMedia(false)
+			setMediaReady(true)
+		})
+	}, [filteredCards, gameStarted, timeLimit])
+
+	useEffect(() => {
 		if (!gameStarted) return
 		setCards(shuffleCards(filteredCards))
 		setCurrentIndex(0)
 		setWaiting(true)
+		setIsPaused(false)
+		setRemainingMs(timeLimit * 1000)
 		setFeedback(null)
 		setDisabledButtons(false)
 		setShowConfetti(false)
@@ -327,13 +472,39 @@ export default function VocabQuiz({
 		setCorrectCount(0)
 		setWrongCount(0)
 		setWrongAnswers([])
-		setAwardedPoints(0)
+		setCompletionRewards(null)
 		hasAwardedRef.current = false
-	}, [filteredCards, gameStarted])
+	}, [filteredCards, gameStarted, timeLimit])
+
+	useEffect(() => {
+		setCompletionHearts(initialHearts)
+	}, [initialHearts])
 
 	const currentCard = cards[currentIndex]
 	const total = cards.length
 	const passed = wrongCount <= 2
+	const missedRatio = total > 0 ? wrongCount / total : 0
+	const rewardEligible = missedRatio <= 0.75
+	const celebratoryFinish = passed && rewardEligible
+	const mainScreenHref =
+		layout === 'hebrew' ? '/he/learn' : layout === 'greek' ? '/el/learn' : '/en/learn'
+
+	const nextLesson = useMemo(() => {
+		if (lessonOptions.length === 0 || selectedLessons.length === 0) return null
+
+		const sortedSelected = lessonOptions.filter((lesson) =>
+			selectedLessons.includes(lesson)
+		)
+		const lastSelectedLesson = sortedSelected[sortedSelected.length - 1]
+		if (!lastSelectedLesson) return null
+
+		const currentLessonIndex = lessonOptions.indexOf(lastSelectedLesson)
+		if (currentLessonIndex === -1 || currentLessonIndex >= lessonOptions.length - 1) {
+			return null
+		}
+
+		return lessonOptions[currentLessonIndex + 1]
+	}, [lessonOptions, selectedLessons])
 
 	const answerAudio =
 		currentCard && config.answerAudioField
@@ -423,37 +594,61 @@ export default function VocabQuiz({
 		audio.play().catch(() => {})
 	}, [answerAudio])
 
+	const playCardAnswerAudio = useCallback(
+		(card: VocabCard) => {
+			if (!config.answerAudioField) return
+			const src = String(getCardValue(card, config.answerAudioField) ?? '')
+			if (!src) return
+			answerAudioRef.current?.pause()
+			const audio = new Audio(src)
+			answerAudioRef.current = audio
+			audio.currentTime = 0
+			audio.play().catch(() => {})
+		},
+		[config.answerAudioField]
+	)
+
 	useEffect(() => {
 		if (!gameStarted || finished || !currentCard) return
 		if (!promptReady) return
 		setWaiting(true)
+		setIsPaused(false)
+		setRemainingMs(timeLimit * 1000)
 		setFeedback(null)
 		setDisabledButtons(false)
 
 		if (selectedPromptConfig?.kind === 'audio') {
 			playPromptAudio()
 		}
-
-		const timer = setTimeout(() => {
-			setWaiting(false)
-			if (selectedPromptConfig?.kind !== 'audio' && answerAudio) {
-				playAnswerAudio()
-			}
-		}, timeLimit * 1000)
-
-		return () => clearTimeout(timer)
 	}, [
-		answerAudio,
 		currentCard,
 		currentIndex,
 		finished,
 		gameStarted,
-		playAnswerAudio,
 		playPromptAudio,
 		promptReady,
 		selectedPromptConfig,
 		timeLimit,
 	])
+
+	useEffect(() => {
+		if (!waiting || isPaused) return
+
+		const interval = window.setInterval(() => {
+			setRemainingMs((prev) => Math.max(prev - 100, 0))
+		}, 100)
+
+		return () => window.clearInterval(interval)
+	}, [isPaused, waiting])
+
+	useEffect(() => {
+		if (!waiting || remainingMs > 0) return
+
+		setWaiting(false)
+		if (selectedPromptConfig?.kind !== 'audio' && answerAudio) {
+			playAnswerAudio()
+		}
+	}, [answerAudio, playAnswerAudio, remainingMs, selectedPromptConfig, waiting])
 
 	useEffect(() => {
 		return () => {
@@ -472,26 +667,28 @@ export default function VocabQuiz({
 		promptReady
 
 	const awardPoints = useCallback(async () => {
-		if (userId === 'guest') return
 		try {
-			const res = await fetch('/api/award-points', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ userId, courseId, points: pointsOnPass }),
+			const result = await awardVocabQuizCompletion({
+				courseId,
+				points: pointsOnPass,
 			})
-			if (!res.ok) throw new Error('Bad response')
-			setAwardedPoints(pointsOnPass)
+			setCompletionHearts(result.hearts)
+			setCompletionRewards({
+				awardedPoints: result.awardedPoints,
+				hearts: result.hearts,
+				tribePointAwarded: result.tribePointAwarded,
+			})
 		} catch (error) {
-			console.error('Failed to award points', error)
+			console.error('Failed to award vocab quiz rewards', error)
 		}
-	}, [courseId, pointsOnPass, userId])
+	}, [courseId, pointsOnPass])
 
 	useEffect(() => {
-		if (finished && passed && !hasAwardedRef.current) {
+		if (finished && celebratoryFinish && !hasAwardedRef.current) {
 			hasAwardedRef.current = true
 			awardPoints()
 		}
-	}, [awardPoints, finished, passed])
+	}, [awardPoints, celebratoryFinish, finished])
 
 	function handleResponse(correct: boolean) {
 		if (waiting || disabledButtons || !currentCard) return
@@ -526,6 +723,8 @@ export default function VocabQuiz({
 		setCards([])
 		setCurrentIndex(0)
 		setWaiting(true)
+		setIsPaused(false)
+		setRemainingMs(timeLimit * 1000)
 		setFeedback(null)
 		setShowConfetti(false)
 		setCorrectCount(0)
@@ -533,15 +732,29 @@ export default function VocabQuiz({
 		setFinished(false)
 		setWrongAnswers([])
 		setDisabledButtons(false)
-		setAwardedPoints(0)
+		setCompletionRewards(null)
 		hasAwardedRef.current = false
+	}
+
+	async function beginActivity(nextStudyMode: boolean) {
+		if (filteredCards.length === 0 || isPreloadingMedia || !mediaReady) return
+		setStudyMode(nextStudyMode)
+		setGameStarted(true)
+	}
+
+	function startNextLesson() {
+		if (!nextLesson) return
+		resetToStart()
+		setSelectedLessons([nextLesson])
 	}
 
 	function renderTextValue(value: unknown, sizeClass: string) {
 		if (typeof value !== 'string' || value.trim().length === 0) return null
 		return (
 			<div
-				className={`${sizeClass} leading-tight text-slate-900`}
+				className={`${sizeClass} leading-tight text-slate-900 ${
+					layout === 'hebrew' ? 'font-cardo' : ''
+				}`}
 				dir={layout === 'hebrew' ? 'rtl' : 'ltr'}
 			>
 				{value}
@@ -614,7 +827,7 @@ export default function VocabQuiz({
 				</button>
 			)}
 
-			{showConfetti && passed && (
+			{showConfetti && celebratoryFinish && (
 				<>
 					<ReactConfetti
 						width={width}
@@ -623,7 +836,6 @@ export default function VocabQuiz({
 						numberOfPieces={500}
 						tweenDuration={10000}
 					/>
-					{finishAudio}
 				</>
 			)}
 
@@ -708,6 +920,18 @@ export default function VocabQuiz({
 						<p className="text-sm text-slate-600">
 							Cards ready: <span className="font-semibold">{filteredCards.length}</span>
 						</p>
+						{filteredCards.length > 0 && (
+							<p className="text-sm text-slate-600">
+								Media preload:{' '}
+								<span className="font-semibold">
+									{isPreloadingMedia
+										? `${preloadProgress.loaded}/${preloadProgress.total}`
+										: mediaReady
+											? 'Ready'
+											: 'Waiting'}
+								</span>
+							</p>
+						)}
 					</div>
 
 					{filteredCards.length === 0 && (
@@ -717,31 +941,29 @@ export default function VocabQuiz({
 					<div className="flex flex-wrap justify-center gap-4">
 						<button
 							onClick={() => {
-								setStudyMode(true)
-								setGameStarted(true)
+								void beginActivity(true)
 							}}
-							disabled={filteredCards.length === 0}
+							disabled={filteredCards.length === 0 || isPreloadingMedia || !mediaReady}
 							className={`rounded-xl px-6 py-3 font-semibold text-white ${
-								filteredCards.length === 0
+								filteredCards.length === 0 || isPreloadingMedia || !mediaReady
 									? 'bg-slate-300'
 									: 'bg-violet-600 hover:bg-violet-700'
 							}`}
 						>
-							Study Words
+							{isPreloadingMedia ? 'Loading Media...' : 'Study Words'}
 						</button>
 						<button
 							onClick={() => {
-								setStudyMode(false)
-								setGameStarted(true)
+								void beginActivity(false)
 							}}
-							disabled={filteredCards.length === 0}
+							disabled={filteredCards.length === 0 || isPreloadingMedia || !mediaReady}
 							className={`rounded-xl px-6 py-3 font-semibold text-white ${
-								filteredCards.length === 0
+								filteredCards.length === 0 || isPreloadingMedia || !mediaReady
 									? 'bg-slate-300'
 									: 'bg-green-600 hover:bg-green-700'
 							}`}
 						>
-							Start Quiz
+							{isPreloadingMedia ? 'Loading Media...' : 'Start Quiz'}
 						</button>
 					</div>
 				</div>
@@ -794,25 +1016,68 @@ export default function VocabQuiz({
 					</button>
 				</div>
 			) : finished ? (
-				<div className="space-y-4">
-					<h2 className="text-2xl font-bold text-slate-900">Quiz Complete!</h2>
-					<p className="text-lg">✅ Correct: {correctCount}</p>
-					<p className="text-lg">❌ Incorrect: {wrongCount}</p>
-					<p
-						className={`text-xl font-semibold ${
-							passed ? 'text-green-600' : 'text-red-500'
-						}`}
-					>
-						{passed
-							? 'You passed!'
-							: "To pass, you must miss 2 or fewer. Let's try again!"}
-					</p>
-					<p className="text-lg">
-						⭐ Points earned: <span className="font-semibold">{awardedPoints}</span>
-					</p>
+				<>
+					{showConfetti && celebratoryFinish && finishAudio}
+					<div className="mx-auto flex max-w-3xl flex-col items-center justify-center gap-y-4 text-center lg:gap-y-8">
+						{celebratoryFinish && (
+							<>
+								<Image
+									src="/finish.svg"
+									alt="Finish"
+									className="hidden lg:block"
+									height={100}
+									width={100}
+								/>
+								<Image
+									src="/finish.svg"
+									alt="Finish"
+									className="block lg:hidden"
+									height={50}
+									width={50}
+								/>
+							</>
+						)}
+						<h1 className="text-xl font-bold text-neutral-700 lg:text-3xl">
+							{celebratoryFinish
+								? "Great job! You've completed this quiz."
+								: 'Quiz Complete!'}
+						</h1>
+						<p className="text-lg font-semibold text-slate-700">
+							✅ Correct: {correctCount}
+						</p>
+						<p className="text-lg font-semibold text-slate-700">
+							❌ Incorrect: {wrongCount}
+						</p>
+						<p
+							className={`text-lg font-bold lg:text-2xl ${
+								celebratoryFinish ? 'text-neutral-700' : 'text-red-500'
+							}`}
+						>
+							{celebratoryFinish
+								? `You earned ${completionRewards?.awardedPoints ?? pointsOnPass} point${
+										(completionRewards?.awardedPoints ?? pointsOnPass) === 1 ? '' : 's'
+								  }.`
+								: passed
+									? 'You passed, but no points were awarded because more than 75% were missed.'
+									: "To pass, you must miss 2 or fewer. Let's try again!"}
+						</p>
+						{celebratoryFinish && (
+							<div className="flex w-full items-center gap-x-4">
+								<ResultCard
+									variant="points"
+									value={completionRewards?.awardedPoints ?? pointsOnPass}
+									tribePointAdded={completionRewards?.tribePointAwarded ?? false}
+								/>
+								<ResultCard
+									variant="hearts"
+									value={completionRewards?.hearts ?? completionHearts}
+									tribePointAdded={completionRewards?.tribePointAwarded ?? false}
+								/>
+							</div>
+						)}
 
 					{wrongAnswers.length > 0 && (
-						<div className="mt-6">
+						<div className="mt-2 w-full">
 							<h3 className="mb-3 text-lg font-medium">You missed:</h3>
 							<div className="grid gap-4 sm:grid-cols-2">
 								{wrongAnswers.map((card, index) => (
@@ -823,6 +1088,16 @@ export default function VocabQuiz({
 										<div className="text-center">{renderPrompt(card, 'text-2xl')}</div>
 										<div className="mt-4 border-t border-slate-200 pt-4 text-center">
 											{renderAnswer(card, 'text-3xl')}
+											{config.answerAudioField &&
+												hasValue(card, config.answerAudioField) && (
+													<button
+														onClick={() => playCardAnswerAudio(card)}
+														className="mt-3 text-2xl text-sky-600 hover:text-sky-800"
+														aria-label="Replay answer audio"
+													>
+														🔊
+													</button>
+												)}
 										</div>
 									</div>
 								))}
@@ -830,13 +1105,33 @@ export default function VocabQuiz({
 						</div>
 					)}
 
-					<button
-						onClick={resetToStart}
-						className="mt-4 rounded-xl bg-sky-600 px-6 py-3 font-semibold text-white hover:bg-sky-700"
-					>
-						Start Over
-					</button>
-				</div>
+						<div className="flex flex-wrap justify-center gap-4 pt-2">
+							<button
+								onClick={resetToStart}
+								className="rounded-xl bg-slate-200 px-6 py-3 font-semibold text-slate-800 hover:bg-slate-300"
+							>
+								Start Over
+							</button>
+							<button
+								onClick={startNextLesson}
+								disabled={!nextLesson}
+								className={`rounded-xl px-6 py-3 font-semibold text-white ${
+									nextLesson
+										? 'bg-emerald-600 hover:bg-emerald-700'
+										: 'bg-slate-300'
+								}`}
+							>
+								{nextLesson ? `Start Next Lesson (${nextLesson})` : 'No Next Lesson'}
+							</button>
+							<button
+								onClick={() => router.push(mainScreenHref)}
+								className="rounded-xl bg-sky-600 px-6 py-3 font-semibold text-white hover:bg-sky-700"
+							>
+								Return to Main Screen
+							</button>
+						</div>
+					</div>
+				</>
 			) : currentCard ? (
 				!activityReady ? (
 					<div className="flex min-h-[420px] items-center justify-center">
@@ -854,10 +1149,10 @@ export default function VocabQuiz({
 					</div>
 
 					<div className="flex justify-center">
-						{waiting ? (
-							<CountdownCircle seconds={timeLimit} />
-						) : (
-							<div className="space-y-3">
+								{waiting ? (
+									<CountdownCircle seconds={timeLimit} remainingMs={remainingMs} />
+								) : (
+									<div className="space-y-3">
 								<p className="text-sm font-semibold uppercase tracking-wide text-slate-500">
 									{config.answerLabel}
 								</p>
@@ -877,29 +1172,6 @@ export default function VocabQuiz({
 
 					<div className="flex flex-wrap justify-center gap-4">
 						<button
-							onClick={() => handleResponse(true)}
-							disabled={waiting || disabledButtons}
-							className={`rounded-xl px-5 py-3 font-semibold text-white ${
-								waiting || disabledButtons
-									? 'bg-green-300'
-									: 'bg-green-500 hover:bg-green-600'
-							}`}
-						>
-							I got it 👍
-						</button>
-						<button
-							onClick={() => {
-								if (selectedPromptConfig?.kind === 'audio') {
-									playPromptAudio()
-									return
-								}
-								playAnswerAudio()
-							}}
-							className="rounded-xl bg-yellow-400 px-5 py-3 font-semibold text-slate-900 hover:bg-yellow-500"
-						>
-							⏸ Replay
-						</button>
-						<button
 							onClick={() => handleResponse(false)}
 							disabled={waiting || disabledButtons}
 							className={`rounded-xl px-5 py-3 font-semibold text-white ${
@@ -909,6 +1181,24 @@ export default function VocabQuiz({
 							}`}
 						>
 							I missed 👎
+						</button>
+						<button
+							onClick={() => setIsPaused((prev) => !prev)}
+							disabled={!waiting}
+							className="rounded-xl bg-yellow-400 px-5 py-3 font-semibold text-slate-900 hover:bg-yellow-500"
+						>
+							{isPaused ? '▶ Resume' : '⏸ Pause'}
+						</button>
+						<button
+							onClick={() => handleResponse(true)}
+							disabled={waiting || disabledButtons}
+							className={`rounded-xl px-5 py-3 font-semibold text-white ${
+								waiting || disabledButtons
+									? 'bg-green-300'
+									: 'bg-green-500 hover:bg-green-600'
+							}`}
+						>
+							I got it 👍
 						</button>
 					</div>
 

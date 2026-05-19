@@ -69,7 +69,7 @@ export default async function HebrewDictionaryPage() {
 						view more info.
 					</DismissibleAlert>
 
-					<HebrewDictionary data={filteredWords} />
+					<HebrewDictionary data={filteredWords} courseId={activeCourseId} />
 				</div>
 			</FeedWrapper>
 		</div>

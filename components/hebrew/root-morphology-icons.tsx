@@ -13,38 +13,39 @@ interface RootMorphologyIconsProps {
 	entry: HebrewVocab
 	fields?: RootMorphologyField[]
 	className?: string
+	size?: 'default' | 'compact'
 }
 
 export function RootMorphologyIcons({
 	entry,
 	fields = ['rootPerson', 'rootGender', 'rootNumber'],
 	className = 'flex gap-1 items-center text-slate-600',
+	size = 'default',
 }: RootMorphologyIconsProps) {
 	const { rootPerson, rootGender, rootNumber } = getRootMorphologyParts(entry)
 	const elements: JSX.Element[] = []
+	const textClass = size === 'compact' ? 'text-xs font-bold' : 'text-sm font-bold'
+	const iconSize = size === 'compact' ? 12 : 16
+	const numberClass = size === 'compact' ? 'text-xs' : ''
 
 	if (fields.includes('rootPerson')) {
 		if (rootPerson === '1') {
 			elements.push(
-				<span key="person-1" className="text-sm font-bold" title="first person">
+				<span key="person-1" className={textClass} title="first person">
 					1
 				</span>,
 			)
 		}
 		if (rootPerson === '2') {
 			elements.push(
-				<span
-					key="person-2"
-					className="text-sm font-bold"
-					title="second person"
-				>
+				<span key="person-2" className={textClass} title="second person">
 					2
 				</span>,
 			)
 		}
 		if (rootPerson === '3') {
 			elements.push(
-				<span key="person-3" className="text-sm font-bold" title="third person">
+				<span key="person-3" className={textClass} title="third person">
 					3
 				</span>,
 			)
@@ -58,8 +59,8 @@ export function RootMorphologyIcons({
 					<Image
 						src={MaleIcon}
 						alt="male"
-						width={16}
-						height={16}
+						width={iconSize}
+						height={iconSize}
 						className="inline-block"
 					/>
 				</span>,
@@ -71,8 +72,8 @@ export function RootMorphologyIcons({
 					<Image
 						src={FemaleIcon}
 						alt="female"
-						width={16}
-						height={16}
+						width={iconSize}
+						height={iconSize}
 						className="inline-block"
 					/>
 				</span>,
@@ -84,8 +85,8 @@ export function RootMorphologyIcons({
 					<Image
 						src={MaleFemaleIcon}
 						alt="epicene"
-						width={16}
-						height={16}
+						width={iconSize}
+						height={iconSize}
 						className="inline-block"
 					/>
 				</span>,
@@ -96,14 +97,14 @@ export function RootMorphologyIcons({
 	if (fields.includes('rootNumber')) {
 		if (rootNumber === 's') {
 			elements.push(
-				<span key="number-s" title="singular">
+				<span key="number-s" title="singular" className={numberClass}>
 					👤
 				</span>,
 			)
 		}
 		if (rootNumber === 'p') {
 			elements.push(
-				<span key="number-p" title="plural">
+				<span key="number-p" title="plural" className={numberClass}>
 					👥
 				</span>,
 			)

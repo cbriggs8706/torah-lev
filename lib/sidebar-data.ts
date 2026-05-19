@@ -65,7 +65,6 @@ export function buildSidebarSections({
 			{ key: 'dictionary', label: localize(resolvedLocale, 'nav.dictionary'), href: '/he/dictionary', iconSrc: '/icons/iconDictionary.png' },
 			{ key: 'lesson-scripts', label: localize(resolvedLocale, 'nav.lessonScripts'), href: '/he/lesson-scripts', iconSrc: '/icons/iconNotebook.png' },
 			{ key: 'matchup', label: localize(resolvedLocale, 'nav.matchup'), href: '/he/matchup', iconSrc: '/icons/iconSocks.png' },
-			{ key: 'speed-quiz', label: localize(resolvedLocale, 'nav.speedQuiz'), href: '/he/speed-quiz', iconSrc: '/man-juggling-medium-skin-tone-svgrepo-com.svg', icon: Timer },
 		)
 
 		gameItems.push(

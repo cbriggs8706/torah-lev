@@ -21,8 +21,12 @@ export function parseLessonKey(key: string) {
 
 export function useLessonCards(
 	data: LessonCard[],
-	currentLesson: string
+	currentLesson: string,
+	options?: {
+		selectionMode?: 'single' | 'multiple'
+	}
 ) {
+	const selectionMode = options?.selectionMode ?? 'multiple'
 	const [selectedLessons, setSelectedLessons] = useState<string[]>([])
 	const [currentIndex, setCurrentIndex] = useState(0)
 
@@ -44,7 +48,7 @@ export function useLessonCards(
 		})
 	}, [data])
 
-	// auto-select lessons up to currentLesson
+	// Auto-select lessons based on the selection mode for the current screen.
 	useEffect(() => {
 		if (!currentLesson) return
 
@@ -69,8 +73,14 @@ export function useLessonCards(
 			return parsed.text.localeCompare(currentParsed.text) <= 0
 		})
 
+		if (selectionMode === 'single') {
+			const exactMatch = dataLessons.find((lesson) => lesson === currentLesson)
+			setSelectedLessons(exactMatch ? [exactMatch] : availableLessons.slice(-1))
+			return
+		}
+
 		setSelectedLessons(availableLessons)
-	}, [currentLesson, data])
+	}, [currentLesson, data, selectionMode])
 
 	return {
 		selectedLessons,

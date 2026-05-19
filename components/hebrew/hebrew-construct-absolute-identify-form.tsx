@@ -16,6 +16,7 @@ type QuizCard = {
 	id: string
 	hebrew: string
 	type: FormType
+	acceptsEither: boolean
 	lessonNumber: string
 	lessonTitle: string
 }
@@ -99,6 +100,34 @@ function shuffle<T>(items: T[]) {
 	return [...items].sort(() => Math.random() - 0.5)
 }
 
+function normalizeHebrewForm(value: string) {
+	return value.normalize('NFC').trim()
+}
+
+function getAnswerButtonState({
+	showAnswer,
+	selectedAnswer,
+	buttonType,
+	currentCard,
+}: {
+	showAnswer: boolean
+	selectedAnswer: FormType | null
+	buttonType: FormType
+	currentCard: QuizCard | null
+}) {
+	if (!showAnswer || !currentCard) return 'neutral' as const
+
+	const selectedIsCorrect =
+		selectedAnswer !== null &&
+		(currentCard.acceptsEither || selectedAnswer === currentCard.type)
+
+	if (selectedAnswer === buttonType) {
+		return selectedIsCorrect ? ('correct' as const) : ('incorrect' as const)
+	}
+
+	return 'neutral' as const
+}
+
 export default function HebrewConstructAbsoluteIdentifyForm({
 	words,
 	currentLesson,
@@ -131,22 +160,29 @@ export default function HebrewConstructAbsoluteIdentifyForm({
 
 	const cards = useMemo<QuizCard[]>(
 		() =>
-			filteredWords.flatMap((word) => [
-				{
-					id: `${word.id}-absolute`,
-					hebrew: word.absolute,
-					type: 'absolute' as const,
-					lessonNumber: word.lessonNumber,
-					lessonTitle: word.lessonTitle,
-				},
-				{
-					id: `${word.id}-construct`,
-					hebrew: word.construct,
-					type: 'construct' as const,
-					lessonNumber: word.lessonNumber,
-					lessonTitle: word.lessonTitle,
-				},
-			]),
+			filteredWords.flatMap((word) => {
+				const acceptsEither =
+					normalizeHebrewForm(word.absolute) === normalizeHebrewForm(word.construct)
+
+				return [
+					{
+						id: `${word.id}-absolute`,
+						hebrew: word.absolute,
+						type: 'absolute' as const,
+						acceptsEither,
+						lessonNumber: word.lessonNumber,
+						lessonTitle: word.lessonTitle,
+					},
+					{
+						id: `${word.id}-construct`,
+						hebrew: word.construct,
+						type: 'construct' as const,
+						acceptsEither,
+						lessonNumber: word.lessonNumber,
+						lessonTitle: word.lessonTitle,
+					},
+				]
+			}),
 		[filteredWords]
 	)
 
@@ -199,7 +235,7 @@ export default function HebrewConstructAbsoluteIdentifyForm({
 	function handleAnswer(answer: FormType) {
 		if (!currentCard || showAnswer) return
 
-		const isCorrect = answer === currentCard.type
+		const isCorrect = currentCard.acceptsEither || answer === currentCard.type
 		setSelectedAnswer(answer)
 		setShowAnswer(true)
 		setTimedOut(false)
@@ -476,18 +512,23 @@ export default function HebrewConstructAbsoluteIdentifyForm({
 						<Button
 							type="button"
 							size="lg"
-							variant={
-								showAnswer
-									? currentCard?.type === 'absolute'
-										? 'primary'
-										: selectedAnswer === 'absolute'
-											? 'danger'
-											: 'default'
-									: 'default'
-							}
+							variant="default"
 							className={cn(
-								'h-auto min-h-24 text-base font-nunito',
-								showAnswer && currentCard?.type === 'absolute' && 'ring-2 ring-emerald-400'
+								'h-auto min-h-24 text-base font-nunito disabled:opacity-100',
+								getAnswerButtonState({
+									showAnswer,
+									selectedAnswer,
+									buttonType: 'absolute',
+									currentCard,
+								}) === 'correct' &&
+									'border-emerald-600 bg-emerald-600 text-white hover:bg-emerald-600 ring-2 ring-emerald-300',
+								getAnswerButtonState({
+									showAnswer,
+									selectedAnswer,
+									buttonType: 'absolute',
+									currentCard,
+								}) === 'incorrect' &&
+									'border-rose-600 bg-rose-500 text-white hover:bg-rose-500 ring-2 ring-rose-300'
 							)}
 							onClick={() => handleAnswer('absolute')}
 							disabled={showAnswer}
@@ -497,18 +538,23 @@ export default function HebrewConstructAbsoluteIdentifyForm({
 						<Button
 							type="button"
 							size="lg"
-							variant={
-								showAnswer
-									? currentCard?.type === 'construct'
-										? 'primary'
-										: selectedAnswer === 'construct'
-											? 'danger'
-											: 'default'
-									: 'default'
-							}
+							variant="default"
 							className={cn(
-								'h-auto min-h-24 text-base font-nunito',
-								showAnswer && currentCard?.type === 'construct' && 'ring-2 ring-emerald-400'
+								'h-auto min-h-24 text-base font-nunito disabled:opacity-100',
+								getAnswerButtonState({
+									showAnswer,
+									selectedAnswer,
+									buttonType: 'construct',
+									currentCard,
+								}) === 'correct' &&
+									'border-emerald-600 bg-emerald-600 text-white hover:bg-emerald-600 ring-2 ring-emerald-300',
+								getAnswerButtonState({
+									showAnswer,
+									selectedAnswer,
+									buttonType: 'construct',
+									currentCard,
+								}) === 'incorrect' &&
+									'border-rose-600 bg-rose-500 text-white hover:bg-rose-500 ring-2 ring-rose-300'
 							)}
 							onClick={() => handleAnswer('construct')}
 							disabled={showAnswer}
@@ -517,29 +563,7 @@ export default function HebrewConstructAbsoluteIdentifyForm({
 						</Button>
 					</div>
 
-					{showAnswer ? (
-						<div
-							className={cn(
-								'flex items-start gap-3 rounded-2xl border px-4 py-4 text-sm leading-6',
-								selectedAnswer === currentCard?.type
-									? 'border-emerald-200 bg-emerald-50 text-emerald-900'
-									: 'border-rose-200 bg-rose-50 text-rose-900'
-							)}
-						>
-							{selectedAnswer === currentCard?.type ? (
-								<Check className="mt-0.5 h-5 w-5 shrink-0" />
-							) : (
-								<X className="mt-0.5 h-5 w-5 shrink-0" />
-							)}
-							<p>
-								{timedOut
-									? `Time ran out. ${currentCard.hebrew} is in the ${currentCard.type} state.`
-									: selectedAnswer === currentCard?.type
-									? `Correct. ${currentCard.hebrew} is in the ${currentCard.type} state.`
-									: `Not quite. ${currentCard.hebrew} is in the ${currentCard?.type} state.`}
-							</p>
-						</div>
-					) : (
+					{showAnswer ? null : (
 						<p className="text-center text-sm leading-6 text-neutral-600">
 							Choose the state that matches the word above.
 						</p>
