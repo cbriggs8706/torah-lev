@@ -22,7 +22,6 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from '../ui/dialog'
-import StudyGroupAssignmentsCalendar from '../study-group/assignement-calendar'
 
 interface CourseProgress {
 	courseId: number
@@ -619,10 +618,6 @@ export default function HebrewUserDashboard({
 				<div className="p-4 rounded-xl bg-gray-100 text-gray-500 mt-6 text-center">
 					You have not been assigned to any study groups yet.
 				</div>
-			)}
-
-			{studyGroups && studyGroups.length > 0 && (
-				<StudyGroupAssignmentsCalendar studyGroups={studyGroups} />
 			)}
 
 			{/* OTHER COURSES */}

@@ -1,17 +1,10 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useEffectEvent, useRef, useState } from 'react'
 import Image from 'next/image'
 import { Send } from 'lucide-react'
-import { createClient } from '@supabase/supabase-js'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { v4 as uuidv4 } from 'uuid'
-
-const supabase = createClient(
-	process.env.NEXT_PUBLIC_SUPABASE_URL!,
-	process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-)
 
 type User = {
 	id: string
@@ -25,7 +18,6 @@ type Message = {
 	senderId: string
 	content: string
 	createdAt: string | Date
-	tempId?: string
 }
 
 type StudyGroupMessagesProps = {
@@ -52,6 +44,25 @@ export default function StudyGroupMessages({
 
 	const findUser = (id: string) => allMembers.find((u) => u.id === id)
 
+	const fetchMessages = useEffectEvent(async () => {
+		if (!studyGroupId) return
+
+		try {
+			const res = await fetch(`/api/study-groups/${studyGroupId}/messages`, {
+				cache: 'no-store',
+			})
+
+			if (!res.ok) {
+				throw new Error(`Failed to fetch messages (${res.status})`)
+			}
+
+			const data = await res.json()
+			setMessages(Array.isArray(data) ? data : [])
+		} catch (error) {
+			console.error('Error fetching messages:', error)
+		}
+	})
+
 	// 🔄 Auto-scroll to bottom
 	useEffect(() => {
 		scrollRef.current?.scrollTo({
@@ -64,106 +75,45 @@ export default function StudyGroupMessages({
 	useEffect(() => {
 		if (!studyGroupId) return
 
-		const fetchMessages = async () => {
-			const { data, error } = await supabase
-				.from('messages')
-				.select('*')
-				.eq('study_group_id', studyGroupId)
-				.order('created_at', { ascending: true })
-
-			if (error) {
-				console.error('Error fetching messages:', error)
-				return
-			}
-
-			setMessages(
-				(data || []).map((m) => ({
-					id: m.id,
-					senderId: m.sender_id,
-					content: m.content,
-					createdAt: m.created_at,
-				}))
-			)
-		}
-
 		fetchMessages()
-	}, [studyGroupId])
-
-	// ⚡ Single realtime listener for INSERT
-	useEffect(() => {
-		if (!studyGroupId) return
-
-		const channel = supabase
-			.channel(`study-group-${studyGroupId}`)
-			.on(
-				'postgres_changes',
-				{
-					event: 'INSERT',
-					schema: 'public',
-					table: 'messages',
-					filter: `study_group_id=eq.${studyGroupId}`,
-				},
-				(payload) => {
-					setMessages((prev) => {
-						// ✅ Prevent duplicates (either same DB id or tempId)
-						if (
-							prev.some(
-								(m) =>
-									m.id === payload.new.id ||
-									(m.tempId && m.tempId === payload.new.temp_id)
-							)
-						)
-							return prev
-
-						return [
-							...prev,
-							{
-								id: payload.new.id,
-								senderId: payload.new.sender_id,
-								content: payload.new.content,
-								createdAt: payload.new.created_at,
-							},
-						]
-					})
-				}
-			)
-			.subscribe()
+		const intervalId = window.setInterval(fetchMessages, 10000)
 
 		return () => {
-			supabase.removeChannel(channel)
+			window.clearInterval(intervalId)
 		}
 	}, [studyGroupId])
 
 	const cleanSrc = (url?: string) =>
 		url?.replace(/\s|\n|\r/g, '') || '/mascot.svg'
 
-	// ✉️ Handle sending (with optimistic UI)
+	// ✉️ Handle sending
 	const handleSend = async () => {
 		if (!newMessage.trim() || !studyGroupId) return
 		const messageText = newMessage.trim()
-		setNewMessage('')
 
-		const tempId = uuidv4()
+		try {
+			const res = await fetch(`/api/study-groups/${studyGroupId}/messages`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ content: messageText }),
+			})
 
-		// Optimistic update
-		setMessages((prev) => [
-			...prev,
-			{
-				id: Date.now(), // temp local id
-				tempId,
-				senderId: currentUserId,
-				content: messageText,
-				createdAt: new Date().toISOString(),
-			},
-		])
+			if (!res.ok) {
+				throw new Error(`Failed to send message (${res.status})`)
+			}
 
-		// Send to Supabase
-		await supabase.from('messages').insert({
-			sender_id: currentUserId,
-			content: messageText,
-			study_group_id: studyGroupId,
-			temp_id: tempId, // optional column in DB
-		})
+			const created = await res.json()
+			setMessages((prev) =>
+				prev.some((message) => message.id === created.id)
+					? prev
+					: [...prev, created]
+			)
+			setNewMessage('')
+		} catch (error) {
+			console.error('Error sending message:', error)
+		}
 	}
 
 	// 🕒 Format timestamp
@@ -237,7 +187,7 @@ export default function StudyGroupMessages({
 					const showTime = shouldShowTimestamp(msg, previous)
 
 					return (
-						<div key={`${msg.id ?? 'temp'}-${msg.tempId ?? ''}`}>
+						<div key={msg.id}>
 							{showTime && (
 								<div className="text-center text-xs text-gray-400 my-3">
 									{formatTimestamp(msg.createdAt)}

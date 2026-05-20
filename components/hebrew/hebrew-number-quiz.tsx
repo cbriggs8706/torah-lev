@@ -575,7 +575,7 @@ export default function HebrewNumberQuiz({
 						<div className="col-span-3 md:col-span-1 mb-6">
 							<p className="font-medium mb-2">Form</p>
 							<div className="flex justify-center gap-2">
-								{(['cardinal', 'ordinal', 'construct'] as FormType[]).map(
+								{(['cardinal', 'ordinal'] as FormType[]).map(
 									(form) => (
 										<button
 											key={form}

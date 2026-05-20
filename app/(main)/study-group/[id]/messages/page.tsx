@@ -1,22 +1,14 @@
 import Image from 'next/image'
-import { redirect } from 'next/navigation'
 
 import { FeedWrapper } from '@/components/feed-wrapper'
-import {
-	getUserProgress,
-	getUserSubscription,
-	getStudyGroupWithMessages,
-} from '@/db/queries'
+import { getUserProgress, getStudyGroupWithMessages } from '@/db/queries'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import StudyGroupMessages from '@/components/study-group/messages'
 
 export default async function MessageboardPage({ params }: any) {
 	const { id } = await params
-	const [userProgress, userSubscription] = await Promise.all([
-		getUserProgress(),
-		getUserSubscription(),
-	])
+	const userProgress = await getUserProgress()
 	if (!userProgress) {
 		return (
 			<div className="text-center text-red-500 mt-10">
@@ -25,20 +17,9 @@ export default async function MessageboardPage({ params }: any) {
 		)
 	}
 
-	// 🧠 If user is not logged in, redirect or show nothing
-	if (!userProgress) {
-		// Option 1: redirect to login
-		redirect('/login')
-
-		// Option 2 (if you prefer not to redirect):
-		// return <p className="text-center mt-10 text-gray-500">Please sign in to view this page.</p>
-	}
-
 	// ✅ Safe to use userProgress now
 	const studyGroupId = Number(id)
 	const studyGroup = await getStudyGroupWithMessages(studyGroupId)
-	console.log('DEBUG: studyGroupId', studyGroupId)
-	console.log('DEBUG: studyGroup', studyGroup)
 
 	if (!studyGroup) {
 		return (

@@ -1505,30 +1505,3 @@ export async function getUserStudyGroupsWithTeaching(userId: string) {
 		}, {} as Record<number, any>)
 	)
 }
-
-export async function getStudyGroupWithCourses(studyGroupId: number) {
-	// 1️⃣ Get base group with teacher and members
-	const group = await db.query.studyGroups.findFirst({
-		where: eq(studyGroups.id, studyGroupId),
-		with: {
-			teacher: true,
-			members: { with: { user: true } },
-		},
-	})
-
-	if (!group) return null
-
-	// 3️⃣ Add available courses (currently all courses)
-	const availableCourses = await db.query.courses.findMany({
-		orderBy: (courses, { asc }) => [asc(courses.id)],
-		columns: {
-			id: true,
-			title: true,
-		},
-	})
-
-	return {
-		...group,
-		availableCourses,
-	}
-}

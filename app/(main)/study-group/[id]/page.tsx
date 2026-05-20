@@ -1,20 +1,12 @@
 import Image from 'next/image'
-import { redirect } from 'next/navigation'
 
 import { FeedWrapper } from '@/components/feed-wrapper'
-import {
-	getUserProgress,
-	getUserSubscription,
-	getStudyGroupWithMessages,
-} from '@/db/queries'
+import { getUserProgress, getStudyGroupWithMessages } from '@/db/queries'
 import StudyGroupDashboard from '@/components/study-group/dashboard'
 
 export default async function StudyGroupDashboardPage({ params }: any) {
 	const { id } = await params
-	const [userProgress, userSubscription] = await Promise.all([
-		getUserProgress(),
-		getUserSubscription(),
-	])
+	const userProgress = await getUserProgress()
 
 	if (!userProgress) {
 		return (
@@ -46,14 +38,10 @@ export default async function StudyGroupDashboardPage({ params }: any) {
 						width={90}
 					/>
 					<h1 className="text-center font-bold text-neutral-800 text-2xl my-6">
-						{studyGroup.name} Dashboard
+						{studyGroup.name}
 					</h1>
 
-					<StudyGroupDashboard
-						userId={userProgress.userId}
-						userName={userProgress.userName}
-						studyGroup={studyGroup}
-					/>
+					<StudyGroupDashboard studyGroup={studyGroup} />
 				</div>
 			</FeedWrapper>
 		</div>
