@@ -77,8 +77,6 @@ export const HebrewLessonButton = ({
 	const dateLabel =
 		dateObj && !isNaN(+dateObj) ? format(dateObj, 'MMM d') : null
 
-	const displayTitle = title.replace(/^[A-Za-z]+\s*\d*:\s*/, '')
-
 	return (
 		<div
 			onClick={handleClick}
@@ -162,7 +160,7 @@ export const HebrewLessonButton = ({
 						className="text-xs font-nunito font-semibold mt-1 leading-tight"
 						dir="ltr"
 					>
-						{displayTitle}
+						{title}
 					</span>
 				</div>
 

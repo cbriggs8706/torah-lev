@@ -142,7 +142,7 @@ const QuestsPage = async () => {
 										: 0
 
 								const unitTitle =
-									unit.title.match(/Unit\s*\d+/)?.[0] ?? unit.title
+									unit.order ? `Unit ${unit.order}` : unit.title
 
 								return (
 									<div

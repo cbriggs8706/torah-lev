@@ -47,9 +47,6 @@ import { HebrewStoryList } from './he-stories/list'
 import { HebrewStoryEdit } from './he-stories/edit'
 import { HebrewStoryCreate } from './he-stories/create'
 
-import { EnglishLessonScriptList } from './english-lesson-scripts/list'
-import { EnglishLessonScriptCreate } from './english-lesson-scripts/create'
-import { EnglishLessonScriptEdit } from './english-lesson-scripts/edit'
 import { VocabEntryList } from './vocab-entries/list'
 import { VocabEntryCreate } from './vocab-entries/create'
 import { VocabEntryEdit } from './vocab-entries/edit'
@@ -190,14 +187,6 @@ const App = () => {
 				edit={GreekLessonScriptEdit}
 				recordRepresentation="text"
 				options={{ label: 'Grk Lesson Scripts' }}
-			/>
-			<Resource
-				name="english-lesson-scripts"
-				list={EnglishLessonScriptList}
-				create={EnglishLessonScriptCreate}
-				edit={EnglishLessonScriptEdit}
-				recordRepresentation="text"
-				options={{ label: 'Eng Lesson Scripts' }}
 			/>
 			<Resource
 				name="grammar-lessons"

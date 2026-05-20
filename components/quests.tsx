@@ -164,7 +164,7 @@ export const Quests = ({ points, userChallengeData }: Props) => {
 								{/* <Image src="/points.svg" alt="Unit" width={40} height={40} /> */}
 								<div className="flex flex-col gap-y-2 w-full">
 									<p className="text-sm font-bold text-neutral-700">
-										Complete {unit.title.match(/Unit\s*\d+/)?.[0] ?? unit.title}
+										Complete {unit.order ? `Unit ${unit.order}` : unit.title}
 									</p>
 									<Progress value={progress} className="h-2" />
 								</div>

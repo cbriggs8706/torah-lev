@@ -724,10 +724,11 @@ export const getLesson = cache(
 
 export async function getAllHebrewLessonScripts(courseId?: number) {
 	const base = db
-		.select({
+	.select({
 			id: hebrewLessonScripts.id,
 			courseId: hebrewLessonScripts.courseId,
 			lessonId: hebrewLessonScripts.lessonId,
+			lessonNumber: lessons.lessonNumber,
 			part: hebrewLessonScripts.part,
 			content: hebrewLessonScripts.content,
 			contentPlain: hebrewLessonScripts.contentPlain,

@@ -66,15 +66,6 @@ function getFooterAccountLinks(
 		)
 	}
 
-	if ([3, 4, 13, 16, 17].includes(activeCourseId ?? -1)) {
-		links.push({
-			key: 'leaderboard',
-			label: labels.leaderboard,
-			href: '/en/leaderboard',
-			iconSrc: '/trophy-svgrepo-com.svg',
-		})
-	}
-
 	if (activeCourseId === 19) {
 		links.push({
 			key: 'dashboard',
@@ -115,7 +106,6 @@ function inferLocaleFromPath(pathname: string, fallbackCourseId: number | null):
 	if (pathname.startsWith('/es/')) return 'es'
 	if (pathname.startsWith('/he/')) return 'he'
 	if (pathname.startsWith('/el/')) return 'el'
-	if (pathname.startsWith('/en/')) return 'en'
 
 	if (fallbackCourseId === 12) return 'el'
 	if (fallbackCourseId === 2) return 'es'

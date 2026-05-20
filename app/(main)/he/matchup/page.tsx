@@ -26,23 +26,9 @@ export default async function HebrewMatchupPage() {
 
 	// ✅ Guest-safe fallbacks
 	const activeCourseId = userProgress?.activeCourseId ?? 6 // Default to AwB
-	const title = userChallengeData?.activeLesson?.title ?? ''
 	const isPro = !!userSubscription?.isActive
 
-	// ✅ Course prefix map
-	const coursePrefixes: Record<number, string> = {
-		6: 'AwB',
-		11: 'HS',
-		14: 'ABC',
-	}
-
-	const prefix =
-		typeof activeCourseId === 'number'
-			? coursePrefixes[activeCourseId] ?? ''
-			: ''
-
-	const match = prefix ? title.match(new RegExp(`${prefix} (\\d{1,3})`)) : null
-	const currentLesson = match ? parseInt(match[1], 10) : undefined
+	const currentLesson = userChallengeData?.activeLesson?.lessonNumber ?? undefined
 
 	// ✅ Select vocab source based on course (guest or user)
 	const hebrewData: HebrewVocab[] = await getHebrewVocabByCourseId(activeCourseId)

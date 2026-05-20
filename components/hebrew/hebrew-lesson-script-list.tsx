@@ -19,18 +19,19 @@ type LessonScript = {
 	audioSrc?: string | null
 	title: string
 	lessonId: number | null
+	lessonNumber?: string | number | null
 	courseId: number[] | null
 	part: number | null
 }
 
 function getDisplayedLessonNumber(script: LessonScript): number | null {
-	const match = script.title.match(/\b(\d+)\b/)
-	if (match) return Number.parseInt(match[1], 10)
+	const lessonNumber = Number(script.lessonNumber)
+	if (Number.isFinite(lessonNumber)) return lessonNumber
 	return typeof script.lessonId === 'number' ? script.lessonId : null
 }
 
 function getDisplayTitle(script: LessonScript): string {
-	return script.title.replace(/^[A-Za-z]+\s*\d+:\s*/, '')
+	return script.title
 }
 
 export default function LessonScriptList({

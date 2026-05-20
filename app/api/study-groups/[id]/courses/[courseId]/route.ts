@@ -1,7 +1,7 @@
 import path from 'node:path'
 import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
-import { desc, eq } from 'drizzle-orm'
+import { and, eq } from 'drizzle-orm'
 import { z } from 'zod'
 
 import db from '@/db/drizzle'
@@ -13,18 +13,11 @@ const bucketName =
 	'study-group-course-images'
 const fallbackCourseImageUrl = '/mascot.svg'
 
-const createStudyGroupCourseSchema = z.object({
+const updateStudyGroupCourseSchema = z.object({
 	name: z.string().trim().min(1, 'Course name is required.').max(120),
 	startDate: z.string().optional(),
 	endDate: z.string().optional(),
 })
-
-function parseDateInput(value?: string) {
-	if (!value?.trim()) return null
-
-	const parsed = new Date(`${value}T00:00:00`)
-	return Number.isNaN(parsed.getTime()) ? null : parsed
-}
 
 function sanitizeFileName(fileName: string) {
 	const ext = path.extname(fileName)
@@ -37,6 +30,13 @@ function sanitizeFileName(fileName: string) {
 	const normalizedExt = ext.toLowerCase().replace(/[^\w.]+/g, '')
 
 	return `${normalizedBase || 'course-image'}${normalizedExt || ''}`
+}
+
+function parseDateInput(value?: string) {
+	if (!value?.trim()) return null
+
+	const parsed = new Date(`${value}T00:00:00`)
+	return Number.isNaN(parsed.getTime()) ? null : parsed
 }
 
 async function ensureBucket(supabase: ReturnType<typeof createClient>) {
@@ -64,66 +64,22 @@ async function getManagedStudyGroup(studyGroupId: number) {
 	})
 }
 
-export async function GET(
-	_request: Request,
-	{ params }: { params: Promise<{ id: string }> }
-) {
-	try {
-		const userId = await getUserOrThrow()
-		const studyGroupId = Number((await params).id)
-
-		if (!Number.isFinite(studyGroupId)) {
-			return NextResponse.json({ error: 'Invalid study group id' }, { status: 400 })
-		}
-
-		const group = await db.query.studyGroups.findFirst({
-			where: eq(studyGroups.id, studyGroupId),
-			with: {
-				members: true,
-			},
-		})
-
-		if (!group) {
-			return NextResponse.json({ error: 'Study group not found' }, { status: 404 })
-		}
-
-		const canAccess =
-			group.teacherId === userId ||
-			group.members.some((member) => member.userId === userId)
-
-		if (!canAccess) {
-			return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
-		}
-
-		const courses = await db.query.studyGroupCourse.findMany({
-			where: eq(studyGroupCourse.studyGroupId, studyGroupId),
-			orderBy: [desc(studyGroupCourse.createdAt)],
-		})
-
-		return NextResponse.json({ courses })
-	} catch (error) {
-		if (error instanceof Error && error.message === 'Unauthorized') {
-			return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-		}
-
-		console.error('Error fetching study group courses:', error)
-		return NextResponse.json(
-			{ error: 'Failed to fetch study group courses' },
-			{ status: 500 }
-		)
-	}
-}
-
-export async function POST(
+export async function PUT(
 	request: Request,
-	{ params }: { params: Promise<{ id: string }> }
+	{
+		params,
+	}: {
+		params: Promise<{ id: string; courseId: string }>
+	}
 ) {
 	try {
 		const userId = await getUserOrThrow()
-		const studyGroupId = Number((await params).id)
+		const { id, courseId } = await params
+		const studyGroupId = Number(id)
+		const parsedCourseId = Number(courseId)
 
-		if (!Number.isFinite(studyGroupId)) {
-			return NextResponse.json({ error: 'Invalid study group id' }, { status: 400 })
+		if (!Number.isFinite(studyGroupId) || !Number.isFinite(parsedCourseId)) {
+			return NextResponse.json({ error: 'Invalid course id' }, { status: 400 })
 		}
 
 		const group = await getManagedStudyGroup(studyGroupId)
@@ -135,13 +91,24 @@ export async function POST(
 			return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
 		}
 
+		const existingCourse = await db.query.studyGroupCourse.findFirst({
+			where: and(
+				eq(studyGroupCourse.id, parsedCourseId),
+				eq(studyGroupCourse.studyGroupId, studyGroupId)
+			),
+		})
+
+		if (!existingCourse) {
+			return NextResponse.json({ error: 'Course not found' }, { status: 404 })
+		}
+
 		const formData = await request.formData()
 		const image = formData.get('image')
 		const rawName = formData.get('name')
 		const rawStartDate = formData.get('startDate')
 		const rawEndDate = formData.get('endDate')
 
-		const parsed = createStudyGroupCourseSchema.safeParse({
+		const parsed = updateStudyGroupCourseSchema.safeParse({
 			name: typeof rawName === 'string' ? rawName : '',
 			startDate: typeof rawStartDate === 'string' ? rawStartDate : undefined,
 			endDate: typeof rawEndDate === 'string' ? rawEndDate : undefined,
@@ -168,7 +135,7 @@ export async function POST(
 			)
 		}
 
-		let imageUrl = fallbackCourseImageUrl
+		let imageUrl = existingCourse.imageUrl || fallbackCourseImageUrl
 
 		if (image instanceof File) {
 			const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
@@ -203,15 +170,21 @@ export async function POST(
 			imageUrl = publicUrl.publicUrl
 		}
 
-		const [created] = await db
-			.insert(studyGroupCourse)
-			.values({
-				studyGroupId,
+		const [updated] = await db
+			.update(studyGroupCourse)
+			.set({
 				name: parsed.data.name,
 				imageUrl,
 				startDate,
 				endDate,
+				updatedAt: new Date(),
 			})
+			.where(
+				and(
+					eq(studyGroupCourse.id, parsedCourseId),
+					eq(studyGroupCourse.studyGroupId, studyGroupId)
+				)
+			)
 			.returning({
 				id: studyGroupCourse.id,
 				name: studyGroupCourse.name,
@@ -221,15 +194,15 @@ export async function POST(
 				createdAt: studyGroupCourse.createdAt,
 			})
 
-		return NextResponse.json({ course: created }, { status: 201 })
+		return NextResponse.json({ course: updated })
 	} catch (error) {
 		if (error instanceof Error && error.message === 'Unauthorized') {
 			return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 		}
 
-		console.error('Error creating study group course:', error)
+		console.error('Error updating study group course:', error)
 		return NextResponse.json(
-			{ error: 'Failed to create study group course' },
+			{ error: 'Failed to update study group course' },
 			{ status: 500 }
 		)
 	}

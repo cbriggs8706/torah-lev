@@ -1,24 +1,12 @@
 import {
 	BookAudio,
-	BookDashed,
-	BookOpen,
-	BookText,
 	Brain,
-	Gamepad2,
 	HeartHandshake,
-	LayoutDashboard,
 	Library,
-	ListChecks,
 	NotebookPen,
 	ScrollText,
-	ShieldQuestion,
-	Sigma,
-	SpellCheck,
 	Star,
-	Swords,
 	Timer,
-	Trophy,
-	WholeWord,
 } from 'lucide-react'
 
 import { getSidebarLabel, normalizeSidebarLocale } from '@/lib/sidebar-translations'
@@ -117,71 +105,12 @@ export function buildSidebarSections({
 		}
 	}
 
-	if ([3, 4, 13, 16, 17].includes(activeCourseId ?? -1)) {
-		studyItems.push(
-			{ key: 'learn', label: localize(resolvedLocale, 'nav.learn'), href: '/en/learn', iconSrc: '/youtube.svg', icon: BookOpen },
-			{ key: 'flashcards', label: localize(resolvedLocale, 'nav.flashcards'), href: '/en/flashcards', iconSrc: '/card-file-box.svg', icon: BookDashed },
-			{ key: 'dictionary', label: localize(resolvedLocale, 'nav.dictionary'), href: '/en/dictionary', iconSrc: '/open-book-svgrepo-com.svg', icon: Library },
-			{ key: 'lesson-scripts', label: localize(resolvedLocale, 'nav.lessonScripts'), href: '/en/lesson-scripts', iconSrc: '/spiral-notepad-svgrepo-com.svg', icon: NotebookPen },
-			{ key: 'matchup', label: localize(resolvedLocale, 'nav.matchup'), href: '/en/matchup', iconSrc: '/socks-svgrepo-com.svg', icon: ShieldQuestion },
-		)
-
-		gameItems.push(
-			{ key: 'letter-quiz', label: localize(resolvedLocale, 'nav.letterQuiz'), href: '/en/letter-quiz', iconSrc: '/a-button-blood-type-svgrepo-com.svg', icon: WholeWord },
-			{ key: 'number-quiz', label: localize(resolvedLocale, 'nav.numberQuiz'), href: '/en/number-quiz', iconSrc: '/input-numbers-svgrepo-com.svg', icon: Sigma },
-			{ key: 'spelling', label: localize(resolvedLocale, 'nav.spelling'), href: '/en/spelling', iconSrc: '/input-latin-letters-svgrepo-com.svg', icon: SpellCheck },
-			{ key: 'scramble', label: localize(resolvedLocale, 'nav.scramble'), href: '/en/scramble', iconSrc: '/cooking-svgrepo-com.svg', icon: ListChecks },
-		)
-
-		toolItems.push(
-			{ key: 'timer', label: localize(resolvedLocale, 'nav.timer'), href: '/timer', iconSrc: '/stopwatch-svgrepo-com.svg', icon: Timer },
-		)
-
-		if ([3, 4, 16].includes(activeCourseId ?? -1)) {
-			communityItems.push(
-				{ key: 'slides', label: localize(resolvedLocale, 'nav.slides'), href: '/en/slides', iconSrc: '/framed-picture-svgrepo-com.svg', icon: ScrollText },
-				{ key: 'starts-with', label: localize(resolvedLocale, 'nav.startsWith'), href: '/en/starts-with', iconSrc: '/video-game-svgrepo-com.svg', icon: Star },
-				{ key: 'scattergories', label: localize(resolvedLocale, 'nav.scattergories'), href: '/en/scattergories', iconSrc: '/video-game-svgrepo-com.svg', icon: Gamepad2 },
-			)
-		}
-
-		if (activeCourseId === 16) {
-			communityItems.push({
-				key: 'jeopardy',
-				label: localize(resolvedLocale, 'nav.jeopardy'),
-				href: '/en/jeopardy',
-				iconSrc: '/video-game-svgrepo-com.svg',
-				icon: Gamepad2,
-			})
-		}
-
-		if (activeCourseId === 17) {
-			communityItems.push({
-				key: 'stories',
-				label: localize(resolvedLocale, 'nav.stories'),
-				href: '/en/stories',
-				iconSrc: '/books-svgrepo-com.svg',
-				icon: HeartHandshake,
-			})
-		}
-	}
-
 	if (activeCourseId === 12) {
 		studyItems.push(
 			{ key: 'learn', label: localize(resolvedLocale, 'nav.learn'), href: '/el/learn', iconSrc: '/youtube.svg', icon: BookOpen },
 			{ key: 'flashcards', label: localize(resolvedLocale, 'nav.flashcards'), href: '/el/flashcards', iconSrc: '/card-file-box.svg', icon: BookDashed },
 			{ key: 'lesson-scripts', label: localize(resolvedLocale, 'nav.lessonScripts'), href: '/el/lesson-scripts', iconSrc: '/spiral-notepad-svgrepo-com.svg', icon: NotebookPen },
 		)
-	}
-
-	if (activeCourseId === 19) {
-		studyItems.push({
-			key: 'memorize',
-			label: localize(resolvedLocale, 'nav.memorize'),
-			href: '/en/memorize',
-			iconSrc: '/brain-svgrepo-com.svg',
-			icon: Brain,
-		})
 	}
 
 	return [

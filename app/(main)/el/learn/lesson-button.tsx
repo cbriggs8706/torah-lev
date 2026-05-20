@@ -73,8 +73,6 @@ export const GreekLessonButton = ({
 	const dateLabel =
 		dateObj && !isNaN(+dateObj) ? format(dateObj, 'MMM d') : null
 
-	const displayTitle = title.replace(/^[A-Za-z]+\s*\d*:\s*/, '')
-
 	// 🔒 Locked card (unchanged)
 	if (locked) {
 		return (
@@ -103,7 +101,7 @@ export const GreekLessonButton = ({
 							<span className="text-lg font-nunito">Lesson {lessonNumber}</span>
 						</div>
 						<span className="text-xs font-nunito font-semibold mt-1 leading-tight">
-							{displayTitle}
+							{title}
 						</span>
 					</div>
 				</div>
@@ -177,7 +175,7 @@ export const GreekLessonButton = ({
 
 					{/* TITLE */}
 					<span className="text-xs font-nunito font-semibold mt-1 leading-tight">
-						{displayTitle}
+						{title}
 					</span>
 				</div>
 

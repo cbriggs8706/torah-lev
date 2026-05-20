@@ -29,14 +29,12 @@ const CoursesPage = async () => {
 
 	// Default flags for guests
 	const isHebrewFriend = userProgress?.isHebrewFriend ?? false
-	const isEnglishFriend = userProgress?.isEnglishFriend ?? false
 	const isSpanishFriend = userProgress?.isSpanishFriend ?? false
 	const isBookclubFriend = userProgress?.isBookclubFriend ?? false
 
 	// ✅ Filter visible courses
 	const visibleCourses = courses.filter((course) => {
 		if (course.id === 11 && !isHebrewFriend) return false
-		if (course.id === 17 && !isEnglishFriend) return false
 		if (course.id === 2 && !isSpanishFriend) return false
 		if (course.id === 19 && !isBookclubFriend) return false
 		return true

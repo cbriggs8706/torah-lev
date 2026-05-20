@@ -18,7 +18,6 @@ import { useExitModal } from '@/store/use-exit-modal'
 const getLanguageRoute = (courseId: number | null): string => {
 	if (!courseId) return '/courses'
 	if ([6, 11, 14].includes(courseId)) return '/he/learn'
-	if ([3, 4, 13, 16, 17].includes(courseId)) return '/en/learn'
 	if (courseId === 2) return '/es/learn'
 	if (courseId === 12) return '/el/learn'
 	return '/courses'

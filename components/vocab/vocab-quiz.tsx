@@ -427,7 +427,11 @@ export default function VocabQuiz({
 	const rewardEligible = missedRatio <= 0.75
 	const celebratoryFinish = passed && rewardEligible
 	const mainScreenHref =
-		layout === 'hebrew' ? '/he/learn' : layout === 'greek' ? '/el/learn' : '/en/learn'
+		layout === 'hebrew'
+			? '/he/learn'
+			: layout === 'greek'
+			? '/el/learn'
+			: '/courses'
 
 	const nextLesson = useMemo(() => {
 		if (lessonOptions.length === 0 || selectedLessons.length === 0) return null

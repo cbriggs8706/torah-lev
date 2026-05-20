@@ -21,6 +21,7 @@ export interface Lesson {
 	id: number
 	title: string
 	order?: number
+	lessonNumber?: string | number
 	unitId?: number
 	unitTitle?: string
 	unitOrder?: number
@@ -145,9 +146,16 @@ export default function CourseLessonSelector({
 										setOpenLesson(false) // ✅ close popover
 									}}
 								>
-									{lesson.unitTitle
-										? `${lesson.unitTitle}: ${lesson.title}`
-										: lesson.title}
+									{[
+										lesson.unitOrder ? `Unit ${lesson.unitOrder}` : null,
+										lesson.unitTitle ?? null,
+										lesson.lessonNumber
+											? `Lesson ${lesson.lessonNumber}`
+											: null,
+										lesson.title,
+									]
+										.filter(Boolean)
+										.join(' - ')}
 									{selectedLesson?.id === lesson.id && (
 										<Check className="ml-auto h-4 w-4" />
 									)}

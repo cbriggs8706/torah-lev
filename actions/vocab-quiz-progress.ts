@@ -64,10 +64,8 @@ export async function awardVocabQuizCompletion({
 
 	// Refresh common surfaces that read user/course progress.
 	revalidatePath('/he/quiz')
-	revalidatePath('/en/quiz')
 	revalidatePath('/el/quiz')
 	revalidatePath('/he/learn')
-	revalidatePath('/en/learn')
 	revalidatePath('/el/learn')
 	revalidatePath('/progress')
 	revalidatePath('/leaderboard')

@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react'
 import { lessons, units as unitsSchema } from '@/db/schema'
 import { Unit } from '@/app/(main)/learnssss/unit'
 import { HebrewUnit } from '@/app/(main)/he/learn/unit'
-import { EnglishUnit } from '@/app/(main)/en/learn/unit'
 import { GoalSetter } from './goal-setter'
 import {
 	Collapsible,
@@ -24,27 +23,22 @@ const START_LABEL_BY_LOCALE: Record<SidebarLocale, string> = {
 }
 
 /* -----------------------------------------------------------
-   Helper: extract numeric lesson number from title
------------------------------------------------------------ */
-function extractLessonNumber(title: string): number {
-	if (title.startsWith('AwB Classroom Lesson')) return NaN // ignore classroom lessons
-	const match = title.match(/AwB (\d+)/)
-	return match ? Number(match[1]) : NaN
-}
-
-/* -----------------------------------------------------------
-   Helper: compute schedule based on goal date and lesson title
+   Helper: compute schedule based on goal date and lesson number
 ----------------------------------------------------------- */
 function getLessonSchedule(
-	lessons: { id: number; title: string; completed?: boolean }[],
-	goalLessonTitle: string,
+	lessons: {
+		id: number
+		title: string
+		lessonNumber?: number | null
+		completed?: boolean
+	}[],
+	goalLessonNumber: number,
 	goalDate: Date
 ) {
-	const goalLessonNumber = extractLessonNumber(goalLessonTitle)
-	if (isNaN(goalLessonNumber)) return {}
+	if (!Number.isFinite(goalLessonNumber)) return {}
 
 	const filteredLessons = lessons
-		.filter((l) => extractLessonNumber(l.title) <= goalLessonNumber)
+		.filter((l) => Number(l.lessonNumber) <= goalLessonNumber)
 		.filter((l) => !l.completed)
 
 	if (filteredLessons.length === 0) return {}
@@ -131,17 +125,20 @@ export function GoalWrapper({
 
 			try {
 				const parsed = JSON.parse(saved)
-				if (!parsed.date || !parsed.lesson) {
+				const savedGoalLessonNumber = Number(
+					parsed.lessonNumber ?? parsed.lesson ?? NaN
+				)
+
+				if (!parsed.date || !Number.isFinite(savedGoalLessonNumber)) {
 					setSchedule({})
 					return
 				}
 
 				const goalDate = new Date(parsed.date)
-				const goalLessonTitle = parsed.lesson
 				const allLessons = units.flatMap((u) => u.lessons)
 				const newSchedule = getLessonSchedule(
 					allLessons,
-					goalLessonTitle,
+					savedGoalLessonNumber,
 					goalDate
 				)
 				setSchedule(newSchedule)
@@ -165,7 +162,7 @@ export function GoalWrapper({
 			? Unit // placeholder: you can create a SpanishUnit later
 			: lang === 'el'
 			? Unit // placeholder for Greek
-			: EnglishUnit // default English layout
+			: Unit
 
 	/* -----------------------------------------------------------
 	   Render

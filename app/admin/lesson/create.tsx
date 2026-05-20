@@ -22,6 +22,7 @@ export const LessonCreate = () => {
 					<SelectInput optionText="title" optionValue="id" label="Unit" />
 				</ReferenceInput>
 				<NumberInput source="order" validate={[required()]} label="Order" />
+				<TextInput source="lessonNumber" label="Lesson Number" />
 			</SimpleForm>
 		</Create>
 	)

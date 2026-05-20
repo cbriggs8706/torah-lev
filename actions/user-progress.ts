@@ -29,7 +29,6 @@ const isGuestId = (id?: string | null): boolean =>
 
 const getLanguageRoute = (courseId: number): string => {
 	if ([6, 11, 14].includes(courseId)) return '/he/learn'
-	if ([3, 4, 13, 16, 17].includes(courseId)) return '/en/learn'
 	if (courseId === 2) return '/es/learn'
 	if (courseId === 12) return '/el/learn'
 	return '/courses' // fallback

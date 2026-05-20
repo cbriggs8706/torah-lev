@@ -32,6 +32,7 @@ export const GET = async (req: Request) => {
 		title: lessons.title,
 		order: lessons.order,
 		unitId: lessons.unitId,
+		lessonNumber: lessons.lessonNumber,
 	} as const
 
 	const sortColumn =
@@ -107,6 +108,7 @@ export const POST = async (req: Request) => {
 		title: body.title,
 		unitId: Number(body.unitId),
 		order: Number(body.order),
+		lessonNumber: body.lessonNumber ?? '',
 	}
 
 	const [created] = await db.insert(lessons).values(payload).returning()

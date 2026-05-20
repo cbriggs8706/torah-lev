@@ -301,10 +301,9 @@ export const Quiz = ({
 					onCheck={() => {
 						if ([6, 11, 14].includes(activeCourseId ?? -1))
 							router.push('/he/learn')
-						else if ([3, 4, 13, 16, 17].includes(activeCourseId ?? -1))
-							router.push('/en/learn')
 						else if (activeCourseId === 2) router.push('/es/learn')
 						else if (activeCourseId === 12) router.push('/el/learn')
+						else router.push('/courses')
 					}}
 				/>
 			</>

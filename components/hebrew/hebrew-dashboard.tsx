@@ -232,8 +232,6 @@ export default function HebrewUserDashboard({
 			6: '/he/learn',
 			11: '/he/learn',
 			14: '/he/learn',
-			13: '/en/learn',
-			16: '/en/learn',
 		}
 		return map[courseId] ?? `/course/${courseId}`
 	}

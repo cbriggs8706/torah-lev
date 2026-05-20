@@ -24,6 +24,7 @@ export const LessonList = () => (
 			<TextField source="title" sortable />
 			<ReferenceField source="unitId" reference="units" />
 			<NumberField source="order" sortable />
+			<TextField source="lessonNumber" sortable />
 		</Datagrid>
 	</List>
 )

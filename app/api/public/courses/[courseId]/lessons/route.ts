@@ -29,6 +29,7 @@ export async function GET(
 				id: lessons.id,
 				title: lessons.title,
 				order: lessons.order,
+				lessonNumber: lessons.lessonNumber,
 				unitId: lessons.unitId,
 				unitTitle: units.title,
 				unitOrder: units.order,
