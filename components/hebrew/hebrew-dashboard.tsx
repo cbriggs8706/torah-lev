@@ -4,6 +4,7 @@ import { useState, useTransition } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { updateUserProfile, upsertUserProgress } from '@/actions/user-progress'
+import { createStudyGroup } from '@/actions/study-groups'
 import HebrewKeyboard from './hebrew-keyboard'
 import { UserProgress } from '../user-progress'
 import { Shield } from '../shield'
@@ -15,6 +16,14 @@ import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
 import { Button } from '../ui/button'
 import { Edit2 } from 'lucide-react'
+import { Input } from '../ui/input'
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from '../ui/select'
 import {
 	Dialog,
 	DialogContent,
@@ -66,6 +75,7 @@ interface HebrewUserDashboardProps {
 		members: any[]
 	} | null
 	studyGroups?: any[]
+	isLeader?: boolean
 	allCourseProgress?: CourseProgress[]
 }
 
@@ -80,6 +90,7 @@ export default function HebrewUserDashboard({
 	userUnitProgress,
 	tribe,
 	studyGroups,
+	isLeader = false,
 	allCourseProgress = [],
 }: HebrewUserDashboardProps) {
 	const [newName, setNewName] = useState(userName)
@@ -93,6 +104,17 @@ export default function HebrewUserDashboard({
 	)
 	const [avatarPreview, setAvatarPreview] = useState<string | null>(null)
 	const [uploadedFile, setUploadedFile] = useState<File | null>(null)
+	const [groupForm, setGroupForm] = useState({
+		name: '',
+		startDate: '',
+		time: '',
+		groupType: 'Public' as 'Public' | 'Private' | 'Self-paced',
+		level: '',
+		organization: '',
+		section: '',
+		zoomLink: '',
+		current: true,
+	})
 
 	const router = useRouter()
 	const { data: session } = useSession()
@@ -235,6 +257,51 @@ export default function HebrewUserDashboard({
 	]
 	const cleanSrc = (src?: string) =>
 		src?.replace(/\s|\n|\r/g, '')?.trim() || '/mascot.svg'
+
+	const formatStudyGroupDate = (value?: string | Date | null) => {
+		if (!value) return '—'
+		const date = value instanceof Date ? value : new Date(value)
+		if (Number.isNaN(date.getTime())) return '—'
+		return date.toLocaleDateString()
+	}
+
+	const handleGroupFieldChange = (
+		field: keyof typeof groupForm,
+		value: string | boolean
+	) => {
+		setGroupForm((prev) => ({
+			...prev,
+			[field]: value,
+		}))
+	}
+
+	const handleCreateStudyGroup = () => {
+		startTransition(async () => {
+			try {
+				const group = await createStudyGroup(groupForm)
+				toast.success('Study group created!')
+				setGroupForm({
+					name: '',
+					startDate: '',
+					time: '',
+					groupType: 'Public' as 'Public' | 'Private' | 'Self-paced',
+					level: '',
+					organization: '',
+					section: '',
+					zoomLink: '',
+					current: true,
+				})
+				router.refresh()
+				router.push(`/study-group/${group.id}`)
+			} catch (error) {
+				const message =
+					error instanceof Error
+						? error.message
+						: 'Unable to create study group.'
+				toast.error(message)
+			}
+		})
+	}
 
 	return (
 		<div className="max-w-3xl mx-auto bg-white rounded-2xl shadow-md p-6 space-y-8">
@@ -494,6 +561,151 @@ export default function HebrewUserDashboard({
 				</div>
 			)}
 
+			{isLeader ? (
+				<div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-5 space-y-4">
+					<div className="space-y-1">
+						<h2 className="text-2xl font-semibold text-emerald-800">
+							Leader
+						</h2>
+						<p className="text-sm text-emerald-700">
+							Create a new study group for your learners.
+						</p>
+					</div>
+
+					<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+						<div className="space-y-2">
+							<label className="text-sm font-medium text-gray-700">
+								Group name
+							</label>
+							<Input
+								value={groupForm.name}
+								onChange={(e) =>
+									handleGroupFieldChange('name', e.target.value)
+								}
+								placeholder="Beginner Hebrew Cohort"
+								disabled={isPending}
+							/>
+						</div>
+						<div className="space-y-2">
+							<label className="text-sm font-medium text-gray-700">
+								Start date
+							</label>
+							<Input
+								type="date"
+								value={groupForm.startDate}
+								onChange={(e) =>
+									handleGroupFieldChange('startDate', e.target.value)
+								}
+								disabled={isPending}
+							/>
+						</div>
+						<div className="space-y-2">
+							<label className="text-sm font-medium text-gray-700">Time</label>
+							<Input
+								value={groupForm.time}
+								onChange={(e) =>
+									handleGroupFieldChange('time', e.target.value)
+								}
+								placeholder="Tuesdays at 7:00 PM MT"
+								disabled={isPending}
+							/>
+						</div>
+						<div className="space-y-2">
+							<label className="text-sm font-medium text-gray-700">Level</label>
+							<Input
+								value={groupForm.level}
+								onChange={(e) =>
+									handleGroupFieldChange('level', e.target.value)
+								}
+								placeholder="Beginner"
+								disabled={isPending}
+							/>
+						</div>
+						<div className="space-y-2">
+							<label className="text-sm font-medium text-gray-700">Type</label>
+							<Select
+								value={groupForm.groupType}
+								onValueChange={(value) =>
+									handleGroupFieldChange(
+										'groupType',
+										value as 'Public' | 'Private' | 'Self-paced'
+									)
+								}
+								disabled={isPending}
+							>
+								<SelectTrigger>
+									<SelectValue placeholder="Select a type" />
+								</SelectTrigger>
+								<SelectContent>
+									<SelectItem value="Public">Public</SelectItem>
+									<SelectItem value="Private">Private</SelectItem>
+									<SelectItem value="Self-paced">Self-paced</SelectItem>
+								</SelectContent>
+							</Select>
+						</div>
+						<div className="space-y-2">
+							<label className="text-sm font-medium text-gray-700">
+								Organization
+							</label>
+							<Input
+								value={groupForm.organization}
+								onChange={(e) =>
+									handleGroupFieldChange('organization', e.target.value)
+								}
+								placeholder="Idiom Go"
+								disabled={isPending}
+							/>
+						</div>
+						<div className="space-y-2">
+							<label className="text-sm font-medium text-gray-700">Section</label>
+							<Input
+								value={groupForm.section}
+								onChange={(e) =>
+									handleGroupFieldChange('section', e.target.value)
+								}
+								placeholder="Section A"
+								disabled={isPending}
+							/>
+						</div>
+						<div className="space-y-2">
+							<label className="text-sm font-medium text-gray-700">
+								Zoom link
+							</label>
+							<Input
+								value={groupForm.zoomLink}
+								onChange={(e) =>
+									handleGroupFieldChange('zoomLink', e.target.value)
+								}
+								placeholder="https://zoom.us/j/..."
+								disabled={isPending}
+							/>
+						</div>
+					</div>
+
+					<label className="flex items-center gap-2 text-sm text-gray-700">
+						<input
+							type="checkbox"
+							checked={groupForm.current}
+							onChange={(e) =>
+								handleGroupFieldChange('current', e.target.checked)
+							}
+							disabled={isPending}
+						/>
+						Mark as an active study group
+					</label>
+
+					<div className="flex justify-end">
+						<Button
+							variant="secondary"
+							onClick={handleCreateStudyGroup}
+							disabled={isPending}
+						>
+							{isPending ? 'Creating...' : 'Create Study Group'}
+						</Button>
+					</div>
+				</div>
+			) : null}
+
 			{/* Study Groups Section */}
 			{studyGroups && studyGroups.length > 0 ? (
 				<div className="p-4 rounded-xl bg-blue-50 border border-blue-200 mt-6 space-y-6">
@@ -528,6 +740,12 @@ export default function HebrewUserDashboard({
 												</p>
 												<p className="text-sm text-gray-600 mt-1">
 													Level: {group.level}
+												</p>
+												<p className="text-sm text-gray-600 mt-1">
+													Type: {group.groupType}
+												</p>
+												<p className="text-sm text-gray-600 mt-1">
+													Start: {formatStudyGroupDate(group.startDate)}
 												</p>
 												<p className="text-sm text-gray-600 mt-1">
 													Section: {group.section}
@@ -602,7 +820,13 @@ export default function HebrewUserDashboard({
 										>
 											<p className="font-bold text-gray-700">{group.name}</p>
 											<p className="text-sm text-gray-600 mt-1">
-												Level: {group.level} • Section: {group.section}
+												Level: {group.level} • Type: {group.groupType}
+											</p>
+											<p className="text-sm text-gray-600 mt-1">
+												Start: {formatStudyGroupDate(group.startDate)}
+											</p>
+											<p className="text-sm text-gray-600 mt-1">
+												Section: {group.section}
 											</p>
 											<p className="text-xs text-gray-500 mt-1 italic">
 												Completed • {group.organization}

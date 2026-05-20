@@ -10,7 +10,7 @@ import {
 import HebrewUserDashboard from '@/components/hebrew/hebrew-dashboard'
 import db from '@/db/drizzle'
 import { eq } from 'drizzle-orm'
-import { challengeProgress, units } from '@/db/schema'
+import { challengeProgress, units, users } from '@/db/schema'
 
 const Dashboard = async () => {
 	const [userProgress, allCourseProgress] = await Promise.all([
@@ -31,6 +31,12 @@ const Dashboard = async () => {
 	const userStudyGroups = await getUserStudyGroupsWithTeaching(
 		userProgress.userId
 	)
+	const currentUser = await db.query.users.findFirst({
+		where: eq(users.id, userProgress.userId),
+		columns: {
+			role: true,
+		},
+	})
 
 	const courseId = userProgress.activeCourse?.id ?? 6
 
@@ -107,6 +113,7 @@ const Dashboard = async () => {
 								: null
 						}
 						studyGroups={userStudyGroups}
+						isLeader={currentUser?.role === 'leader'}
 						allCourseProgress={allCourseProgress} // ✅ Pass the new array here
 					/>
 				</div>

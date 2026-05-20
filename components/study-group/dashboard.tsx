@@ -4,14 +4,18 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import MembersTable from './members-table'
+import StudyGroupCoursesSection from './study-group-courses-section'
 
 export default function StudyGroupDashboard({
 	studyGroup,
+	currentUserId,
 }: {
 	studyGroup: any
+	currentUserId: string
 }) {
 	const instructor = studyGroup.teacher
 	const memberCount = studyGroup.members.length
+	const isInstructor = currentUserId === studyGroup.teacherId
 
 	return (
 		<div className="w-full max-w-2xl mx-auto space-y-6">
@@ -45,6 +49,12 @@ export default function StudyGroupDashboard({
 					</Link>
 				</div>
 			</div>
+
+			<StudyGroupCoursesSection
+				studyGroupId={studyGroup.id}
+				initialCourses={studyGroup.courses ?? []}
+				canManage={isInstructor}
+			/>
 
 			<MembersTable studyGroup={studyGroup} />
 		</div>

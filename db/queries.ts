@@ -36,6 +36,7 @@ import {
 	hebrewMusicLine,
 	hebrewStories,
 	englishStories,
+	studyGroupCourse,
 	studyGroups,
 	studyGroupMembers,
 	users,
@@ -1381,9 +1382,28 @@ export async function getStudyGroupWithMessages(studyGroupId: number) {
 
 	if (!group) return null
 
+	let studyGroupCourses: any[] = []
+
+	try {
+		studyGroupCourses = await db.query.studyGroupCourse.findMany({
+			where: eq(studyGroupCourse.studyGroupId, studyGroupId),
+			orderBy: (table, helpers) => [helpers.desc(table.createdAt)],
+		})
+	} catch (error) {
+		console.warn(
+			'Study group courses unavailable. Has drizzle/0013_study_group_course.sql been applied?',
+			error
+		)
+	}
+
+	const groupWithCourses = {
+		...group,
+		courses: studyGroupCourses,
+	}
+
 	// ✅ Collect all member IDs
 	const memberIds = group.members.map((m) => m.user.userId)
-	if (memberIds.length === 0) return group
+	if (memberIds.length === 0) return groupWithCourses
 
 	// ✅ Fetch progress info joined to lessons & userProgress (for image fallback)
 	const progressRows = await db
@@ -1433,7 +1453,7 @@ export async function getStudyGroupWithMessages(studyGroupId: number) {
 			'/mascot.svg'
 	}
 
-	return group
+	return groupWithCourses
 }
 
 export async function getUserStudyGroupsWithTeaching(userId: string) {
@@ -1443,6 +1463,8 @@ export async function getUserStudyGroupsWithTeaching(userId: string) {
 		columns: {
 			id: true,
 			name: true,
+			startDate: true,
+			groupType: true,
 			organization: true,
 			level: true,
 			section: true,
@@ -1460,6 +1482,8 @@ export async function getUserStudyGroupsWithTeaching(userId: string) {
 				columns: {
 					id: true,
 					name: true,
+					startDate: true,
+					groupType: true,
 					organization: true,
 					level: true,
 					section: true,
@@ -1476,6 +1500,8 @@ export async function getUserStudyGroupsWithTeaching(userId: string) {
 		...teachingGroups.map((g) => ({
 			id: g.id,
 			name: g.name,
+			startDate: g.startDate,
+			groupType: g.groupType,
 			organization: g.organization,
 			level: g.level,
 			section: g.section,
@@ -1487,6 +1513,8 @@ export async function getUserStudyGroupsWithTeaching(userId: string) {
 		...memberGroups.map((m) => ({
 			id: m.studyGroup.id,
 			name: m.studyGroup.name,
+			startDate: m.studyGroup.startDate,
+			groupType: m.studyGroup.groupType,
 			organization: m.studyGroup.organization,
 			level: m.studyGroup.level,
 			section: m.studyGroup.section,

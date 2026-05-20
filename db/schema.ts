@@ -620,11 +620,19 @@ export const tribesRelations = relations(tribes, ({ many }) => ({
 	members: many(userProgress),
 }))
 
+export const studyGroupTypeEnum = pgEnum('study_group_type', [
+	'Public',
+	'Private',
+	'Self-paced',
+])
+
 export const studyGroups = pgTable('study_groups', {
 	id: serial('id').primaryKey(),
 	name: text('name').notNull(),
 	current: boolean('current').notNull().default(true),
+	startDate: timestamp('start_date'),
 	time: text('time').notNull(), // simple string like "8pm"
+	groupType: studyGroupTypeEnum('group_type').notNull().default('Public'),
 	level: text('level').notNull(),
 	organization: text('organization').notNull(),
 	section: text('section').notNull(),
@@ -645,6 +653,23 @@ export const studyGroupMembers = pgTable('study_group_members', {
 	addedAt: timestamp('added_at').defaultNow().notNull(),
 })
 
+export const studyGroupCourse = pgTable(
+	'study_group_course',
+	{
+		id: serial('id').primaryKey(),
+		studyGroupId: integer('study_group_id')
+			.references(() => studyGroups.id, { onDelete: 'cascade' })
+			.notNull(),
+		name: text('name').notNull(),
+		imageUrl: text('image_url').notNull(),
+		createdAt: timestamp('created_at').defaultNow().notNull(),
+		updatedAt: timestamp('updated_at').defaultNow().notNull(),
+	},
+	(table) => ({
+		studyGroupIdx: index('idx_study_group_course_group').on(table.studyGroupId),
+	})
+)
+
 export const studyGroupsRelations = relations(studyGroups, ({ one, many }) => ({
 	teacher: one(userProgress, {
 		fields: [studyGroups.teacherId],
@@ -652,6 +677,7 @@ export const studyGroupsRelations = relations(studyGroups, ({ one, many }) => ({
 	}),
 	members: many(studyGroupMembers),
 	messages: many(messages),
+	courses: many(studyGroupCourse),
 }))
 
 export const studyGroupMembersRelations = relations(
@@ -664,6 +690,16 @@ export const studyGroupMembersRelations = relations(
 		user: one(userProgress, {
 			fields: [studyGroupMembers.userId],
 			references: [userProgress.userId],
+		}),
+	})
+)
+
+export const studyGroupCourseRelations = relations(
+	studyGroupCourse,
+	({ one }) => ({
+		studyGroup: one(studyGroups, {
+			fields: [studyGroupCourse.studyGroupId],
+			references: [studyGroups.id],
 		}),
 	})
 )

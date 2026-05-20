@@ -41,7 +41,10 @@ export default async function StudyGroupDashboardPage({ params }: any) {
 						{studyGroup.name}
 					</h1>
 
-					<StudyGroupDashboard studyGroup={studyGroup} />
+					<StudyGroupDashboard
+						studyGroup={studyGroup}
+						currentUserId={userProgress.userId}
+					/>
 				</div>
 			</FeedWrapper>
 		</div>

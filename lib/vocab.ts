@@ -26,6 +26,7 @@ export type HebrewVocab = {
 	type?: string
 	definite?: boolean
 	category?: string
+	state?: string
 	introduction?: string
 }
 

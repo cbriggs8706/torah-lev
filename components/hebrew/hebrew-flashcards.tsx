@@ -5,14 +5,19 @@ import { resolveVocabMediaUrl } from '@/lib/vocab-media'
 import { matchesSelectedCategory } from '@/lib/category'
 import Image from 'next/image'
 import { Bookmark, Star } from 'lucide-react'
-import { useState, useMemo, useEffect, useCallback } from 'react'
+import {
+	useState,
+	useMemo,
+	useEffect,
+	useCallback,
+	useLayoutEffect,
+} from 'react'
 import { useCelebration } from '@/hooks/useCelebration'
 import { useLessonCards } from '@/hooks/useLessonCards'
 import CategoryFilter from '../filters/filter-category'
 import LessonFilter from '../filters/filter-lesson'
 import ProgressBar from '../progress-bar'
 import { useUserId } from '@/hooks/useUserId'
-import { RootMorphologyIcons } from './root-morphology-icons'
 import { toast } from 'sonner'
 
 type FontChoice =
@@ -42,6 +47,39 @@ type CardStatus = {
 	inMyStack: boolean
 }
 
+type DisplayField =
+	| keyof HebrewVocab
+	| 'none'
+	| 'rootSummary'
+	| 'suffixSummary'
+	| 'grammarSummary'
+
+type FlashcardPreset = {
+	label: string
+	front: {
+		topLeft: DisplayField
+		topCenter: DisplayField
+		topRight: DisplayField
+		middle: DisplayField
+		bottomLeft: DisplayField
+		bottomCenter: DisplayField
+		bottomRight: DisplayField
+		font: FontChoice
+		size: FontSizeKey
+	}
+	back: {
+		topLeft: DisplayField
+		topCenter: DisplayField
+		topRight: DisplayField
+		middle: DisplayField
+		bottomLeft: DisplayField
+		bottomCenter: DisplayField
+		bottomRight: DisplayField
+		font: FontChoice
+		size: FontSizeKey
+	}
+}
+
 const FONT_SIZE_MAP = {
 	s: 16,
 	m: 20,
@@ -62,15 +100,19 @@ const FONT_SIZE_LABELS: Record<FontSizeKey, string> = {
 	threexl: '3XL',
 }
 
-const FIELD_LABELS: Partial<Record<keyof HebrewVocab, string>> = {
+const CARD_FLIP_DURATION_MS = 700
+
+const FIELD_LABELS: Partial<Record<DisplayField, string>> = {
 	heb: 'Without Niqqud',
 	hebNiqqud: 'With Niqqud',
 	eng: 'Translation',
 	engDefinition: 'Definition',
-	rootPerson: 'Root Person',
-	rootGender: 'Root Gender',
-	rootNumber: 'Root Number',
+	rootSummary: 'Root',
+	suffixSummary: 'Suffix',
+	grammarSummary: 'Grammar',
 	partOfSpeech: 'Part of Speech',
+	category: 'Category',
+	state: 'State',
 	ipa: 'IPA (Pronunciation)',
 	engTransliteration: 'English Transliteration',
 	images: 'Image',
@@ -121,106 +163,189 @@ HebrewVocabProps) {
 	const [showFilter, setShowFilter] = useState(false)
 	const [audioVolume, setAudioVolume] = useState(1) // full volume
 	const [audioSpeed, setAudioSpeed] = useState(1) // normal speed
-	const [frontTopLeft, setFrontTopLeft] = useState<keyof HebrewVocab | 'none'>(
-		'none'
-	)
-	const [frontTopCenter, setFrontTopCenter] = useState<
-		keyof HebrewVocab | 'none'
-	>('none')
-	const [frontTopRight, setFrontTopRight] = useState<
-		keyof HebrewVocab | 'hebAudio'
-	>('hebAudio')
-	const [frontMiddleCenter, setFrontMiddleCenter] = useState<
-		keyof HebrewVocab | 'none'
-	>('images')
-	const [frontBottomLeft, setFrontBottomLeft] = useState<
-		keyof HebrewVocab | 'none'
-	>('rootPerson')
-	const [frontBottomCenter, setFrontBottomCenter] = useState<
-		keyof HebrewVocab | 'none'
-	>('rootGender')
-	const [frontBottomRight, setFrontBottomRight] = useState<
-		keyof HebrewVocab | 'none'
-	>('rootNumber')
-	const [backTopLeft, setBackTopLeft] = useState<keyof HebrewVocab | 'none'>(
-		'none'
-	)
-	const [backTopCenter, setBackTopCenter] = useState<
-		keyof HebrewVocab | 'none'
-	>('eng')
-	const [backTopRight, setBackTopRight] = useState<
-		keyof HebrewVocab | 'hebAudio'
-	>('hebAudio')
-	const [backMiddleCenter, setBackMiddleCenter] = useState<
-		keyof HebrewVocab | 'eng'
-	>('hebNiqqud')
-	const [backBottomLeft, setBackBottomLeft] = useState<
-		keyof HebrewVocab | 'none'
-	>('none')
-	const [backBottomCenter, setBackBottomCenter] = useState<
-		keyof HebrewVocab | 'ipa'
-	>('ipa')
-	const [backBottomRight, setBackBottomRight] = useState<
-		keyof HebrewVocab | 'engTransliteration'
-	>('engTransliteration')
+	const [frontTopLeft, setFrontTopLeft] = useState<DisplayField>('none')
+	const [frontTopCenter, setFrontTopCenter] = useState<DisplayField>('none')
+	const [frontTopRight, setFrontTopRight] = useState<DisplayField>('none')
+	const [frontMiddleCenter, setFrontMiddleCenter] =
+		useState<DisplayField>('images')
+	const [frontBottomLeft, setFrontBottomLeft] =
+		useState<DisplayField>('suffixSummary')
+	const [frontBottomCenter, setFrontBottomCenter] =
+		useState<DisplayField>('rootSummary')
+	const [frontBottomRight, setFrontBottomRight] =
+		useState<DisplayField>('grammarSummary')
+	const [backTopLeft, setBackTopLeft] = useState<DisplayField>('eng')
+	const [backTopCenter, setBackTopCenter] = useState<DisplayField>('none')
+	const [backTopRight, setBackTopRight] = useState<DisplayField>('hebNiqqud')
+	const [backMiddleCenter, setBackMiddleCenter] =
+		useState<DisplayField>('hebAudio')
+	const [backBottomLeft, setBackBottomLeft] = useState<DisplayField>('none')
+	const [backBottomCenter, setBackBottomCenter] = useState<DisplayField>('ipa')
+	const [backBottomRight, setBackBottomRight] =
+		useState<DisplayField>('engTransliteration')
 	const [cardsCompleted, setCardsCompleted] = useState(0)
 	const [isRandomized, setIsRandomized] = useState(false)
+	const [hideMasteredCards, setHideMasteredCards] = useState(true)
 	const [filterVersion, setFilterVersion] = useState(0)
-	const [cardStatuses, setCardStatuses] = useState<Record<number, CardStatus>>({})
+	const [cardStatuses, setCardStatuses] = useState<Record<number, CardStatus>>(
+		{},
+	)
 	const [isUpdatingStatus, setIsUpdatingStatus] = useState(false)
 
 	const { userId, isGuest, ready } = useUserId()
 	const canUseSavedWordFeatures = ready && !isGuest
 	// console.log('newUserId in local', userId)
 
-	const PRESETS = [
+	const PRESETS: FlashcardPreset[] = [
+		{
+			label: 'Picture → Audio',
+			front: {
+				topLeft: 'none',
+				topCenter: 'none',
+				topRight: 'none',
+				middle: 'images',
+				bottomLeft: 'suffixSummary',
+				bottomCenter: 'rootSummary',
+				bottomRight: 'grammarSummary',
+				font: 'times',
+				size: 'threexl',
+			},
+			back: {
+				topLeft: 'eng',
+				topCenter: 'none',
+				topRight: 'none',
+				middle: 'hebAudio',
+				bottomLeft: 'none',
+				bottomCenter: 'ipa',
+				bottomRight: 'engTransliteration',
+				font: 'times',
+				size: 'threexl',
+			},
+		},
 		{
 			label: 'Picture → Word',
-			front: { middle: 'images', font: 'sans', size: 'xl' },
-			back: { middle: 'hebNiqqud', font: 'times', size: 'threexl' },
+			front: {
+				topLeft: 'none',
+				topCenter: 'none',
+				topRight: 'none',
+				middle: 'images',
+				bottomLeft: 'none',
+				bottomCenter: 'rootSummary',
+				bottomRight: 'grammarSummary',
+				font: 'sans',
+				size: 'xl',
+			},
+			back: {
+				topLeft: 'none',
+				topCenter: 'none',
+				topRight: 'none',
+				middle: 'hebNiqqud',
+				bottomLeft: 'none',
+				bottomCenter: 'ipa',
+				bottomRight: 'engTransliteration',
+				font: 'times',
+				size: 'threexl',
+			},
 		},
 		{
 			label: 'Audio → Picture',
-			front: { middle: 'hebAudio', font: 'sans', size: 'xl' },
-			back: { middle: 'images', font: 'times', size: 'threexl' },
+			front: {
+				topLeft: 'none',
+				topCenter: 'none',
+				topRight: 'none',
+				middle: 'hebAudio',
+				bottomLeft: 'none',
+				bottomCenter: 'rootSummary',
+				bottomRight: 'grammarSummary',
+				font: 'sans',
+				size: 'xl',
+			},
+			back: {
+				topLeft: 'none',
+				topCenter: 'none',
+				topRight: 'none',
+				middle: 'images',
+				bottomLeft: 'none',
+				bottomCenter: 'ipa',
+				bottomRight: 'engTransliteration',
+				font: 'times',
+				size: 'threexl',
+			},
 		},
 		{
 			label: 'Sightread',
-			front: { middle: 'heb', font: 'times', size: 'threexl' },
-			back: { middle: 'hebAudio', font: 'arial', size: 'lg' },
+			front: {
+				topLeft: 'none',
+				topCenter: 'none',
+				topRight: 'none',
+				middle: 'heb',
+				bottomLeft: 'none',
+				bottomCenter: 'rootSummary',
+				bottomRight: 'grammarSummary',
+				font: 'times',
+				size: 'threexl',
+			},
+			back: {
+				topLeft: 'none',
+				topCenter: 'none',
+				topRight: 'none',
+				middle: 'hebAudio',
+				bottomLeft: 'none',
+				bottomCenter: 'ipa',
+				bottomRight: 'engTransliteration',
+				font: 'arial',
+				size: 'lg',
+			},
 		},
 		{
 			label: 'Translation',
-			front: { middle: 'hebNiqqud', font: 'times', size: 'threexl' },
-			back: { middle: 'eng', font: 'times', size: 'lg' },
+			front: {
+				topLeft: 'none',
+				topCenter: 'none',
+				topRight: 'none',
+				middle: 'hebNiqqud',
+				bottomLeft: 'none',
+				bottomCenter: 'rootSummary',
+				bottomRight: 'grammarSummary',
+				font: 'times',
+				size: 'threexl',
+			},
+			back: {
+				topLeft: 'none',
+				topCenter: 'none',
+				topRight: 'none',
+				middle: 'eng',
+				bottomLeft: 'none',
+				bottomCenter: 'ipa',
+				bottomRight: 'engTransliteration',
+				font: 'times',
+				size: 'lg',
+			},
 		},
-	] as const
+	]
 
 	const { Confetti, celebrate } = useCelebration()
 
-	function applyPreset(preset: (typeof PRESETS)[number]) {
-		setFrontMiddleCenter(preset.front.middle as keyof HebrewVocab)
-		setFrontFont(preset.front.font as FontChoice)
-		setFrontFontSize(preset.front.size as FontSizeKey)
+	function applyPreset(preset: FlashcardPreset) {
+		setFrontTopLeft(preset.front.topLeft)
+		setFrontTopCenter(preset.front.topCenter)
+		setFrontTopRight(preset.front.topRight)
+		setFrontMiddleCenter(preset.front.middle)
+		setFrontBottomLeft(preset.front.bottomLeft)
+		setFrontBottomCenter(preset.front.bottomCenter)
+		setFrontBottomRight(preset.front.bottomRight)
+		setFrontFont(preset.front.font)
+		setFrontFontSize(preset.front.size)
 
-		setBackMiddleCenter(preset.back.middle as keyof HebrewVocab)
-		setBackFont(preset.back.font as FontChoice)
-		setBackFontSize(preset.back.size as FontSizeKey)
-
-		// Reset positions to default for simplicity
-		setFrontTopLeft('none')
-		setFrontTopCenter('none')
-		setFrontTopRight('hebAudio')
-		setFrontBottomLeft('rootPerson')
-		setFrontBottomCenter('rootGender')
-		setFrontBottomRight('rootNumber')
-
-		setBackTopLeft('none')
-		setBackTopCenter('none')
-		setBackTopRight('hebAudio')
-		setBackBottomLeft('none')
-		setBackBottomCenter('ipa')
-		setBackBottomRight('engTransliteration')
+		setBackTopLeft(preset.back.topLeft)
+		setBackTopCenter(preset.back.topCenter)
+		setBackTopRight(preset.back.topRight)
+		setBackMiddleCenter(preset.back.middle)
+		setBackBottomLeft(preset.back.bottomLeft)
+		setBackBottomCenter(preset.back.bottomCenter)
+		setBackBottomRight(preset.back.bottomRight)
+		setBackFont(preset.back.font)
+		setBackFontSize(preset.back.size)
 		setShowCustomize(false)
 	}
 
@@ -231,9 +356,9 @@ HebrewVocabProps) {
 			new Set(
 				Object.entries(cardStatuses)
 					.filter(([, status]) => status.inMyStack)
-					.map(([cardId]) => Number(cardId))
+					.map(([cardId]) => Number(cardId)),
 			),
-		[cardStatuses]
+		[cardStatuses],
 	)
 	const currentCard = filteredCards[currentIndex]
 
@@ -251,8 +376,11 @@ HebrewVocabProps) {
 						: card.type === selectedType
 			const matchesCategory = matchesSelectedCategory(
 				card.category,
-				selectedCategory
+				selectedCategory,
 			)
+			const isMasteredCard =
+				card.id != null && !!cardStatuses[card.id]?.isMastered
+			const matchesMasteredFilter = !hideMasteredCards || !isMasteredCard
 
 			// Ensure middle-center image/audio (front)
 			const hasMiddleFrontImage =
@@ -284,6 +412,7 @@ HebrewVocabProps) {
 				matchesSelectedLesson &&
 				matchesType &&
 				matchesCategory &&
+				matchesMasteredFilter &&
 				hasValidFront &&
 				hasValidBack &&
 				hasMiddleFrontImage &&
@@ -309,7 +438,7 @@ HebrewVocabProps) {
 		const currentCardId = currentCard?.id
 		if (currentCardId != null) {
 			const preservedIndex = finalCards.findIndex(
-				(card) => card.id === currentCardId
+				(card) => card.id === currentCardId,
 			)
 
 			if (preservedIndex !== -1) {
@@ -327,6 +456,8 @@ HebrewVocabProps) {
 		frontField,
 		backField,
 		stackCardIds,
+		cardStatuses,
+		hideMasteredCards,
 		frontMiddleCenter,
 		backMiddleCenter,
 		setCurrentIndex,
@@ -339,17 +470,22 @@ HebrewVocabProps) {
 	const isCurrentCardMastered = !!currentCardStatus?.isMastered
 	const isCurrentCardInMyStack = !!currentCardStatus?.inMyStack
 
+	useLayoutEffect(() => {
+		setShowBack(false)
+	}, [currentCard?.id])
+
 	const typeOptions = useMemo(
 		() =>
-			(canUseSavedWordFeatures
+			canUseSavedWordFeatures
 				? (['all', 'word', 'phrase', 'stack'] as HebrewCardFilterType[])
-				: (['all', 'word', 'phrase'] as HebrewCardFilterType[])),
-		[canUseSavedWordFeatures]
+				: (['all', 'word', 'phrase'] as HebrewCardFilterType[]),
+		[canUseSavedWordFeatures],
 	)
 
 	function playWithBoostedVolume(url: string, volume: number, speed: number) {
-		const audioContext = new (window.AudioContext ||
-			(window as any).webkitAudioContext)()
+		const audioContext = new (
+			window.AudioContext || (window as any).webkitAudioContext
+		)()
 		const audio = new Audio(url)
 		audio.crossOrigin = 'anonymous'
 		audio.playbackRate = speed
@@ -461,7 +597,7 @@ HebrewVocabProps) {
 				console.error('Failed to award points', error)
 			}
 		},
-		[userId, courseId]
+		[userId, courseId],
 	)
 
 	useEffect(() => {
@@ -485,7 +621,9 @@ HebrewVocabProps) {
 					courseId: String(courseId),
 					language: 'he',
 				})
-				const response = await fetch(`/api/flashcards/status?${params.toString()}`)
+				const response = await fetch(
+					`/api/flashcards/status?${params.toString()}`,
+				)
 				if (!response.ok) throw new Error('Failed to fetch statuses')
 				const payload = await response.json()
 				if (cancelled) return
@@ -512,7 +650,7 @@ HebrewVocabProps) {
 	}, [canUseSavedWordFeatures, courseId, userId])
 
 	async function updateCardStatus(
-		action: 'master' | 'unmaster' | 'addToStack' | 'removeFromStack'
+		action: 'master' | 'unmaster' | 'addToStack' | 'removeFromStack',
 	) {
 		if (!currentCard?.id || !canUseSavedWordFeatures) return
 
@@ -535,6 +673,16 @@ HebrewVocabProps) {
 
 			const payload = await response.json()
 			const nextStatus = payload.status
+			const shouldAdvanceToFront =
+				action === 'master' && hideMasteredCards && !!nextStatus?.isMastered
+
+			if (shouldAdvanceToFront) {
+				setShowBack(false)
+				await new Promise((resolve) =>
+					window.setTimeout(resolve, CARD_FLIP_DURATION_MS),
+				)
+			}
+
 			if (typeof nextStatus?.cardId === 'number') {
 				setCardStatuses((prev) => ({
 					...prev,
@@ -543,16 +691,6 @@ HebrewVocabProps) {
 						inMyStack: !!nextStatus.inMyStack,
 					},
 				}))
-			}
-
-			if (action === 'master') {
-				toast.success('Word marked as mastered.')
-			} else if (action === 'unmaster') {
-				toast.success('Word removed from mastered.')
-			} else if (action === 'addToStack') {
-				toast.success('Word added to My Stack.')
-			} else {
-				toast.success('Word removed from My Stack.')
 			}
 		} catch (error) {
 			console.error('Failed to update card status', error)
@@ -567,7 +705,7 @@ HebrewVocabProps) {
 
 		setTimeout(() => {
 			setCurrentIndex(
-				(prev) => (prev - 1 + filteredCards.length) % filteredCards.length
+				(prev) => (prev - 1 + filteredCards.length) % filteredCards.length,
 			)
 		}, 700) // match the flip animation duration
 	}
@@ -588,17 +726,148 @@ HebrewVocabProps) {
 	}, [])
 
 	const allDisplayFields = allFields.filter((f) => f !== 'dictionaryUrl')
-	const miniPositionFields: (keyof HebrewVocab)[] = [
+	const miniPositionFields: DisplayField[] = [
 		'heb',
 		'hebNiqqud',
 		'ipa',
 		'hebAudio',
-		'rootPerson',
-		'rootGender',
-		'rootNumber',
+		'rootSummary',
+		'suffixSummary',
+		'grammarSummary',
+		'partOfSpeech',
+		'category',
+		'state',
 		'engTransliteration',
 		'eng',
 	]
+
+	function toTitleCase(value: string) {
+		return value
+			.split(/[\s_-]+/)
+			.filter(Boolean)
+			.map((part) => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase())
+			.join(' ')
+	}
+
+	function compactPersonValue(value?: string | null) {
+		switch (value?.toLowerCase()) {
+			case '1':
+			case '1st':
+				return '1'
+			case '2':
+			case '2nd':
+				return '2'
+			case '3':
+			case '3rd':
+				return '3'
+			default:
+				return null
+		}
+	}
+
+	function compactGenderValue(value?: string | null) {
+		switch (value?.toLowerCase()) {
+			case 'm':
+			case 'masculine':
+				return 'm'
+			case 'f':
+			case 'feminine':
+				return 'f'
+			default:
+				return null
+		}
+	}
+
+	function compactNumberValue(value?: string | null) {
+		switch (value?.toLowerCase()) {
+			case 's':
+			case 'singular':
+				return 's'
+			case 'p':
+			case 'plural':
+				return 'p'
+			default:
+				return null
+		}
+	}
+
+	function formatLabelValue(label: string, value: string) {
+		return `${label}: ${value}`
+	}
+
+	function buildCompactMorphologyLabel(
+		label: 'Root' | 'Suffix',
+		person?: string | null,
+		gender?: string | null,
+		number?: string | null,
+	) {
+		const compact = [
+			compactPersonValue(person),
+			compactGenderValue(gender),
+			compactNumberValue(number),
+		]
+			.filter(Boolean)
+			.join('')
+
+		return compact ? formatLabelValue(label, compact) : null
+	}
+
+	function formatPartOfSpeechValue(value?: string | string[] | null) {
+		const firstValue = Array.isArray(value) ? value[0] : value
+		if (!firstValue) return null
+		const cleaned = firstValue.replace(/\s*\([^)]*\)\s*/g, ' ').trim()
+		return cleaned ? toTitleCase(cleaned) : null
+	}
+
+	function formatGrammarSummary() {
+		const state =
+			currentCard?.state && currentCard.state.trim().length > 0
+				? toTitleCase(currentCard.state)
+				: hasConstructMarker()
+					? 'Construct'
+					: null
+		const category =
+			currentCard?.category && currentCard.category.trim().length > 0
+				? toTitleCase(currentCard.category)
+				: null
+		const partOfSpeech = formatPartOfSpeechValue(currentCard?.partOfSpeech)
+		return [state, category, partOfSpeech].filter(Boolean).join(' - ') || null
+	}
+
+	function formatLegacyMorphologyField(
+		field: keyof HebrewVocab,
+		value: string,
+	) {
+		switch (field) {
+			case 'rootPerson':
+				return formatLabelValue('Root', compactPersonValue(value) ?? value)
+			case 'rootGender':
+				return formatLabelValue('Root', compactGenderValue(value) ?? value)
+			case 'rootNumber':
+				return formatLabelValue('Root', compactNumberValue(value) ?? value)
+			case 'suffixPerson':
+				return formatLabelValue('Suffix', compactPersonValue(value) ?? value)
+			case 'suffixGender':
+				return formatLabelValue('Suffix', compactGenderValue(value) ?? value)
+			case 'suffixNumber':
+				return formatLabelValue('Suffix', compactNumberValue(value) ?? value)
+			default:
+				return value
+		}
+	}
+
+	function hasConstructMarker() {
+		const categoryValue = currentCard?.category?.trim().toLowerCase()
+		if (categoryValue === 'construct') return true
+
+		const parts = Array.isArray(currentCard?.partOfSpeech)
+			? currentCard.partOfSpeech
+			: currentCard?.partOfSpeech
+				? [currentCard.partOfSpeech]
+				: []
+
+		return parts.some((part) => part.toLowerCase().includes('construct'))
+	}
 
 	function fixHebrewPunctuation(text: string): string {
 		// Replace ? at the end of a line with RTL-friendly question mark
@@ -661,11 +930,33 @@ HebrewVocabProps) {
 		)
 	}
 
-	function renderMiniContent(
-		field: keyof HebrewVocab | 'none',
-		isMiddle = false
-	) {
+	function renderMiniContent(field: DisplayField, isMiddle = false) {
 		if (!currentCard || field === 'none') return null
+
+		if (field === 'rootSummary') {
+			const formatted = buildCompactMorphologyLabel(
+				'Root',
+				currentCard.rootPerson,
+				currentCard.rootGender,
+				currentCard.rootNumber,
+			)
+			return formatted ? <span>{formatted}</span> : null
+		}
+
+		if (field === 'suffixSummary') {
+			const formatted = buildCompactMorphologyLabel(
+				'Suffix',
+				currentCard.suffixPerson,
+				currentCard.suffixGender,
+				currentCard.suffixNumber,
+			)
+			return formatted ? <span>{formatted}</span> : null
+		}
+
+		if (field === 'grammarSummary') {
+			const formatted = formatGrammarSummary()
+			return formatted ? <span>{formatted}</span> : null
+		}
 
 		const value = currentCard[field]
 
@@ -702,7 +993,7 @@ HebrewVocabProps) {
 								playWithBoostedVolume(
 									currentCard.hebAudio || '',
 									audioVolume,
-									audioSpeed
+									audioSpeed,
 								)
 							}}
 						>
@@ -738,7 +1029,7 @@ HebrewVocabProps) {
 						playWithBoostedVolume(
 							currentCard.hebAudio || '',
 							audioVolume,
-							audioSpeed
+							audioSpeed,
 						)
 					}}
 				>
@@ -751,22 +1042,36 @@ HebrewVocabProps) {
 			return <InlineVideoPlayer url={value} />
 		}
 
-		if (Array.isArray(value)) {
-			return value.join(', ')
-		}
-
 		if (
 			field === 'rootPerson' ||
 			field === 'rootGender' ||
-			field === 'rootNumber'
+			field === 'rootNumber' ||
+			field === 'suffixPerson' ||
+			field === 'suffixGender' ||
+			field === 'suffixNumber'
 		) {
-			return (
-				<RootMorphologyIcons
-					entry={currentCard}
-					fields={[field]}
-					className="flex items-center justify-center text-slate-600"
-				/>
-			)
+			const formatted = formatLegacyMorphologyField(field, String(value))
+			return formatted ? <span>{formatted}</span> : null
+		}
+
+		if (field === 'partOfSpeech') {
+			const formatted = formatPartOfSpeechValue(value as string | string[])
+			return formatted ? <span>{formatted}</span> : null
+		}
+
+		if (field === 'category') {
+			const normalized = String(value).trim().toLowerCase()
+			return normalized === 'possessive' ? <span>Possessive</span> : null
+		}
+
+		if (field === 'state') {
+			const normalized = String(value).trim()
+			if (normalized) return <span>{toTitleCase(normalized)}</span>
+			return hasConstructMarker() ? <span>Construct</span> : null
+		}
+
+		if (Array.isArray(value)) {
+			return value.join(', ')
 		}
 
 		const isHebrewField = field === 'heb' || field === 'hebNiqqud'
@@ -870,7 +1175,7 @@ HebrewVocabProps) {
 									className="w-full p-2 border rounded"
 									value={frontTopLeft}
 									onChange={(e) =>
-										setFrontTopLeft(e.target.value as keyof HebrewVocab)
+										setFrontTopLeft(e.target.value as DisplayField)
 									}
 								>
 									<option value="none">None</option>
@@ -888,7 +1193,7 @@ HebrewVocabProps) {
 									className="w-full p-2 border rounded"
 									value={frontTopCenter}
 									onChange={(e) =>
-										setFrontTopCenter(e.target.value as keyof HebrewVocab)
+										setFrontTopCenter(e.target.value as DisplayField)
 									}
 								>
 									<option value="none">None</option>
@@ -905,7 +1210,7 @@ HebrewVocabProps) {
 									className="w-full p-2 border rounded"
 									value={frontTopRight}
 									onChange={(e) =>
-										setFrontTopRight(e.target.value as keyof HebrewVocab)
+										setFrontTopRight(e.target.value as DisplayField)
 									}
 								>
 									<option value="none">None</option>
@@ -924,7 +1229,7 @@ HebrewVocabProps) {
 									className="w-full p-2 border rounded"
 									value={frontMiddleCenter}
 									onChange={(e) =>
-										setFrontMiddleCenter(e.target.value as keyof HebrewVocab)
+										setFrontMiddleCenter(e.target.value as DisplayField)
 									}
 								>
 									<option value="none">None</option>
@@ -973,7 +1278,7 @@ HebrewVocabProps) {
 									className="w-full p-2 border rounded"
 									value={frontBottomLeft}
 									onChange={(e) =>
-										setFrontBottomLeft(e.target.value as keyof HebrewVocab)
+										setFrontBottomLeft(e.target.value as DisplayField)
 									}
 								>
 									<option value="none">None</option>
@@ -992,7 +1297,7 @@ HebrewVocabProps) {
 									className="w-full p-2 border rounded"
 									value={frontBottomCenter}
 									onChange={(e) =>
-										setFrontBottomCenter(e.target.value as keyof HebrewVocab)
+										setFrontBottomCenter(e.target.value as DisplayField)
 									}
 								>
 									<option value="none">None</option>
@@ -1011,7 +1316,7 @@ HebrewVocabProps) {
 									className="w-full p-2 border rounded"
 									value={frontBottomRight}
 									onChange={(e) =>
-										setFrontBottomRight(e.target.value as keyof HebrewVocab)
+										setFrontBottomRight(e.target.value as DisplayField)
 									}
 								>
 									<option value="none">None</option>
@@ -1033,7 +1338,7 @@ HebrewVocabProps) {
 									className="w-full p-2 border rounded"
 									value={backTopLeft}
 									onChange={(e) =>
-										setBackTopLeft(e.target.value as keyof HebrewVocab)
+										setBackTopLeft(e.target.value as DisplayField)
 									}
 								>
 									<option value="none">None</option>
@@ -1050,7 +1355,7 @@ HebrewVocabProps) {
 									className="w-full p-2 border rounded"
 									value={backTopCenter}
 									onChange={(e) =>
-										setBackTopCenter(e.target.value as keyof HebrewVocab)
+										setBackTopCenter(e.target.value as DisplayField)
 									}
 								>
 									<option value="none">None</option>
@@ -1067,7 +1372,7 @@ HebrewVocabProps) {
 									className="w-full p-2 border rounded"
 									value={backTopRight}
 									onChange={(e) =>
-										setBackTopRight(e.target.value as keyof HebrewVocab)
+										setBackTopRight(e.target.value as DisplayField)
 									}
 								>
 									<option value="none">None</option>
@@ -1086,7 +1391,7 @@ HebrewVocabProps) {
 									className="w-full p-2 border rounded"
 									value={backMiddleCenter}
 									onChange={(e) =>
-										setBackMiddleCenter(e.target.value as keyof HebrewVocab)
+										setBackMiddleCenter(e.target.value as DisplayField)
 									}
 								>
 									<option value="none">None</option>
@@ -1106,7 +1411,7 @@ HebrewVocabProps) {
 										'introduction',
 									].map((field) => (
 										<option key={field} value={field}>
-											{FIELD_LABELS[field as keyof HebrewVocab] || field}
+											{FIELD_LABELS[field] || field}
 										</option>
 									))}
 								</select>
@@ -1149,7 +1454,7 @@ HebrewVocabProps) {
 									className="w-full p-2 border rounded"
 									value={backBottomLeft}
 									onChange={(e) =>
-										setBackBottomLeft(e.target.value as keyof HebrewVocab)
+										setBackBottomLeft(e.target.value as DisplayField)
 									}
 								>
 									<option value="none">None</option>
@@ -1168,7 +1473,7 @@ HebrewVocabProps) {
 									className="w-full p-2 border rounded"
 									value={backBottomCenter}
 									onChange={(e) =>
-										setBackBottomCenter(e.target.value as keyof HebrewVocab)
+										setBackBottomCenter(e.target.value as DisplayField)
 									}
 								>
 									<option value="none">None</option>
@@ -1187,7 +1492,7 @@ HebrewVocabProps) {
 									className="w-full p-2 border rounded"
 									value={backBottomRight}
 									onChange={(e) =>
-										setBackBottomRight(e.target.value as keyof HebrewVocab)
+										setBackBottomRight(e.target.value as DisplayField)
 									}
 								>
 									<option value="none">None</option>
@@ -1236,13 +1541,13 @@ HebrewVocabProps) {
 						setSelectedLessons={setSelectedLessons}
 						showRanges={true}
 					/>
-					<div className="flex items-center justify-center my-4 gap-2">
+					<div className="flex items-center justify-center my-4 gap-2 flex-wrap">
 						{!isRandomized ? (
 							<button
 								onClick={() => {
 									setIsRandomized(true)
 									setFilteredCards((prev) =>
-										[...prev].sort(() => Math.random() - 0.5)
+										[...prev].sort(() => Math.random() - 0.5),
 									)
 									setCurrentIndex(0)
 								}}
@@ -1262,6 +1567,16 @@ HebrewVocabProps) {
 								↩️ Reset Order
 							</button>
 						)}
+						<button
+							onClick={() => setHideMasteredCards((prev) => !prev)}
+							className={`px-4 py-2 rounded shadow transition ${
+								hideMasteredCards
+									? 'bg-amber-500 text-white hover:bg-amber-400'
+									: 'bg-gray-300 text-gray-800 hover:bg-gray-200'
+							}`}
+						>
+							{hideMasteredCards ? 'Filter out Mastered' : 'Show All Words'}
+						</button>
 					</div>
 				</>
 			)}
@@ -1281,14 +1596,14 @@ HebrewVocabProps) {
 						{/* Front */}
 						<div className="absolute w-full h-full backface-hidden bg-white border rounded-xl p-2 sm:p-6 flex flex-col">
 							{/* Top Row */}
-							<div className="flex justify-between text-lg font-nunito">
-								<div className="text-left w-1/3">
+							<div className="grid grid-cols-3 gap-2 text-sm sm:text-base font-nunito">
+								<div className="min-w-0 text-left whitespace-normal break-words leading-tight">
 									{renderMiniContent(frontTopLeft, false)}
 								</div>
-								<div className="text-center w-1/3">
+								<div className="min-w-0 text-center whitespace-normal break-words leading-tight">
 									{renderMiniContent(frontTopCenter, false)}
 								</div>
-								<div className="text-right w-1/3">
+								<div className="min-w-0 text-right whitespace-normal break-words leading-tight">
 									{renderMiniContent(frontTopRight, false)}
 								</div>
 							</div>
@@ -1320,14 +1635,14 @@ HebrewVocabProps) {
 							{/* </div> */}
 
 							{/* Bottom Row */}
-							<div className="flex justify-between text-lg font-nunito">
-								<div className="text-left w-1/3 self-end">
+							<div className="grid grid-cols-3 gap-2 text-sm sm:text-base font-nunito">
+								<div className="min-w-0 self-end text-left whitespace-normal break-words leading-tight">
 									{renderMiniContent(frontBottomLeft, false)}
 								</div>
-								<div className="text-center w-1/3 self-end">
+								<div className="min-w-0 self-end text-center whitespace-normal break-words leading-tight">
 									{renderMiniContent(frontBottomCenter, false)}
 								</div>
-								<div className="text-right w-1/3 self-end">
+								<div className="min-w-0 self-end text-right whitespace-normal break-words leading-tight">
 									{renderMiniContent(frontBottomRight, false)}
 								</div>
 							</div>
@@ -1336,13 +1651,13 @@ HebrewVocabProps) {
 						{/* Back */}
 						<div className="absolute w-full h-full backface-hidden rotate-y-180 bg-sky-100 border rounded-xl p-2 sm:p-6 grid grid-rows-[auto,1fr,auto] grid-cols-[0.5fr,2fr,0.5fr] gap-1">
 							{/* Top Row */}
-							<div className="text-md font-nunito text-left">
+							<div className="min-w-0 text-sm sm:text-base font-nunito text-left whitespace-normal break-words leading-tight">
 								{renderMiniContent(backTopLeft, false)}
 							</div>
-							<div className="text-md font-nunito text-center">
+							<div className="min-w-0 text-sm sm:text-base font-nunito text-center whitespace-normal break-words leading-tight">
 								{renderMiniContent(backTopCenter, false)}
 							</div>
-							<div className="text-md font-nunito text-right">
+							<div className="min-w-0 text-sm sm:text-base font-nunito text-right whitespace-normal break-words leading-tight">
 								{renderMiniContent(backTopRight, false)}
 							</div>
 
@@ -1371,13 +1686,13 @@ HebrewVocabProps) {
 							</div>
 
 							{/* Bottom Row */}
-							<div className="text-md font-nunito text-left self-end">
+							<div className="min-w-0 text-sm sm:text-base font-nunito text-left self-end whitespace-normal break-words leading-tight">
 								{renderMiniContent(backBottomLeft, false)}
 							</div>
-							<div className="text-md font-nunito text-center self-end">
+							<div className="min-w-0 text-sm sm:text-base font-nunito text-center self-end whitespace-normal break-words leading-tight">
 								{renderMiniContent(backBottomCenter, false)}
 							</div>
-							<div className="text-md font-nunito text-right self-end">
+							<div className="min-w-0 text-sm sm:text-base font-nunito text-right self-end whitespace-normal break-words leading-tight">
 								{renderMiniContent(backBottomRight, false)}
 							</div>
 						</div>
@@ -1405,9 +1720,7 @@ HebrewVocabProps) {
 				{showBack && canUseSavedWordFeatures && (
 					<button
 						onClick={() =>
-							updateCardStatus(
-								isCurrentCardMastered ? 'unmaster' : 'master'
-							)
+							updateCardStatus(isCurrentCardMastered ? 'unmaster' : 'master')
 						}
 						disabled={isUpdatingStatus || !currentCard?.id}
 						className="px-4 py-2 bg-amber-500 text-white rounded shadow disabled:opacity-60"
@@ -1418,23 +1731,27 @@ HebrewVocabProps) {
 				<button
 					onClick={handlePreviousCard}
 					className="px-4 py-2 bg-gray-500 text-white rounded shadow"
+					aria-label="Previous Card"
 				>
-					Previous Card
+					&lt;
 				</button>
 				<button
 					onClick={handleNextCard}
 					className="px-4 py-2 bg-sky-600 text-white rounded shadow"
+					aria-label="Next Card"
 				>
-					Next Card
+					&gt;
 				</button>
 				{showBack && canUseSavedWordFeatures && (
 					<button
 						onClick={() =>
 							updateCardStatus(
-								isCurrentCardInMyStack ? 'removeFromStack' : 'addToStack'
+								isCurrentCardInMyStack ? 'removeFromStack' : 'addToStack',
 							)
 						}
-						disabled={isUpdatingStatus || !currentCard?.id || isCurrentCardMastered}
+						disabled={
+							isUpdatingStatus || !currentCard?.id || isCurrentCardMastered
+						}
 						className="px-4 py-2 bg-emerald-600 text-white rounded shadow disabled:opacity-60"
 					>
 						{isCurrentCardMastered
