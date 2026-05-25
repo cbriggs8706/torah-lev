@@ -1,5 +1,6 @@
 'use client'
 
+import { ActivityFinalScreen } from '@/components/activity-final-screen'
 import { useState, useMemo, useRef, useEffect, useCallback } from 'react'
 import ProgressBar from '../progress-bar'
 import { phrases } from '@/lib/sentence-builder-phrases'
@@ -584,37 +585,35 @@ export default function HebrewSentenceBuilder({
 	// --- Summary Screen ---
 	if (finished) {
 		return (
-			<div className="p-8 max-w-4xl mx-auto text-center">
-				{Confetti}
-				<h1 className="text-5xl font-bold text-green-700 mb-6">
-					You finished all {totalTargets} phrases!
-					<Image
-						src="/icons/iconShofar.png"
-						alt="Shofar Celebration"
-						width={100}
-						height={100}
-						className="animate-pulse text-center justify-center mx-auto"
-					/>
-				</h1>
-				<p className="text-2xl mb-6">
-					You’ve earned{' '}
-					<strong>
-						+{awardedMilestones * calculatePoints()} point
-						{awardedMilestones * calculatePoints() !== 1 ? 's' : ''}
-					</strong>
-					!
-				</p>
-				<p className="text-lg text-gray-700 mb-8">
-					Want to try another round? Click below to reshuffle and continue your
-					streak!
-				</p>
-				<button
-					onClick={handleRestart}
-					className="px-6 py-3 bg-sky-600 text-white text-2xl rounded hover:bg-sky-700"
-				>
-					Restart / Reshuffle
-				</button>
-			</div>
+			<ActivityFinalScreen
+				title="Lesson Complete"
+				description={`You finished all ${totalTargets} phrases in this sentence builder set.`}
+				stats={[
+					{ label: 'Phrases', value: totalTargets },
+					{
+						label: 'Points',
+						value: awardedMilestones * calculatePoints(),
+						valueClassName: 'text-emerald-600',
+					},
+					{ label: 'Milestones', value: awardedMilestones },
+				]}
+				message={
+					<p className="text-lg text-slate-600">
+						Want to try another round? Reshuffle and continue your streak.
+					</p>
+				}
+				actions={
+					<div className="flex justify-center">
+						<button
+							onClick={handleRestart}
+							className="rounded-full bg-sky-600 px-6 py-3 font-semibold text-white hover:bg-sky-700"
+						>
+							Restart / Reshuffle
+						</button>
+					</div>
+				}
+				celebration={Confetti}
+			/>
 		)
 	}
 

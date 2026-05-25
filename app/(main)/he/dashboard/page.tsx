@@ -11,11 +11,14 @@ import HebrewUserDashboard from '@/components/hebrew/hebrew-dashboard'
 import db from '@/db/drizzle'
 import { eq } from 'drizzle-orm'
 import { challengeProgress, units, users } from '@/db/schema'
+import { isAdmin } from '@/lib/admin'
+import { hasRole } from '@/lib/roles'
 
 const Dashboard = async () => {
-	const [userProgress, allCourseProgress] = await Promise.all([
+	const [userProgress, allCourseProgress, adminAccess] = await Promise.all([
 		getUserProgressWithTribe(),
 		getAllUserCourseProgress(),
+		isAdmin(),
 	])
 
 	// 🧩 Step 2: guard for login
@@ -34,7 +37,7 @@ const Dashboard = async () => {
 	const currentUser = await db.query.users.findFirst({
 		where: eq(users.id, userProgress.userId),
 		columns: {
-			role: true,
+			roles: true,
 		},
 	})
 
@@ -113,7 +116,8 @@ const Dashboard = async () => {
 								: null
 						}
 						studyGroups={userStudyGroups}
-						isLeader={currentUser?.role === 'leader'}
+						isLeader={hasRole(currentUser?.roles, 'leader')}
+						isAdmin={adminAccess}
 						allCourseProgress={allCourseProgress} // ✅ Pass the new array here
 					/>
 				</div>

@@ -1,5 +1,6 @@
 'use client'
 
+import { ActivityFinalScreen } from '@/components/activity-final-screen'
 import { useEffect, useRef, useState } from 'react'
 import {
 	DragOverlay,
@@ -1144,55 +1145,72 @@ function TanakhQuiz() {
 						Start Quiz
 					</button>
 				</div>
-			) : finished ? (
-				<div className="space-y-4">
-					<h2 className="text-2xl font-bold">Quiz Complete!</h2>
-					<p className="text-lg">Correct: {correctCount}</p>
-					<p className="text-lg">Incorrect: {wrongCount}</p>
-					{wrongAnswers.length > 0 ? (
-						<div className="mt-6">
-							<h3 className="mb-3 text-lg font-medium">You missed:</h3>
-							<div className="grid gap-3 text-left sm:grid-cols-2">
-								{wrongAnswers.map((item) => (
-									<div
-										key={item.id}
-										className="rounded-2xl border border-slate-200 bg-slate-50 p-4"
-									>
-										<p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-											{item.kind}
-										</p>
-										<p className="mt-2 font-cardo text-3xl text-neutral-900" dir="rtl">
-											{item.hebrew}
-										</p>
-										<p className="mt-1 text-base font-semibold text-neutral-700">
-											{item.english}
-										</p>
-										{item.audioSrc ? (
-											<button
-												type="button"
-												onClick={() => playAudio(item.audioSrc)}
-												className="mt-3 text-sm font-semibold text-sky-700 hover:text-sky-800"
-											>
-												Play audio
-											</button>
-										) : null}
-									</div>
-								))}
+				) : finished ? (
+					<ActivityFinalScreen
+						title="Quiz Complete!"
+						description="You finished the TaNaKh quiz round."
+						stats={[
+							{ label: 'Correct', value: correctCount, valueClassName: 'text-emerald-600' },
+							{ label: 'Incorrect', value: wrongCount, valueClassName: 'text-rose-600' },
+							{
+								label: 'Accuracy',
+								value: `${Math.round((correctCount / Math.max(1, correctCount + wrongCount)) * 100)}%`,
+							},
+						]}
+						message={
+							wrongAnswers.length === 0 ? (
+								<p className="text-lg font-semibold text-emerald-700">Perfect round.</p>
+							) : undefined
+						}
+						actions={
+							<div className="flex justify-center">
+								<button
+									type="button"
+									onClick={resetToStart}
+									className="rounded-full bg-sky-600 px-6 py-3 font-semibold text-white hover:bg-sky-700"
+								>
+									Start Over
+								</button>
 							</div>
-						</div>
-					) : (
-						<p className="text-emerald-700">Perfect round.</p>
-					)}
-
-					<button
-						type="button"
-						onClick={resetToStart}
-						className="mt-6 rounded-lg bg-sky-600 px-6 py-2 text-white hover:bg-sky-700"
-					>
-						Start Over
-					</button>
-				</div>
-			) : (
+						}
+						reviewSection={
+							wrongAnswers.length > 0 ? (
+								<div className="text-left">
+									<h3 className="text-center text-xl font-bold text-slate-900">
+										Review Missed Answers
+									</h3>
+									<div className="mt-5 grid gap-3 sm:grid-cols-2">
+										{wrongAnswers.map((item) => (
+											<div
+												key={item.id}
+												className="rounded-2xl border border-slate-200 bg-slate-50 p-4"
+											>
+												<p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+													{item.kind}
+												</p>
+												<p className="mt-2 font-cardo text-3xl text-neutral-900" dir="rtl">
+													{item.hebrew}
+												</p>
+												<p className="mt-1 text-base font-semibold text-neutral-700">
+													{item.english}
+												</p>
+												{item.audioSrc ? (
+													<button
+														type="button"
+														onClick={() => playAudio(item.audioSrc)}
+														className="mt-3 text-sm font-semibold text-sky-700 hover:text-sky-800"
+													>
+														Play audio
+													</button>
+												) : null}
+											</div>
+										))}
+									</div>
+								</div>
+							) : undefined
+						}
+					/>
+				) : (
 				<>
 					<button
 						type="button"

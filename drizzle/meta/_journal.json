@@ -64,6 +64,13 @@
       "when": 1778899200000,
       "tag": "0008_vocab_entries_lemma_fields",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "5",
+      "when": 1779163200000,
+      "tag": "0016_vocab_confused_words",
+      "breakpoints": true
     }
   ]
 }

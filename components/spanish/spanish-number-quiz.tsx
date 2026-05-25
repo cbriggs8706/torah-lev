@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useAudio, useWindowSize } from 'react-use'
 import ReactConfetti from 'react-confetti'
+import { ActivityFinalScreen } from '@/components/activity-final-screen'
 
 /* ---------- TYPES ---------- */
 export interface SpanishNumber {
@@ -388,28 +389,48 @@ export default function SpanishNumberQuiz({
 					</div>
 				</div>
 			) : finished ? (
-				<div className="space-y-4">
-					<h2 className="text-2xl font-bold">¡Quiz completado!</h2>
-					<p className="text-lg">✅ Correctas: {correctCount}</p>
-					<p className="text-lg">❌ Incorrectas: {wrongCount}</p>
-					<p
-						className={`text-xl font-semibold ${
-							passed ? 'text-green-600' : 'text-red-500'
-						}`}
-					>
-						{passed ? '🎉 ¡Aprobaste!' : '😞 Intenta otra vez'}
-					</p>
-					<p className="text-lg">
-						⭐ Puntos ganados:{' '}
-						<span className="font-semibold">{awardedPoints}</span>
-					</p>
-					<button
-						onClick={reset}
-						className="mt-6 px-6 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700"
-					>
-						Volver a empezar
-					</button>
-				</div>
+				<ActivityFinalScreen
+					title="¡Quiz completado!"
+					description={
+						passed
+							? 'Terminaste la ronda y ganaste tus puntos.'
+							: 'Vuelve a intentarlo para mejorar tu resultado.'
+					}
+					stats={[
+						{ label: 'Correctas', value: correctCount, valueClassName: 'text-emerald-600' },
+						{ label: 'Incorrectas', value: wrongCount, valueClassName: 'text-rose-600' },
+						{ label: 'Puntos', value: awardedPoints },
+					]}
+					message={
+						<p className={`text-lg font-semibold ${passed ? 'text-emerald-700' : 'text-rose-600'}`}>
+							{passed ? '¡Aprobaste!' : 'Intenta otra vez'}
+						</p>
+					}
+					actions={
+						<div className="flex justify-center">
+							<button
+								onClick={reset}
+								className="inline-flex items-center justify-center rounded-full border border-sky-200 bg-sky-50 px-5 py-3 font-semibold text-sky-700 transition hover:border-sky-300 hover:bg-sky-100"
+							>
+								Volver a empezar
+							</button>
+						</div>
+					}
+					celebration={
+						passed ? (
+							<>
+								{finishAudio}
+								<ReactConfetti
+									width={width}
+									height={height}
+									recycle={false}
+									numberOfPieces={500}
+									tweenDuration={10000}
+								/>
+							</>
+						) : null
+					}
+				/>
 			) : (
 				<div>
 					{/* Quiz Play Screen identical to EnglishNumberQuiz */}

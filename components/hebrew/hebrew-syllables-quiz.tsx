@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useAudio, useWindowSize } from 'react-use'
 import ReactConfetti from 'react-confetti'
+import { ActivityFinalScreen } from '@/components/activity-final-screen'
 
 interface HebrewSyllablesQuizProps {
 	letters: HebrewLetter[]
@@ -607,54 +608,79 @@ export default function HebrewSyllablesQuiz({
 					</button>
 				</div>
 			) : finished ? (
-				<div className="space-y-4">
-					<h2 className="text-2xl font-bold">Quiz Complete!</h2>
-					<p className="text-lg">✅ Correct: {correctCount}</p>
-					<p className="text-lg">❌ Incorrect: {wrongCount}</p>
-					<p className={`text-xl font-semibold ${passed ? 'text-green-600' : 'text-red-500'}`}>
-						{passed
-							? '🎉 You Passed!'
-							: "😞 In order to pass, you'll need to not miss more that 2 using 3 seconds or less. Let's try again!"}
-					</p>
-					<p className="text-lg">
-						⭐ Points earned: <span className="font-semibold">{awardedPoints}</span>
-					</p>
-
-					{wrongAnswers.length > 0 && (
-						<div className="mt-6">
-							<h3 className="mb-2 text-lg font-medium">You missed:</h3>
-							<div className="flex flex-wrap justify-center gap-6">
-								{wrongAnswers.map((letter, index) => (
-									<div
-										key={index}
-										className="flex flex-col items-center justify-center rounded-lg border p-4"
-									>
-										<div className={`mb-2 text-6xl ${fontClassNameFor(fontChoice)}`} dir="rtl">
-											{letter.char}
-										</div>
-										<button
-											onClick={() => {
-												const audio = new Audio(getActiveSoundAudio(letter))
-												audio.play()
-											}}
-											className="text-xl text-sky-600 hover:text-sky-800"
-											aria-label="Replay Audio"
-										>
-											🔊
-										</button>
-									</div>
-								))}
-							</div>
+				<ActivityFinalScreen
+					title="Quiz Complete!"
+					description={
+						passed
+							? 'You stayed under the miss limit and earned your points.'
+							: "In order to pass, you'll need to miss 2 or fewer using 3 seconds or less."
+					}
+					stats={[
+						{ label: 'Correct', value: correctCount, valueClassName: 'text-emerald-600' },
+						{ label: 'Incorrect', value: wrongCount, valueClassName: 'text-rose-600' },
+						{ label: 'Points', value: awardedPoints },
+					]}
+					message={
+						<p className={`text-lg font-semibold ${passed ? 'text-emerald-700' : 'text-rose-600'}`}>
+							{passed ? 'You passed.' : "Let's try again!"}
+						</p>
+					}
+					actions={
+						<div className="flex justify-center">
+							<button
+								onClick={() => resetToStart()}
+								className="inline-flex items-center justify-center rounded-full border border-sky-200 bg-sky-50 px-5 py-3 font-semibold text-sky-700 transition hover:border-sky-300 hover:bg-sky-100"
+							>
+								Start Over
+							</button>
 						</div>
-					)}
-
-					<button
-						onClick={() => resetToStart()}
-						className="mt-6 rounded-lg bg-sky-600 px-6 py-2 text-white hover:bg-sky-700"
-					>
-						Start Over
-					</button>
-				</div>
+					}
+					reviewSection={
+						wrongAnswers.length > 0 ? (
+							<div>
+								<h3 className="text-center text-xl font-bold text-slate-900">
+									Review Missed Syllables
+								</h3>
+								<div className="mt-5 flex flex-wrap justify-center gap-6">
+									{wrongAnswers.map((letter, index) => (
+										<div
+											key={index}
+											className="flex flex-col items-center justify-center rounded-3xl border border-slate-200 bg-slate-50 p-4"
+										>
+											<div className={`mb-2 text-6xl ${fontClassNameFor(fontChoice)}`} dir="rtl">
+												{letter.char}
+											</div>
+											<button
+												onClick={() => {
+													const audio = new Audio(getActiveSoundAudio(letter))
+													audio.play()
+												}}
+												className="text-xl text-sky-600 hover:text-sky-800"
+												aria-label="Replay Audio"
+											>
+												🔊
+											</button>
+										</div>
+									))}
+								</div>
+							</div>
+						) : undefined
+					}
+					celebration={
+						passed ? (
+							<>
+								{finishAudio}
+								<ReactConfetti
+									width={width}
+									height={height}
+									recycle={false}
+									numberOfPieces={500}
+									tweenDuration={10000}
+								/>
+							</>
+						) : null
+					}
+				/>
 			) : (
 				<>
 					<div className="mb-4 flex min-h-[180px] items-center justify-center">

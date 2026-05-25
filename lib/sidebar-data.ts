@@ -53,6 +53,8 @@ export function buildSidebarSections({
 			{ key: 'dictionary', label: localize(resolvedLocale, 'nav.dictionary'), href: '/he/dictionary', iconSrc: '/icons/iconDictionary.png' },
 			{ key: 'lesson-scripts', label: localize(resolvedLocale, 'nav.lessonScripts'), href: '/he/lesson-scripts', iconSrc: '/icons/iconNotebook.png' },
 			{ key: 'matchup', label: localize(resolvedLocale, 'nav.matchup'), href: '/he/matchup', iconSrc: '/icons/iconSocks.png' },
+			{ key: 'opposites', label: localize(resolvedLocale, 'nav.opposites'), href: '/he/opposites', iconSrc: '/gameIcons/matchingPairs.png' },
+			{ key: 'mistaken', label: localize(resolvedLocale, 'nav.mistaken'), href: '/he/mistaken', iconSrc: '/gameIcons/matchingPairs.png' },
 		)
 
 		gameItems.push(

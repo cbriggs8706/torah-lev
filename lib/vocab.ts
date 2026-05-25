@@ -1,5 +1,6 @@
 export type HebrewVocab = {
 	id: number | null
+	dbId?: number | null
 	hebNiqqud: string
 	heb: string
 	eng: string
@@ -20,6 +21,7 @@ export type HebrewVocab = {
 	engAudio?: string
 	synonyms?: string[]
 	antonyms?: string[]
+	confusedWith?: string[]
 	lessons: string[]
 	scriptures?: string[]
 	strongs?: string
@@ -32,6 +34,7 @@ export type HebrewVocab = {
 
 export type GreekVocab = {
 	id: number | null
+	dbId?: number | null
 	grk: string
 	eng: string
 	engDefinition?: string
@@ -45,6 +48,7 @@ export type GreekVocab = {
 	engAudio?: string
 	synonyms?: string[]
 	antonyms?: string[]
+	confusedWith?: string[]
 	lessons: string[]
 	scriptures?: string[]
 	strongs?: string
@@ -55,6 +59,7 @@ export type GreekVocab = {
 
 export type EnglishVocab = {
 	id: number | null
+	dbId?: number | null
 	lessons: string[]
 	type?: string
 	definite?: boolean
@@ -75,6 +80,11 @@ export type EnglishVocab = {
 	images: string[]
 	engAudio: string
 	category?: string
+	synonyms?: string[]
+	antonyms?: string[]
+	confusedWith?: string[]
+	scriptures?: string[]
+	strongs?: string
 }
 
 export type AnyVocab = EnglishVocab | HebrewVocab | GreekVocab

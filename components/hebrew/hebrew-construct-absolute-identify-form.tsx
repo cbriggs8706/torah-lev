@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Check, RefreshCw, X } from 'lucide-react'
 
+import { ActivityFinalScreen } from '@/components/activity-final-screen'
 import LessonFilter from '@/components/filters/filter-lesson'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -371,58 +372,38 @@ export default function HebrewConstructAbsoluteIdentifyForm({
 
 	if (finished) {
 		return (
-			<div className="w-full max-w-3xl space-y-6">
-				<LessonFilter
-					data={lessonFilterData}
-					selectedLessons={selectedLessons}
-					setSelectedLessons={setSelectedLessons}
-					showRanges
-				/>
-				<Card className="border-sidebar-border bg-white/85 shadow-sm">
-					<CardHeader className="text-center">
-						<CardTitle className="text-3xl font-nunito text-neutral-800">
-							Round Complete
-						</CardTitle>
-					</CardHeader>
-					<CardContent className="space-y-6 px-8 pb-8 text-center">
-						<div className="grid gap-4 sm:grid-cols-3">
-							<div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4">
-								<p className="text-[11px] font-bold uppercase tracking-[0.2em] text-emerald-700">
-									Correct
-								</p>
-								<p className="mt-2 text-3xl font-extrabold text-emerald-800">
-									{correctCount}
-								</p>
-							</div>
-							<div className="rounded-2xl border border-rose-200 bg-rose-50 p-4">
-								<p className="text-[11px] font-bold uppercase tracking-[0.2em] text-rose-700">
-									Wrong
-								</p>
-								<p className="mt-2 text-3xl font-extrabold text-rose-800">
-									{wrongCount}
-								</p>
-							</div>
-							<div className="rounded-2xl border border-sidebar-border bg-sidebar-accent/20 p-4">
-								<p className="text-[11px] font-bold uppercase tracking-[0.2em] text-neutral-500">
-									Accuracy
-								</p>
-								<p className="mt-2 text-3xl font-extrabold text-neutral-800">
-									{accuracy}%
-								</p>
-							</div>
-						</div>
+			<ActivityFinalScreen
+				title="Round Complete"
+				description="You finished the full construct vs. absolute set for this lesson selection."
+				stats={[
+					{ label: 'Correct', value: correctCount, valueClassName: 'text-emerald-600' },
+					{ label: 'Wrong', value: wrongCount, valueClassName: 'text-rose-600' },
+					{ label: 'Accuracy', value: `${accuracy}%` },
+				]}
+				prelude={
+					<div className="mb-6">
+						<LessonFilter
+							data={lessonFilterData}
+							selectedLessons={selectedLessons}
+							setSelectedLessons={setSelectedLessons}
+							showRanges
+						/>
+					</div>
+				}
+				actions={
+					<div className="flex justify-center">
 						<Button
 							type="button"
 							variant="secondary"
-							className="gap-2"
+							className="gap-2 rounded-full"
 							onClick={startGame}
 						>
 							<RefreshCw className="h-4 w-4" />
 							Play Again
 						</Button>
-					</CardContent>
-				</Card>
-			</div>
+					</div>
+				}
+			/>
 		)
 	}
 

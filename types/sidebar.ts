@@ -28,6 +28,8 @@ export type SidebarTranslationKey =
 	| 'nav.flashcards'
 	| 'nav.dictionary'
 	| 'nav.matchup'
+	| 'nav.opposites'
+	| 'nav.mistaken'
 	| 'nav.quiz'
 	| 'nav.letterQuiz'
 	| 'nav.vowels'

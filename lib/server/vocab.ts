@@ -67,7 +67,8 @@ function mapRowToHebrewVocab(row: VocabEntryRow): HebrewVocab {
 	const payload = (row.payload ?? {}) as Partial<HebrewVocab>
 
 	return normalizeHebrewEntry({
-		id: row.entryId,
+		id: row.id,
+		dbId: row.id,
 		hebNiqqud: row.lemma ?? payload.hebNiqqud ?? '',
 		heb: row.heb ?? payload.heb ?? '',
 		eng: row.gloss ?? payload.eng ?? '',
@@ -92,6 +93,7 @@ function mapRowToHebrewVocab(row: VocabEntryRow): HebrewVocab {
 		engAudio: payload.engAudio ?? '',
 		synonyms: row.synonyms ?? payload.synonyms ?? [],
 		antonyms: row.antonyms ?? payload.antonyms ?? [],
+		confusedWith: row.confusedWith ?? payload.confusedWith ?? [],
 		lessons: row.lessons ?? payload.lessons ?? [],
 		scriptures: row.scriptures ?? payload.scriptures ?? [],
 		strongs: row.strongs ?? payload.strongs ?? '',
@@ -107,7 +109,8 @@ function mapRowToEnglishVocab(row: VocabEntryRow): EnglishVocab {
 	const payload = (row.payload ?? {}) as Partial<EnglishVocab>
 
 	return normalizeEnglishEntry({
-		id: row.entryId,
+		id: row.id,
+		dbId: row.id,
 		lessons: row.lessons ?? payload.lessons ?? [],
 		type: row.type ?? payload.type ?? '',
 		definite: row.definite ?? payload.definite ?? false,
@@ -140,7 +143,8 @@ function mapRowToGreekVocab(row: VocabEntryRow): GreekVocab {
 	const payload = (row.payload ?? {}) as Partial<GreekVocab>
 
 	return normalizeGreekEntry({
-		id: row.entryId,
+		id: row.id,
+		dbId: row.id,
 		grk: row.grk ?? payload.grk ?? '',
 		eng: row.gloss ?? payload.eng ?? '',
 		engDefinition: row.hebDefinition ?? payload.engDefinition ?? '',
@@ -155,6 +159,7 @@ function mapRowToGreekVocab(row: VocabEntryRow): GreekVocab {
 		engAudio: row.engAudio ?? payload.engAudio ?? '',
 		synonyms: row.synonyms ?? payload.synonyms ?? [],
 		antonyms: row.antonyms ?? payload.antonyms ?? [],
+		confusedWith: row.confusedWith ?? payload.confusedWith ?? [],
 		lessons: row.lessons ?? payload.lessons ?? [],
 		scriptures: row.scriptures ?? payload.scriptures ?? [],
 		strongs: row.strongs ?? payload.strongs ?? '',
@@ -169,7 +174,7 @@ async function getRowsForSource(sourceKey: VocabSourceKey) {
 		.select()
 		.from(vocabEntries)
 		.where(eq(vocabEntries.sourceKey, sourceKey))
-		.orderBy(asc(vocabEntries.entryId))
+		.orderBy(asc(vocabEntries.id))
 }
 
 async function getSourceData<T extends EnglishVocab | HebrewVocab | GreekVocab>(

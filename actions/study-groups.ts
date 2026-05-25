@@ -6,6 +6,7 @@ import { z } from 'zod'
 import db from '@/db/drizzle'
 import { studyGroups, users } from '@/db/schema'
 import { getUserOrThrow } from '@/lib/auth'
+import { hasRole } from '@/lib/roles'
 
 const createStudyGroupSchema = z.object({
 	name: z.string().trim().min(2, 'Name must be at least 2 characters.'),
@@ -46,11 +47,11 @@ export async function createStudyGroup(input: {
 	const leaderRow = await db.query.users.findFirst({
 		where: eq(users.id, userId),
 		columns: {
-			role: true,
+			roles: true,
 		},
 	})
 
-	if (!leaderRow || leaderRow.role !== 'leader') {
+	if (!hasRole(leaderRow?.roles, 'leader')) {
 		throw new Error('Only leaders can create study groups.')
 	}
 

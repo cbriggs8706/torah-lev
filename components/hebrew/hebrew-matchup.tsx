@@ -1,5 +1,6 @@
 'use client'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { RefreshCw } from 'lucide-react'
 import {
 	DndContext,
 	useDraggable,
@@ -11,6 +12,8 @@ import {
 	TouchSensor,
 } from '@dnd-kit/core'
 import Image from 'next/image'
+import { ResultCard } from '@/app/lesson/result-card'
+import { ActivityFinalScreen } from '@/components/activity-final-screen'
 import { HebrewVocab } from '@/lib/vocab'
 import { formatRootMorphology, hasRootMorphology } from '@/lib/vocab-morphology'
 import { matchesSelectedCategory } from '@/lib/category'
@@ -32,6 +35,7 @@ interface WordMatchGameProps {
 
 type UniqueIdentifier = string | number
 const formatOptions: FormatType[] = ['image', 'audio', 'translation']
+type Phase = 'playing' | 'results'
 
 function parseLessonKey(key: string) {
 	const match = key.match(/^(\d+)?([a-zA-Z]*)$/)
@@ -63,9 +67,9 @@ export default function WordMatchGame({
 		'word',
 	)
 	const [showConfetti, setShowConfetti] = useState(false)
-	const [audioEl, state, controls] = useAudio({
+	const [finishAudio] = useAudio({
 		src: '/shofar.mp3',
-		autoPlay: false,
+		autoPlay: true,
 	})
 	const [shuffledDraggables, setShuffledDraggables] = useState<HebrewVocab[]>(
 		[],
@@ -75,6 +79,8 @@ export default function WordMatchGame({
 	const [selectedCategory, setSelectedCategory] = useState<string>('all')
 	const [formatType, setFormatType] = useState<FormatType>('image')
 	const [cols, setCols] = useState(4)
+	const [phase, setPhase] = useState<Phase>('playing')
+	const [awardedPoints, setAwardedPoints] = useState(0)
 
 	const [targetSize, setTargetSize] = useState<number>(
 		parseInt(
@@ -198,6 +204,7 @@ export default function WordMatchGame({
 		if (filteredCards.length === 0) {
 			setShuffledDraggables([])
 			setShuffledTargets([])
+			setPhase('playing')
 			return
 		}
 
@@ -211,6 +218,32 @@ export default function WordMatchGame({
 		setShuffledTargets(shuffled2)
 		setMatches({})
 		setHasFinished(false)
+		setShowConfetti(false)
+		setPhase('playing')
+	}, [filteredCards])
+
+	const resetBoard = useCallback(() => {
+		if (filteredCards.length === 0) return
+		const limited = filteredCards.slice(0, 12)
+
+		const shuffled1 = [...limited]
+		const shuffled2 = [...limited]
+
+		for (let i = shuffled1.length - 1; i > 0; i--) {
+			const j = Math.floor(Math.random() * (i + 1))
+			;[shuffled1[i], shuffled1[j]] = [shuffled1[j], shuffled1[i]]
+		}
+		for (let i = shuffled2.length - 1; i > 0; i--) {
+			const j = Math.floor(Math.random() * (i + 1))
+			;[shuffled2[i], shuffled2[j]] = [shuffled2[j], shuffled2[i]]
+		}
+
+		setShuffledDraggables(shuffled1)
+		setShuffledTargets(shuffled2)
+		setMatches({})
+		setHasFinished(false)
+		setShowConfetti(false)
+		setPhase('playing')
 	}, [filteredCards])
 
 	function handleDragEnd(event: DragEndEvent) {
@@ -279,38 +312,14 @@ export default function WordMatchGame({
 		if (isComplete && !hasFinished) {
 			setShowConfetti(true)
 			setHasFinished(true)
+			setPhase('results')
+			setAwardedPoints(1)
 			awardPoints(1)
-			const maybePromise = controls.play()
-			if (maybePromise instanceof Promise) maybePromise.catch(() => {})
-
-			setTimeout(() => {
-				setShowConfetti(false)
-				const limited = filteredCards.slice(0, 12)
-
-				const shuffled1 = [...limited]
-				const shuffled2 = [...limited]
-
-				for (let i = shuffled1.length - 1; i > 0; i--) {
-					const j = Math.floor(Math.random() * (i + 1))
-					;[shuffled1[i], shuffled1[j]] = [shuffled1[j], shuffled1[i]]
-				}
-				for (let i = shuffled2.length - 1; i > 0; i--) {
-					const j = Math.floor(Math.random() * (i + 1))
-					;[shuffled2[i], shuffled2[j]] = [shuffled2[j], shuffled2[i]]
-				}
-
-				setShuffledDraggables(shuffled1)
-				setShuffledTargets(shuffled2)
-				setMatches({})
-				setHasFinished(false)
-			}, 8000)
 		}
 	}, [
 		matches,
 		shuffledTargets,
 		hasFinished,
-		controls,
-		filteredCards,
 		awardPoints,
 	])
 
@@ -327,10 +336,74 @@ export default function WordMatchGame({
 	const bumpSize = (delta: number) =>
 		setTargetSize((s) => Math.max(80, Math.min(240, s + delta)))
 
+	const totalCards = shuffledTargets.length
+	const matchedCount = Object.keys(matches).filter((id) => matches[id] === id).length
+
+	if (phase === 'results') {
+		return (
+			<ActivityFinalScreen
+				title="Lesson Complete"
+				description="You matched every card correctly and earned your point."
+				stats={[
+					{
+						label: 'Matched',
+						value: matchedCount,
+						valueClassName: 'text-emerald-600',
+					},
+					{
+						label: 'Cards',
+						value: totalCards,
+					},
+					{
+						label: 'Points',
+						value: awardedPoints,
+						valueClassName: 'text-sky-700',
+					},
+				]}
+				rewards={
+					<div className="mx-auto flex w-full max-w-md gap-4">
+						<ResultCard variant="points" value={awardedPoints} tribePointAdded={false} />
+					</div>
+				}
+				actions={
+					<div className="flex flex-col justify-center gap-3 sm:flex-row">
+						<button
+							type="button"
+							onClick={resetBoard}
+							className="inline-flex items-center justify-center gap-2 rounded-full border border-sky-200 bg-sky-50 px-5 py-3 font-semibold text-sky-700 transition hover:border-sky-300 hover:bg-sky-100"
+						>
+							<RefreshCw className="h-4 w-4" />
+							Play Again
+						</button>
+						<button
+							type="button"
+							onClick={() => setShowFilter(true)}
+							className="rounded-full border border-slate-300 bg-white px-5 py-3 font-semibold text-slate-700 transition hover:border-slate-400 hover:bg-slate-50"
+						>
+							Change Filters
+						</button>
+					</div>
+				}
+				celebration={
+					<>
+						{finishAudio}
+						{showConfetti ? (
+							<ReactConfetti
+								width={width}
+								height={height}
+								recycle={false}
+								numberOfPieces={500}
+								tweenDuration={10000}
+							/>
+						) : null}
+					</>
+				}
+			/>
+		)
+	}
+
 	return (
 		<div className="max-w-4xl mx-auto p-4">
-			{audioEl}
-
 			{showConfetti && (
 				<ReactConfetti
 					width={width}
@@ -392,27 +465,7 @@ export default function WordMatchGame({
 					</span>
 				</div>
 				<button
-					onClick={() => {
-						if (filteredCards.length === 0) return
-						const limited = filteredCards.slice(0, 12)
-
-						const shuffled1 = [...limited]
-						const shuffled2 = [...limited]
-
-						for (let i = shuffled1.length - 1; i > 0; i--) {
-							const j = Math.floor(Math.random() * (i + 1))
-							;[shuffled1[i], shuffled1[j]] = [shuffled1[j], shuffled1[i]]
-						}
-						for (let i = shuffled2.length - 1; i > 0; i--) {
-							const j = Math.floor(Math.random() * (i + 1))
-							;[shuffled2[i], shuffled2[j]] = [shuffled2[j], shuffled2[i]]
-						}
-
-						setShuffledDraggables(shuffled1)
-						setShuffledTargets(shuffled2)
-						setMatches({})
-						setHasFinished(false)
-					}}
+					onClick={resetBoard}
 					className="px-4 py-2 bg-gray-200 rounded shadow hover:bg-gray-300"
 				>
 					Reshuffle

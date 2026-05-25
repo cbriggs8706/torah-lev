@@ -111,7 +111,6 @@ export function toVocabAdminRecord(
 		sourceKey: string
 		language: string
 		courseId: number | null
-		entryId: number
 		lessons: string[]
 		type: string | null
 		definite: boolean
@@ -142,6 +141,7 @@ export function toVocabAdminRecord(
 		dictionaryUrl: string | null
 		synonyms: string[] | null
 		antonyms: string[] | null
+		confusedWith: string[] | null
 		scriptures: string[] | null
 		strongs: string | null
 		introduction: string | null
@@ -174,6 +174,7 @@ export function toVocabAdminRecord(
 		imagesText: stringifyStringList(entry.images),
 		synonymsText: stringifyStringList(entry.synonyms),
 		antonymsText: stringifyStringList(entry.antonyms),
+		confusedWithText: stringifyStringList(entry.confusedWith),
 		scripturesText: stringifyStringList(entry.scriptures),
 		primaryAudioUrl: resolveVocabMediaUrl(
 			entry.language === 'he'

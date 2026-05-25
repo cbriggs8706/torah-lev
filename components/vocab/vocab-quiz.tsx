@@ -1,6 +1,7 @@
 'use client'
 
 import { awardVocabQuizCompletion } from '@/actions/vocab-quiz-progress'
+import { ActivityFinalScreen } from '@/components/activity-final-screen'
 import TorahScrollLoader from '@/components/hebrew/hebrew-loader'
 import LessonFilter from '@/components/filters/filter-lesson'
 import { useLessonCards } from '@/hooks/useLessonCards'
@@ -1044,106 +1045,66 @@ export default function VocabQuiz({
 					</button>
 				</div>
 			) : finished ? (
-				<>
-					{showConfetti && celebratoryFinish && finishAudio}
-					<div className="mx-auto flex max-w-3xl flex-col items-center justify-center gap-y-4 text-center lg:gap-y-8">
-						{celebratoryFinish && (
+				<ActivityFinalScreen
+					title={celebratoryFinish ? 'Lesson Complete' : 'Quiz Complete!'}
+					description={
+						celebratoryFinish
+							? 'You cleared the passing threshold and earned rewards.'
+							: passed
+								? 'You passed, but no points were awarded because more than 75% were missed.'
+								: 'To pass, you must miss 2 or fewer.'
+					}
+					stats={[
+						{ label: 'Correct', value: correctCount, valueClassName: 'text-emerald-600' },
+						{ label: 'Incorrect', value: wrongCount, valueClassName: 'text-rose-600' },
+						{
+							label: 'Points',
+							value: completionRewards?.awardedPoints ?? pointsOnPass ?? 0,
+						},
+					]}
+					rewards={
+						celebratoryFinish ? (
 							<>
-								<Image
-									src="/finish.svg"
-									alt="Finish"
-									className="hidden lg:block"
-									height={100}
-									width={100}
-								/>
-								<Image
-									src="/finish.svg"
-									alt="Finish"
-									className="block lg:hidden"
-									height={50}
-									width={50}
-								/>
+								<p className="mb-4 text-lg font-semibold text-slate-800">
+									You earned {completionRewards?.awardedPoints ?? pointsOnPass} point
+									{(completionRewards?.awardedPoints ?? pointsOnPass) === 1 ? '' : 's'}.
+								</p>
+								<div className="mx-auto flex w-full max-w-md items-center gap-x-4">
+									<ResultCard
+										variant="points"
+										value={completionRewards?.awardedPoints ?? pointsOnPass}
+										tribePointAdded={completionRewards?.tribePointAwarded ?? false}
+									/>
+									<ResultCard
+										variant="hearts"
+										value={completionRewards?.hearts ?? completionHearts}
+										tribePointAdded={completionRewards?.tribePointAwarded ?? false}
+									/>
+								</div>
 							</>
-						)}
-						<h1 className="text-xl font-bold text-neutral-700 lg:text-3xl">
-							{celebratoryFinish
-								? "Great job! You've completed this quiz."
-								: 'Quiz Complete!'}
-						</h1>
-						<p className="text-lg font-semibold text-slate-700">
-							✅ Correct: {correctCount}
-						</p>
-						<p className="text-lg font-semibold text-slate-700">
-							❌ Incorrect: {wrongCount}
-						</p>
-						<p
-							className={`text-lg font-bold lg:text-2xl ${
-								celebratoryFinish ? 'text-neutral-700' : 'text-red-500'
-							}`}
-						>
-							{celebratoryFinish
-								? `You earned ${completionRewards?.awardedPoints ?? pointsOnPass} point${
-										(completionRewards?.awardedPoints ?? pointsOnPass) === 1 ? '' : 's'
-								  }.`
-								: passed
-									? 'You passed, but no points were awarded because more than 75% were missed.'
-									: "To pass, you must miss 2 or fewer. Let's try again!"}
-						</p>
-						{celebratoryFinish && (
-							<div className="flex w-full items-center gap-x-4">
-								<ResultCard
-									variant="points"
-									value={completionRewards?.awardedPoints ?? pointsOnPass}
-									tribePointAdded={completionRewards?.tribePointAwarded ?? false}
-								/>
-								<ResultCard
-									variant="hearts"
-									value={completionRewards?.hearts ?? completionHearts}
-									tribePointAdded={completionRewards?.tribePointAwarded ?? false}
-								/>
-							</div>
-						)}
-
-					{wrongAnswers.length > 0 && (
-						<div className="mt-2 w-full">
-							<h3 className="mb-3 text-lg font-medium">You missed:</h3>
-							<div className="grid gap-4 sm:grid-cols-2">
-								{wrongAnswers.map((card, index) => (
-									<div
-										key={`${card.id ?? index}-wrong-${index}`}
-										className="rounded-2xl border border-slate-200 bg-slate-50 p-4"
-									>
-										<div className="text-center">{renderPrompt(card, 'text-2xl')}</div>
-										<div className="mt-4 border-t border-slate-200 pt-4 text-center">
-											{renderAnswer(card, 'text-3xl')}
-											{config.answerAudioField &&
-												hasValue(card, config.answerAudioField) && (
-													<button
-														onClick={() => playCardAnswerAudio(card)}
-														className="mt-3 text-2xl text-sky-600 hover:text-sky-800"
-														aria-label="Replay answer audio"
-													>
-														🔊
-													</button>
-												)}
-										</div>
-									</div>
-								))}
-							</div>
-						</div>
-					)}
-
-						<div className="flex flex-wrap justify-center gap-4 pt-2">
+						) : undefined
+					}
+					message={
+						!celebratoryFinish ? (
+							<p className={`text-lg font-semibold ${passed ? 'text-slate-700' : 'text-rose-600'}`}>
+								{passed
+									? 'You passed, but this round did not qualify for rewards.'
+									: "Let's try again!"}
+							</p>
+						) : undefined
+					}
+					actions={
+						<div className="flex flex-wrap justify-center gap-4">
 							<button
 								onClick={resetToStart}
-								className="rounded-xl bg-slate-200 px-6 py-3 font-semibold text-slate-800 hover:bg-slate-300"
+								className="rounded-full border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 transition hover:border-slate-400 hover:bg-slate-50"
 							>
 								Start Over
 							</button>
 							<button
 								onClick={startNextLesson}
 								disabled={!nextLesson}
-								className={`rounded-xl px-6 py-3 font-semibold text-white ${
+								className={`rounded-full px-6 py-3 font-semibold text-white ${
 									nextLesson
 										? 'bg-emerald-600 hover:bg-emerald-700'
 										: 'bg-slate-300'
@@ -1153,13 +1114,70 @@ export default function VocabQuiz({
 							</button>
 							<button
 								onClick={() => router.push(mainScreenHref)}
-								className="rounded-xl bg-sky-600 px-6 py-3 font-semibold text-white hover:bg-sky-700"
+								className="rounded-full bg-sky-600 px-6 py-3 font-semibold text-white hover:bg-sky-700"
 							>
 								Return to Main Screen
 							</button>
 						</div>
-					</div>
-				</>
+					}
+					reviewSection={
+						wrongAnswers.length > 0 ? (
+							<div className="w-full text-left">
+								<h3 className="text-center text-xl font-bold text-slate-900">
+									Review Missed Answers
+								</h3>
+								<div className="mt-5 grid gap-4 sm:grid-cols-2">
+									{wrongAnswers.map((card, index) => (
+										<div
+											key={`${card.id ?? index}-wrong-${index}`}
+											className="rounded-2xl border border-slate-200 bg-slate-50 p-4"
+										>
+											<div className="text-center">{renderPrompt(card, 'text-2xl')}</div>
+											<div className="mt-4 border-t border-slate-200 pt-4 text-center">
+												{renderAnswer(card, 'text-3xl')}
+												{config.answerAudioField &&
+													hasValue(card, config.answerAudioField) && (
+														<button
+															onClick={() => playCardAnswerAudio(card)}
+															className="mt-3 text-2xl text-sky-600 hover:text-sky-800"
+															aria-label="Replay answer audio"
+														>
+															🔊
+														</button>
+													)}
+											</div>
+										</div>
+									))}
+								</div>
+							</div>
+						) : undefined
+					}
+					celebration={
+						celebratoryFinish ? (
+							<>
+								{showConfetti && finishAudio}
+								{showConfetti && (
+									<div className="mb-4 flex justify-center">
+										<Image
+											src="/finish.svg"
+											alt="Finish"
+											className="hidden lg:block"
+											height={100}
+											width={100}
+										/>
+										<Image
+											src="/finish.svg"
+											alt="Finish"
+											className="block lg:hidden"
+											height={50}
+											width={50}
+										/>
+									</div>
+								)}
+							</>
+						) : undefined
+					}
+				/>
 			) : currentCard ? (
 				!activityReady ? (
 					<div className="flex min-h-[420px] items-center justify-center">

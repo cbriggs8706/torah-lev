@@ -28,6 +28,7 @@ import { ChallengeOptionCreate } from './challengeOption/create'
 
 import GenerateChallengesPage from './generate-challenges/page'
 import VocabIntroPage from './vocab-intros/page'
+import VocabRelationsPage from './vocab-relations/page'
 
 import { AdminMenu } from '@/components/admin-menu'
 
@@ -226,6 +227,7 @@ const App = () => {
 					element={<GenerateChallengesPage />}
 				/>
 				<Route path="/vocab-intros" element={<VocabIntroPage />} />
+				<Route path="/vocab-relations" element={<VocabRelationsPage />} />
 			</CustomRoutes>
 			<hr />
 		</Admin>

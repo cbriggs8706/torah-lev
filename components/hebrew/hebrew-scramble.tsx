@@ -1,5 +1,6 @@
 'use client'
 
+import { ActivityFinalScreen } from '@/components/activity-final-screen'
 import { HebrewVocab } from '@/lib/vocab'
 import Image from 'next/image'
 import { useCallback, useEffect, useMemo, useState } from 'react'
@@ -151,32 +152,31 @@ export default function HebrewScramble({
 	// ✅ Success Screen
 	if (finished) {
 		return (
-			<div className="p-8 max-w-4xl mx-auto text-center">
-				{Confetti}
-				<Image
-					src="/icons/iconShofar.png"
-					alt="Shofar Celebration"
-					width={100}
-					height={100}
-					className="mx-auto mb-6"
-				/>
-				<h1 className="text-5xl font-bold text-green-700 mb-6">
-					You finished all 5 phrases!
-				</h1>
-				<p className="text-2xl mb-6">
-					You’ve earned <strong>+1 point</strong>!
-				</p>
-				<p className="text-lg text-gray-700 mb-8">
-					Want to try another round? Click below to reshuffle and continue your
-					streak!
-				</p>
-				<button
-					onClick={handleRestart}
-					className="px-6 py-3 bg-sky-600 text-white text-2xl rounded hover:bg-sky-700"
-				>
-					Restart / Reshuffle
-				</button>
-			</div>
+			<ActivityFinalScreen
+				title="Lesson Complete"
+				description="You unscrambled every phrase in this set."
+				stats={[
+					{ label: 'Phrases', value: cardsCompleted },
+					{ label: 'Points', value: 1, valueClassName: 'text-emerald-600' },
+					{ label: 'Status', value: 'Perfect', valueClassName: 'text-2xl text-emerald-700' },
+				]}
+				message={
+					<p className="text-lg text-slate-600">
+						Want to try another round? Reshuffle and keep the streak going.
+					</p>
+				}
+				actions={
+					<div className="flex justify-center">
+						<button
+							onClick={handleRestart}
+							className="rounded-full bg-sky-600 px-6 py-3 font-semibold text-white hover:bg-sky-700"
+						>
+							Restart / Reshuffle
+						</button>
+					</div>
+				}
+				celebration={Confetti}
+			/>
 		)
 	}
 

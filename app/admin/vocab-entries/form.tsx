@@ -28,13 +28,7 @@ const metadataRowSx = {
 	},
 }
 
-type VocabEntryFormProps = {
-	includeEntryId?: boolean
-}
-
-export function VocabEntryForm({
-	includeEntryId = true,
-}: VocabEntryFormProps = {}) {
+export function VocabEntryForm() {
 	return (
 		<SimpleForm>
 			<Box sx={metadataRowSx}>
@@ -61,9 +55,6 @@ export function VocabEntryForm({
 					sx={longTextSx}
 				/>
 			</Box>
-			{includeEntryId ? (
-				<NumberInput source="entryId" label="Entry ID" />
-			) : null}
 			<Box
 				sx={{
 					display: 'grid',
@@ -293,6 +284,12 @@ export function VocabEntryForm({
 				<TextInput
 					source="antonymsText"
 					label="Antonyms"
+					multiline
+					sx={longTextSx}
+				/>
+				<TextInput
+					source="confusedWithText"
+					label="Commonly Confused With"
 					multiline
 					sx={longTextSx}
 				/>

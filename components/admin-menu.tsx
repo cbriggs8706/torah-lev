@@ -5,6 +5,7 @@ import { Menu } from 'react-admin'
 import { DashboardMenuItem, MenuItemLink } from 'react-admin'
 import BookIcon from '@mui/icons-material/Book'
 import BuildIcon from '@mui/icons-material/Build'
+import HubIcon from '@mui/icons-material/Hub'
 import VideoLibraryIcon from '@mui/icons-material/VideoLibrary'
 import { useLocation } from 'react-router-dom'
 
@@ -25,6 +26,12 @@ export const AdminMenu = () => {
 				primaryText="Generate Challenges"
 				leftIcon={<BuildIcon />}
 				selected={location.pathname === '/generate-challenges'}
+			/>
+			<MenuItemLink
+				to="/vocab-relations"
+				primaryText="Vocab Relations"
+				leftIcon={<HubIcon />}
+				selected={location.pathname === '/vocab-relations'}
 			/>
 			<MenuItemLink
 				to="/construct-absolute-words"

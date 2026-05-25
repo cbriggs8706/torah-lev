@@ -20,7 +20,7 @@ export const users = pgTable('users', {
 	email: varchar('email', { length: 255 }),
 	passwordHash: text('password_hash').notNull(),
 	image: text('image'),
-	role: varchar('role').default('user').notNull(),
+	roles: text('roles').array().notNull().default(sql`ARRAY['user']::text[]`),
 	createdAt: timestamp('created_at').defaultNow().notNull(),
 	updatedAt: timestamp('updated_at').defaultNow().notNull(),
 })
@@ -922,7 +922,6 @@ export const vocabEntries = pgTable(
 		sourceKey: text('source_key').notNull(),
 		language: varchar('language', { length: 8 }).notNull(),
 		courseId: integer('course_id'),
-		entryId: integer('entry_id').notNull(),
 		lessons: text('lessons').array().notNull().default(sql`'{}'::text[]`),
 		type: text('type'),
 		definite: boolean('definite').notNull().default(false),
@@ -953,6 +952,7 @@ export const vocabEntries = pgTable(
 		dictionaryUrl: text('dictionary_url'),
 		synonyms: text('synonyms').array(),
 		antonyms: text('antonyms').array(),
+		confusedWith: text('confused_with').array(),
 		scriptures: text('scriptures').array(),
 		strongs: text('strongs'),
 		introduction: text('introduction'),
@@ -969,10 +969,6 @@ export const vocabEntries = pgTable(
 		updatedAt: timestamp('updated_at').defaultNow().notNull(),
 	},
 	(table) => ({
-		sourceEntryUnique: uniqueIndex('uniq_vocab_source_entry').on(
-			table.sourceKey,
-			table.entryId
-		),
 		sourceIdx: index('idx_vocab_source_key').on(table.sourceKey),
 		courseIdx: index('idx_vocab_course_id').on(table.courseId),
 		languageIdx: index('idx_vocab_language').on(table.language),

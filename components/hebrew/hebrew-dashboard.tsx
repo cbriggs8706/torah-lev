@@ -76,6 +76,7 @@ interface HebrewUserDashboardProps {
 	} | null
 	studyGroups?: any[]
 	isLeader?: boolean
+	isAdmin?: boolean
 	allCourseProgress?: CourseProgress[]
 }
 
@@ -91,6 +92,7 @@ export default function HebrewUserDashboard({
 	tribe,
 	studyGroups,
 	isLeader = false,
+	isAdmin = false,
 	allCourseProgress = [],
 }: HebrewUserDashboardProps) {
 	const [newName, setNewName] = useState(userName)
@@ -483,6 +485,30 @@ export default function HebrewUserDashboard({
 					</Link>
 				</div>
 			)}
+			{isAdmin ? (
+				<div className="rounded-2xl border border-emerald-200 bg-gradient-to-r from-emerald-50 via-white to-teal-50 p-5 shadow-sm">
+					<div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+						<div className="space-y-1">
+							<p className="text-xs font-semibold uppercase tracking-[0.22em] text-emerald-700">
+								Admin shortcut
+							</p>
+							<h2 className="text-xl font-bold text-slate-900">
+								Manage vocab antonym pairs
+							</h2>
+							<p className="max-w-2xl text-sm text-slate-600">
+								Open the dedicated pairing tool to search two vocab entries and
+								link them symmetrically as antonyms.
+							</p>
+						</div>
+						<Link
+							href="/admin#/vocab-relations"
+							className="inline-flex items-center justify-center rounded-xl bg-emerald-700 px-5 py-3 text-sm font-semibold uppercase tracking-wide text-white transition hover:bg-emerald-800"
+						>
+							Open Vocab Relations
+						</Link>
+					</div>
+				</div>
+			) : null}
 			{/* Goal Section */}
 			<GoalDisplayCard userUnitProgress={userUnitProgress} />
 			{/* Tribe Section */}

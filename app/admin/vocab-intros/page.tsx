@@ -8,7 +8,6 @@ type VocabIntroRecord = {
 	id: number
 	sourceKey: string
 	language: string
-	entryId: number
 	firstLesson: string
 	lessonSort: string
 	hebNiqqud: string | null

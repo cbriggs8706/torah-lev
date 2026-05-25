@@ -1,13 +1,8 @@
-import { getSession, getUserId } from '@/lib/auth'
-
-const legacyAdminIds = ['user_2kaRJOK3LURBbcyO1pusrktbcqx']
-
-function parseCsv(value?: string) {
-	return (value ?? '')
-		.split(',')
-		.map((part) => part.trim())
-		.filter(Boolean)
-}
+import { eq } from 'drizzle-orm'
+import db from '@/db/drizzle'
+import { users } from '@/db/schema'
+import { getUserId } from '@/lib/auth'
+import { hasRole } from '@/lib/roles'
 
 export const isAdmin = async () => {
 	const userId = await getUserId()
@@ -16,21 +11,16 @@ export const isAdmin = async () => {
 		return false
 	}
 
-	// Keep local development unblocked for signed-in users.
-	if (process.env.NODE_ENV !== 'production') {
+	const userRecord = await db.query.users.findFirst({
+		where: eq(users.id, userId),
+		columns: {
+			roles: true,
+		},
+	})
+
+	if (hasRole(userRecord?.roles, 'admin')) {
 		return true
 	}
 
-	const session = await getSession()
-	const email = session?.user?.email?.toLowerCase() ?? ''
-
-	const adminIds = new Set([
-		...legacyAdminIds,
-		...parseCsv(process.env.ADMIN_USER_IDS),
-	])
-	const adminEmails = new Set(
-		parseCsv(process.env.ADMIN_EMAILS).map((value) => value.toLowerCase())
-	)
-
-	return adminIds.has(userId) || (!!email && adminEmails.has(email))
+	return false
 }

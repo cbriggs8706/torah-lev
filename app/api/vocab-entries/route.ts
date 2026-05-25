@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { asc, desc, eq } from 'drizzle-orm'
+import { asc, eq } from 'drizzle-orm'
 import db from '@/db/drizzle'
 import { vocabEntries } from '@/db/schema'
 import { isAdmin } from '@/lib/admin'
@@ -27,6 +27,26 @@ function normalizeBoolean(value: unknown) {
 	return value === true || value === 'true' || value === 1 || value === '1'
 }
 
+function getDisplayWord(row: {
+	id: number
+	lemma: string | null
+	heb: string | null
+	grk: string | null
+	gloss: string | null
+	spa: string | null
+	por: string | null
+}) {
+	return (
+		row.lemma ??
+		row.heb ??
+		row.grk ??
+		row.gloss ??
+		row.spa ??
+		row.por ??
+		`Entry ${row.id}`
+	)
+}
+
 function normalizeRecord(body: Record<string, unknown>) {
 	const language = normalizeNullableString(body.language) ?? 'he'
 	const images = normalizeMediaList(body.imagesText ?? body.images)
@@ -34,6 +54,7 @@ function normalizeRecord(body: Record<string, unknown>) {
 	const partOfSpeech = parseStringList(body.partOfSpeechText ?? body.partOfSpeech)
 	const synonyms = parseStringList(body.synonymsText ?? body.synonyms)
 	const antonyms = parseStringList(body.antonymsText ?? body.antonyms)
+	const confusedWith = parseStringList(body.confusedWithText ?? body.confusedWith)
 	const scriptures = parseStringList(body.scripturesText ?? body.scriptures)
 	const hebAudio = normalizeNullableString(body.hebAudio)
 	const engAudio = normalizeNullableString(body.engAudio)
@@ -43,7 +64,6 @@ function normalizeRecord(body: Record<string, unknown>) {
 		sourceKey: normalizeNullableString(body.sourceKey) ?? 'awb',
 		language,
 		courseId: normalizeOptionalNumber(body.courseId),
-		entryId: normalizeOptionalNumber(body.entryId) ?? 0,
 		lessons,
 		type: normalizeNullableString(body.type),
 		definite: normalizeBoolean(body.definite),
@@ -83,6 +103,7 @@ function normalizeRecord(body: Record<string, unknown>) {
 		dictionaryUrl: normalizeNullableString(body.dictionaryUrl),
 		synonyms,
 		antonyms,
+		confusedWith,
 		scriptures,
 		strongs: normalizeNullableString(body.strongs),
 		introduction: normalizeNullableString(body.introduction),
@@ -121,17 +142,6 @@ async function validateConstructAbsoluteLink(
 	return null
 }
 
-async function getNextEntryId(sourceKey: string) {
-	const [latestRow] = await db
-		.select({ entryId: vocabEntries.entryId })
-		.from(vocabEntries)
-		.where(eq(vocabEntries.sourceKey, sourceKey))
-		.orderBy(desc(vocabEntries.entryId))
-		.limit(1)
-
-	return (latestRow?.entryId ?? 0) + 1
-}
-
 export const GET = async (req: Request) => {
 	if (!(await isAdmin())) {
 		return new NextResponse('Unauthorized', { status: 401 })
@@ -152,7 +162,33 @@ export const GET = async (req: Request) => {
 		orderBy: asc(vocabEntries.id),
 	})
 
-	let rows = baseRows.map((row) => toVocabAdminRecord(row))
+	const rowIdLookup = new Map(
+		baseRows.map((row) => [`${row.sourceKey}:id:${row.id}`, getDisplayWord(row)])
+	)
+
+	function formatRelationDisplay(values: string[] | null | undefined, sourceKey: string) {
+		return (values ?? [])
+			.map((value) => value.trim())
+			.filter(Boolean)
+			.map((value) => {
+				const relationId = Number(value)
+				if (!Number.isInteger(relationId)) {
+					return value
+				}
+
+				const label = rowIdLookup.get(`${sourceKey}:id:${relationId}`)
+				return label ? `#${relationId} ${label}` : `#${relationId}`
+			})
+			.join(', ')
+	}
+
+	let rows = baseRows.map((row) => {
+		return {
+			...toVocabAdminRecord(row),
+			antonymsDisplay: formatRelationDisplay(row.antonyms, row.sourceKey),
+			confusedWithDisplay: formatRelationDisplay(row.confusedWith, row.sourceKey),
+		}
+	})
 
 	if (Array.isArray(filter.id) && filter.id.length > 0) {
 		const idSet = new Set(filter.id.map((value) => Number(value)))
@@ -286,15 +322,10 @@ export const POST = async (req: Request) => {
 	if (validationError) {
 		return new NextResponse(validationError, { status: 400 })
 	}
-	const entryId = normalized.entryId > 0
-		? normalized.entryId
-		: await getNextEntryId(normalized.sourceKey)
-
 	const data = await db
 		.insert(vocabEntries)
 		.values({
 			...normalized,
-			entryId,
 			createdAt: new Date(),
 		})
 		.returning()

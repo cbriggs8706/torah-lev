@@ -1,5 +1,6 @@
 import 'dotenv/config'
 
+import { asc, eq } from 'drizzle-orm'
 import db from '@/db/drizzle'
 import { vocabEntries } from '@/db/schema'
 import type { EnglishVocab, GreekVocab, HebrewVocab } from '@/lib/vocab'
@@ -16,6 +17,15 @@ import hsHebrewVocab from '@/lib/data/vocab/hsVocab.json'
 import lrEnglishVocab from '@/lib/data/vocab/lrVocab.json'
 
 type InsertRow = typeof vocabEntries.$inferInsert
+type ExistingRow = typeof vocabEntries.$inferSelect
+type SourceKey = 'awb' | 'hs' | 'abc' | 'awa' | 'efw' | 'ewb' | 'lr' | 'ec1' | 'ec2'
+
+type SyncRow = Omit<InsertRow, 'id'> & {
+	legacyId: number
+	sourceSynonyms: string[]
+	sourceAntonyms: string[]
+	sourceConfusedWith: string[]
+}
 
 const now = new Date()
 
@@ -29,6 +39,22 @@ function cleanStringArray(values?: string[] | null) {
 	return (values ?? []).filter((value): value is string => !!value?.trim())
 }
 
+function mapLegacyRelations(
+	values: string[],
+	legacyToDbId: Map<number, number>
+) {
+	return Array.from(
+		new Set(
+			values
+				.map((value) => Number(value))
+				.filter((value) => Number.isInteger(value) && value > 0)
+				.map((value) => legacyToDbId.get(value))
+				.filter((value): value is number => typeof value === 'number')
+				.map((value) => String(value))
+		)
+	)
+}
+
 function getLegacyMorphologyValue(
 	item: EnglishVocab & Partial<Record<'person' | 'gender' | 'number', string>>,
 	key: 'person' | 'gender' | 'number'
@@ -36,16 +62,23 @@ function getLegacyMorphologyValue(
 	return item[key] ?? null
 }
 
+function getLegacyIdFromPayload(payload: unknown) {
+	if (!payload || typeof payload !== 'object' || Array.isArray(payload)) return null
+	const rawValue = (payload as Record<string, unknown>).id
+	const parsed = Number(rawValue)
+	return Number.isInteger(parsed) && parsed > 0 ? parsed : null
+}
+
 function toHebrewRows(
 	sourceKey: 'awb' | 'hs' | 'abc',
 	courseId: number,
 	items: HebrewVocab[]
-): InsertRow[] {
+): SyncRow[] {
 	return items.map((item) => ({
 		sourceKey,
 		language: 'he',
 		courseId,
-		entryId: item.id ?? 0,
+		legacyId: item.id ?? 0,
 		lessons: cleanStringArray(item.lessons),
 		type: item.type ?? null,
 		category: item.category ?? null,
@@ -61,14 +94,18 @@ function toHebrewRows(
 		engTransliteration: item.engTransliteration ?? null,
 		genderPerson: item.genderPerson ?? null,
 		dictionaryUrl: item.dictionaryUrl ?? null,
-		synonyms: cleanStringArray(item.synonyms),
-		antonyms: cleanStringArray(item.antonyms),
+		synonyms: [],
+		antonyms: [],
+		confusedWith: [],
 		scriptures: cleanStringArray(item.scriptures),
 		strongs: item.strongs ?? null,
 		introduction: item.introduction ?? null,
 		payload: item,
 		createdAt: now,
 		updatedAt: now,
+		sourceSynonyms: cleanStringArray(item.synonyms),
+		sourceAntonyms: cleanStringArray(item.antonyms),
+		sourceConfusedWith: cleanStringArray(item.confusedWith),
 	}))
 }
 
@@ -76,12 +113,12 @@ function toEnglishRows(
 	sourceKey: 'efw' | 'ewb' | 'lr' | 'ec1' | 'ec2',
 	courseId: number,
 	items: EnglishVocab[]
-): InsertRow[] {
+): SyncRow[] {
 	return items.map((item) => ({
 		sourceKey,
 		language: 'en',
 		courseId,
-		entryId: item.id ?? 0,
+		legacyId: item.id ?? 0,
 		lessons: cleanStringArray(item.lessons),
 		type: item.type ?? null,
 		category: item.category ?? null,
@@ -101,6 +138,9 @@ function toEnglishRows(
 		suffixPerson: item.suffixPerson ?? null,
 		suffixGender: item.suffixGender ?? null,
 		suffixNumber: item.suffixNumber ?? null,
+		synonyms: [],
+		antonyms: [],
+		confusedWith: [],
 		payload: {
 			...item,
 			rootPerson: item.rootPerson ?? getLegacyMorphologyValue(item, 'person') ?? '',
@@ -112,6 +152,9 @@ function toEnglishRows(
 		},
 		createdAt: now,
 		updatedAt: now,
+		sourceSynonyms: cleanStringArray(item.synonyms),
+		sourceAntonyms: cleanStringArray(item.antonyms),
+		sourceConfusedWith: cleanStringArray(item.confusedWith),
 	}))
 }
 
@@ -119,12 +162,12 @@ function toGreekRows(
 	sourceKey: 'awa',
 	courseId: number,
 	items: GreekVocab[]
-): InsertRow[] {
+): SyncRow[] {
 	return items.map((item) => ({
 		sourceKey,
 		language: 'el',
 		courseId,
-		entryId: item.id ?? 0,
+		legacyId: item.id ?? 0,
 		lessons: cleanStringArray(item.lessons),
 		type: item.type ?? null,
 		category: item.category ?? null,
@@ -139,77 +182,113 @@ function toGreekRows(
 		engTransliteration: item.engTransliteration ?? null,
 		genderPerson: item.genderPerson ?? null,
 		dictionaryUrl: item.dictionaryUrl ?? null,
-		synonyms: cleanStringArray(item.synonyms),
-		antonyms: cleanStringArray(item.antonyms),
+		synonyms: [],
+		antonyms: [],
+		confusedWith: [],
 		scriptures: cleanStringArray(item.scriptures),
 		strongs: item.strongs ?? null,
 		payload: item,
 		createdAt: now,
 		updatedAt: now,
+		sourceSynonyms: cleanStringArray(item.synonyms),
+		sourceAntonyms: cleanStringArray(item.antonyms),
+		sourceConfusedWith: cleanStringArray(item.confusedWith),
 	}))
 }
 
-const allRows: InsertRow[] = [
-	...toHebrewRows('awb', 6, awbHebrewVocab as HebrewVocab[]),
-	...toHebrewRows('hs', 11, hsHebrewVocab as HebrewVocab[]),
-	...toHebrewRows('abc', 14, abcHebrewVocab as HebrewVocab[]),
-	...toGreekRows('awa', 12, awaGreekVocab as GreekVocab[]),
-	...toEnglishRows('efw', 16, efwEnglishVocab as EnglishVocab[]),
-	...toEnglishRows('ewb', 13, ewbEnglishVocab as EnglishVocab[]),
-	...toEnglishRows('lr', 17, lrEnglishVocab as EnglishVocab[]),
-	...toEnglishRows('ec1', 3, ec1EnglishVocab as EnglishVocab[]),
-	...toEnglishRows('ec2', 4, ec2EnglishVocab as EnglishVocab[]),
-]
+const rowsBySource: Record<SourceKey, SyncRow[]> = {
+	awb: toHebrewRows('awb', 6, awbHebrewVocab as HebrewVocab[]),
+	hs: toHebrewRows('hs', 11, hsHebrewVocab as HebrewVocab[]),
+	abc: toHebrewRows('abc', 14, abcHebrewVocab as HebrewVocab[]),
+	awa: toGreekRows('awa', 12, awaGreekVocab as GreekVocab[]),
+	efw: toEnglishRows('efw', 16, efwEnglishVocab as EnglishVocab[]),
+	ewb: toEnglishRows('ewb', 13, ewbEnglishVocab as EnglishVocab[]),
+	lr: toEnglishRows('lr', 17, lrEnglishVocab as EnglishVocab[]),
+	ec1: toEnglishRows('ec1', 3, ec1EnglishVocab as EnglishVocab[]),
+	ec2: toEnglishRows('ec2', 4, ec2EnglishVocab as EnglishVocab[]),
+}
 
-async function main() {
-	for (const row of allRows) {
-		await db
-			.insert(vocabEntries)
-			.values(row)
-			.onConflictDoUpdate({
-				target: [vocabEntries.sourceKey, vocabEntries.entryId],
-				set: {
-					language: row.language,
-					courseId: row.courseId,
-					lessons: row.lessons,
-					type: row.type,
-					category: row.category,
-					gloss: row.gloss,
-					hebDefinition: row.hebDefinition,
-					partOfSpeech: row.partOfSpeech,
-					ipa: row.ipa,
-					images: row.images,
-					lemma: row.lemma,
-					heb: row.heb,
-					hebAudio: row.hebAudio,
-					grk: row.grk,
-					grkAudio: row.grkAudio,
-					spa: row.spa,
-					por: row.por,
-					engAudio: row.engAudio,
-					engTransliteration: row.engTransliteration,
-					spaTransliteration: row.spaTransliteration,
-					porTransliteration: row.porTransliteration,
-					genderPerson: row.genderPerson,
-					rootPerson: row.rootPerson,
-					rootGender: row.rootGender,
-					rootNumber: row.rootNumber,
-					suffixPerson: row.suffixPerson,
-					suffixGender: row.suffixGender,
-					suffixNumber: row.suffixNumber,
-					dictionaryUrl: row.dictionaryUrl,
-					synonyms: row.synonyms,
-					antonyms: row.antonyms,
-					scriptures: row.scriptures,
-					strongs: row.strongs,
-					introduction: row.introduction,
-					payload: row.payload,
-					updatedAt: new Date(),
-				},
-			})
+function getUpsertValues(row: SyncRow): InsertRow {
+	const {
+		legacyId: _legacyId,
+		sourceSynonyms: _sourceSynonyms,
+		sourceAntonyms: _sourceAntonyms,
+		sourceConfusedWith: _sourceConfusedWith,
+		...values
+	} = row
+
+	return values
+}
+
+async function syncSource(sourceKey: SourceKey, rows: SyncRow[]) {
+	const existingRows = await db.query.vocabEntries.findMany({
+		where: eq(vocabEntries.sourceKey, sourceKey),
+		orderBy: asc(vocabEntries.id),
+	})
+
+	const existingByLegacyId = new Map<number, ExistingRow>()
+	for (const row of existingRows) {
+		const legacyId = getLegacyIdFromPayload(row.payload)
+		if (legacyId) {
+			existingByLegacyId.set(legacyId, row)
+		}
 	}
 
-	console.log(`Synced ${allRows.length} vocab rows to Supabase.`)
+	const legacyToDbId = new Map<number, number>()
+
+	for (const row of rows) {
+		const values = getUpsertValues(row)
+		const existing = existingByLegacyId.get(row.legacyId)
+
+		if (existing) {
+			const [updated] = await db
+				.update(vocabEntries)
+				.set({
+					...values,
+					createdAt: existing.createdAt,
+					updatedAt: new Date(),
+				})
+				.where(eq(vocabEntries.id, existing.id))
+				.returning()
+
+			legacyToDbId.set(row.legacyId, updated.id)
+			continue
+		}
+
+		const [inserted] = await db
+			.insert(vocabEntries)
+			.values(values)
+			.returning()
+
+		legacyToDbId.set(row.legacyId, inserted.id)
+	}
+
+	for (const row of rows) {
+		const dbId = legacyToDbId.get(row.legacyId)
+		if (!dbId) continue
+
+		await db
+			.update(vocabEntries)
+			.set({
+				synonyms: mapLegacyRelations(row.sourceSynonyms, legacyToDbId),
+				antonyms: mapLegacyRelations(row.sourceAntonyms, legacyToDbId),
+				confusedWith: mapLegacyRelations(row.sourceConfusedWith, legacyToDbId),
+				updatedAt: new Date(),
+			})
+			.where(eq(vocabEntries.id, dbId))
+	}
+
+	return rows.length
+}
+
+async function main() {
+	let syncedCount = 0
+
+	for (const [sourceKey, rows] of Object.entries(rowsBySource) as [SourceKey, SyncRow[]][]) {
+		syncedCount += await syncSource(sourceKey, rows)
+	}
+
+	console.log(`Synced ${syncedCount} vocab rows to Supabase.`)
 }
 
 main()

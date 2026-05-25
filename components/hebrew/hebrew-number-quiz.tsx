@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useAudio, useWindowSize } from 'react-use'
 import ReactConfetti from 'react-confetti'
+import { ActivityFinalScreen } from '@/components/activity-final-screen'
 
 export type GenderedForms = {
 	mCardinal?: string
@@ -169,21 +170,40 @@ export default function HebrewNumberQuiz({
 	const [gender, setGender] = useState<GenderType>('feminine')
 	const [displayType, setDisplayType] = useState<DisplayType>('number')
 
-	// pool builder
-	// pool builder
+	const getAudioSrc = useCallback(
+		(num: HebrewNumber, nextFormType: FormType, nextGender: GenderType) => {
+			if (!num) return null
+			if (nextFormType === 'cardinal') {
+				return nextGender === 'feminine'
+					? num.audio.fCardinal || num.audio.cardinal || null
+					: num.audio.mCardinal || num.audio.cardinal || null
+			}
+			if (nextFormType === 'ordinal') {
+				return nextGender === 'feminine'
+					? num.audio.fOrdinal || num.audio.ordinal || null
+					: num.audio.mOrdinal || num.audio.ordinal || null
+			}
+			if (nextFormType === 'construct') {
+				return nextGender === 'feminine'
+					? num.audio.constructF || num.audio.construct || null
+					: num.audio.constructM || num.audio.construct || null
+			}
+			return null
+		},
+		[],
+	)
+
 	const buildPool = useCallback((): HebrewNumber[] => {
-		// Start with filter logic
 		const base =
 			selectedFilter !== 'All' && filters[selectedFilter]
 				? numbers.filter((n) => filters[selectedFilter].includes(n.number))
 				: numbers
 
-		// Remove cards that don't have audio for the chosen form/gender
 		return base.filter((n) => {
 			const audioSrc = getAudioSrc(n, formType, gender)
 			return !!audioSrc
 		})
-	}, [selectedFilter, filters, numbers, formType, gender])
+	}, [selectedFilter, filters, numbers, formType, gender, getAudioSrc])
 
 	useEffect(() => {
 		if (gameStarted) {
@@ -248,6 +268,7 @@ export default function HebrewNumberQuiz({
 		currentCard,
 		formType,
 		gender,
+		getAudioSrc,
 		promptType,
 		studyMode,
 	])
@@ -456,30 +477,6 @@ export default function HebrewNumberQuiz({
 		}
 
 		return { text, translit, audio }
-	}
-
-	function getAudioSrc(
-		num: HebrewNumber,
-		formType: FormType,
-		gender: GenderType
-	): string | null {
-		if (!num) return null
-		if (formType === 'cardinal') {
-			return gender === 'feminine'
-				? num.audio.fCardinal || num.audio.cardinal || null
-				: num.audio.mCardinal || num.audio.cardinal || null
-		}
-		if (formType === 'ordinal') {
-			return gender === 'feminine'
-				? num.audio.fOrdinal || num.audio.ordinal || null
-				: num.audio.mOrdinal || num.audio.ordinal || null
-		}
-		if (formType === 'construct') {
-			return gender === 'feminine'
-				? num.audio.constructF || num.audio.construct || null
-				: num.audio.constructM || num.audio.construct || null
-		}
-		return null
 	}
 
 	return (
@@ -716,83 +713,91 @@ export default function HebrewNumberQuiz({
 					</div>
 				</div>
 			) : finished ? (
-				<div className="space-y-4">
-					<h2 className="text-2xl font-bold">Quiz Complete!</h2>
-					<p>✅ Correct: {correctCount}</p>
-					<p>❌ Incorrect: {wrongCount}</p>
-					<p
-						className={`text-xl font-semibold ${
-							passed ? 'text-green-600' : 'text-red-500'
-						}`}
-					>
-						{passed ? '🎉 You Passed!' : '😞 Try again!'}
-					</p>
-
-					{/* 🔊 Show missed numbers for review */}
-					{wrongAnswers.length > 0 && (
-						<div className="mt-6">
-							<h3 className="font-medium text-lg mb-2">You missed:</h3>
-							<div className="flex flex-wrap justify-center gap-6">
-								{wrongAnswers.map((num, i) => {
-									const { text, translit, audio } = getFormFor(num)
-									return (
-										<div
-											key={i}
-											className="p-4 border rounded-lg flex flex-col items-center text-center w-28"
-										>
-											{/* number / gematria */}
-											<div
-												className={`text-4xl font-bold mb-1 ${fontClassNameFor(
-													fontChoice
-												)}`}
-											>
-												{displayType === 'number' ? num.number : num.gematria}
-											</div>
-											<div className="text-2xl font-cardo text-gray-600 mb-2">
-												{displayType === 'number' ? num.gematria : num.number}
-											</div>
-
-											{/* Hebrew word */}
-											<div
-												className={`text-2xl mb-1 ${fontClassNameFor(
-													fontChoice
-												)}`}
-											>
-												{text}
-											</div>
-
-											{/* Transliteration */}
-											<div className="text-sm italic text-gray-700 mb-2">
-												{translit}
-											</div>
-
-											{/* Replay audio */}
-											{audio && (
-												<button
-													onClick={() => {
-														const a = new Audio(audio)
-														a.play()
-													}}
-													className="text-xl text-sky-600 hover:text-sky-800"
-													aria-label="Replay Audio"
-												>
-													🔊
-												</button>
-											)}
-										</div>
-									)
-								})}
-							</div>
+				<ActivityFinalScreen
+					title="Quiz Complete!"
+					description={passed ? 'Nice work. You cleared this round.' : 'Give it another run to improve your score.'}
+					stats={[
+						{ label: 'Correct', value: correctCount, valueClassName: 'text-emerald-600' },
+						{ label: 'Incorrect', value: wrongCount, valueClassName: 'text-rose-600' },
+						{
+							label: 'Status',
+							value: passed ? 'Passed' : 'Try Again',
+							valueClassName: passed ? 'text-2xl text-emerald-700' : 'text-2xl text-rose-600',
+						},
+					]}
+					actions={
+						<div className="flex justify-center">
+							<button
+								onClick={reset}
+								className="inline-flex items-center justify-center rounded-full border border-sky-200 bg-sky-50 px-5 py-3 font-semibold text-sky-700 transition hover:border-sky-300 hover:bg-sky-100"
+							>
+								Start Over
+							</button>
 						</div>
-					)}
+					}
+					reviewSection={
+						wrongAnswers.length > 0 ? (
+							<div>
+								<h3 className="text-center text-xl font-bold text-slate-900">
+									Review Missed Numbers
+								</h3>
+								<div className="mt-5 flex flex-wrap justify-center gap-6">
+									{wrongAnswers.map((num, i) => {
+										const { text, translit, audio } = getFormFor(num)
+										return (
+											<div
+												key={i}
+												className="flex w-28 flex-col items-center rounded-3xl border border-slate-200 bg-slate-50 p-4 text-center"
+											>
+												<div
+													className={`mb-1 text-4xl font-bold ${fontClassNameFor(fontChoice)}`}
+												>
+													{displayType === 'number' ? num.number : num.gematria}
+												</div>
+												<div className="mb-2 text-2xl font-cardo text-gray-600">
+													{displayType === 'number' ? num.gematria : num.number}
+												</div>
+												<div className={`mb-1 text-2xl ${fontClassNameFor(fontChoice)}`}>
+													{text}
+												</div>
+												<div className="mb-2 text-sm italic text-gray-700">
+													{translit}
+												</div>
 
-					<button
-						onClick={reset}
-						className="mt-6 px-6 py-2 bg-sky-600 text-white rounded-lg"
-					>
-						Start Over
-					</button>
-				</div>
+												{audio && (
+													<button
+														onClick={() => {
+															const a = new Audio(audio)
+															a.play()
+														}}
+														className="text-xl text-sky-600 hover:text-sky-800"
+														aria-label="Replay Audio"
+													>
+														🔊
+													</button>
+												)}
+											</div>
+										)
+									})}
+								</div>
+							</div>
+						) : undefined
+					}
+					celebration={
+						passed ? (
+							<>
+								{finishAudio}
+								<ReactConfetti
+									width={width}
+									height={height}
+									recycle={false}
+									numberOfPieces={500}
+									tweenDuration={10000}
+								/>
+							</>
+						) : null
+					}
+				/>
 			) : (
 				<div>
 					<div className="min-h-[250px] mb-6 flex flex-col items-center justify-center">

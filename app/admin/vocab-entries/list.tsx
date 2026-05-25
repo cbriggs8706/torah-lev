@@ -42,7 +42,7 @@ export const VocabEntryList = () => (
 		pagination={<Pagination rowsPerPageOptions={[10, 25, 50, 100]} />}
 	>
 		<Datagrid rowClick="edit" bulkActionButtons={false}>
-			<TextField source="id" />
+			<TextField source="id" label="ID" />
 			<TextField source="rootId" label="Root" />
 			<TextField source="firstLesson" label="First Lesson" />
 			<FunctionField
@@ -56,6 +56,8 @@ export const VocabEntryList = () => (
 				}
 			/>
 			<TextField source="gloss" />
+			<TextField source="antonymsDisplay" label="Antonyms" />
+			<TextField source="confusedWithDisplay" label="Confused With" />
 			<TextField source="type" />
 			<TextField source="partOfSpeechText" label="Part of Speech" />
 			<TextField source="category" />
