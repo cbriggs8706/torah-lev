@@ -1,6 +1,7 @@
 'use client'
 import { motion } from 'framer-motion'
 import clsx from 'clsx'
+import { useId } from 'react'
 
 type Props = {
 	size?: number // overall width in px
@@ -17,6 +18,8 @@ export default function TorahScrollLoaderRTL({
 	text = 'וַיְהִי • ',
 	className,
 }: Props) {
+	const uid = useId().replace(/:/g, '')
+
 	// Internal canvas (kept wider than tall for a nice aspect)
 	const vbW = 400
 	const vbH = 200
@@ -26,6 +29,14 @@ export default function TorahScrollLoaderRTL({
 	const parchmentY = 28
 	const parchmentW = 260
 	const parchmentH = 144
+	const clipPathId = `parchmentClip-${uid}`
+	const gradientId = `parchmentShade-${uid}`
+	const repeatedText = Array.from({ length: 24 })
+		.map(() => text)
+		.join('')
+	const copyGap = fontSize * 0.55
+	const copyWidth = repeatedText.length * fontSize * 0.68 + copyGap
+	const textY = parchmentY + parchmentH / 2 + fontSize * 0.08
 
 	return (
 		<div className={clsx('flex items-center justify-center', className)}>
@@ -78,13 +89,13 @@ export default function TorahScrollLoaderRTL({
 
 				{/* Side shading */}
 				<defs>
-					<linearGradient id="parchmentShade" x1="0" y1="0" x2="1" y2="0">
+					<linearGradient id={gradientId} x1="0" y1="0" x2="1" y2="0">
 						<stop offset="0%" stopColor="rgba(0,0,0,0.06)" />
 						<stop offset="12%" stopColor="rgba(0,0,0,0)" />
 						<stop offset="88%" stopColor="rgba(0,0,0,0)" />
 						<stop offset="100%" stopColor="rgba(0,0,0,0.06)" />
 					</linearGradient>
-					<clipPath id="parchmentClip">
+					<clipPath id={clipPathId}>
 						<rect
 							x={parchmentX + 2}
 							y={parchmentY + 2}
@@ -100,7 +111,7 @@ export default function TorahScrollLoaderRTL({
 					width={parchmentW}
 					height={parchmentH}
 					rx="10"
-					fill="url(#parchmentShade)"
+					fill={`url(#${gradientId})`}
 					pointerEvents="none"
 				/>
 
@@ -123,7 +134,7 @@ export default function TorahScrollLoaderRTL({
 				/>
 
 				{/* Text marquee inside parchment */}
-				<g clipPath="url(#parchmentClip)">
+				<g clipPath={`url(#${clipPathId})`}>
 					{/* Background tint for depth */}
 					<rect
 						x={parchmentX + 2}
@@ -133,61 +144,40 @@ export default function TorahScrollLoaderRTL({
 						fill="#f9f1d6"
 					/>
 
-					{/* Use foreignObject so we can style real text with serif Hebrew fonts */}
-					<foreignObject
-						x={parchmentX + 4}
-						y={parchmentY + 4}
-						width={parchmentW - 8}
-						height={parchmentH - 8}
+					<motion.g
+						initial={{ x: -copyWidth }}
+						animate={{ x: 0 }}
+						transition={{
+							duration: speedSec,
+							ease: 'linear',
+							repeat: Infinity,
+						}}
 					>
-						<div
-							// Clip overflow just in case
-							style={{
-								width: '100%',
-								height: '100%',
-								overflow: 'hidden',
-								display: 'flex',
-								alignItems: 'center',
-							}}
-						>
-							<motion.div
-								className="flex"
-								initial={{ x: '-50%' }}
-								animate={{ x: '0%' }} // move by exactly one copy width
-								transition={{
-									duration: speedSec,
-									ease: 'linear',
-									repeat: Infinity,
-								}}
+						{[0, 1].map((copyIndex) => (
+							<text
+								key={copyIndex}
+								x={parchmentX + 8 + copyIndex * copyWidth}
+								y={textY}
+								direction="rtl"
+								textAnchor="start"
+								lengthAdjust="spacingAndGlyphs"
 								style={{
-									// ensure a single line that scrolls
-									whiteSpace: 'nowrap',
-									direction: 'rtl',
-									// serif Hebrew stack (adjust to your project fonts)
 									fontFamily:
-										"'Frank Ruhl Libre', 'David', 'Noto Serif Hebrew', 'Cardo', 'Times New Roman', serif",
+										"var(--font-frank), 'Frank Ruhl Libre', 'Noto Serif Hebrew', 'Times New Roman', serif",
 									fontSize,
 									lineHeight: 1,
-									color: '#5a3e28',
 									letterSpacing: '0.02em',
-									// soften a touch
+									fill: '#5a3e28',
 									opacity: 0.95,
+									unicodeBidi: 'plaintext',
+									dominantBaseline: 'middle',
+									textRendering: 'geometricPrecision',
 								}}
 							>
-								{/* Two identical copies -> -50% shift loops seamlessly */}
-								{[0, 1].map((k) => (
-									<div key={k} className="flex-shrink-0 pr-12">
-										{/* Repeat the phrase enough times to exceed the viewport */}
-										<span>
-											{Array.from({ length: 24 })
-												.map(() => text)
-												.join('')}
-										</span>
-									</div>
-								))}
-							</motion.div>
-						</div>
-					</foreignObject>
+								{repeatedText}
+							</text>
+						))}
+					</motion.g>
 				</g>
 			</svg>
 		</div>

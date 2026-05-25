@@ -87,6 +87,7 @@ export default function HebrewOpposites({
 	const { width, height } = useWindowSize()
 	const [phase, setPhase] = useState<Phase>('setup')
 	const [roundVersion, setRoundVersion] = useState(0)
+	const [selectedPairCount, setSelectedPairCount] = useState(8)
 	const [leftColumn, setLeftColumn] = useState<OppositeItem[]>([])
 	const [rightColumn, setRightColumn] = useState<OppositeItem[]>([])
 	const [matchedKeys, setMatchedKeys] = useState<string[]>([])
@@ -160,12 +161,53 @@ export default function HebrewOpposites({
 		return pairs
 	}, [lessonFilteredCards])
 
+	const pairCountOptions = useMemo(() => {
+		if (oppositePairs.length === 0) return []
+
+		const baseOptions = [4, 6, 8, 10]
+		const validOptions = baseOptions.filter(
+			(count) => count < oppositePairs.length,
+		)
+		return [...validOptions, oppositePairs.length]
+	}, [oppositePairs.length])
+
+	useEffect(() => {
+		if (oppositePairs.length === 0) {
+			setSelectedPairCount(0)
+			return
+		}
+
+		setSelectedPairCount((prev) => {
+			if (prev > oppositePairs.length || prev <= 0) {
+				return Math.min(8, oppositePairs.length)
+			}
+			return prev
+		})
+	}, [oppositePairs.length])
+
+	const roundPairs = useMemo(() => {
+		if (selectedPairCount <= 0) return []
+		return oppositePairs.slice(
+			0,
+			Math.min(selectedPairCount, oppositePairs.length),
+		)
+	}, [oppositePairs, selectedPairCount])
+
 	useEffect(() => {
 		if (phase !== 'playing') return
 
+		const preventNativeDrag = (event: Event) => {
+			event.preventDefault()
+		}
+
+		document.addEventListener('dragstart', preventNativeDrag, true)
+		document.addEventListener('dragover', preventNativeDrag, true)
+		document.addEventListener('drop', preventNativeDrag, true)
+		document.addEventListener('selectstart', preventNativeDrag, true)
+
 		const leftCounts = new Map<string, number>()
 		const rightCounts = new Map<string, number>()
-		const shuffledPairs = shuffle(oppositePairs)
+		const shuffledPairs = shuffle(roundPairs)
 
 		const orientedPairs = shuffledPairs.map((pair) => {
 			const firstKey = normalizeDisplayKey(pair.first)
@@ -230,7 +272,14 @@ export default function HebrewOpposites({
 		setCompletionRewards(null)
 		setCompletionAwarded(false)
 		setStatusText('Tap a word on either side, then tap its opposite.')
-	}, [oppositePairs, phase, roundVersion])
+
+		return () => {
+			document.removeEventListener('dragstart', preventNativeDrag, true)
+			document.removeEventListener('dragover', preventNativeDrag, true)
+			document.removeEventListener('drop', preventNativeDrag, true)
+			document.removeEventListener('selectstart', preventNativeDrag, true)
+		}
+	}, [phase, roundPairs, roundVersion])
 
 	const itemsByKey = useMemo(() => {
 		const items = new Map<string, OppositeItem>()
@@ -242,11 +291,7 @@ export default function HebrewOpposites({
 		return items
 	}, [leftColumn, rightColumn])
 
-	const activeCard =
-		activeSelection != null
-			? (itemsByKey.get(activeSelection.itemKey)?.card ?? null)
-			: null
-	const totalCount = oppositePairs.length
+	const totalCount = roundPairs.length
 	const completedCount = matchedKeys.length
 	const allMatched = totalCount > 0 && completedCount === totalCount
 	const totalAttempts = correctMatches + incorrectAttempts
@@ -254,14 +299,19 @@ export default function HebrewOpposites({
 	const passed = allMatched && accuracy > 0.75
 	const awardedPoints = passed ? totalCount : 0
 	const pairByKey = useMemo(
-		() => new Map(oppositePairs.map((pair) => [pair.key, pair] as const)),
-		[oppositePairs],
+		() => new Map(roundPairs.map((pair) => [pair.key, pair] as const)),
+		[roundPairs],
 	)
 
 	useEffect(() => {
 		if (!allMatched || phase !== 'playing') return
 		setPhase('results')
 	}, [allMatched, phase])
+
+	useEffect(() => {
+		if (phase !== 'results') return
+		window.scrollTo({ top: 0, behavior: 'smooth' })
+	}, [phase])
 
 	useEffect(() => {
 		if (
@@ -325,13 +375,19 @@ export default function HebrewOpposites({
 
 		if (!activeSelection) {
 			setActiveSelection({ side, itemKey })
-			setStatusText(`Selected "${card.eng}". Now choose its opposite.`)
+			setStatusText(`Now choose its opposite.`)
+			return
+		}
+
+		if (activeSelection.side === side && activeSelection.itemKey === itemKey) {
+			setActiveSelection(null)
+			setStatusText('Selection cleared. Choose a word to continue.')
 			return
 		}
 
 		if (activeSelection.side === side) {
 			setActiveSelection({ side, itemKey })
-			setStatusText(`Selected "${card.eng}". Now choose its opposite.`)
+			setStatusText(`Now choose its opposite.`)
 			return
 		}
 
@@ -371,7 +427,7 @@ export default function HebrewOpposites({
 									guessed: item.card,
 									correct: correctCard,
 								},
-						  ],
+							],
 				)
 			}
 			setStatusText(
@@ -393,27 +449,48 @@ export default function HebrewOpposites({
 			activeSelection?.side === side && activeSelection.itemKey === item.key
 		const isMatched = matchedKeys.includes(item.pairKey)
 		const card = item.card
-
+		const handleActivate = () => {
+			if (isMatched) return
+			handleSelect(side, item.key)
+		}
 		return (
-			<button
+			<div
 				key={item.key}
-				type="button"
-				onClick={() => handleSelect(side, item.key)}
-				disabled={isMatched}
-				className={`w-full rounded-3xl border px-4 py-4 text-left shadow-sm transition ${
+				role="button"
+				tabIndex={isMatched ? -1 : 0}
+				aria-disabled={isMatched}
+				draggable={false}
+				onPointerDown={(event) => {
+					event.preventDefault()
+					handleActivate()
+				}}
+				onKeyDown={(event) => {
+					if (event.key === 'Enter' || event.key === ' ') {
+						event.preventDefault()
+						handleActivate()
+					}
+				}}
+				onDragStart={(event) => event.preventDefault()}
+				className={`w-full select-none touch-manipulation rounded-3xl border px-4 py-4 text-left shadow-sm transition ${
 					isMatched
 						? 'border-emerald-200 bg-emerald-50 text-emerald-900 opacity-70'
 						: isActive
 							? 'border-sky-500 bg-sky-50 ring-2 ring-sky-200'
 							: 'border-slate-200 bg-white hover:-translate-y-0.5 hover:border-sky-300 hover:shadow-md'
 				}`}
+				style={{ WebkitUserDrag: 'none' }}
 			>
-				<div className="flex items-center justify-between gap-3">
-					<div>
-						<p className="text-2xl font-cardo text-slate-900 sm:text-3xl">
+				<div
+					draggable={false}
+					className="pointer-events-none flex items-center justify-between gap-3"
+				>
+					<div draggable={false}>
+						<p
+							draggable={false}
+							className="text-2xl font-cardo text-slate-900 sm:text-3xl"
+						>
 							{getDisplayHebrew(card)}
 						</p>
-						{/* <p className="mt-1 text-sm text-slate-500">{card.eng}</p> */}
 					</div>
 					<div
 						className={`h-3 w-3 rounded-full ${
@@ -425,7 +502,7 @@ export default function HebrewOpposites({
 						}`}
 					/>
 				</div>
-			</button>
+			</div>
 		)
 	}
 
@@ -458,7 +535,7 @@ export default function HebrewOpposites({
 									Available Pairs
 								</p>
 								<p className="mt-2 text-3xl font-bold text-slate-900">
-									{totalCount}
+									{oppositePairs.length}
 								</p>
 							</div>
 							<div>
@@ -471,7 +548,34 @@ export default function HebrewOpposites({
 							</div>
 						</div>
 
-						{totalCount === 0 ? (
+						{oppositePairs.length > 0 ? (
+							<div className="space-y-3 rounded-3xl border border-slate-200 bg-slate-50 p-4 text-center">
+								<h3 className="text-lg font-semibold text-slate-900">
+									How Many Pairs?
+								</h3>
+								<p className="text-sm text-slate-600">
+									Pick a shorter round to keep the screen easier to scan.
+								</p>
+								<div className="flex flex-wrap justify-center gap-2">
+									{pairCountOptions.map((count) => (
+										<button
+											key={count}
+											type="button"
+											onClick={() => setSelectedPairCount(count)}
+											className={`rounded-full border px-4 py-2 text-sm font-semibold transition ${
+												selectedPairCount === count
+													? 'border-sky-600 bg-sky-600 text-white'
+													: 'border-slate-300 bg-white text-slate-700 hover:border-sky-300 hover:text-sky-700'
+											}`}
+										>
+											{count}
+										</button>
+									))}
+								</div>
+							</div>
+						) : null}
+
+						{oppositePairs.length === 0 ? (
 							<div className="rounded-3xl border border-amber-200 bg-amber-50 p-5 text-center text-amber-900">
 								No antonym pairs were found for the selected lessons. Choose a
 								different lesson set to begin.
@@ -482,10 +586,11 @@ export default function HebrewOpposites({
 							<button
 								type="button"
 								onClick={startRound}
-								disabled={totalCount === 0}
+								disabled={oppositePairs.length === 0 || selectedPairCount === 0}
 								className="rounded-full bg-sky-600 px-6 py-3 font-semibold text-white shadow transition hover:bg-sky-500 disabled:cursor-not-allowed disabled:bg-slate-300"
 							>
-								Start Opposites
+								Start {selectedPairCount} Pair
+								{selectedPairCount === 1 ? '' : 's'}
 							</button>
 						</div>
 					</div>
@@ -742,50 +847,12 @@ export default function HebrewOpposites({
 				</button>
 			</div>
 
-			<div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_320px_minmax(0,1fr)]">
+			<div className="grid grid-cols-2 gap-3 lg:gap-5">
 				<div className="space-y-3">
 					<p className="text-center text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">
 						Column A
 					</p>
 					{leftColumn.map((item) => renderWordCard('left', item))}
-				</div>
-
-				<div className="order-first lg:order-none">
-					<div className="sticky top-4 rounded-[2rem] border border-slate-200 bg-gradient-to-b from-white to-slate-50 p-5 text-center shadow-sm">
-						<p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-							Selected Word
-						</p>
-
-						{activeCard ? (
-							<>
-								<p className="mt-4 text-4xl font-cardo text-slate-900">
-									{getDisplayHebrew(activeCard)}
-								</p>
-								<p className="mt-3 text-lg font-semibold text-slate-800">
-									{activeCard.eng}
-								</p>
-								{activeCard.engTransliteration ? (
-									<p className="mt-1 text-sm text-slate-500">
-										{activeCard.engTransliteration}
-									</p>
-								) : null}
-								<button
-									type="button"
-									onClick={() => playAudio(activeCard.hebAudio)}
-									disabled={!activeCard.hebAudio}
-									className="mt-5 inline-flex h-14 w-14 items-center justify-center rounded-full bg-sky-600 text-white shadow transition hover:scale-105 hover:bg-sky-500 disabled:cursor-not-allowed disabled:bg-slate-300"
-									aria-label={`Play audio for ${activeCard.eng}`}
-								>
-									<Volume2 className="h-6 w-6" />
-								</button>
-							</>
-						) : (
-							<div className="mt-6 rounded-3xl border border-dashed border-slate-300 bg-slate-50 px-4 py-10 text-sm text-slate-500">
-								Select a word from either column to inspect it here before
-								choosing its opposite.
-							</div>
-						)}
-					</div>
 				</div>
 
 				<div className="space-y-3">

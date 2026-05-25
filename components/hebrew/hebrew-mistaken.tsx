@@ -1,16 +1,8 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
-import {
-	DndContext,
-	PointerSensor,
-	useDraggable,
-	useDroppable,
-	useSensor,
-	useSensors,
-	type DragEndEvent,
-} from '@dnd-kit/core'
 import { RefreshCw, Volume2 } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import ReactConfetti from 'react-confetti'
 import { useAudio, useWindowSize } from 'react-use'
 import { awardVocabQuizCompletion } from '@/actions/vocab-quiz-progress'
@@ -18,6 +10,7 @@ import { ResultCard } from '@/app/lesson/result-card'
 import { ActivityFinalScreen } from '@/components/activity-final-screen'
 import LessonFilter from '@/components/filters/filter-lesson'
 import { useLessonCards } from '@/hooks/useLessonCards'
+import { cn } from '@/lib/utils'
 import type { HebrewVocab } from '@/lib/vocab'
 
 type HebrewMistakenProps = {
@@ -40,7 +33,10 @@ type MistakeReview = {
 }
 
 type Phase = 'setup' | 'playing' | 'results'
-type ZoneId = 'first' | 'second'
+type WordSlotId = string
+type GlossChoiceId = string
+
+const BOARD_PAIR_COUNT = 2
 
 function shuffle<T>(items: T[]) {
 	const next = [...items]
@@ -70,115 +66,43 @@ function playAudio(src?: string) {
 	audio.play().catch(() => {})
 }
 
-function DraggableGloss({
-	id,
-	label,
-	disabled,
-}: {
-	id: string
-	label: string
-	disabled: boolean
-}) {
-	const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
-		id,
-		disabled,
-	})
-
-	return (
-		<button
-			ref={setNodeRef}
-			type="button"
-			{...listeners}
-			{...attributes}
-			disabled={disabled}
-			className={`w-full rounded-2xl border px-4 py-4 text-left shadow-sm transition ${
-				disabled
-					? 'cursor-not-allowed border-slate-200 bg-slate-100 text-slate-400 opacity-70'
-					: 'border-sky-200 bg-white text-slate-900 hover:-translate-y-0.5 hover:border-sky-300 hover:shadow-md active:cursor-grabbing'
-			} ${isDragging ? 'z-20 shadow-lg ring-2 ring-sky-200' : ''}`}
-			style={{
-				transform: transform
-					? `translate3d(${transform.x}px, ${transform.y}px, 0)`
-					: undefined,
-			}}
-		>
-			<p className="text-lg font-semibold">{label}</p>
-		</button>
+function getPairLookupIds(pair: MistakenPair) {
+	return [getRelationLookupId(pair.first), getRelationLookupId(pair.second)].filter(
+		(id): id is string => Boolean(id),
 	)
 }
 
-function HebrewDropZone({
-	id,
-	card,
-	assignedCard,
-	locked,
-	state,
-}: {
-	id: ZoneId
-	card: HebrewVocab
-	assignedCard: HebrewVocab | null
-	locked: boolean
-	state: 'idle' | 'correct' | 'incorrect'
-}) {
-	const { isOver, setNodeRef } = useDroppable({
-		id,
-		disabled: locked,
-	})
+function packPairsForBoards(pairs: MistakenPair[]) {
+	const remaining = [...pairs]
+	const ordered: MistakenPair[] = []
 
-	return (
-		<div
-			ref={setNodeRef}
-			className={`rounded-3xl border p-5 shadow-sm transition ${
-				state === 'correct'
-					? 'border-emerald-300 bg-emerald-50'
-					: state === 'incorrect'
-						? 'border-rose-300 bg-rose-50'
-						: isOver
-							? 'border-sky-300 bg-sky-50'
-							: 'border-slate-200 bg-white'
-			}`}
-		>
-			<div className="flex items-start justify-between gap-4">
-				<div>
-					<p className="text-3xl font-cardo text-slate-900">
-						{getDisplayHebrew(card)}
-					</p>
-					<p className="mt-2 text-sm text-slate-500">
-						Drop the matching English meaning here.
-					</p>
-				</div>
-				<button
-					type="button"
-					onClick={() => playAudio(card.hebAudio)}
-					disabled={!card.hebAudio}
-					className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-sky-600 text-white shadow transition hover:scale-105 hover:bg-sky-500 disabled:cursor-not-allowed disabled:bg-slate-300"
-					aria-label={`Play audio for ${card.eng}`}
-				>
-					<Volume2 className="h-5 w-5" />
-				</button>
-			</div>
+	while (remaining.length > 0) {
+		const board: MistakenPair[] = []
+		const usedIds = new Set<string>()
 
-			<div
-				className={`mt-5 rounded-2xl border border-dashed px-4 py-5 text-center transition ${
-					assignedCard
-						? 'border-transparent bg-white shadow-sm'
-						: state === 'incorrect'
-							? 'border-rose-300 bg-white/70'
-							: isOver
-								? 'border-sky-300 bg-white'
-								: 'border-slate-300 bg-slate-50 text-slate-400'
-				}`}
-			>
-				{assignedCard ? (
-					<p className="text-lg font-semibold text-slate-900">
-						{assignedCard.eng}
-					</p>
-				) : (
-					<p className="text-sm">Drop English translation</p>
-				)}
-			</div>
-		</div>
-	)
+		for (let index = 0; index < remaining.length && board.length < BOARD_PAIR_COUNT; ) {
+			const candidate = remaining[index]
+			const candidateIds = getPairLookupIds(candidate)
+			const overlaps = candidateIds.some((id) => usedIds.has(id))
+
+			if (overlaps) {
+				index += 1
+				continue
+			}
+
+			board.push(candidate)
+			candidateIds.forEach((id) => usedIds.add(id))
+			remaining.splice(index, 1)
+		}
+
+		if (board.length === 0) {
+			board.push(remaining.shift()!)
+		}
+
+		ordered.push(...board)
+	}
+
+	return ordered
 }
 
 export default function HebrewMistaken({
@@ -186,29 +110,34 @@ export default function HebrewMistaken({
 	currentLesson,
 	data,
 }: HebrewMistakenProps) {
+	const router = useRouter()
 	const { selectedLessons, setSelectedLessons } = useLessonCards(
 		data,
 		currentLesson,
 	)
 	const { width, height } = useWindowSize()
-	const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 6 } }))
 	const [phase, setPhase] = useState<Phase>('setup')
-	const [roundVersion, setRoundVersion] = useState(0)
-	const [currentPairIndex, setCurrentPairIndex] = useState(0)
-	const [placements, setPlacements] = useState<Partial<Record<ZoneId, string>>>({})
-	const [statusText, setStatusText] = useState(
-		'Drag each English gloss onto the Hebrew word it belongs to.',
-	)
+	const [pairs, setPairs] = useState<MistakenPair[]>([])
+	const [currentBatchStart, setCurrentBatchStart] = useState(0)
+	const [choiceOrder, setChoiceOrder] = useState<GlossChoiceId[]>([])
+	const [assignments, setAssignments] = useState<
+		Partial<Record<WordSlotId, GlossChoiceId>>
+	>({})
+	const [activeWordSlot, setActiveWordSlot] = useState<WordSlotId | null>(null)
+	const [activeGlossChoice, setActiveGlossChoice] =
+		useState<GlossChoiceId | null>(null)
 	const [correctMatches, setCorrectMatches] = useState(0)
 	const [incorrectAttempts, setIncorrectAttempts] = useState(0)
 	const [mistakeReviews, setMistakeReviews] = useState<MistakeReview[]>([])
+	const [statusText, setStatusText] = useState(
+		'Tap either a Hebrew word or an English meaning first, then match it.',
+	)
 	const [completionRewards, setCompletionRewards] = useState<{
 		awardedPoints: number
 		hearts: number
 		tribePointAwarded: boolean
 	} | null>(null)
 	const [completionAwarded, setCompletionAwarded] = useState(false)
-	const [evaluationState, setEvaluationState] = useState<'idle' | 'correct' | 'incorrect'>('idle')
 	const [finishAudio] = useAudio({ src: '/shofar.mp3', autoPlay: true })
 
 	const lessonFilteredCards = useMemo(() => {
@@ -221,16 +150,18 @@ export default function HebrewMistaken({
 		})
 	}, [data, selectedLessons])
 
-	const mistakenPairs = useMemo(() => {
+	const availablePairs = useMemo(() => {
 		const byId = new Map(
 			lessonFilteredCards
 				.map((card) => {
 					const lookupId = getRelationLookupId(card)
 					return lookupId ? ([lookupId, card] as const) : null
 				})
-				.filter((entry): entry is readonly [string, HebrewVocab] => Boolean(entry))
+				.filter((entry): entry is readonly [string, HebrewVocab] =>
+					Boolean(entry),
+				),
 		)
-		const pairs: MistakenPair[] = []
+		const nextPairs: MistakenPair[] = []
 		const seen = new Set<string>()
 
 		for (const card of lessonFilteredCards) {
@@ -250,7 +181,7 @@ export default function HebrewMistaken({
 				if (seen.has(pairKey)) continue
 
 				seen.add(pairKey)
-				pairs.push({
+				nextPairs.push({
 					key: pairKey,
 					first: card,
 					second: counterpart,
@@ -258,59 +189,93 @@ export default function HebrewMistaken({
 			}
 		}
 
-		return shuffle(pairs)
+		return nextPairs
 	}, [lessonFilteredCards])
 
-	const currentPair = mistakenPairs[currentPairIndex] ?? null
-	const allMatched = phase === 'playing' && currentPairIndex >= mistakenPairs.length && mistakenPairs.length > 0
-	const totalCount = mistakenPairs.length
-	const completedCount = Math.min(currentPairIndex, totalCount)
+	const currentBatch = useMemo(
+		() => pairs.slice(currentBatchStart, currentBatchStart + BOARD_PAIR_COUNT),
+		[pairs, currentBatchStart],
+	)
+	const totalCount = pairs.length
+	const completedCount = Math.min(currentBatchStart, totalCount)
 	const totalAttempts = correctMatches + incorrectAttempts
 	const accuracy = totalAttempts > 0 ? correctMatches / totalAttempts : 0
+	const allMatched = totalCount > 0 && currentBatchStart >= totalCount
 	const passed = allMatched && accuracy > 0.75
 	const awardedPoints = passed ? totalCount : 0
 
-	const zoneCards = useMemo(() => {
-		if (!currentPair) return []
-		return [
-			{ id: 'first' as const, card: currentPair.first },
-			{ id: 'second' as const, card: currentPair.second },
-		]
-	}, [currentPair])
+	const boardWordCards = useMemo(() => {
+		return shuffle(
+			currentBatch.flatMap((pair) => [
+				{
+					id: `${pair.key}:word:first`,
+					card: pair.first,
+					correctChoiceId: `${pair.key}:choice:first`,
+				},
+				{
+					id: `${pair.key}:word:second`,
+					card: pair.second,
+					correctChoiceId: `${pair.key}:choice:second`,
+				},
+			]),
+		)
+	}, [currentBatch])
 
-	const draggableCards = useMemo(() => {
-		if (!currentPair) return []
-		const shuffleSeed = roundVersion
-		return shuffle([
-			{ id: `drag:first:${shuffleSeed}`, card: currentPair.first },
-			{ id: `drag:second:${shuffleSeed}`, card: currentPair.second },
-		])
-	}, [currentPair, roundVersion])
+	const choices = useMemo(() => {
+		return Object.fromEntries(
+			currentBatch.flatMap((pair) => [
+				[`${pair.key}:choice:first`, pair.first],
+				[`${pair.key}:choice:second`, pair.second],
+			]),
+		) as Record<GlossChoiceId, HebrewVocab>
+	}, [currentBatch])
 
-	const draggableById = useMemo(
-		() => new Map(draggableCards.map((item) => [item.id, item.card] as const)),
-		[draggableCards]
-	)
+	const choiceLabelById = useMemo(() => {
+		return Object.fromEntries(
+			(Object.entries(choices) as [GlossChoiceId, HebrewVocab][]).map(
+				([id, card]) => [id, card.eng],
+			),
+		) as Record<GlossChoiceId, string>
+	}, [choices])
 
-	const assignedIds = new Set(Object.values(placements))
+	const correctChoiceByWordSlot = useMemo(() => {
+		return Object.fromEntries(
+			boardWordCards.map(({ id, correctChoiceId }) => [id, correctChoiceId]),
+		) as Record<WordSlotId, GlossChoiceId>
+	}, [boardWordCards])
+
+	const wordCardById = useMemo(() => {
+		return Object.fromEntries(
+			boardWordCards.map(({ id, card }) => [id, card]),
+		) as Record<WordSlotId, HebrewVocab>
+	}, [boardWordCards])
+
+	const assignedChoiceIds = new Set(Object.values(assignments))
 
 	useEffect(() => {
-		if (phase !== 'playing') return
-		setCurrentPairIndex(0)
-		setPlacements({})
-		setCorrectMatches(0)
-		setIncorrectAttempts(0)
-		setMistakeReviews([])
-		setCompletionRewards(null)
-		setCompletionAwarded(false)
-		setEvaluationState('idle')
-		setStatusText('Drag each English gloss onto the Hebrew word it belongs to.')
-	}, [phase, roundVersion])
+		if (currentBatch.length === 0) {
+			setChoiceOrder([])
+			return
+		}
+
+		setChoiceOrder(shuffle(Object.keys(choices)))
+		setAssignments({})
+		setActiveWordSlot(null)
+		setActiveGlossChoice(null)
+		setStatusText(
+			'Tap either a Hebrew word or an English meaning first, then match it.',
+		)
+	}, [currentBatchStart, choices, currentBatch.length])
 
 	useEffect(() => {
-		if (!allMatched) return
+		if (!allMatched || phase !== 'playing') return
 		setPhase('results')
-	}, [allMatched])
+	}, [allMatched, phase])
+
+	useEffect(() => {
+		if (phase !== 'results') return
+		window.scrollTo({ top: 0, behavior: 'smooth' })
+	}, [phase])
 
 	useEffect(() => {
 		if (
@@ -339,6 +304,7 @@ export default function HebrewMistaken({
 					tribePointAwarded: result.tribePointAwarded,
 				})
 				setCompletionAwarded(true)
+				router.refresh()
 			} catch (error) {
 				console.error('Failed to award mistaken completion rewards', error)
 				if (!cancelled) {
@@ -352,99 +318,180 @@ export default function HebrewMistaken({
 		return () => {
 			cancelled = true
 		}
-	}, [awardedPoints, completionAwarded, courseId, passed, phase])
+	}, [awardedPoints, completionAwarded, courseId, passed, phase, router])
 
-	useEffect(() => {
-		if (!currentPair) return
-		if (!placements.first || !placements.second) return
-
-		const firstGuess = draggableById.get(placements.first)
-		const secondGuess = draggableById.get(placements.second)
-		if (!firstGuess || !secondGuess) return
-
-		const firstCorrect = getRelationLookupId(firstGuess) === getRelationLookupId(currentPair.first)
-		const secondCorrect = getRelationLookupId(secondGuess) === getRelationLookupId(currentPair.second)
-
-		if (firstCorrect && secondCorrect) {
-			setEvaluationState('correct')
-			setCorrectMatches((prev) => prev + 1)
-			setStatusText(`Correct. "${currentPair.first.eng}" and "${currentPair.second.eng}" are now sorted.`)
-
-			const timeoutId = window.setTimeout(() => {
-				setCurrentPairIndex((prev) => prev + 1)
-				setPlacements({})
-				setEvaluationState('idle')
-				setRoundVersion((prev) => prev + 1)
-			}, 700)
-
-			return () => window.clearTimeout(timeoutId)
-		}
-
-		setEvaluationState('incorrect')
-		setIncorrectAttempts((prev) => prev + 1)
-		setStatusText('Not quite. These meanings belong to the other Hebrew word. Try again.')
-
-		const nextReviews: MistakeReview[] = []
-		if (!firstCorrect) {
-			nextReviews.push({
-				key: `${currentPair.key}:first:${getRelationLookupId(firstGuess) ?? firstGuess.eng}`,
-				prompt: currentPair.first,
-				guessed: firstGuess,
-				correct: currentPair.first,
-			})
-		}
-		if (!secondCorrect) {
-			nextReviews.push({
-				key: `${currentPair.key}:second:${getRelationLookupId(secondGuess) ?? secondGuess.eng}`,
-				prompt: currentPair.second,
-				guessed: secondGuess,
-				correct: currentPair.second,
-			})
-		}
-
-		setMistakeReviews((prev) => {
-			const existing = new Set(prev.map((review) => review.key))
-			return [...prev, ...nextReviews.filter((review) => !existing.has(review.key))]
-		})
-
-		const timeoutId = window.setTimeout(() => {
-			setPlacements({})
-			setEvaluationState('idle')
-		}, 900)
-
-		return () => window.clearTimeout(timeoutId)
-	}, [currentPair, draggableById, placements])
+	function resetRoundState(nextPairs: MistakenPair[]) {
+		setPairs(nextPairs)
+		setCurrentBatchStart(0)
+		setChoiceOrder([])
+		setAssignments({})
+		setActiveWordSlot(null)
+		setActiveGlossChoice(null)
+		setCorrectMatches(0)
+		setIncorrectAttempts(0)
+		setMistakeReviews([])
+		setCompletionRewards(null)
+		setCompletionAwarded(false)
+		setStatusText(
+			'Tap either a Hebrew word or an English meaning first, then match it.',
+		)
+	}
 
 	function startRound() {
-		if (totalCount === 0) return
-		setRoundVersion((prev) => prev + 1)
+		if (availablePairs.length === 0) return
+		resetRoundState(packPairsForBoards(shuffle(availablePairs)))
 		setPhase('playing')
 	}
 
 	function returnToSetup() {
 		setPhase('setup')
-		setPlacements({})
-		setEvaluationState('idle')
-		setStatusText('Drag each English gloss onto the Hebrew word it belongs to.')
+		setAssignments({})
+		setActiveWordSlot(null)
+		setActiveGlossChoice(null)
+		setStatusText(
+			'Tap either a Hebrew word or an English meaning first, then match it.',
+		)
 	}
 
-	function handleDragEnd(event: DragEndEvent) {
-		if (evaluationState !== 'idle') return
-		const activeId = String(event.active.id)
-		const overId = event.over ? String(event.over.id) : null
-		if (overId !== 'first' && overId !== 'second') return
+	function shuffleChoices() {
+		if (currentBatch.length === 0) return
+		setChoiceOrder((current) => shuffle(current))
+		setAssignments({})
+		setActiveWordSlot(null)
+		setActiveGlossChoice(null)
+		setStatusText(
+			'Tap either a Hebrew word or an English meaning first, then match it.',
+		)
+	}
 
-		setPlacements((prev) => {
-			const next: Partial<Record<ZoneId, string>> = {}
+	function handleIncorrectMatch(
+		wordSlot: WordSlotId,
+		guessedChoice: GlossChoiceId,
+	) {
+		if (currentBatch.length === 0) return
 
-			for (const [zoneId, dragId] of Object.entries(prev) as [ZoneId, string][]) {
-				if (dragId === activeId || zoneId === overId) continue
-				next[zoneId] = dragId
-			}
+		const guessedCard = choices[guessedChoice]
+		const correctCard = choices[correctChoiceByWordSlot[wordSlot]]
+		const reviewKey = `${wordSlot}:${guessedChoice}`
 
-			next[overId] = activeId
-			return next
-		})
+		setIncorrectAttempts((prev) => prev + 1)
+		setMistakeReviews((prev) =>
+			prev.some((review) => review.key === reviewKey)
+				? prev
+				: [
+						...prev,
+						{
+							key: reviewKey,
+							prompt: correctCard,
+							guessed: guessedCard,
+							correct: correctCard,
+						},
+					],
+		)
+		setActiveWordSlot(null)
+		setActiveGlossChoice(null)
+		setStatusText(
+			`"${guessedCard.eng}" does not belong with "${getDisplayHebrew(
+				correctCard,
+			)}". Try again.`,
+		)
+	}
+
+	function handleCorrectSelection(
+		wordSlot: WordSlotId,
+		glossChoice: GlossChoiceId,
+	) {
+		if (currentBatch.length === 0) return
+
+		const nextAssignments: Partial<Record<WordSlotId, GlossChoiceId>> = {
+			...assignments,
+			[wordSlot]: glossChoice,
+		}
+
+		setAssignments(nextAssignments)
+		setActiveWordSlot(null)
+		setActiveGlossChoice(null)
+		setCorrectMatches((prev) => prev + 1)
+
+		const allWordsAssigned = boardWordCards.every(
+			(card) => nextAssignments[card.id],
+		)
+
+		if (!allWordsAssigned) {
+			setStatusText(
+				`Good. "${choices[glossChoice].eng}" is on the right word. Match the other one.`,
+			)
+			return
+		}
+
+		setStatusText('Nice work. You sorted those confused words correctly.')
+
+		window.setTimeout(() => {
+			setCurrentBatchStart((prev) => prev + currentBatch.length)
+		}, 700)
+	}
+
+	function tryMatch(wordSlot: WordSlotId, glossChoice: GlossChoiceId) {
+		if (currentBatch.length === 0) return
+		if (assignments[wordSlot]) return
+
+		const isCorrect = correctChoiceByWordSlot[wordSlot] === glossChoice
+
+		if (!isCorrect) {
+			handleIncorrectMatch(wordSlot, glossChoice)
+			return
+		}
+
+		handleCorrectSelection(wordSlot, glossChoice)
+	}
+
+	function handleSelectWord(wordSlot: WordSlotId) {
+		if (assignments[wordSlot]) return
+
+		if (activeWordSlot === wordSlot) {
+			setActiveWordSlot(null)
+			setStatusText(
+				'Tap either a Hebrew word or an English meaning first, then match it.',
+			)
+			return
+		}
+
+		if (activeGlossChoice) {
+			tryMatch(wordSlot, activeGlossChoice)
+			return
+		}
+
+		setActiveWordSlot(wordSlot)
+		const word = wordCardById[wordSlot]
+		setStatusText(
+			word
+				? `Selected "${getDisplayHebrew(
+						word,
+					)}". Now choose the matching English meaning.`
+				: 'Choose the matching English meaning.',
+		)
+	}
+
+	function handleSelectGloss(glossChoice: GlossChoiceId) {
+		if (assignedChoiceIds.has(glossChoice)) return
+
+		if (activeGlossChoice === glossChoice) {
+			setActiveGlossChoice(null)
+			setStatusText(
+				'Tap either a Hebrew word or an English meaning first, then match it.',
+			)
+			return
+		}
+
+		if (activeWordSlot) {
+			tryMatch(activeWordSlot, glossChoice)
+			return
+		}
+
+		setActiveGlossChoice(glossChoice)
+		setStatusText(
+			`Selected "${choices[glossChoice].eng}". Now choose the Hebrew word it belongs to.`,
+		)
 	}
 
 	if (phase === 'setup') {
@@ -457,8 +504,8 @@ export default function HebrewMistaken({
 								Customize Mistaken
 							</h2>
 							<p className="mt-2 text-sm text-slate-600">
-								Choose one or more lessons, then sort each English meaning onto
-								the Hebrew word it belongs to.
+								Choose one or more lessons, then match each English meaning to
+								the correct Hebrew word.
 							</p>
 						</div>
 
@@ -476,7 +523,7 @@ export default function HebrewMistaken({
 									Available Pairs
 								</p>
 								<p className="mt-2 text-3xl font-bold text-slate-900">
-									{totalCount}
+									{availablePairs.length}
 								</p>
 							</div>
 							<div>
@@ -489,7 +536,7 @@ export default function HebrewMistaken({
 							</div>
 						</div>
 
-						{totalCount === 0 ? (
+						{availablePairs.length === 0 ? (
 							<div className="rounded-3xl border border-amber-200 bg-amber-50 p-5 text-center text-amber-900">
 								No commonly confused pairs were found for the selected lessons.
 								Choose a different lesson set to begin.
@@ -500,7 +547,7 @@ export default function HebrewMistaken({
 							<button
 								type="button"
 								onClick={startRound}
-								disabled={totalCount === 0}
+								disabled={availablePairs.length === 0}
 								className="rounded-full bg-sky-600 px-6 py-3 font-semibold text-white shadow transition hover:bg-sky-500 disabled:cursor-not-allowed disabled:bg-slate-300"
 							>
 								Start Mistaken
@@ -519,12 +566,23 @@ export default function HebrewMistaken({
 				description={
 					passed
 						? 'You cleared the 75% accuracy mark and earned rewards.'
-						: 'You sorted every pair, but you need more than 75% accuracy to earn points.'
+						: 'You matched every pair, but you need more than 75% accuracy to earn points.'
 				}
 				stats={[
-					{ label: 'Correct', value: correctMatches, valueClassName: 'text-emerald-600' },
-					{ label: 'Incorrect', value: incorrectAttempts, valueClassName: 'text-rose-600' },
-					{ label: 'Accuracy', value: `${Math.round(accuracy * 100)}%` },
+					{
+						label: 'Correct',
+						value: correctMatches,
+						valueClassName: 'text-emerald-600',
+					},
+					{
+						label: 'Incorrect',
+						value: incorrectAttempts,
+						valueClassName: 'text-rose-600',
+					},
+					{
+						label: 'Accuracy',
+						value: `${Math.round(accuracy * 100)}%`,
+					},
 				]}
 				rewards={
 					passed ? (
@@ -532,13 +590,18 @@ export default function HebrewMistaken({
 							<p className="mb-4 text-lg font-semibold text-slate-800">
 								You earned {completionRewards?.awardedPoints ?? awardedPoints}{' '}
 								point
-								{(completionRewards?.awardedPoints ?? awardedPoints) === 1 ? '' : 's'}.
+								{(completionRewards?.awardedPoints ?? awardedPoints) === 1
+									? ''
+									: 's'}
+								.
 							</p>
 							<div className="mx-auto flex w-full max-w-md gap-4">
 								<ResultCard
 									variant="points"
 									value={completionRewards?.awardedPoints ?? awardedPoints}
-									tribePointAdded={completionRewards?.tribePointAwarded ?? false}
+									tribePointAdded={
+										completionRewards?.tribePointAwarded ?? false
+									}
 								/>
 							</div>
 						</>
@@ -578,7 +641,7 @@ export default function HebrewMistaken({
 								Review Incorrect Guesses
 							</h3>
 							<p className="mt-2 text-center text-sm text-slate-600">
-								These show which English meaning was dropped on the wrong Hebrew
+								These show which English meaning was chosen for the wrong Hebrew
 								word and what belonged there instead.
 							</p>
 							<div className="mt-5 grid gap-4">
@@ -653,19 +716,19 @@ export default function HebrewMistaken({
 		)
 	}
 
-	if (!currentPair) {
+	if (currentBatch.length === 0) {
 		return null
 	}
 
 	return (
-		<div className="mx-auto w-full max-w-5xl px-2 pb-8">
+		<div className="mx-auto w-full max-w-4xl px-2 pb-8">
 			<div className="mb-5 flex flex-col gap-4 rounded-[2rem] border border-slate-200 bg-white p-4 shadow-sm sm:flex-row sm:items-center sm:justify-between sm:p-5">
 				<div>
 					<p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
 						Progress
 					</p>
 					<p className="mt-1 text-lg font-semibold text-slate-900">
-						{completedCount}/{totalCount} pairs sorted
+						{completedCount}/{totalCount} pairs matched
 					</p>
 					<p className="mt-1 text-sm text-slate-600">{statusText}</p>
 				</div>
@@ -701,7 +764,7 @@ export default function HebrewMistaken({
 			<div className="mb-5 flex flex-wrap justify-center gap-3">
 				<button
 					type="button"
-					onClick={() => setRoundVersion((prev) => prev + 1)}
+					onClick={shuffleChoices}
 					className="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-sky-300 hover:text-sky-700"
 				>
 					<RefreshCw className="h-4 w-4" />
@@ -716,45 +779,118 @@ export default function HebrewMistaken({
 				</button>
 			</div>
 
-			<DndContext sensors={sensors} onDragEnd={handleDragEnd}>
-				<div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)]">
-					<div className="space-y-4">
-						<p className="text-center text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">
-							Hebrew Words
-						</p>
-						<div className="grid gap-4 md:grid-cols-2">
-							{zoneCards.map(({ id, card }) => (
-								<HebrewDropZone
+			<div className="space-y-6">
+				<div className="space-y-4">
+					<p className="text-center text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">
+						Hebrew Words
+					</p>
+					<div className="grid gap-4 md:grid-cols-2">
+						{boardWordCards.map(({ id, card }) => {
+							const isActive = activeWordSlot === id
+							const assignedChoice = assignments[id]
+							return (
+								<div
 									key={id}
-									id={id}
-									card={card}
-									assignedCard={
-										placements[id] ? draggableById.get(placements[id]!) ?? null : null
-									}
-									locked={evaluationState !== 'idle'}
-									state={evaluationState}
-								/>
-							))}
-						</div>
-					</div>
-
-					<div className="rounded-[2rem] border border-slate-200 bg-gradient-to-b from-white to-slate-50 p-5 shadow-sm">
-						<p className="text-center text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">
-							English Meanings
-						</p>
-						<div className="mt-5 space-y-3">
-							{draggableCards.map((item) => (
-								<DraggableGloss
-									key={item.id}
-									id={item.id}
-									label={item.card.eng}
-									disabled={assignedIds.has(item.id) || evaluationState !== 'idle'}
-								/>
-							))}
-						</div>
+									onClick={() => handleSelectWord(id)}
+									role="button"
+									tabIndex={assignedChoice ? -1 : 0}
+									aria-disabled={Boolean(assignedChoice)}
+									onKeyDown={(event) => {
+										if (event.key === 'Enter' || event.key === ' ') {
+											event.preventDefault()
+											handleSelectWord(id)
+										}
+									}}
+									className={cn(
+										'w-full rounded-3xl border p-5 text-left shadow-sm transition',
+										assignedChoice
+											? 'cursor-default border-emerald-200 bg-emerald-50 text-emerald-900'
+											: isActive
+												? 'border-sky-500 bg-sky-50 ring-2 ring-sky-200'
+												: 'cursor-pointer border-slate-200 bg-white hover:-translate-y-0.5 hover:border-sky-300 hover:shadow-md',
+									)}
+								>
+									<div className="flex items-start justify-between gap-4">
+										<div>
+											<div className="flex items-center gap-3">
+												<p className="text-3xl font-cardo text-slate-900">
+													{getDisplayHebrew(card)}
+												</p>
+												<div
+													className={cn(
+														'h-3 w-3 rounded-full',
+														assignedChoice
+															? 'bg-emerald-500'
+															: isActive
+																? 'bg-sky-500'
+																: 'bg-slate-200',
+													)}
+												/>
+											</div>
+										</div>
+										<button
+											type="button"
+											onClick={(event) => {
+												event.stopPropagation()
+												playAudio(card.hebAudio)
+											}}
+											disabled={!card.hebAudio}
+											className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-sky-600 text-white shadow transition hover:scale-105 hover:bg-sky-500 disabled:cursor-not-allowed disabled:bg-slate-300"
+											aria-label={`Play audio for ${card.eng}`}
+										>
+											<Volume2 className="h-5 w-5" />
+										</button>
+									</div>
+								</div>
+							)
+						})}
 					</div>
 				</div>
-			</DndContext>
+
+				<div className="rounded-[2rem] border border-slate-200 bg-gradient-to-b from-white to-slate-50 p-5 shadow-sm">
+					<p className="text-center text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">
+						English Meanings
+					</p>
+					<div className="mt-5 grid gap-3 md:grid-cols-2">
+						{choiceOrder.map((choiceId) => {
+							const isAssigned = assignedChoiceIds.has(choiceId)
+							const isActive = activeGlossChoice === choiceId
+							return (
+								<button
+									key={choiceId}
+									type="button"
+									onClick={() => handleSelectGloss(choiceId)}
+									disabled={isAssigned}
+									className={cn(
+										'w-full rounded-3xl border px-4 py-4 text-left shadow-sm transition',
+										isAssigned
+											? 'cursor-default border-emerald-200 bg-emerald-50 text-emerald-900'
+											: isActive
+												? 'border-sky-500 bg-sky-50 ring-2 ring-sky-200'
+												: 'border-slate-200 bg-white text-slate-900 hover:-translate-y-0.5 hover:border-sky-300 hover:shadow-md',
+									)}
+								>
+									<div className="flex items-center justify-between gap-3">
+										<p className="text-lg font-semibold">
+											{choiceLabelById[choiceId]}
+										</p>
+										<div
+											className={cn(
+												'h-3 w-3 rounded-full',
+												isAssigned
+													? 'bg-emerald-500'
+													: isActive
+														? 'bg-sky-500'
+														: 'bg-slate-200',
+											)}
+										/>
+									</div>
+								</button>
+							)
+						})}
+					</div>
+				</div>
+			</div>
 		</div>
 	)
 }
