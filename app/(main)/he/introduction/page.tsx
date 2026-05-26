@@ -7,16 +7,35 @@ import HebrewIntroduction from '@/components/hebrew/hebrew-introduction'
 import { getHebrewVocabByCourseId } from '@/lib/server/vocab'
 import type { HebrewVocab } from '@/lib/vocab'
 
-export default async function HebrewIntroductionPage() {
+export default async function HebrewIntroductionPage({
+	searchParams,
+}: {
+	searchParams?: Promise<Record<string, string | string[] | undefined>>
+}) {
 	const session = await getSession()
 	const userId = session?.user?.id ?? null
+	const resolvedSearchParams = (await searchParams) ?? {}
 
 	const [userProgress, userChallengeData] = userId
 		? await Promise.all([getUserProgress(), getCourseProgress()])
 		: [null, null]
 
-	const activeCourseId = userProgress?.activeCourseId ?? 6
-	const currentLesson = userChallengeData?.activeLesson?.lessonNumber ?? ''
+	const scheduledCourseId = Number(resolvedSearchParams.courseId)
+	const scheduledLesson =
+		typeof resolvedSearchParams.lesson === 'string'
+			? resolvedSearchParams.lesson
+			: ''
+	const isScheduled =
+		resolvedSearchParams.scheduled === '1' &&
+		Number.isFinite(scheduledCourseId) &&
+		scheduledCourseId > 0 &&
+		Boolean(scheduledLesson)
+	const activeCourseId = isScheduled
+		? scheduledCourseId
+		: userProgress?.activeCourseId ?? 6
+	const currentLesson = isScheduled
+		? scheduledLesson
+		: userChallengeData?.activeLesson?.lessonNumber ?? ''
 	const hebrewData: HebrewVocab[] =
 		await getHebrewVocabByCourseId(activeCourseId)
 
@@ -48,6 +67,7 @@ export default async function HebrewIntroductionPage() {
 						activeCourseId={activeCourseId}
 						currentLesson={currentLesson}
 						initialHearts={userProgress?.hearts ?? 5}
+						filtersLocked={isScheduled}
 					/>
 				</div>
 			</FeedWrapper>

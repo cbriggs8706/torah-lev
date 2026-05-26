@@ -43,6 +43,7 @@ interface VocabQuizProps {
 	layout: QuizLayout
 	initialHearts?: number
 	pointsOnPass?: number
+	filtersLocked?: boolean
 }
 
 function CountdownCircle({
@@ -311,6 +312,7 @@ export default function VocabQuiz({
 	layout,
 	initialHearts = 5,
 	pointsOnPass = 5,
+	filtersLocked = false,
 }: VocabQuizProps) {
 	const config = QUIZ_CONFIG[layout]
 	const {
@@ -888,13 +890,20 @@ export default function VocabQuiz({
 						</p>
 					</div>
 
-					<div className="rounded-2xl bg-white p-4 text-left">
-						<LessonFilter
-							data={data}
-							selectedLessons={selectedLessons}
-							setSelectedLessons={setSelectedLessons}
-						/>
-					</div>
+					{!filtersLocked ? (
+						<div className="rounded-2xl bg-white p-4 text-left">
+							<LessonFilter
+								data={data}
+								selectedLessons={selectedLessons}
+								setSelectedLessons={setSelectedLessons}
+							/>
+						</div>
+					) : (
+						<div className="rounded-2xl border border-sky-100 bg-sky-50 p-4 text-sm text-sky-900">
+							This quiz is locked to the lesson assigned from your study group
+							schedule.
+						</div>
+					)}
 
 					<div className="space-y-3">
 						<h2 className="text-xl font-semibold">Select Prompt</h2>

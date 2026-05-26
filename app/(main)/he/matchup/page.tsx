@@ -11,9 +11,14 @@ import { DismissibleAlert } from '@/components/dismissible-alert'
 import { HebrewVocab } from '@/lib/vocab'
 import { getHebrewVocabByCourseId } from '@/lib/server/vocab'
 
-export default async function HebrewMatchupPage() {
+export default async function HebrewMatchupPage({
+	searchParams,
+}: {
+	searchParams?: Promise<Record<string, string | string[] | undefined>>
+}) {
 	const session = await getSession()
 	const userId = session?.user?.id ?? null
+	const resolvedSearchParams = (await searchParams) ?? {}
 
 	// ✅ Fetch user-related data only for authenticated users
 	const [userProgress, userSubscription, userChallengeData] = userId
@@ -25,10 +30,24 @@ export default async function HebrewMatchupPage() {
 		: [null, null, null]
 
 	// ✅ Guest-safe fallbacks
-	const activeCourseId = userProgress?.activeCourseId ?? 6 // Default to AwB
+	const scheduledCourseId = Number(resolvedSearchParams.courseId)
+	const scheduledLesson =
+		typeof resolvedSearchParams.lesson === 'string'
+			? resolvedSearchParams.lesson
+			: ''
+	const isScheduled =
+		resolvedSearchParams.scheduled === '1' &&
+		Number.isFinite(scheduledCourseId) &&
+		scheduledCourseId > 0 &&
+		Boolean(scheduledLesson)
+	const activeCourseId = isScheduled
+		? scheduledCourseId
+		: userProgress?.activeCourseId ?? 6 // Default to AwB
 	const isPro = !!userSubscription?.isActive
 
-	const currentLesson = userChallengeData?.activeLesson?.lessonNumber ?? undefined
+	const currentLesson = isScheduled
+		? scheduledLesson
+		: userChallengeData?.activeLesson?.lessonNumber ?? undefined
 
 	// ✅ Select vocab source based on course (guest or user)
 	const hebrewData: HebrewVocab[] = await getHebrewVocabByCourseId(activeCourseId)
@@ -62,9 +81,13 @@ export default async function HebrewMatchupPage() {
 
 					<HebrewMatchup
 						data={hebrewData}
-						currentLesson={currentLesson}
+						currentLesson={
+							typeof currentLesson === 'string' ? Number(currentLesson) : currentLesson
+						}
 						courseId={activeCourseId}
 						userId={userId ?? 'guest'}
+						lockedLesson={isScheduled ? scheduledLesson : undefined}
+						hideFilters={isScheduled}
 					/>
 				</div>
 			</FeedWrapper>

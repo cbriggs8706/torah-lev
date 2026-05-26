@@ -1,7 +1,6 @@
 'use client'
 import { motion } from 'framer-motion'
 import clsx from 'clsx'
-import { useId } from 'react'
 
 type Props = {
 	size?: number // overall width in px
@@ -18,8 +17,6 @@ export default function TorahScrollLoaderRTL({
 	text = 'וַיְהִי • ',
 	className,
 }: Props) {
-	const uid = useId().replace(/:/g, '')
-
 	// Internal canvas (kept wider than tall for a nice aspect)
 	const vbW = 400
 	const vbH = 200
@@ -29,17 +26,15 @@ export default function TorahScrollLoaderRTL({
 	const parchmentY = 28
 	const parchmentW = 260
 	const parchmentH = 144
-	const clipPathId = `parchmentClip-${uid}`
-	const gradientId = `parchmentShade-${uid}`
 	const repeatedText = Array.from({ length: 24 })
 		.map(() => text)
 		.join('')
-	const copyGap = fontSize * 0.55
-	const copyWidth = repeatedText.length * fontSize * 0.68 + copyGap
-	const textY = parchmentY + parchmentH / 2 + fontSize * 0.08
 
 	return (
-		<div className={clsx('flex items-center justify-center', className)}>
+		<div
+			className={clsx('flex items-center justify-center', className)}
+			style={{ position: 'relative', width: size, height: (size * vbH) / vbW }}
+		>
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
 				viewBox={`0 0 ${vbW} ${vbH}`}
@@ -89,21 +84,12 @@ export default function TorahScrollLoaderRTL({
 
 				{/* Side shading */}
 				<defs>
-					<linearGradient id={gradientId} x1="0" y1="0" x2="1" y2="0">
+					<linearGradient id="parchmentShade" x1="0" y1="0" x2="1" y2="0">
 						<stop offset="0%" stopColor="rgba(0,0,0,0.06)" />
 						<stop offset="12%" stopColor="rgba(0,0,0,0)" />
 						<stop offset="88%" stopColor="rgba(0,0,0,0)" />
 						<stop offset="100%" stopColor="rgba(0,0,0,0.06)" />
 					</linearGradient>
-					<clipPath id={clipPathId}>
-						<rect
-							x={parchmentX + 2}
-							y={parchmentY + 2}
-							width={parchmentW - 4}
-							height={parchmentH - 4}
-							rx="8"
-						/>
-					</clipPath>
 				</defs>
 				<rect
 					x={parchmentX}
@@ -111,7 +97,7 @@ export default function TorahScrollLoaderRTL({
 					width={parchmentW}
 					height={parchmentH}
 					rx="10"
-					fill={`url(#${gradientId})`}
+					fill="url(#parchmentShade)"
 					pointerEvents="none"
 				/>
 
@@ -132,54 +118,62 @@ export default function TorahScrollLoaderRTL({
 					rx="3"
 					fill="#e6d6ab"
 				/>
-
-				{/* Text marquee inside parchment */}
-				<g clipPath={`url(#${clipPathId})`}>
-					{/* Background tint for depth */}
-					<rect
-						x={parchmentX + 2}
-						y={parchmentY + 2}
-						width={parchmentW - 4}
-						height={parchmentH - 4}
-						fill="#f9f1d6"
-					/>
-
-					<motion.g
-						initial={{ x: -copyWidth }}
-						animate={{ x: 0 }}
-						transition={{
-							duration: speedSec,
-							ease: 'linear',
-							repeat: Infinity,
-						}}
-					>
-						{[0, 1].map((copyIndex) => (
-							<text
-								key={copyIndex}
-								x={parchmentX + 8 + copyIndex * copyWidth}
-								y={textY}
-								direction="rtl"
-								textAnchor="start"
-								lengthAdjust="spacingAndGlyphs"
-								style={{
-									fontFamily:
-										"var(--font-frank), 'Frank Ruhl Libre', 'Noto Serif Hebrew', 'Times New Roman', serif",
-									fontSize,
-									lineHeight: 1,
-									letterSpacing: '0.02em',
-									fill: '#5a3e28',
-									opacity: 0.95,
-									unicodeBidi: 'plaintext',
-									dominantBaseline: 'middle',
-									textRendering: 'geometricPrecision',
-								}}
-							>
-								{repeatedText}
-							</text>
-						))}
-					</motion.g>
-				</g>
 			</svg>
+
+			<div
+				aria-hidden="true"
+				style={{
+					position: 'absolute',
+					left: `${((parchmentX + 4) / vbW) * 100}%`,
+					top: `${((parchmentY + 4) / vbH) * 100}%`,
+					width: `${((parchmentW - 8) / vbW) * 100}%`,
+					height: `${((parchmentH - 8) / vbH) * 100}%`,
+					overflow: 'hidden',
+					display: 'flex',
+					alignItems: 'center',
+					pointerEvents: 'none',
+				}}
+			>
+				<motion.div
+					initial={{ x: '-50%' }}
+					animate={{ x: '0%' }}
+					transition={{
+						duration: speedSec,
+						ease: 'linear',
+						repeat: Infinity,
+					}}
+					style={{
+						display: 'flex',
+						alignItems: 'center',
+						whiteSpace: 'nowrap',
+						willChange: 'transform',
+					}}
+				>
+					{[0, 1].map((copyIndex) => (
+						<span
+							key={copyIndex}
+							dir="rtl"
+							lang="he"
+							style={{
+								flexShrink: 0,
+								paddingRight: copyIndex === 0 ? fontSize * 0.55 : 0,
+								fontFamily:
+									"var(--font-frank), 'Frank Ruhl Libre', 'Noto Serif Hebrew', 'Times New Roman', serif",
+								fontSize,
+								lineHeight: 1,
+								letterSpacing: '0.02em',
+								color: '#5a3e28',
+								opacity: 0.95,
+								unicodeBidi: 'isolate',
+								WebkitFontSmoothing: 'antialiased',
+								textRendering: 'optimizeLegibility',
+							}}
+						>
+							{repeatedText}
+						</span>
+					))}
+				</motion.div>
+			</div>
 		</div>
 	)
 }

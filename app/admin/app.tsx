@@ -4,7 +4,7 @@
 import { Admin, CustomRoutes, Layout, Resource } from 'react-admin'
 import { createTheme } from '@mui/material/styles'
 import simpleRestProvider from 'ra-data-simple-rest'
-import { Route } from 'react-router-dom'
+import { BrowserRouter, Route } from 'react-router-dom'
 
 import { CourseList } from './course/list'
 import { CourseEdit } from './course/edit'
@@ -26,9 +26,9 @@ import { ChallengeOptionList } from './challengeOption/list'
 import { ChallengeOptionEdit } from './challengeOption/edit'
 import { ChallengeOptionCreate } from './challengeOption/create'
 
-import GenerateChallengesPage from './generate-challenges/page'
-import VocabIntroPage from './vocab-intros/page'
-import VocabRelationsPage from './vocab-relations/page'
+import GenerateChallengesPage from './generate-challenges/view'
+import VocabIntroPage from './vocab-intros/view'
+import VocabRelationsPage from './vocab-relations/view'
 
 import { AdminMenu } from '@/components/admin-menu'
 
@@ -136,101 +136,107 @@ const AdminLayout = (props: any) => (
 
 const App = () => {
 	return (
-		<Admin dataProvider={dataProvider} layout={AdminLayout} theme={adminTheme}>
-			<Resource
-				name="courses"
-				list={CourseList}
-				create={CourseCreate}
-				edit={CourseEdit}
-				recordRepresentation="title"
-			/>
-			<Resource
-				name="units"
-				list={UnitList}
-				create={UnitCreate}
-				edit={UnitEdit}
-				recordRepresentation="title"
-			/>
-			<Resource
-				name="lessons"
-				list={LessonList}
-				create={LessonCreate}
-				edit={LessonEdit}
-				recordRepresentation="title"
-			/>
-			<Resource
-				name="challenges"
-				list={ChallengeList}
-				create={ChallengeCreate}
-				edit={ChallengeEdit}
-				recordRepresentation="question"
-			/>
-			<Resource
-				name="challengeOptions"
-				list={ChallengeOptionList}
-				create={ChallengeOptionCreate}
-				edit={ChallengeOptionEdit}
-				recordRepresentation="text"
-				options={{ label: 'Challenge Options' }}
-			/>
-			<Resource
-				name="he-lesson-scripts"
-				list={HebrewLessonScriptList}
-				create={HebrewLessonScriptCreate}
-				edit={HebrewLessonScriptEdit}
-				recordRepresentation="text"
-				options={{ label: 'Heb Lesson Scripts' }}
-			/>
-			<Resource
-				name="el-lesson-scripts"
-				list={GreekLessonScriptList}
-				create={GreekLessonScriptCreate}
-				edit={GreekLessonScriptEdit}
-				recordRepresentation="text"
-				options={{ label: 'Grk Lesson Scripts' }}
-			/>
-			<Resource
-				name="grammar-lessons"
-				list={GrammarLessonList}
-				create={GrammarLessonCreate}
-				edit={GrammarLessonEdit}
-				recordRepresentation="text"
-				options={{ label: 'Grammar Lessons' }}
-			/>
-			<Resource
-				name="he-stories"
-				list={HebrewStoryList}
-				create={HebrewStoryCreate}
-				edit={HebrewStoryEdit}
-				recordRepresentation="text"
-				options={{ label: 'Heb Stories' }}
-			/>
-			<Resource
-				name="vocab-entries"
-				list={VocabEntryList}
-				create={VocabEntryCreate}
-				edit={VocabEntryEdit}
-				recordRepresentation="gloss"
-				options={{ label: 'Vocab' }}
-			/>
-			<Resource
-				name="construct-absolute-words"
-				list={ConstructAbsoluteWordList}
-				create={ConstructAbsoluteWordCreate}
-				edit={ConstructAbsoluteWordEdit}
-				recordRepresentation="absolute"
-				options={{ label: 'Construct / Absolute Words' }}
-			/>
-			<CustomRoutes>
-				<Route
-					path="/generate-challenges"
-					element={<GenerateChallengesPage />}
+		<BrowserRouter basename="/admin">
+			<Admin
+				dataProvider={dataProvider}
+				layout={AdminLayout}
+				theme={adminTheme}
+			>
+				<Resource
+					name="courses"
+					list={CourseList}
+					create={CourseCreate}
+					edit={CourseEdit}
+					recordRepresentation="title"
 				/>
-				<Route path="/vocab-intros" element={<VocabIntroPage />} />
-				<Route path="/vocab-relations" element={<VocabRelationsPage />} />
-			</CustomRoutes>
-			<hr />
-		</Admin>
+				<Resource
+					name="units"
+					list={UnitList}
+					create={UnitCreate}
+					edit={UnitEdit}
+					recordRepresentation="title"
+				/>
+				<Resource
+					name="lessons"
+					list={LessonList}
+					create={LessonCreate}
+					edit={LessonEdit}
+					recordRepresentation="title"
+				/>
+				<Resource
+					name="challenges"
+					list={ChallengeList}
+					create={ChallengeCreate}
+					edit={ChallengeEdit}
+					recordRepresentation="question"
+				/>
+				<Resource
+					name="challengeOptions"
+					list={ChallengeOptionList}
+					create={ChallengeOptionCreate}
+					edit={ChallengeOptionEdit}
+					recordRepresentation="text"
+					options={{ label: 'Challenge Options' }}
+				/>
+				<Resource
+					name="he-lesson-scripts"
+					list={HebrewLessonScriptList}
+					create={HebrewLessonScriptCreate}
+					edit={HebrewLessonScriptEdit}
+					recordRepresentation="text"
+					options={{ label: 'Heb Lesson Scripts' }}
+				/>
+				<Resource
+					name="el-lesson-scripts"
+					list={GreekLessonScriptList}
+					create={GreekLessonScriptCreate}
+					edit={GreekLessonScriptEdit}
+					recordRepresentation="text"
+					options={{ label: 'Grk Lesson Scripts' }}
+				/>
+				<Resource
+					name="grammar-lessons"
+					list={GrammarLessonList}
+					create={GrammarLessonCreate}
+					edit={GrammarLessonEdit}
+					recordRepresentation="text"
+					options={{ label: 'Grammar Lessons' }}
+				/>
+				<Resource
+					name="he-stories"
+					list={HebrewStoryList}
+					create={HebrewStoryCreate}
+					edit={HebrewStoryEdit}
+					recordRepresentation="text"
+					options={{ label: 'Heb Stories' }}
+				/>
+				<Resource
+					name="vocab-entries"
+					list={VocabEntryList}
+					create={VocabEntryCreate}
+					edit={VocabEntryEdit}
+					recordRepresentation="gloss"
+					options={{ label: 'Vocab' }}
+				/>
+				<Resource
+					name="construct-absolute-words"
+					list={ConstructAbsoluteWordList}
+					create={ConstructAbsoluteWordCreate}
+					edit={ConstructAbsoluteWordEdit}
+					recordRepresentation="absolute"
+					options={{ label: 'Construct / Absolute Words' }}
+				/>
+				<CustomRoutes>
+					<Route
+						path="/generate-challenges"
+						element={<GenerateChallengesPage />}
+					/>
+					<Route path="/vocab-intros" element={<VocabIntroPage />} />
+					<Route path="/vocab-relations" element={<VocabRelationsPage />} />
+				</CustomRoutes>
+				<hr />
+			</Admin>
+		</BrowserRouter>
 	)
 }
 

@@ -37,6 +37,8 @@ import {
 	hebrewStories,
 	englishStories,
 	studyGroupCourse,
+	studyGroupSchedule,
+	studyGroupScheduleLessons,
 	studyGroups,
 	studyGroupMembers,
 	users,
@@ -49,6 +51,7 @@ import {
 	type ConstructAbsoluteWord,
 } from '@/lib/data/hebrew/construct-absolute'
 import { toConstructAbsoluteActivityWord } from '@/lib/construct-absolute'
+import { parseStudyGroupScheduleMeta } from '@/lib/study-group-schedule-meta'
 
 export async function getUserProgress(userIdOverride?: string | null) {
 	const userId = userIdOverride ?? (await getUserId())
@@ -1384,6 +1387,7 @@ export async function getStudyGroupWithMessages(studyGroupId: number) {
 	if (!group) return null
 
 	let studyGroupCourses: any[] = []
+	let scheduleEvents: any[] = []
 
 	try {
 		studyGroupCourses = await db.query.studyGroupCourse.findMany({
@@ -1397,9 +1401,57 @@ export async function getStudyGroupWithMessages(studyGroupId: number) {
 		)
 	}
 
+	try {
+		const scheduleRows = await db
+			.select({
+				id: studyGroupSchedule.id,
+				classDate: studyGroupSchedule.classDate,
+				notes: studyGroupSchedule.notes,
+				platformCourseId: units.courseId,
+				platformCourseTitle: courses.title,
+				lessonId: lessons.id,
+				lessonTitle: lessons.title,
+				lessonNumber: lessons.lessonNumber,
+			})
+			.from(studyGroupSchedule)
+			.leftJoin(
+				studyGroupScheduleLessons,
+				eq(studyGroupSchedule.id, studyGroupScheduleLessons.scheduleId)
+			)
+			.leftJoin(lessons, eq(studyGroupScheduleLessons.lessonId, lessons.id))
+			.leftJoin(units, eq(lessons.unitId, units.id))
+			.leftJoin(courses, eq(units.courseId, courses.id))
+			.where(eq(studyGroupSchedule.studyGroupId, studyGroupId))
+			.orderBy(asc(studyGroupSchedule.classDate))
+
+		scheduleEvents = scheduleRows.map((row) => {
+			const { meta, userNotes } = parseStudyGroupScheduleMeta(row.notes)
+
+			return {
+				id: row.id,
+				classDate: row.classDate,
+				title: meta?.title ?? null,
+				notes: userNotes,
+				studyGroupCourseId: meta?.studyGroupCourseId ?? null,
+				groupCourseName: meta?.groupCourseName ?? null,
+				platformCourseId: row.platformCourseId ?? meta?.platformCourseId ?? null,
+				platformCourseTitle: row.platformCourseTitle,
+				lessonId: row.lessonId,
+				lessonTitle: row.lessonTitle,
+				lessonNumber: row.lessonNumber,
+			}
+		})
+	} catch (error) {
+		console.warn(
+			'Study group schedule unavailable. Has drizzle/0017_study_group_schedule_settings.sql been applied?',
+			error
+		)
+	}
+
 	const groupWithCourses = {
 		...group,
 		courses: studyGroupCourses,
+		scheduleEvents,
 	}
 
 	// ✅ Collect all member IDs

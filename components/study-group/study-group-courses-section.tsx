@@ -9,6 +9,7 @@ import {
 } from 'react'
 import Image from 'next/image'
 import { toast } from 'sonner'
+import Link from 'next/link'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -26,12 +27,18 @@ type StudyGroupCoursesSectionProps = {
 	studyGroupId: number
 	initialCourses: StudyGroupCourse[]
 	canManage: boolean
+	allowInlineEditing?: boolean
+	manageHref?: string
+	onCoursesChange?: (courses: StudyGroupCourse[]) => void
 }
 
 export default function StudyGroupCoursesSection({
 	studyGroupId,
 	initialCourses,
 	canManage,
+	allowInlineEditing = true,
+	manageHref,
+	onCoursesChange,
 }: StudyGroupCoursesSectionProps) {
 	const fileInputRef = useRef<HTMLInputElement | null>(null)
 	const editFileInputRef = useRef<HTMLInputElement | null>(null)
@@ -49,6 +56,10 @@ export default function StudyGroupCoursesSection({
 	const [editSelectedFile, setEditSelectedFile] = useState<File | null>(null)
 	const [editPreviewUrl, setEditPreviewUrl] = useState<string | null>(null)
 	const [isSavingEdit, setIsSavingEdit] = useState(false)
+
+	useEffect(() => {
+		onCoursesChange?.(courses)
+	}, [courses, onCoursesChange])
 
 	useEffect(() => {
 		return () => {
@@ -353,7 +364,8 @@ export default function StudyGroupCoursesSection({
 							</div>
 							<div className="p-4 space-y-4">
 								{editingCourseId === course.id ? (
-									<div className="space-y-4">
+									allowInlineEditing ? (
+										<div className="space-y-4">
 										<div className="space-y-2">
 											<Label htmlFor={`course-name-${course.id}`}>Course name</Label>
 											<Input
@@ -431,7 +443,8 @@ export default function StudyGroupCoursesSection({
 												Cancel
 											</Button>
 										</div>
-									</div>
+										</div>
+									) : null
 								) : (
 									<div className="space-y-3">
 										<div>
@@ -448,13 +461,21 @@ export default function StudyGroupCoursesSection({
 										</div>
 
 										{canManage ? (
-											<Button
-												type="button"
-												variant="ghost"
-												onClick={() => beginEditing(course)}
-											>
-												Edit Course
-											</Button>
+											allowInlineEditing ? (
+												<Button
+													type="button"
+													variant="ghost"
+													onClick={() => beginEditing(course)}
+												>
+													Edit Course
+												</Button>
+											) : manageHref ? (
+												<Link href={manageHref}>
+													<Button type="button" variant="ghost">
+														Manage in Settings
+													</Button>
+												</Link>
+											) : null
 										) : null}
 									</div>
 								)}

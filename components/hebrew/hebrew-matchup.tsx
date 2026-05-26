@@ -31,6 +31,8 @@ interface WordMatchGameProps {
 	currentLesson?: number
 	userId: string
 	courseId: number | null
+	lockedLesson?: string
+	hideFilters?: boolean
 }
 
 type UniqueIdentifier = string | number
@@ -56,6 +58,8 @@ export default function WordMatchGame({
 	currentLesson,
 	courseId,
 	userId,
+	lockedLesson,
+	hideFilters = false,
 }: WordMatchGameProps) {
 	const [showFilter, setShowFilter] = useState(false)
 	const [matchField, setMatchField] = useState<keyof HebrewVocab>('images')
@@ -161,12 +165,17 @@ export default function WordMatchGame({
 	)
 
 	useEffect(() => {
+		if (lockedLesson) {
+			setSelectedLessons([lockedLesson])
+			return
+		}
+
 		if (allLessonsUpToCurrent.length > 0) {
 			setSelectedLessons(allLessonsUpToCurrent)
 		} else {
 			setSelectedLessons(['1'])
 		}
-	}, [allLessonsUpToCurrent])
+	}, [allLessonsUpToCurrent, lockedLesson])
 
 	// useEffect(() => {
 	// 	setSelectedLessons(allLessonsUpToCurrent)
@@ -417,20 +426,22 @@ export default function WordMatchGame({
 			{/* Controls row */}
 
 			<div className="mb-4 flex flex-wrap items-center justify-center gap-3">
-				<button
-					onClick={() => setShowFilter((prev) => !prev)}
-					className={`px-4 py-2 rounded shadow flex items-center justify-center gap-4 ${
-						showFilter ? 'bg-sky-600 text-white' : 'bg-gray-200'
-					}`}
-				>
-					<Image
-						src="/books-svgrepo-com.svg"
-						alt="Filter icon"
-						width={30}
-						height={30}
-					/>
-					{showFilter ? 'Hide Filters' : 'Show Filters'}
-				</button>
+				{!hideFilters ? (
+					<button
+						onClick={() => setShowFilter((prev) => !prev)}
+						className={`px-4 py-2 rounded shadow flex items-center justify-center gap-4 ${
+							showFilter ? 'bg-sky-600 text-white' : 'bg-gray-200'
+						}`}
+					>
+						<Image
+							src="/books-svgrepo-com.svg"
+							alt="Filter icon"
+							width={30}
+							height={30}
+						/>
+						{showFilter ? 'Hide Filters' : 'Show Filters'}
+					</button>
+				) : null}
 
 				{/* NEW: Size controls */}
 				<div className="flex items-center gap-2 px-3 py-2 rounded bg-gray-50 border">
@@ -471,7 +482,7 @@ export default function WordMatchGame({
 					Reshuffle
 				</button>
 			</div>
-			{showFilter && (
+			{showFilter && !hideFilters && (
 				<>
 					<div className="text-center grid grid-cols-1 md:grid-cols-3">
 						<FormatFilter

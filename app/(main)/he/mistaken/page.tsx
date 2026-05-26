@@ -24,15 +24,15 @@ export default async function HebrewMistakenPage() {
 				<div className="flex w-full flex-col items-center">
 					<Image
 						src="/gameIcons/matchingPairs.png"
-						alt="Mistaken"
+						alt="Similar Words"
 						height={90}
 						width={90}
 					/>
 					<h1 className="my-6 text-center font-cardo text-6xl text-neutral-800">
-						מִתְבַּלְבְּלִים
+						מילים דומות
 					</h1>
 					<p className="mb-2 text-center font-bold text-neutral-800">
-						Mistaken
+						Similar Words
 					</p>
 
 					<DismissibleAlert storageKey="hebrew-mistaken" className="mb-4">

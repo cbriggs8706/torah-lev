@@ -1,11 +1,5 @@
-import { redirect } from 'next/navigation'
-import { isAdmin } from '@/lib/admin'
-import AdminAppClient from './admin-app-client'
+import AdminPageShell from './admin-page'
 
 export default async function AdminPage() {
-	if (!(await isAdmin())) {
-		redirect('/')
-	}
-
-	return <AdminAppClient />
+	return <AdminPageShell />
 }

@@ -18,6 +18,7 @@ type HebrewIntroductionProps = {
 	data: HebrewVocab[]
 	currentLesson: string
 	initialHearts: number
+	filtersLocked?: boolean
 }
 
 type SessionPhase = 'idle' | 'teaching' | 'quiz' | 'complete'
@@ -34,6 +35,7 @@ export default function HebrewIntroduction({
 	data,
 	currentLesson,
 	initialHearts,
+	filtersLocked = false,
 }: HebrewIntroductionProps) {
 	const { selectedLessons, setSelectedLessons } = useLessonCards(
 		data,
@@ -64,7 +66,9 @@ export default function HebrewIntroduction({
 	)
 	const [completionAwarded, setCompletionAwarded] = useState(false)
 	const [statusText, setStatusText] = useState(
-		'Choose your filters, then start the introduction.',
+		filtersLocked
+			? 'This class opens directly into the assigned lesson.'
+			: 'Choose your filters, then start the introduction.',
 	)
 
 	const runIdRef = useRef(0)
@@ -334,7 +338,7 @@ export default function HebrewIntroduction({
 	const currentPromptCard =
 		currentPromptIndex != null ? filteredCards[currentPromptIndex] : null
 	const canStart = filteredCards.length >= 2
-	const filtersLocked = phase !== 'idle'
+	const lessonSelectionLocked = filtersLocked || phase !== 'idle'
 	const currentTeachingOrderPosition =
 		teachingCardIndex != null
 			? sessionCardOrder.indexOf(teachingCardIndex) + 1
@@ -365,7 +369,7 @@ export default function HebrewIntroduction({
 				</button>
 			</div>
 
-			{!filtersLocked && (
+			{!lessonSelectionLocked && (
 				<>
 					<div className="mb-6 rounded-2xl border bg-white p-4 shadow-sm">
 						<div className="mb-4 flex items-center justify-center gap-3">

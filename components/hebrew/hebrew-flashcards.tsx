@@ -38,6 +38,8 @@ interface HebrewVocabProps {
 	layout: string
 	// userId: string
 	courseId: number
+	lockedLesson?: string
+	hideFilters?: boolean
 }
 
 type HebrewCardFilterType = 'all' | 'word' | 'phrase' | 'stack'
@@ -138,6 +140,8 @@ export default function HebrewFlashcards({
 	currentLesson,
 	layout,
 	courseId,
+	lockedLesson,
+	hideFilters = false,
 }: // userId,
 HebrewVocabProps) {
 	const {
@@ -195,6 +199,11 @@ HebrewVocabProps) {
 	const { userId, isGuest, ready } = useUserId()
 	const canUseSavedWordFeatures = ready && !isGuest
 	// console.log('newUserId in local', userId)
+
+	useEffect(() => {
+		if (!lockedLesson) return
+		setSelectedLessons([lockedLesson])
+	}, [lockedLesson, setSelectedLessons])
 
 	const PRESETS: FlashcardPreset[] = [
 		{
@@ -1103,21 +1112,23 @@ HebrewVocabProps) {
 					/>
 					Customize
 				</button>
-				<button
-					onClick={() => setShowFilter((prev) => !prev)}
-					className={`px-4 py-2 rounded shadow flex items-center justify-center gap-4 ${
-						showFilter ? 'bg-sky-600 text-white' : 'bg-gray-200'
-					}`}
-				>
-					<Image
-						src="/books-svgrepo-com.svg"
-						alt="Filter icon"
-						width={30}
-						height={30}
-						className=""
-					/>
-					Filter
-				</button>
+				{!hideFilters ? (
+					<button
+						onClick={() => setShowFilter((prev) => !prev)}
+						className={`px-4 py-2 rounded shadow flex items-center justify-center gap-4 ${
+							showFilter ? 'bg-sky-600 text-white' : 'bg-gray-200'
+						}`}
+					>
+						<Image
+							src="/books-svgrepo-com.svg"
+							alt="Filter icon"
+							width={30}
+							height={30}
+							className=""
+						/>
+						Filter
+					</button>
+				) : null}
 			</div>
 
 			<div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-6">
@@ -1508,7 +1519,7 @@ HebrewVocabProps) {
 				</>
 			)}
 
-			{showFilter && (
+			{showFilter && !hideFilters && (
 				<>
 					<div className="space-y-3 mb-4">
 						<h2 className="text-xl font-semibold">Select Type</h2>

@@ -26,9 +26,14 @@ const allFieldsHebrew: (keyof HebrewVocab)[] = [
 	'hebAudio',
 ]
 
-export default async function HebrewFlashcardPage() {
+export default async function HebrewFlashcardPage({
+	searchParams,
+}: {
+	searchParams?: Promise<Record<string, string | string[] | undefined>>
+}) {
 	const session = await getSession()
 	const userId = session?.user?.id ?? null
+	const resolvedSearchParams = (await searchParams) ?? {}
 
 	// Fetch data only for logged-in users
 	const [userProgress, userSubscription, userChallengeData] = userId
@@ -40,8 +45,22 @@ export default async function HebrewFlashcardPage() {
 		: [null, null, null]
 
 	// ✅ Guest fallback values
-	const activeCourseId = userProgress?.activeCourseId ?? 6 // Default: AwB
-	const currentLesson = userChallengeData?.activeLesson?.lessonNumber ?? ''
+	const scheduledCourseId = Number(resolvedSearchParams.courseId)
+	const scheduledLesson =
+		typeof resolvedSearchParams.lesson === 'string'
+			? resolvedSearchParams.lesson
+			: ''
+	const isScheduled =
+		resolvedSearchParams.scheduled === '1' &&
+		Number.isFinite(scheduledCourseId) &&
+		scheduledCourseId > 0 &&
+		Boolean(scheduledLesson)
+	const activeCourseId = isScheduled
+		? scheduledCourseId
+		: userProgress?.activeCourseId ?? 6
+	const currentLesson = isScheduled
+		? scheduledLesson
+		: userChallengeData?.activeLesson?.lessonNumber ?? ''
 	const isPro = !!userSubscription?.isActive
 
 	// ✅ Select vocab set
@@ -92,6 +111,8 @@ export default async function HebrewFlashcardPage() {
 						courseId={activeCourseId}
 						currentLesson={currentLesson}
 						layout="hebrew"
+						lockedLesson={isScheduled ? scheduledLesson : undefined}
+						hideFilters={isScheduled}
 					/>
 				</div>
 			</FeedWrapper>

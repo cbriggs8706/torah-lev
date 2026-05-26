@@ -501,7 +501,7 @@ export default function HebrewUserDashboard({
 							</p>
 						</div>
 						<Link
-							href="/admin#/vocab-relations"
+							href="/admin/vocab-relations"
 							className="inline-flex items-center justify-center rounded-xl bg-emerald-700 px-5 py-3 text-sm font-semibold uppercase tracking-wide text-white transition hover:bg-emerald-800"
 						>
 							Open Vocab Relations

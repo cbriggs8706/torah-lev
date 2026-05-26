@@ -698,11 +698,12 @@ export const studyGroupMembersRelations = relations(
 
 export const studyGroupCourseRelations = relations(
 	studyGroupCourse,
-	({ one }) => ({
+	({ one, many }) => ({
 		studyGroup: one(studyGroups, {
 			fields: [studyGroupCourse.studyGroupId],
 			references: [studyGroups.id],
 		}),
+		scheduleItems: many(studyGroupSchedule),
 	})
 )
 

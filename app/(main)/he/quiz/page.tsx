@@ -6,17 +6,36 @@ import { getCourseProgress, getUserProgress } from '@/db/queries'
 import VocabQuiz from '@/components/vocab/vocab-quiz'
 import { getHebrewVocabByCourseId } from '@/lib/server/vocab'
 
-export default async function HebrewQuizPage() {
+export default async function HebrewQuizPage({
+	searchParams,
+}: {
+	searchParams?: Promise<Record<string, string | string[] | undefined>>
+}) {
 	const session = await getSession()
 	const userId = session?.user?.id ?? 'guest'
+	const resolvedSearchParams = (await searchParams) ?? {}
 
 	const [userProgress, courseProgress] = await Promise.all([
 		getUserProgress(),
 		getCourseProgress(),
 	])
 
-	const activeCourseId = userProgress?.activeCourseId ?? 6
-	const currentLesson = courseProgress?.activeLesson?.lessonNumber ?? '1'
+	const scheduledCourseId = Number(resolvedSearchParams.courseId)
+	const scheduledLesson =
+		typeof resolvedSearchParams.lesson === 'string'
+			? resolvedSearchParams.lesson
+			: ''
+	const isScheduled =
+		resolvedSearchParams.scheduled === '1' &&
+		Number.isFinite(scheduledCourseId) &&
+		scheduledCourseId > 0 &&
+		Boolean(scheduledLesson)
+	const activeCourseId = isScheduled
+		? scheduledCourseId
+		: userProgress?.activeCourseId ?? 6
+	const currentLesson = isScheduled
+		? scheduledLesson
+		: courseProgress?.activeLesson?.lessonNumber ?? '1'
 	const hebrewData = await getHebrewVocabByCourseId(activeCourseId)
 
 	return (
@@ -42,6 +61,7 @@ export default async function HebrewQuizPage() {
 						userId={userId}
 						layout="hebrew"
 						initialHearts={userProgress?.hearts ?? 5}
+						filtersLocked={isScheduled}
 					/>
 				</div>
 			</FeedWrapper>

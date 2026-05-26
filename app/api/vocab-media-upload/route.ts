@@ -11,9 +11,9 @@ function sanitizeFileName(fileName: string) {
 	const ext = path.extname(fileName)
 	const base = path.basename(fileName, ext)
 	const normalizedBase = normalizeVocabStoragePath(base)
-		.replace(/[^\w./-]+/g, '-')
-		.replace(/-+/g, '-')
-		.replace(/^-|-$/g, '')
+		.replace(/[^\w./ -]+/g, ' ')
+		.replace(/\s+/g, ' ')
+		.trim()
 
 	const normalizedExt = normalizeVocabStoragePath(ext).replace(/[^\w.]+/g, '')
 	return `${normalizedBase || 'upload'}${normalizedExt || ''}`

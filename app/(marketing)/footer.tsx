@@ -11,7 +11,7 @@ export const Footer = () => {
 						alt="Hebrew"
 						height={32}
 						width={40}
-						className="mr-4 rounded-md"
+						className="mr-4 h-auto rounded-md"
 					/>
 					Hebrew
 				</Button>
@@ -21,7 +21,7 @@ export const Footer = () => {
 						alt="Spanish"
 						height={32}
 						width={40}
-						className="mr-4 rounded-md"
+						className="mr-4 h-auto rounded-md"
 					/>
 					Spanish
 				</Button>
@@ -31,7 +31,7 @@ export const Footer = () => {
 						alt="Greek"
 						height={32}
 						width={40}
-						className="mr-4 rounded-md"
+						className="mr-4 h-auto rounded-md"
 					/>
 					Greek
 				</Button>

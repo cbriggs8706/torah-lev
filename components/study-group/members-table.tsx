@@ -17,25 +17,6 @@ export default function MembersTable({ studyGroup }: { studyGroup: any }) {
 
 	return (
 		<div className="space-y-4">
-			<div className="rounded-lg border bg-white p-4 shadow-sm">
-				<h2 className="mb-3 font-semibold text-lg">Group Leader</h2>
-				<div className="flex items-center gap-3">
-					<div className="relative h-12 w-12 overflow-hidden rounded-full border">
-						<Image
-							src={instructor.userImageSrc || '/mascot.svg'}
-							alt={instructor.userName}
-							fill
-							sizes="48px"
-							className="object-cover"
-						/>
-					</div>
-					<div>
-						<p className="font-medium text-gray-900">{instructor.userName}</p>
-						<p className="text-sm text-gray-500">Instructor</p>
-					</div>
-				</div>
-			</div>
-
 			<div className="p-4 border rounded-lg shadow-sm bg-gray-50 relative">
 				<div className="flex justify-between items-center mb-4">
 					<h2 className="font-semibold text-lg">Students</h2>
@@ -61,7 +42,10 @@ export default function MembersTable({ studyGroup }: { studyGroup: any }) {
 									? formatTimeAgo(m.user.lastSeen)
 									: '—'
 								return (
-									<tr key={m.user.userId} className="border-b hover:bg-gray-100">
+									<tr
+										key={m.user.userId}
+										className="border-b hover:bg-gray-100"
+									>
 										<td className="py-2">
 											<div className="relative w-10 h-10">
 												<Image

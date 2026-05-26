@@ -14,6 +14,7 @@ import {
 	vocabStateChoices,
 	vocabTenseAspectChoices,
 } from '@/lib/admin-vocab'
+import { VocabAudioRecorderInput } from '@/components/admin/vocab-audio-recorder-input'
 import { VocabMediaUploadInput } from '@/components/admin/vocab-media-upload-input'
 
 const longTextSx = { width: '100%' }
@@ -320,34 +321,40 @@ export function VocabEntryForm() {
 					display: 'grid',
 					gap: 2,
 					width: '100%',
-					gridTemplateColumns: {
-						xs: '1fr',
-						md: 'repeat(3, minmax(0, 1fr))',
-					},
+					gridTemplateColumns: { xs: '1fr' },
 				}}
 			>
-				<TextInput source="hebAudio" label="Hebrew Audio" sx={longTextSx} />
-				<TextInput source="engAudio" label="English Audio" sx={longTextSx} />
-				<TextInput source="grkAudio" label="Greek Audio" sx={longTextSx} />
+				<Box>
+					<TextInput source="hebAudio" label="Hebrew Audio" sx={longTextSx} />
+					<VocabAudioRecorderInput source="hebAudio" label="Hebrew Audio" />
+					<VocabMediaUploadInput
+						source="hebAudio"
+						label="Hebrew Audio"
+						accept="audio/*"
+						mode="replace"
+					/>
+				</Box>
+				<Box>
+					<TextInput source="engAudio" label="English Audio" sx={longTextSx} />
+					<VocabAudioRecorderInput source="engAudio" label="English Audio" />
+					<VocabMediaUploadInput
+						source="engAudio"
+						label="English Audio"
+						accept="audio/*"
+						mode="replace"
+					/>
+				</Box>
+				<Box>
+					<TextInput source="grkAudio" label="Greek Audio" sx={longTextSx} />
+					<VocabAudioRecorderInput source="grkAudio" label="Greek Audio" />
+					<VocabMediaUploadInput
+						source="grkAudio"
+						label="Greek Audio"
+						accept="audio/*"
+						mode="replace"
+					/>
+				</Box>
 			</Box>
-			<VocabMediaUploadInput
-				source="hebAudio"
-				label="Hebrew Audio"
-				accept="audio/*"
-				mode="replace"
-			/>
-			<VocabMediaUploadInput
-				source="engAudio"
-				label="English Audio"
-				accept="audio/*"
-				mode="replace"
-			/>
-			<VocabMediaUploadInput
-				source="grkAudio"
-				label="Greek Audio"
-				accept="audio/*"
-				mode="replace"
-			/>
 
 			<BooleanInput source="missingImage" label="Missing Image" disabled />
 			<BooleanInput source="missingAudio" label="Missing Audio" disabled />

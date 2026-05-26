@@ -36,7 +36,7 @@ type Phase = 'setup' | 'playing' | 'results'
 type WordSlotId = string
 type GlossChoiceId = string
 
-const BOARD_PAIR_COUNT = 2
+const DEFAULT_BOARD_PAIR_COUNT = 4
 
 function shuffle<T>(items: T[]) {
 	const next = [...items]
@@ -72,7 +72,10 @@ function getPairLookupIds(pair: MistakenPair) {
 	)
 }
 
-function packPairsForBoards(pairs: MistakenPair[]) {
+function packPairsForBoards(
+	pairs: MistakenPair[],
+	boardPairCount: number,
+) {
 	const remaining = [...pairs]
 	const ordered: MistakenPair[] = []
 
@@ -80,7 +83,10 @@ function packPairsForBoards(pairs: MistakenPair[]) {
 		const board: MistakenPair[] = []
 		const usedIds = new Set<string>()
 
-		for (let index = 0; index < remaining.length && board.length < BOARD_PAIR_COUNT; ) {
+		for (
+			let index = 0;
+			index < remaining.length && board.length < boardPairCount;
+		) {
 			const candidate = remaining[index]
 			const candidateIds = getPairLookupIds(candidate)
 			const overlaps = candidateIds.some((id) => usedIds.has(id))
@@ -118,6 +124,9 @@ export default function HebrewMistaken({
 	const { width, height } = useWindowSize()
 	const [phase, setPhase] = useState<Phase>('setup')
 	const [pairs, setPairs] = useState<MistakenPair[]>([])
+	const [selectedBoardPairCount, setSelectedBoardPairCount] = useState(
+		DEFAULT_BOARD_PAIR_COUNT,
+	)
 	const [currentBatchStart, setCurrentBatchStart] = useState(0)
 	const [choiceOrder, setChoiceOrder] = useState<GlossChoiceId[]>([])
 	const [assignments, setAssignments] = useState<
@@ -192,9 +201,35 @@ export default function HebrewMistaken({
 		return nextPairs
 	}, [lessonFilteredCards])
 
+	const pairCountOptions = useMemo(() => {
+		if (availablePairs.length === 0) return []
+
+		const baseOptions = [4, 6, 8, 10]
+		const validOptions = baseOptions.filter((count) => count < availablePairs.length)
+		return [...validOptions, availablePairs.length]
+	}, [availablePairs.length])
+
+	useEffect(() => {
+		if (availablePairs.length === 0) {
+			setSelectedBoardPairCount(0)
+			return
+		}
+
+		setSelectedBoardPairCount((prev) => {
+			if (prev > availablePairs.length || prev <= 0) {
+				return Math.min(DEFAULT_BOARD_PAIR_COUNT, availablePairs.length)
+			}
+			return prev
+		})
+	}, [availablePairs.length])
+
 	const currentBatch = useMemo(
-		() => pairs.slice(currentBatchStart, currentBatchStart + BOARD_PAIR_COUNT),
-		[pairs, currentBatchStart],
+		() =>
+			pairs.slice(
+				currentBatchStart,
+				currentBatchStart + selectedBoardPairCount,
+			),
+		[pairs, currentBatchStart, selectedBoardPairCount],
 	)
 	const totalCount = pairs.length
 	const completedCount = Math.min(currentBatchStart, totalCount)
@@ -338,8 +373,10 @@ export default function HebrewMistaken({
 	}
 
 	function startRound() {
-		if (availablePairs.length === 0) return
-		resetRoundState(packPairsForBoards(shuffle(availablePairs)))
+		if (availablePairs.length === 0 || selectedBoardPairCount === 0) return
+		resetRoundState(
+			packPairsForBoards(shuffle(availablePairs), selectedBoardPairCount),
+		)
 		setPhase('playing')
 	}
 
@@ -501,7 +538,7 @@ export default function HebrewMistaken({
 					<div className="space-y-6">
 						<div className="text-center">
 							<h2 className="text-2xl font-bold text-slate-900">
-								Customize Mistaken
+								Customize Similar Words
 							</h2>
 							<p className="mt-2 text-sm text-slate-600">
 								Choose one or more lessons, then match each English meaning to
@@ -536,6 +573,33 @@ export default function HebrewMistaken({
 							</div>
 						</div>
 
+						{availablePairs.length > 0 ? (
+							<div className="space-y-3 rounded-3xl border border-slate-200 bg-slate-50 p-4 text-center">
+								<h3 className="text-lg font-semibold text-slate-900">
+									How Many Pairs At A Time?
+								</h3>
+								<p className="text-sm text-slate-600">
+									Pick how many commonly confused pairs to sort on each board.
+								</p>
+								<div className="flex flex-wrap justify-center gap-2">
+									{pairCountOptions.map((count) => (
+										<button
+											key={count}
+											type="button"
+											onClick={() => setSelectedBoardPairCount(count)}
+											className={`rounded-full border px-4 py-2 text-sm font-semibold transition ${
+												selectedBoardPairCount === count
+													? 'border-sky-600 bg-sky-600 text-white'
+													: 'border-slate-300 bg-white text-slate-700 hover:border-sky-300 hover:text-sky-700'
+											}`}
+										>
+											{count}
+										</button>
+									))}
+								</div>
+							</div>
+						) : null}
+
 						{availablePairs.length === 0 ? (
 							<div className="rounded-3xl border border-amber-200 bg-amber-50 p-5 text-center text-amber-900">
 								No commonly confused pairs were found for the selected lessons.
@@ -547,10 +611,13 @@ export default function HebrewMistaken({
 							<button
 								type="button"
 								onClick={startRound}
-								disabled={availablePairs.length === 0}
+								disabled={
+									availablePairs.length === 0 || selectedBoardPairCount === 0
+								}
 								className="rounded-full bg-sky-600 px-6 py-3 font-semibold text-white shadow transition hover:bg-sky-500 disabled:cursor-not-allowed disabled:bg-slate-300"
 							>
-								Start Mistaken
+								Start {selectedBoardPairCount} Pair
+								{selectedBoardPairCount === 1 ? '' : 's'}
 							</button>
 						</div>
 					</div>
