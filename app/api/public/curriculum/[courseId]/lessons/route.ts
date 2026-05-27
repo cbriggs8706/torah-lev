@@ -4,7 +4,7 @@ import { lessons, units } from '@/db/schema'
 import { eq, asc } from 'drizzle-orm'
 import { isAdmin } from '@/lib/admin' // ✅ add this import
 
-// GET /api/courses/[courseId]/lessons
+// GET /api/curriculum/[courseId]/lessons
 export async function GET(
 	_request: Request,
 	{ params }: { params: Promise<{ courseId: string }> }

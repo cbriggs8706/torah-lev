@@ -6,7 +6,7 @@ const main = async () => {
 	try {
 		console.log('Seeding database')
 
-		await db.delete(schema.courses)
+		await db.delete(schema.curriculum)
 		await db.delete(schema.userProgress)
 		await db.delete(schema.units)
 		await db.delete(schema.lessons)
@@ -15,7 +15,7 @@ const main = async () => {
 		await db.delete(schema.challengeProgress)
 		await db.delete(schema.userSubscription)
 
-		await db.insert(schema.courses).values([
+		await db.insert(schema.curriculum).values([
 			{
 				id: 1,
 				title: 'Destinos',

@@ -4,7 +4,7 @@ import { z } from 'zod'
 
 import db from '@/db/drizzle'
 import {
-	courses,
+	curriculum,
 	lessons,
 	studyGroupCourse,
 	studyGroupSchedule,
@@ -90,7 +90,7 @@ async function getScheduleEvents(studyGroupId: number) {
 			classDate: studyGroupSchedule.classDate,
 			notes: studyGroupSchedule.notes,
 			platformCourseId: units.courseId,
-			platformCourseTitle: courses.title,
+			platformCourseTitle: curriculum.title,
 			lessonId: lessons.id,
 			lessonTitle: lessons.title,
 			lessonNumber: lessons.lessonNumber,
@@ -102,7 +102,7 @@ async function getScheduleEvents(studyGroupId: number) {
 		)
 		.leftJoin(lessons, eq(studyGroupScheduleLessons.lessonId, lessons.id))
 		.leftJoin(units, eq(lessons.unitId, units.id))
-		.leftJoin(courses, eq(units.courseId, courses.id))
+		.leftJoin(curriculum, eq(units.courseId, curriculum.id))
 		.where(eq(studyGroupSchedule.studyGroupId, studyGroupId))
 		.orderBy(desc(studyGroupSchedule.classDate), asc(studyGroupSchedule.id))
 

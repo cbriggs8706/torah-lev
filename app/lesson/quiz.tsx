@@ -303,7 +303,7 @@ export const Quiz = ({
 							router.push('/he/learn')
 						else if (activeCourseId === 2) router.push('/es/learn')
 						else if (activeCourseId === 12) router.push('/el/learn')
-						else router.push('/courses')
+						else router.push('/curriculum')
 					}}
 				/>
 			</>

@@ -32,7 +32,7 @@ export const usersRelations = relations(users, ({ one, many }) => ({
 	}),
 }))
 
-export const courses = pgTable('courses', {
+export const curriculum = pgTable('curriculum', {
 	id: serial('id').primaryKey(),
 	title: text('title').notNull(),
 	category: text('category'),
@@ -42,7 +42,7 @@ export const courses = pgTable('courses', {
 	public: boolean('public').notNull().default(true),
 })
 
-export const coursesRelations = relations(courses, ({ many }) => ({
+export const curriculumRelations = relations(curriculum, ({ many }) => ({
 	userProgress: many(userProgress),
 	units: many(units),
 }))
@@ -52,15 +52,15 @@ export const units = pgTable('units', {
 	title: text('title').notNull(),
 	description: text('description').notNull(),
 	courseId: integer('course_id')
-		.references(() => courses.id, { onDelete: 'cascade' })
+		.references(() => curriculum.id, { onDelete: 'cascade' })
 		.notNull(),
 	order: integer('order').notNull(),
 })
 
 export const unitsRelations = relations(units, ({ many, one }) => ({
-	course: one(courses, {
+	course: one(curriculum, {
 		fields: [units.courseId],
-		references: [courses.id],
+		references: [curriculum.id],
 	}),
 	lessons: many(lessons),
 }))
@@ -76,6 +76,13 @@ export const lessons = pgTable('lessons', {
 	// content: text('content'),
 })
 
+export const videoTypeEnum = pgEnum('video_type', [
+	'lesson',
+	'review',
+	'story',
+	'song',
+])
+
 export const lessonsRelations = relations(lessons, ({ one, many }) => ({
 	unit: one(units, {
 		fields: [lessons.unitId],
@@ -86,17 +93,26 @@ export const lessonsRelations = relations(lessons, ({ one, many }) => ({
 	// englishLessonScripts: many(englishLessonScripts),
 }))
 
-export const hebrewLessonScripts = pgTable('hebrew_lesson_scripts', {
+export const videos = pgTable('videos', {
 	id: serial('id').primaryKey(),
-	lessonId: integer('lesson_id').notNull().default(1),
+	hebrewLessonScriptId: integer('hebrew_lesson_script_id'),
+	hebrewStoryId: integer('hebrew_story_id'),
+	lessonId: integer('lesson_id'),
 	courseId: integer('course_id').array(),
 	part: integer('part'),
-	// lessonId: integer('lesson_id')
-	// .references(() => lessons.id, { onDelete: 'cascade' })
-	// .notNull(),
+	title: text('title'),
+	hebTitle: text('heb_title'),
+	titleTransliteration: text('title_transliteration'),
+	order: integer('order'),
+	videoUrl: text('video_url'),
+	image: text('image'),
+	audio: text('audio'),
+	audioSrc: text('audio_src'),
+	public: boolean('public'),
+	category: text('category'),
 	content: text('content'),
 	contentPlain: text('content_plain'),
-	audioSrc: text('audio_src'),
+	type: videoTypeEnum('type'),
 })
 
 export const greekLessonScripts = pgTable('greek_lesson_scripts', {
@@ -237,7 +253,7 @@ export const userProgress = pgTable('user_progress', {
 	userImageSrc: text('user_image_src').notNull().default('/mascot.svg'),
 	hebrewImageSrc: text('hebrew_image_src'),
 	email: text('email').notNull().default(''),
-	activeCourseId: integer('active_course_id').references(() => courses.id, {
+	activeCourseId: integer('active_course_id').references(() => curriculum.id, {
 		onDelete: 'cascade',
 	}),
 	hearts: integer('hearts').notNull().default(5),
@@ -263,9 +279,9 @@ export const userProgressRelations = relations(
 			fields: [userProgress.userId],
 			references: [users.id],
 		}),
-		activeCourse: one(courses, {
+		activeCourse: one(curriculum, {
 			fields: [userProgress.activeCourseId],
-			references: [courses.id],
+			references: [curriculum.id],
 		}),
 		tribe: one(tribes, {
 			fields: [userProgress.tribeId],
@@ -286,7 +302,7 @@ export const userCourseProgress = pgTable(
 			.notNull(),
 
 		courseId: integer('course_id')
-			.references(() => courses.id, { onDelete: 'cascade' })
+			.references(() => curriculum.id, { onDelete: 'cascade' })
 			.notNull(),
 
 		activeLessonId: integer('active_lesson_id').references(() => lessons.id, {
@@ -314,9 +330,9 @@ export const userCourseProgressRelations = relations(
 			fields: [userCourseProgress.userId],
 			references: [userProgress.userId],
 		}),
-		course: one(courses, {
+		course: one(curriculum, {
 			fields: [userCourseProgress.courseId],
-			references: [courses.id],
+			references: [curriculum.id],
 		}),
 		activeLesson: one(lessons, {
 			fields: [userCourseProgress.activeLessonId],
@@ -370,7 +386,7 @@ export const flashcardUserState = pgTable(
 			.notNull(),
 		cardId: integer('card_id').notNull(),
 		language: varchar('language', { length: 8 }).notNull().default('he'),
-		courseId: integer('course_id').references(() => courses.id, {
+		courseId: integer('course_id').references(() => curriculum.id, {
 			onDelete: 'set null',
 		}),
 		state: flashcardStateEnum('state').notNull().default('new'),
@@ -417,7 +433,7 @@ export const flashcardReviewLog = pgTable(
 			.notNull(),
 		cardId: integer('card_id').notNull(),
 		language: varchar('language', { length: 8 }).notNull().default('he'),
-		courseId: integer('course_id').references(() => courses.id, {
+		courseId: integer('course_id').references(() => curriculum.id, {
 			onDelete: 'set null',
 		}),
 		rating: reviewRatingEnum('rating').notNull(),
@@ -449,7 +465,7 @@ export const flashcardUserSettings = pgTable(
 			.references(() => users.id, { onDelete: 'cascade' })
 			.notNull(),
 		language: varchar('language', { length: 8 }).notNull().default('he'),
-		courseId: integer('course_id').references(() => courses.id, {
+		courseId: integer('course_id').references(() => curriculum.id, {
 			onDelete: 'set null',
 		}),
 		sessionSize: integer('session_size').notNull().default(20),
@@ -882,24 +898,6 @@ export const events = pgTable('events', {
 	recordingUrl: text('recording_url'),
 	address: text('address'),
 	notes: text('notes'),
-})
-
-export const hebrewStories = pgTable('hebrew_stories', {
-	id: serial('id').primaryKey(),
-	lessonId: integer('lesson_id').notNull().default(1),
-	courseId: integer('course_id').array(),
-	// .references(() => lessons.lessonKey),
-	title: text('title').notNull(),
-	hebTitle: text('heb_title'),
-	titleTransliteration: text('title_transliteration'),
-	order: integer('order').notNull(),
-	video: text('video'),
-	image: text('image'),
-	audio: text('audio'),
-	public: boolean('public').notNull().default(true),
-	category: text('category').notNull().default(''),
-	content: text('content'),
-	contentPlain: text('content_plain'),
 })
 
 export const englishStories = pgTable('english_stories', {

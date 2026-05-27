@@ -434,7 +434,7 @@ export default function VocabQuiz({
 			? '/he/learn'
 			: layout === 'greek'
 			? '/el/learn'
-			: '/courses'
+			: '/curriculum'
 
 	const nextLesson = useMemo(() => {
 		if (lessonOptions.length === 0 || selectedLessons.length === 0) return null

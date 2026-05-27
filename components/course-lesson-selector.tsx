@@ -57,7 +57,7 @@ export default function CourseLessonSelector({
 		setLoadingLessons(true)
 		setLessons([])
 
-		fetch(`/api/courses/${selectedCourse.id}/lessons`)
+		fetch(`/api/curriculum/${selectedCourse.id}/lessons`)
 			.then((res) => res.json())
 			.then((data: Lesson[]) => setLessons(data))
 			.finally(() => setLoadingLessons(false))

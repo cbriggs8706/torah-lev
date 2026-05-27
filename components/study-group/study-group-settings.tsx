@@ -160,7 +160,7 @@ export default function StudyGroupSettings({
 	}, [studyGroupId])
 
 	useEffect(() => {
-		void fetch('/api/public/courses?sort=["title","ASC"]&range=[0,199]')
+		void fetch('/api/public/curriculum?sort=["title","ASC"]&range=[0,199]')
 			.then(async (response) => {
 				if (!response.ok) {
 					throw new Error('Failed to load courses')
@@ -181,7 +181,7 @@ export default function StudyGroupSettings({
 		}
 
 		setLoadingLessons(true)
-		void fetch(`/api/public/courses/${selectedPlatformCourseId}/lessons`)
+		void fetch(`/api/public/curriculum/${selectedPlatformCourseId}/lessons`)
 			.then(async (response) => {
 				if (!response.ok) {
 					throw new Error('Failed to load lessons')

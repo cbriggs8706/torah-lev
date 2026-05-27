@@ -1,8 +1,10 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Button } from '../ui/button'
 import { useRouter } from 'next/navigation'
+import AudioPlayer from '@/components/media/audio-player'
+import { isSpotifyUrl } from '@/components/media/audio-utils'
 
 const hebrewFonts = [
 	{ label: 'Arial', value: 'font-arial' },
@@ -19,13 +21,11 @@ type LessonScript = {
 	id: number
 	content: string | null
 	contentPlain: string | null
+	audio: string | null
 	audioSrc: string | null
+	videoUrl: string | null
 	lessonId: number | null
 	courseId: number[] | null
-}
-
-type Lesson = {
-	lessonScript: LessonScript
 }
 
 export default function LessonScriptViewer({
@@ -35,11 +35,34 @@ export default function LessonScriptViewer({
 }) {
 	const [fontClass, setFontClass] = useState('font-serif')
 	const [fontSize, setFontSize] = useState(36)
+	const [mediaType, setMediaType] = useState<'video' | 'audio'>(
+		lessonScript.videoUrl ? 'video' : 'audio'
+	)
 	const router = useRouter()
+	const audioSource = lessonScript.audio ?? lessonScript.audioSrc
+
+	const audioIsSpotify = useMemo(
+		() => isSpotifyUrl(audioSource),
+		[audioSource]
+	)
+	const audioSrcClean = useMemo(() => {
+		if (!audioSource) return null
+		try {
+			const u = new URL(audioSource)
+			u.search = ''
+			return u.toString()
+		} catch {
+			return audioSource
+		}
+	}, [audioSource])
 
 	useEffect(() => {
 		window.scrollTo({ top: 0, behavior: 'auto' })
 	}, [])
+
+	useEffect(() => {
+		setMediaType(lessonScript.videoUrl ? 'video' : 'audio')
+	}, [lessonScript.videoUrl, lessonScript.id])
 
 	// Handle font change from dropdown
 	const handleFontChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -61,6 +84,15 @@ export default function LessonScriptViewer({
 			{/* Toggle Buttons */}
 			<div className="flex flex-wrap gap-4 mb-4 justify-center">
 				<Button
+					onClick={() => setMediaType('video')}
+					disabled={!lessonScript.videoUrl}
+				>
+					Video
+				</Button>
+				<Button onClick={() => setMediaType('audio')} disabled={!audioSource}>
+					Audio
+				</Button>
+				<Button
 					variant={'default'}
 					onClick={() => {
 						router.push('/he/lesson-scripts', { scroll: true })
@@ -71,19 +103,50 @@ export default function LessonScriptViewer({
 				</Button>
 			</div>
 
-			{/* Audio Embed */}
-			{lessonScript.audioSrc && (
-				<iframe
-					data-testid="embed-iframe"
-					style={{ borderRadius: 12 }}
-					src={lessonScript.audioSrc}
-					width="100%"
-					height="152"
-					frameBorder="0"
-					allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-					loading="lazy"
-				></iframe>
-			)}
+			{/* Media block */}
+			<div className="flex flex-col gap-4 mb-8">
+				{mediaType === 'video' && lessonScript.videoUrl && (
+					<div className="relative w-full" style={{ paddingTop: '56.25%' }}>
+						<iframe
+							className="absolute inset-0 w-full h-full rounded-md"
+							src={lessonScript.videoUrl
+								.replace('youtu.be/', 'www.youtube.com/embed/')
+								.replace('watch?v=', 'embed/')
+								.split('?')[0]}
+							title="Lesson video player"
+							frameBorder={0}
+							allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+							allowFullScreen
+						/>
+					</div>
+				)}
+
+				{mediaType === 'audio' &&
+					audioSource &&
+					(audioIsSpotify ? (
+						<iframe
+							data-testid="embed-iframe"
+							className="w-full rounded-md"
+							src={audioSrcClean || undefined}
+							height={152}
+							frameBorder={0}
+							allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+							loading="lazy"
+						/>
+					) : (
+						<AudioPlayer
+							src={audioSrcClean!}
+							skipSeconds={10}
+							defaultRate={1}
+							defaultVolume={1}
+							startTime={0}
+							label={`Audio for lesson ${lessonScript.lessonId ?? lessonScript.id}`}
+							onEnded={() => {
+								/* optional: mark complete */
+							}}
+						/>
+					))}
+			</div>
 			{/* Font Selector and Size Controls */}
 			<div className="flex gap-4 mb-4 justify-center">
 				{/* Font Selector */}

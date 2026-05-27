@@ -41,14 +41,14 @@ export default function Home() {
 								size="lg"
 								variant="secondary"
 								className="w-full"
-								onClick={() => signIn(undefined, { callbackUrl: '/courses' })}
+								onClick={() => signIn(undefined, { callbackUrl: '/curriculum' })}
 							>
 								Start Learning{' '}
 							</Button>
 						</>
 					) : (
 						<Button size="lg" variant="secondary" className="w-full" asChild>
-							<Link href="/courses">Continue Learning</Link>
+							<Link href="/curriculum">Continue Learning</Link>
 						</Button>
 					)}
 				</div>

@@ -2,7 +2,7 @@ import { eq } from 'drizzle-orm'
 import { NextResponse } from 'next/server'
 
 import db from '@/db/drizzle'
-import { courses } from '@/db/schema'
+import { curriculum } from '@/db/schema'
 import { isAdmin } from '@/lib/admin'
 
 // 🔧 Helper to safely parse ID from route params
@@ -14,7 +14,7 @@ const parseId = (idParam: string | undefined): number | null => {
 const unauthorized = () => new NextResponse('Unauthorized', { status: 403 })
 
 // --------------------
-// 🔍 GET /api/courses/[courseId]
+// 🔍 GET /api/curriculum/[courseId]
 // --------------------
 export const GET = async (
 	_req: Request,
@@ -25,8 +25,8 @@ export const GET = async (
 	const id = parseId((await params).courseId)
 	if (!id) return new NextResponse('Invalid course ID', { status: 400 })
 
-	const data = await db.query.courses.findFirst({
-		where: eq(courses.id, id),
+	const data = await db.query.curriculum.findFirst({
+		where: eq(curriculum.id, id),
 	})
 
 	if (!data) return new NextResponse('Course not found', { status: 404 })
@@ -35,7 +35,7 @@ export const GET = async (
 }
 
 // --------------------
-// ✏️ PUT /api/courses/[courseId]
+// ✏️ PUT /api/curriculum/[courseId]
 // --------------------
 export const PUT = async (
 	req: Request,
@@ -54,9 +54,9 @@ export const PUT = async (
 	}
 
 	const data = await db
-		.update(courses)
+		.update(curriculum)
 		.set({ ...body })
-		.where(eq(courses.id, id))
+		.where(eq(curriculum.id, id))
 		.returning()
 
 	if (!data.length) return new NextResponse('Course not found', { status: 404 })
@@ -65,7 +65,7 @@ export const PUT = async (
 }
 
 // --------------------
-// 🗑 DELETE /api/courses/[courseId]
+// 🗑 DELETE /api/curriculum/[courseId]
 // --------------------
 export const DELETE = async (
 	_req: Request,
@@ -76,7 +76,7 @@ export const DELETE = async (
 	const id = parseId((await params).courseId)
 	if (!id) return new NextResponse('Invalid course ID', { status: 400 })
 
-	const data = await db.delete(courses).where(eq(courses.id, id)).returning()
+	const data = await db.delete(curriculum).where(eq(curriculum.id, id)).returning()
 
 	if (!data.length) return new NextResponse('Course not found', { status: 404 })
 

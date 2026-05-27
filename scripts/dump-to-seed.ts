@@ -19,7 +19,7 @@ async function main() {
 	console.log('Exporting database contents...')
 
 	const tables = {
-		courses: await db.query.courses.findMany(),
+		courses: await db.query.curriculum.findMany(),
 		units: await db.query.units.findMany(),
 		lessons: await db.query.lessons.findMany(),
 		challenges: await db.query.challenges.findMany(),

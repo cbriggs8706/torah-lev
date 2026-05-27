@@ -23,7 +23,7 @@ export const UnitList = () => (
 			<TextField source="id" />
 			<TextField source="title" />
 			<TextField source="description" />
-			<ReferenceField source="courseId" reference="courses" link="edit">
+			<ReferenceField source="courseId" reference="curriculum" link="edit">
 				<TextField source="title" /> {/* ✅ show the course title */}
 			</ReferenceField>
 			<TextField source="order" />

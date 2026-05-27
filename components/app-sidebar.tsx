@@ -123,7 +123,7 @@ function BrandCard({
 	onNavigate: () => void
 }) {
 	return (
-		<Link href="/courses" onClick={onNavigate} className="block">
+		<Link href="/curriculum" onClick={onNavigate} className="block">
 			<div className="flex items-center gap-3 rounded-2xl bg-white/50 px-3 py-3 shadow-sm">
 				<Image
 					src="/icons/iconBoy.png"
@@ -168,7 +168,7 @@ function CourseSummaryCard({
 		<div className="rounded-2xl border border-sidebar-border bg-white/60 p-3 shadow-sm">
 			<div className="flex items-start gap-3">
 				<Link
-					href="/courses"
+					href="/curriculum"
 					onClick={onNavigate}
 					className="group relative flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-sidebar-accent/70"
 					aria-label={swapCourseLabel}
@@ -206,7 +206,7 @@ function CourseSummaryCard({
 							{userProgress.activeCourse?.title || coursesLabel}
 						</p>
 						<Link
-							href="/courses"
+							href="/curriculum"
 							onClick={onNavigate}
 							className="shrink-0 rounded-full border border-sidebar-border bg-sidebar-accent/75 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-sidebar-primary transition hover:bg-sidebar-accent"
 						>
@@ -532,7 +532,7 @@ function UserCard({
 												type="button"
 												onClick={() => {
 													handleNavigate()
-													window.location.assign('/auth/signin?callbackUrl=/courses')
+													window.location.assign('/auth/signin?callbackUrl=/curriculum')
 												}}
 											>
 												<LogIn className="h-4 w-4" />
@@ -557,7 +557,7 @@ function UserCard({
 												type="button"
 												onClick={() => {
 													handleNavigate()
-													window.location.assign('/auth/signin?callbackUrl=/courses')
+													window.location.assign('/auth/signin?callbackUrl=/curriculum')
 												}}
 											>
 												<UserPlus className="h-4 w-4" />
@@ -690,7 +690,7 @@ export default function AppSidebar({
 						<p className="text-sidebar-foreground/70">{t('courses.chooseCourse')}</p>
 					</div>
 					<Link
-						href="/courses"
+						href="/curriculum"
 						onClick={handleNavigate}
 						className="rounded-xl bg-sidebar-primary px-4 py-2.5 font-bold text-sidebar-primary-foreground"
 					>

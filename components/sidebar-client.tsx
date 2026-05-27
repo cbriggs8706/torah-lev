@@ -51,7 +51,7 @@ export default function SidebarClient({
 					className,
 				)}
 			>
-				<Link href="/courses" onClick={onItemClick}>
+				<Link href="/curriculum" onClick={onItemClick}>
 					<div className="pt-8 pb-7 flex flex-col items-center gap-3">
 						<Image
 							src="/icons/iconBoy.png"
@@ -69,9 +69,9 @@ export default function SidebarClient({
 					Please choose a course to begin.
 				</p>
 
-				<Link href="/courses" onClick={onItemClick}>
+				<Link href="/curriculum" onClick={onItemClick}>
 					<button className="mt-6 px-4 py-2 bg-sky-600 text-white rounded-lg font-semibold hover:bg-sky-700">
-						View Courses
+						View Curriculum
 					</button>
 				</Link>
 			</div>
@@ -84,7 +84,7 @@ export default function SidebarClient({
 					className,
 				)}
 			>
-				<Link href="/courses" onClick={onItemClick}>
+				<Link href="/curriculum" onClick={onItemClick}>
 					<div className="pt-8 pl-4 pb-7 flex items-center gap-x-3">
 						<Image
 							src="/icons/iconBoy.png"
@@ -462,7 +462,7 @@ export default function SidebarClient({
 									variant="ghost"
 									size="sm"
 									onClick={() =>
-										window.location.assign('/auth/signin?callbackUrl=/courses')
+										window.location.assign('/auth/signin?callbackUrl=/curriculum')
 									}
 								>
 									Log in

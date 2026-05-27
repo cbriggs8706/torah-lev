@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import db from '@/db/drizzle'
 import { isAdmin } from '@/lib/admin'
-import { courses } from '@/db/schema'
+import { curriculum } from '@/db/schema'
 import { asc, desc, sql, inArray } from 'drizzle-orm'
 
 export const GET = async (req: Request) => {
@@ -24,27 +24,27 @@ export const GET = async (req: Request) => {
 
 	// Map allowed columns
 	const columnMap = {
-		id: courses.id,
-		title: courses.title,
-		imageSrc: courses.imageSrc,
+		id: curriculum.id,
+		title: curriculum.title,
+		imageSrc: curriculum.imageSrc,
 	} as const
 
 	const sortColumn =
-		columnMap[sortField as keyof typeof columnMap] || courses.id
+		columnMap[sortField as keyof typeof columnMap] || curriculum.id
 	const sortDirection = sortOrder === 'DESC' ? desc : asc
 
 	// Filtering
 	const filters: any[] = []
 	if (filter.id && Array.isArray(filter.id))
-		filters.push(inArray(courses.id, filter.id))
+		filters.push(inArray(curriculum.id, filter.id))
 	if (filter.title)
-		filters.push(sql`${courses.title} ILIKE ${'%' + filter.title + '%'}`)
+		filters.push(sql`${curriculum.title} ILIKE ${'%' + filter.title + '%'}`)
 
 	const whereClause =
 		filters.length > 0 ? sql.join(filters, sql` AND `) : undefined
 
 	// Query
-	const rows = await db.query.courses.findMany({
+	const rows = await db.query.curriculum.findMany({
 		where: whereClause,
 		orderBy: sortDirection(sortColumn),
 		limit: filter.id ? undefined : perPage,
@@ -53,7 +53,7 @@ export const GET = async (req: Request) => {
 
 	const [{ count }] = await db
 		.select({ count: sql<number>`count(*)` })
-		.from(courses)
+		.from(curriculum)
 		.where(whereClause ?? sql`TRUE`)
 
 	return new NextResponse(JSON.stringify(rows), {
@@ -68,6 +68,6 @@ export const POST = async (req: Request) => {
 	if (!isAdmin()) return new NextResponse('Unauthorized', { status: 401 })
 
 	const body = await req.json()
-	const data = await db.insert(courses).values(body).returning()
+	const data = await db.insert(curriculum).values(body).returning()
 	return NextResponse.json(data[0])
 }

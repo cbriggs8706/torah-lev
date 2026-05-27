@@ -31,7 +31,7 @@ const getLanguageRoute = (courseId: number): string => {
 	if ([6, 11, 14].includes(courseId)) return '/he/learn'
 	if (courseId === 2) return '/es/learn'
 	if (courseId === 12) return '/el/learn'
-	return '/courses' // fallback
+	return '/curriculum' // fallback
 }
 
 // -----------------------------
@@ -93,7 +93,7 @@ export const upsertUserProgress = async (courseId: number) => {
 			})
 			.onConflictDoNothing()
 
-		revalidatePath('/courses')
+		revalidatePath('/curriculum')
 		revalidatePath('/learn')
 
 		return redirect(getLanguageRoute(courseId))

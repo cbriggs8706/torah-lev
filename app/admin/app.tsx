@@ -32,10 +32,6 @@ import VocabRelationsPage from './vocab-relations/view'
 
 import { AdminMenu } from '@/components/admin-menu'
 
-import { HebrewLessonScriptList } from './he-lesson-scripts/list'
-import { HebrewLessonScriptCreate } from './he-lesson-scripts/create'
-import { HebrewLessonScriptEdit } from './he-lesson-scripts/edit'
-
 import { GreekLessonScriptList } from './el-lesson-scripts/list'
 import { GreekLessonScriptCreate } from './el-lesson-scripts/create'
 import { GreekLessonScriptEdit } from './el-lesson-scripts/edit'
@@ -44,9 +40,9 @@ import { GrammarLessonList } from './grammar-lessons/list'
 import { GrammarLessonEdit } from './grammar-lessons/edit'
 import { GrammarLessonCreate } from './grammar-lessons/create'
 
-import { HebrewStoryList } from './he-stories/list'
-import { HebrewStoryEdit } from './he-stories/edit'
-import { HebrewStoryCreate } from './he-stories/create'
+import { VideoList } from './videos/list'
+import { VideoCreate } from './videos/create'
+import { VideoEdit } from './videos/edit'
 
 import { VocabEntryList } from './vocab-entries/list'
 import { VocabEntryCreate } from './vocab-entries/create'
@@ -143,11 +139,12 @@ const App = () => {
 				theme={adminTheme}
 			>
 				<Resource
-					name="courses"
+					name="curriculum"
 					list={CourseList}
 					create={CourseCreate}
 					edit={CourseEdit}
 					recordRepresentation="title"
+					options={{ label: 'Curriculum' }}
 				/>
 				<Resource
 					name="units"
@@ -179,14 +176,6 @@ const App = () => {
 					options={{ label: 'Challenge Options' }}
 				/>
 				<Resource
-					name="he-lesson-scripts"
-					list={HebrewLessonScriptList}
-					create={HebrewLessonScriptCreate}
-					edit={HebrewLessonScriptEdit}
-					recordRepresentation="text"
-					options={{ label: 'Heb Lesson Scripts' }}
-				/>
-				<Resource
 					name="el-lesson-scripts"
 					list={GreekLessonScriptList}
 					create={GreekLessonScriptCreate}
@@ -203,12 +192,12 @@ const App = () => {
 					options={{ label: 'Grammar Lessons' }}
 				/>
 				<Resource
-					name="he-stories"
-					list={HebrewStoryList}
-					create={HebrewStoryCreate}
-					edit={HebrewStoryEdit}
-					recordRepresentation="text"
-					options={{ label: 'Heb Stories' }}
+					name="videos"
+					list={VideoList}
+					create={VideoCreate}
+					edit={VideoEdit}
+					recordRepresentation="title"
+					options={{ label: 'Videos' }}
 				/>
 				<Resource
 					name="vocab-entries"

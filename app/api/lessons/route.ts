@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import db from '@/db/drizzle'
-import { courses, lessons, units } from '@/db/schema'
-import { asc, desc, eq, sql } from 'drizzle-orm'
+import { curriculum, lessons, units } from '@/db/schema'
+import { asc, desc, eq, inArray, sql } from 'drizzle-orm'
 import { isAdmin } from '@/lib/admin'
 
 export const GET = async (req: Request) => {
@@ -41,6 +41,15 @@ export const GET = async (req: Request) => {
 
 	// Filtering pattern for a single possible filter
 	let whereClause = undefined
+	if (filter.id && Array.isArray(filter.id)) {
+		const ids = filter.id
+			.map((value: unknown) => Number(value))
+			.filter((value: number) => Number.isInteger(value))
+
+		if (ids.length > 0) {
+			whereClause = inArray(lessons.id, ids)
+		}
+	}
 	if (filter.title) {
 		whereClause = sql`${lessons.title} ILIKE ${'%' + filter.title + '%'}`
 	}
@@ -48,7 +57,7 @@ export const GET = async (req: Request) => {
 		whereClause = sql`${lessons.title} ILIKE ${'%' + filter.q.trim() + '%'}`
 	}
 
-	const rawRows = await db
+	const lessonsQuery = db
 		.select({
 			id: lessons.id,
 			title: lessons.title,
@@ -57,16 +66,16 @@ export const GET = async (req: Request) => {
 			lessonNumber: lessons.lessonNumber,
 			unitTitle: units.title,
 			unitOrder: units.order,
-			courseId: courses.id,
-			courseTitle: courses.title,
+			courseId: curriculum.id,
+			courseTitle: curriculum.title,
 		})
 		.from(lessons)
 		.innerJoin(units, eq(lessons.unitId, units.id))
-		.innerJoin(courses, eq(units.courseId, courses.id))
+		.innerJoin(curriculum, eq(units.courseId, curriculum.id))
 		.where(whereClause ?? sql`TRUE`)
-		.orderBy(asc(courses.title), asc(units.order), sortDirection(sortColumn))
-		.limit(perPage)
-		.offset(offset)
+		.orderBy(asc(curriculum.title), asc(units.order), sortDirection(sortColumn))
+
+	const rawRows = filter.id ? await lessonsQuery : await lessonsQuery.limit(perPage).offset(offset)
 
 	const rows = rawRows.map((lesson) => ({
 		...lesson,

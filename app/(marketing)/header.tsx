@@ -52,7 +52,7 @@ export const Header = () => {
 							<Button
 								size="lg"
 								variant="ghost"
-								onClick={() => signIn(undefined, { callbackUrl: '/courses' })}
+								onClick={() => signIn(undefined, { callbackUrl: '/curriculum' })}
 							>
 								Login
 							</Button>

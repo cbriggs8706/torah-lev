@@ -10,7 +10,7 @@
 // 	console.log('Dumping database to seed file...')
 
 // 	// Adjust these based on the tables you want
-// 	const courses = await db.query.courses.findMany()
+// 	const courses = await db.query.curriculum.findMany()
 // 	const units = await db.query.units.findMany()
 // 	const lessons = await db.query.lessons.findMany()
 // 	const challenges = await db.query.challenges.findMany()

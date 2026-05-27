@@ -33,7 +33,7 @@ export const List = ({ courses, activeCourseId }: Props) => {
 		if ([6, 11, 14, 21].includes(courseId)) return '/he/learn'
 		if ([2, 22].includes(courseId)) return '/es/learn'
 		if ([12, 20].includes(courseId)) return '/el/learn'
-		return '/courses'
+		return '/curriculum'
 	}
 
 	const onClick = (id: number) => {

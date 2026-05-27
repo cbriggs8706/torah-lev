@@ -16,11 +16,11 @@ import { Button } from '@/components/ui/button'
 import { useHeartsModal } from '@/store/use-hearts-modal'
 
 const getLanguageRoute = (courseId: number | null): string => {
-	if (!courseId) return '/courses'
+	if (!courseId) return '/curriculum'
 	if ([6, 11, 14].includes(courseId)) return '/he/learn'
 	if (courseId === 2) return '/es/learn'
 	if (courseId === 12) return '/el/learn'
-	return '/courses'
+	return '/curriculum'
 }
 
 export const HeartsModal = () => {

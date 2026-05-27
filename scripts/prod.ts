@@ -12,14 +12,14 @@ const main = async () => {
       db.delete(schema.challenges),
       db.delete(schema.units),
       db.delete(schema.lessons),
-      db.delete(schema.courses),
+      db.delete(schema.curriculum),
       db.delete(schema.challengeOptions),
       db.delete(schema.userSubscription),
     ]);
 
     // Insert courses
     const courses = await db
-      .insert(schema.courses)
+      .insert(schema.curriculum)
       .values([
         { title: "Spanish", imageSrc: "/es.svg" },
       ])

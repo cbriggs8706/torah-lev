@@ -18,11 +18,11 @@ import { getActiveCourseId, getUserId } from '@/lib/auth'
 import db from '@/db/drizzle'
 import {
 	challengeProgress,
-	courses,
+	curriculum,
 	hebrewPrayerLibrary,
 	hebrewPrayerLine,
 	lessons,
-	hebrewLessonScripts,
+	videos,
 	greekLessonScripts,
 	englishLessonScripts,
 	englishSlides,
@@ -34,7 +34,6 @@ import {
 	userSubscription,
 	hebrewMusicLibrary,
 	hebrewMusicLine,
-	hebrewStories,
 	englishStories,
 	studyGroupCourse,
 	studyGroupSchedule,
@@ -107,14 +106,14 @@ export async function getUserProgress(userIdOverride?: string | null) {
 			activeCourseId: userProgress.activeCourseId,
 			lastSeen: userProgress.lastSeen,
 			activeCourse: {
-				id: courses.id,
-				title: courses.title,
-				imageSrc: courses.imageSrc,
+				id: curriculum.id,
+				title: curriculum.title,
+				imageSrc: curriculum.imageSrc,
 			},
 		})
 		.from(userProgress)
 		.innerJoin(users, eq(users.id, userProgress.userId)) // ✅ join users
-		.leftJoin(courses, eq(userProgress.activeCourseId, courses.id))
+		.leftJoin(curriculum, eq(userProgress.activeCourseId, curriculum.id))
 		.where(eq(userProgress.userId, userId))
 		.then((rows) => rows[0])
 
@@ -352,14 +351,14 @@ export const getUnits = cache(async (userIdOverride?: string | null) => {
 // })
 
 export const getCourses = cache(async () => {
-	const data = await db.query.courses.findMany()
+	const data = await db.query.curriculum.findMany()
 
 	return data
 })
 
 export const getCourseById = cache(async (courseId: number) => {
-	const data = await db.query.courses.findFirst({
-		where: eq(courses.id, courseId),
+	const data = await db.query.curriculum.findFirst({
+		where: eq(curriculum.id, courseId),
 		with: {
 			units: {
 				orderBy: (units, { asc }) => [asc(units.order)],
@@ -386,15 +385,15 @@ export async function getAllUserCourseProgress() {
 			hearts: userCourseProgress.hearts,
 			activeLessonId: userCourseProgress.activeLessonId,
 			lastSeen: userCourseProgress.lastSeen,
-			courseTitle: courses.title,
-			courseImage: courses.imageSrc,
-			proficiencyLevel: courses.proficiencyLevel,
-			endingProficiencyLevel: courses.endingProficiencyLevel,
+			courseTitle: curriculum.title,
+			courseImage: curriculum.imageSrc,
+			proficiencyLevel: curriculum.proficiencyLevel,
+			endingProficiencyLevel: curriculum.endingProficiencyLevel,
 		})
 		.from(userCourseProgress)
-		.innerJoin(courses, eq(userCourseProgress.courseId, courses.id))
+		.innerJoin(curriculum, eq(userCourseProgress.courseId, curriculum.id))
 		.where(eq(userCourseProgress.userId, userId))
-		.orderBy(asc(courses.id))
+		.orderBy(asc(curriculum.id))
 
 	return results
 }
@@ -727,56 +726,69 @@ export const getLesson = cache(
 
 export async function getAllHebrewLessonScripts(courseId?: number) {
 	const base = db
-	.select({
-			id: hebrewLessonScripts.id,
-			courseId: hebrewLessonScripts.courseId,
-			lessonId: hebrewLessonScripts.lessonId,
+		.select({
+			id: videos.id,
+			courseId: videos.courseId,
+			lessonId: videos.lessonId,
 			lessonNumber: lessons.lessonNumber,
-			part: hebrewLessonScripts.part,
-			content: hebrewLessonScripts.content,
-			contentPlain: hebrewLessonScripts.contentPlain,
-			audioSrc: hebrewLessonScripts.audioSrc,
-			// 👇 from lessons
+			part: videos.part,
+			content: videos.content,
+			contentPlain: videos.contentPlain,
+			audioSrc: videos.audioSrc,
+			url: videos.videoUrl,
+			type: videos.type,
 			title: lessons.title,
 		})
-		.from(hebrewLessonScripts)
-		.innerJoin(lessons, eq(hebrewLessonScripts.lessonId, lessons.id))
+		.from(videos)
+		.innerJoin(lessons, eq(videos.lessonId, lessons.id))
 
 	const q =
 		courseId != null
-			? base.where(sql`${courseId} = ANY(${hebrewLessonScripts.courseId})`)
-			: base
+			? base.where(
+					and(
+						sql`${videos.type} IS DISTINCT FROM 'story'::video_type`,
+						sql`${courseId} = ANY(${videos.courseId})`
+					)
+				)
+			: base.where(sql`${videos.type} IS DISTINCT FROM 'story'::video_type`)
 
-	return q.orderBy(
-		asc(hebrewLessonScripts.lessonId),
-		asc(hebrewLessonScripts.part)
-	)
+	return q.orderBy(asc(videos.lessonId), asc(videos.part))
 }
 
 export const getHebrewLessonScripts = async (courseId: number) => {
 	const results = await db
 		.select({
-			id: hebrewLessonScripts.id,
-			courseId: hebrewLessonScripts.courseId,
-			lessonScriptId: hebrewLessonScripts.lessonId,
-			part: hebrewLessonScripts.part,
-			content: hebrewLessonScripts.content,
-			contentPlain: hebrewLessonScripts.contentPlain,
-			audioSrc: hebrewLessonScripts.audioSrc,
-			title: lessons.title, // Select the title from the lessons table
+			id: videos.id,
+			courseId: videos.courseId,
+			lessonScriptId: videos.lessonId,
+			part: videos.part,
+			content: videos.content,
+			contentPlain: videos.contentPlain,
+			audioSrc: videos.audioSrc,
+			url: videos.videoUrl,
+			type: videos.type,
+			title: lessons.title,
 			lessonId: lessons.id,
 		})
-		.from(hebrewLessonScripts)
-		.innerJoin(lessons, eq(hebrewLessonScripts.lessonId, lessons.id))
-		.where(sql`${courseId} = ANY(${hebrewLessonScripts.courseId})`)
-		.orderBy(asc(hebrewLessonScripts.lessonId), asc(hebrewLessonScripts.part))
+		.from(videos)
+		.innerJoin(lessons, eq(videos.lessonId, lessons.id))
+		.where(
+			and(
+				sql`${videos.type} IS DISTINCT FROM 'story'::video_type`,
+				sql`${courseId} = ANY(${videos.courseId})`
+			)
+		)
+		.orderBy(asc(videos.lessonId), asc(videos.part))
 
 	return results
 }
 
 export async function getHebrewLessonScript(lessonScriptId: number) {
-	return db.query.hebrewLessonScripts.findFirst({
-		where: eq(hebrewLessonScripts.id, lessonScriptId),
+	return db.query.videos.findFirst({
+		where: and(
+			eq(videos.id, lessonScriptId),
+			sql`${videos.type} IS DISTINCT FROM 'story'::video_type`
+		),
 	})
 }
 
@@ -1105,18 +1117,18 @@ export async function getUserProgressWithTribe() {
 			tribePoints: tribes.points,
 			tribeImage: tribes.imgSrc,
 			activeCourse: {
-				id: courses.id,
-				title: courses.title,
-				imageSrc: courses.imageSrc,
-				proficiencyLevel: courses.proficiencyLevel,
-				endingProficiencyLevel: courses.endingProficiencyLevel,
+				id: curriculum.id,
+				title: curriculum.title,
+				imageSrc: curriculum.imageSrc,
+				proficiencyLevel: curriculum.proficiencyLevel,
+				endingProficiencyLevel: curriculum.endingProficiencyLevel,
 			},
 		})
 		.from(userProgress)
 		.innerJoin(users, eq(users.id, userProgress.userId))
 		.leftJoin(tribes, eq(userProgress.tribeId, tribes.id))
 		.leftJoin(lessons, eq(userProgress.activeLessonId, lessons.id))
-		.leftJoin(courses, eq(userProgress.activeCourseId, courses.id))
+		.leftJoin(curriculum, eq(userProgress.activeCourseId, curriculum.id))
 		.where(eq(userProgress.userId, userId))
 
 	const base = result[0]
@@ -1298,16 +1310,57 @@ export type EventsFilter = {
 // }
 
 export async function getAllHebrewStories(courseId?: number) {
-	return db.query.hebrewStories.findMany({
-		where: sql`${courseId} = ANY(${hebrewStories.courseId})`,
-		orderBy: asc(hebrewStories.order),
-	})
+	const rows = await db
+		.select({
+			id: videos.id,
+			lessonId: videos.lessonId,
+			courseId: videos.courseId,
+			title: videos.title,
+			hebTitle: videos.hebTitle,
+			titleTransliteration: videos.titleTransliteration,
+			order: videos.order,
+			video: videos.videoUrl,
+			image: videos.image,
+			public: videos.public,
+			category: videos.category,
+			content: videos.content,
+			contentPlain: videos.contentPlain,
+			audio: videos.audio,
+		})
+		.from(videos)
+		.where(
+			and(
+				eq(videos.type, 'story'),
+				courseId != null ? sql`${courseId} = ANY(${videos.courseId})` : undefined
+			)
+		)
+		.orderBy(asc(videos.order))
+
+	return rows
 }
 
 export async function getHebrewStory(storyId: number) {
-	return db.query.hebrewStories.findFirst({
-		where: eq(hebrewStories.id, storyId),
-	})
+	const [story] = await db
+		.select({
+			id: videos.id,
+			title: videos.title,
+			hebTitle: videos.hebTitle,
+			titleTransliteration: videos.titleTransliteration,
+			video: videos.videoUrl,
+			image: videos.image,
+			content: videos.content,
+			contentPlain: videos.contentPlain,
+			audio: videos.audio,
+			lessonId: videos.lessonId,
+			courseId: videos.courseId,
+			category: videos.category,
+			public: videos.public,
+		})
+		.from(videos)
+		.where(and(eq(videos.id, storyId), eq(videos.type, 'story')))
+		.limit(1)
+
+	return story
 }
 
 export async function getAllEnglishStories() {
@@ -1408,7 +1461,7 @@ export async function getStudyGroupWithMessages(studyGroupId: number) {
 				classDate: studyGroupSchedule.classDate,
 				notes: studyGroupSchedule.notes,
 				platformCourseId: units.courseId,
-				platformCourseTitle: courses.title,
+				platformCourseTitle: curriculum.title,
 				lessonId: lessons.id,
 				lessonTitle: lessons.title,
 				lessonNumber: lessons.lessonNumber,
@@ -1420,7 +1473,7 @@ export async function getStudyGroupWithMessages(studyGroupId: number) {
 			)
 			.leftJoin(lessons, eq(studyGroupScheduleLessons.lessonId, lessons.id))
 			.leftJoin(units, eq(lessons.unitId, units.id))
-			.leftJoin(courses, eq(units.courseId, courses.id))
+			.leftJoin(curriculum, eq(units.courseId, curriculum.id))
 			.where(eq(studyGroupSchedule.studyGroupId, studyGroupId))
 			.orderBy(asc(studyGroupSchedule.classDate))
 

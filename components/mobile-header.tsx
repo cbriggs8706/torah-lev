@@ -13,7 +13,7 @@ export default function MobileHeader() {
 			}`}
 		>
 			<SidebarTrigger className="text-sidebar-foreground hover:bg-sidebar-accent" />
-			<Link href="/courses" className="text-lg font-extrabold tracking-tight text-sidebar-primary">
+			<Link href="/curriculum" className="text-lg font-extrabold tracking-tight text-sidebar-primary">
 				Idiom Go
 			</Link>
 			<div className="w-10" />
