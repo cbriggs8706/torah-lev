@@ -45,6 +45,7 @@ export const curriculum = pgTable('curriculum', {
 export const curriculumRelations = relations(curriculum, ({ many }) => ({
 	userProgress: many(userProgress),
 	units: many(units),
+	lessons: many(lessons),
 }))
 
 export const units = pgTable('units', {
@@ -68,9 +69,10 @@ export const unitsRelations = relations(units, ({ many, one }) => ({
 export const lessons = pgTable('lessons', {
 	id: serial('id').primaryKey(),
 	title: text('title').notNull(),
-	unitId: integer('unit_id')
-		.references(() => units.id, { onDelete: 'cascade' })
+	courseId: integer('course_id')
+		.references(() => curriculum.id, { onDelete: 'cascade' })
 		.notNull(),
+	unitId: integer('unit_id').references(() => units.id, { onDelete: 'set null' }),
 	order: integer('order').notNull(),
 	lessonNumber: text('lesson_number').notNull().default(''),
 	// content: text('content'),
@@ -84,6 +86,10 @@ export const videoTypeEnum = pgEnum('video_type', [
 ])
 
 export const lessonsRelations = relations(lessons, ({ one, many }) => ({
+	course: one(curriculum, {
+		fields: [lessons.courseId],
+		references: [curriculum.id],
+	}),
 	unit: one(units, {
 		fields: [lessons.unitId],
 		references: [units.id],
@@ -688,6 +694,95 @@ export const studyGroupCourse = pgTable(
 	})
 )
 
+export const publicCourse = pgTable(
+	'public_course',
+	{
+		id: serial('id').primaryKey(),
+		name: text('name').notNull(),
+		imageUrl: text('image_url').notNull(),
+		proficiencyLevel: text('proficiency_level'),
+		endingProficiencyLevel: text('ending_proficiency_level'),
+		createdAt: timestamp('created_at').defaultNow().notNull(),
+		updatedAt: timestamp('updated_at').defaultNow().notNull(),
+	},
+	(table) => ({
+		nameIdx: index('idx_public_course_name').on(table.name),
+	})
+)
+
+export const publicCourseLesson = pgTable(
+	'public_course_lesson',
+	{
+		id: serial('id').primaryKey(),
+		publicCourseId: integer('public_course_id')
+			.references(() => publicCourse.id, { onDelete: 'cascade' })
+			.notNull(),
+		platformCourseId: integer('platform_course_id')
+			.references(() => curriculum.id, { onDelete: 'cascade' })
+			.notNull(),
+		lessonId: integer('lesson_id')
+			.references(() => lessons.id, { onDelete: 'cascade' })
+			.notNull(),
+		order: integer('order').notNull(),
+		createdAt: timestamp('created_at').defaultNow().notNull(),
+	},
+	(table) => ({
+		publicCourseIdx: index('idx_public_course_lesson_course').on(
+			table.publicCourseId
+		),
+		publicCourseOrderIdx: uniqueIndex('idx_public_course_lesson_order').on(
+			table.publicCourseId,
+			table.order
+		),
+	})
+)
+
+export const publicCourseEnrollment = pgTable(
+	'public_course_enrollment',
+	{
+		id: serial('id').primaryKey(),
+		publicCourseId: integer('public_course_id')
+			.references(() => publicCourse.id, { onDelete: 'cascade' })
+			.notNull(),
+		userId: text('user_id')
+			.references(() => userProgress.userId, { onDelete: 'cascade' })
+			.notNull(),
+		goalDays: integer('goal_days').notNull(),
+		startDate: timestamp('start_date').notNull(),
+		targetEndDate: timestamp('target_end_date').notNull(),
+		createdAt: timestamp('created_at').defaultNow().notNull(),
+		updatedAt: timestamp('updated_at').defaultNow().notNull(),
+	},
+	(table) => ({
+		userCourseIdx: uniqueIndex('idx_public_course_enrollment_user_course').on(
+			table.publicCourseId,
+			table.userId
+		),
+	})
+)
+
+export const publicCourseEnrollmentLesson = pgTable(
+	'public_course_enrollment_lesson',
+	{
+		id: serial('id').primaryKey(),
+		enrollmentId: integer('enrollment_id')
+			.references(() => publicCourseEnrollment.id, { onDelete: 'cascade' })
+			.notNull(),
+		publicCourseLessonId: integer('public_course_lesson_id')
+			.references(() => publicCourseLesson.id, { onDelete: 'cascade' })
+			.notNull(),
+		order: integer('order').notNull(),
+		scheduledDate: timestamp('scheduled_date').notNull(),
+		createdAt: timestamp('created_at').defaultNow().notNull(),
+		updatedAt: timestamp('updated_at').defaultNow().notNull(),
+	},
+	(table) => ({
+		enrollmentLessonIdx: uniqueIndex(
+			'idx_public_course_enrollment_lesson_unique'
+		).on(table.enrollmentId, table.publicCourseLessonId),
+	})
+)
+
 export const studyGroupsRelations = relations(studyGroups, ({ one, many }) => ({
 	teacher: one(userProgress, {
 		fields: [studyGroups.teacherId],
@@ -720,6 +815,59 @@ export const studyGroupCourseRelations = relations(
 			references: [studyGroups.id],
 		}),
 		scheduleItems: many(studyGroupSchedule),
+	})
+)
+
+export const publicCourseRelations = relations(publicCourse, ({ many }) => ({
+	lessons: many(publicCourseLesson),
+	enrollments: many(publicCourseEnrollment),
+}))
+
+export const publicCourseLessonRelations = relations(
+	publicCourseLesson,
+	({ one, many }) => ({
+		publicCourse: one(publicCourse, {
+			fields: [publicCourseLesson.publicCourseId],
+			references: [publicCourse.id],
+		}),
+		platformCourse: one(curriculum, {
+			fields: [publicCourseLesson.platformCourseId],
+			references: [curriculum.id],
+		}),
+		lesson: one(lessons, {
+			fields: [publicCourseLesson.lessonId],
+			references: [lessons.id],
+		}),
+		enrollmentLessons: many(publicCourseEnrollmentLesson),
+	})
+)
+
+export const publicCourseEnrollmentRelations = relations(
+	publicCourseEnrollment,
+	({ one, many }) => ({
+		publicCourse: one(publicCourse, {
+			fields: [publicCourseEnrollment.publicCourseId],
+			references: [publicCourse.id],
+		}),
+		user: one(userProgress, {
+			fields: [publicCourseEnrollment.userId],
+			references: [userProgress.userId],
+		}),
+		lessons: many(publicCourseEnrollmentLesson),
+	})
+)
+
+export const publicCourseEnrollmentLessonRelations = relations(
+	publicCourseEnrollmentLesson,
+	({ one }) => ({
+		enrollment: one(publicCourseEnrollment, {
+			fields: [publicCourseEnrollmentLesson.enrollmentId],
+			references: [publicCourseEnrollment.id],
+		}),
+		publicCourseLesson: one(publicCourseLesson, {
+			fields: [publicCourseEnrollmentLesson.publicCourseLessonId],
+			references: [publicCourseLesson.id],
+		}),
 	})
 )
 

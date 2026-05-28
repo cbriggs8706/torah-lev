@@ -62,7 +62,6 @@ const translations: Record<
 		'nav.progress': 'Progress',
 		'nav.calendar': 'Calendar',
 		'nav.help': 'Help',
-		'nav.quests': 'Quests',
 		'nav.courses': 'Curriculum',
 	},
 	es: {
@@ -123,7 +122,6 @@ const translations: Record<
 		'nav.progress': 'Progreso',
 		'nav.calendar': 'Calendario',
 		'nav.help': 'Ayuda',
-		'nav.quests': 'Misiones',
 		'nav.courses': 'Currículo',
 	},
 	he: {
@@ -184,7 +182,6 @@ const translations: Record<
 		'nav.progress': 'התקדמות',
 		'nav.calendar': 'לוח שנה',
 		'nav.help': 'עזרה',
-		'nav.quests': 'משימות',
 		'nav.courses': 'תוכנית לימודים',
 	},
 	el: {
@@ -245,7 +242,6 @@ const translations: Record<
 		'nav.progress': 'Πρόοδος',
 		'nav.calendar': 'Ημερολόγιο',
 		'nav.help': 'Βοήθεια',
-		'nav.quests': 'Αποστολές',
 		'nav.courses': 'Πρόγραμμα σπουδών',
 	},
 }

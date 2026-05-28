@@ -29,21 +29,13 @@ export const upsertChallengeProgress = async (challengeId: number) => {
 	const challenge = await db.query.challenges.findFirst({
 		where: eq(challenges.id, challengeId),
 		with: {
-			lesson: {
-				with: {
-					unit: {
-						columns: {
-							courseId: true,
-						},
-					},
-				},
-			},
+			lesson: true,
 		},
 	})
 	if (!challenge) throw new Error('Challenge not found')
 
 	const lessonId = challenge.lessonId
-	const lessonCourseId = challenge.lesson?.unit?.courseId
+	const lessonCourseId = challenge.lesson?.courseId
 	if (!lessonCourseId) throw new Error('Lesson course not found')
 
 	const currentCourseProgress = await db.query.userCourseProgress.findFirst({
@@ -168,7 +160,6 @@ function revalidateAll(lessonId: number) {
 	revalidatePath('/he/learn')
 	revalidatePath('/el/learn')
 	revalidatePath('/lesson')
-	revalidatePath('/quests')
 	revalidatePath('/leaderboard')
 	revalidatePath(`/lesson/${lessonId}`)
 }

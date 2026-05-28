@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import db from '@/db/drizzle'
-import { lessons, units } from '@/db/schema'
+import { lessons } from '@/db/schema'
 import { eq, asc } from 'drizzle-orm'
 import { isAdmin } from '@/lib/admin' // ✅ add this import
 
@@ -23,21 +23,17 @@ export async function GET(
 	}
 
 	try {
-		// 📚 Join lessons → units, filter by courseId
 		const results = await db
 			.select({
 				id: lessons.id,
 				title: lessons.title,
 				order: lessons.order,
 				lessonNumber: lessons.lessonNumber,
-				unitId: lessons.unitId,
-				unitTitle: units.title,
-				unitOrder: units.order,
+				courseId: lessons.courseId,
 			})
 			.from(lessons)
-			.innerJoin(units, eq(lessons.unitId, units.id))
-			.where(eq(units.courseId, courseId))
-			.orderBy(asc(units.order), asc(lessons.order))
+			.where(eq(lessons.courseId, courseId))
+			.orderBy(asc(lessons.order))
 
 		if (!results.length) {
 			return NextResponse.json(

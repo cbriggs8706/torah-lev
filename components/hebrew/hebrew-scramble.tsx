@@ -13,12 +13,14 @@ interface HebrewScrambleProps {
 	data: HebrewVocab[]
 	currentLesson: string
 	userId: string
+	hideFilters?: boolean
 }
 
 export default function HebrewScramble({
 	data,
 	currentLesson,
 	userId,
+	hideFilters = false,
 }: HebrewScrambleProps) {
 	const { selectedLessons, setSelectedLessons, currentIndex, setCurrentIndex } =
 		useLessonCards(data, currentLesson)
@@ -186,24 +188,26 @@ export default function HebrewScramble({
 			<h1 className="text-2xl font-bold mb-4">Scrambled Sentences</h1>
 
 			{/* 🔹 Filter Button */}
-			<div className="mb-6 flex justify-center">
-				<button
-					onClick={() => setShowFilter((prev) => !prev)}
-					className={`px-4 py-2 rounded shadow flex items-center justify-center gap-3 ${
-						showFilter ? 'bg-sky-600 text-white' : 'bg-gray-200'
-					}`}
-				>
-					<Image
-						src="/books-svgrepo-com.svg"
-						alt="Filter icon"
-						width={30}
-						height={30}
-					/>
-					Filter
-				</button>
-			</div>
+			{!hideFilters ? (
+				<div className="mb-6 flex justify-center">
+					<button
+						onClick={() => setShowFilter((prev) => !prev)}
+						className={`px-4 py-2 rounded shadow flex items-center justify-center gap-3 ${
+							showFilter ? 'bg-sky-600 text-white' : 'bg-gray-200'
+						}`}
+					>
+						<Image
+							src="/books-svgrepo-com.svg"
+							alt="Filter icon"
+							width={30}
+							height={30}
+						/>
+						Filter
+					</button>
+				</div>
+			) : null}
 
-			{showFilter && (
+			{showFilter && !hideFilters && (
 				<LessonFilter
 					data={data}
 					selectedLessons={selectedLessons}

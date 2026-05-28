@@ -69,7 +69,6 @@ export async function awardVocabQuizCompletion({
 	revalidatePath('/el/learn')
 	revalidatePath('/progress')
 	revalidatePath('/leaderboard')
-	revalidatePath('/quests')
 
 	return {
 		guest: false,

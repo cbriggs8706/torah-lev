@@ -1257,7 +1257,7 @@ const main = async () => {
 				order: 10,
 				// lessonKey: '',
 			},
-		])
+		] as any)
 
 		await db.insert(schema.challenges).values([
 			{

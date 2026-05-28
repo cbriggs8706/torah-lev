@@ -10,10 +10,6 @@ import { CourseList } from './course/list'
 import { CourseEdit } from './course/edit'
 import { CourseCreate } from './course/create'
 
-import { UnitList } from './unit/list'
-import { UnitEdit } from './unit/edit'
-import { UnitCreate } from './unit/create'
-
 import { LessonList } from './lesson/list'
 import { LessonEdit } from './lesson/edit'
 import { LessonCreate } from './lesson/create'
@@ -29,6 +25,7 @@ import { ChallengeOptionCreate } from './challengeOption/create'
 import GenerateChallengesPage from './generate-challenges/view'
 import VocabIntroPage from './vocab-intros/view'
 import VocabRelationsPage from './vocab-relations/view'
+import PublicCoursesAdminPage from './public-courses/view'
 
 import { AdminMenu } from '@/components/admin-menu'
 
@@ -147,13 +144,6 @@ const App = () => {
 					options={{ label: 'Curriculum' }}
 				/>
 				<Resource
-					name="units"
-					list={UnitList}
-					create={UnitCreate}
-					edit={UnitEdit}
-					recordRepresentation="title"
-				/>
-				<Resource
 					name="lessons"
 					list={LessonList}
 					create={LessonCreate}
@@ -220,6 +210,7 @@ const App = () => {
 						path="/generate-challenges"
 						element={<GenerateChallengesPage />}
 					/>
+					<Route path="/public-courses" element={<PublicCoursesAdminPage />} />
 					<Route path="/vocab-intros" element={<VocabIntroPage />} />
 					<Route path="/vocab-relations" element={<VocabRelationsPage />} />
 				</CustomRoutes>

@@ -77,7 +77,6 @@ export async function awardIntroductionCompletion({
 
 	revalidatePath('/he/introduction')
 	revalidatePath('/he/learn')
-	revalidatePath('/quests')
 	revalidatePath('/leaderboard')
 
 	return {

@@ -60,7 +60,6 @@ export type SidebarTranslationKey =
 	| 'nav.progress'
 	| 'nav.calendar'
 	| 'nav.help'
-	| 'nav.quests'
 	| 'nav.courses'
 
 export type SidebarNavItem = {

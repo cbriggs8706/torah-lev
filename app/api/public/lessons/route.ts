@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import db from '@/db/drizzle'
-import { lessons, units } from '@/db/schema'
+import { lessons } from '@/db/schema'
 import { asc, desc, eq, sql, and } from 'drizzle-orm'
 import { isAdmin } from '@/lib/admin'
 
@@ -31,7 +31,7 @@ export const GET = async (req: Request) => {
 		id: lessons.id,
 		title: lessons.title,
 		order: lessons.order,
-		unitId: lessons.unitId,
+		courseId: lessons.courseId,
 	} as const
 
 	const sortColumn =
@@ -42,7 +42,7 @@ export const GET = async (req: Request) => {
 	const filters: any[] = []
 	if (filter.title)
 		filters.push(sql`${lessons.title} ILIKE ${'%' + filter.title + '%'}`)
-	if (courseId) filters.push(eq(units.courseId, Number(courseId)))
+	if (courseId) filters.push(eq(lessons.courseId, Number(courseId)))
 
 	const whereClause = filters.length > 0 ? and(...filters) : undefined
 
@@ -50,20 +50,17 @@ export const GET = async (req: Request) => {
 		let rows
 
 		if (courseId) {
-			// ✅ If courseId is specified, join lessons → units
 			rows = await db
 				.select({
 					id: lessons.id,
 					title: lessons.title,
 					order: lessons.order,
-					unitId: lessons.unitId,
-					unitTitle: units.title,
-					courseId: units.courseId,
+					courseId: lessons.courseId,
+					lessonNumber: lessons.lessonNumber,
 				})
 				.from(lessons)
-				.innerJoin(units, eq(lessons.unitId, units.id))
-				.where(eq(units.courseId, Number(courseId)))
-				.orderBy(asc(units.order), asc(lessons.order))
+				.where(eq(lessons.courseId, Number(courseId)))
+				.orderBy(asc(lessons.order))
 		} else {
 			// ✅ Generic lesson list (admin or public)
 			rows = await db.query.lessons.findMany({
@@ -104,8 +101,9 @@ export const POST = async (req: Request) => {
 
 	const payload = {
 		title: body.title,
-		unitId: Number(body.unitId),
+		courseId: Number(body.courseId),
 		order: Number(body.order),
+		lessonNumber: body.lessonNumber ?? '',
 	}
 
 	const [created] = await db.insert(lessons).values(payload).returning()

@@ -54,7 +54,7 @@ export const upsertUserProgress = async (courseId: number) => {
 
 		const course = await getCourseById(courseId)
 		if (!course) throw new Error('Course not found')
-		if (!course.units?.length || !course.units[0]?.lessons?.length)
+		if (!course.lessons?.length)
 			throw new Error('Course has no lessons yet')
 
 		const existingUserProgress = await getUserProgress()
@@ -145,7 +145,6 @@ export const reduceHearts = async (challengeId: number) => {
 
 	revalidatePath('/market')
 	revalidatePath('/learn')
-	revalidatePath('/quests')
 	revalidatePath('/leaderboard')
 	revalidatePath(`/lesson/${lessonId}`)
 }
@@ -179,7 +178,6 @@ export const refillHearts = async () => {
 
 	revalidatePath('/market')
 	revalidatePath('/learn')
-	revalidatePath('/quests')
 	revalidatePath('/leaderboard')
 }
 

@@ -22,21 +22,14 @@ export const updateActiveLesson = async (lessonId?: number | null) => {
 
 	const lesson = await db.query.lessons.findFirst({
 		where: eq(lessons.id, lessonId),
-		with: {
-			unit: {
-				columns: {
-					courseId: true,
-				},
-			},
-		},
 	})
-	if (!lesson?.unit?.courseId) return
+	if (!lesson?.courseId) return
 
 	await db
 		.insert(userCourseProgress)
 		.values({
 			userId,
-			courseId: lesson.unit.courseId,
+			courseId: lesson.courseId,
 			activeLessonId: lessonId,
 			lastSeen: new Date(),
 		})
@@ -51,7 +44,7 @@ export const updateActiveLesson = async (lessonId?: number | null) => {
 	await db
 		.update(userProgress)
 		.set({
-			activeCourseId: lesson.unit.courseId,
+			activeCourseId: lesson.courseId,
 			activeLessonId: lessonId,
 			lastSeen: new Date(),
 		})

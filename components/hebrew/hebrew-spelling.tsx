@@ -23,6 +23,7 @@ interface HebrewSpellingProps {
 	currentLesson: string
 	userId: string
 	courseId: number | null
+	hideFilters?: boolean
 }
 
 const formatOptions: FormatType[] = [
@@ -39,6 +40,7 @@ export default function HebrewSpelling({
 	currentLesson,
 	courseId,
 	userId,
+	hideFilters = false,
 }: HebrewSpellingProps) {
 	const {
 		selectedLessons,
@@ -628,26 +630,28 @@ export default function HebrewSpelling({
 	return (
 		<div className="p-4 max-w-3xl mx-auto text-center">
 			{Confetti}
-			<div className="mb-6 flex justify-center gap-4">
-				<button
-					onClick={() => setShowFilter((prev) => !prev)}
-					className={`px-4 py-2 rounded shadow flex items-center justify-center gap-4 ${
-						showFilter ? 'bg-sky-600 text-white' : 'bg-gray-200'
-					}`}
-				>
-					<Image
-						src="/books-svgrepo-com.svg"
-						alt="Filter icon"
-						width={30}
-						height={30}
-						className=""
-					/>
-					Filter
-				</button>
-			</div>
+			{!hideFilters ? (
+				<div className="mb-6 flex justify-center gap-4">
+					<button
+						onClick={() => setShowFilter((prev) => !prev)}
+						className={`px-4 py-2 rounded shadow flex items-center justify-center gap-4 ${
+							showFilter ? 'bg-sky-600 text-white' : 'bg-gray-200'
+						}`}
+					>
+						<Image
+							src="/books-svgrepo-com.svg"
+							alt="Filter icon"
+							width={30}
+							height={30}
+							className=""
+						/>
+						Filter
+					</button>
+				</div>
+			) : null}
 
 			{/* Lesson + Category + Type Filters */}
-			{showFilter && (
+			{showFilter && !hideFilters && (
 				<>
 					<div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-6">
 						<div className="text-sm text-center">

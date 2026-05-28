@@ -7,6 +7,7 @@ import BookIcon from '@mui/icons-material/Book'
 import BuildIcon from '@mui/icons-material/Build'
 import HubIcon from '@mui/icons-material/Hub'
 import VideoLibraryIcon from '@mui/icons-material/VideoLibrary'
+import SchoolIcon from '@mui/icons-material/School'
 import { useLocation } from 'react-router-dom'
 
 export const AdminMenu = () => {
@@ -32,6 +33,12 @@ export const AdminMenu = () => {
 				primaryText="Vocab Relations"
 				leftIcon={<HubIcon />}
 				selected={location.pathname === '/vocab-relations'}
+			/>
+			<MenuItemLink
+				to="/public-courses"
+				primaryText="Public Courses"
+				leftIcon={<SchoolIcon />}
+				selected={location.pathname === '/public-courses'}
 			/>
 			<MenuItemLink
 				to="/construct-absolute-words"

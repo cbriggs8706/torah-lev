@@ -12,7 +12,7 @@ export const LessonEdit = () => {
 		<Edit>
 			<SimpleForm>
 				<TextInput source="title" validate={[required()]} label="Title" />
-				<ReferenceInput source="unitId" reference="units" />
+				<ReferenceInput source="courseId" reference="curriculum" />
 				<NumberInput source="order" validate={[required()]} label="Order" />
 				<TextInput source="lessonNumber" label="Lesson Number" />
 			</SimpleForm>

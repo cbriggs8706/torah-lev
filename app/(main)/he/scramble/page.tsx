@@ -1,32 +1,45 @@
 import Image from 'next/image'
 import { getSession } from '@/lib/auth'
 import { FeedWrapper } from '@/components/feed-wrapper'
-import {
-	getCourseProgress,
-	getUserProgress,
-	getUserSubscription,
-} from '@/db/queries'
+import { getCourseProgress, getUserProgress } from '@/db/queries'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 import HebrewScramble from '@/components/hebrew/hebrew-scramble'
 import { getHebrewVocabByCourseId } from '@/lib/server/vocab'
 
-export default async function HebrewScramblePage() {
+export default async function HebrewScramblePage({
+	searchParams,
+}: {
+	searchParams?: Promise<Record<string, string | string[] | undefined>>
+}) {
 	const session = await getSession()
 	const userId = session?.user?.id ?? null
+	const resolvedSearchParams = (await searchParams) ?? {}
 
 	// ✅ Only fetch data if user is logged in
-	const [userProgress, userSubscription, userChallengeData] = userId
+	const [userProgress, userChallengeData] = userId
 		? await Promise.all([
 				getUserProgress(),
-				getUserSubscription(),
 				getCourseProgress(),
 		  ])
-		: [null, null, null]
+		: [null, null]
 
 	// ✅ Guest-safe fallbacks
-	const courseId = userProgress?.activeCourseId ?? 6 // default to AwB for guests
-	const isPro = !!userSubscription?.isActive
-	const currentLesson = userChallengeData?.activeLesson?.lessonNumber ?? '1'
+	const scheduledCourseId = Number(resolvedSearchParams.courseId)
+	const scheduledLesson =
+		typeof resolvedSearchParams.lesson === 'string'
+			? resolvedSearchParams.lesson
+			: ''
+	const isScheduled =
+		resolvedSearchParams.scheduled === '1' &&
+		Number.isFinite(scheduledCourseId) &&
+		scheduledCourseId > 0 &&
+		Boolean(scheduledLesson)
+	const courseId = isScheduled
+		? scheduledCourseId
+		: userProgress?.activeCourseId ?? 6
+	const currentLesson = isScheduled
+		? scheduledLesson
+		: userChallengeData?.activeLesson?.lessonNumber ?? '1'
 	const hebrewData = await getHebrewVocabByCourseId(courseId)
 
 	return (
@@ -63,6 +76,7 @@ export default async function HebrewScramblePage() {
 						data={hebrewData}
 						currentLesson={currentLesson}
 						userId={userId ?? 'guest'}
+						hideFilters={isScheduled}
 					/>
 				</div>
 			</FeedWrapper>

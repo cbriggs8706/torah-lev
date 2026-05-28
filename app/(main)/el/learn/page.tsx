@@ -1,23 +1,14 @@
 import { redirect } from 'next/navigation'
 import { getSession } from '@/lib/auth'
-// import { Promo } from '@/components/promo'
-import { Quests } from '@/components/quests'
 import { FeedWrapper } from '@/components/feed-wrapper'
-import { UserProgress } from '@/components/user-progress'
-import { StickyWrapper } from '@/components/sticky-wrapper'
-import { lessons, units as unitsSchema } from '@/db/schema'
 import {
+	getCourseLessons,
 	getCourseProgress,
 	getLessonPercentage,
-	getUnits,
 	getUserProgress,
 	getUserSubscription,
 } from '@/db/queries'
-
-import { Unit } from './unit'
-import { Header } from './header'
-import { Calendar } from '@/components/ui/calendar'
-import { GoalWrapper } from '@/components/goal-wrapper'
+import { LearnLessonList } from '@/components/learn-lesson-list'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 import FirstVisitModal from '@/components/first-visit-modal'
 import { cookies } from 'next/headers'
@@ -55,7 +46,7 @@ const GreekLearnPage = async () => {
 		| Awaited<ReturnType<typeof getUserProgress>>
 		| GuestUserProgress
 		| null = null
-	let units: Awaited<ReturnType<typeof getUnits>> = []
+	let courseLessons: Awaited<ReturnType<typeof getCourseLessons>> = []
 	let courseProgress: Awaited<ReturnType<typeof getCourseProgress>> | null =
 		null
 	let lessonPercentage: Awaited<ReturnType<typeof getLessonPercentage>> | null =
@@ -67,28 +58,28 @@ const GreekLearnPage = async () => {
 		// ✅ Authenticated user
 		const [
 			userProgressData,
-			unitsData,
+			courseLessonsData,
 			courseProgressData,
 			lessonPercentageData,
 			userSubscriptionData,
 		] = await Promise.all([
 			getUserProgress(),
-			getUnits(),
+			getCourseLessons(),
 			getCourseProgress(),
 			getLessonPercentage(),
 			getUserSubscription(),
 		])
 
 		userProgress = userProgressData
-		units = unitsData
+		courseLessons = courseLessonsData
 		courseProgress = courseProgressData
 		lessonPercentage = lessonPercentageData
 		userSubscription = userSubscriptionData
 	} else {
 		// ✅ Guest path: still load real content, but no DB writes
-		const [unitsData, courseProgressData, lessonPercentageData] =
+		const [courseLessonsData, courseProgressData, lessonPercentageData] =
 			await Promise.all([
-				getUnits(), // guests can safely read units
+				getCourseLessons(),
 				getCourseProgress(), // shows lessons for the active course
 				getLessonPercentage(), // harmless read
 			])
@@ -106,55 +97,14 @@ const GreekLearnPage = async () => {
 			points: 0,
 		}
 
-		units = unitsData
+		courseLessons = courseLessonsData
 		courseProgress = courseProgressData
 		lessonPercentage = lessonPercentageData
 		userSubscription = null
 	}
 
-	const isPro = !!userSubscription?.isActive
-
-	function getLessonSchedule(
-		lessons: { id: number }[],
-		goalLesson: number,
-		goalDate: Date
-	) {
-		const goalIndex = lessons.findIndex((l) => l.id === goalLesson)
-		if (goalIndex === -1) return {}
-
-		const totalDays = Math.max(
-			1,
-			Math.floor((goalDate.getTime() - Date.now()) / (1000 * 60 * 60 * 24))
-		)
-
-		const daysPerLesson = totalDays / (goalIndex + 1)
-
-		return lessons.reduce((acc, lesson, index) => {
-			const date = new Date()
-			date.setDate(date.getDate() + Math.round(daysPerLesson * (index + 1)))
-			acc[lesson.id] = date
-			return acc
-		}, {} as Record<number, Date>)
-	}
-
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
-			{/* <StickyWrapper>
-				<UserProgress
-					activeCourse={userProgress.activeCourse}
-					hearts={userProgress.hearts}
-					points={userProgress.points}
-					hasActiveSubscription={isPro}
-				/>
-				{!isPro && (
-          <Promo />
-        )}
-				<Calendar />
-				<Quests
-					points={userProgress.points}
-					userChallengeData={userChallengeData}
-				/>
-			</StickyWrapper> */}
 			<FirstVisitModal />
 
 			<FeedWrapper>
@@ -165,36 +115,12 @@ const GreekLearnPage = async () => {
 					any of these notices across the site.
 				</DismissibleAlert>
 
-				<DismissibleAlert storageKey="learnpage-lessons-alert" className="mb-4">
-					Each lesson in this main &apos;Learn&apos; section will have 1-3
-					videos and quick quizzes. For additional learning activities and games
-					tap the menu button in the upper left corner.
-				</DismissibleAlert>
-				<GoalWrapper
-					units={units}
+				<LearnLessonList
+					lessons={courseLessons}
 					courseProgress={courseProgress ?? undefined}
-					lessonPercentage={lessonPercentage}
+					lessonPercentage={lessonPercentage ?? 0}
+					lang="el"
 				/>
-
-				{/* {units.map((unit) => (
-					<div key={unit.id} className="mb-10">
-						<Unit
-							id={unit.id}
-							order={unit.order}
-							description={unit.description}
-							title={unit.title}
-							lessons={unit.lessons}
-							activeLesson={
-								courseProgress.activeLesson as
-									| (typeof lessons.$inferSelect & {
-											unit: typeof unitsSchema.$inferSelect
-									  })
-									| undefined
-							}
-							activeLessonPercentage={lessonPercentage}
-						/>
-					</div>
-				))} */}
 			</FeedWrapper>
 		</div>
 	)

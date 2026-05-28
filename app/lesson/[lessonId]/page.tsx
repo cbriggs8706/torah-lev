@@ -45,8 +45,7 @@ const LessonIdPage = async ({ params }: Props) => {
 		100
 
 	const courseProgress = await getCourseProgress()
-	const allLessons =
-		courseProgress?.unitsInActiveCourse.flatMap((u) => u.lessons) || []
+	const allLessons = courseProgress?.lessonsInActiveCourse || []
 	const currentIndex = allLessons.findIndex((l) => l.id === lesson.id)
 	const nextLesson = allLessons[currentIndex + 1]
 

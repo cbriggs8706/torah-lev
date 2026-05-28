@@ -2,34 +2,46 @@
 import Image from 'next/image'
 import { getSession } from '@/lib/auth'
 import { FeedWrapper } from '@/components/feed-wrapper'
-import {
-	getCourseProgress,
-	getUserProgress,
-	getUserSubscription,
-} from '@/db/queries'
+import { getCourseProgress, getUserProgress } from '@/db/queries'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 import { HebrewVocab } from '@/lib/vocab'
 import HebrewSpelling from '@/components/hebrew/hebrew-spelling'
 import { getHebrewVocabByCourseId } from '@/lib/server/vocab'
 
-export default async function HebrewSpellingPage() {
+export default async function HebrewSpellingPage({
+	searchParams,
+}: {
+	searchParams?: Promise<Record<string, string | string[] | undefined>>
+}) {
 	const session = await getSession()
 	const userId = session?.user?.id ?? null
+	const resolvedSearchParams = (await searchParams) ?? {}
 
 	// ✅ Only query if signed in
-	const [userProgress, userSubscription, userChallengeData] = userId
+	const [userProgress, userChallengeData] = userId
 		? await Promise.all([
 				getUserProgress(),
-				getUserSubscription(),
 				getCourseProgress(),
 		  ])
-		: [null, null, null]
+		: [null, null]
 
 	// ✅ Fallback for guests
-	const activeCourseId = userProgress?.activeCourseId ?? 6 // Default: AwB
-	const currentLesson = userChallengeData?.activeLesson?.lessonNumber ?? '1'
-	const isPro = !!userSubscription?.isActive
-
+	const scheduledCourseId = Number(resolvedSearchParams.courseId)
+	const scheduledLesson =
+		typeof resolvedSearchParams.lesson === 'string'
+			? resolvedSearchParams.lesson
+			: ''
+	const isScheduled =
+		resolvedSearchParams.scheduled === '1' &&
+		Number.isFinite(scheduledCourseId) &&
+		scheduledCourseId > 0 &&
+		Boolean(scheduledLesson)
+	const activeCourseId = isScheduled
+		? scheduledCourseId
+		: userProgress?.activeCourseId ?? 6
+	const currentLesson = isScheduled
+		? scheduledLesson
+		: userChallengeData?.activeLesson?.lessonNumber ?? '1'
 	// ✅ Determine vocab source
 	const hebrewData: HebrewVocab[] = (
 		await getHebrewVocabByCourseId(activeCourseId)
@@ -71,6 +83,7 @@ export default async function HebrewSpellingPage() {
 						currentLesson={currentLesson}
 						userId={userId ?? 'guest'}
 						courseId={activeCourseId}
+						hideFilters={isScheduled}
 					/>
 				</div>
 			</FeedWrapper>

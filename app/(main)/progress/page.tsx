@@ -6,19 +6,15 @@ import { FeedWrapper } from '@/components/feed-wrapper'
 import { UserProgress } from '@/components/user-progress'
 import { StickyWrapper } from '@/components/sticky-wrapper'
 import {
-	getCourseProgress,
 	getUserProgress,
 	getUserSubscription,
 } from '@/db/queries'
-
-import { Quests } from '@/components/quests'
 import { Items } from '../market/items'
 
 const ProgressPage = async () => {
 	const session = await getSession()
 	if (!session?.user) redirect('/') // or your landing page
 	const userProgressData = getUserProgress()
-	const userChallengeData = await getCourseProgress()
 	const userSubscriptionData = getUserSubscription()
 
 	const [userProgress, userSubscription] = await Promise.all([
@@ -42,10 +38,6 @@ const ProgressPage = async () => {
 					hasActiveSubscription={isPro}
 				/>
 				{/* {!isPro && <Promo />} */}
-				<Quests
-					points={userProgress.points}
-					userChallengeData={userChallengeData}
-				/>
 			</StickyWrapper>
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">
@@ -54,7 +46,7 @@ const ProgressPage = async () => {
 						Progress
 					</h1>
 					<p className="text-muted-foreground text-center text-lg mb-6">
-						Set high goals and reach them!
+						Track your hearts, points, and course unlocks.
 					</p>
 					<Items
 						hearts={userProgress.hearts}

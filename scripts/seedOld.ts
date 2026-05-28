@@ -210,7 +210,7 @@ const main = async () => {
 				order: 1,
 				title: 'First Words',
 			},
-		])
+		] as any)
 
 		await db.insert(schema.challenges).values([
 			{ id: 1, lessonId: 1, type: 'ASSIST', order: 1, question: 'actitud' },

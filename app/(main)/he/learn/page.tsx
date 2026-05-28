@@ -3,15 +3,15 @@ import { redirect } from 'next/navigation'
 import { getSession } from '@/lib/auth'
 
 import {
+	getCourseLessons,
 	getCourseProgress,
 	getLessonPercentage,
-	getUnits,
 	getUserProgress,
 	getUserSubscription,
 } from '@/db/queries'
 
 import { FeedWrapper } from '@/components/feed-wrapper'
-import { GoalWrapper } from '@/components/goal-wrapper'
+import { LearnLessonList } from '@/components/learn-lesson-list'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 import FirstVisitModal from '@/components/first-visit-modal'
 import { normalizeSidebarLocale } from '@/lib/sidebar-translations'
@@ -54,7 +54,7 @@ const HebrewLearnPage = async () => {
 		| Awaited<ReturnType<typeof getUserProgress>>
 		| GuestUserProgress
 		| null = null
-	let units: Awaited<ReturnType<typeof getUnits>> = []
+	let courseLessons: Awaited<ReturnType<typeof getCourseLessons>> = []
 	let courseProgress: Awaited<ReturnType<typeof getCourseProgress>> | null =
 		null
 	let lessonPercentage: Awaited<ReturnType<typeof getLessonPercentage>> | null =
@@ -66,28 +66,28 @@ const HebrewLearnPage = async () => {
 		// ✅ Authenticated user
 		const [
 			userProgressData,
-			unitsData,
+			courseLessonsData,
 			courseProgressData,
 			lessonPercentageData,
 			userSubscriptionData,
 		] = await Promise.all([
 			getUserProgress(),
-			getUnits(),
+			getCourseLessons(),
 			getCourseProgress(),
 			getLessonPercentage(),
 			getUserSubscription(),
 		])
 
 		userProgress = userProgressData
-		units = unitsData
+		courseLessons = courseLessonsData
 		courseProgress = courseProgressData
 		lessonPercentage = lessonPercentageData
 		userSubscription = userSubscriptionData
 	} else {
 		// ✅ Guest path: still load real content, but no DB writes
-		const [unitsData, courseProgressData, lessonPercentageData] =
+		const [courseLessonsData, courseProgressData, lessonPercentageData] =
 			await Promise.all([
-				getUnits(), // guests can safely read units
+				getCourseLessons(),
 				getCourseProgress(), // shows lessons for the active course
 				getLessonPercentage(), // harmless read
 			])
@@ -105,13 +105,11 @@ const HebrewLearnPage = async () => {
 			points: 0,
 		}
 
-		units = unitsData
+		courseLessons = courseLessonsData
 		courseProgress = courseProgressData
 		lessonPercentage = lessonPercentageData
 		userSubscription = null
 	}
-
-	const isPro = !!userSubscription?.isActive
 
 	// ✅ Guard: if no course selected
 	if (!userProgress?.activeCourse) {
@@ -124,30 +122,6 @@ const HebrewLearnPage = async () => {
 		he: 'החל',
 		el: 'Έναρξη',
 	} as const
-
-	// 🧮 Optional helper — still available if needed
-	function getLessonSchedule(
-		lessons: { id: number }[],
-		goalLesson: number,
-		goalDate: Date
-	): Record<number, Date> {
-		const goalIndex = lessons.findIndex((l) => l.id === goalLesson)
-		if (goalIndex === -1) return {}
-
-		const totalDays = Math.max(
-			1,
-			Math.floor((goalDate.getTime() - Date.now()) / (1000 * 60 * 60 * 24))
-		)
-
-		const daysPerLesson = totalDays / (goalIndex + 1)
-
-		return lessons.reduce((acc, lesson, index) => {
-			const date = new Date()
-			date.setDate(date.getDate() + Math.round(daysPerLesson * (index + 1)))
-			acc[lesson.id] = date
-			return acc
-		}, {} as Record<number, Date>)
-	}
 
 	return (
 		<div className="flex flex-row-reverse gap-6 px-2 sm:px-4 lg:gap-[48px] lg:px-6">
@@ -167,8 +141,8 @@ const HebrewLearnPage = async () => {
 					tap the menu button in the upper left corner.
 				</DismissibleAlert>
 
-				<GoalWrapper
-					units={units ?? []}
+				<LearnLessonList
+					lessons={courseLessons ?? []}
 					courseProgress={courseProgress ?? undefined}
 					lessonPercentage={lessonPercentage ?? 0}
 					lang="he"

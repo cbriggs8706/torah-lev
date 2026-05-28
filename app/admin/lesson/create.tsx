@@ -14,12 +14,12 @@ export const LessonCreate = () => {
 			<SimpleForm>
 				<TextInput source="title" validate={[required()]} label="Title" />
 				<ReferenceInput
-					source="unitId"
-					reference="units"
+					source="courseId"
+					reference="curriculum"
 					perPage={200}
-					sort={{ field: 'order', order: 'ASC' }}
+					sort={{ field: 'title', order: 'ASC' }}
 				>
-					<SelectInput optionText="title" optionValue="id" label="Unit" />
+					<SelectInput optionText="title" optionValue="id" label="Curriculum" />
 				</ReferenceInput>
 				<NumberInput source="order" validate={[required()]} label="Order" />
 				<TextInput source="lessonNumber" label="Lesson Number" />

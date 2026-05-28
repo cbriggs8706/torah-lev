@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import db from '@/db/drizzle'
-import { curriculum, lessons, units } from '@/db/schema'
+import { curriculum, lessons } from '@/db/schema'
 import { asc, desc, eq, inArray, sql } from 'drizzle-orm'
 import { isAdmin } from '@/lib/admin'
 
@@ -31,7 +31,7 @@ export const GET = async (req: Request) => {
 		id: lessons.id,
 		title: lessons.title,
 		order: lessons.order,
-		unitId: lessons.unitId,
+		courseId: lessons.courseId,
 		lessonNumber: lessons.lessonNumber,
 	} as const
 
@@ -61,31 +61,22 @@ export const GET = async (req: Request) => {
 		.select({
 			id: lessons.id,
 			title: lessons.title,
-			unitId: lessons.unitId,
 			order: lessons.order,
 			lessonNumber: lessons.lessonNumber,
-			unitTitle: units.title,
-			unitOrder: units.order,
 			courseId: curriculum.id,
 			courseTitle: curriculum.title,
 		})
 		.from(lessons)
-		.innerJoin(units, eq(lessons.unitId, units.id))
-		.innerJoin(curriculum, eq(units.courseId, curriculum.id))
+		.innerJoin(curriculum, eq(lessons.courseId, curriculum.id))
 		.where(whereClause ?? sql`TRUE`)
-		.orderBy(asc(curriculum.title), asc(units.order), sortDirection(sortColumn))
+		.orderBy(asc(curriculum.title), sortDirection(sortColumn))
 
 	const rawRows = filter.id ? await lessonsQuery : await lessonsQuery.limit(perPage).offset(offset)
 
 	const rows = rawRows.map((lesson) => ({
 		...lesson,
-		lessonLabel: `${lesson.courseTitle} > ${lesson.unitTitle} > ${
-			lesson.lessonNumber || lesson.order
-		} - ${lesson.title}`,
-		lessonSort: `${lesson.courseTitle}:${String(lesson.unitOrder).padStart(
-			4,
-			'0'
-		)}:${String(lesson.order).padStart(4, '0')}`,
+		lessonLabel: `${lesson.courseTitle} > ${lesson.lessonNumber || lesson.order} - ${lesson.title}`,
+		lessonSort: `${lesson.courseTitle}:${String(lesson.order).padStart(4, '0')}`,
 	}))
 
 	const [{ count }] = await db
@@ -115,7 +106,7 @@ export const POST = async (req: Request) => {
 
 	const payload = {
 		title: body.title,
-		unitId: Number(body.unitId),
+		courseId: Number(body.courseId),
 		order: Number(body.order),
 		lessonNumber: body.lessonNumber ?? '',
 	}
