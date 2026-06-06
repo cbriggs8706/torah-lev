@@ -8,12 +8,19 @@ import { useCelebration } from '@/hooks/useCelebration'
 import { parseLessonKey, useLessonCards } from '@/hooks/useLessonCards'
 import LessonFilter from '../filters/filter-lesson'
 import ProgressBar from '../progress-bar'
+import { markPublicCourseActivityComplete } from '@/lib/public-course-progress'
+import type { PublicCourseActivityFilters } from '@/lib/public-course-activities'
 
 interface HebrewScrambleProps {
 	data: HebrewVocab[]
 	currentLesson: string
 	userId: string
 	hideFilters?: boolean
+	initialFilters?: PublicCourseActivityFilters
+	completionContext?: {
+		enrollmentId: number
+		publicCourseLessonId: number
+	}
 }
 
 export default function HebrewScramble({
@@ -21,6 +28,8 @@ export default function HebrewScramble({
 	currentLesson,
 	userId,
 	hideFilters = false,
+	initialFilters,
+	completionContext,
 }: HebrewScrambleProps) {
 	const { selectedLessons, setSelectedLessons, currentIndex, setCurrentIndex } =
 		useLessonCards(data, currentLesson)
@@ -32,8 +41,14 @@ export default function HebrewScramble({
 	const [cardsCompleted, setCardsCompleted] = useState(0)
 	const [finished, setFinished] = useState(false)
 	const [hasAwardedPoints, setHasAwardedPoints] = useState(false)
+	const [publicCourseSaved, setPublicCourseSaved] = useState(false)
 
 	const MAX_CARDS = 5
+
+	useEffect(() => {
+		if (!initialFilters?.selectedLessons?.length) return
+		setSelectedLessons(initialFilters.selectedLessons)
+	}, [initialFilters?.selectedLessons, setSelectedLessons])
 
 	const cardsForPrefix = useMemo(() => {
 		return data.filter(
@@ -58,6 +73,7 @@ export default function HebrewScramble({
 		setShowFeedback(null)
 		setFinished(false)
 		setHasAwardedPoints(false)
+		setPublicCourseSaved(false)
 		setCardsCompleted(0)
 	}, [cardsForPrefix, selectedLessons, setCurrentIndex])
 
@@ -136,6 +152,21 @@ export default function HebrewScramble({
 		[userId]
 	)
 
+	useEffect(() => {
+		if (!finished || !completionContext || publicCourseSaved) return
+
+		setPublicCourseSaved(true)
+		void markPublicCourseActivityComplete({
+			enrollmentId: completionContext.enrollmentId,
+			publicCourseLessonId: completionContext.publicCourseLessonId,
+			activityKey: 'scramble',
+			scorePercent: 100,
+		}).catch((error) => {
+			console.error('Failed to save public course scramble progress', error)
+			setPublicCourseSaved(false)
+		})
+	}, [completionContext, finished, publicCourseSaved])
+
 	function handleRestart() {
 		const reshuffled = [...cardsForPrefix]
 			.filter((c) => c.heb.trim().split(/\s+/).length >= 2)
@@ -149,6 +180,7 @@ export default function HebrewScramble({
 		setFinished(false)
 		setCardsCompleted(0)
 		setHasAwardedPoints(false)
+		setPublicCourseSaved(false)
 	}
 
 	// ✅ Success Screen

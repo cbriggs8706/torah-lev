@@ -6,11 +6,19 @@ import db from '@/db/drizzle'
 import {
 	publicCourse,
 	publicCourseEnrollment,
+	publicCourseEnrollmentActivityProgress,
 	publicCourseEnrollmentLesson,
 	publicCourseLesson,
+	publicCourseLessonActivity,
 } from '@/db/schema'
 import { getSession } from '@/lib/auth'
 import PublicCourseActivityBrowser from '@/components/courses/public-course-activity-browser'
+import { getHebrewLessonScriptIdsByLessonIds } from '@/lib/server/public-course-activity-options'
+import type {
+	PublicCourseActivityFilters,
+	PublicCourseActivityKey,
+	PublicCourseActivityStatus,
+} from '@/lib/public-course-activities'
 
 export const dynamic = 'force-dynamic'
 
@@ -54,6 +62,9 @@ export default async function PublicCourseDetailPage({
 							},
 						},
 					},
+					activities: {
+						orderBy: [asc(publicCourseLessonActivity.order)],
+					},
 				},
 			},
 		},
@@ -73,9 +84,16 @@ export default async function PublicCourseDetailPage({
 					lessons: {
 						orderBy: [asc(publicCourseEnrollmentLesson.order)],
 					},
+					activityProgress: {
+						orderBy: [asc(publicCourseEnrollmentActivityProgress.createdAt)],
+					},
 				},
 			})
 		: null
+
+	const lessonScriptIdsByLessonId = await getHebrewLessonScriptIdsByLessonIds(
+		course.lessons.map((lesson) => lesson.lesson.id)
+	)
 
 	const plannerLessons = course.lessons.map((lesson) => ({
 		publicCourseLessonId: lesson.id,
@@ -86,6 +104,22 @@ export default async function PublicCourseDetailPage({
 		unitTitle: lesson.lesson.unit?.title ?? null,
 		platformCourseId: lesson.platformCourse.id,
 		platformCourseTitle: lesson.platformCourse.title,
+		lessonScriptId: lessonScriptIdsByLessonId.get(lesson.lesson.id) ?? null,
+		activities: ((lesson as typeof lesson & {
+			activities?: Array<{
+				id: number
+				activityKey: PublicCourseActivityKey
+				order: number
+				isEnabled: boolean
+				filterConfig: PublicCourseActivityFilters
+			}>
+		}).activities ?? []).map((activity) => ({
+			id: activity.id,
+			activityKey: activity.activityKey,
+			order: activity.order,
+			isEnabled: activity.isEnabled,
+			filterConfig: activity.filterConfig,
+		})),
 	}))
 
 	return (
@@ -135,6 +169,15 @@ export default async function PublicCourseDetailPage({
 										publicCourseLessonId: lesson.publicCourseLessonId,
 										order: lesson.order,
 										scheduledDate: lesson.scheduledDate.toISOString().slice(0, 10),
+									})),
+									activityProgress: enrollment.activityProgress.map((item) => ({
+										publicCourseLessonId: item.publicCourseLessonId,
+										publicCourseLessonActivityId: item.publicCourseLessonActivityId,
+										status: item.status as PublicCourseActivityStatus,
+										scorePercent: item.scorePercent,
+										completedAt: item.completedAt
+											? item.completedAt.toISOString()
+											: null,
 									})),
 							  }
 							: null

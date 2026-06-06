@@ -5,7 +5,7 @@ import db from '@/db/drizzle'
 import { videos } from '@/db/schema'
 import { isAdmin } from '@/lib/admin'
 
-function parseCourseIdArray(value: unknown) {
+function parseCurriculumIdArray(value: unknown) {
 	if (Array.isArray(value)) {
 		return value
 			.map((item) => Number(item))
@@ -48,7 +48,9 @@ function toLessonScriptPayload(body: Record<string, unknown>) {
 
 	return {
 		lessonId: parseOptionalNumber(body.lessonId),
-		courseId: parseCourseIdArray(body.courseId),
+		curriculumId: parseCurriculumIdArray(
+			body.curriculumId ?? body.courseId
+		),
 		part: parseOptionalNumber(body.part),
 		content: typeof body.content === 'string' ? body.content : null,
 		contentPlain:

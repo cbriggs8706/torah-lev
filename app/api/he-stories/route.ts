@@ -4,7 +4,7 @@ import { isAdmin } from '@/lib/admin'
 import { videos } from '@/db/schema'
 import { asc, desc, sql, inArray } from 'drizzle-orm'
 
-function parseCourseIdArray(value: unknown) {
+function parseCurriculumIdArray(value: unknown) {
 	if (Array.isArray(value)) {
 		return value
 			.map((item) => Number(item))
@@ -43,7 +43,9 @@ function toStoryRecord(row: typeof videos.$inferSelect) {
 function toStoryPayload(body: Record<string, unknown>) {
 	return {
 		lessonId: parseOptionalNumber(body.lessonId),
-		courseId: parseCourseIdArray(body.courseId),
+		curriculumId: parseCurriculumIdArray(
+			body.curriculumId ?? body.courseId
+		),
 		title: typeof body.title === 'string' ? body.title : null,
 		hebTitle: typeof body.hebTitle === 'string' ? body.hebTitle : null,
 		titleTransliteration:
@@ -86,7 +88,7 @@ export const GET = async (req: Request) => {
 	const columnMap = {
 		id: videos.id,
 		lessonId: videos.lessonId,
-		courseId: videos.courseId,
+		curriculumId: videos.curriculumId,
 		title: videos.title,
 		hebTitle: videos.hebTitle,
 		titleTransliteration: videos.titleTransliteration,

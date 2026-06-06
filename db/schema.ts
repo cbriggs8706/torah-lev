@@ -4,6 +4,7 @@ import {
 	AnyPgColumn,
 	boolean,
 	doublePrecision,
+	foreignKey,
 	integer,
 	jsonb,
 	pgEnum,
@@ -101,10 +102,8 @@ export const lessonsRelations = relations(lessons, ({ one, many }) => ({
 
 export const videos = pgTable('videos', {
 	id: serial('id').primaryKey(),
-	hebrewLessonScriptId: integer('hebrew_lesson_script_id'),
-	hebrewStoryId: integer('hebrew_story_id'),
 	lessonId: integer('lesson_id'),
-	courseId: integer('course_id').array(),
+	curriculumId: integer('curriculum_id').array(),
 	part: integer('part'),
 	title: text('title'),
 	hebTitle: text('heb_title'),
@@ -737,6 +736,38 @@ export const publicCourseLesson = pgTable(
 	})
 )
 
+export const publicCourseLessonActivity = pgTable(
+	'public_course_lesson_activity',
+	{
+		id: serial('id').primaryKey(),
+		publicCourseLessonId: integer('public_course_lesson_id').notNull(),
+		activityKey: text('activity_key').notNull(),
+		order: integer('order').notNull(),
+		isEnabled: boolean('is_enabled').notNull().default(true),
+		filterConfig: jsonb('filter_config').notNull().default({}),
+		createdAt: timestamp('created_at').defaultNow().notNull(),
+		updatedAt: timestamp('updated_at').defaultNow().notNull(),
+	},
+	(table) => ({
+		publicCourseLessonFk: foreignKey({
+			columns: [table.publicCourseLessonId],
+			foreignColumns: [publicCourseLesson.id],
+			name: 'pc_lesson_activity_lesson_fk',
+		}).onDelete('cascade'),
+		lessonIdx: index('idx_public_course_lesson_activity_lesson').on(
+			table.publicCourseLessonId
+		),
+		lessonOrderIdx: uniqueIndex('idx_public_course_lesson_activity_order').on(
+			table.publicCourseLessonId,
+			table.order
+		),
+		lessonActivityIdx: uniqueIndex('idx_public_course_lesson_activity_key').on(
+			table.publicCourseLessonId,
+			table.activityKey
+		),
+	})
+)
+
 export const publicCourseEnrollment = pgTable(
 	'public_course_enrollment',
 	{
@@ -780,6 +811,51 @@ export const publicCourseEnrollmentLesson = pgTable(
 		enrollmentLessonIdx: uniqueIndex(
 			'idx_public_course_enrollment_lesson_unique'
 		).on(table.enrollmentId, table.publicCourseLessonId),
+	})
+)
+
+export const publicCourseEnrollmentActivityProgress = pgTable(
+	'public_course_enrollment_activity_progress',
+	{
+		id: serial('id').primaryKey(),
+		enrollmentId: integer('enrollment_id').notNull(),
+		publicCourseLessonId: integer('public_course_lesson_id').notNull(),
+		publicCourseLessonActivityId: integer('public_course_lesson_activity_id').notNull(),
+		status: text('status').notNull().default('not_started'),
+		scorePercent: integer('score_percent'),
+		completedAt: timestamp('completed_at'),
+		lastInteractedAt: timestamp('last_interacted_at')
+			.defaultNow()
+			.notNull(),
+		metadata: jsonb('metadata').notNull().default({}),
+		createdAt: timestamp('created_at').defaultNow().notNull(),
+		updatedAt: timestamp('updated_at').defaultNow().notNull(),
+	},
+	(table) => ({
+		enrollmentFk: foreignKey({
+			columns: [table.enrollmentId],
+			foreignColumns: [publicCourseEnrollment.id],
+			name: 'pc_activity_progress_enrollment_fk',
+		}).onDelete('cascade'),
+		lessonFk: foreignKey({
+			columns: [table.publicCourseLessonId],
+			foreignColumns: [publicCourseLesson.id],
+			name: 'pc_activity_progress_lesson_fk',
+		}).onDelete('cascade'),
+		activityFk: foreignKey({
+			columns: [table.publicCourseLessonActivityId],
+			foreignColumns: [publicCourseLessonActivity.id],
+			name: 'pc_activity_progress_activity_fk',
+		}).onDelete('cascade'),
+		enrollmentIdx: index('idx_public_course_activity_progress_enrollment').on(
+			table.enrollmentId
+		),
+		lessonIdx: index('idx_public_course_activity_progress_lesson').on(
+			table.publicCourseLessonId
+		),
+		uniqueActivityIdx: uniqueIndex(
+			'idx_public_course_activity_progress_unique'
+		).on(table.enrollmentId, table.publicCourseLessonActivityId),
 	})
 )
 
@@ -838,7 +914,20 @@ export const publicCourseLessonRelations = relations(
 			fields: [publicCourseLesson.lessonId],
 			references: [lessons.id],
 		}),
+		activities: many(publicCourseLessonActivity),
 		enrollmentLessons: many(publicCourseEnrollmentLesson),
+		activityProgress: many(publicCourseEnrollmentActivityProgress),
+	})
+)
+
+export const publicCourseLessonActivityRelations = relations(
+	publicCourseLessonActivity,
+	({ one, many }) => ({
+		publicCourseLesson: one(publicCourseLesson, {
+			fields: [publicCourseLessonActivity.publicCourseLessonId],
+			references: [publicCourseLesson.id],
+		}),
+		progress: many(publicCourseEnrollmentActivityProgress),
 	})
 )
 
@@ -854,6 +943,7 @@ export const publicCourseEnrollmentRelations = relations(
 			references: [userProgress.userId],
 		}),
 		lessons: many(publicCourseEnrollmentLesson),
+		activityProgress: many(publicCourseEnrollmentActivityProgress),
 	})
 )
 
@@ -867,6 +957,24 @@ export const publicCourseEnrollmentLessonRelations = relations(
 		publicCourseLesson: one(publicCourseLesson, {
 			fields: [publicCourseEnrollmentLesson.publicCourseLessonId],
 			references: [publicCourseLesson.id],
+		}),
+	})
+)
+
+export const publicCourseEnrollmentActivityProgressRelations = relations(
+	publicCourseEnrollmentActivityProgress,
+	({ one }) => ({
+		enrollment: one(publicCourseEnrollment, {
+			fields: [publicCourseEnrollmentActivityProgress.enrollmentId],
+			references: [publicCourseEnrollment.id],
+		}),
+		publicCourseLesson: one(publicCourseLesson, {
+			fields: [publicCourseEnrollmentActivityProgress.publicCourseLessonId],
+			references: [publicCourseLesson.id],
+		}),
+		publicCourseLessonActivity: one(publicCourseLessonActivity, {
+			fields: [publicCourseEnrollmentActivityProgress.publicCourseLessonActivityId],
+			references: [publicCourseLessonActivity.id],
 		}),
 	})
 )

@@ -25,6 +25,8 @@ import TypeFilter from '../filters/filter-type'
 import NiqqudFilter from '../filters/filter-niqqud'
 import CategoryFilter from '../filters/filter-category'
 import LessonFilter from '../filters/filter-lesson'
+import { markPublicCourseActivityComplete } from '@/lib/public-course-progress'
+import type { PublicCourseActivityFilters } from '@/lib/public-course-activities'
 
 interface WordMatchGameProps {
 	data: HebrewVocab[]
@@ -33,6 +35,11 @@ interface WordMatchGameProps {
 	courseId: number | null
 	lockedLesson?: string
 	hideFilters?: boolean
+	initialFilters?: PublicCourseActivityFilters
+	completionContext?: {
+		enrollmentId: number
+		publicCourseLessonId: number
+	}
 }
 
 type UniqueIdentifier = string | number
@@ -60,6 +67,8 @@ export default function WordMatchGame({
 	userId,
 	lockedLesson,
 	hideFilters = false,
+	initialFilters,
+	completionContext,
 }: WordMatchGameProps) {
 	const [showFilter, setShowFilter] = useState(false)
 	const [matchField, setMatchField] = useState<keyof HebrewVocab>('images')
@@ -117,6 +126,7 @@ export default function WordMatchGame({
 
 	const { width, height } = useWindowSize()
 	const audioRef = useRef<HTMLAudioElement | null>(null)
+	const publicCourseCompletionRef = useRef(false)
 
 	const getCardId = (card: HebrewVocab) => String(card.id)
 
@@ -165,6 +175,24 @@ export default function WordMatchGame({
 	)
 
 	useEffect(() => {
+		if (initialFilters?.selectedLessons?.length) {
+			setSelectedLessons(initialFilters.selectedLessons)
+		}
+		if (initialFilters?.selectedCategory) {
+			setSelectedCategory(initialFilters.selectedCategory)
+		}
+		if (initialFilters?.selectedType && initialFilters.selectedType !== 'stack') {
+			setSelectedType(initialFilters.selectedType)
+		}
+		if (initialFilters?.formatType) {
+			setFormatType(initialFilters.formatType)
+		}
+		if (initialFilters?.hebrewField) {
+			setHebrewField(initialFilters.hebrewField)
+		}
+	}, [initialFilters])
+
+	useEffect(() => {
 		if (lockedLesson) {
 			setSelectedLessons([lockedLesson])
 			return
@@ -176,6 +204,23 @@ export default function WordMatchGame({
 			setSelectedLessons(['1'])
 		}
 	}, [allLessonsUpToCurrent, lockedLesson])
+
+	useEffect(() => {
+		if (phase !== 'results' || !completionContext || publicCourseCompletionRef.current) {
+			return
+		}
+
+		publicCourseCompletionRef.current = true
+		void markPublicCourseActivityComplete({
+			enrollmentId: completionContext.enrollmentId,
+			publicCourseLessonId: completionContext.publicCourseLessonId,
+			activityKey: 'matchup',
+			scorePercent: 100,
+		}).catch((error) => {
+			console.error('Failed to save public course matchup progress', error)
+			publicCourseCompletionRef.current = false
+		})
+	}, [completionContext, phase])
 
 	// useEffect(() => {
 	// 	setSelectedLessons(allLessonsUpToCurrent)

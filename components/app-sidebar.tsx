@@ -18,7 +18,11 @@ import { signOut, useSession } from '@/components/providers/session-provider'
 import { HebrewSidebarCalendar } from '@/components/hebrew/hebrew-sidebar-calendar'
 import { NavMain } from '@/components/nav-main'
 import { SidebarLocaleSwitcher } from '@/components/sidebar-locale-switcher'
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import {
+	Popover,
+	PopoverContent,
+	PopoverTrigger,
+} from '@/components/ui/popover'
 import {
 	Sidebar,
 	SidebarContent,
@@ -30,7 +34,10 @@ import {
 	useSidebar,
 } from '@/components/ui/sidebar'
 import { buildSidebarSections } from '@/lib/sidebar-data'
-import { getSidebarLabel, normalizeSidebarLocale } from '@/lib/sidebar-translations'
+import {
+	getSidebarLabel,
+	normalizeSidebarLocale,
+} from '@/lib/sidebar-translations'
 import { cn } from '@/lib/utils'
 import type { SidebarLocale } from '@/types/sidebar'
 
@@ -47,7 +54,12 @@ function getFooterAccountLinks(
 		dashboard: string
 	},
 ) {
-	const links: Array<{ key: string; label: string; href: string; iconSrc: string }> = []
+	const links: Array<{
+		key: string
+		label: string
+		href: string
+		iconSrc: string
+	}> = []
 
 	if ([6, 11, 14].includes(activeCourseId ?? -1)) {
 		links.push(
@@ -102,7 +114,10 @@ type Props = {
 
 type SidebarUserProgress = Props['userProgress']
 
-function inferLocaleFromPath(pathname: string, fallbackCourseId: number | null): SidebarLocale {
+function inferLocaleFromPath(
+	pathname: string,
+	fallbackCourseId: number | null,
+): SidebarLocale {
 	if (pathname.startsWith('/es/')) return 'es'
 	if (pathname.startsWith('/he/')) return 'he'
 	if (pathname.startsWith('/el/')) return 'el'
@@ -129,14 +144,16 @@ function BrandCard({
 					src="/icons/iconBoy.png"
 					height={44}
 					width={44}
-					alt="Idiom Go mascot"
+					alt="Torah Lev mascot"
 					className="shrink-0"
 				/>
 				<div className="min-w-0">
 					<p className="truncate text-xl font-extrabold tracking-tight text-sidebar-primary">
 						{title}
 					</p>
-					<p className="truncate text-sm text-sidebar-foreground/70">{subtitle}</p>
+					<p className="truncate text-sm text-sidebar-foreground/70">
+						{subtitle}
+					</p>
 				</div>
 			</div>
 		</Link>
@@ -299,7 +316,12 @@ function UserCard({
 	isHebrewUi: boolean
 	isPro: boolean
 	compactSignedInMenu?: boolean
-	accountLinks: Array<{ key: string; label: string; href: string; iconSrc: string }>
+	accountLinks: Array<{
+		key: string
+		label: string
+		href: string
+		iconSrc: string
+	}>
 	swapCourseLabel: string
 	viewCoursesLabel: string
 	currentlyViewingLabel: string
@@ -406,7 +428,11 @@ function UserCard({
 						className="flex w-full items-center gap-3 rounded-2xl border border-sidebar-border bg-white/60 p-3 text-left shadow-sm transition hover:bg-white/80"
 					>
 						<Image
-							src={session?.user?.image || userProgress.userImageSrc || '/mascot.svg'}
+							src={
+								session?.user?.image ||
+								userProgress.userImageSrc ||
+								'/mascot.svg'
+							}
 							alt={session?.user?.name || userProgress.userName || 'User'}
 							width={40}
 							height={40}
@@ -460,7 +486,11 @@ function UserCard({
 					<div className="space-y-3">
 						<div className="flex items-center gap-3 rounded-2xl border border-sidebar-border bg-white/60 p-3 shadow-sm">
 							<Image
-								src={session?.user?.image || userProgress.userImageSrc || '/mascot.svg'}
+								src={
+									session?.user?.image ||
+									userProgress.userImageSrc ||
+									'/mascot.svg'
+								}
 								alt={session?.user?.name || userProgress.userName || 'User'}
 								width={40}
 								height={40}
@@ -471,7 +501,9 @@ function UserCard({
 									{session?.user?.name || userProgress.userName || 'Guest'}
 								</p>
 								<p className="truncate text-xs text-sidebar-foreground/65">
-									{session?.user?.email || userProgress.activeCourse?.title || ''}
+									{session?.user?.email ||
+										userProgress.activeCourse?.title ||
+										''}
 								</p>
 							</div>
 						</div>
@@ -494,7 +526,11 @@ function UserCard({
 				<div className="space-y-3">
 					<div className="flex items-center gap-3">
 						<Image
-							src={session?.user?.image || userProgress.userImageSrc || '/mascot.svg'}
+							src={
+								session?.user?.image ||
+								userProgress.userImageSrc ||
+								'/mascot.svg'
+							}
 							alt={session?.user?.name || userProgress.userName || 'User'}
 							width={40}
 							height={40}
@@ -505,7 +541,11 @@ function UserCard({
 								{session?.user?.name || userProgress.userName || 'Guest'}
 							</p>
 							<p className="truncate text-xs text-sidebar-foreground/65">
-								{isSignedIn ? session?.user?.email || userProgress.activeCourse?.title || '' : ''}
+								{isSignedIn
+									? session?.user?.email ||
+										userProgress.activeCourse?.title ||
+										''
+									: ''}
 							</p>
 						</div>
 					</div>
@@ -532,7 +572,9 @@ function UserCard({
 												type="button"
 												onClick={() => {
 													handleNavigate()
-													window.location.assign('/auth/signin?callbackUrl=/curriculum')
+													window.location.assign(
+														'/auth/signin?callbackUrl=/curriculum',
+													)
 												}}
 											>
 												<LogIn className="h-4 w-4" />
@@ -557,7 +599,9 @@ function UserCard({
 												type="button"
 												onClick={() => {
 													handleNavigate()
-													window.location.assign('/auth/signin?callbackUrl=/curriculum')
+													window.location.assign(
+														'/auth/signin?callbackUrl=/curriculum',
+													)
 												}}
 											>
 												<UserPlus className="h-4 w-4" />
@@ -600,7 +644,8 @@ export default function AppSidebar({
 	const contentRef = useRef<HTMLDivElement | null>(null)
 	const [showScrollCue, setShowScrollCue] = useState(false)
 
-	const resolvedLocale = manualLocale ?? inferLocaleFromPath(pathname, userProgress.activeCourseId)
+	const resolvedLocale =
+		manualLocale ?? inferLocaleFromPath(pathname, userProgress.activeCourseId)
 	const sections = useMemo(
 		() =>
 			buildSidebarSections({
@@ -641,7 +686,7 @@ export default function AppSidebar({
 		window.dispatchEvent(
 			new CustomEvent('sidebar-locale-changed', {
 				detail: { locale: nextLocale },
-			})
+			}),
 		)
 	}
 
@@ -649,7 +694,9 @@ export default function AppSidebar({
 	const isSignedIn = !!session?.user
 	const isHebrewUi = resolvedLocale === 'he'
 	const sidebarSide = isHebrewUi ? 'right' : 'left'
-	const showHebrewCalendar = [6, 11, 14].includes(userProgress.activeCourseId ?? 0)
+	const showHebrewCalendar = [6, 11, 14].includes(
+		userProgress.activeCourseId ?? 0,
+	)
 
 	useEffect(() => {
 		const element = contentRef.current
@@ -673,7 +720,14 @@ export default function AppSidebar({
 			element.removeEventListener('scroll', updateScrollCue)
 			window.removeEventListener('resize', updateScrollCue)
 		}
-	}, [isMobile, pathname, resolvedLocale, sections.length, showHebrewCalendar, isSignedIn])
+	}, [
+		isMobile,
+		pathname,
+		resolvedLocale,
+		sections.length,
+		showHebrewCalendar,
+		isSignedIn,
+	])
 
 	if (!userProgress.activeCourseId) {
 		return (
@@ -682,12 +736,19 @@ export default function AppSidebar({
 					dir={isHebrewUi ? 'rtl' : 'ltr'}
 					className="flex h-full flex-col items-center justify-center gap-4 px-6 text-center"
 				>
-					<Image src="/icons/iconBoy.png" height={64} width={64} alt="Idiom Go mascot" />
+					<Image
+						src="/icons/iconBoy.png"
+						height={64}
+						width={64}
+						alt="Torah Lev mascot"
+					/>
 					<div className="space-y-2">
 						<h2 className="text-2xl font-extrabold text-sidebar-primary">
 							{t('brand.title')}
 						</h2>
-						<p className="text-sidebar-foreground/70">{t('courses.chooseCourse')}</p>
+						<p className="text-sidebar-foreground/70">
+							{t('courses.chooseCourse')}
+						</p>
 					</div>
 					<Link
 						href="/curriculum"
@@ -703,7 +764,10 @@ export default function AppSidebar({
 
 	return (
 		<Sidebar side={sidebarSide}>
-			<div dir={isHebrewUi ? 'rtl' : 'ltr'} className="flex h-full min-h-0 flex-col">
+			<div
+				dir={isHebrewUi ? 'rtl' : 'ltr'}
+				className="flex h-full min-h-0 flex-col"
+			>
 				{isMobile ? null : (
 					<SidebarHeader className="space-y-4 bg-gradient-to-b from-sidebar-accent/80 to-transparent">
 						<BrandCard

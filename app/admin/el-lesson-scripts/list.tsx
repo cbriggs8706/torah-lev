@@ -1,4 +1,4 @@
-import { Datagrid, List, TextField, TextInput, Pagination } from 'react-admin'
+import { Datagrid, List, Pagination, TextField, TextInput } from 'react-admin'
 
 const TruncatedTextField = ({ source }: { source: string }) => (
 	<TextField

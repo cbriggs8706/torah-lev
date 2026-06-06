@@ -61,12 +61,12 @@ export default function GreekLessonScriptList({
 
 						{/* Disable the link if the lesson is locked */}
 						<Link
-							href={`/el/lesson-scripts/${script.id}`}
+							href={`/el/videos/${script.id}`}
 							className={`inline-block mt-3 px-3 py-1 bg-sky-600 text-white rounded hover:bg-sky-700 transition ${
 								locked ? 'pointer-events-none' : ''
 							}`}
 						>
-							View Lesson Script
+							View Video
 						</Link>
 					</div>
 				)

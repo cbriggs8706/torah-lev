@@ -58,10 +58,10 @@ export default function LessonScriptList({
 
 	const resolvedLocale = manualLocale ?? inferredLocale
 	const actionLabelByLocale: Record<SidebarLocale, string> = {
-		en: 'View Lesson Script',
-		es: 'Ver guion de lección',
-		he: 'קרא',
-		el: 'Προβολή σεναρίου μαθήματος',
+		en: 'View Video',
+		es: 'Ver video',
+		he: 'צפה בסרטון',
+		el: 'Προβολή βίντεο',
 	}
 
 	const getLessonRangeLabel = useCallback((lessonId: number) => {
@@ -263,7 +263,7 @@ export default function LessonScriptList({
 										}`}
 									>
 										<Link
-											href={`/he/lesson-scripts/${script.id}`}
+											href={`/he/videos/${script.id}`}
 											scroll
 											className={`${locked ? 'pointer-events-none' : ''} inline-flex items-center gap-2`}
 										>

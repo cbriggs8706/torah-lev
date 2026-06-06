@@ -19,6 +19,7 @@ import LessonFilter from '../filters/filter-lesson'
 import ProgressBar from '../progress-bar'
 import { useUserId } from '@/hooks/useUserId'
 import { toast } from 'sonner'
+import type { PublicCourseActivityFilters } from '@/lib/public-course-activities'
 
 type FontChoice =
 	| 'arial'
@@ -40,6 +41,7 @@ interface HebrewVocabProps {
 	courseId: number
 	lockedLesson?: string
 	hideFilters?: boolean
+	initialFilters?: PublicCourseActivityFilters
 }
 
 type HebrewCardFilterType = 'all' | 'word' | 'phrase' | 'stack'
@@ -142,6 +144,7 @@ export default function HebrewFlashcards({
 	courseId,
 	lockedLesson,
 	hideFilters = false,
+	initialFilters,
 }: // userId,
 HebrewVocabProps) {
 	const {
@@ -204,6 +207,18 @@ HebrewVocabProps) {
 		if (!lockedLesson) return
 		setSelectedLessons([lockedLesson])
 	}, [lockedLesson, setSelectedLessons])
+
+	useEffect(() => {
+		if (initialFilters?.selectedLessons?.length) {
+			setSelectedLessons(initialFilters.selectedLessons)
+		}
+		if (initialFilters?.selectedCategory) {
+			setSelectedCategory(initialFilters.selectedCategory)
+		}
+		if (initialFilters?.selectedType) {
+			setSelectedType(initialFilters.selectedType)
+		}
+	}, [initialFilters, setSelectedLessons])
 
 	const PRESETS: FlashcardPreset[] = [
 		{

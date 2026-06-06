@@ -55,7 +55,12 @@ export const VideoList = () => (
 		<Datagrid rowClick="edit">
 			<TextField source="id" />
 			<SelectField source="type" choices={VIDEO_TYPE_CHOICES} />
-			<ReferenceField source="lessonId" reference="lessons" link="edit" label="Lesson">
+			<ReferenceField
+				source="lessonId"
+				reference="lessons"
+				label="Lesson"
+				link={false}
+			>
 				<FunctionField
 					render={(record: { lessonNumber?: string | null; title?: string | null }) =>
 						`${record.lessonNumber || 'No. ?'} - ${record.title || 'Untitled'}`

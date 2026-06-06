@@ -10,6 +10,7 @@ import {
 import { HebrewVocab } from '@/lib/vocab'
 import { getHebrewVocabByCourseId } from '@/lib/server/vocab'
 import HebrewFlashcards from '@/components/hebrew/hebrew-flashcards'
+import { parseScheduledPublicCourseQuery } from '@/lib/public-course-activities'
 
 // ✅ allFields constants
 const allFieldsHebrew: (keyof HebrewVocab)[] = [
@@ -45,21 +46,12 @@ export default async function HebrewFlashcardPage({
 		: [null, null, null]
 
 	// ✅ Guest fallback values
-	const scheduledCourseId = Number(resolvedSearchParams.courseId)
-	const scheduledLesson =
-		typeof resolvedSearchParams.lesson === 'string'
-			? resolvedSearchParams.lesson
-			: ''
-	const isScheduled =
-		resolvedSearchParams.scheduled === '1' &&
-		Number.isFinite(scheduledCourseId) &&
-		scheduledCourseId > 0 &&
-		Boolean(scheduledLesson)
-	const activeCourseId = isScheduled
-		? scheduledCourseId
+	const publicCourseQuery = parseScheduledPublicCourseQuery(resolvedSearchParams)
+	const activeCourseId = publicCourseQuery.scheduled
+		? publicCourseQuery.courseId ?? 6
 		: userProgress?.activeCourseId ?? 6
-	const currentLesson = isScheduled
-		? scheduledLesson
+	const currentLesson = publicCourseQuery.scheduled
+		? publicCourseQuery.lesson ?? ''
 		: userChallengeData?.activeLesson?.lessonNumber ?? ''
 	const isPro = !!userSubscription?.isActive
 
@@ -111,8 +103,11 @@ export default async function HebrewFlashcardPage({
 						courseId={activeCourseId}
 						currentLesson={currentLesson}
 						layout="hebrew"
-						lockedLesson={isScheduled ? scheduledLesson : undefined}
-						hideFilters={isScheduled}
+						lockedLesson={
+							publicCourseQuery.scheduled ? publicCourseQuery.lesson ?? undefined : undefined
+						}
+						hideFilters={publicCourseQuery.scheduled}
+						initialFilters={publicCourseQuery.filters}
 					/>
 				</div>
 			</FeedWrapper>

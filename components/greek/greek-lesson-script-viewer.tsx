@@ -58,11 +58,11 @@ export default function GreekLessonScriptViewer({
 				<Button
 					variant={'default'}
 					onClick={() => {
-						router.push('/el/lesson-scripts')
+						router.push('/el/videos')
 						router.refresh() // revalidate the next route after the push
 					}}
 				>
-					Back to Lesson Script List
+					Back to Video List
 				</Button>
 			</div>
 

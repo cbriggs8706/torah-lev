@@ -68,7 +68,7 @@ async function resetPublicSchema(target: {
 			...process.env,
 			PGPASSWORD: target.password,
 			PGSSLMODE: 'require',
-		}
+		},
 	)
 }
 
@@ -93,7 +93,7 @@ async function main() {
 		throw new Error('Source and target database URLs are identical')
 	}
 
-	const tempDir = await mkdtemp(join(tmpdir(), 'idiom-go-db-migration-'))
+	const tempDir = await mkdtemp(join(tmpdir(), 'torah-lev-db-migration-'))
 	const dumpFile = join(tempDir, 'neon.dump')
 
 	try {
@@ -109,7 +109,7 @@ async function main() {
 				dumpFile,
 				sourceUrl,
 			],
-			process.env
+			process.env,
 		)
 
 		console.log('Replacing Supabase public schema...')
@@ -136,7 +136,7 @@ async function main() {
 				...process.env,
 				PGPASSWORD: target.password,
 				PGSSLMODE: 'require',
-			}
+			},
 		)
 
 		console.log('Supabase migration complete.')

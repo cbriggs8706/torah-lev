@@ -17,13 +17,13 @@ export default async function GreekLessonScriptPage({ params }: any) {
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">
 					<Image
-						src="/spiral-notepad-svgrepo-com.svg"
-						alt="Lesson Script"
+						src="/youtube.svg"
+						alt="Video"
 						height={90}
 						width={90}
 					/>
 					<h1 className="text-center font-bold text-neutral-800 text-2xl my-6">
-						Lesson Script
+						Video
 					</h1>
 				</div>
 				<GreekLessonScriptViewer lessonScript={lessonScript} />

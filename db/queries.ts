@@ -685,7 +685,7 @@ export async function getAllHebrewLessonScripts(courseId?: number) {
 	const base = db
 		.select({
 			id: videos.id,
-			courseId: videos.courseId,
+			curriculumId: videos.curriculumId,
 			lessonId: videos.lessonId,
 			lessonNumber: lessons.lessonNumber,
 			part: videos.part,
@@ -704,7 +704,7 @@ export async function getAllHebrewLessonScripts(courseId?: number) {
 			? base.where(
 					and(
 						sql`${videos.type} IS DISTINCT FROM 'story'::video_type`,
-						sql`${courseId} = ANY(${videos.courseId})`
+						sql`${courseId} = ANY(${videos.curriculumId})`
 					)
 				)
 			: base.where(sql`${videos.type} IS DISTINCT FROM 'story'::video_type`)
@@ -716,7 +716,7 @@ export const getHebrewLessonScripts = async (courseId: number) => {
 	const results = await db
 		.select({
 			id: videos.id,
-			courseId: videos.courseId,
+			curriculumId: videos.curriculumId,
 			lessonScriptId: videos.lessonId,
 			part: videos.part,
 			content: videos.content,
@@ -732,7 +732,7 @@ export const getHebrewLessonScripts = async (courseId: number) => {
 		.where(
 			and(
 				sql`${videos.type} IS DISTINCT FROM 'story'::video_type`,
-				sql`${courseId} = ANY(${videos.courseId})`
+				sql`${courseId} = ANY(${videos.curriculumId})`
 			)
 		)
 		.orderBy(asc(videos.lessonId), asc(videos.part))
@@ -1271,7 +1271,7 @@ export async function getAllHebrewStories(courseId?: number) {
 		.select({
 			id: videos.id,
 			lessonId: videos.lessonId,
-			courseId: videos.courseId,
+			curriculumId: videos.curriculumId,
 			title: videos.title,
 			hebTitle: videos.hebTitle,
 			titleTransliteration: videos.titleTransliteration,
@@ -1288,7 +1288,9 @@ export async function getAllHebrewStories(courseId?: number) {
 		.where(
 			and(
 				eq(videos.type, 'story'),
-				courseId != null ? sql`${courseId} = ANY(${videos.courseId})` : undefined
+				courseId != null
+					? sql`${courseId} = ANY(${videos.curriculumId})`
+					: undefined
 			)
 		)
 		.orderBy(asc(videos.order))
@@ -1309,7 +1311,7 @@ export async function getHebrewStory(storyId: number) {
 			contentPlain: videos.contentPlain,
 			audio: videos.audio,
 			lessonId: videos.lessonId,
-			courseId: videos.courseId,
+			curriculumId: videos.curriculumId,
 			category: videos.category,
 			public: videos.public,
 		})

@@ -12,6 +12,8 @@ import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import ReactConfetti from 'react-confetti'
 import { useAudio, useWindowSize } from 'react-use'
+import { markPublicCourseActivityComplete } from '@/lib/public-course-progress'
+import type { PublicCourseActivityFilters } from '@/lib/public-course-activities'
 
 type QuizLayout = 'english' | 'hebrew' | 'greek'
 type VocabCard = EnglishVocab | HebrewVocab | GreekVocab
@@ -44,6 +46,11 @@ interface VocabQuizProps {
 	initialHearts?: number
 	pointsOnPass?: number
 	filtersLocked?: boolean
+	initialFilters?: PublicCourseActivityFilters
+	completionContext?: {
+		enrollmentId: number
+		publicCourseLessonId: number
+	}
 }
 
 function CountdownCircle({
@@ -313,6 +320,8 @@ export default function VocabQuiz({
 	initialHearts = 5,
 	pointsOnPass = 5,
 	filtersLocked = false,
+	initialFilters,
+	completionContext,
 }: VocabQuizProps) {
 	const config = QUIZ_CONFIG[layout]
 	const {
@@ -350,6 +359,7 @@ export default function VocabQuiz({
 	const promptAudioRef = useRef<HTMLAudioElement | null>(null)
 	const answerAudioRef = useRef<HTMLAudioElement | null>(null)
 	const hasAwardedRef = useRef(false)
+	const publicCourseCompletionRef = useRef(false)
 	const imageLoadCacheRef = useRef<Map<string, Promise<void>>>(new Map())
 	const audioLoadCacheRef = useRef<Map<string, Promise<void>>>(new Map())
 	const preloadRunRef = useRef(0)
@@ -365,6 +375,11 @@ export default function VocabQuiz({
 			),
 		[data, config.promptOptions]
 	)
+
+	useEffect(() => {
+		if (!initialFilters?.selectedLessons?.length) return
+		setSelectedLessons(initialFilters.selectedLessons)
+	}, [initialFilters?.selectedLessons, setSelectedLessons])
 
 	useEffect(() => {
 		if (
@@ -636,6 +651,23 @@ export default function VocabQuiz({
 			awardPoints()
 		}
 	}, [awardPoints, celebratoryFinish, finished])
+
+	useEffect(() => {
+		if (!finished || !passed || !completionContext || publicCourseCompletionRef.current) {
+			return
+		}
+
+		publicCourseCompletionRef.current = true
+		void markPublicCourseActivityComplete({
+			enrollmentId: completionContext.enrollmentId,
+			publicCourseLessonId: completionContext.publicCourseLessonId,
+			activityKey: 'quiz',
+			scorePercent: Math.round((correctCount / Math.max(total, 1)) * 100),
+		}).catch((error) => {
+			console.error('Failed to save public course quiz progress', error)
+			publicCourseCompletionRef.current = false
+		})
+	}, [completionContext, correctCount, finished, passed, total])
 
 	function handleResponse(correct: boolean) {
 		if (waiting || disabledButtons || !currentCard) return

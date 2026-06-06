@@ -40,7 +40,7 @@ export function VideoForm() {
 				/>
 			</ReferenceInput>
 			<ReferenceArrayInput
-				source="courseId"
+				source="curriculumId"
 				reference="curriculum"
 				perPage={200}
 				sort={{ field: 'title', order: 'ASC' }}
@@ -67,8 +67,6 @@ export function VideoForm() {
 			<TextInput source="audio" label="Audio" fullWidth />
 			<TextInput source="audioSrc" label="Audio Embed URL" fullWidth />
 			<BooleanInput source="public" label="Public" />
-			<NumberInput source="hebrewLessonScriptId" label="Legacy Lesson Script ID" />
-			<NumberInput source="hebrewStoryId" label="Legacy Story ID" />
 			<TinyMCEInput source="content" label="Content" dir="rtl" />
 			<TinyMCEInput source="contentPlain" label="Content Plain" dir="rtl" />
 		</SimpleForm>

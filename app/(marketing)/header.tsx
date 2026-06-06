@@ -3,7 +3,11 @@
 import Image from 'next/image'
 import { Loader } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { signIn, signOut, useSession } from '@/components/providers/session-provider'
+import {
+	signIn,
+	signOut,
+	useSession,
+} from '@/components/providers/session-provider'
 
 export const Header = () => {
 	const { data: session, status } = useSession()
@@ -16,7 +20,7 @@ export const Header = () => {
 				<div className="pt-8 pl-4 pb-7 flex items-center gap-x-3">
 					<Image src="/icons/iconBoy.png" height={40} width={40} alt="Mascot" />
 					<h1 className="text-2xl font-extrabold text-sky-600 tracking-wide">
-						Idiom Go
+						Torah Lev
 					</h1>
 				</div>
 
@@ -52,7 +56,9 @@ export const Header = () => {
 							<Button
 								size="lg"
 								variant="ghost"
-								onClick={() => signIn(undefined, { callbackUrl: '/curriculum' })}
+								onClick={() =>
+									signIn(undefined, { callbackUrl: '/curriculum' })
+								}
 							>
 								Login
 							</Button>

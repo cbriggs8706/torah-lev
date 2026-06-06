@@ -13,8 +13,11 @@ export default function MobileHeader() {
 			}`}
 		>
 			<SidebarTrigger className="text-sidebar-foreground hover:bg-sidebar-accent" />
-			<Link href="/curriculum" className="text-lg font-extrabold tracking-tight text-sidebar-primary">
-				Idiom Go
+			<Link
+				href="/curriculum"
+				className="text-lg font-extrabold tracking-tight text-sidebar-primary"
+			>
+				Torah Lev
 			</Link>
 			<div className="w-10" />
 		</nav>

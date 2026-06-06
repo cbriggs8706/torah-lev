@@ -10,6 +10,7 @@ import HebrewMatchup from '@/components/hebrew/hebrew-matchup'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 import { HebrewVocab } from '@/lib/vocab'
 import { getHebrewVocabByCourseId } from '@/lib/server/vocab'
+import { parseScheduledPublicCourseQuery } from '@/lib/public-course-activities'
 
 export default async function HebrewMatchupPage({
 	searchParams,
@@ -30,23 +31,14 @@ export default async function HebrewMatchupPage({
 		: [null, null, null]
 
 	// ✅ Guest-safe fallbacks
-	const scheduledCourseId = Number(resolvedSearchParams.courseId)
-	const scheduledLesson =
-		typeof resolvedSearchParams.lesson === 'string'
-			? resolvedSearchParams.lesson
-			: ''
-	const isScheduled =
-		resolvedSearchParams.scheduled === '1' &&
-		Number.isFinite(scheduledCourseId) &&
-		scheduledCourseId > 0 &&
-		Boolean(scheduledLesson)
-	const activeCourseId = isScheduled
-		? scheduledCourseId
+	const publicCourseQuery = parseScheduledPublicCourseQuery(resolvedSearchParams)
+	const activeCourseId = publicCourseQuery.scheduled
+		? publicCourseQuery.courseId ?? 6
 		: userProgress?.activeCourseId ?? 6 // Default to AwB
 	const isPro = !!userSubscription?.isActive
 
-	const currentLesson = isScheduled
-		? scheduledLesson
+	const currentLesson = publicCourseQuery.scheduled
+		? publicCourseQuery.lesson ?? ''
 		: userChallengeData?.activeLesson?.lessonNumber ?? undefined
 
 	// ✅ Select vocab source based on course (guest or user)
@@ -86,8 +78,19 @@ export default async function HebrewMatchupPage({
 						}
 						courseId={activeCourseId}
 						userId={userId ?? 'guest'}
-						lockedLesson={isScheduled ? scheduledLesson : undefined}
-						hideFilters={isScheduled}
+						lockedLesson={
+							publicCourseQuery.scheduled ? publicCourseQuery.lesson ?? undefined : undefined
+						}
+						hideFilters={publicCourseQuery.scheduled}
+						initialFilters={publicCourseQuery.filters}
+						completionContext={
+							publicCourseQuery.enrollmentId && publicCourseQuery.publicCourseLessonId
+								? {
+										enrollmentId: publicCourseQuery.enrollmentId,
+										publicCourseLessonId: publicCourseQuery.publicCourseLessonId,
+								  }
+								: undefined
+						}
 					/>
 				</div>
 			</FeedWrapper>

@@ -7,6 +7,7 @@ import { DismissibleAlert } from '@/components/dismissible-alert'
 import { HebrewVocab } from '@/lib/vocab'
 import HebrewSpelling from '@/components/hebrew/hebrew-spelling'
 import { getHebrewVocabByCourseId } from '@/lib/server/vocab'
+import { parseScheduledPublicCourseQuery } from '@/lib/public-course-activities'
 
 export default async function HebrewSpellingPage({
 	searchParams,
@@ -26,21 +27,12 @@ export default async function HebrewSpellingPage({
 		: [null, null]
 
 	// ✅ Fallback for guests
-	const scheduledCourseId = Number(resolvedSearchParams.courseId)
-	const scheduledLesson =
-		typeof resolvedSearchParams.lesson === 'string'
-			? resolvedSearchParams.lesson
-			: ''
-	const isScheduled =
-		resolvedSearchParams.scheduled === '1' &&
-		Number.isFinite(scheduledCourseId) &&
-		scheduledCourseId > 0 &&
-		Boolean(scheduledLesson)
-	const activeCourseId = isScheduled
-		? scheduledCourseId
+	const publicCourseQuery = parseScheduledPublicCourseQuery(resolvedSearchParams)
+	const activeCourseId = publicCourseQuery.scheduled
+		? publicCourseQuery.courseId ?? 6
 		: userProgress?.activeCourseId ?? 6
-	const currentLesson = isScheduled
-		? scheduledLesson
+	const currentLesson = publicCourseQuery.scheduled
+		? publicCourseQuery.lesson ?? ''
 		: userChallengeData?.activeLesson?.lessonNumber ?? '1'
 	// ✅ Determine vocab source
 	const hebrewData: HebrewVocab[] = (
@@ -83,7 +75,8 @@ export default async function HebrewSpellingPage({
 						currentLesson={currentLesson}
 						userId={userId ?? 'guest'}
 						courseId={activeCourseId}
-						hideFilters={isScheduled}
+						hideFilters={publicCourseQuery.scheduled}
+						initialFilters={publicCourseQuery.filters}
 					/>
 				</div>
 			</FeedWrapper>

@@ -102,7 +102,7 @@ export default function HebrewUserDashboard({
 	const [isNameDialogOpen, setIsNameDialogOpen] = useState(false)
 	const [isAvatarDialogOpen, setIsAvatarDialogOpen] = useState(false)
 	const [editingMode, setEditingMode] = useState<'english' | 'hebrew'>(
-		'english'
+		'english',
 	)
 	const [avatarPreview, setAvatarPreview] = useState<string | null>(null)
 	const [uploadedFile, setUploadedFile] = useState<File | null>(null)
@@ -129,7 +129,7 @@ export default function HebrewUserDashboard({
 		}, {})
 
 	const activeCourseProgress = allCourseProgress.find(
-		(c) => c.courseId === activeCourse.id
+		(c) => c.courseId === activeCourse.id,
 	)
 	const activeLesson = activeCourseProgress?.activeLessonId ?? null
 	const activeLessonNumber = (activeLesson && lessonMap[activeLesson]) || null
@@ -212,7 +212,7 @@ export default function HebrewUserDashboard({
 					'🖼️ Updated image:',
 					editingMode === 'hebrew'
 						? updated.hebrewImageSrc
-						: updated.userImageSrc
+						: updated.userImageSrc,
 				)
 
 				// 3️⃣ Update local UI
@@ -267,7 +267,7 @@ export default function HebrewUserDashboard({
 
 	const handleGroupFieldChange = (
 		field: keyof typeof groupForm,
-		value: string | boolean
+		value: string | boolean,
 	) => {
 		setGroupForm((prev) => ({
 			...prev,
@@ -588,9 +588,7 @@ export default function HebrewUserDashboard({
 			{isLeader ? (
 				<div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-5 space-y-4">
 					<div className="space-y-1">
-						<h2 className="text-2xl font-semibold text-emerald-800">
-							Leader
-						</h2>
+						<h2 className="text-2xl font-semibold text-emerald-800">Leader</h2>
 						<p className="text-sm text-emerald-700">
 							Create a new study group for your learners.
 						</p>
@@ -603,9 +601,7 @@ export default function HebrewUserDashboard({
 							</label>
 							<Input
 								value={groupForm.name}
-								onChange={(e) =>
-									handleGroupFieldChange('name', e.target.value)
-								}
+								onChange={(e) => handleGroupFieldChange('name', e.target.value)}
 								placeholder="Beginner Hebrew Cohort"
 								disabled={isPending}
 							/>
@@ -627,9 +623,7 @@ export default function HebrewUserDashboard({
 							<label className="text-sm font-medium text-gray-700">Time</label>
 							<Input
 								value={groupForm.time}
-								onChange={(e) =>
-									handleGroupFieldChange('time', e.target.value)
-								}
+								onChange={(e) => handleGroupFieldChange('time', e.target.value)}
 								placeholder="Tuesdays at 7:00 PM MT"
 								disabled={isPending}
 							/>
@@ -652,7 +646,7 @@ export default function HebrewUserDashboard({
 								onValueChange={(value) =>
 									handleGroupFieldChange(
 										'groupType',
-										value as 'Public' | 'Private' | 'Self-paced'
+										value as 'Public' | 'Private' | 'Self-paced',
 									)
 								}
 								disabled={isPending}
@@ -676,12 +670,14 @@ export default function HebrewUserDashboard({
 								onChange={(e) =>
 									handleGroupFieldChange('organization', e.target.value)
 								}
-								placeholder="Idiom Go"
+								placeholder="Torah Lev"
 								disabled={isPending}
 							/>
 						</div>
 						<div className="space-y-2">
-							<label className="text-sm font-medium text-gray-700">Section</label>
+							<label className="text-sm font-medium text-gray-700">
+								Section
+							</label>
 							<Input
 								value={groupForm.section}
 								onChange={(e) =>
@@ -748,7 +744,7 @@ export default function HebrewUserDashboard({
 								)
 
 							const sortedCurrent = [...currentGroups].sort(
-								(a, b) => Number(b.isTeacher) - Number(a.isTeacher)
+								(a, b) => Number(b.isTeacher) - Number(a.isTeacher),
 							)
 
 							return (
@@ -945,7 +941,7 @@ export default function HebrewUserDashboard({
 						<HebrewKeyboard
 							onKeyPress={(key) =>
 								setNewName((prev) =>
-									key === '\b' ? prev.slice(0, -1) : prev + key
+									key === '\b' ? prev.slice(0, -1) : prev + key,
 								)
 							}
 							onEnter={handleNameSave}
@@ -1025,7 +1021,7 @@ export default function HebrewUserDashboard({
 						<HebrewKeyboard
 							onKeyPress={(key) =>
 								setNewName((prev) =>
-									key === '\b' ? prev.slice(0, -1) : prev + key
+									key === '\b' ? prev.slice(0, -1) : prev + key,
 								)
 							}
 							onEnter={handleNameSave}

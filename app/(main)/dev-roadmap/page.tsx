@@ -58,7 +58,7 @@ const DevRoadmapPage = async () => {
 								text from stories, songs, scripture
 							</li>
 							<li>
-								Go through all lesson scripts and make sure they&apos;re
+								Go through all videos and make sure they&apos;re
 								verbatim and not missing any words
 							</li>
 						</ul>

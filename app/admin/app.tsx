@@ -26,6 +26,7 @@ import GenerateChallengesPage from './generate-challenges/view'
 import VocabIntroPage from './vocab-intros/view'
 import VocabRelationsPage from './vocab-relations/view'
 import PublicCoursesAdminPage from './public-courses/view'
+import PublicCourseLessonAdminPage from './public-courses/lesson-view'
 
 import { AdminMenu } from '@/components/admin-menu'
 
@@ -171,7 +172,7 @@ const App = () => {
 					create={GreekLessonScriptCreate}
 					edit={GreekLessonScriptEdit}
 					recordRepresentation="text"
-					options={{ label: 'Grk Lesson Scripts' }}
+					options={{ label: 'Greek Videos' }}
 				/>
 				<Resource
 					name="grammar-lessons"
@@ -211,6 +212,10 @@ const App = () => {
 						element={<GenerateChallengesPage />}
 					/>
 					<Route path="/public-courses" element={<PublicCoursesAdminPage />} />
+					<Route
+						path="/public-courses/:courseId/lessons/:publicCourseLessonId"
+						element={<PublicCourseLessonAdminPage />}
+					/>
 					<Route path="/vocab-intros" element={<VocabIntroPage />} />
 					<Route path="/vocab-relations" element={<VocabRelationsPage />} />
 				</CustomRoutes>

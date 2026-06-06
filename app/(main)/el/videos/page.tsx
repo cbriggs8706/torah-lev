@@ -35,13 +35,13 @@ const GreekLessonScriptsPage = async () => {
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">
 					<Image
-						src="/spiral-notepad-svgrepo-com.svg"
-						alt="Lesson Scripts"
+						src="/youtube.svg"
+						alt="Videos"
 						height={90}
 						width={90}
 					/>
 					<h1 className="text-center font-bold text-neutral-800 text-2xl my-6">
-						Lesson Scripts
+						Videos
 					</h1>
 
 					<DismissibleAlert storageKey="scripts" className="mb-4">

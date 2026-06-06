@@ -36,17 +36,15 @@ export default async function HebrewLessonScriptsPage() {
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">
 					<Image
-						src="/icons/iconNotebook.png"
-						alt="Lesson Scripts"
+						src="/icons/iconYoutube.png"
+						alt="Videos"
 						height={90}
 						width={90}
 					/>
 					<h1 className="text-center font-cardo text-neutral-800 text-6xl my-6">
 						תַּסְרִיטֵי שִׁעוּר
 					</h1>
-					<p className="text-center font-bold text-neutral-800 mb-2">
-						Lesson Scripts
-					</p>
+					<p className="text-center font-bold text-neutral-800 mb-2">Videos</p>
 
 					{!userId && (
 						<p className="text-gray-500 italic mb-3">

@@ -60,7 +60,7 @@ export default function SidebarClient({
 							alt="Mascot"
 						/>
 						<h1 className="text-2xl font-extrabold text-sky-600 tracking-wide">
-							Idiom Go
+							Torah Lev
 						</h1>
 					</div>
 				</Link>
@@ -94,7 +94,7 @@ export default function SidebarClient({
 						/>
 						{/* <Image src="/mascot.svg" height={40} width={40} alt="Mascot" /> */}
 						<h1 className="text-2xl font-extrabold text-sky-600 tracking-wide">
-							Idiom Go
+							Torah Lev
 						</h1>
 					</div>
 				</Link>
@@ -187,10 +187,9 @@ export default function SidebarClient({
 								className="font-cardo text-xl"
 							/>
 							<SidebarItem
-								label="תסריטי שיעור"
-								href="/he/lesson-scripts"
-								iconSrc="/icons/iconNotebook.png"
-								// iconSrc="/spiral-notepad-svgrepo-com.svg"
+								label="סרטונים"
+								href="/he/videos"
+								iconSrc="/icons/iconYoutube.png"
 								onClick={onItemClick}
 								className="font-cardo text-xl"
 							/>
@@ -279,9 +278,9 @@ export default function SidebarClient({
 								onClick={onItemClick}
 							/>
 							<SidebarItem
-								label="Lesson Scripts"
-								href="/el/lesson-scripts"
-								iconSrc="/spiral-notepad-svgrepo-com.svg"
+								label="Videos"
+								href="/el/videos"
+								iconSrc="/youtube.svg"
 								onClick={onItemClick}
 							/>
 						</>
@@ -462,7 +461,9 @@ export default function SidebarClient({
 									variant="ghost"
 									size="sm"
 									onClick={() =>
-										window.location.assign('/auth/signin?callbackUrl=/curriculum')
+										window.location.assign(
+											'/auth/signin?callbackUrl=/curriculum',
+										)
 									}
 								>
 									Log in

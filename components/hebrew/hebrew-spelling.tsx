@@ -17,6 +17,7 @@ import FormatFilter, { FormatType } from '../filters/filter-format'
 import LessonFilter from '../filters/filter-lesson'
 import CategoryFilter from '../filters/filter-category'
 import ProgressBar from '../progress-bar'
+import type { PublicCourseActivityFilters } from '@/lib/public-course-activities'
 
 interface HebrewSpellingProps {
 	data: HebrewVocab[]
@@ -24,6 +25,7 @@ interface HebrewSpellingProps {
 	userId: string
 	courseId: number | null
 	hideFilters?: boolean
+	initialFilters?: PublicCourseActivityFilters
 }
 
 const formatOptions: FormatType[] = [
@@ -41,6 +43,7 @@ export default function HebrewSpelling({
 	courseId,
 	userId,
 	hideFilters = false,
+	initialFilters,
 }: HebrewSpellingProps) {
 	const {
 		selectedLessons,
@@ -84,6 +87,21 @@ export default function HebrewSpelling({
 		}
 		audio.play().catch(console.error)
 	}
+
+	useEffect(() => {
+		if (initialFilters?.selectedLessons?.length) {
+			setSelectedLessons(initialFilters.selectedLessons)
+		}
+		if (initialFilters?.selectedCategory) {
+			setSelectedCategory(initialFilters.selectedCategory)
+		}
+		if (initialFilters?.selectedType && initialFilters.selectedType !== 'stack') {
+			setSelectedType(initialFilters.selectedType)
+		}
+		if (initialFilters?.formatType) {
+			setFormatType(initialFilters.formatType)
+		}
+	}, [initialFilters, setSelectedLessons])
 
 	useEffect(() => {
 		const checkMobile = () => {

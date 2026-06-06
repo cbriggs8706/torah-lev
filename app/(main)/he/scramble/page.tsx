@@ -5,6 +5,7 @@ import { getCourseProgress, getUserProgress } from '@/db/queries'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 import HebrewScramble from '@/components/hebrew/hebrew-scramble'
 import { getHebrewVocabByCourseId } from '@/lib/server/vocab'
+import { parseScheduledPublicCourseQuery } from '@/lib/public-course-activities'
 
 export default async function HebrewScramblePage({
 	searchParams,
@@ -24,21 +25,12 @@ export default async function HebrewScramblePage({
 		: [null, null]
 
 	// ✅ Guest-safe fallbacks
-	const scheduledCourseId = Number(resolvedSearchParams.courseId)
-	const scheduledLesson =
-		typeof resolvedSearchParams.lesson === 'string'
-			? resolvedSearchParams.lesson
-			: ''
-	const isScheduled =
-		resolvedSearchParams.scheduled === '1' &&
-		Number.isFinite(scheduledCourseId) &&
-		scheduledCourseId > 0 &&
-		Boolean(scheduledLesson)
-	const courseId = isScheduled
-		? scheduledCourseId
+	const publicCourseQuery = parseScheduledPublicCourseQuery(resolvedSearchParams)
+	const courseId = publicCourseQuery.scheduled
+		? publicCourseQuery.courseId ?? 6
 		: userProgress?.activeCourseId ?? 6
-	const currentLesson = isScheduled
-		? scheduledLesson
+	const currentLesson = publicCourseQuery.scheduled
+		? publicCourseQuery.lesson ?? ''
 		: userChallengeData?.activeLesson?.lessonNumber ?? '1'
 	const hebrewData = await getHebrewVocabByCourseId(courseId)
 
@@ -76,7 +68,16 @@ export default async function HebrewScramblePage({
 						data={hebrewData}
 						currentLesson={currentLesson}
 						userId={userId ?? 'guest'}
-						hideFilters={isScheduled}
+						hideFilters={publicCourseQuery.scheduled}
+						initialFilters={publicCourseQuery.filters}
+						completionContext={
+							publicCourseQuery.enrollmentId && publicCourseQuery.publicCourseLessonId
+								? {
+										enrollmentId: publicCourseQuery.enrollmentId,
+										publicCourseLessonId: publicCourseQuery.publicCourseLessonId,
+								  }
+								: undefined
+						}
 					/>
 				</div>
 			</FeedWrapper>

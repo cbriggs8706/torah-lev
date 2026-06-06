@@ -7,13 +7,37 @@ import {
 	lessons,
 	publicCourse,
 	publicCourseLesson,
+	publicCourseLessonActivity,
 } from '@/db/schema'
 import { isAdmin } from '@/lib/admin'
+import {
+	getDefaultPublicCourseLessonActivities,
+	normalizePublicCourseActivityFilters,
+	type PublicCourseActivityKey,
+} from '@/lib/public-course-activities'
 
 const lessonAssignmentSchema = z.object({
 	platformCourseId: z.number().int().positive(),
 	lessonId: z.number().int().positive(),
 	order: z.number().int().positive(),
+	activities: z
+		.array(
+			z.object({
+				activityKey: z.enum([
+					'lesson_script',
+					'introduction',
+					'flashcards',
+					'quiz',
+					'matchup',
+					'spelling',
+					'scramble',
+				]),
+				order: z.number().int().positive(),
+				isEnabled: z.boolean(),
+				filterConfig: z.record(z.string(), z.unknown()).optional(),
+			})
+		)
+		.optional(),
 })
 
 const replaceLessonsSchema = z.object({
@@ -58,6 +82,9 @@ async function getPublicCourseLessons(publicCourseId: number) {
 						},
 					},
 				},
+			},
+			activities: {
+				orderBy: [asc(publicCourseLessonActivity.order)],
 			},
 		},
 	})
@@ -150,20 +177,68 @@ export async function PUT(
 			}
 		}
 
-		await db
-			.delete(publicCourseLesson)
-			.where(eq(publicCourseLesson.publicCourseId, courseId))
+		await db.transaction(async (tx) => {
+			await tx
+				.delete(publicCourseLesson)
+				.where(eq(publicCourseLesson.publicCourseId, courseId))
 
-		if (parsed.data.lessons.length > 0) {
-			await db.insert(publicCourseLesson).values(
-				parsed.data.lessons.map((lesson) => ({
-					publicCourseId: courseId,
-					platformCourseId: lesson.platformCourseId,
-					lessonId: lesson.lessonId,
-					order: lesson.order,
-				}))
+			if (parsed.data.lessons.length === 0) {
+				return
+			}
+
+			const insertedLessons = await tx
+				.insert(publicCourseLesson)
+				.values(
+					parsed.data.lessons.map((lesson) => ({
+						publicCourseId: courseId,
+						platformCourseId: lesson.platformCourseId,
+						lessonId: lesson.lessonId,
+						order: lesson.order,
+					}))
+				)
+				.returning({
+					id: publicCourseLesson.id,
+					lessonId: publicCourseLesson.lessonId,
+					order: publicCourseLesson.order,
+				})
+
+			const lessonIdsByOrder = new Map(
+				insertedLessons.map((lesson) => [lesson.order, lesson.id])
 			)
-		}
+
+			const activityRows = parsed.data.lessons.flatMap((lesson) => {
+				const publicCourseLessonId = lessonIdsByOrder.get(lesson.order)
+				if (!publicCourseLessonId) return []
+
+				const activities =
+					lesson.activities?.length &&
+					lesson.activities.some(
+						(activity) => activity.activityKey === 'lesson_script'
+					)
+						? lesson.activities
+						: getDefaultPublicCourseLessonActivities()
+
+				const orderedActivities = [
+					...activities.filter((activity) => activity.activityKey === 'lesson_script'),
+					...activities.filter((activity) => activity.activityKey !== 'lesson_script'),
+				]
+
+				return orderedActivities.map((activity, index) => ({
+					publicCourseLessonId,
+					activityKey: activity.activityKey as PublicCourseActivityKey,
+					order: index + 1,
+					isEnabled:
+						activity.activityKey === 'lesson_script' ? true : activity.isEnabled,
+					filterConfig: normalizePublicCourseActivityFilters(
+						activity.filterConfig ?? {}
+					),
+				}))
+			})
+
+			if (activityRows.length > 0) {
+				await tx.insert(publicCourseLessonActivity).values(activityRows)
+			}
+		})
 
 		const courseLessons = await getPublicCourseLessons(courseId)
 		return NextResponse.json({ lessons: courseLessons })

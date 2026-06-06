@@ -5,7 +5,7 @@ import db from '@/db/drizzle'
 import { videos } from '@/db/schema'
 import { isAdmin } from '@/lib/admin'
 
-function parseCourseIdArray(value: unknown) {
+function parseCurriculumIdArray(value: unknown) {
 	if (Array.isArray(value)) {
 		return value
 			.map((item) => Number(item))
@@ -46,7 +46,9 @@ function toStoryRecord(row: typeof videos.$inferSelect | undefined) {
 function toStoryPayload(body: Record<string, unknown>) {
 	return {
 		lessonId: parseOptionalNumber(body.lessonId),
-		courseId: parseCourseIdArray(body.courseId),
+		curriculumId: parseCurriculumIdArray(
+			body.curriculumId ?? body.courseId
+		),
 		title: typeof body.title === 'string' ? body.title : null,
 		hebTitle: typeof body.hebTitle === 'string' ? body.hebTitle : null,
 		titleTransliteration:

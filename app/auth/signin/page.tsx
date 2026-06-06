@@ -26,7 +26,7 @@ export default function AuthPage() {
 		<div className="flex flex-col items-center justify-center min-h-screen p-6 bg-gradient-to-b from-white to-neutral-50">
 			<div className="text-center mb-8">
 				<h1 className="text-4xl font-bold text-neutral-800">
-					Welcome to IdiomGo
+					Welcome to TorahLev
 				</h1>
 				<p className="text-neutral-500 mt-2">
 					Free language learning made fun with comprehensible input.
@@ -84,7 +84,7 @@ export default function AuthPage() {
 			</div>
 
 			<p className="text-xs text-neutral-400 mt-6 text-center max-w-sm">
-				By continuing, you agree to IdiomGo’s Terms of Service and Privacy
+				By continuing, you agree to TorahLev&apos;s Terms of Service and Privacy
 				Policy.
 			</p>
 		</div>

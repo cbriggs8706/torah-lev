@@ -5,7 +5,7 @@ import db from '@/db/drizzle'
 import { curriculum, lessons, units, videos } from '@/db/schema'
 import { isAdmin } from '@/lib/admin'
 
-function parseCourseIdArray(value: unknown) {
+function parseCurriculumIdArray(value: unknown) {
 	if (Array.isArray(value)) {
 		return value
 			.map((item) => Number(item))
@@ -34,18 +34,14 @@ function parseOptionalNumber(value: unknown) {
 	return Number.isFinite(parsed) ? parsed : null
 }
 
-function parseOptionalBoolean(value: unknown) {
-	return typeof value === 'boolean' ? value : null
-}
-
 function toVideoPayload(body: Record<string, unknown>) {
 	const requestedType = typeof body.type === 'string' ? body.type : null
 
 	return {
-		hebrewLessonScriptId: parseOptionalNumber(body.hebrewLessonScriptId),
-		hebrewStoryId: parseOptionalNumber(body.hebrewStoryId),
 		lessonId: parseOptionalNumber(body.lessonId),
-		courseId: parseCourseIdArray(body.courseId),
+		curriculumId: parseCurriculumIdArray(
+			body.curriculumId ?? body.courseId
+		),
 		part: parseOptionalNumber(body.part),
 		title: typeof body.title === 'string' ? body.title : null,
 		hebTitle: typeof body.hebTitle === 'string' ? body.hebTitle : null,
@@ -65,7 +61,7 @@ function toVideoPayload(body: Record<string, unknown>) {
 		image: typeof body.image === 'string' ? body.image : null,
 		audio: typeof body.audio === 'string' ? body.audio : null,
 		audioSrc: typeof body.audioSrc === 'string' ? body.audioSrc : null,
-		public: parseOptionalBoolean(body.public),
+		public: typeof body.public === 'boolean' ? body.public : null,
 		category: typeof body.category === 'string' ? body.category : null,
 		content: typeof body.content === 'string' ? body.content : null,
 		contentPlain:
@@ -91,14 +87,15 @@ async function decorateVideo(row: typeof videos.$inferSelect | undefined) {
 			  })
 			: null
 
-	const courses = Array.isArray(row.courseId) && row.courseId.length > 0
+	const courses =
+		Array.isArray(row.curriculumId) && row.curriculumId.length > 0
 		? await db
 				.select({
 					id: curriculum.id,
 					title: curriculum.title,
 				})
 				.from(curriculum)
-				.where(inArray(curriculum.id, row.courseId))
+				.where(inArray(curriculum.id, row.curriculumId))
 		: []
 
 	return {

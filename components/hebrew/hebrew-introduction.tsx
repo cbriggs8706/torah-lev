@@ -12,6 +12,8 @@ import { resolveVocabMediaUrl } from '@/lib/vocab-media'
 import type { HebrewVocab } from '@/lib/vocab'
 import { ResultCard } from '@/app/lesson/result-card'
 import { awardIntroductionCompletion } from '@/actions/introduction-progress'
+import { markPublicCourseActivityComplete } from '@/lib/public-course-progress'
+import type { PublicCourseActivityFilters } from '@/lib/public-course-activities'
 
 type HebrewIntroductionProps = {
 	activeCourseId: number
@@ -19,6 +21,11 @@ type HebrewIntroductionProps = {
 	currentLesson: string
 	initialHearts: number
 	filtersLocked?: boolean
+	initialFilters?: PublicCourseActivityFilters
+	completionContext?: {
+		enrollmentId: number
+		publicCourseLessonId: number
+	}
 }
 
 type SessionPhase = 'idle' | 'teaching' | 'quiz' | 'complete'
@@ -36,6 +43,8 @@ export default function HebrewIntroduction({
 	currentLesson,
 	initialHearts,
 	filtersLocked = false,
+	initialFilters,
+	completionContext,
 }: HebrewIntroductionProps) {
 	const { selectedLessons, setSelectedLessons } = useLessonCards(
 		data,
@@ -73,8 +82,14 @@ export default function HebrewIntroduction({
 
 	const runIdRef = useRef(0)
 	const removedClassroomDefaultRef = useRef(false)
+	const publicCourseCompletionRef = useRef(false)
 	const { width, height } = useWindowSize()
 	const [finishAudio] = useAudio({ src: '/shofar.mp3', autoPlay: true })
+
+	useEffect(() => {
+		if (!initialFilters?.selectedLessons?.length) return
+		setSelectedLessons(initialFilters.selectedLessons)
+	}, [initialFilters?.selectedLessons, setSelectedLessons])
 
 	useEffect(() => {
 		if (phase !== 'idle') return
@@ -294,6 +309,27 @@ export default function HebrewIntroduction({
 			cancelled = true
 		}
 	}, [activeCourseId, completionAwarded, filteredCards.length, phase])
+
+	useEffect(() => {
+		if (
+			phase !== 'complete' ||
+			!completionContext ||
+			publicCourseCompletionRef.current
+		) {
+			return
+		}
+
+		publicCourseCompletionRef.current = true
+		void markPublicCourseActivityComplete({
+			enrollmentId: completionContext.enrollmentId,
+			publicCourseLessonId: completionContext.publicCourseLessonId,
+			activityKey: 'introduction',
+			scorePercent: 100,
+		}).catch((error) => {
+			console.error('Failed to save public course introduction progress', error)
+			publicCourseCompletionRef.current = false
+		})
+	}, [completionContext, phase])
 
 	const startSession = () => {
 		if (sessionCardOrder.length < 2) return

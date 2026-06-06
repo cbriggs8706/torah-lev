@@ -88,7 +88,7 @@ const reeniebeanie = Reenie_Beanie({
 })
 
 export const metadata: Metadata = {
-	title: 'Idiom Go',
+	title: 'Torah Lev',
 	description: 'Free Language Learning Made Fun With Comprehensible Input',
 }
 

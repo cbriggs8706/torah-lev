@@ -3,7 +3,11 @@ import { asc, desc } from 'drizzle-orm'
 import { z } from 'zod'
 
 import db from '@/db/drizzle'
-import { publicCourse, publicCourseLesson } from '@/db/schema'
+import {
+	publicCourse,
+	publicCourseLesson,
+	publicCourseLessonActivity,
+} from '@/db/schema'
 import {
 	fallbackCourseImageUrl,
 	uploadCourseImage,
@@ -63,6 +67,9 @@ export async function GET() {
 								},
 							},
 						},
+					},
+					activities: {
+						orderBy: [asc(publicCourseLessonActivity.order)],
 					},
 				},
 			},

@@ -5,6 +5,7 @@ import { getSession } from '@/lib/auth'
 import { getCourseProgress, getUserProgress } from '@/db/queries'
 import VocabQuiz from '@/components/vocab/vocab-quiz'
 import { getHebrewVocabByCourseId } from '@/lib/server/vocab'
+import { parseScheduledPublicCourseQuery } from '@/lib/public-course-activities'
 
 export default async function HebrewQuizPage({
 	searchParams,
@@ -20,21 +21,12 @@ export default async function HebrewQuizPage({
 		getCourseProgress(),
 	])
 
-	const scheduledCourseId = Number(resolvedSearchParams.courseId)
-	const scheduledLesson =
-		typeof resolvedSearchParams.lesson === 'string'
-			? resolvedSearchParams.lesson
-			: ''
-	const isScheduled =
-		resolvedSearchParams.scheduled === '1' &&
-		Number.isFinite(scheduledCourseId) &&
-		scheduledCourseId > 0 &&
-		Boolean(scheduledLesson)
-	const activeCourseId = isScheduled
-		? scheduledCourseId
+	const publicCourseQuery = parseScheduledPublicCourseQuery(resolvedSearchParams)
+	const activeCourseId = publicCourseQuery.scheduled
+		? publicCourseQuery.courseId ?? 6
 		: userProgress?.activeCourseId ?? 6
-	const currentLesson = isScheduled
-		? scheduledLesson
+	const currentLesson = publicCourseQuery.scheduled
+		? publicCourseQuery.lesson ?? ''
 		: courseProgress?.activeLesson?.lessonNumber ?? '1'
 	const hebrewData = await getHebrewVocabByCourseId(activeCourseId)
 
@@ -61,7 +53,16 @@ export default async function HebrewQuizPage({
 						userId={userId}
 						layout="hebrew"
 						initialHearts={userProgress?.hearts ?? 5}
-						filtersLocked={isScheduled}
+						filtersLocked={publicCourseQuery.scheduled}
+						initialFilters={publicCourseQuery.filters}
+						completionContext={
+							publicCourseQuery.enrollmentId && publicCourseQuery.publicCourseLessonId
+								? {
+										enrollmentId: publicCourseQuery.enrollmentId,
+										publicCourseLessonId: publicCourseQuery.publicCourseLessonId,
+								  }
+								: undefined
+						}
 					/>
 				</div>
 			</FeedWrapper>

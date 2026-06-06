@@ -5,7 +5,7 @@ import db from '@/db/drizzle'
 import { curriculum, lessons, units, videos } from '@/db/schema'
 import { isAdmin } from '@/lib/admin'
 
-function parseCourseIdArray(value: unknown) {
+function parseCurriculumIdArray(value: unknown) {
 	if (Array.isArray(value)) {
 		return value
 			.map((item) => Number(item))
@@ -34,18 +34,14 @@ function parseOptionalNumber(value: unknown) {
 	return Number.isFinite(parsed) ? parsed : null
 }
 
-function parseOptionalBoolean(value: unknown) {
-	return typeof value === 'boolean' ? value : null
-}
-
 function toVideoPayload(body: Record<string, unknown>) {
 	const requestedType = typeof body.type === 'string' ? body.type : null
 
 	return {
-		hebrewLessonScriptId: parseOptionalNumber(body.hebrewLessonScriptId),
-		hebrewStoryId: parseOptionalNumber(body.hebrewStoryId),
 		lessonId: parseOptionalNumber(body.lessonId),
-		courseId: parseCourseIdArray(body.courseId),
+		curriculumId: parseCurriculumIdArray(
+			body.curriculumId ?? body.courseId
+		),
 		part: parseOptionalNumber(body.part),
 		title: typeof body.title === 'string' ? body.title : null,
 		hebTitle: typeof body.hebTitle === 'string' ? body.hebTitle : null,
@@ -65,7 +61,7 @@ function toVideoPayload(body: Record<string, unknown>) {
 		image: typeof body.image === 'string' ? body.image : null,
 		audio: typeof body.audio === 'string' ? body.audio : null,
 		audioSrc: typeof body.audioSrc === 'string' ? body.audioSrc : null,
-		public: parseOptionalBoolean(body.public),
+		public: typeof body.public === 'boolean' ? body.public : null,
 		category: typeof body.category === 'string' ? body.category : null,
 		content: typeof body.content === 'string' ? body.content : null,
 		contentPlain:
@@ -84,11 +80,13 @@ async function decorateVideos(rows: VideoRow[]) {
 				.filter((value): value is number => typeof value === 'number')
 		)
 	)
-	const courseIds = Array.from(
+	const curriculumIds = Array.from(
 		new Set(
 			rows.flatMap((row) =>
-				Array.isArray(row.courseId)
-					? row.courseId.filter((value): value is number => typeof value === 'number')
+				Array.isArray(row.curriculumId)
+					? row.curriculumId.filter(
+							(value): value is number => typeof value === 'number'
+					  )
 					: []
 			)
 		)
@@ -110,14 +108,14 @@ async function decorateVideos(rows: VideoRow[]) {
 					.innerJoin(curriculum, eq(units.courseId, curriculum.id))
 					.where(inArray(lessons.id, lessonIds))
 			: Promise.resolve([]),
-		courseIds.length
+		curriculumIds.length
 			? db
 					.select({
 						id: curriculum.id,
 						title: curriculum.title,
 					})
 					.from(curriculum)
-					.where(inArray(curriculum.id, courseIds))
+					.where(inArray(curriculum.id, curriculumIds))
 			: Promise.resolve([]),
 	])
 
@@ -135,8 +133,8 @@ async function decorateVideos(rows: VideoRow[]) {
 		...row,
 		lessonLabel:
 			typeof row.lessonId === 'number' ? (lessonMap.get(row.lessonId) ?? null) : null,
-		courseTitles: Array.isArray(row.courseId)
-			? row.courseId
+		courseTitles: Array.isArray(row.curriculumId)
+			? row.curriculumId
 					.map((id) => courseMap.get(id))
 					.filter((value): value is string => Boolean(value))
 					.join(', ')
@@ -168,6 +166,7 @@ export const GET = async (req: Request) => {
 		category: videos.category,
 		public: videos.public,
 		part: videos.part,
+		curriculumId: videos.curriculumId,
 	} as const
 
 	const sortColumn = columnMap[sortField as keyof typeof columnMap] || videos.id

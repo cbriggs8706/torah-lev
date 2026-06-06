@@ -38,7 +38,7 @@ export const AdminMenu = () => {
 				to="/public-courses"
 				primaryText="Public Courses"
 				leftIcon={<SchoolIcon />}
-				selected={location.pathname === '/public-courses'}
+				selected={location.pathname.startsWith('/public-courses')}
 			/>
 			<MenuItemLink
 				to="/construct-absolute-words"
