@@ -52,8 +52,8 @@ export function getHebrewScheduledActivityLinks(
 		return [
 			{
 				key: 'introduction',
-				label: 'Introduction',
-				href: `/he/introduction?${query}`,
+				label: 'Vocabulary',
+				href: `/he/vocabulary?${query}`,
 				iconSrc: '/speech-balloon-svgrepo-com.svg',
 			},
 			{

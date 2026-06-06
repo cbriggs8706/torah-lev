@@ -60,6 +60,7 @@ type PublicCourseActivityBrowserProps = {
 	isAuthenticated: boolean
 	lessons: PlannerLesson[]
 	initialEnrollment: EnrollmentState | null
+	completedLessonScriptIds?: number[]
 }
 
 function formatDateLabel(value: string) {
@@ -78,11 +79,16 @@ export default function PublicCourseActivityBrowser({
 	isAuthenticated,
 	lessons,
 	initialEnrollment,
+	completedLessonScriptIds = [],
 }: PublicCourseActivityBrowserProps) {
 	const [enrollment, setEnrollment] = useState<EnrollmentState | null>(
 		initialEnrollment,
 	)
 	const [isEditingPlan, setIsEditingPlan] = useState(!initialEnrollment)
+	const completedLessonScriptIdSet = useMemo(
+		() => new Set(completedLessonScriptIds),
+		[completedLessonScriptIds],
+	)
 
 	const lessonsWithSchedule = useMemo(() => {
 		const scheduledDates = new Map(
@@ -115,14 +121,22 @@ export default function PublicCourseActivityBrowser({
 	const nextActivityId = useMemo(() => {
 		for (const lesson of lessonsWithSchedule) {
 			for (const activity of lesson.activities) {
-				if (activity.progress?.status !== 'completed') {
+				const isCompleted =
+					activity.activityKey === 'lesson_script'
+						? Boolean(
+								lesson.lessonScriptId &&
+									completedLessonScriptIdSet.has(lesson.lessonScriptId),
+						  ) || activity.progress?.status === 'completed'
+						: activity.progress?.status === 'completed'
+
+				if (!isCompleted) {
 					return activity.id
 				}
 			}
 		}
 
 		return null
-	}, [lessonsWithSchedule])
+	}, [completedLessonScriptIdSet, lessonsWithSchedule])
 
 	return (
 		<div className="space-y-6">
@@ -175,10 +189,21 @@ export default function PublicCourseActivityBrowser({
 			<div className="space-y-8">
 				{lessonsWithSchedule.map((lesson, index) => {
 					const firstActivity = lesson.activities[0] ?? null
-					const firstCompleted = firstActivity?.progress?.status === 'completed'
+					const firstCompleted =
+						firstActivity?.activityKey === 'lesson_script'
+							? Boolean(
+									lesson.lessonScriptId &&
+										completedLessonScriptIdSet.has(lesson.lessonScriptId),
+							  ) || firstActivity?.progress?.status === 'completed'
+							: firstActivity?.progress?.status === 'completed'
 					const lessonTotalActivities = lesson.activities.length
-					const lessonCompletedActivities = lesson.activities.filter(
-						(activity) => activity.progress?.status === 'completed',
+					const lessonCompletedActivities = lesson.activities.filter((activity) =>
+						activity.activityKey === 'lesson_script'
+							? Boolean(
+									lesson.lessonScriptId &&
+										completedLessonScriptIdSet.has(lesson.lessonScriptId),
+							  ) || activity.progress?.status === 'completed'
+							: activity.progress?.status === 'completed',
 					).length
 					const lessonProgressPercent =
 						lessonTotalActivities > 0
@@ -234,7 +259,13 @@ export default function PublicCourseActivityBrowser({
 									if (!activity.definition) return null
 
 									const isFirst = activityIndex === 0
-									const isCompleted = activity.progress?.status === 'completed'
+									const isCompleted =
+										activity.activityKey === 'lesson_script'
+											? Boolean(
+													lesson.lessonScriptId &&
+														completedLessonScriptIdSet.has(lesson.lessonScriptId),
+											  ) || activity.progress?.status === 'completed'
+											: activity.progress?.status === 'completed'
 									const isCurrent = activity.id === nextActivityId
 									const isLocked = !isFirst && !firstCompleted
 									const href = buildPublicCourseActivityHref({
@@ -251,7 +282,7 @@ export default function PublicCourseActivityBrowser({
 									const cardContent = (
 										<div
 											dir="ltr"
-											className={`relative flex min-h-[220px] flex-col items-center justify-between rounded-xl border-2 border-b-4 p-3 text-center transition ${
+											className={`relative flex min-h-[220px] flex-col items-center justify-between rounded-3xl border-2 border-b-4 p-3 text-center transition ${
 												isCurrent
 													? 'border-sky-400 bg-sky-100 shadow-md'
 													: isLocked || !href
@@ -272,7 +303,7 @@ export default function PublicCourseActivityBrowser({
 													alt={activity.definition.label}
 													height={70}
 													width={93}
-													className={`rounded-lg border object-contain drop-shadow-md ${
+													className={`object-contain drop-shadow-md ${
 														isLocked ? 'opacity-45 grayscale' : ''
 													}`}
 												/>

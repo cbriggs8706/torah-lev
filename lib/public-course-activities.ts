@@ -55,7 +55,7 @@ export type ScheduledPublicCourseQuery = {
 export const PUBLIC_COURSE_ACTIVITY_DEFINITIONS: PublicCourseActivityDefinition[] = [
 	{
 		key: 'lesson_script',
-		label: 'Video',
+		label: 'Introduction',
 		iconSrc: '/icons/iconYoutube.png',
 		href: null,
 		filterKeys: [],
@@ -65,9 +65,9 @@ export const PUBLIC_COURSE_ACTIVITY_DEFINITIONS: PublicCourseActivityDefinition[
 	},
 	{
 		key: 'introduction',
-		label: 'Introduction',
+		label: 'Vocabulary',
 		iconSrc: '/speech-balloon-svgrepo-com.svg',
-		href: '/he/introduction',
+		href: '/he/vocabulary',
 		filterKeys: ['selectedLessons'],
 		trackProgress: true,
 		passPercent: null,
@@ -77,7 +77,7 @@ export const PUBLIC_COURSE_ACTIVITY_DEFINITIONS: PublicCourseActivityDefinition[
 		label: 'Flashcards',
 		iconSrc: '/icons/iconFlashcards.png',
 		href: '/he/flashcards',
-		filterKeys: ['selectedLessons', 'selectedCategory', 'selectedType'],
+		filterKeys: ['selectedLessons', 'selectedType'],
 		trackProgress: false,
 		passPercent: null,
 	},
@@ -97,7 +97,6 @@ export const PUBLIC_COURSE_ACTIVITY_DEFINITIONS: PublicCourseActivityDefinition[
 		href: '/he/matchup',
 		filterKeys: [
 			'selectedLessons',
-			'selectedCategory',
 			'selectedType',
 			'formatType',
 			'hebrewField',
@@ -110,7 +109,7 @@ export const PUBLIC_COURSE_ACTIVITY_DEFINITIONS: PublicCourseActivityDefinition[
 		label: 'Spelling',
 		iconSrc: '/icons/iconSpelling.png',
 		href: '/he/spelling',
-		filterKeys: ['selectedLessons', 'selectedCategory', 'selectedType', 'formatType'],
+		filterKeys: ['selectedLessons', 'selectedType', 'formatType'],
 		trackProgress: false,
 		passPercent: null,
 	},
@@ -306,6 +305,8 @@ export function buildPublicCourseActivityHref({
 	if (Object.keys(normalizedFilters).length > 0) {
 		params.set('publicCourseFilters', encodePublicCourseFilters(normalizedFilters))
 	}
+
+	params.set('returnTo', `/courses/public/${publicCourseId}`)
 
 	return `${href}?${params.toString()}`
 }

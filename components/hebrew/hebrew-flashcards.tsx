@@ -1,207 +1,86 @@
 'use client'
 
-import { HebrewVocab } from '@/lib/vocab'
-import { resolveVocabMediaUrl } from '@/lib/vocab-media'
-import { matchesSelectedCategory } from '@/lib/category'
 import Image from 'next/image'
 import { Bookmark, Star } from 'lucide-react'
 import {
-	useState,
-	useMemo,
-	useEffect,
 	useCallback,
+	useEffect,
 	useLayoutEffect,
+	useMemo,
+	useRef,
+	useState,
 } from 'react'
+import { toast } from 'sonner'
 import { useCelebration } from '@/hooks/useCelebration'
 import { useLessonCards } from '@/hooks/useLessonCards'
-import CategoryFilter from '../filters/filter-category'
+import { useUserId } from '@/hooks/useUserId'
+import { resolveVocabMediaUrl } from '@/lib/vocab-media'
+import { HebrewVocab } from '@/lib/vocab'
 import LessonFilter from '../filters/filter-lesson'
 import ProgressBar from '../progress-bar'
-import { useUserId } from '@/hooks/useUserId'
-import { toast } from 'sonner'
 import type { PublicCourseActivityFilters } from '@/lib/public-course-activities'
 
-type FontChoice =
-	| 'arial'
-	| 'times'
-	| 'sans'
-	| 'frank'
-	| 'tinos'
-	| 'nunito'
-	| 'cardo'
-	| 'rashi'
-	| 'suez'
-
-interface HebrewVocabProps {
-	data: HebrewVocab[]
-	allFields: (keyof HebrewVocab)[]
-	currentLesson: string
-	layout: string
-	// userId: string
-	courseId: number
-	lockedLesson?: string
-	hideFilters?: boolean
-	initialFilters?: PublicCourseActivityFilters
-}
-
 type HebrewCardFilterType = 'all' | 'word' | 'phrase' | 'stack'
+type FlashcardSide = 'images' | 'hebAudio' | 'eng' | 'heb' | 'hebNiqqud'
 
 type CardStatus = {
 	isMastered: boolean
 	inMyStack: boolean
 }
 
-type DisplayField =
-	| keyof HebrewVocab
-	| 'none'
-	| 'rootSummary'
-	| 'suffixSummary'
-	| 'grammarSummary'
-
-type FlashcardPreset = {
-	label: string
-	front: {
-		topLeft: DisplayField
-		topCenter: DisplayField
-		topRight: DisplayField
-		middle: DisplayField
-		bottomLeft: DisplayField
-		bottomCenter: DisplayField
-		bottomRight: DisplayField
-		font: FontChoice
-		size: FontSizeKey
-	}
-	back: {
-		topLeft: DisplayField
-		topCenter: DisplayField
-		topRight: DisplayField
-		middle: DisplayField
-		bottomLeft: DisplayField
-		bottomCenter: DisplayField
-		bottomRight: DisplayField
-		font: FontChoice
-		size: FontSizeKey
-	}
-}
-
-const FONT_SIZE_MAP = {
-	s: 16,
-	m: 20,
-	lg: 28,
-	xl: 36,
-	twoxl: 48,
-	threexl: 72,
-} as const
-
-type FontSizeKey = keyof typeof FONT_SIZE_MAP
-
-const FONT_SIZE_LABELS: Record<FontSizeKey, string> = {
-	s: 'S',
-	m: 'M',
-	lg: 'LG',
-	xl: 'XL',
-	twoxl: '2XL',
-	threexl: '3XL',
+interface HebrewVocabProps {
+	data: HebrewVocab[]
+	currentLesson: string
+	layout: string
+	courseId: number
+	lockedLesson?: string
+	hideFilters?: boolean
+	initialFilters?: PublicCourseActivityFilters
 }
 
 const CARD_FLIP_DURATION_MS = 700
 
-const FIELD_LABELS: Partial<Record<DisplayField, string>> = {
-	heb: 'Without Niqqud',
-	hebNiqqud: 'With Niqqud',
-	eng: 'Translation',
-	engDefinition: 'Definition',
-	rootSummary: 'Root',
-	suffixSummary: 'Suffix',
-	grammarSummary: 'Grammar',
-	partOfSpeech: 'Part of Speech',
-	category: 'Category',
-	state: 'State',
-	ipa: 'IPA (Pronunciation)',
-	engTransliteration: 'English Transliteration',
-	images: 'Image',
-	hebAudio: 'Audio',
-	introduction: 'Video',
-}
-
-const FONT_CLASS_MAP: Record<FontChoice, string> = {
-	arial: 'font-arial',
-	times: 'font-serif',
-	frank: 'font-frank',
-	sans: 'font-sans',
-	tinos: 'font-tinos',
-	nunito: 'font-nunito',
-	cardo: 'font-cardo',
-	rashi: 'font-rashi',
-	suez: 'font-suez',
-}
+const SIDE_OPTIONS: { value: FlashcardSide; label: string }[] = [
+	{ value: 'images', label: 'Image' },
+	{ value: 'hebAudio', label: 'Audio' },
+	{ value: 'eng', label: 'Translation' },
+	{ value: 'heb', label: 'Hebrew Word' },
+	{ value: 'hebNiqqud', label: 'Hebrew with Vowels' },
+]
 
 export default function HebrewFlashcards({
 	data,
-	allFields,
 	currentLesson,
-	layout,
 	courseId,
 	lockedLesson,
 	hideFilters = false,
 	initialFilters,
-}: // userId,
-HebrewVocabProps) {
+}: HebrewVocabProps) {
 	const {
 		selectedLessons,
 		setSelectedLessons,
 		currentIndex,
 		setCurrentIndex,
-		lessonOptions,
 	} = useLessonCards(data, currentLesson)
-	const [selectedType, setSelectedType] = useState<HebrewCardFilterType>('word')
-	const [frontField, setFrontField] = useState<keyof HebrewVocab>('hebNiqqud')
-	const [backField, setBackField] = useState<keyof HebrewVocab>('eng')
+
+	const [selectedType, setSelectedType] = useState<HebrewCardFilterType>('all')
+	const [frontField, setFrontField] = useState<FlashcardSide>('images')
+	const [backField, setBackField] = useState<FlashcardSide>('hebAudio')
 	const [showBack, setShowBack] = useState(false)
 	const [filteredCards, setFilteredCards] = useState<HebrewVocab[]>([])
-	const [selectedCategory, setSelectedCategory] = useState<string>('all')
-
-	const [frontFont, setFrontFont] = useState<FontChoice>('times')
-	const [backFont, setBackFont] = useState<FontChoice>('times')
-
-	const [frontFontSize, setFrontFontSize] = useState<FontSizeKey>('threexl')
-	const [backFontSize, setBackFontSize] = useState<FontSizeKey>('threexl')
-	const [showCustomize, setShowCustomize] = useState(false)
 	const [showFilter, setShowFilter] = useState(false)
-	const [audioVolume, setAudioVolume] = useState(1) // full volume
-	const [audioSpeed, setAudioSpeed] = useState(1) // normal speed
-	const [frontTopLeft, setFrontTopLeft] = useState<DisplayField>('none')
-	const [frontTopCenter, setFrontTopCenter] = useState<DisplayField>('none')
-	const [frontTopRight, setFrontTopRight] = useState<DisplayField>('none')
-	const [frontMiddleCenter, setFrontMiddleCenter] =
-		useState<DisplayField>('images')
-	const [frontBottomLeft, setFrontBottomLeft] =
-		useState<DisplayField>('suffixSummary')
-	const [frontBottomCenter, setFrontBottomCenter] =
-		useState<DisplayField>('rootSummary')
-	const [frontBottomRight, setFrontBottomRight] =
-		useState<DisplayField>('grammarSummary')
-	const [backTopLeft, setBackTopLeft] = useState<DisplayField>('eng')
-	const [backTopCenter, setBackTopCenter] = useState<DisplayField>('none')
-	const [backTopRight, setBackTopRight] = useState<DisplayField>('hebNiqqud')
-	const [backMiddleCenter, setBackMiddleCenter] =
-		useState<DisplayField>('hebAudio')
-	const [backBottomLeft, setBackBottomLeft] = useState<DisplayField>('none')
-	const [backBottomCenter, setBackBottomCenter] = useState<DisplayField>('ipa')
-	const [backBottomRight, setBackBottomRight] =
-		useState<DisplayField>('engTransliteration')
+	const [audioVolume, setAudioVolume] = useState(1)
+	const [audioSpeed, setAudioSpeed] = useState(1)
 	const [cardsCompleted, setCardsCompleted] = useState(0)
 	const [isRandomized, setIsRandomized] = useState(false)
 	const [hideMasteredCards, setHideMasteredCards] = useState(true)
-	const [filterVersion, setFilterVersion] = useState(0)
-	const [cardStatuses, setCardStatuses] = useState<Record<number, CardStatus>>(
-		{},
-	)
+	const [cardStatuses, setCardStatuses] = useState<Record<number, CardStatus>>({})
 	const [isUpdatingStatus, setIsUpdatingStatus] = useState(false)
+	const lastBackAutoplayKeyRef = useRef<string | null>(null)
 
 	const { userId, isGuest, ready } = useUserId()
 	const canUseSavedWordFeatures = ready && !isGuest
-	// console.log('newUserId in local', userId)
+	const { Confetti, celebrate } = useCelebration()
 
 	useEffect(() => {
 		if (!lockedLesson) return
@@ -212,168 +91,11 @@ HebrewVocabProps) {
 		if (initialFilters?.selectedLessons?.length) {
 			setSelectedLessons(initialFilters.selectedLessons)
 		}
-		if (initialFilters?.selectedCategory) {
-			setSelectedCategory(initialFilters.selectedCategory)
-		}
 		if (initialFilters?.selectedType) {
 			setSelectedType(initialFilters.selectedType)
 		}
 	}, [initialFilters, setSelectedLessons])
 
-	const PRESETS: FlashcardPreset[] = [
-		{
-			label: 'Picture → Audio',
-			front: {
-				topLeft: 'none',
-				topCenter: 'none',
-				topRight: 'none',
-				middle: 'images',
-				bottomLeft: 'suffixSummary',
-				bottomCenter: 'rootSummary',
-				bottomRight: 'grammarSummary',
-				font: 'times',
-				size: 'threexl',
-			},
-			back: {
-				topLeft: 'eng',
-				topCenter: 'none',
-				topRight: 'none',
-				middle: 'hebAudio',
-				bottomLeft: 'none',
-				bottomCenter: 'ipa',
-				bottomRight: 'engTransliteration',
-				font: 'times',
-				size: 'threexl',
-			},
-		},
-		{
-			label: 'Picture → Word',
-			front: {
-				topLeft: 'none',
-				topCenter: 'none',
-				topRight: 'none',
-				middle: 'images',
-				bottomLeft: 'none',
-				bottomCenter: 'rootSummary',
-				bottomRight: 'grammarSummary',
-				font: 'sans',
-				size: 'xl',
-			},
-			back: {
-				topLeft: 'none',
-				topCenter: 'none',
-				topRight: 'none',
-				middle: 'hebNiqqud',
-				bottomLeft: 'none',
-				bottomCenter: 'ipa',
-				bottomRight: 'engTransliteration',
-				font: 'times',
-				size: 'threexl',
-			},
-		},
-		{
-			label: 'Audio → Picture',
-			front: {
-				topLeft: 'none',
-				topCenter: 'none',
-				topRight: 'none',
-				middle: 'hebAudio',
-				bottomLeft: 'none',
-				bottomCenter: 'rootSummary',
-				bottomRight: 'grammarSummary',
-				font: 'sans',
-				size: 'xl',
-			},
-			back: {
-				topLeft: 'none',
-				topCenter: 'none',
-				topRight: 'none',
-				middle: 'images',
-				bottomLeft: 'none',
-				bottomCenter: 'ipa',
-				bottomRight: 'engTransliteration',
-				font: 'times',
-				size: 'threexl',
-			},
-		},
-		{
-			label: 'Sightread',
-			front: {
-				topLeft: 'none',
-				topCenter: 'none',
-				topRight: 'none',
-				middle: 'heb',
-				bottomLeft: 'none',
-				bottomCenter: 'rootSummary',
-				bottomRight: 'grammarSummary',
-				font: 'times',
-				size: 'threexl',
-			},
-			back: {
-				topLeft: 'none',
-				topCenter: 'none',
-				topRight: 'none',
-				middle: 'hebAudio',
-				bottomLeft: 'none',
-				bottomCenter: 'ipa',
-				bottomRight: 'engTransliteration',
-				font: 'arial',
-				size: 'lg',
-			},
-		},
-		{
-			label: 'Translation',
-			front: {
-				topLeft: 'none',
-				topCenter: 'none',
-				topRight: 'none',
-				middle: 'hebNiqqud',
-				bottomLeft: 'none',
-				bottomCenter: 'rootSummary',
-				bottomRight: 'grammarSummary',
-				font: 'times',
-				size: 'threexl',
-			},
-			back: {
-				topLeft: 'none',
-				topCenter: 'none',
-				topRight: 'none',
-				middle: 'eng',
-				bottomLeft: 'none',
-				bottomCenter: 'ipa',
-				bottomRight: 'engTransliteration',
-				font: 'times',
-				size: 'lg',
-			},
-		},
-	]
-
-	const { Confetti, celebrate } = useCelebration()
-
-	function applyPreset(preset: FlashcardPreset) {
-		setFrontTopLeft(preset.front.topLeft)
-		setFrontTopCenter(preset.front.topCenter)
-		setFrontTopRight(preset.front.topRight)
-		setFrontMiddleCenter(preset.front.middle)
-		setFrontBottomLeft(preset.front.bottomLeft)
-		setFrontBottomCenter(preset.front.bottomCenter)
-		setFrontBottomRight(preset.front.bottomRight)
-		setFrontFont(preset.front.font)
-		setFrontFontSize(preset.front.size)
-
-		setBackTopLeft(preset.back.topLeft)
-		setBackTopCenter(preset.back.topCenter)
-		setBackTopRight(preset.back.topRight)
-		setBackMiddleCenter(preset.back.middle)
-		setBackBottomLeft(preset.back.bottomLeft)
-		setBackBottomCenter(preset.back.bottomCenter)
-		setBackBottomRight(preset.back.bottomRight)
-		setBackFont(preset.back.font)
-		setBackFontSize(preset.back.size)
-		setShowCustomize(false)
-	}
-
-	// Filter to this prefix
 	const cardsForPrefix = useMemo(() => data, [data])
 	const stackCardIds = useMemo(
 		() =>
@@ -386,384 +108,41 @@ HebrewVocabProps) {
 	)
 	const currentCard = filteredCards[currentIndex]
 
-	useEffect(() => {
-		const newFiltered = cardsForPrefix.filter((card) => {
-			const matchesSelectedLesson =
-				selectedLessons.length === 0 ||
-				card.lessons.some((l) => selectedLessons.includes(l))
-
-			const matchesType =
-				selectedType === 'all'
-					? true
-					: selectedType === 'stack'
-						? !!card.id && stackCardIds.has(card.id)
-						: card.type === selectedType
-			const matchesCategory = matchesSelectedCategory(
-				card.category,
-				selectedCategory,
-			)
-			const isMasteredCard =
-				card.id != null && !!cardStatuses[card.id]?.isMastered
-			const matchesMasteredFilter = !hideMasteredCards || !isMasteredCard
-
-			// Ensure middle-center image/audio (front)
-			const hasMiddleFrontImage =
-				frontMiddleCenter !== 'images' || card.images.length > 0
-			const hasMiddleFrontAudio =
-				frontMiddleCenter !== 'hebAudio' || !!card.hebAudio
-
-			// Ensure middle-center image/audio (back)
-			const hasMiddleBackImage =
-				backMiddleCenter !== 'images' || card.images.length > 0
-			const hasMiddleBackAudio =
-				backMiddleCenter !== 'hebAudio' || !!card.hebAudio
-
-			const hasValidFront =
-				(frontField === 'images' && card.images.length > 0) ||
-				(frontField === 'hebAudio' && !!card.hebAudio) ||
-				(frontField !== 'images' &&
-					frontField !== 'hebAudio' &&
-					!!card[frontField])
-
-			const hasValidBack =
-				(backField === 'images' && card.images.length > 0) ||
-				(backField === 'hebAudio' && !!card.hebAudio) ||
-				(backField !== 'images' &&
-					backField !== 'hebAudio' &&
-					!!card[backField])
-
-			return (
-				matchesSelectedLesson &&
-				matchesType &&
-				matchesCategory &&
-				matchesMasteredFilter &&
-				hasValidFront &&
-				hasValidBack &&
-				hasMiddleFrontImage &&
-				hasMiddleBackImage &&
-				hasMiddleFrontAudio &&
-				hasMiddleBackAudio
-			)
-		})
-
-		// Shuffle the filtered cards
-		let finalCards = [...newFiltered]
-		if (isRandomized) {
-			finalCards.sort(() => Math.random() - 0.5)
-		}
-		setFilteredCards(finalCards)
-
-		if (finalCards.length === 0) {
-			setCurrentIndex(0)
-			setShowBack(false)
-			return
-		}
-
-		const currentCardId = currentCard?.id
-		if (currentCardId != null) {
-			const preservedIndex = finalCards.findIndex(
-				(card) => card.id === currentCardId,
-			)
-
-			if (preservedIndex !== -1) {
-				setCurrentIndex(preservedIndex)
-				return
-			}
-		}
-
-		setCurrentIndex((prev) => Math.min(prev, finalCards.length - 1))
-	}, [
-		cardsForPrefix,
-		selectedLessons,
-		selectedType,
-		selectedCategory,
-		frontField,
-		backField,
-		stackCardIds,
-		cardStatuses,
-		hideMasteredCards,
-		frontMiddleCenter,
-		backMiddleCenter,
-		setCurrentIndex,
-		filterVersion,
-		isRandomized,
-		currentCard?.id,
-	])
-	const currentCardStatus =
-		currentCard?.id != null ? cardStatuses[currentCard.id] : undefined
-	const isCurrentCardMastered = !!currentCardStatus?.isMastered
-	const isCurrentCardInMyStack = !!currentCardStatus?.inMyStack
-
-	useLayoutEffect(() => {
-		setShowBack(false)
-	}, [currentCard?.id])
-
-	const typeOptions = useMemo(
-		() =>
-			canUseSavedWordFeatures
-				? (['all', 'word', 'phrase', 'stack'] as HebrewCardFilterType[])
-				: (['all', 'word', 'phrase'] as HebrewCardFilterType[]),
-		[canUseSavedWordFeatures],
-	)
-
 	function playWithBoostedVolume(url: string, volume: number, speed: number) {
-		const audioContext = new (
-			window.AudioContext || (window as any).webkitAudioContext
-		)()
+		const AudioContextCtor =
+			window.AudioContext ||
+			(window as Window & { webkitAudioContext?: typeof AudioContext })
+				.webkitAudioContext
+
+		if (!AudioContextCtor) return
+
+		const audioContext = new AudioContextCtor()
 		const audio = new Audio(url)
 		audio.crossOrigin = 'anonymous'
 		audio.playbackRate = speed
 
 		const source = audioContext.createMediaElementSource(audio)
 		const gainNode = audioContext.createGain()
-
-		// Allow volume up to 2.0 (200%)
-		gainNode.gain.value = Math.min(volume, 2.0)
+		gainNode.gain.value = Math.min(volume, 2)
 
 		source.connect(gainNode).connect(audioContext.destination)
 		audio.play().catch(console.error)
 	}
 
-	// Refs for controlling playback programmatically
-	// const frontAudioRef = useMemo(() => {
-	// 	if (frontField === 'hebAudio' && currentCard?.hebAudio)
-	// 		return new Audio(currentCard.hebAudio)
-	// 	return null
-	// }, [frontField, currentCard])
-
-	const backAudioRef = useMemo(() => {
-		if (backField === 'hebAudio' && currentCard?.hebAudio)
-			return new Audio(currentCard.hebAudio)
-		return null
-	}, [backField, currentCard])
-
-	const fontOptions: {
-		value: FontChoice
-		label: string
-		className: string
-	}[] = [
-		{ value: 'times', label: 'Times', className: 'font-serif' },
-		{
-			value: 'frank',
-			label: 'Frank',
-			className: 'font-frank',
-		},
-		{
-			value: 'tinos',
-			label: 'Tinos',
-			className: 'font-tinos',
-		},
-		{
-			value: 'cardo',
-			label: 'Cardo',
-			className: 'font-cardo',
-		},
-		{
-			value: 'rashi',
-			label: 'Rashi',
-			className: 'font-rashi',
-		},
-		{
-			value: 'suez',
-			label: 'Suez',
-			className: 'font-suez',
-		},
-		{ value: 'arial', label: 'Arial', className: 'font-arial' },
-		{
-			value: 'sans',
-			label: 'Sans',
-			className: 'font-sans',
-		},
-
-		{
-			value: 'nunito',
-			label: 'Nunito',
-			className: 'font-nunito',
-		},
-	]
-
-	useEffect(() => {
-		if (frontMiddleCenter === 'hebAudio' && currentCard?.hebAudio) {
-			playWithBoostedVolume(currentCard.hebAudio, audioVolume, audioSpeed)
-		}
-	}, [currentCard, frontMiddleCenter, audioVolume, audioSpeed])
-
-	useEffect(() => {
-		if (showBack && backField === 'hebAudio' && backAudioRef) {
-			backAudioRef.play().catch(console.error)
-		}
-	}, [showBack, backField, backAudioRef])
-
-	function handleNextCard() {
-		setShowBack(false) // flip to front first
-
-		// Wait for flip animation to complete before changing the card
-		setTimeout(() => {
-			const nextIndex = currentIndex + 1
-			if (nextIndex >= filteredCards.length) {
-				celebrate()
-			}
-			setCardsCompleted((prev) => prev + 1)
-
-			setCurrentIndex(nextIndex % filteredCards.length)
-		}, 700) // ⏱ adjust this to match your card flip duration
-	}
-
-	const awardPoints = useCallback(
-		async (points: number) => {
-			try {
-				await fetch('/api/award-points', {
-					method: 'POST',
-					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify({ userId, courseId, points }),
-				})
-			} catch (error) {
-				console.error('Failed to award points', error)
-			}
-		},
-		[userId, courseId],
-	)
-
-	useEffect(() => {
-		if (cardsCompleted > 0 && cardsCompleted % 25 === 0) {
-			const pointsToAward = cardsCompleted / 25
-			awardPoints(pointsToAward)
-		}
-	}, [cardsCompleted, awardPoints])
-
-	useEffect(() => {
-		if (!canUseSavedWordFeatures) {
-			setCardStatuses({})
-			return
-		}
-
-		let cancelled = false
-
-		const loadStatuses = async () => {
-			try {
-				const params = new URLSearchParams({
-					courseId: String(courseId),
-					language: 'he',
-				})
-				const response = await fetch(
-					`/api/flashcards/status?${params.toString()}`,
-				)
-				if (!response.ok) throw new Error('Failed to fetch statuses')
-				const payload = await response.json()
-				if (cancelled) return
-
-				const nextStatuses: Record<number, CardStatus> = {}
-				for (const status of payload.statuses ?? []) {
-					if (typeof status.cardId !== 'number') continue
-					nextStatuses[status.cardId] = {
-						isMastered: !!status.isMastered,
-						inMyStack: !!status.inMyStack,
-					}
-				}
-				setCardStatuses(nextStatuses)
-			} catch (error) {
-				console.error('Failed to load card statuses', error)
-			}
-		}
-
-		loadStatuses()
-
-		return () => {
-			cancelled = true
-		}
-	}, [canUseSavedWordFeatures, courseId, userId])
-
-	async function updateCardStatus(
-		action: 'master' | 'unmaster' | 'addToStack' | 'removeFromStack',
-	) {
-		if (!currentCard?.id || !canUseSavedWordFeatures) return
-
-		setIsUpdatingStatus(true)
-		try {
-			const response = await fetch('/api/flashcards/status', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({
-					cardId: currentCard.id,
-					courseId,
-					language: 'he',
-					action,
-				}),
-			})
-
-			if (!response.ok) {
-				throw new Error('Failed to update card status')
-			}
-
-			const payload = await response.json()
-			const nextStatus = payload.status
-			const shouldAdvanceToFront =
-				action === 'master' && hideMasteredCards && !!nextStatus?.isMastered
-
-			if (shouldAdvanceToFront) {
-				setShowBack(false)
-				await new Promise((resolve) =>
-					window.setTimeout(resolve, CARD_FLIP_DURATION_MS),
-				)
-			}
-
-			if (typeof nextStatus?.cardId === 'number') {
-				setCardStatuses((prev) => ({
-					...prev,
-					[nextStatus.cardId]: {
-						isMastered: !!nextStatus.isMastered,
-						inMyStack: !!nextStatus.inMyStack,
-					},
-				}))
-			}
-		} catch (error) {
-			console.error('Failed to update card status', error)
-			toast.error('Could not update this word right now.')
-		} finally {
-			setIsUpdatingStatus(false)
+	function hasFieldValue(card: HebrewVocab, field: FlashcardSide) {
+		switch (field) {
+			case 'images':
+				return card.images.length > 0
+			case 'hebAudio':
+				return !!card.hebAudio
+			case 'eng':
+				return !!card.eng
+			case 'heb':
+				return !!card.heb
+			case 'hebNiqqud':
+				return !!card.hebNiqqud
 		}
 	}
-
-	function handlePreviousCard() {
-		setShowBack(false)
-
-		setTimeout(() => {
-			setCurrentIndex(
-				(prev) => (prev - 1 + filteredCards.length) % filteredCards.length,
-			)
-		}, 700) // match the flip animation duration
-	}
-
-	// Auto set optimal font size on load
-	useEffect(() => {
-		const width = window.innerWidth
-		if (width < 400) {
-			setFrontFontSize('threexl')
-			setBackFontSize('threexl')
-		} else if (width < 768) {
-			setFrontFontSize('threexl')
-			setBackFontSize('threexl')
-		} else {
-			setFrontFontSize('threexl')
-			setBackFontSize('threexl')
-		}
-	}, [])
-
-	const allDisplayFields = allFields.filter((f) => f !== 'dictionaryUrl')
-	const miniPositionFields: DisplayField[] = [
-		'heb',
-		'hebNiqqud',
-		'ipa',
-		'hebAudio',
-		'rootSummary',
-		'suffixSummary',
-		'grammarSummary',
-		'partOfSpeech',
-		'category',
-		'state',
-		'engTransliteration',
-		'eng',
-	]
 
 	function toTitleCase(value: string) {
 		return value
@@ -819,6 +198,11 @@ HebrewVocabProps) {
 		return `${label}: ${value}`
 	}
 
+	function stripLabelPrefix(value: string | null, label: 'Root' | 'Suffix') {
+		if (!value) return null
+		return value.replace(new RegExp(`^${label}:\\s*`, 'i'), '')
+	}
+
 	function buildCompactMorphologyLabel(
 		label: 'Root' | 'Suffix',
 		person?: string | null,
@@ -843,7 +227,22 @@ HebrewVocabProps) {
 		return cleaned ? toTitleCase(cleaned) : null
 	}
 
+	function hasConstructMarker() {
+		const categoryValue = currentCard?.category?.trim().toLowerCase()
+		if (categoryValue === 'construct') return true
+
+		const parts = Array.isArray(currentCard?.partOfSpeech)
+			? currentCard.partOfSpeech
+			: currentCard?.partOfSpeech
+				? [currentCard.partOfSpeech]
+				: []
+
+		return parts.some((part) => part.toLowerCase().includes('construct'))
+	}
+
 	function formatGrammarSummary() {
+		if (currentCard?.type === 'phrase') return 'phrase'
+
 		const state =
 			currentCard?.state && currentCard.state.trim().length > 0
 				? toTitleCase(currentCard.state)
@@ -858,150 +257,31 @@ HebrewVocabProps) {
 		return [state, category, partOfSpeech].filter(Boolean).join(' - ') || null
 	}
 
-	function formatLegacyMorphologyField(
-		field: keyof HebrewVocab,
-		value: string,
-	) {
-		switch (field) {
-			case 'rootPerson':
-				return formatLabelValue('Root', compactPersonValue(value) ?? value)
-			case 'rootGender':
-				return formatLabelValue('Root', compactGenderValue(value) ?? value)
-			case 'rootNumber':
-				return formatLabelValue('Root', compactNumberValue(value) ?? value)
-			case 'suffixPerson':
-				return formatLabelValue('Suffix', compactPersonValue(value) ?? value)
-			case 'suffixGender':
-				return formatLabelValue('Suffix', compactGenderValue(value) ?? value)
-			case 'suffixNumber':
-				return formatLabelValue('Suffix', compactNumberValue(value) ?? value)
-			default:
-				return value
-		}
-	}
-
-	function hasConstructMarker() {
-		const categoryValue = currentCard?.category?.trim().toLowerCase()
-		if (categoryValue === 'construct') return true
-
-		const parts = Array.isArray(currentCard?.partOfSpeech)
-			? currentCard.partOfSpeech
-			: currentCard?.partOfSpeech
-				? [currentCard.partOfSpeech]
-				: []
-
-		return parts.some((part) => part.toLowerCase().includes('construct'))
-	}
-
 	function fixHebrewPunctuation(text: string): string {
-		// Replace ? at the end of a line with RTL-friendly question mark
-		// Only if the text contains Hebrew characters
-		const hebrewRegex = /[\u0590-\u05FF]/ // matches Hebrew script
+		const hebrewRegex = /[\u0590-\u05FF]/
 		if (!hebrewRegex.test(text)) return text
-
-		// Replace ? at the end or before a line break
-		return text.replace(/\?/g, '؟') // Arabic-style RTL question mark
+		return text.replace(/\?/g, '؟')
 	}
 
-	function convertToEmbedUrl(url: string): string {
-		try {
-			const parsed = new URL(url)
-			const videoId = parsed.pathname.split('/').pop()
-			const start = parsed.searchParams.get('t')?.replace(/\D/g, '') // extract seconds
-			return `https://www.youtube.com/embed/${videoId}?autoplay=1${
-				start ? `&start=${start}` : ''
-			}`
-		} catch {
-			return url
-		}
-	}
+	function renderContent(field: FlashcardSide, isMiddle = false) {
+		if (!currentCard) return null
 
-	function InlineVideoPlayer({ url }: { url: string }) {
-		const [isPlaying, setIsPlaying] = useState(false)
-		const embedUrl = convertToEmbedUrl(url)
-
-		if (!isPlaying) {
-			return (
-				<button
-					onClick={(e) => {
-						e.stopPropagation()
-						setIsPlaying(true)
-					}}
-					className="flex flex-col items-center gap-1"
-				>
-					<Image
-						src={'/icons/iconYoutube.png'}
-						alt="Play video"
-						width={50}
-						height={50}
-						className="cursor-pointer hover:opacity-80"
-					/>
-					<span className="text-sky-600 text-sm font-semibold">Watch</span>
-				</button>
-			)
-		}
-
-		return (
-			<div className="w-full h-full flex justify-center items-center rounded overflow-hidden">
-				<iframe
-					src={embedUrl}
-					title="YouTube video"
-					className="w-full h-full border-0 rounded object-cover"
-					allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-					allowFullScreen
-				></iframe>
-			</div>
-		)
-	}
-
-	function renderMiniContent(field: DisplayField, isMiddle = false) {
-		if (!currentCard || field === 'none') return null
-
-		if (field === 'rootSummary') {
-			const formatted = buildCompactMorphologyLabel(
-				'Root',
-				currentCard.rootPerson,
-				currentCard.rootGender,
-				currentCard.rootNumber,
-			)
-			return formatted ? <span>{formatted}</span> : null
-		}
-
-		if (field === 'suffixSummary') {
-			const formatted = buildCompactMorphologyLabel(
-				'Suffix',
-				currentCard.suffixPerson,
-				currentCard.suffixGender,
-				currentCard.suffixNumber,
-			)
-			return formatted ? <span>{formatted}</span> : null
-		}
-
-		if (field === 'grammarSummary') {
-			const formatted = formatGrammarSummary()
-			return formatted ? <span>{formatted}</span> : null
-		}
-
-		const value = currentCard[field]
-
-		if (field === 'images' && Array.isArray(value)) {
-			if (value.length > 0) {
-				const imageUrl = resolveVocabMediaUrl(value[0])
+		if (field === 'images') {
+			if (currentCard.images.length > 0) {
+				const imageUrl = resolveVocabMediaUrl(currentCard.images[0])
 				return (
-					//TODO fix the console errors of position
 					<div
-						className={
-							isMiddle
-								? 'w-full h-full flex items-center justify-center'
-								: 'w-full h-32 flex items-center justify-center'
-						}
+						className={`flex w-full items-center justify-center ${
+							isMiddle ? 'min-h-[16rem]' : 'h-32'
+						}`}
 					>
 						<Image
 							src={imageUrl}
 							alt="HebrewVocab image"
-							fill={isMiddle}
-							className="object-contain rounded"
-							sizes="(max-width: 768px) 100vw, 50vw"
+							width={isMiddle ? 320 : 160}
+							height={isMiddle ? 320 : 160}
+							className="h-auto w-auto max-w-full rounded object-contain"
+							sizes={isMiddle ? '(max-width: 768px) 90vw, 320px' : '160px'}
 						/>
 					</div>
 				)
@@ -1028,23 +308,18 @@ HebrewVocabProps) {
 				)
 			}
 
-			if (currentCard.eng) {
-				return (
-					<div className="flex flex-col items-center gap-2">
-						<span className={isMiddle ? 'text-xl font-semibold' : ''}>
-							{currentCard.eng}
-						</span>
-						<span className="text-xs text-slate-500">No image</span>
-					</div>
-				)
-			}
-
-			return null
+			return currentCard.eng ? (
+				<div className="flex flex-col items-center gap-2">
+					<span className={isMiddle ? 'text-xl font-semibold' : ''}>
+						{currentCard.eng}
+					</span>
+					<span className="text-xs text-slate-500">No image</span>
+				</div>
+			) : null
 		}
 
-		if (!value) return null
-
-		if (field === 'hebAudio' && typeof value === 'string') {
+		if (field === 'hebAudio') {
+			if (!currentCard.hebAudio) return null
 			return (
 				<button
 					className="text-3xl text-sky-600 hover:text-sky-800"
@@ -1062,75 +337,304 @@ HebrewVocabProps) {
 			)
 		}
 
-		if (field === 'introduction' && typeof value === 'string') {
-			return <InlineVideoPlayer url={value} />
+		const value = currentCard[field]
+		if (!value) return null
+
+		const className =
+			field === 'heb' || field === 'hebNiqqud'
+				? isMiddle
+					? 'font-serif text-4xl sm:text-5xl'
+					: 'font-serif text-2xl sm:text-3xl'
+				: ''
+
+		if (field === 'eng' || field === 'heb' || field === 'hebNiqqud') {
+			return <span className={className}>{fixHebrewPunctuation(value)}</span>
 		}
 
-		if (
-			field === 'rootPerson' ||
-			field === 'rootGender' ||
-			field === 'rootNumber' ||
-			field === 'suffixPerson' ||
-			field === 'suffixGender' ||
-			field === 'suffixNumber'
-		) {
-			const formatted = formatLegacyMorphologyField(field, String(value))
-			return formatted ? <span>{formatted}</span> : null
+		return <span>{String(value)}</span>
+	}
+
+	useEffect(() => {
+		const newFiltered = cardsForPrefix.filter((card) => {
+			const matchesSelectedLesson =
+				selectedLessons.length === 0 ||
+				card.lessons.some((lesson) => selectedLessons.includes(lesson))
+
+			const matchesType =
+				selectedType === 'all'
+					? true
+					: selectedType === 'stack'
+						? !!card.id && stackCardIds.has(card.id)
+						: card.type === selectedType
+
+			const isMasteredCard =
+				card.id != null && !!cardStatuses[card.id]?.isMastered
+			const matchesMasteredFilter = !hideMasteredCards || !isMasteredCard
+
+			return (
+				matchesSelectedLesson &&
+				matchesType &&
+				matchesMasteredFilter &&
+				hasFieldValue(card, frontField) &&
+				hasFieldValue(card, backField)
+			)
+		})
+
+		const finalCards = isRandomized
+			? [...newFiltered].sort(() => Math.random() - 0.5)
+			: newFiltered
+
+		setFilteredCards(finalCards)
+
+		if (finalCards.length === 0) {
+			setCurrentIndex(0)
+			setShowBack(false)
+			return
 		}
 
-		if (field === 'partOfSpeech') {
-			const formatted = formatPartOfSpeechValue(value as string | string[])
-			return formatted ? <span>{formatted}</span> : null
+		const currentCardId = currentCard?.id
+		if (currentCardId != null) {
+			const preservedIndex = finalCards.findIndex(
+				(card) => card.id === currentCardId,
+			)
+
+			if (preservedIndex !== -1) {
+				setCurrentIndex(preservedIndex)
+				return
+			}
 		}
 
-		if (field === 'category') {
-			const normalized = String(value).trim().toLowerCase()
-			return normalized === 'possessive' ? <span>Possessive</span> : null
-		}
+		setCurrentIndex((prev) => Math.min(prev, finalCards.length - 1))
+	}, [
+		cardsForPrefix,
+		selectedLessons,
+		selectedType,
+		frontField,
+		backField,
+		stackCardIds,
+		cardStatuses,
+		hideMasteredCards,
+		isRandomized,
+		currentCard?.id,
+		setCurrentIndex,
+	])
 
-		if (field === 'state') {
-			const normalized = String(value).trim()
-			if (normalized) return <span>{toTitleCase(normalized)}</span>
-			return hasConstructMarker() ? <span>Construct</span> : null
-		}
+	useLayoutEffect(() => {
+		setShowBack(false)
+	}, [currentCard?.id])
 
-		if (Array.isArray(value)) {
-			return value.join(', ')
+	useEffect(() => {
+		if (!showBack) {
+			lastBackAutoplayKeyRef.current = null
 		}
+	}, [showBack, currentCard?.id])
 
-		const isHebrewField = field === 'heb' || field === 'hebNiqqud'
-		const className = !isMiddle && isHebrewField ? 'font-serif text-4xl' : ''
+	const backIpaSummary = currentCard?.ipa?.trim() || null
+	const frontRootSummary = currentCard
+		? buildCompactMorphologyLabel(
+				'Root',
+				currentCard.rootPerson,
+				currentCard.rootGender,
+				currentCard.rootNumber,
+		  )
+		: null
+	const frontSuffixSummary = currentCard
+		? buildCompactMorphologyLabel(
+				'Suffix',
+				currentCard.suffixPerson,
+				currentCard.suffixGender,
+				currentCard.suffixNumber,
+		  )
+		: null
+	const frontGrammarSummary = currentCard ? formatGrammarSummary() : null
+
+	const typeOptions = useMemo(
+		() =>
+			canUseSavedWordFeatures
+				? (['all', 'word', 'phrase', 'stack'] as HebrewCardFilterType[])
+				: (['all', 'word', 'phrase'] as HebrewCardFilterType[]),
+		[canUseSavedWordFeatures],
+	)
+
+	const currentCardStatus =
+		currentCard?.id != null ? cardStatuses[currentCard.id] : undefined
+	const isCurrentCardMastered = !!currentCardStatus?.isMastered
+	const isCurrentCardInMyStack = !!currentCardStatus?.inMyStack
+
+	function renderAudioButton() {
+		if (!currentCard?.hebAudio) return null
 
 		return (
-			<span className={className}>{fixHebrewPunctuation(value as string)}</span>
+			<button
+				type="button"
+				aria-label="Play audio"
+				className="rounded-full bg-white/90 p-2 text-sky-600 shadow-sm ring-1 ring-sky-100 transition hover:bg-white hover:text-sky-800"
+				onClick={(e) => {
+					e.stopPropagation()
+					playWithBoostedVolume(currentCard.hebAudio, audioVolume, audioSpeed)
+				}}
+			>
+				🔊
+			</button>
 		)
 	}
 
+	useEffect(() => {
+		if (!showBack || backField !== 'hebAudio' || !currentCard?.hebAudio) return
+
+		const autoplayKey = `${currentCard.id ?? 'no-id'}:${backField}`
+		if (lastBackAutoplayKeyRef.current === autoplayKey) return
+		lastBackAutoplayKeyRef.current = autoplayKey
+
+		const audio = new Audio(currentCard.hebAudio)
+		audio.playbackRate = audioSpeed
+		audio.play().catch(console.error)
+	}, [showBack, backField, currentCard?.id, currentCard?.hebAudio, audioSpeed])
+
+	const awardPoints = useCallback(
+		async (points: number) => {
+			try {
+				await fetch('/api/award-points', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ userId, courseId, points }),
+				})
+			} catch (error) {
+				console.error('Failed to award points', error)
+			}
+		},
+		[userId, courseId],
+	)
+
+	useEffect(() => {
+		if (cardsCompleted > 0 && cardsCompleted % 25 === 0) {
+			awardPoints(cardsCompleted / 25)
+		}
+	}, [cardsCompleted, awardPoints])
+
+	useEffect(() => {
+		if (!canUseSavedWordFeatures) {
+			setCardStatuses({})
+			return
+		}
+
+		let cancelled = false
+
+		const loadStatuses = async () => {
+			try {
+				const params = new URLSearchParams({
+					courseId: String(courseId),
+					language: 'he',
+				})
+				const response = await fetch(
+					`/api/flashcards/status?${params.toString()}`,
+				)
+				if (!response.ok) throw new Error('Failed to fetch statuses')
+				const payload = await response.json()
+				if (cancelled) return
+
+				const nextStatuses: Record<number, CardStatus> = {}
+				for (const status of payload.statuses ?? []) {
+					if (typeof status.cardId !== 'number') continue
+					nextStatuses[status.cardId] = {
+						isMastered: !!status.isMastered,
+						inMyStack: !!status.inMyStack,
+					}
+				}
+				setCardStatuses(nextStatuses)
+			} catch (error) {
+				console.error('Failed to load card statuses', error)
+			}
+		}
+
+		loadStatuses()
+
+		return () => {
+			cancelled = true
+		}
+	}, [canUseSavedWordFeatures, courseId])
+
+	async function updateCardStatus(
+		action: 'master' | 'unmaster' | 'addToStack' | 'removeFromStack',
+	) {
+		if (!currentCard?.id || !canUseSavedWordFeatures) return
+
+		setIsUpdatingStatus(true)
+		try {
+			const response = await fetch('/api/flashcards/status', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					cardId: currentCard.id,
+					courseId,
+					language: 'he',
+					action,
+				}),
+			})
+
+			if (!response.ok) {
+				throw new Error('Failed to update card status')
+			}
+
+			const payload = await response.json()
+			const nextStatus = payload.status
+			const shouldAdvanceToFront =
+				action === 'master' && hideMasteredCards && !!nextStatus?.isMastered
+
+			if (shouldAdvanceToFront) {
+				setShowBack(false)
+				await new Promise((resolve) =>
+					window.setTimeout(resolve, CARD_FLIP_DURATION_MS),
+				)
+			}
+
+			if (typeof nextStatus?.cardId === 'number') {
+				setCardStatuses((prev) => ({
+					...prev,
+					[nextStatus.cardId]: {
+						isMastered: !!nextStatus.isMastered,
+						inMyStack: !!nextStatus.inMyStack,
+					},
+				}))
+			}
+		} catch (error) {
+			console.error('Failed to update card status', error)
+			toast.error('Could not update this word right now.')
+		} finally {
+			setIsUpdatingStatus(false)
+		}
+	}
+
+	function handleNextCard() {
+		setShowBack(false)
+		setTimeout(() => {
+			const nextIndex = currentIndex + 1
+			if (nextIndex >= filteredCards.length) {
+				celebrate()
+			}
+			setCardsCompleted((prev) => prev + 1)
+			setCurrentIndex(nextIndex % filteredCards.length)
+		}, CARD_FLIP_DURATION_MS)
+	}
+
+	function handlePreviousCard() {
+		setShowBack(false)
+		setTimeout(() => {
+			setCurrentIndex(
+				(prev) => (prev - 1 + filteredCards.length) % filteredCards.length,
+			)
+		}, CARD_FLIP_DURATION_MS)
+	}
+
 	return (
-		<div className="p-4 max-w-3xl mx-auto text-center w-full">
+		<div className="mx-auto w-full max-w-3xl p-4 text-center">
 			{Confetti}
 
-			{/* Customize Section Toggle */}
 			<div className="mb-6 flex justify-center gap-4">
-				<button
-					onClick={() => setShowCustomize((prev) => !prev)}
-					className={`px-4 py-2 rounded shadow flex items-center justify-center gap-4 ${
-						showCustomize ? 'bg-sky-600 text-white' : 'bg-gray-200'
-					}`}
-				>
-					<Image
-						src="/woman-artist-light-skin-tone-svgrepo-com.svg"
-						alt="Filter icon"
-						width={30}
-						height={30}
-						className=""
-					/>
-					Customize
-				</button>
 				{!hideFilters ? (
 					<button
 						onClick={() => setShowFilter((prev) => !prev)}
-						className={`px-4 py-2 rounded shadow flex items-center justify-center gap-4 ${
+						className={`flex items-center justify-center gap-4 rounded px-4 py-2 shadow ${
 							showFilter ? 'bg-sky-600 text-white' : 'bg-gray-200'
 						}`}
 					>
@@ -1139,16 +643,15 @@ HebrewVocabProps) {
 							alt="Filter icon"
 							width={30}
 							height={30}
-							className=""
 						/>
-						Filter
+						Filters
 					</button>
 				) : null}
 			</div>
 
-			<div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-6">
+			<div className="mb-6 flex flex-col items-center justify-center gap-6 sm:flex-row">
 				<div className="text-sm">
-					<label className="block mb-1 font-medium">Volume</label>
+					<label className="mb-1 block font-medium">Volume</label>
 					<input
 						type="range"
 						min="0"
@@ -1161,7 +664,7 @@ HebrewVocabProps) {
 					<div className="text-center">{Math.round(audioVolume * 100)}%</div>
 				</div>
 				<div className="text-sm">
-					<label className="block mb-1 font-medium">Audio Speed</label>
+					<label className="mb-1 block font-medium">Audio Speed</label>
 					<input
 						type="range"
 						min="0.5"
@@ -1175,375 +678,51 @@ HebrewVocabProps) {
 				</div>
 			</div>
 
-			{/* Front/Back Customization (Hidden Until Clicked) */}
-			{showCustomize && (
-				<>
-					<div className="mb-4 flex flex-wrap justify-center gap-3">
-						<span className="my-auto font-semibold">Presets:</span>
-						{PRESETS.map((preset) => (
-							<button
-								key={preset.label}
-								onClick={() => applyPreset(preset)}
-								className="px-3 py-2 bg-violet-600 text-white rounded shadow hover:bg-violet-500"
-							>
-								{preset.label}
-							</button>
-						))}
-					</div>
-					<div className="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-						<div className="grid grid-cols-3 gap-4 rounded-md p-4 border">
-							<div className="font-bold text-center col-span-3 text-xl">
-								Front of Card Customization
-							</div>
-							<div>
-								<label className="block text-sm font-medium">Top Left</label>
-								<select
-									className="w-full p-2 border rounded"
-									value={frontTopLeft}
-									onChange={(e) =>
-										setFrontTopLeft(e.target.value as DisplayField)
-									}
-								>
-									<option value="none">None</option>
-
-									{miniPositionFields.map((field) => (
-										<option key={field} value={field}>
-											{FIELD_LABELS[field] || field}
-										</option>
-									))}
-								</select>
-							</div>
-							<div>
-								<label className="block text-sm font-medium">Top Center</label>
-								<select
-									className="w-full p-2 border rounded"
-									value={frontTopCenter}
-									onChange={(e) =>
-										setFrontTopCenter(e.target.value as DisplayField)
-									}
-								>
-									<option value="none">None</option>
-									{miniPositionFields.map((field) => (
-										<option key={field} value={field}>
-											{FIELD_LABELS[field] || field}
-										</option>
-									))}
-								</select>
-							</div>
-							<div>
-								<label className="block text-sm font-medium">Top Right</label>
-								<select
-									className="w-full p-2 border rounded"
-									value={frontTopRight}
-									onChange={(e) =>
-										setFrontTopRight(e.target.value as DisplayField)
-									}
-								>
-									<option value="none">None</option>
-									{miniPositionFields.map((field) => (
-										<option key={field} value={field}>
-											{FIELD_LABELS[field] || field}
-										</option>
-									))}
-								</select>
-							</div>
-							<div className="col-span-3">
-								<label className="block text-sm font-medium">
-									Middle Center
-								</label>
-								<select
-									className="w-full p-2 border rounded"
-									value={frontMiddleCenter}
-									onChange={(e) =>
-										setFrontMiddleCenter(e.target.value as DisplayField)
-									}
-								>
-									<option value="none">None</option>
-									{allDisplayFields.map((field) => (
-										<option key={field} value={field}>
-											{FIELD_LABELS[field] || field}
-										</option>
-									))}
-								</select>
-							</div>
-							<div className="flex gap-2 flex-wrap justify-between mt-1 col-span-3">
-								{fontOptions.map(({ label, value, className }) => (
-									<button
-										key={value}
-										type="button"
-										onClick={() => setFrontFont(value)}
-										className={`px-4 py-1 border rounded-full text-sm ${
-											frontFont === value
-												? 'bg-sky-600 text-white'
-												: 'bg-gray-100'
-										} ${className}`}
-									>
-										{label}
-									</button>
-								))}
-							</div>
-							<div className="col-span-3">
-								<label className="block text-sm font-medium">Size</label>
-								<select
-									className="w-full p-2 border rounded"
-									value={frontFontSize}
-									onChange={(e) =>
-										setFrontFontSize(e.target.value as FontSizeKey)
-									}
-								>
-									{Object.keys(FONT_SIZE_MAP).map((size) => (
-										<option key={size} value={size}>
-											{FONT_SIZE_LABELS[size as FontSizeKey]}
-										</option>
-									))}
-								</select>
-							</div>
-							<div>
-								<label className="block text-sm font-medium">Bottom Left</label>
-								<select
-									className="w-full p-2 border rounded"
-									value={frontBottomLeft}
-									onChange={(e) =>
-										setFrontBottomLeft(e.target.value as DisplayField)
-									}
-								>
-									<option value="none">None</option>
-									{miniPositionFields.map((field) => (
-										<option key={field} value={field}>
-											{FIELD_LABELS[field] || field}
-										</option>
-									))}
-								</select>
-							</div>
-							<div>
-								<label className="block text-sm font-medium">
-									Bottom Center
-								</label>
-								<select
-									className="w-full p-2 border rounded"
-									value={frontBottomCenter}
-									onChange={(e) =>
-										setFrontBottomCenter(e.target.value as DisplayField)
-									}
-								>
-									<option value="none">None</option>
-									{miniPositionFields.map((field) => (
-										<option key={field} value={field}>
-											{FIELD_LABELS[field] || field}
-										</option>
-									))}
-								</select>
-							</div>
-							<div>
-								<label className="block text-sm font-medium">
-									Bottom Right
-								</label>
-								<select
-									className="w-full p-2 border rounded"
-									value={frontBottomRight}
-									onChange={(e) =>
-										setFrontBottomRight(e.target.value as DisplayField)
-									}
-								>
-									<option value="none">None</option>
-									{miniPositionFields.map((field) => (
-										<option key={field} value={field}>
-											{FIELD_LABELS[field] || field}
-										</option>
-									))}
-								</select>
-							</div>
-						</div>
-						<div className="grid grid-cols-3 gap-4 bg-sky-100 p-4 rounded-md">
-							<div className="font-bold text-center col-span-3 text-xl">
-								Back of Card Customization
-							</div>
-							<div>
-								<label className="block text-sm font-medium">Top Left</label>
-								<select
-									className="w-full p-2 border rounded"
-									value={backTopLeft}
-									onChange={(e) =>
-										setBackTopLeft(e.target.value as DisplayField)
-									}
-								>
-									<option value="none">None</option>
-									{miniPositionFields.map((field) => (
-										<option key={field} value={field}>
-											{FIELD_LABELS[field] || field}
-										</option>
-									))}
-								</select>
-							</div>
-							<div>
-								<label className="block text-sm font-medium">Top Center</label>
-								<select
-									className="w-full p-2 border rounded"
-									value={backTopCenter}
-									onChange={(e) =>
-										setBackTopCenter(e.target.value as DisplayField)
-									}
-								>
-									<option value="none">None</option>
-									{miniPositionFields.map((field) => (
-										<option key={field} value={field}>
-											{FIELD_LABELS[field] || field}
-										</option>
-									))}
-								</select>
-							</div>
-							<div>
-								<label className="block text-sm font-medium">Top Right</label>
-								<select
-									className="w-full p-2 border rounded"
-									value={backTopRight}
-									onChange={(e) =>
-										setBackTopRight(e.target.value as DisplayField)
-									}
-								>
-									<option value="none">None</option>
-									{miniPositionFields.map((field) => (
-										<option key={field} value={field}>
-											{FIELD_LABELS[field] || field}
-										</option>
-									))}
-								</select>
-							</div>
-							<div className="col-span-3">
-								<label className="block text-sm font-medium">
-									Middle Center
-								</label>
-								<select
-									className="w-full p-2 border rounded"
-									value={backMiddleCenter}
-									onChange={(e) =>
-										setBackMiddleCenter(e.target.value as DisplayField)
-									}
-								>
-									<option value="none">None</option>
-									{/* Explicit list so only these fields are allowed */}
-									{[
-										'heb',
-										'hebNiqqud',
-										'eng',
-										'rootPerson',
-										'rootGender',
-										'rootNumber',
-										'partOfSpeech',
-										'ipa',
-										'engTransliteration',
-										'images',
-										'hebAudio',
-										'introduction',
-									].map((field) => (
-										<option key={field} value={field}>
-											{FIELD_LABELS[field] || field}
-										</option>
-									))}
-								</select>
-							</div>
-							<div className="flex gap-2 flex-wrap justify-between mt-1 col-span-3">
-								{fontOptions.map(({ label, value, className }) => (
-									<button
-										key={value}
-										type="button"
-										onClick={() => setBackFont(value)}
-										className={`px-4 py-1 border rounded-full text-sm ${
-											backFont === value
-												? 'bg-sky-600 text-white'
-												: 'bg-gray-100'
-										} ${className}`}
-									>
-										{label}
-									</button>
-								))}
-							</div>
-							<div className="col-span-3">
-								<label className="block text-sm font-medium">Size</label>
-								<select
-									className="w-full p-2 border rounded"
-									value={backFontSize}
-									onChange={(e) =>
-										setBackFontSize(e.target.value as FontSizeKey)
-									}
-								>
-									{Object.keys(FONT_SIZE_MAP).map((size) => (
-										<option key={size} value={size}>
-											{FONT_SIZE_LABELS[size as FontSizeKey]}
-										</option>
-									))}
-								</select>
-							</div>
-							<div>
-								<label className="block text-sm font-medium">Bottom Left</label>
-								<select
-									className="w-full p-2 border rounded"
-									value={backBottomLeft}
-									onChange={(e) =>
-										setBackBottomLeft(e.target.value as DisplayField)
-									}
-								>
-									<option value="none">None</option>
-									{miniPositionFields.map((field) => (
-										<option key={field} value={field}>
-											{FIELD_LABELS[field] || field}
-										</option>
-									))}
-								</select>
-							</div>
-							<div>
-								<label className="block text-sm font-medium">
-									Bottom Center
-								</label>
-								<select
-									className="w-full p-2 border rounded"
-									value={backBottomCenter}
-									onChange={(e) =>
-										setBackBottomCenter(e.target.value as DisplayField)
-									}
-								>
-									<option value="none">None</option>
-									{miniPositionFields.map((field) => (
-										<option key={field} value={field}>
-											{FIELD_LABELS[field] || field}
-										</option>
-									))}
-								</select>
-							</div>
-							<div>
-								<label className="block text-sm font-medium">
-									Bottom Right
-								</label>
-								<select
-									className="w-full p-2 border rounded"
-									value={backBottomRight}
-									onChange={(e) =>
-										setBackBottomRight(e.target.value as DisplayField)
-									}
-								>
-									<option value="none">None</option>
-									{miniPositionFields.map((field) => (
-										<option key={field} value={field}>
-											{FIELD_LABELS[field] || field}
-										</option>
-									))}
-								</select>
-							</div>
-						</div>
-					</div>
-				</>
-			)}
-
 			{showFilter && !hideFilters && (
-				<>
-					<div className="space-y-3 mb-4">
+				<div className="mb-4 space-y-4 rounded-2xl border bg-white/70 p-4 shadow-sm backdrop-blur">
+					<div className="grid gap-4 sm:grid-cols-2">
+						<div className="rounded-xl border bg-white p-4 text-left">
+							<label className="block text-sm font-semibold uppercase tracking-wide text-neutral-600">
+								Front
+							</label>
+							<select
+								className="mt-2 w-full rounded-lg border p-2"
+								value={frontField}
+								onChange={(e) => setFrontField(e.target.value as FlashcardSide)}
+							>
+								{SIDE_OPTIONS.map((option) => (
+									<option key={option.value} value={option.value}>
+										{option.label}
+									</option>
+								))}
+							</select>
+						</div>
+						<div className="rounded-xl border bg-sky-50 p-4 text-left">
+							<label className="block text-sm font-semibold uppercase tracking-wide text-neutral-600">
+								Back
+							</label>
+							<select
+								className="mt-2 w-full rounded-lg border p-2"
+								value={backField}
+								onChange={(e) => setBackField(e.target.value as FlashcardSide)}
+							>
+								{SIDE_OPTIONS.map((option) => (
+									<option key={option.value} value={option.value}>
+										{option.label}
+									</option>
+								))}
+							</select>
+						</div>
+					</div>
+
+					<div className="space-y-3">
 						<h2 className="text-xl font-semibold">Select Type</h2>
-						<div className="flex flex-row-reverse flex-wrap justify-center gap-2">
+						<div className="flex flex-wrap justify-center gap-2">
 							{typeOptions.map((type) => (
 								<button
 									key={type}
 									onClick={() => setSelectedType(type)}
-									className={`px-3 py-1 border rounded-full text-xs ${
+									className={`rounded-full border px-3 py-1 text-xs ${
 										selectedType === type
 											? 'bg-sky-600 text-white'
 											: 'bg-gray-200'
@@ -1556,18 +735,15 @@ HebrewVocabProps) {
 							))}
 						</div>
 					</div>
-					<CategoryFilter
-						data={data}
-						selectedCategory={selectedCategory}
-						setSelectedCategory={setSelectedCategory}
-					/>
+
 					<LessonFilter
 						data={data}
 						selectedLessons={selectedLessons}
 						setSelectedLessons={setSelectedLessons}
 						showRanges={true}
 					/>
-					<div className="flex items-center justify-center my-4 gap-2 flex-wrap">
+
+					<div className="flex flex-wrap items-center justify-center gap-2">
 						{!isRandomized ? (
 							<button
 								onClick={() => {
@@ -1577,7 +753,7 @@ HebrewVocabProps) {
 									)
 									setCurrentIndex(0)
 								}}
-								className="px-4 py-2 bg-violet-600 text-white rounded shadow hover:bg-violet-500 transition"
+								className="rounded bg-violet-600 px-4 py-2 text-white shadow transition hover:bg-violet-500"
 							>
 								🔀 Randomize Cards
 							</button>
@@ -1585,17 +761,16 @@ HebrewVocabProps) {
 							<button
 								onClick={() => {
 									setIsRandomized(false)
-									setFilterVersion((v) => v + 1)
 									setCurrentIndex(0)
 								}}
-								className="px-4 py-2 bg-gray-300 text-gray-800 rounded shadow hover:bg-gray-200 transition"
+								className="rounded bg-gray-300 px-4 py-2 text-gray-800 shadow transition hover:bg-gray-200"
 							>
 								↩️ Reset Order
 							</button>
 						)}
 						<button
 							onClick={() => setHideMasteredCards((prev) => !prev)}
-							className={`px-4 py-2 rounded shadow transition ${
+							className={`rounded px-4 py-2 shadow transition ${
 								hideMasteredCards
 									? 'bg-amber-500 text-white hover:bg-amber-400'
 									: 'bg-gray-300 text-gray-800 hover:bg-gray-200'
@@ -1604,41 +779,39 @@ HebrewVocabProps) {
 							{hideMasteredCards ? 'Filter out Mastered' : 'Show All Words'}
 						</button>
 					</div>
-				</>
+				</div>
 			)}
 
 			{filteredCards.length > 0 ? (
 				<div
-					className={`relative w-full mb-4 perspective cursor-pointer ${
-						frontMiddleCenter === 'images' ? 'h-96' : 'h-72'
+					className={`group relative mb-4 w-full cursor-pointer perspective ${
+						frontField === 'images' || backField === 'images' ? 'h-96' : 'h-80'
 					}`}
 					onClick={() => setShowBack((prev) => !prev)}
 				>
 					<div
-						className={`relative w-full h-full transition-transform duration-700 transform-style-preserve-3d ${
+						className={`relative h-full w-full transform-style-preserve-3d transition-transform duration-700 ${
 							showBack ? 'rotate-y-180' : ''
 						}`}
 					>
-						{/* Front */}
-						<div className="absolute w-full h-full backface-hidden bg-white border rounded-xl p-2 sm:p-6 flex flex-col">
-							{/* Top Row */}
-							<div className="grid grid-cols-3 gap-2 text-sm sm:text-base font-nunito">
-								<div className="min-w-0 text-left whitespace-normal break-words leading-tight">
-									{renderMiniContent(frontTopLeft, false)}
-								</div>
-								<div className="min-w-0 text-center whitespace-normal break-words leading-tight">
-									{renderMiniContent(frontTopCenter, false)}
-								</div>
-								<div className="min-w-0 text-right whitespace-normal break-words leading-tight">
-									{renderMiniContent(frontTopRight, false)}
-								</div>
+						<div className="absolute inset-0 flex flex-col rounded-xl border bg-white p-4 shadow-sm backface-hidden sm:p-6">
+							<div className="pointer-events-none absolute left-1/2 top-3 z-10 -translate-x-1/2 text-sm text-gray-500 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+								Tap to flip
 							</div>
-
-							{/* Middle Row (flexes to fill) */}
-							{/* <div className="flex-1 flex items-center justify-center text-center overflow-hidden"> */}
-							<div className="flex-1 relative overflow-hidden flex items-center justify-center leading-none">
+							{(frontField === 'heb' || frontField === 'hebNiqqud') && (
+								<div className="absolute right-3 top-3 z-10">
+									{renderAudioButton()}
+								</div>
+							)}
+							<div className="relative flex flex-1 items-center justify-center overflow-hidden">
 								{(isCurrentCardMastered || isCurrentCardInMyStack) && (
-									<div className="absolute right-3 top-3 z-10 flex items-center gap-2">
+									<div
+										className={`absolute top-3 z-10 flex items-center gap-2 ${
+											frontField === 'heb' || frontField === 'hebNiqqud'
+												? 'right-14'
+												: 'right-3'
+										}`}
+									>
 										{isCurrentCardInMyStack && (
 											<div className="rounded-full bg-emerald-100 p-1 text-emerald-600 shadow-sm">
 												<Bookmark className="h-4 w-4 fill-current" />
@@ -1651,49 +824,54 @@ HebrewVocabProps) {
 										)}
 									</div>
 								)}
-								<span
-									className={FONT_CLASS_MAP[frontFont]}
-									style={{ fontSize: FONT_SIZE_MAP[frontFontSize] }}
+								<div
+									className={`flex items-center justify-center ${frontField === 'heb' || frontField === 'hebNiqqud' ? 'font-serif text-4xl sm:text-5xl' : 'text-3xl sm:text-4xl'}`}
 								>
-									{renderMiniContent(frontMiddleCenter, true)}
-								</span>
+									{renderContent(frontField, true)}
+								</div>
 							</div>
-							{/* </div> */}
 
-							{/* Bottom Row */}
-							<div className="grid grid-cols-3 gap-2 text-sm sm:text-base font-nunito">
-								<div className="min-w-0 self-end text-left whitespace-normal break-words leading-tight">
-									{renderMiniContent(frontBottomLeft, false)}
+							<div className="grid grid-cols-3 gap-2 border-t pt-3 text-left text-xs text-neutral-700 sm:text-sm">
+								<div className="min-w-0">
+									<div className="uppercase tracking-wide text-neutral-500">
+										Suffix
+									</div>
+									<div className="font-semibold">
+										{frontSuffixSummary ?? '—'}
+									</div>
 								</div>
-								<div className="min-w-0 self-end text-center whitespace-normal break-words leading-tight">
-									{renderMiniContent(frontBottomCenter, false)}
+								<div className="min-w-0 text-center">
+									<div className="uppercase tracking-wide text-neutral-500">
+										Root
+									</div>
+									<div className="font-semibold">
+										{stripLabelPrefix(frontRootSummary, 'Root') ?? '—'}
+									</div>
 								</div>
-								<div className="min-w-0 self-end text-right whitespace-normal break-words leading-tight">
-									{renderMiniContent(frontBottomRight, false)}
+								<div className="min-w-0 text-right">
+									<div className="uppercase tracking-wide text-neutral-500">P.O.S</div>
+									<div className="font-semibold">
+										{frontGrammarSummary ?? '—'}
+									</div>
 								</div>
 							</div>
 						</div>
 
-						{/* Back */}
-						<div className="absolute w-full h-full backface-hidden rotate-y-180 bg-sky-100 border rounded-xl p-2 sm:p-6 grid grid-rows-[auto,1fr,auto] grid-cols-[0.5fr,2fr,0.5fr] gap-1">
-							{/* Top Row */}
-							<div className="min-w-0 text-sm sm:text-base font-nunito text-left whitespace-normal break-words leading-tight">
-								{renderMiniContent(backTopLeft, false)}
-							</div>
-							<div className="min-w-0 text-sm sm:text-base font-nunito text-center whitespace-normal break-words leading-tight">
-								{renderMiniContent(backTopCenter, false)}
-							</div>
-							<div className="min-w-0 text-sm sm:text-base font-nunito text-right whitespace-normal break-words leading-tight">
-								{renderMiniContent(backTopRight, false)}
-							</div>
-
-							{/* Middle */}
-							<div
-								className="flex-1 col-span-3 relative overflow-hidden flex items-center justify-center"
-								style={{ fontSize: FONT_SIZE_MAP[backFontSize] }}
-							>
+						<div className="absolute inset-0 flex flex-col rounded-xl border bg-sky-100 p-4 shadow-sm backface-hidden rotate-y-180 sm:p-6">
+							{(backField === 'heb' || backField === 'hebNiqqud') && (
+								<div className="absolute right-3 top-3 z-10">
+									{renderAudioButton()}
+								</div>
+							)}
+							<div className="relative flex flex-1 items-center justify-center overflow-hidden">
 								{(isCurrentCardMastered || isCurrentCardInMyStack) && (
-									<div className="absolute right-3 top-3 z-10 flex items-center gap-2">
+									<div
+										className={`absolute top-3 z-10 flex items-center gap-2 ${
+											backField === 'heb' || backField === 'hebNiqqud'
+												? 'right-14'
+												: 'right-3'
+										}`}
+									>
 										{isCurrentCardInMyStack && (
 											<div className="rounded-full bg-emerald-100 p-1 text-emerald-600 shadow-sm">
 												<Bookmark className="h-4 w-4 fill-current" />
@@ -1706,38 +884,29 @@ HebrewVocabProps) {
 										)}
 									</div>
 								)}
-								<span className={FONT_CLASS_MAP[backFont]}>
-									{renderMiniContent(backMiddleCenter, true)}
-								</span>
+								<div
+									className={`flex items-center justify-center ${backField === 'heb' || backField === 'hebNiqqud' ? 'font-serif text-4xl sm:text-5xl' : 'text-3xl sm:text-4xl'}`}
+								>
+									{renderContent(backField, true)}
+								</div>
 							</div>
 
-							{/* Bottom Row */}
-							<div className="min-w-0 text-sm sm:text-base font-nunito text-left self-end whitespace-normal break-words leading-tight">
-								{renderMiniContent(backBottomLeft, false)}
-							</div>
-							<div className="min-w-0 text-sm sm:text-base font-nunito text-center self-end whitespace-normal break-words leading-tight">
-								{renderMiniContent(backBottomCenter, false)}
-							</div>
-							<div className="min-w-0 text-sm sm:text-base font-nunito text-right self-end whitespace-normal break-words leading-tight">
-								{renderMiniContent(backBottomRight, false)}
+							<div className="border-t pt-3 text-center text-sm text-neutral-700">
+								<div className="uppercase tracking-wide text-neutral-500">IPA</div>
+								<div className="font-semibold">{backIpaSummary ?? '—'}</div>
 							</div>
 						</div>
 					</div>
 
-					{/* Tap-to-flip hint */}
-					<div className="absolute bottom-2 right-3 z-10 text-sm text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-						Tap to flip
-					</div>
 				</div>
 			) : (
-				<div className="text-center text-gray-500 text-base italic mb-6">
-					No cards available with these customizations.
+				<div className="mb-6 text-center text-base italic text-gray-500">
+					No cards available with these filters.
 					<br />
-					Please select a different lesson or choose different card sides.
+					Try a different lesson or switch the front or back side.
 				</div>
 			)}
 
-			{/* 🔵 Progress bar */}
 			{filteredCards.length > 0 && (
 				<ProgressBar currentIndex={currentIndex} total={filteredCards.length} />
 			)}
@@ -1749,21 +918,21 @@ HebrewVocabProps) {
 							updateCardStatus(isCurrentCardMastered ? 'unmaster' : 'master')
 						}
 						disabled={isUpdatingStatus || !currentCard?.id}
-						className="px-4 py-2 bg-amber-500 text-white rounded shadow disabled:opacity-60"
+						className="rounded bg-amber-500 px-4 py-2 text-white shadow disabled:opacity-60"
 					>
 						{isCurrentCardMastered ? 'Remove Mastered' : 'Mark as Mastered'}
 					</button>
 				)}
 				<button
 					onClick={handlePreviousCard}
-					className="px-4 py-2 bg-gray-500 text-white rounded shadow"
+					className="rounded bg-gray-500 px-4 py-2 text-white shadow"
 					aria-label="Previous Card"
 				>
 					&lt;
 				</button>
 				<button
 					onClick={handleNextCard}
-					className="px-4 py-2 bg-sky-600 text-white rounded shadow"
+					className="rounded bg-sky-600 px-4 py-2 text-white shadow"
 					aria-label="Next Card"
 				>
 					&gt;
@@ -1778,7 +947,7 @@ HebrewVocabProps) {
 						disabled={
 							isUpdatingStatus || !currentCard?.id || isCurrentCardMastered
 						}
-						className="px-4 py-2 bg-emerald-600 text-white rounded shadow disabled:opacity-60"
+						className="rounded bg-emerald-600 px-4 py-2 text-white shadow disabled:opacity-60"
 					>
 						{isCurrentCardMastered
 							? 'Mastered Words Leave My Stack'

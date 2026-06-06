@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { asc, and, eq } from 'drizzle-orm'
+import { asc, and, eq, inArray } from 'drizzle-orm'
 import { notFound } from 'next/navigation'
 
 import db from '@/db/drizzle'
@@ -10,6 +10,7 @@ import {
 	publicCourseEnrollmentLesson,
 	publicCourseLesson,
 	publicCourseLessonActivity,
+	userVideoProgress,
 } from '@/db/schema'
 import { getSession } from '@/lib/auth'
 import PublicCourseActivityBrowser from '@/components/courses/public-course-activity-browser'
@@ -95,6 +96,22 @@ export default async function PublicCourseDetailPage({
 		course.lessons.map((lesson) => lesson.lesson.id)
 	)
 
+	const lessonScriptIds = Array.from(lessonScriptIdsByLessonId.values())
+
+	const completedLessonScriptIds = userId && lessonScriptIds.length > 0
+		? await db.query.userVideoProgress
+				.findMany({
+					where: and(
+						eq(userVideoProgress.userId, userId),
+						inArray(userVideoProgress.videoId, lessonScriptIds)
+					),
+					columns: {
+						videoId: true,
+					},
+				})
+				.then((rows) => rows.map((row) => row.videoId))
+		: []
+
 	const plannerLessons = course.lessons.map((lesson) => ({
 		publicCourseLessonId: lesson.id,
 		order: lesson.order,
@@ -157,6 +174,7 @@ export default async function PublicCourseDetailPage({
 					courseId={course.id}
 					isAuthenticated={Boolean(userId)}
 					lessons={plannerLessons}
+					completedLessonScriptIds={completedLessonScriptIds}
 					initialEnrollment={
 						enrollment
 							? {

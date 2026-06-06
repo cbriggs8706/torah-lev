@@ -346,6 +346,30 @@ export const userCourseProgressRelations = relations(
 	})
 )
 
+export const userVideoProgress = pgTable(
+	'user_video_progress',
+	{
+		id: serial('id').primaryKey(),
+		userId: text('user_id')
+			.references(() => userProgress.userId, { onDelete: 'cascade' })
+			.notNull(),
+		videoId: integer('video_id')
+			.references(() => videos.id, { onDelete: 'cascade' })
+			.notNull(),
+		pointsAwarded: integer('points_awarded').notNull().default(0),
+		completedAt: timestamp('completed_at'),
+		lastInteractedAt: timestamp('last_interacted_at').defaultNow().notNull(),
+		createdAt: timestamp('created_at').defaultNow().notNull(),
+		updatedAt: timestamp('updated_at').defaultNow().notNull(),
+	},
+	(table) => ({
+		userVideoIdx: uniqueIndex('uniq_user_video_progress').on(
+			table.userId,
+			table.videoId
+		),
+	})
+)
+
 export const userSubscription = pgTable('user_subscription', {
 	id: serial('id').primaryKey(),
 	userId: text('user_id').notNull().unique(),

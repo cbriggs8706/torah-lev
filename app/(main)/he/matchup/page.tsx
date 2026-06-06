@@ -66,9 +66,10 @@ export default async function HebrewMatchupPage({
 					)}
 
 					<DismissibleAlert storageKey="matchup" className="mb-4">
-						It will load up to 12 words from your current lesson by default. You
-						can change between text, images and audio in the filters. Known bug:
-						drag and drop doesn&apos;t work on Android devices.
+						It will load up to 12 words from your current lesson by default.
+						Choose your prompt and response types above. Prompts default to
+						images and responses default to audio. Known bug: drag and drop
+						doesn&apos;t work on Android devices.
 					</DismissibleAlert>
 
 					<HebrewMatchup

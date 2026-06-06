@@ -37,6 +37,30 @@ type PromptOption = {
 	kind: PromptKind
 }
 
+function getOptionTextDirection(key: PromptKey): 'ltr' | 'rtl' {
+	return key === 'heb' || key === 'hebNiqqud' ? 'rtl' : 'ltr'
+}
+
+function getOptionTextClass(key: PromptKey) {
+	if (key === 'heb' || key === 'hebNiqqud') return 'font-cardo'
+	if (key === 'grk') return 'font-serif'
+	return ''
+}
+
+function getAudioKeyForPromptKey(key: PromptKey): PromptKey | null {
+	switch (key) {
+		case 'eng':
+			return 'engAudio'
+		case 'heb':
+		case 'hebNiqqud':
+			return 'hebAudio'
+		case 'grk':
+			return 'grkAudio'
+		default:
+			return null
+	}
+}
+
 interface VocabQuizProps {
 	data: VocabCard[]
 	currentLesson: string
@@ -56,74 +80,81 @@ interface VocabQuizProps {
 function CountdownCircle({
 	seconds,
 	remainingMs,
+	paused,
+	onTogglePause,
 }: {
 	seconds: number
 	remainingMs: number
+	paused: boolean
+	onTogglePause: () => void
 }) {
-	const progress = seconds <= 0 ? 100 : ((seconds * 1000 - remainingMs) / (seconds * 1000)) * 100
+	const progress =
+		seconds <= 0
+			? 100
+			: ((seconds * 1000 - remainingMs) / (seconds * 1000)) * 100
 	const radius = 45
 	const circumference = 2 * Math.PI * radius
 	const offset = circumference - (progress / 100) * circumference
 
 	return (
-		<svg width="100" height="100">
-			<circle
-				cx="50"
-				cy="50"
-				r={radius}
-				stroke="#e5e7eb"
-				strokeWidth="8"
-				fill="none"
-			/>
-			<circle
-				cx="50"
-				cy="50"
-				r={radius}
-				stroke="#0284c7"
-				strokeWidth="8"
-				fill="none"
-				strokeDasharray={circumference}
-				strokeDashoffset={offset}
-				strokeLinecap="round"
-				transform="rotate(-90 50 50)"
-			/>
-			<text
-				x="50"
-				y="55"
-				textAnchor="middle"
-				fontSize="24"
-				fill="#111827"
-				fontWeight="bold"
-			>
-				{Math.ceil(remainingMs / 1000)}
-			</text>
-		</svg>
+		<button
+			type="button"
+			onClick={onTogglePause}
+			className="relative inline-flex h-[100px] w-[100px] items-center justify-center rounded-full focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2"
+			aria-label={paused ? 'Resume countdown' : 'Pause countdown'}
+		>
+			<svg width="100" height="100">
+				<circle
+					cx="50"
+					cy="50"
+					r={radius}
+					stroke="#e5e7eb"
+					strokeWidth="8"
+					fill="none"
+				/>
+				<circle
+					cx="50"
+					cy="50"
+					r={radius}
+					stroke="#0284c7"
+					strokeWidth="8"
+					fill="none"
+					strokeDasharray={circumference}
+					strokeDashoffset={offset}
+					strokeLinecap="round"
+					transform="rotate(-90 50 50)"
+				/>
+				<text
+					x="50"
+					y="55"
+					textAnchor="middle"
+					fontSize={paused ? '28' : '24'}
+					fill="#111827"
+					fontWeight="bold"
+				>
+					{paused ? '⏸' : Math.ceil(remainingMs / 1000)}
+				</text>
+			</svg>
+			<span className="sr-only">{paused ? 'Resume' : 'Pause'}</span>
+		</button>
 	)
 }
 
 const QUIZ_CONFIG: Record<
 	QuizLayout,
 	{
-		answerField: PromptKey
-		answerAudioField: PromptKey | null
-		answerLabel: string
 		title: string
 		emptyState: string
-		answerClassName: string
-		answerDirection?: 'ltr' | 'rtl'
 		promptOptions: PromptOption[]
 		defaultPrompt: PromptKey
+		defaultRespondWith: PromptKey
 	}
 > = {
 	english: {
-		answerField: 'eng',
-		answerAudioField: 'engAudio',
-		answerLabel: 'English',
 		title: 'Quiz',
 		emptyState: 'No quiz cards match your current filter.',
-		answerClassName: 'font-nunito text-5xl md:text-6xl',
-		answerDirection: 'ltr',
 		defaultPrompt: 'images',
+		defaultRespondWith: 'engAudio',
 		promptOptions: [
 			{ key: 'spa', label: 'Spanish', kind: 'text' },
 			{ key: 'por', label: 'Portuguese', kind: 'text' },
@@ -134,14 +165,10 @@ const QUIZ_CONFIG: Record<
 		],
 	},
 	hebrew: {
-		answerField: 'hebNiqqud',
-		answerAudioField: 'hebAudio',
-		answerLabel: 'Hebrew',
 		title: 'חידון',
 		emptyState: 'No quiz cards match your current filter.',
-		answerClassName: 'font-cardo text-5xl md:text-6xl',
-		answerDirection: 'rtl',
 		defaultPrompt: 'images',
+		defaultRespondWith: 'hebAudio',
 		promptOptions: [
 			{ key: 'eng', label: 'Translation', kind: 'text' },
 			{ key: 'engDefinition', label: 'Definition', kind: 'text' },
@@ -152,14 +179,10 @@ const QUIZ_CONFIG: Record<
 		],
 	},
 	greek: {
-		answerField: 'grk',
-		answerAudioField: 'grkAudio',
-		answerLabel: 'Greek',
 		title: 'Quiz',
 		emptyState: 'No quiz cards match your current filter.',
-		answerClassName: 'font-serif text-5xl md:text-6xl',
-		answerDirection: 'ltr',
 		defaultPrompt: 'images',
+		defaultRespondWith: 'grkAudio',
 		promptOptions: [
 			{ key: 'eng', label: 'Translation', kind: 'text' },
 			{ key: 'engDefinition', label: 'Definition', kind: 'text' },
@@ -183,7 +206,7 @@ function getCardValue(card: VocabCard, key: PromptKey) {
 		case 'images':
 			return card.images ?? []
 		case 'engAudio':
-			return 'engAudio' in card ? card.engAudio ?? '' : ''
+			return 'engAudio' in card ? (card.engAudio ?? '') : ''
 		case 'hebNiqqud':
 			return 'hebNiqqud' in card ? card.hebNiqqud : ''
 		case 'heb':
@@ -223,10 +246,7 @@ function preloadAudio(src: string) {
 	audio.load()
 }
 
-function waitForImageLoad(
-	src: string,
-	cache: Map<string, Promise<void>>
-) {
+function waitForImageLoad(src: string, cache: Map<string, Promise<void>>) {
 	if (typeof window === 'undefined' || !src) {
 		return Promise.resolve()
 	}
@@ -254,10 +274,7 @@ function waitForImageLoad(
 	return loadPromise
 }
 
-function waitForAudioLoad(
-	src: string,
-	cache: Map<string, Promise<void>>
-) {
+function waitForAudioLoad(src: string, cache: Map<string, Promise<void>>) {
 	if (typeof window === 'undefined' || !src) {
 		return Promise.resolve()
 	}
@@ -301,12 +318,16 @@ function waitForAudioLoad(
 
 function getCardMediaSources(card: VocabCard) {
 	const imageSources = Array.isArray(card.images)
-		? card.images.filter((src): src is string => typeof src === 'string' && src.length > 0)
+		? card.images.filter(
+				(src): src is string => typeof src === 'string' && src.length > 0,
+			)
 		: []
 
-	const audioSources = ['engAudio' in card ? card.engAudio : '', 'hebAudio' in card ? card.hebAudio : '', 'grkAudio' in card ? card.grkAudio : ''].filter(
-		(src): src is string => typeof src === 'string' && src.length > 0
-	)
+	const audioSources = [
+		'engAudio' in card ? card.engAudio : '',
+		'hebAudio' in card ? card.hebAudio : '',
+		'grkAudio' in card ? card.grkAudio : '',
+	].filter((src): src is string => typeof src === 'string' && src.length > 0)
 
 	return { imageSources, audioSources }
 }
@@ -324,14 +345,17 @@ export default function VocabQuiz({
 	completionContext,
 }: VocabQuizProps) {
 	const config = QUIZ_CONFIG[layout]
-	const {
-		selectedLessons,
-		setSelectedLessons,
-		lessonOptions,
-	} = useLessonCards(data, currentLesson, { selectionMode: 'single' })
+	const { selectedLessons, setSelectedLessons, lessonOptions } = useLessonCards(
+		data,
+		currentLesson,
+		{ selectionMode: 'single' },
+	)
 	const router = useRouter()
 	const [selectedPrompt, setSelectedPrompt] = useState<PromptKey>(
-		config.defaultPrompt
+		config.defaultPrompt,
+	)
+	const [selectedRespondWith, setSelectedRespondWith] = useState<PromptKey>(
+		config.defaultRespondWith,
 	)
 	const [timeLimit, setTimeLimit] = useState(3)
 	const [gameStarted, setGameStarted] = useState(false)
@@ -365,15 +389,18 @@ export default function VocabQuiz({
 	const preloadRunRef = useRef(0)
 	const { width, height } = useWindowSize()
 	const [isPreloadingMedia, setIsPreloadingMedia] = useState(false)
-	const [preloadProgress, setPreloadProgress] = useState({ loaded: 0, total: 0 })
+	const [preloadProgress, setPreloadProgress] = useState({
+		loaded: 0,
+		total: 0,
+	})
 	const [pendingStartMode, setPendingStartMode] = useState<null | 'quiz'>(null)
 
 	const availablePromptOptions = useMemo(
 		() =>
 			config.promptOptions.filter((option) =>
-				data.some((card) => hasValue(card, option.key))
+				data.some((card) => hasValue(card, option.key)),
 			),
-		[data, config.promptOptions]
+		[data, config.promptOptions],
 	)
 
 	useEffect(() => {
@@ -390,11 +417,30 @@ export default function VocabQuiz({
 		}
 	}, [availablePromptOptions, selectedPrompt])
 
+	useEffect(() => {
+		if (
+			availablePromptOptions.length > 0 &&
+			!availablePromptOptions.some(
+				(option) => option.key === selectedRespondWith,
+			)
+		) {
+			setSelectedRespondWith(availablePromptOptions[0].key)
+		}
+	}, [availablePromptOptions, selectedRespondWith])
+
 	const selectedPromptConfig = useMemo(
 		() =>
 			availablePromptOptions.find((option) => option.key === selectedPrompt) ??
 			availablePromptOptions[0],
-		[availablePromptOptions, selectedPrompt]
+		[availablePromptOptions, selectedPrompt],
+	)
+
+	const selectedRespondWithConfig = useMemo(
+		() =>
+			availablePromptOptions.find(
+				(option) => option.key === selectedRespondWith,
+			) ?? availablePromptOptions[0],
+		[availablePromptOptions, selectedRespondWith],
 	)
 
 	const filteredCards = useMemo(() => {
@@ -405,11 +451,13 @@ export default function VocabQuiz({
 			const hasPrompt = selectedPromptConfig
 				? hasValue(card, selectedPromptConfig.key)
 				: false
-			const hasAnswer = hasValue(card, config.answerField)
+			const hasAnswer = selectedRespondWithConfig
+				? hasValue(card, selectedRespondWithConfig.key)
+				: false
 
 			return matchesLesson && hasPrompt && hasAnswer
 		})
-	}, [config.answerField, data, selectedLessons, selectedPromptConfig])
+	}, [data, selectedLessons, selectedPromptConfig, selectedRespondWithConfig])
 
 	useEffect(() => {
 		if (gameStarted || isPreloadingMedia) return
@@ -448,20 +496,23 @@ export default function VocabQuiz({
 		layout === 'hebrew'
 			? '/he/learn'
 			: layout === 'greek'
-			? '/el/learn'
-			: '/curriculum'
+				? '/el/learn'
+				: '/curriculum'
 
 	const nextLesson = useMemo(() => {
 		if (lessonOptions.length === 0 || selectedLessons.length === 0) return null
 
 		const sortedSelected = lessonOptions.filter((lesson) =>
-			selectedLessons.includes(lesson)
+			selectedLessons.includes(lesson),
 		)
 		const lastSelectedLesson = sortedSelected[sortedSelected.length - 1]
 		if (!lastSelectedLesson) return null
 
 		const currentLessonIndex = lessonOptions.indexOf(lastSelectedLesson)
-		if (currentLessonIndex === -1 || currentLessonIndex >= lessonOptions.length - 1) {
+		if (
+			currentLessonIndex === -1 ||
+			currentLessonIndex >= lessonOptions.length - 1
+		) {
 			return null
 		}
 
@@ -469,30 +520,35 @@ export default function VocabQuiz({
 	}, [lessonOptions, selectedLessons])
 
 	const answerAudio =
-		currentCard && config.answerAudioField
-			? String(getCardValue(currentCard, config.answerAudioField) ?? '')
+		currentCard && selectedRespondWithConfig?.kind === 'audio'
+			? String(getCardValue(currentCard, selectedRespondWithConfig.key) ?? '')
 			: ''
 
 	useEffect(() => {
 		if (!selectedPromptConfig || selectedPromptConfig.kind !== 'image') return
 
-		const currentValue =
-			currentCard ? getCardValue(currentCard, selectedPromptConfig.key) : null
+		const currentValue = currentCard
+			? getCardValue(currentCard, selectedPromptConfig.key)
+			: null
 		const nextCard = cards[currentIndex + 1]
 		const nextValue = nextCard
 			? getCardValue(nextCard, selectedPromptConfig.key)
 			: null
 
 		if (Array.isArray(currentValue) && currentValue[0]) {
-			void waitForImageLoad(currentValue[0], imageLoadCacheRef.current).catch(() => {
-				preloadImage(currentValue[0])
-			})
+			void waitForImageLoad(currentValue[0], imageLoadCacheRef.current).catch(
+				() => {
+					preloadImage(currentValue[0])
+				},
+			)
 		}
 
 		if (Array.isArray(nextValue) && nextValue[0]) {
-			void waitForImageLoad(nextValue[0], imageLoadCacheRef.current).catch(() => {
-				preloadImage(nextValue[0])
-			})
+			void waitForImageLoad(nextValue[0], imageLoadCacheRef.current).catch(
+				() => {
+					preloadImage(nextValue[0])
+				},
+			)
 		}
 	}, [cards, currentCard, currentIndex, selectedPromptConfig])
 
@@ -533,11 +589,17 @@ export default function VocabQuiz({
 	}, [currentCard, finished, gameStarted, selectedPromptConfig])
 
 	const playPromptAudio = useCallback(() => {
-		if (!currentCard || !selectedPromptConfig || selectedPromptConfig.kind !== 'audio') {
+		if (
+			!currentCard ||
+			!selectedPromptConfig ||
+			selectedPromptConfig.kind !== 'audio'
+		) {
 			return
 		}
 
-		const src = String(getCardValue(currentCard, selectedPromptConfig.key) ?? '')
+		const src = String(
+			getCardValue(currentCard, selectedPromptConfig.key) ?? '',
+		)
 		if (!src) return
 
 		promptAudioRef.current?.pause()
@@ -556,10 +618,10 @@ export default function VocabQuiz({
 		audio.play().catch(() => {})
 	}, [answerAudio])
 
-	const playCardAnswerAudio = useCallback(
-		(card: VocabCard) => {
-			if (!config.answerAudioField) return
-			const src = String(getCardValue(card, config.answerAudioField) ?? '')
+	const playCardOptionAudio = useCallback(
+		(card: VocabCard, option: PromptOption | undefined) => {
+			if (!option) return
+			const src = String(getCardValue(card, option.key) ?? '')
 			if (!src) return
 			answerAudioRef.current?.pause()
 			const audio = new Audio(src)
@@ -567,7 +629,7 @@ export default function VocabQuiz({
 			audio.currentTime = 0
 			audio.play().catch(() => {})
 		},
-		[config.answerAudioField]
+		[],
 	)
 
 	useEffect(() => {
@@ -653,7 +715,12 @@ export default function VocabQuiz({
 	}, [awardPoints, celebratoryFinish, finished])
 
 	useEffect(() => {
-		if (!finished || !passed || !completionContext || publicCourseCompletionRef.current) {
+		if (
+			!finished ||
+			!passed ||
+			!completionContext ||
+			publicCourseCompletionRef.current
+		) {
 			return
 		}
 
@@ -766,10 +833,13 @@ export default function VocabQuiz({
 					} finally {
 						completed += 1
 						if (preloadRunRef.current === runId) {
-							setPreloadProgress({ loaded: completed, total: mediaTasks.length })
+							setPreloadProgress({
+								loaded: completed,
+								total: mediaTasks.length,
+							})
 						}
 					}
-				})
+				}),
 			)
 		} finally {
 			if (preloadRunRef.current === runId) {
@@ -803,32 +873,40 @@ export default function VocabQuiz({
 		setSelectedLessons([nextLesson])
 	}
 
-	function renderTextValue(value: unknown, sizeClass: string) {
+	function renderTextValue(
+		value: unknown,
+		sizeClass: string,
+		dir: 'ltr' | 'rtl' = 'ltr',
+		fontClass = '',
+	) {
 		if (typeof value !== 'string' || value.trim().length === 0) return null
 		return (
 			<div
-				className={`${sizeClass} leading-tight text-slate-900 ${
-					layout === 'hebrew' ? 'font-cardo' : ''
-				}`}
-				dir={layout === 'hebrew' ? 'rtl' : 'ltr'}
+				className={`${sizeClass} leading-tight text-slate-900 ${fontClass}`}
+				dir={dir}
 			>
 				{value}
 			</div>
 		)
 	}
 
-	function renderPrompt(card: VocabCard, sizeClass = 'text-3xl md:text-4xl') {
-		if (!selectedPromptConfig) return null
-		const value = getCardValue(card, selectedPromptConfig.key)
+	function renderOptionValue(
+		card: VocabCard,
+		option: PromptOption | undefined,
+		sizeClass = 'text-3xl md:text-4xl',
+		mode: 'answer' | 'prompt' = 'answer',
+	) {
+		if (!option) return null
+		const value = getCardValue(card, option.key)
 
-		if (selectedPromptConfig.kind === 'image') {
+		if (option.kind === 'image') {
 			const imageUrl = Array.isArray(value) ? value[0] : null
 			if (!imageUrl) return null
 			return (
-				<div className="relative h-56 w-full max-w-md overflow-hidden rounded-2xl border border-slate-200 bg-white">
+				<div className="relative h-56 w-full max-w-md overflow-hidden rounded-2xl bg-white">
 					<Image
 						src={imageUrl}
-						alt="Quiz prompt"
+						alt={`${option.label} image`}
 						fill
 						className="object-contain p-4"
 						sizes="(max-width: 768px) 100vw, 480px"
@@ -837,37 +915,75 @@ export default function VocabQuiz({
 			)
 		}
 
-		if (selectedPromptConfig.kind === 'audio') {
-			const promptAudioSrc = typeof value === 'string' ? value : ''
+		if (option.kind === 'audio') {
+			const audioSrc = typeof value === 'string' ? value : ''
 			return (
-				<div className="flex flex-col items-center gap-4">
-					<div className="rounded-full bg-sky-100 p-6 text-6xl">🔊</div>
-					<p className="text-sm text-slate-600">Listen and get ready to answer.</p>
-					<button
-						onClick={() => {
-							if (!promptAudioSrc) return
-							const audio = new Audio(promptAudioSrc)
-							audio.play().catch(() => {})
-						}}
-						className="rounded-full bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700"
-					>
-						Replay Prompt
-					</button>
-				</div>
+				<button
+					type="button"
+					onClick={() => {
+						if (!audioSrc) return
+						const audio = new Audio(audioSrc)
+						audio.play().catch(() => {})
+					}}
+					className="flex flex-col items-center gap-3 rounded-2xl p-2 text-center"
+					aria-label={`Replay ${option.label}`}
+				>
+					<div className="rounded-full bg-sky-100 p-6 text-6xl transition hover:bg-sky-200">
+						🔊
+					</div>
+					{mode === 'prompt' && (
+						<p className="text-sm text-slate-600">
+							Listen and get ready to answer.
+						</p>
+					)}
+				</button>
 			)
 		}
 
-		return renderTextValue(value, sizeClass)
+		return renderTextValue(
+			value,
+			sizeClass,
+			getOptionTextDirection(option.key),
+			getOptionTextClass(option.key),
+		)
 	}
 
-	function renderAnswer(card: VocabCard, sizeClass = config.answerClassName) {
-		const value = getCardValue(card, config.answerField)
-		if (typeof value !== 'string' || value.trim().length === 0) return null
-		return (
-			<div className={sizeClass} dir={config.answerDirection}>
-				{value}
-			</div>
-		)
+	function renderPrompt(card: VocabCard, sizeClass = 'text-3xl md:text-4xl') {
+		return renderOptionValue(card, selectedPromptConfig, sizeClass, 'prompt')
+	}
+
+	function renderAnswer(card: VocabCard, sizeClass = 'text-5xl md:text-6xl') {
+		return renderOptionValue(card, selectedRespondWithConfig, sizeClass)
+	}
+
+	function getPromptHeaderLabel(card: VocabCard) {
+		if (selectedPromptConfig?.kind === 'image') {
+			return card.type === 'phrase' ? 'PHRASE' : 'WORD'
+		}
+
+		return selectedPromptConfig?.label ?? ''
+	}
+
+	function getAnswerHeaderLabel() {
+		if (selectedRespondWithConfig?.kind === 'audio') return ''
+		return selectedRespondWithConfig?.label ?? ''
+	}
+
+	function getStudyCardAudioOption(card: VocabCard) {
+		if (selectedRespondWithConfig?.kind === 'audio')
+			return selectedRespondWithConfig
+		if (selectedRespondWithConfig?.kind === 'text') {
+			const audioKey = getAudioKeyForPromptKey(selectedRespondWithConfig.key)
+			if (!audioKey) return null
+			if (hasValue(card, audioKey)) {
+				const audioOption = availablePromptOptions.find(
+					(option) => option.key === audioKey,
+				)
+				if (audioOption) return audioOption
+			}
+		}
+
+		return null
 	}
 
 	return (
@@ -898,185 +1014,206 @@ export default function VocabQuiz({
 				pendingStartMode === 'quiz' ? (
 					<div className="flex min-h-[420px] flex-col items-center justify-center gap-6">
 						<TorahScrollLoader size={180} speedSec={40} fontSize={40} />
-						<div className="space-y-2">
-							<h2 className="text-2xl font-bold text-slate-900">Loading Quiz</h2>
-							<p className="text-sm text-slate-600">
-								Preloading the media for this lesson before the quiz begins.
-							</p>
-							{preloadProgress.total > 0 && (
-								<p className="text-sm font-semibold text-slate-700">
-									{preloadProgress.loaded}/{preloadProgress.total} ready
-								</p>
-							)}
-						</div>
 					</div>
 				) : (
-				<div className="space-y-6">
-					<div>
-						<h1 className="text-2xl font-bold text-slate-900">
-							Customize Your Quiz
-						</h1>
-						<p className="mt-2 text-sm text-slate-600">
-							Choose your prompt, set the timer, and practice vocab from any
-							lesson in this course.
-						</p>
-					</div>
+					<div className="space-y-6">
+						{/* <div>
+							<h1 className="text-2xl font-bold text-slate-900">
+								Customize Your Quiz
+							</h1>
+							<p className="mt-2 text-sm text-slate-600">
+								Choose your prompt, set the timer, and practice vocab from any
+								lesson in this course.
+							</p>
+						</div> */}
 
-					{!filtersLocked ? (
-						<div className="rounded-2xl bg-white p-4 text-left">
-							<LessonFilter
-								data={data}
-								selectedLessons={selectedLessons}
-								setSelectedLessons={setSelectedLessons}
+						{!filtersLocked ? (
+							<div className="rounded-2xl bg-white p-4 text-left">
+								<LessonFilter
+									data={data}
+									selectedLessons={selectedLessons}
+									setSelectedLessons={setSelectedLessons}
+								/>
+							</div>
+						) : (
+							<div className="rounded-2xl border border-sky-100 bg-sky-50 p-4 text-sm text-sky-900">
+								This quiz is locked to the lesson assigned from your study group
+								schedule.
+							</div>
+						)}
+
+						<div className="space-y-3">
+							<h2 className="mb-2 text-center text-xl font-semibold">
+								Select Prompt
+							</h2>
+							<div className="flex flex-row-reverse flex-wrap justify-center gap-2">
+								{availablePromptOptions.map((option) => (
+									<button
+										key={option.key}
+										onClick={() => setSelectedPrompt(option.key)}
+										className={`px-3 py-1 border rounded-full text-xs ${
+											selectedPrompt === option.key
+												? 'bg-sky-600 text-white'
+												: 'bg-gray-200'
+										}`}
+									>
+										{option.label}
+									</button>
+								))}
+							</div>
+						</div>
+
+						<div className="space-y-3">
+							<h2 className="mb-2 text-center text-xl font-semibold">
+								Respond With
+							</h2>
+							<div className="flex flex-row-reverse flex-wrap justify-center gap-2">
+								{availablePromptOptions.map((option) => (
+									<button
+										key={option.key}
+										onClick={() => setSelectedRespondWith(option.key)}
+										className={`px-3 py-1 border rounded-full text-xs ${
+											selectedRespondWith === option.key
+												? 'bg-sky-600 text-white'
+												: 'bg-gray-200'
+										}`}
+									>
+										{option.label}
+									</button>
+								))}
+							</div>
+						</div>
+
+						<div className="space-y-3">
+							<h2 className="text-xl font-semibold">Seconds to Answer</h2>
+							<div className="flex flex-row-reverse flex-wrap justify-center gap-2">
+								{[1, 3, 5, 8].map((seconds) => (
+									<button
+										key={seconds}
+										onClick={() => setTimeLimit(seconds)}
+										className={`px-3 py-1 border rounded-full text-xs ${
+											timeLimit === seconds
+												? 'bg-sky-600 text-white'
+												: 'bg-gray-200'
+										}`}
+									>
+										{seconds}s
+									</button>
+								))}
+							</div>
+							<input
+								type="number"
+								min={1}
+								max={15}
+								value={timeLimit}
+								onChange={(e) =>
+									setTimeLimit(
+										Math.max(1, Math.min(15, Number(e.target.value) || 1)),
+									)
+								}
+								className="mx-auto block w-24 rounded-xl border border-slate-200 p-2 text-center"
 							/>
 						</div>
-					) : (
-						<div className="rounded-2xl border border-sky-100 bg-sky-50 p-4 text-sm text-sky-900">
-							This quiz is locked to the lesson assigned from your study group
-							schedule.
+
+						{/* <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+							<p className="text-sm font-semibold uppercase tracking-wide text-slate-500">
+								Preview
+							</p>
+							<p className="mt-2 text-sm text-slate-600">
+								Prompt:{' '}
+								<span className="font-semibold">
+									{selectedPromptConfig?.label}
+								</span>
+							</p>
+							<p className="text-sm text-slate-600">
+								Answer:{' '}
+								<span className="font-semibold">
+									{selectedRespondWithConfig?.label}
+								</span>
+							</p>
+							<p className="text-sm text-slate-600">
+								Cards ready:{' '}
+								<span className="font-semibold">{filteredCards.length}</span>
+							</p>
+						</div> */}
+
+						{filteredCards.length === 0 && (
+							<p className="font-medium text-red-600">{config.emptyState}</p>
+						)}
+
+						<div className="flex flex-wrap justify-center gap-4">
+							<button
+								onClick={() => {
+									void beginActivity(true)
+								}}
+								disabled={filteredCards.length === 0 || isPreloadingMedia}
+								className={`rounded-xl px-6 py-3 font-semibold text-white ${
+									filteredCards.length === 0 || isPreloadingMedia
+										? 'bg-slate-300'
+										: 'bg-[#4b2a5a] hover:bg-[#5b346b]'
+								}`}
+							>
+								Study Words
+							</button>
+							<button
+								onClick={() => {
+									void beginActivity(false)
+								}}
+								disabled={filteredCards.length === 0 || isPreloadingMedia}
+								className={`rounded-xl px-6 py-3 font-semibold text-white ${
+									filteredCards.length === 0 || isPreloadingMedia
+										? 'bg-slate-300'
+										: 'bg-emerald-700 hover:bg-emerald-800'
+								}`}
+							>
+								{isPreloadingMedia ? 'Loading Media...' : 'Start Quiz'}
+							</button>
 						</div>
-					)}
-
-					<div className="space-y-3">
-						<h2 className="text-xl font-semibold">Select Prompt</h2>
-						<div className="flex flex-row-reverse flex-wrap justify-center gap-2">
-							{availablePromptOptions.map((option) => (
-								<button
-									key={option.key}
-									onClick={() => setSelectedPrompt(option.key)}
-									className={`rounded-full border px-3 py-1 text-xs ${
-										selectedPrompt === option.key
-											? 'border-sky-600 bg-sky-600 text-white'
-											: 'border-slate-200 bg-slate-100 text-slate-700'
-									}`}
-								>
-									{option.label}
-								</button>
-							))}
-						</div>
 					</div>
-
-					<div className="space-y-3">
-						<h2 className="text-xl font-semibold">Seconds to Answer</h2>
-						<div className="flex flex-wrap justify-center gap-3">
-							{[1, 3, 5, 8].map((seconds) => (
-								<button
-									key={seconds}
-									onClick={() => setTimeLimit(seconds)}
-									className={`rounded-full border px-3 py-1 text-xs ${
-										timeLimit === seconds
-											? 'border-sky-600 bg-sky-600 text-white'
-											: 'border-slate-200 bg-slate-100 text-slate-700'
-									}`}
-								>
-									{seconds}s
-								</button>
-							))}
-						</div>
-						<input
-							type="number"
-							min={1}
-							max={15}
-							value={timeLimit}
-							onChange={(e) =>
-								setTimeLimit(Math.max(1, Math.min(15, Number(e.target.value) || 1)))
-							}
-							className="mx-auto block w-24 rounded-xl border border-slate-200 p-2 text-center"
-						/>
-					</div>
-
-					<div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-						<p className="text-sm font-semibold uppercase tracking-wide text-slate-500">
-							Preview
-						</p>
-						<p className="mt-2 text-sm text-slate-600">
-							Prompt: <span className="font-semibold">{selectedPromptConfig?.label}</span>
-						</p>
-						<p className="text-sm text-slate-600">
-							Answer: <span className="font-semibold">{config.answerLabel}</span>
-						</p>
-						<p className="text-sm text-slate-600">
-							Cards ready: <span className="font-semibold">{filteredCards.length}</span>
-						</p>
-						<p className="text-sm text-slate-600">
-							Media loads after you press <span className="font-semibold">Start Quiz</span>.
-						</p>
-					</div>
-
-					{filteredCards.length === 0 && (
-						<p className="font-medium text-red-600">{config.emptyState}</p>
-					)}
-
-					<div className="flex flex-wrap justify-center gap-4">
-						<button
-							onClick={() => {
-								void beginActivity(true)
-							}}
-							disabled={filteredCards.length === 0 || isPreloadingMedia}
-							className={`rounded-xl px-6 py-3 font-semibold text-white ${
-								filteredCards.length === 0 || isPreloadingMedia
-									? 'bg-slate-300'
-									: 'bg-violet-600 hover:bg-violet-700'
-							}`}
-						>
-							Study Words
-						</button>
-						<button
-							onClick={() => {
-								void beginActivity(false)
-							}}
-							disabled={filteredCards.length === 0 || isPreloadingMedia}
-							className={`rounded-xl px-6 py-3 font-semibold text-white ${
-								filteredCards.length === 0 || isPreloadingMedia
-									? 'bg-slate-300'
-									: 'bg-green-600 hover:bg-green-700'
-							}`}
-						>
-							{isPreloadingMedia ? 'Loading Media...' : 'Start Quiz'}
-						</button>
-					</div>
-				</div>
 				)
 			) : studyMode ? (
 				<div className="space-y-6">
 					<h2 className="text-2xl font-bold text-slate-900">Study the Set</h2>
 					<div className="grid gap-4 sm:grid-cols-2">
-						{filteredCards.map((card, index) => (
-							<div
-								key={`${card.id ?? index}-${index}`}
-								className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-left"
-							>
-								<p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-									{selectedPromptConfig?.label}
-								</p>
-								<div className="mt-3 flex min-h-[120px] items-center justify-center text-center">
-									{renderPrompt(card, 'text-2xl md:text-3xl')}
-								</div>
-								<div className="mt-4 border-t border-slate-200 pt-4 text-center">
-									<p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-										{config.answerLabel}
-									</p>
-									<div className="mt-2">{renderAnswer(card, 'text-3xl')}</div>
-									{config.answerAudioField &&
-										hasValue(card, config.answerAudioField) && (
-											<button
-												onClick={() => {
-													const src = String(
-														getCardValue(card, config.answerAudioField as PromptKey) ?? ''
-													)
-													if (!src) return
-													const audio = new Audio(src)
-													audio.play().catch(() => {})
-												}}
-												className="mt-3 text-2xl text-sky-600 hover:text-sky-800"
-												aria-label="Play answer audio"
-											>
-												🔊
-											</button>
+						{filteredCards.map((card, index) => {
+							const studyCardAudioOption = getStudyCardAudioOption(card)
+
+							return (
+								<div
+									key={`${card.id ?? index}-${index}`}
+									className="relative rounded-2xl border border-slate-200 bg-slate-50 p-4 text-left"
+								>
+									{selectedPromptConfig?.kind !== 'image' && (
+										<p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+											{getPromptHeaderLabel(card)}
+										</p>
+									)}
+									<div className="mt-3 flex min-h-[120px] items-center justify-center text-center">
+										{renderPrompt(card, 'text-2xl md:text-3xl')}
+									</div>
+									<div className="mt-4 border-t border-slate-200 pt-4 text-center">
+										{getAnswerHeaderLabel() && (
+											<p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+												{getAnswerHeaderLabel()}
+											</p>
 										)}
+										<div className="mt-2">{renderAnswer(card, 'text-3xl')}</div>
+									</div>
+									{studyCardAudioOption && (
+										<button
+											type="button"
+											onClick={() =>
+												playCardOptionAudio(card, studyCardAudioOption)
+											}
+											className="absolute bottom-3 right-3 inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 shadow-sm transition hover:border-sky-300 hover:text-sky-700 hover:shadow-md"
+											aria-label="Play audio"
+										>
+											🔊
+										</button>
+									)}
 								</div>
-							</div>
-						))}
+							)
+						})}
 					</div>
 					<button
 						onClick={resetToStart}
@@ -1096,8 +1233,16 @@ export default function VocabQuiz({
 								: 'To pass, you must miss 2 or fewer.'
 					}
 					stats={[
-						{ label: 'Correct', value: correctCount, valueClassName: 'text-emerald-600' },
-						{ label: 'Incorrect', value: wrongCount, valueClassName: 'text-rose-600' },
+						{
+							label: 'Correct',
+							value: correctCount,
+							valueClassName: 'text-emerald-600',
+						},
+						{
+							label: 'Incorrect',
+							value: wrongCount,
+							valueClassName: 'text-rose-600',
+						},
 						{
 							label: 'Points',
 							value: completionRewards?.awardedPoints ?? pointsOnPass ?? 0,
@@ -1107,19 +1252,27 @@ export default function VocabQuiz({
 						celebratoryFinish ? (
 							<>
 								<p className="mb-4 text-lg font-semibold text-slate-800">
-									You earned {completionRewards?.awardedPoints ?? pointsOnPass} point
-									{(completionRewards?.awardedPoints ?? pointsOnPass) === 1 ? '' : 's'}.
+									You earned {completionRewards?.awardedPoints ?? pointsOnPass}{' '}
+									point
+									{(completionRewards?.awardedPoints ?? pointsOnPass) === 1
+										? ''
+										: 's'}
+									.
 								</p>
 								<div className="mx-auto flex w-full max-w-md items-center gap-x-4">
 									<ResultCard
 										variant="points"
 										value={completionRewards?.awardedPoints ?? pointsOnPass}
-										tribePointAdded={completionRewards?.tribePointAwarded ?? false}
+										tribePointAdded={
+											completionRewards?.tribePointAwarded ?? false
+										}
 									/>
 									<ResultCard
 										variant="hearts"
 										value={completionRewards?.hearts ?? completionHearts}
-										tribePointAdded={completionRewards?.tribePointAwarded ?? false}
+										tribePointAdded={
+											completionRewards?.tribePointAwarded ?? false
+										}
 									/>
 								</div>
 							</>
@@ -1127,7 +1280,9 @@ export default function VocabQuiz({
 					}
 					message={
 						!celebratoryFinish ? (
-							<p className={`text-lg font-semibold ${passed ? 'text-slate-700' : 'text-rose-600'}`}>
+							<p
+								className={`text-lg font-semibold ${passed ? 'text-slate-700' : 'text-rose-600'}`}
+							>
 								{passed
 									? 'You passed, but this round did not qualify for rewards.'
 									: "Let's try again!"}
@@ -1151,7 +1306,9 @@ export default function VocabQuiz({
 										: 'bg-slate-300'
 								}`}
 							>
-								{nextLesson ? `Start Next Lesson (${nextLesson})` : 'No Next Lesson'}
+								{nextLesson
+									? `Start Next Lesson (${nextLesson})`
+									: 'No Next Lesson'}
 							</button>
 							<button
 								onClick={() => router.push(mainScreenHref)}
@@ -1173,19 +1330,11 @@ export default function VocabQuiz({
 											key={`${card.id ?? index}-wrong-${index}`}
 											className="rounded-2xl border border-slate-200 bg-slate-50 p-4"
 										>
-											<div className="text-center">{renderPrompt(card, 'text-2xl')}</div>
+											<div className="text-center">
+												{renderPrompt(card, 'text-2xl')}
+											</div>
 											<div className="mt-4 border-t border-slate-200 pt-4 text-center">
 												{renderAnswer(card, 'text-3xl')}
-												{config.answerAudioField &&
-													hasValue(card, config.answerAudioField) && (
-														<button
-															onClick={() => playCardAnswerAudio(card)}
-															className="mt-3 text-2xl text-sky-600 hover:text-sky-800"
-															aria-label="Replay answer audio"
-														>
-															🔊
-														</button>
-													)}
 											</div>
 										</div>
 									))}
@@ -1225,94 +1374,89 @@ export default function VocabQuiz({
 						<TorahScrollLoader size={180} speedSec={40} fontSize={40} />
 					</div>
 				) : (
-				<div className="space-y-6">
-					<div>
-						<p className="text-sm font-semibold uppercase tracking-wide text-slate-500">
-							{selectedPromptConfig?.label}
-						</p>
-						<div className="mt-4 flex min-h-[220px] items-center justify-center text-center">
-							{renderPrompt(currentCard)}
-						</div>
-					</div>
-
-					<div className="flex justify-center">
-								{waiting ? (
-									<CountdownCircle seconds={timeLimit} remainingMs={remainingMs} />
-								) : (
-									<div className="space-y-3">
-								<p className="text-sm font-semibold uppercase tracking-wide text-slate-500">
-									{config.answerLabel}
-								</p>
-								<div>{renderAnswer(currentCard)}</div>
-								{answerAudio && (
-									<button
-										onClick={playAnswerAudio}
-										className="text-4xl text-sky-600 hover:text-sky-800"
-										aria-label="Replay answer audio"
-									>
-										🔊
-									</button>
-								)}
-							</div>
-						)}
-					</div>
-
-					<div className="flex flex-wrap justify-center gap-4">
-						<button
-							onClick={() => handleResponse(false)}
-							disabled={waiting || disabledButtons}
-							className={`rounded-xl px-5 py-3 font-semibold text-white ${
-								waiting || disabledButtons
-									? 'bg-red-300'
-									: 'bg-red-500 hover:bg-red-600'
-							}`}
-						>
-							I missed 👎
-						</button>
-						<button
-							onClick={() => setIsPaused((prev) => !prev)}
-							disabled={!waiting}
-							className="rounded-xl bg-yellow-400 px-5 py-3 font-semibold text-slate-900 hover:bg-yellow-500"
-						>
-							{isPaused ? '▶ Resume' : '⏸ Pause'}
-						</button>
-						<button
-							onClick={() => handleResponse(true)}
-							disabled={waiting || disabledButtons}
-							className={`rounded-xl px-5 py-3 font-semibold text-white ${
-								waiting || disabledButtons
-									? 'bg-green-300'
-									: 'bg-green-500 hover:bg-green-600'
-							}`}
-						>
-							I got it 👍
-						</button>
-					</div>
-
-					<div className="min-h-[32px]">
-						{feedback !== null && (
-							<p
-								className={`text-lg font-bold ${
-									feedback ? 'text-green-600' : 'text-red-500'
-								}`}
-							>
-								{feedback ? 'Great job!' : "Don't worry, keep going!"}
+					<div className="space-y-6">
+						<div>
+							<p className="text-sm font-semibold uppercase tracking-wide text-slate-500">
+								{getPromptHeaderLabel(currentCard)}
 							</p>
-						)}
-					</div>
+							<div className="mt-4 flex min-h-[220px] items-center justify-center text-center">
+								{renderPrompt(currentCard)}
+							</div>
+						</div>
 
-					<div>
-						<p className="mb-1 text-sm text-slate-600">
-							{currentIndex + 1} / {total}
-						</p>
-						<div className="h-2 overflow-hidden rounded-full bg-slate-200">
-							<div
-								className="h-full bg-sky-600 transition-all duration-300"
-								style={{ width: `${((currentIndex + 1) / total) * 100}%` }}
-							/>
+						<div className="flex min-h-[120px] justify-center">
+							{waiting ? (
+								<CountdownCircle
+									seconds={timeLimit}
+									remainingMs={remainingMs}
+									paused={isPaused}
+									onTogglePause={() => setIsPaused((prev) => !prev)}
+								/>
+							) : (
+								<div className="space-y-3 text-center">
+									{getAnswerHeaderLabel() && (
+										<p className="text-sm font-semibold uppercase tracking-wide text-slate-500">
+											{getAnswerHeaderLabel()}
+										</p>
+									)}
+									<div>{renderAnswer(currentCard)}</div>
+								</div>
+							)}
+						</div>
+
+						<div className="min-h-[16px] pt-1">
+							{!waiting ? (
+								<div className="flex flex-wrap justify-center gap-3">
+									<button
+										onClick={() => handleResponse(false)}
+										disabled={waiting || disabledButtons}
+										className={`rounded-xl border px-5 py-3 font-semibold transition ${
+											waiting || disabledButtons
+												? 'border-sidebar-primary/20 bg-sidebar-primary/10 text-sidebar-primary/50'
+												: 'border-sidebar-primary/35 bg-sidebar-primary text-white hover:bg-sidebar-primary/90'
+										}`}
+									>
+										👎 I missed
+									</button>
+									<button
+										onClick={() => handleResponse(true)}
+										disabled={waiting || disabledButtons}
+										className={`rounded-xl border px-5 py-3 font-semibold transition ${
+											waiting || disabledButtons
+												? 'border-emerald-200 bg-emerald-100 text-emerald-400'
+												: 'border-emerald-700 bg-emerald-700 text-white hover:bg-emerald-800'
+										}`}
+									>
+										👍 I got it
+									</button>
+								</div>
+							) : null}
+						</div>
+
+						<div className="min-h-[32px]">
+							{feedback !== null && (
+								<p
+									className={`text-lg font-bold ${
+										feedback ? 'text-green-600' : 'text-red-500'
+									}`}
+								>
+									{feedback ? 'Great job!' : "Don't worry, keep going!"}
+								</p>
+							)}
+						</div>
+
+						<div>
+							<p className="mb-1 text-sm text-slate-600">
+								{currentIndex + 1} / {total}
+							</p>
+							<div className="h-2 overflow-hidden rounded-full bg-slate-200">
+								<div
+									className="h-full bg-sky-600 transition-all duration-300"
+									style={{ width: `${((currentIndex + 1) / total) * 100}%` }}
+								/>
+							</div>
 						</div>
 					</div>
-				</div>
 				)
 			) : (
 				<p className="text-slate-600">{config.emptyState}</p>

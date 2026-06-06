@@ -1,7 +1,6 @@
 'use client'
 
 import { GreekVocab } from '@/lib/vocab'
-import { matchesSelectedCategory, splitCategoryValues } from '@/lib/category'
 import { resolveVocabMediaUrl } from '@/lib/vocab-media'
 import Image from 'next/image'
 import { useState, useMemo, useEffect, useCallback } from 'react'
@@ -118,7 +117,6 @@ export default function GreekFlashcards({
 	const [editReps, setEditReps] = useState('0')
 	const [sessionSize, setSessionSize] = useState(20)
 	const [newRatio, setNewRatio] = useState(0.2)
-	const [selectedCategory, setSelectedCategory] = useState<string>('all')
 
 	const [frontFont, setFrontFont] = useState<FontChoice>('times')
 	const [backFont, setBackFont] = useState<FontChoice>('times')
@@ -433,14 +431,6 @@ export default function GreekFlashcards({
 		setSelectedLessons(allLessonsUpToCurrent)
 	}, [currentLesson, lessonOptions])
 
-	const categoryOptions = useMemo(() => {
-		const all = cardsForPrefix
-			.flatMap((card) => splitCategoryValues(card.category))
-			.filter((c): c is string => typeof c === 'string')
-		const unique = Array.from(new Set(all))
-		return unique.sort()
-	}, [cardsForPrefix])
-
 	useEffect(() => {
 		if (useSpacedRepetition && !isGuest) return
 		const newFiltered = cardsForPrefix.filter((card) => {
@@ -449,10 +439,6 @@ export default function GreekFlashcards({
 				card.lessons.some((l) => selectedLessons.includes(l))
 
 			const matchesType = selectedType === 'all' || card.type === selectedType
-			const matchesCategory = matchesSelectedCategory(
-				card.category,
-				selectedCategory
-			)
 
 			// Ensure middle-center image/audio (front)
 			const hasMiddleFrontImage =
@@ -483,7 +469,6 @@ export default function GreekFlashcards({
 			return (
 				matchesSelectedLesson &&
 				matchesType &&
-				matchesCategory &&
 				hasValidFront &&
 				hasValidBack &&
 				hasMiddleFrontImage &&
@@ -503,7 +488,6 @@ export default function GreekFlashcards({
 		cardsForPrefix,
 		selectedLessons,
 		selectedType,
-		selectedCategory,
 		frontField,
 		backField,
 		frontMiddleCenter,
@@ -513,6 +497,7 @@ export default function GreekFlashcards({
 	])
 
 	const currentCard = filteredCards[currentIndex]
+	const currentCardId = currentCard?.id
 
 	function playWithBoostedVolume(url: string, volume: number, speed: number) {
 		const audioContext = new (window.AudioContext ||
@@ -662,11 +647,11 @@ export default function GreekFlashcards({
 	const currentSessionState = sessionStates[currentIndex]?.state ?? null
 
 	const fetchHistory = useCallback(async () => {
-		if (isGuest || !useSpacedRepetition || !currentCard?.id) return
+		if (isGuest || !useSpacedRepetition || !currentCardId) return
 		setIsLoadingHistory(true)
 		try {
 			const res = await fetch(
-				`/api/flashcards/history?courseId=${courseId}&language=el&cardId=${currentCard.id}&limit=10`
+				`/api/flashcards/history?courseId=${courseId}&language=el&cardId=${currentCardId}&limit=10`
 			)
 			const payload = await res.json()
 			setReviewHistory(payload.history ?? [])
@@ -676,12 +661,12 @@ export default function GreekFlashcards({
 		} finally {
 			setIsLoadingHistory(false)
 		}
-	}, [courseId, currentCard?.id, isGuest, useSpacedRepetition])
+	}, [courseId, currentCardId, isGuest, useSpacedRepetition])
 
 	useEffect(() => {
 		if (!showHistory) return
 		fetchHistory()
-	}, [fetchHistory, showHistory, currentCard?.id])
+	}, [fetchHistory, showHistory, currentCardId])
 
 	function formatSuccessRate(stats: any | null) {
 		const total = Number(stats?.total ?? 0)
@@ -1477,34 +1462,6 @@ export default function GreekFlashcards({
 									}`}
 								>
 									{typeOption.charAt(0).toUpperCase() + typeOption.slice(1)}
-								</button>
-							))}
-						</div>
-					</div>
-					<div className="mb-4">
-						<h2 className="text-xl font-semibold">Select Category</h2>
-						<div className="flex flex-row-reverse flex-wrap justify-center gap-2">
-							<button
-								onClick={() => setSelectedCategory('all')}
-								className={`px-3 py-1 border rounded-full text-sm ${
-									selectedCategory === 'all'
-										? 'bg-sky-600 text-white'
-										: 'bg-gray-200'
-								}`}
-							>
-								All
-							</button>
-							{categoryOptions.map((pos) => (
-								<button
-									key={pos}
-									onClick={() => setSelectedCategory(pos)}
-									className={`px-3 py-1 border rounded-full text-sm ${
-										selectedCategory === pos
-											? 'bg-sky-600 text-white'
-											: 'bg-gray-200'
-									}`}
-								>
-									{pos}
 								</button>
 							))}
 						</div>

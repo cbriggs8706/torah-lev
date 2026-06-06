@@ -77,7 +77,6 @@ export type DraftLesson = {
 
 export type ActivityFilterOptions = {
 	lessonOptions: string[]
-	categoryOptions: string[]
 	typeOptions: Array<'all' | 'word' | 'phrase' | 'stack'>
 	formatOptions: Array<'image' | 'audio' | 'translation' | 'letter-by-letter'>
 	hebrewFieldOptions: Array<'heb' | 'hebNiqqud'>
@@ -179,37 +178,6 @@ export function ActivityFilterEditor({
 									}`}
 								>
 									{lesson}
-								</button>
-							)
-						})}
-					</div>
-				</div>
-			) : null}
-
-			{definition.filterKeys.includes('selectedCategory') ? (
-				<div className="space-y-2">
-					<p className="text-sm font-medium text-slate-900">Category</p>
-					<div className="flex flex-wrap gap-2">
-						{['all', ...options.categoryOptions].map((category) => {
-							const active =
-								(activity.filterConfig.selectedCategory ?? 'all') === category
-							return (
-								<button
-									key={category}
-									type="button"
-									onClick={() =>
-										onChange({
-											...activity.filterConfig,
-											selectedCategory: category,
-										})
-									}
-									className={`rounded-full border px-3 py-1 text-xs ${
-										active
-											? 'border-sky-600 bg-sky-600 text-white'
-											: 'border-slate-300 bg-white text-slate-700'
-									}`}
-								>
-									{category}
 								</button>
 							)
 						})}

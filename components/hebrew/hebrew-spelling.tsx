@@ -8,14 +8,12 @@ import HebrewKeyboard from './hebrew-keyboard'
 import { HebrewVocab } from '@/lib/vocab'
 import { formatRootMorphology, hasRootMorphology } from '@/lib/vocab-morphology'
 import { resolveVocabMediaUrl } from '@/lib/vocab-media'
-import { matchesSelectedCategory } from '@/lib/category'
 import { hebrewLetters } from '@/lib/data/hebrew/hebrew-letters'
 import { hebrewNiqqud } from '@/lib/data/hebrew/hebrew-niqqud'
 import { useCelebration } from '@/hooks/useCelebration'
 import { parseLessonKey, useLessonCards } from '@/hooks/useLessonCards'
 import FormatFilter, { FormatType } from '../filters/filter-format'
 import LessonFilter from '../filters/filter-lesson'
-import CategoryFilter from '../filters/filter-category'
 import ProgressBar from '../progress-bar'
 import type { PublicCourseActivityFilters } from '@/lib/public-course-activities'
 
@@ -59,7 +57,6 @@ export default function HebrewSpelling({
 	const [showFilter, setShowFilter] = useState(false)
 	const [isMobile, setIsMobile] = useState(false)
 
-	const [selectedCategory, setSelectedCategory] = useState('all')
 	const [formatType, setFormatType] = useState<FormatType>('image')
 	const [gradingMode, setGradingMode] =
 		useState<GradingMode>('consonants-only')
@@ -91,9 +88,6 @@ export default function HebrewSpelling({
 	useEffect(() => {
 		if (initialFilters?.selectedLessons?.length) {
 			setSelectedLessons(initialFilters.selectedLessons)
-		}
-		if (initialFilters?.selectedCategory) {
-			setSelectedCategory(initialFilters.selectedCategory)
 		}
 		if (initialFilters?.selectedType && initialFilters.selectedType !== 'stack') {
 			setSelectedType(initialFilters.selectedType)
@@ -133,9 +127,6 @@ export default function HebrewSpelling({
 					card.lessons.some((l) => selectedLessons.includes(l))
 			)
 			.filter((card) => selectedType === 'all' || card.type === selectedType)
-			.filter((card) =>
-				matchesSelectedCategory(card.category, selectedCategory)
-			)
 
 		const valid = filtered.filter((card) => {
 			if (formatType === 'image') return resolveVocabMediaUrl(card.images[0])
@@ -150,7 +141,6 @@ export default function HebrewSpelling({
 		cardsForPrefix,
 		selectedLessons,
 		selectedType,
-		selectedCategory,
 		formatType,
 	])
 
@@ -706,11 +696,6 @@ export default function HebrewSpelling({
 						formatType={formatType}
 						setFormatType={setFormatType}
 						options={formatOptions}
-					/>
-					<CategoryFilter
-						data={data}
-						selectedCategory={selectedCategory}
-						setSelectedCategory={setSelectedCategory}
 					/>
 					<LessonFilter
 						data={data}

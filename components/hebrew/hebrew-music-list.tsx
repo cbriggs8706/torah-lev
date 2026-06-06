@@ -2,15 +2,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { useMemo, useState } from 'react'
-import { Button } from '@/components/ui/button'
-import {
-	Select,
-	SelectTrigger,
-	SelectContent,
-	SelectItem,
-	SelectValue,
-} from '@/components/ui/select'
+import { useMemo } from 'react'
 
 type Song = {
 	id: number | string
@@ -55,28 +47,14 @@ export default function SongList({
 		[songs, isFriend]
 	)
 
-	const categories = useMemo(() => {
-		const set = new Set(filteredSongs.map((song) => normalizeCategory(song.category)))
-		return ['All', ...sortCategories(Array.from(set))]
-	}, [filteredSongs])
-
-	const [selectedCategory, setSelectedCategory] = useState<string>('All')
-
-	const visibleSongs = useMemo(() => {
-		if (selectedCategory === 'All') return filteredSongs
-		return filteredSongs
-			.filter((song) => normalizeCategory(song.category))
-			.filter((song) => normalizeCategory(song.category) === selectedCategory)
-	}, [filteredSongs, selectedCategory])
-
 	const grouped = useMemo(() => {
-		return visibleSongs.reduce<Record<string, Song[]>>((acc, song) => {
+		return filteredSongs.reduce<Record<string, Song[]>>((acc, song) => {
 			const key = normalizeCategory(song.category)
 			acc[key] ??= []
 			acc[key].push(song)
 			return acc
 		}, {})
-	}, [visibleSongs])
+	}, [filteredSongs])
 
 	const groupsInOrder = useMemo(
 		() =>
@@ -89,33 +67,6 @@ export default function SongList({
 
 	return (
 		<div className="space-y-4">
-			{/* Header + Filter */}
-			<div className="flex items-center justify-between gap-3">
-				{/* Filter button */}
-				<div className="flex items-center gap-2">
-					<Select value={selectedCategory} onValueChange={setSelectedCategory}>
-						<SelectTrigger className="w-[200px]">
-							<SelectValue placeholder="Filter by category" />
-						</SelectTrigger>
-						<SelectContent>
-							{categories.map((cat) => (
-								<SelectItem key={cat} value={cat}>
-									{cat}
-								</SelectItem>
-							))}
-						</SelectContent>
-					</Select>
-					{selectedCategory !== 'All' && (
-						<Button
-							variant="primaryOutline"
-							onClick={() => setSelectedCategory('All')}
-						>
-							Clear
-						</Button>
-					)}
-				</div>
-			</div>
-
 			{/* Grouped lists */}
 			{groupsInOrder.map(([cat, items]) => (
 				<div key={cat} className="space-y-2">

@@ -2,15 +2,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { useMemo, useState } from 'react'
-import { Button } from '@/components/ui/button'
-import {
-	Select,
-	SelectTrigger,
-	SelectContent,
-	SelectItem,
-	SelectValue,
-} from '@/components/ui/select'
+import { useMemo } from 'react'
 
 type Prayer = {
 	id: number | string
@@ -21,34 +13,14 @@ type Prayer = {
 }
 
 export default function PrayerList({ prayers }: { prayers: Prayer[] }) {
-	const categories = useMemo(() => {
-		const set = new Set(
-			prayers.map((p) => (p.category && p.category.trim()) || 'Uncategorized')
-		)
-		return ['All', ...Array.from(set).sort()]
-	}, [prayers])
-
-	const [selectedCategory, setSelectedCategory] = useState<string>('All')
-
-	const visiblePrayers = useMemo(() => {
-		if (selectedCategory === 'All') return prayers
-		return prayers
-			.filter((p) => (p.category && p.category.trim()) || 'Uncategorized')
-			.filter(
-				(p) =>
-					((p.category && p.category.trim()) || 'Uncategorized') ===
-					selectedCategory
-			)
-	}, [prayers, selectedCategory])
-
 	const grouped = useMemo(() => {
-		return visiblePrayers.reduce<Record<string, Prayer[]>>((acc, p) => {
+		return prayers.reduce<Record<string, Prayer[]>>((acc, p) => {
 			const key = (p.category && p.category.trim()) || 'Uncategorized'
 			acc[key] ??= []
 			acc[key].push(p)
 			return acc
 		}, {})
-	}, [visiblePrayers])
+	}, [prayers])
 
 	const groupsInOrder = useMemo(
 		() =>
@@ -60,33 +32,6 @@ export default function PrayerList({ prayers }: { prayers: Prayer[] }) {
 
 	return (
 		<div className="space-y-4">
-			{/* Header + Filter */}
-			<div className="flex items-center justify-between gap-3">
-				{/* Filter button */}
-				<div className="flex items-center gap-2">
-					<Select value={selectedCategory} onValueChange={setSelectedCategory}>
-						<SelectTrigger className="w-[200px]">
-							<SelectValue placeholder="Filter by category" />
-						</SelectTrigger>
-						<SelectContent>
-							{categories.map((cat) => (
-								<SelectItem key={cat} value={cat}>
-									{cat}
-								</SelectItem>
-							))}
-						</SelectContent>
-					</Select>
-					{selectedCategory !== 'All' && (
-						<Button
-							variant="primaryOutline"
-							onClick={() => setSelectedCategory('All')}
-						>
-							Clear
-						</Button>
-					)}
-				</div>
-			</div>
-
 			{/* Grouped lists */}
 			{groupsInOrder.map(([cat, items]) => (
 				<div key={cat} className="space-y-2">
@@ -124,7 +69,7 @@ export default function PrayerList({ prayers }: { prayers: Prayer[] }) {
 			{/* Empty state */}
 			{groupsInOrder.length === 0 && (
 				<div className="text-center text-sm text-neutral-500 py-12">
-					No prayers found in this category.
+					No prayers found.
 				</div>
 			)}
 		</div>

@@ -1,29 +1,15 @@
 'use client'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { RefreshCw } from 'lucide-react'
-import {
-	DndContext,
-	useDraggable,
-	useDroppable,
-	DragEndEvent,
-	useSensor,
-	useSensors,
-	MouseSensor,
-	TouchSensor,
-} from '@dnd-kit/core'
 import Image from 'next/image'
 import { ResultCard } from '@/app/lesson/result-card'
 import { ActivityFinalScreen } from '@/components/activity-final-screen'
 import { HebrewVocab } from '@/lib/vocab'
 import { formatRootMorphology, hasRootMorphology } from '@/lib/vocab-morphology'
-import { matchesSelectedCategory } from '@/lib/category'
 import { resolveVocabMediaUrl } from '@/lib/vocab-media'
 import { useAudio, useWindowSize } from 'react-use'
 import ReactConfetti from 'react-confetti'
-import FormatFilter, { FormatType } from '../filters/filter-format'
 import TypeFilter from '../filters/filter-type'
-import NiqqudFilter from '../filters/filter-niqqud'
-import CategoryFilter from '../filters/filter-category'
 import LessonFilter from '../filters/filter-lesson'
 import { markPublicCourseActivityComplete } from '@/lib/public-course-progress'
 import type { PublicCourseActivityFilters } from '@/lib/public-course-activities'
@@ -42,9 +28,32 @@ interface WordMatchGameProps {
 	}
 }
 
-type UniqueIdentifier = string | number
-const formatOptions: FormatType[] = ['image', 'audio', 'translation']
 type Phase = 'playing' | 'results'
+type MatchupKind = 'text' | 'image' | 'audio'
+type MatchupKey =
+	| 'eng'
+	| 'engDefinition'
+	| 'images'
+	| 'hebAudio'
+	| 'hebNiqqud'
+	| 'heb'
+
+type MatchupOption = {
+	key: MatchupKey
+	label: string
+	kind: MatchupKind
+}
+
+const MATCHUP_OPTIONS: MatchupOption[] = [
+	{ key: 'eng', label: 'Translation', kind: 'text' },
+	{ key: 'images', label: 'Image', kind: 'image' },
+	{ key: 'hebAudio', label: 'Audio', kind: 'audio' },
+	{ key: 'hebNiqqud', label: 'Hebrew with niqqud', kind: 'text' },
+	{ key: 'heb', label: 'Hebrew without niqqud', kind: 'text' },
+]
+
+const DEFAULT_PROMPT_KEY: MatchupKey = 'images'
+const DEFAULT_RESPONSE_KEY: MatchupKey = 'hebAudio'
 
 function parseLessonKey(key: string) {
 	const match = key.match(/^(\d+)?([a-zA-Z]*)$/)
@@ -60,6 +69,43 @@ function toAbsoluteUrl(src: string) {
 	return resolveVocabMediaUrl(src)
 }
 
+function getCardValue(card: HebrewVocab, key: MatchupKey) {
+	switch (key) {
+		case 'eng':
+			return card.eng
+		case 'engDefinition':
+			return card.engDefinition ?? ''
+		case 'images':
+			return card.images ?? []
+		case 'hebAudio':
+			return card.hebAudio ?? ''
+		case 'hebNiqqud':
+			return card.hebNiqqud
+		case 'heb':
+			return card.heb
+		default:
+			return ''
+	}
+}
+
+function hasValue(card: HebrewVocab, key: MatchupKey) {
+	const value = getCardValue(card, key)
+	if (Array.isArray(value)) return value.length > 0
+	return Boolean(value)
+}
+
+function shuffleCards<T>(cards: T[]) {
+	return [...cards].sort(() => Math.random() - 0.5)
+}
+
+function getOptionTextDirection(key: MatchupKey): 'ltr' | 'rtl' {
+	return key === 'heb' || key === 'hebNiqqud' ? 'rtl' : 'ltr'
+}
+
+function getOptionTextClass(key: MatchupKey) {
+	return key === 'heb' || key === 'hebNiqqud' ? 'font-cardo font-normal' : ''
+}
+
 export default function WordMatchGame({
 	data,
 	currentLesson,
@@ -71,27 +117,38 @@ export default function WordMatchGame({
 	completionContext,
 }: WordMatchGameProps) {
 	const [showFilter, setShowFilter] = useState(false)
-	const [matchField, setMatchField] = useState<keyof HebrewVocab>('images')
-	const [hebrewField, setHebrewField] = useState<'heb' | 'hebNiqqud'>(
-		'hebNiqqud',
+	const [selectedPrompt, setSelectedPrompt] =
+		useState<MatchupKey>(DEFAULT_PROMPT_KEY)
+	const [selectedResponse, setSelectedResponse] = useState<MatchupKey>(
+		DEFAULT_RESPONSE_KEY,
 	)
-	const [matches, setMatches] = useState<Record<string, UniqueIdentifier>>({})
 	const [selectedType, setSelectedType] = useState<'all' | 'word' | 'phrase'>(
-		'word',
+		'all',
 	)
 	const [showConfetti, setShowConfetti] = useState(false)
 	const [finishAudio] = useAudio({
 		src: '/shofar.mp3',
 		autoPlay: true,
 	})
-	const [shuffledDraggables, setShuffledDraggables] = useState<HebrewVocab[]>(
-		[],
+	const [promptDeck, setPromptDeck] = useState<HebrewVocab[]>([])
+	const [responseDeck, setResponseDeck] = useState<HebrewVocab[]>([])
+	const [visiblePromptCards, setVisiblePromptCards] = useState<
+		Array<HebrewVocab | null>
+	>([])
+	const [visibleResponseCards, setVisibleResponseCards] = useState<
+		Array<HebrewVocab | null>
+	>([])
+	const [promptCursor, setPromptCursor] = useState(0)
+	const [responseCursor, setResponseCursor] = useState(0)
+	const [selectedPromptSlot, setSelectedPromptSlot] = useState<number | null>(
+		null,
 	)
-	const [shuffledTargets, setShuffledTargets] = useState<HebrewVocab[]>([])
+	const [selectedResponseSlot, setSelectedResponseSlot] = useState<
+		number | null
+	>(null)
+	const [matchedPairs, setMatchedPairs] = useState(0)
+	const [feedback, setFeedback] = useState<null | boolean>(null)
 	const [hasFinished, setHasFinished] = useState(false)
-	const [selectedCategory, setSelectedCategory] = useState<string>('all')
-	const [formatType, setFormatType] = useState<FormatType>('image')
-	const [cols, setCols] = useState(4)
 	const [phase, setPhase] = useState<Phase>('playing')
 	const [awardedPoints, setAwardedPoints] = useState(0)
 
@@ -110,22 +167,7 @@ export default function WordMatchGame({
 		}
 	}, [targetSize])
 
-	useEffect(() => {
-		function updateCols() {
-			const containerWidth = window.innerWidth
-			const desiredCols = Math.max(
-				1,
-				Math.floor(containerWidth / (targetSize + 32)),
-			)
-			setCols(desiredCols)
-		}
-		updateCols()
-		window.addEventListener('resize', updateCols)
-		return () => window.removeEventListener('resize', updateCols)
-	}, [targetSize])
-
 	const { width, height } = useWindowSize()
-	const audioRef = useRef<HTMLAudioElement | null>(null)
 	const publicCourseCompletionRef = useRef(false)
 
 	const getCardId = (card: HebrewVocab) => String(card.id)
@@ -150,12 +192,12 @@ export default function WordMatchGame({
 		})
 	}, [data])
 
-	function playCardAudio(card: HebrewVocab) {
-		if (!card.hebAudio) return
-		const src = Array.isArray(card.hebAudio) ? card.hebAudio[0] : card.hebAudio
-		const audio = new Audio(toAbsoluteUrl(src))
-		audio.play().catch(() => {})
-	}
+	const availablePromptOptions = useMemo(
+		() => MATCHUP_OPTIONS.filter((option) =>
+			data.some((card) => hasValue(card, option.key)),
+		),
+		[data],
+	)
 
 	const allLessonsUpToCurrent = useMemo(() => {
 		if (currentLesson === undefined) return []
@@ -178,19 +220,32 @@ export default function WordMatchGame({
 		if (initialFilters?.selectedLessons?.length) {
 			setSelectedLessons(initialFilters.selectedLessons)
 		}
-		if (initialFilters?.selectedCategory) {
-			setSelectedCategory(initialFilters.selectedCategory)
-		}
 		if (initialFilters?.selectedType && initialFilters.selectedType !== 'stack') {
 			setSelectedType(initialFilters.selectedType)
 		}
-		if (initialFilters?.formatType) {
-			setFormatType(initialFilters.formatType)
-		}
-		if (initialFilters?.hebrewField) {
-			setHebrewField(initialFilters.hebrewField)
-		}
 	}, [initialFilters])
+
+	useEffect(() => {
+		if (
+			availablePromptOptions.length > 0 &&
+			!availablePromptOptions.some((option) => option.key === selectedPrompt)
+		) {
+			setSelectedPrompt(
+				availablePromptOptions[0]?.key ?? DEFAULT_PROMPT_KEY,
+			)
+		}
+	}, [availablePromptOptions, selectedPrompt])
+
+	useEffect(() => {
+		if (
+			availablePromptOptions.length > 0 &&
+			!availablePromptOptions.some((option) => option.key === selectedResponse)
+		) {
+			setSelectedResponse(
+				availablePromptOptions[0]?.key ?? DEFAULT_RESPONSE_KEY,
+			)
+		}
+	}, [availablePromptOptions, selectedResponse])
 
 	useEffect(() => {
 		if (lockedLesson) {
@@ -227,101 +282,78 @@ export default function WordMatchGame({
 	// }, [allLessonsUpToCurrent])
 
 	const filteredCards = useMemo(() => {
+		const promptConfig =
+			MATCHUP_OPTIONS.find((option) => option.key === selectedPrompt) ??
+			MATCHUP_OPTIONS[0]
+		const responseConfig =
+			MATCHUP_OPTIONS.find((option) => option.key === selectedResponse) ??
+			MATCHUP_OPTIONS[0]
+
 		return data.filter((card) => {
 			const inLesson = card.lessons.some((l) => selectedLessons.includes(l))
-			const hasHebrew = !!card[hebrewField]
-			const hasMatchField =
-				matchField === 'images'
-					? Array.isArray(card.images) && card.images.length > 0
-					: !!card[matchField]
+			const hasPrompt = hasValue(card, promptConfig.key)
+			const hasResponse = hasValue(card, responseConfig.key)
 			const matchesType = selectedType === 'all' || card.type === selectedType
 
-			const matchesCategory = matchesSelectedCategory(
-				card.category,
-				selectedCategory,
-			)
-
 			return (
-				inLesson && hasHebrew && hasMatchField && matchesType && matchesCategory
+				inLesson &&
+				hasPrompt &&
+				hasResponse &&
+				matchesType
 			)
 		})
 	}, [
 		data,
-		matchField,
+		selectedPrompt,
+		selectedResponse,
 		selectedLessons,
-		hebrewField,
 		selectedType,
-		selectedCategory,
 	])
 
-	useEffect(() => {
+	const initializeBoard = useCallback(() => {
 		if (filteredCards.length === 0) {
-			setShuffledDraggables([])
-			setShuffledTargets([])
+			setPromptDeck([])
+			setResponseDeck([])
+			setVisiblePromptCards([])
+			setVisibleResponseCards([])
+			setPromptCursor(0)
+			setResponseCursor(0)
+			setSelectedPromptSlot(null)
+			setSelectedResponseSlot(null)
+			setMatchedPairs(0)
+			setFeedback(null)
+			setHasFinished(false)
+			setShowConfetti(false)
 			setPhase('playing')
 			return
 		}
 
-		const shuffled = [...filteredCards]
-			.sort(() => Math.random() - 0.5)
-			.slice(0, 12)
-		const shuffled1 = [...shuffled].sort(() => Math.random() - 0.5)
-		const shuffled2 = [...shuffled].sort(() => Math.random() - 0.5)
+		const prompt = shuffleCards(filteredCards)
+		const response = [...prompt]
+		const initialSlots = 6
 
-		setShuffledDraggables(shuffled1)
-		setShuffledTargets(shuffled2)
-		setMatches({})
+		setPromptDeck(prompt)
+		setResponseDeck(response)
+		setVisiblePromptCards(prompt.slice(0, initialSlots))
+		setVisibleResponseCards(shuffleCards(response.slice(0, initialSlots)))
+		setPromptCursor(Math.min(initialSlots, prompt.length))
+		setResponseCursor(Math.min(initialSlots, response.length))
+		setSelectedPromptSlot(null)
+		setSelectedResponseSlot(null)
+		setMatchedPairs(0)
+		setFeedback(null)
 		setHasFinished(false)
 		setShowConfetti(false)
 		setPhase('playing')
 	}, [filteredCards])
+
+	useEffect(() => {
+		initializeBoard()
+	}, [initializeBoard])
 
 	const resetBoard = useCallback(() => {
-		if (filteredCards.length === 0) return
-		const limited = filteredCards.slice(0, 12)
-
-		const shuffled1 = [...limited]
-		const shuffled2 = [...limited]
-
-		for (let i = shuffled1.length - 1; i > 0; i--) {
-			const j = Math.floor(Math.random() * (i + 1))
-			;[shuffled1[i], shuffled1[j]] = [shuffled1[j], shuffled1[i]]
-		}
-		for (let i = shuffled2.length - 1; i > 0; i--) {
-			const j = Math.floor(Math.random() * (i + 1))
-			;[shuffled2[i], shuffled2[j]] = [shuffled2[j], shuffled2[i]]
-		}
-
-		setShuffledDraggables(shuffled1)
-		setShuffledTargets(shuffled2)
-		setMatches({})
-		setHasFinished(false)
-		setShowConfetti(false)
-		setPhase('playing')
-	}, [filteredCards])
-
-	function handleDragEnd(event: DragEndEvent) {
-		const { active, over } = event
-		if (!over) return
-
-		const activeId = String(active.id)
-		const overId = String(over.id)
-
-		if (activeId === overId) {
-			setMatches((prev) => ({
-				...prev,
-				[activeId]: overId,
-			}))
-
-			// NEW: play audio if matching in image mode
-			if (formatType === 'image') {
-				const matchedCard = shuffledTargets.find((c) => String(c.id) === overId)
-				if (matchedCard) {
-					playCardAudio(matchedCard)
-				}
-			}
-		}
-	}
+		initializeBoard()
+	}, [initializeBoard])
 
 	const awardPoints = useCallback(
 		async (points: number) => {
@@ -342,56 +374,248 @@ export default function WordMatchGame({
 		[userId, courseId],
 	)
 
-	const isTouchDevice =
-		typeof window !== 'undefined' &&
-		('ontouchstart' in window || navigator.maxTouchPoints > 0)
-
-	const sensors = useSensors(
-		useSensor(MouseSensor, {
-			activationConstraint: { distance: 5 },
-		}),
-		useSensor(TouchSensor, {
-			activationConstraint: { delay: 180, tolerance: 8 },
-		}),
-	)
-
 	useEffect(() => {
-		const isComplete =
-			shuffledTargets.length > 0 &&
-			shuffledTargets.every((card) => {
-				const id = getCardId(card)
-				return matches[id] === id
-			})
-
-		if (isComplete && !hasFinished) {
+		if (matchedPairs > 0 && matchedPairs === filteredCards.length && !hasFinished) {
 			setShowConfetti(true)
 			setHasFinished(true)
 			setPhase('results')
-			setAwardedPoints(1)
-			awardPoints(1)
+			setAwardedPoints(matchedPairs)
+			awardPoints(matchedPairs)
 		}
 	}, [
-		matches,
-		shuffledTargets,
+		filteredCards.length,
 		hasFinished,
 		awardPoints,
+		matchedPairs,
 	])
 
-	useEffect(() => {
-		if (formatType === 'image') {
-			setMatchField('images')
-		} else if (formatType === 'audio') {
-			setMatchField('hebAudio')
-		} else {
-			setMatchField('eng')
-		}
-	}, [formatType])
+	const selectedPromptConfig = useMemo(
+		() =>
+			availablePromptOptions.find((option) => option.key === selectedPrompt) ??
+			availablePromptOptions[0] ??
+			MATCHUP_OPTIONS[0],
+		[availablePromptOptions, selectedPrompt],
+	)
+
+	const selectedResponseConfig = useMemo(
+		() =>
+			availablePromptOptions.find((option) => option.key === selectedResponse) ??
+			availablePromptOptions[0] ??
+			MATCHUP_OPTIONS[0],
+		[availablePromptOptions, selectedResponse],
+	)
 
 	const bumpSize = (delta: number) =>
 		setTargetSize((s) => Math.max(80, Math.min(240, s + delta)))
 
-	const totalCards = shuffledTargets.length
-	const matchedCount = Object.keys(matches).filter((id) => matches[id] === id).length
+	const totalCards = filteredCards.length
+	const matchedCount = matchedPairs
+	const sideCardMinWidth = Math.max(220, targetSize + 64)
+	const cardBodyMinHeight = Math.max(180, targetSize + 40)
+
+	const playFeedbackSound = useCallback((src: string) => {
+		const audio = new Audio(src)
+		audio.play().catch(() => {})
+	}, [])
+
+	const refillVisibleCard = useCallback(
+		(
+			side: 'prompt' | 'response',
+			slotIndex: number,
+			sourceDeck: HebrewVocab[],
+			cursor: number,
+			setCursor: React.Dispatch<React.SetStateAction<number>>,
+			setVisibleCards: React.Dispatch<
+				React.SetStateAction<Array<HebrewVocab | null>>
+			>,
+		) => {
+			const nextCard = sourceDeck[cursor] ?? null
+			setCursor((current) => Math.min(current + 1, sourceDeck.length))
+			setVisibleCards((current) => {
+				const next = [...current]
+				next[slotIndex] = nextCard
+				return shuffleCards(next)
+			})
+		},
+		[],
+	)
+
+	const handleCardSelection = useCallback(
+		(side: 'prompt' | 'response', slotIndex: number) => {
+			if (hasFinished || feedback !== null) return
+
+			const currentCard =
+				side === 'prompt'
+					? visiblePromptCards[slotIndex]
+					: visibleResponseCards[slotIndex]
+			if (!currentCard) return
+
+			setFeedback(null)
+
+			if (side === 'prompt') {
+				setSelectedPromptSlot((current) =>
+					current === slotIndex ? null : slotIndex,
+				)
+			} else {
+				setSelectedResponseSlot((current) =>
+					current === slotIndex ? null : slotIndex,
+				)
+			}
+		},
+		[feedback, hasFinished, visiblePromptCards, visibleResponseCards],
+	)
+
+	useEffect(() => {
+		if (selectedPromptSlot === null || selectedResponseSlot === null) return
+
+		const promptCard = visiblePromptCards[selectedPromptSlot]
+		const responseCard = visibleResponseCards[selectedResponseSlot]
+
+		if (!promptCard || !responseCard) return
+
+		if (promptCard.id === responseCard.id) {
+			playFeedbackSound('/correct.wav')
+			setFeedback(true)
+			setMatchedPairs((prev) => prev + 1)
+
+			setTimeout(() => {
+				setSelectedPromptSlot(null)
+				setSelectedResponseSlot(null)
+
+				refillVisibleCard(
+					'prompt',
+					selectedPromptSlot,
+					promptDeck,
+					promptCursor,
+					setPromptCursor,
+					setVisiblePromptCards,
+				)
+				refillVisibleCard(
+					'response',
+					selectedResponseSlot,
+					responseDeck,
+					responseCursor,
+					setResponseCursor,
+					setVisibleResponseCards,
+				)
+				setFeedback(null)
+			}, 250)
+			return
+		}
+
+		playFeedbackSound('/incorrect.wav')
+		setFeedback(false)
+		setTimeout(() => {
+			setSelectedPromptSlot(null)
+			setSelectedResponseSlot(null)
+			setFeedback(null)
+		}, 500)
+	}, [
+		promptCursor,
+		promptDeck,
+		refillVisibleCard,
+		responseCursor,
+		responseDeck,
+		selectedPromptSlot,
+		selectedResponseSlot,
+		visiblePromptCards,
+		visibleResponseCards,
+		playFeedbackSound,
+	])
+
+	function renderCardContent(
+		card: HebrewVocab,
+		option: MatchupOption | undefined,
+		mode: 'prompt' | 'response',
+	) {
+		if (!option) return null
+
+		const value = getCardValue(card, option.key)
+		const isPrompt = mode === 'prompt'
+		const textTone = 'text-slate-900'
+
+		if (option.kind === 'image') {
+			const imageSrc = Array.isArray(value) ? value[0] : null
+			if (!imageSrc) return null
+
+			return (
+				<div
+					className="relative h-full min-h-[220px] w-full overflow-hidden"
+					style={{ minHeight: cardBodyMinHeight }}
+				>
+					{hasRootMorphology(card) && (
+						<div className="absolute bottom-2 left-2 z-10 rounded-full bg-black/65 px-2 py-1 text-[10px] font-semibold tracking-wide text-white backdrop-blur-sm">
+							({formatRootMorphology(card)})
+						</div>
+					)}
+					<div className="absolute inset-0">
+						<Image
+							src={imageSrc}
+							alt={option.label}
+							fill
+							sizes="(max-width: 768px) 100vw, 50vw"
+							className={`object-contain object-center ${isPrompt ? 'drop-shadow-sm' : ''}`}
+						/>
+					</div>
+				</div>
+			)
+		}
+
+		if (option.kind === 'audio') {
+			const audioSrc = typeof value === 'string' ? value : ''
+			const playAudio = () => {
+				if (!audioSrc) return
+				const audio = new Audio(toAbsoluteUrl(audioSrc))
+				audio.play().catch(() => {})
+			}
+			const iconTone = isPrompt
+				? 'bg-gray-100 text-gray-700'
+				: 'bg-gray-100 text-gray-700'
+
+			if (isPrompt) {
+				return (
+					<div
+						className="flex h-full items-center justify-center text-gray-800"
+						style={{ minHeight: cardBodyMinHeight }}
+					>
+						<div className={`rounded-full p-5 text-5xl ${iconTone}`}>🔊</div>
+					</div>
+				)
+			}
+
+			return (
+				<button
+					type="button"
+					onClick={playAudio}
+					className="flex h-full items-center justify-center bg-white text-gray-800 transition hover:bg-gray-50"
+					style={{ minHeight: cardBodyMinHeight }}
+					aria-label={`Play ${option.label}`}
+				>
+					<div className={`rounded-full p-5 text-5xl ${iconTone}`}>🔊</div>
+				</button>
+			)
+		}
+
+		const textValue =
+			typeof value === 'string' && value.trim().length > 0 ? value : ''
+		if (!textValue) return null
+
+		return (
+			<div
+				className={`flex h-full items-center justify-center text-center ${textTone} ${getOptionTextClass(option.key)}`}
+				style={{ minHeight: cardBodyMinHeight }}
+				dir={getOptionTextDirection(option.key)}
+			>
+				<div
+					className={`leading-tight ${
+						isPrompt ? 'text-3xl font-normal' : 'text-2xl md:text-3xl font-normal'
+					}`}
+				>
+					{textValue}
+				</div>
+			</div>
+		)
+	}
 
 	if (phase === 'results') {
 		return (
@@ -468,89 +692,113 @@ export default function WordMatchGame({
 				/>
 			)}
 
-			{/* Controls row */}
+			<div className="mb-4 space-y-4">
+				<div className="flex flex-wrap items-center justify-center gap-3">
+					{!hideFilters ? (
+						<button
+							onClick={() => setShowFilter((prev) => !prev)}
+							className={`flex items-center justify-center gap-4 rounded-2xl px-4 py-2 shadow transition ${
+								showFilter ? 'bg-sky-600 text-white' : 'bg-gray-200 text-slate-800'
+							}`}
+						>
+							<Image
+								src="/books-svgrepo-com.svg"
+								alt="Filter icon"
+								width={30}
+								height={30}
+							/>
+							{showFilter ? 'Hide Filters' : 'Show Filters'}
+						</button>
+					) : null}
 
-			<div className="mb-4 flex flex-wrap items-center justify-center gap-3">
-				{!hideFilters ? (
-					<button
-						onClick={() => setShowFilter((prev) => !prev)}
-						className={`px-4 py-2 rounded shadow flex items-center justify-center gap-4 ${
-							showFilter ? 'bg-sky-600 text-white' : 'bg-gray-200'
-						}`}
-					>
-						<Image
-							src="/books-svgrepo-com.svg"
-							alt="Filter icon"
-							width={30}
-							height={30}
+					<div className="flex items-center gap-2 rounded-2xl border bg-gray-50 px-3 py-2">
+						<span className="text-sm text-gray-600">Card size</span>
+						<button
+							type="button"
+							onClick={() => bumpSize(-10)}
+							className="rounded border border-sky-200 bg-sky-50 px-2 py-1 text-sky-700 transition hover:border-sky-300 hover:bg-sky-100"
+							aria-label="Decrease card size"
+						>
+							−
+						</button>
+						<input
+							type="range"
+							min={80}
+							max={240}
+							step={10}
+							value={targetSize}
+							onChange={(e) => setTargetSize(parseInt(e.target.value, 10))}
+							className="w-32 accent-sky-600"
 						/>
-						{showFilter ? 'Hide Filters' : 'Show Filters'}
-					</button>
-				) : null}
-
-				{/* NEW: Size controls */}
-				<div className="flex items-center gap-2 px-3 py-2 rounded bg-gray-50 border">
-					<span className="text-sm text-gray-600">Card size</span>
-					<button
-						type="button"
-						onClick={() => bumpSize(-10)}
-						className="px-2 py-1 rounded border hover:bg-gray-100"
-						aria-label="Decrease card size"
-					>
-						−
-					</button>
-					<input
-						type="range"
-						min={80}
-						max={240}
-						step={10}
-						value={targetSize}
-						onChange={(e) => setTargetSize(parseInt(e.target.value, 10))}
-						className="w-32 accent-sky-600"
-					/>
-					<button
-						type="button"
-						onClick={() => bumpSize(+10)}
-						className="px-2 py-1 rounded border hover:bg-gray-100"
-						aria-label="Increase card size"
-					>
-						+
-					</button>
-					<span className="text-xs text-gray-500 w-10 text-right">
-						{targetSize}px
-					</span>
-				</div>
-				<button
-					onClick={resetBoard}
-					className="px-4 py-2 bg-gray-200 rounded shadow hover:bg-gray-300"
-				>
-					Reshuffle
-				</button>
-			</div>
-			{showFilter && !hideFilters && (
-				<>
-					<div className="text-center grid grid-cols-1 md:grid-cols-3">
-						<FormatFilter
-							formatType={formatType}
-							setFormatType={setFormatType}
-							options={formatOptions}
-						/>
-						<TypeFilter
-							selectedType={selectedType}
-							setSelectedType={setSelectedType}
-						/>
-						<NiqqudFilter
-							data={data}
-							hebrewField={hebrewField}
-							setHebrewField={setHebrewField}
-						/>
+						<button
+							type="button"
+							onClick={() => bumpSize(+10)}
+							className="rounded border border-sky-200 bg-sky-50 px-2 py-1 text-sky-700 transition hover:border-sky-300 hover:bg-sky-100"
+							aria-label="Increase card size"
+						>
+							+
+						</button>
+						<span className="w-10 text-right text-xs text-gray-500">
+							{targetSize}px
+						</span>
 					</div>
-					<div className="text-center">
-						<CategoryFilter
-							data={data}
-							selectedCategory={selectedCategory}
-							setSelectedCategory={setSelectedCategory}
-						/>
+					<button
+						onClick={resetBoard}
+						className="rounded-2xl bg-sky-600 px-4 py-2 text-white shadow transition hover:bg-sky-700"
+					>
+						Reshuffle
+					</button>
+				</div>
+			</div>
+
+			{showFilter && !hideFilters && (
+				<div className="mb-4 space-y-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+					<div className="space-y-3">
+						<h2 className="text-center text-lg font-semibold text-slate-900">
+							Prompt
+						</h2>
+						<div className="flex flex-row-reverse flex-wrap justify-center gap-2">
+							{availablePromptOptions.map((option) => (
+								<button
+									key={option.key}
+									type="button"
+									onClick={() => setSelectedPrompt(option.key)}
+									className={`rounded-full border px-3 py-1 text-xs font-medium transition ${
+										selectedPrompt === option.key
+											? 'border-sky-600 bg-sky-600 text-white'
+											: 'border-slate-200 bg-gray-200 text-slate-700 hover:bg-slate-100'
+									}`}
+								>
+									{option.label}
+								</button>
+							))}
+						</div>
+					</div>
+
+					<div className="space-y-3">
+						<h2 className="text-center text-lg font-semibold text-slate-900">
+							Respond With
+						</h2>
+						<div className="flex flex-row-reverse flex-wrap justify-center gap-2">
+							{availablePromptOptions.map((option) => (
+								<button
+									key={option.key}
+									type="button"
+									onClick={() => setSelectedResponse(option.key)}
+									className={`rounded-full border px-3 py-1 text-xs font-medium transition ${
+										selectedResponse === option.key
+											? 'border-sky-600 bg-sky-600 text-white'
+											: 'border-slate-200 bg-gray-200 text-slate-700 hover:bg-slate-100'
+									}`}
+								>
+									{option.label}
+								</button>
+							))}
+						</div>
+					</div>
+
+					<div className="grid grid-cols-1 gap-3">
+						<TypeFilter selectedType={selectedType} setSelectedType={setSelectedType} />
 						<LessonFilter
 							data={data}
 							selectedLessons={selectedLessons}
@@ -558,220 +806,94 @@ export default function WordMatchGame({
 							showRanges={true}
 						/>
 					</div>
-				</>
-			)}
-
-			<DndContext sensors={sensors} onDragEnd={handleDragEnd}>
-				{filteredCards.length === 0 ? (
-					<div className="text-center text-gray-500 italic mt-8">
-						No cards available with this selection.
-						<br />
-						Please try adjusting the filters above.
-					</div>
-				) : (
-					<>
-						<div className="flex flex-wrap justify-center gap-3 mb-6">
-							{shuffledDraggables.map((card) => {
-								const cardId = getCardId(card)
-								if (matches[cardId] === cardId) return null // Hide matched draggable word
-
-								return (
-									<DraggableWord
-										key={cardId}
-										id={cardId}
-										label={(card[hebrewField] || card.heb) as string}
-										matches={matches}
-									/>
-								)
-							})}
-						</div>
-
-						<div
-							className="grid gap-4 justify-center"
-							style={{
-								gridTemplateColumns: `repeat(auto-fit, minmax(${targetSize}px, 1fr))`,
-							}}
-						>
-							{' '}
-							{shuffledTargets.map((card) => {
-								const cardId = getCardId(card)
-								const matched = matches[cardId] === cardId
-								return (
-									<DropTarget
-										key={cardId}
-										id={cardId}
-										matches={matches}
-										size={targetSize} // NEW
-									>
-										{matched ? (
-											<div
-												className="font-serif text-green-700"
-												style={{ fontSize: Math.round(targetSize * 0.28) }}
-											>
-												{card[hebrewField]}
-											</div>
-										) : (
-											<div className="flex flex-col text-center justify-center">
-												<MatchContent
-													card={card}
-													matchField={matchField}
-													size={targetSize} // NEW
-												/>
-												{hasRootMorphology(card) && (
-													<div className="text-xs text-gray-500 mt-1">
-														({formatRootMorphology(card)})
-													</div>
-												)}
-											</div>
-										)}
-									</DropTarget>
-								)
-							})}
-						</div>
-					</>
-				)}
-			</DndContext>
-		</div>
-	)
-}
-
-function DraggableWord({
-	id,
-	label,
-	matches,
-}: {
-	id: string
-	label: string
-	matches: Record<string, string | number>
-}) {
-	const { attributes, listeners, setNodeRef, transform } = useDraggable({ id })
-	const style = transform
-		? { transform: `translate3d(${transform.x}px, ${transform.y}px, 0)` }
-		: undefined
-
-	return (
-		<button
-			type="button"
-			ref={setNodeRef}
-			style={style}
-			{...listeners}
-			{...attributes}
-			className="px-4 py-2 bg-teal-600 text-white rounded shadow text-4xl font-serif cursor-grab touch-none select-none"
-		>
-			{label}
-		</button>
-	)
-}
-
-function DropTarget({
-	id,
-	children,
-	matches,
-	size,
-}: {
-	id: string
-	children: React.ReactNode
-	matches: Record<string, string | number>
-	size: number
-}) {
-	const { isOver, setNodeRef } = useDroppable({ id })
-	const matched = matches[id] === id
-
-	return (
-		<div
-			ref={setNodeRef}
-			className={`border-2 rounded p-3 flex items-center justify-center transition touch-none select-none ${
-				isOver ? 'border-green-500 bg-green-50' : 'border-gray-300 bg-white'
-			} ${matched ? 'hidden' : ''}`} // Hide drop target if matched
-			style={{
-				minHeight: size + 24, // room for padding/label
-			}}
-		>
-			{matched ? (
-				<div className="font-serif text-green-700">{children}</div>
-			) : (
-				<div className="flex flex-col text-center justify-center w-full">
-					{children}
 				</div>
 			)}
-		</div>
-	)
-}
 
-function MatchContent({
-	card,
-	matchField,
-	size = 140,
-}: {
-	card: HebrewVocab
-	matchField: keyof HebrewVocab
-	size?: number
-}) {
-	const value = card[matchField]
-	if (!value) return null
+			{filteredCards.length === 0 ? (
+				<div className="mt-8 text-center italic text-gray-500">
+					No cards available with this selection.
+					<br />
+					Please try adjusting the filters above.
+				</div>
+			) : (
+				<div className="space-y-6">
+					{feedback !== null && (
+						<div
+							className={`text-center text-sm font-semibold ${
+								feedback ? 'text-emerald-700' : 'text-rose-600'
+							}`}
+						>
+							{feedback ? 'Match found.' : 'Not a match.'}
+						</div>
+					)}
 
-	// AUDIO: render a play button instead of the string path
-	if (matchField === 'hebAudio') {
-		const src = Array.isArray(value) ? String(value[0]) : String(value)
-		return <PlayButton src={src} size={Math.round(size * 0.28)} />
-	}
+					<div className="grid gap-6 md:grid-cols-2">
+						<div className="space-y-3">
+							<h2 className="text-center text-lg font-semibold text-slate-900">
+								Responses
+							</h2>
+							<div
+								className="grid gap-3"
+								style={{
+									gridTemplateColumns: `repeat(auto-fit, minmax(${sideCardMinWidth}px, 1fr))`,
+								}}
+							>
+								{visibleResponseCards.map((card, index) =>
+									card ? (
+										<button
+											key={`${card.id}-${index}-response`}
+											type="button"
+											onClick={() => handleCardSelection('response', index)}
+											className={`overflow-hidden rounded-2xl border-2 text-left transition ${
+												selectedResponseSlot === index
+													? 'border-emerald-700 bg-emerald-700 text-white shadow-md ring-2 ring-emerald-200'
+													: 'border-gray-300 bg-white hover:border-gray-400'
+											}`}
+											style={{ minHeight: cardBodyMinHeight }}
+										>
+											<div className="flex h-full w-full flex-col">
+												{renderCardContent(card, selectedResponseConfig, 'response')}
+											</div>
+										</button>
+									) : null,
+								)}
+							</div>
+						</div>
 
-	// IMAGE: show first image
-	if (matchField === 'images' && Array.isArray(value)) {
-		return (
-			<Image
-				src={value[0]}
-				alt="HebrewVocab"
-				width={size}
-				height={size}
-				className="object-contain pointer-events-none select-none"
-				draggable={false}
-			/>
-		)
-	}
-
-	// TEXT fallback
-	return (
-		<div
-			className="font-nunito text-lg"
-			// style={{ fontSize: Math.max(14, Math.round(size * 0.22)) }}
-		>
-			{String(value)}
-		</div>
-	)
-}
-
-function PlayButton({ src, size = 36 }: { src: string; size?: number }) {
-	const absolute = useMemo(() => toAbsoluteUrl(src), [src])
-
-	const [audioEl, state, controls] = useAudio({
-		src: absolute,
-		autoPlay: false,
-	})
-
-	const handleClick = async () => {
-		try {
-			if (state.playing) {
-				controls.pause()
-			} else {
-				// restart from 0 for consistent tapping behavior
-				await controls.seek(0)
-				await controls.play()
-			}
-		} catch {}
-	}
-
-	return (
-		<div className="flex items-center justify-center">
-			{audioEl}
-			<button
-				type="button"
-				onClick={handleClick}
-				className="p-2 active:scale-95 transition"
-				aria-label={state.playing ? 'Pause audio' : 'Play audio'}
-			>
-				🔊
-			</button>
+						<div className="space-y-3">
+							<h2 className="text-center text-lg font-semibold text-slate-900">
+								Prompts
+							</h2>
+							<div
+								className="grid gap-3"
+								style={{
+									gridTemplateColumns: `repeat(auto-fit, minmax(${sideCardMinWidth}px, 1fr))`,
+								}}
+							>
+								{visiblePromptCards.map((card, index) =>
+									card ? (
+										<button
+											key={`${card.id}-${index}-prompt`}
+											type="button"
+											onClick={() => handleCardSelection('prompt', index)}
+											className={`overflow-hidden rounded-2xl border-2 text-left transition ${
+												selectedPromptSlot === index
+													? 'border-emerald-700 bg-emerald-700 text-white shadow-md ring-2 ring-emerald-200'
+													: 'border-gray-300 bg-white hover:border-gray-400'
+											}`}
+											style={{ minHeight: cardBodyMinHeight }}
+										>
+											<div className="flex h-full w-full flex-col">
+												{renderCardContent(card, selectedPromptConfig, 'prompt')}
+											</div>
+										</button>
+									) : null,
+								)}
+							</div>
+						</div>
+					</div>
+				</div>
+			)}
 		</div>
 	)
 }

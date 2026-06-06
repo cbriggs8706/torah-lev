@@ -77,7 +77,7 @@ export default function HebrewIntroduction({
 	const [statusText, setStatusText] = useState(
 		filtersLocked
 			? 'This class opens directly into the assigned lesson.'
-			: 'Choose your filters, then start the introduction.',
+			: 'Choose your filters, then start the vocabulary.',
 	)
 
 	const runIdRef = useRef(0)
@@ -176,7 +176,7 @@ export default function HebrewIntroduction({
 		setPulseTick(0)
 		setActiveRepeatNumber(null)
 		setCompletionAwarded(false)
-		setStatusText('Choose your filters, then start the introduction.')
+		setStatusText('Choose your filters, then start the vocabulary.')
 	}, [filteredCards, initialHearts, sessionVersion])
 
 	const queueQuizPrompt = useCallback(
@@ -195,7 +195,7 @@ export default function HebrewIntroduction({
 					setCurrentPromptIndex(null)
 					setCurrentOptions([])
 					setEliminatedOptions([])
-					setStatusText('You finished this introduction chunk.')
+					setStatusText('You finished this vocabulary chunk.')
 				}
 				return
 			}
@@ -436,7 +436,7 @@ export default function HebrewIntroduction({
 				<div className="rounded-2xl border border-amber-200 bg-amber-50 p-6 text-amber-900">
 					{lessonFilteredCards.length >= 2
 						? 'This chunk needs at least 2 Hebrew vocab items with an image and audio. Choose a different chunk to continue.'
-						: 'At least 2 Hebrew vocab items from one lesson with an image and audio are needed for this introduction activity.'}
+						: 'At least 2 Hebrew vocab items from one lesson with an image and audio are needed for this vocabulary activity.'}
 				</div>
 			) : phase === 'idle' ? (
 				<div className="rounded-2xl border bg-white p-8 shadow-sm">
@@ -498,7 +498,7 @@ export default function HebrewIntroduction({
 						onClick={startSession}
 						className="mt-6 rounded-xl bg-sky-600 px-6 py-3 font-semibold text-white shadow hover:bg-sky-500"
 					>
-						Start Introduction
+						Start Vocabulary
 					</button>
 				</div>
 			) : phase === 'teaching' && currentTeachingCard ? (
@@ -628,7 +628,7 @@ export default function HebrewIntroduction({
 					/>
 					<ActivityFinalScreen
 						title="Lesson Complete"
-						description="You finished this introduction lesson and unlocked the full reward bundle."
+						description="You finished this vocabulary lesson and unlocked the full reward bundle."
 						stats={[
 							{ label: 'Cards', value: filteredCards.length },
 							{ label: 'Points', value: filteredCards.length, valueClassName: 'text-emerald-600' },

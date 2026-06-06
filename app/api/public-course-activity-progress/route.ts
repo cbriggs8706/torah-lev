@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { and, eq } from 'drizzle-orm'
+import { and, eq, sql } from 'drizzle-orm'
 import { z } from 'zod'
 
 import db from '@/db/drizzle'
@@ -8,6 +8,7 @@ import {
 	publicCourseEnrollmentActivityProgress,
 	publicCourseLesson,
 	publicCourseLessonActivity,
+	userCourseProgress,
 } from '@/db/schema'
 import { getSession } from '@/lib/auth'
 
@@ -24,6 +25,7 @@ const completeActivitySchema = z.object({
 		'scramble',
 	]),
 	scorePercent: z.number().int().min(0).max(100).optional(),
+	points: z.number().int().positive().optional(),
 	metadata: z.record(z.string(), z.unknown()).optional(),
 })
 
@@ -46,8 +48,14 @@ export async function POST(request: Request) {
 			)
 		}
 
-		const { enrollmentId, publicCourseLessonId, activityKey, scorePercent, metadata } =
-			parsed.data
+		const {
+			enrollmentId,
+			publicCourseLessonId,
+			activityKey,
+			scorePercent,
+			points,
+			metadata,
+		} = parsed.data
 
 		const enrollment = await db.query.publicCourseEnrollment.findFirst({
 			where: and(
@@ -62,6 +70,20 @@ export async function POST(request: Request) {
 		if (!enrollment) {
 			return NextResponse.json(
 				{ error: 'Enrollment not found.' },
+				{ status: 404 }
+			)
+		}
+
+		const lesson = await db.query.publicCourseLesson.findFirst({
+			where: eq(publicCourseLesson.id, publicCourseLessonId),
+			columns: {
+				platformCourseId: true,
+			},
+		})
+
+		if (!lesson) {
+			return NextResponse.json(
+				{ error: 'Lesson not found.' },
 				{ status: 404 }
 			)
 		}
@@ -98,6 +120,28 @@ export async function POST(request: Request) {
 		})
 
 		const now = new Date()
+		const shouldAwardPoints = (points ?? 0) > 0 && existing?.status !== 'completed'
+		let awardedPoints = 0
+
+		if (shouldAwardPoints) {
+			await db
+				.insert(userCourseProgress)
+				.values({
+					userId,
+					courseId: lesson.platformCourseId,
+					points: points ?? 0,
+					lastSeen: now,
+				})
+				.onConflictDoUpdate({
+					target: [userCourseProgress.userId, userCourseProgress.courseId],
+					set: {
+						points: sql`${userCourseProgress.points} + ${points ?? 0}`,
+						lastSeen: now,
+					},
+				})
+
+			awardedPoints = points ?? 0
+		}
 
 		if (existing) {
 			const [updated] = await db
@@ -113,7 +157,7 @@ export async function POST(request: Request) {
 				.where(eq(publicCourseEnrollmentActivityProgress.id, existing.id))
 				.returning()
 
-			return NextResponse.json({ progress: updated })
+			return NextResponse.json({ progress: updated, awardedPoints })
 		}
 
 		const [created] = await db
@@ -131,7 +175,7 @@ export async function POST(request: Request) {
 			})
 			.returning()
 
-		return NextResponse.json({ progress: created }, { status: 201 })
+		return NextResponse.json({ progress: created, awardedPoints }, { status: 201 })
 	} catch (error) {
 		console.error('Error saving public course activity progress:', error)
 		return NextResponse.json(

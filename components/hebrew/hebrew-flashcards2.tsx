@@ -2,13 +2,11 @@
 
 import { HebrewVocab } from '@/lib/vocab'
 import { resolveVocabMediaUrl } from '@/lib/vocab-media'
-import { matchesSelectedCategory } from '@/lib/category'
 import Image from 'next/image'
 import { useState, useMemo, useEffect, useCallback } from 'react'
 import { useCelebration } from '@/hooks/useCelebration'
 import { useLessonCards } from '@/hooks/useLessonCards'
 import TypeFilter from '../filters/filter-type'
-import CategoryFilter from '../filters/filter-category'
 import LessonFilter from '../filters/filter-lesson'
 import ProgressBar from '../progress-bar'
 import { RootMorphologyIcons } from './root-morphology-icons'
@@ -100,7 +98,6 @@ export default function HebrewFlashcards2({
 	const [backField, setBackField] = useState<keyof HebrewVocab>('eng')
 	const [showBack, setShowBack] = useState(false)
 	const [filteredCards, setFilteredCards] = useState<HebrewVocab[]>([])
-	const [selectedCategory, setSelectedCategory] = useState<string>('all')
 
 	const [frontFont, setFrontFont] = useState<FontChoice>('times')
 	const [backFont, setBackFont] = useState<FontChoice>('times')
@@ -216,10 +213,6 @@ export default function HebrewFlashcards2({
 				card.lessons.some((l) => selectedLessons.includes(l))
 
 			const matchesType = selectedType === 'all' || card.type === selectedType
-			const matchesCategory = matchesSelectedCategory(
-				card.category,
-				selectedCategory
-			)
 
 			// Ensure middle-center image/audio (front)
 			const hasMiddleFrontImage =
@@ -250,7 +243,6 @@ export default function HebrewFlashcards2({
 			return (
 				matchesSelectedLesson &&
 				matchesType &&
-				matchesCategory &&
 				hasValidFront &&
 				hasValidBack &&
 				hasMiddleFrontImage &&
@@ -270,7 +262,6 @@ export default function HebrewFlashcards2({
 		cardsForPrefix,
 		selectedLessons,
 		selectedType,
-		selectedCategory,
 		frontField,
 		backField,
 		frontMiddleCenter,
@@ -942,11 +933,6 @@ export default function HebrewFlashcards2({
 					<TypeFilter
 						selectedType={selectedType}
 						setSelectedType={setSelectedType}
-					/>
-					<CategoryFilter
-						data={data}
-						selectedCategory={selectedCategory}
-						setSelectedCategory={setSelectedCategory}
 					/>
 					<LessonFilter
 						data={data}

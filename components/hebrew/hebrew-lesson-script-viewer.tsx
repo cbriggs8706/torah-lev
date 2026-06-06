@@ -1,11 +1,13 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
+import { ActivityFinalScreen } from '@/components/activity-final-screen'
+import { ResultCard } from '@/app/lesson/result-card'
 import { Button } from '../ui/button'
 import { useRouter } from 'next/navigation'
 import AudioPlayer from '@/components/media/audio-player'
 import { isSpotifyUrl } from '@/components/media/audio-utils'
-import { markPublicCourseActivityComplete } from '@/lib/public-course-progress'
+import { awardVideoCompletion } from '@/actions/video-progress'
 
 const hebrewFonts = [
 	{ label: 'Arial', value: 'font-arial' },
@@ -32,14 +34,15 @@ type LessonScript = {
 export default function LessonScriptViewer({
 	lessonScript,
 	showScript = true,
-	completionContext,
+	returnTo,
+	initialCompleted = false,
+	allowLocalCompletionCache = false,
 }: {
 	lessonScript: LessonScript
 	showScript?: boolean
-	completionContext?: {
-		enrollmentId: number
-		publicCourseLessonId: number
-	}
+	returnTo?: string
+	initialCompleted?: boolean
+	allowLocalCompletionCache?: boolean
 }) {
 	const [fontClass, setFontClass] = useState('font-serif')
 	const [fontSize, setFontSize] = useState(36)
@@ -49,7 +52,21 @@ export default function LessonScriptViewer({
 	const router = useRouter()
 	const audioSource = lessonScript.audio ?? lessonScript.audioSrc
 	const [videoCompleted, setVideoCompleted] = useState(false)
-	const [completionSaved, setCompletionSaved] = useState(false)
+	const [completionSaved, setCompletionSaved] = useState(initialCompleted)
+	const [savingCompletion, setSavingCompletion] = useState(false)
+	const [completionScreen, setCompletionScreen] = useState(false)
+	const [awardedPoints, setAwardedPoints] = useState(20)
+	const completionStorageKey = useMemo(
+		() => `he-video-complete:${lessonScript.id}`,
+		[lessonScript.id]
+	)
+	const backHref =
+		typeof returnTo === 'string' && returnTo.startsWith('/')
+			? returnTo
+			: '/he/videos'
+	const backLabel = backHref.startsWith('/courses/public/')
+		? 'Back to Course'
+		: 'Back to Video List'
 
 	const audioIsSpotify = useMemo(
 		() => isSpotifyUrl(audioSource),
@@ -90,21 +107,6 @@ export default function LessonScriptViewer({
 
 		return null
 	}, [lessonScript.videoUrl])
-
-	useEffect(() => {
-		if (!completionContext || !videoCompleted || completionSaved) return
-
-		setCompletionSaved(true)
-		void markPublicCourseActivityComplete({
-			enrollmentId: completionContext.enrollmentId,
-			publicCourseLessonId: completionContext.publicCourseLessonId,
-			activityKey: 'lesson_script',
-			scorePercent: 100,
-		}).catch((error) => {
-			console.error('Failed to save public course video progress', error)
-			setCompletionSaved(false)
-		})
-	}, [completionContext, completionSaved, videoCompleted])
 
 	useEffect(() => {
 		if (!youtubeVideoId) return
@@ -166,8 +168,86 @@ export default function LessonScriptViewer({
 	useEffect(() => {
 		setMediaType(lessonScript.videoUrl ? 'video' : 'audio')
 		setVideoCompleted(false)
-		setCompletionSaved(false)
-	}, [lessonScript.videoUrl, lessonScript.id])
+		setCompletionSaved(initialCompleted)
+		setCompletionScreen(false)
+		setSavingCompletion(false)
+		setAwardedPoints(20)
+	}, [initialCompleted, lessonScript.videoUrl, lessonScript.id])
+
+	useEffect(() => {
+		if (!allowLocalCompletionCache || typeof window === 'undefined') return
+
+		if (completionSaved) return
+
+		const stored = window.localStorage.getItem(completionStorageKey)
+		if (stored === '1') {
+			setCompletionSaved(true)
+		}
+	}, [allowLocalCompletionCache, completionSaved, completionStorageKey])
+
+	const handleMarkComplete = async () => {
+		if (!videoCompleted || completionSaved || savingCompletion) {
+			return
+		}
+
+		setSavingCompletion(true)
+
+		try {
+			const result = await awardVideoCompletion({
+				videoId: lessonScript.id,
+				points: 20,
+			})
+
+			if (result.guest && allowLocalCompletionCache) {
+				window.localStorage.setItem(completionStorageKey, '1')
+			}
+
+			const points = typeof result.awardedPoints === 'number' ? result.awardedPoints : 20
+			setAwardedPoints(points)
+			setCompletionSaved(true)
+			setCompletionScreen(true)
+		} catch (error) {
+			console.error('Failed to save public course video progress', error)
+		} finally {
+			setSavingCompletion(false)
+		}
+	}
+
+	const handleReturn = () => {
+		router.push(backHref)
+		router.refresh()
+	}
+
+	if (completionScreen) {
+		return (
+			<ActivityFinalScreen
+				title="Video Complete"
+				description={
+					<>
+						You earned <span className="font-semibold">{awardedPoints}</span>{' '}
+						point{awardedPoints === 1 ? '' : 's'} for finishing this video.
+					</>
+				}
+				stats={[
+					{
+						label: 'Points',
+						value: awardedPoints,
+						valueClassName: 'text-emerald-600',
+					},
+				]}
+				rewards={
+					<div className="mx-auto flex w-full max-w-md items-center gap-x-4">
+						<ResultCard variant="points" value={awardedPoints} />
+					</div>
+				}
+				actions={
+					<div className="flex justify-center">
+						<Button onClick={handleReturn}>{backLabel}</Button>
+					</div>
+				}
+			/>
+		)
+	}
 
 	// Handle font change from dropdown
 	const handleFontChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -198,13 +278,27 @@ export default function LessonScriptViewer({
 					Audio
 				</Button>
 				<Button
-					variant={'default'}
-					onClick={() => {
-						router.push('/he/videos', { scroll: true })
-						router.refresh() // revalidate the next route after the push
-					}}
+					variant="default"
+					onClick={handleReturn}
 				>
-					Back to Video List
+					{backLabel}
+				</Button>
+				<Button
+					variant="default"
+					onClick={() => {
+						void handleMarkComplete()
+					}}
+					disabled={
+						!videoCompleted ||
+						completionSaved ||
+						savingCompletion
+					}
+				>
+					{completionSaved
+						? 'Completed'
+						: savingCompletion
+							? 'Saving...'
+							: 'Mark Complete'}
 				</Button>
 			</div>
 

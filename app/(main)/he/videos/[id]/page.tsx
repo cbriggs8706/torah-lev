@@ -1,9 +1,10 @@
 import Image from 'next/image'
 import { FeedWrapper } from '@/components/feed-wrapper'
 import { notFound } from 'next/navigation'
+import { getSession } from '@/lib/auth'
 import { getHebrewLessonScript } from '@/db/queries'
 import db from '@/db/drizzle'
-import { publicCourseLessonActivity } from '@/db/schema'
+import { publicCourseLessonActivity, userVideoProgress } from '@/db/schema'
 import LessonScriptViewer from '@/components/hebrew/hebrew-lesson-script-viewer'
 import { parseScheduledPublicCourseQuery } from '@/lib/public-course-activities'
 import { and, eq } from 'drizzle-orm'
@@ -14,38 +15,57 @@ export default async function HebrewLessonScriptPage({
 }: {
 	params: Promise<{ id: string }>
 	searchParams?: Promise<Record<string, string | string[] | undefined>>
-}) {
-	const { id } = await params
-	const resolvedSearchParams = (await searchParams) ?? {}
-	const publicCourseQuery = parseScheduledPublicCourseQuery(resolvedSearchParams)
-	const lessonScript = await getHebrewLessonScript(Number(id))
+	}) {
+		const { id } = await params
+		const resolvedSearchParams = (await searchParams) ?? {}
+		const publicCourseQuery = parseScheduledPublicCourseQuery(resolvedSearchParams)
+		const session = await getSession()
+	const userId = session?.user?.id ?? null
+		const rawReturnTo = resolvedSearchParams.returnTo
+		const returnTo =
+			typeof rawReturnTo === 'string' && rawReturnTo.startsWith('/')
+				? rawReturnTo
+				: '/he/videos'
+		const lessonScript = await getHebrewLessonScript(Number(id))
 
-	if (!lessonScript) return notFound()
+		if (!lessonScript) return notFound()
+		const initialCompleted =
+			userId && lessonScript.id
+				? await db.query.userVideoProgress.findFirst({
+						where: and(
+							eq(userVideoProgress.userId, userId),
+							eq(userVideoProgress.videoId, lessonScript.id)
+						),
+						columns: {
+							id: true,
+						},
+				  }).then((progress) => Boolean(progress))
+				: false
 
-	const scriptVisibilityOverride =
-		publicCourseQuery.scheduled &&
-		publicCourseQuery.activityKey === 'lesson_script'
-			? typeof publicCourseQuery.filters.displayScript === 'boolean'
-				? publicCourseQuery.filters.displayScript
-				: publicCourseQuery.publicCourseLessonId
-					? await db.query.publicCourseLessonActivity.findFirst({
-							where: and(
-								eq(
-									publicCourseLessonActivity.publicCourseLessonId,
-									publicCourseQuery.publicCourseLessonId
+		const scriptVisibilityOverride =
+			publicCourseQuery.scheduled &&
+			publicCourseQuery.activityKey === 'lesson_script'
+				? typeof publicCourseQuery.filters.displayScript === 'boolean'
+					? publicCourseQuery.filters.displayScript
+					: publicCourseQuery.publicCourseLessonId
+						? await db.query.publicCourseLessonActivity.findFirst({
+								where: and(
+									eq(
+										publicCourseLessonActivity.publicCourseLessonId,
+										publicCourseQuery.publicCourseLessonId
+									),
+									eq(publicCourseLessonActivity.activityKey, 'lesson_script')
 								),
-								eq(publicCourseLessonActivity.activityKey, 'lesson_script')
-							),
-							columns: {
-								filterConfig: true,
-							},
-					  }).then((activity) =>
-							typeof activity?.filterConfig?.displayScript === 'boolean'
-								? activity.filterConfig.displayScript
-								: true
-					  )
-					: true
-			: true
+								columns: {
+									filterConfig: true,
+								},
+						  }).then((activity) =>
+								typeof activity?.filterConfig?.displayScript === 'boolean'
+									? activity.filterConfig.displayScript
+									: true
+						  )
+						: true
+				: true
 
 	// console.log('HERE>>>>', lessonScript)
 
@@ -69,14 +89,9 @@ export default async function HebrewLessonScriptPage({
 				<LessonScriptViewer
 					lessonScript={lessonScript}
 					showScript={scriptVisibilityOverride}
-					completionContext={
-						publicCourseQuery.enrollmentId && publicCourseQuery.publicCourseLessonId
-							? {
-									enrollmentId: publicCourseQuery.enrollmentId,
-									publicCourseLessonId: publicCourseQuery.publicCourseLessonId,
-							  }
-							: undefined
-					}
+					returnTo={returnTo}
+					initialCompleted={initialCompleted}
+					allowLocalCompletionCache={!userId}
 				/>
 			</FeedWrapper>
 		</div>

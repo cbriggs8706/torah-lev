@@ -67,7 +67,7 @@ export default function LessonScriptList({
 	const getLessonRangeLabel = useCallback((lessonId: number) => {
 		const start = Math.floor((lessonId - 1) / 10) * 10 + 1
 		const end = start + 9
-		const lessonScriptsLabel = getSidebarLabel(resolvedLocale, 'nav.lessonScripts')
+		const lessonScriptsLabel = getSidebarLabel(resolvedLocale, 'nav.introduction')
 		return `${lessonScriptsLabel} ${start}-${end}`
 	}, [resolvedLocale])
 
@@ -263,7 +263,7 @@ export default function LessonScriptList({
 										}`}
 									>
 										<Link
-											href={`/he/videos/${script.id}`}
+											href={`/he/videos/${script.id}?returnTo=${encodeURIComponent('/he/videos')}`}
 											scroll
 											className={`${locked ? 'pointer-events-none' : ''} inline-flex items-center gap-2`}
 										>

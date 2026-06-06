@@ -7,25 +7,9 @@ import {
 	getUserProgress,
 	getUserSubscription,
 } from '@/db/queries'
-import { HebrewVocab } from '@/lib/vocab'
 import { getHebrewVocabByCourseId } from '@/lib/server/vocab'
 import HebrewFlashcards from '@/components/hebrew/hebrew-flashcards'
 import { parseScheduledPublicCourseQuery } from '@/lib/public-course-activities'
-
-// ✅ allFields constants
-const allFieldsHebrew: (keyof HebrewVocab)[] = [
-	'hebNiqqud',
-	'heb',
-	'eng',
-	'rootPerson',
-	'rootGender',
-	'rootNumber',
-	'partOfSpeech',
-	'ipa',
-	'engTransliteration',
-	'images',
-	'hebAudio',
-]
 
 export default async function HebrewFlashcardPage({
 	searchParams,
@@ -93,13 +77,12 @@ export default async function HebrewFlashcardPage({
 
 					<DismissibleAlert storageKey="flashcard" className="mb-4">
 						These will default to your current lesson in the Learn section. You
-						can customize the cards to your heart’s desire. There are 7 spots on
-						front and back where you can place whatever you would like.
+						can choose a simple front and back side, while root, suffix,
+						grammar, and IPA always stay visible.
 					</DismissibleAlert>
 
 					<HebrewFlashcards
 						data={hebrewData}
-						allFields={allFieldsHebrew}
 						courseId={activeCourseId}
 						currentLesson={currentLesson}
 						layout="hebrew"

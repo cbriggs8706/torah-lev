@@ -363,7 +363,7 @@ export default function HebrewDictionary({ data, courseId }: DictionaryProps) {
 									setVideoUrl(entry.introduction!)
 								}}
 								className="flex items-center gap-2 text-sky-600 hover:text-sky-800 transition"
-								aria-label="Watch Introduction"
+								aria-label="Watch Vocabulary"
 							>
 								<Image
 									src={'/icons/iconYoutube.png'}

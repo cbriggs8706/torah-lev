@@ -2,15 +2,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { useMemo, useState } from 'react'
-import { Button } from '@/components/ui/button'
-import {
-	Select,
-	SelectTrigger,
-	SelectContent,
-	SelectItem,
-	SelectValue,
-} from '@/components/ui/select'
+import { useMemo } from 'react'
 
 type Story = {
 	id: number | string
@@ -40,36 +32,14 @@ export default function StoryList({
 		[stories, isFriend]
 	)
 
-	const categories = useMemo(() => {
-		const set = new Set(
-			filteredStories.map(
-				(p) => (p.category && p.category.trim()) || 'Uncategorized'
-			)
-		)
-		return ['All', ...Array.from(set).sort()]
-	}, [filteredStories])
-
-	const [selectedCategory, setSelectedCategory] = useState<string>('All')
-
-	const visibleStorys = useMemo(() => {
-		if (selectedCategory === 'All') return filteredStories
-		return filteredStories
-			.filter((p) => (p.category && p.category.trim()) || 'Uncategorized')
-			.filter(
-				(p) =>
-					((p.category && p.category.trim()) || 'Uncategorized') ===
-					selectedCategory
-			)
-	}, [filteredStories, selectedCategory])
-
 	const grouped = useMemo(() => {
-		return visibleStorys.reduce<Record<string, Story[]>>((acc, p) => {
+		return filteredStories.reduce<Record<string, Story[]>>((acc, p) => {
 			const key = (p.category && p.category.trim()) || 'Uncategorized'
 			acc[key] ??= []
 			acc[key].push(p)
 			return acc
 		}, {})
-	}, [visibleStorys])
+	}, [filteredStories])
 
 	const groupsInOrder = useMemo(
 		() =>
@@ -84,33 +54,6 @@ export default function StoryList({
 
 	return (
 		<div className="space-y-4">
-			{/* Header + Filter */}
-			<div className="flex items-center justify-between gap-3">
-				{/* Filter button */}
-				<div className="flex items-center gap-2">
-					<Select value={selectedCategory} onValueChange={setSelectedCategory}>
-						<SelectTrigger className="w-[200px]">
-							<SelectValue placeholder="Filter by category" />
-						</SelectTrigger>
-						<SelectContent>
-							{categories.map((cat) => (
-								<SelectItem key={cat} value={cat}>
-									{cat}
-								</SelectItem>
-							))}
-						</SelectContent>
-					</Select>
-					{selectedCategory !== 'All' && (
-						<Button
-							variant="primaryOutline"
-							onClick={() => setSelectedCategory('All')}
-						>
-							Clear
-						</Button>
-					)}
-				</div>
-			</div>
-
 			{/* Grouped lists */}
 			{groupsInOrder.map(([cat, items]) => {
 				// sort by parsed lessonId
