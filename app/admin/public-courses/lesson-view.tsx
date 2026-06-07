@@ -24,7 +24,7 @@ import {
 function moveActivity(
 	activities: DraftActivity[],
 	activityIndex: number,
-	direction: -1 | 1
+	direction: -1 | 1,
 ) {
 	const nextIndex = activityIndex + direction
 	if (activityIndex === 0 || nextIndex < 1 || nextIndex >= activities.length) {
@@ -32,7 +32,35 @@ function moveActivity(
 	}
 
 	const next = activities.slice()
-	;[next[activityIndex], next[nextIndex]] = [next[nextIndex], next[activityIndex]]
+	;[next[activityIndex], next[nextIndex]] = [
+		next[nextIndex],
+		next[activityIndex],
+	]
+	return next
+}
+
+function insertActivity(
+	activities: DraftActivity[],
+	activityKey: PublicCourseActivityKey,
+	insertAfterKey: PublicCourseActivityKey | null = 'lesson_script',
+) {
+	if (activities.some((activity) => activity.activityKey === activityKey)) {
+		return activities
+	}
+
+	const next = activities.slice()
+	const anchorIndex =
+		insertAfterKey == null
+			? -1
+			: next.findIndex((activity) => activity.activityKey === insertAfterKey)
+	const insertIndex = anchorIndex >= 0 ? anchorIndex + 1 : next.length
+
+	next.splice(insertIndex, 0, {
+		activityKey,
+		isEnabled: true,
+		filterConfig: {},
+	})
+
 	return next
 }
 
@@ -53,20 +81,20 @@ export default function PublicCourseLessonAdminPage() {
 	const selectedLessonIndex = useMemo(
 		() =>
 			lessons.findIndex(
-				(lesson) => lesson.publicCourseLessonId === parsedPublicCourseLessonId
+				(lesson) => lesson.publicCourseLessonId === parsedPublicCourseLessonId,
 			),
-		[lessons, parsedPublicCourseLessonId]
+		[lessons, parsedPublicCourseLessonId],
 	)
 
 	const selectedLesson =
-		selectedLessonIndex >= 0 ? lessons[selectedLessonIndex] ?? null : null
+		selectedLessonIndex >= 0 ? (lessons[selectedLessonIndex] ?? null) : null
 
 	const loadActivityOptions = useCallback(
 		async (platformCourseId: number) => {
 			if (activityOptionsByCourseId[platformCourseId]) return
 
 			const response = await fetch(
-				`/api/public-course-activity-options?platformCourseId=${platformCourseId}`
+				`/api/public-course-activity-options?platformCourseId=${platformCourseId}`,
 			)
 			const data = await response.json()
 
@@ -79,11 +107,14 @@ export default function PublicCourseLessonAdminPage() {
 				[platformCourseId]: data,
 			}))
 		},
-		[activityOptionsByCourseId]
+		[activityOptionsByCourseId],
 	)
 
 	useEffect(() => {
-		if (!Number.isFinite(parsedCourseId) || !Number.isFinite(parsedPublicCourseLessonId)) {
+		if (
+			!Number.isFinite(parsedCourseId) ||
+			!Number.isFinite(parsedPublicCourseLessonId)
+		) {
 			toast.error('Invalid lesson route.')
 			navigate('/public-courses')
 			return
@@ -105,7 +136,7 @@ export default function PublicCourseLessonAdminPage() {
 			}
 
 			if (!lessonsResponse.ok) {
-				throw new Error(lessonsData.error || 'Failed to load curated lessons')
+				throw new Error(lessonsData.error || 'Failed to load lessons')
 			}
 
 			setCourse({
@@ -113,32 +144,57 @@ export default function PublicCourseLessonAdminPage() {
 				lessons: lessonsData.lessons ?? [],
 			})
 
-			const nextLessons = (lessonsData.lessons ?? []).map(mapCuratedLessonToDraftLesson)
+			const nextLessons = (lessonsData.lessons ?? []).map(
+				mapCuratedLessonToDraftLesson,
+			)
 			setLessons(nextLessons)
 
 			await Promise.all(
-				Array.from(new Set(nextLessons.map((lesson: DraftLesson) => lesson.platformCourseId))).map(
-					(platformCourseId) => loadActivityOptions(platformCourseId)
-				)
+				Array.from(
+					new Set(
+						nextLessons.map((lesson: DraftLesson) => lesson.platformCourseId),
+					),
+				).map((platformCourseId) => loadActivityOptions(platformCourseId)),
 			)
 		}
 
 		void loadPage()
 			.catch((error) => {
-				toast.error(error instanceof Error ? error.message : 'Failed to load lesson')
+				toast.error(
+					error instanceof Error ? error.message : 'Failed to load lesson',
+				)
 			})
 			.finally(() => setIsLoading(false))
-	}, [loadActivityOptions, navigate, parsedCourseId, parsedPublicCourseLessonId])
+	}, [
+		loadActivityOptions,
+		navigate,
+		parsedCourseId,
+		parsedPublicCourseLessonId,
+	])
 
 	const updateSelectedLessonActivities = (
-		updater: (activities: DraftActivity[]) => DraftActivity[]
+		updater: (activities: DraftActivity[]) => DraftActivity[],
 	) => {
 		setLessons((current) =>
 			current.map((lesson, index) =>
 				index === selectedLessonIndex
 					? { ...lesson, activities: updater(lesson.activities) }
-					: lesson
-			)
+					: lesson,
+			),
+		)
+	}
+
+	const addPartBVideo = () => {
+		updateSelectedLessonActivities((activities) =>
+			// Keep Part B immediately after Vocabulary when it is added later.
+			insertActivity(activities, 'lesson_script_part_b', 'introduction'),
+		)
+	}
+
+	const addReviewVideo = () => {
+		updateSelectedLessonActivities((activities) =>
+			// Review should always append to the end of the activity sequence.
+			insertActivity(activities, 'lesson_script_review', null),
 		)
 	}
 
@@ -176,7 +232,7 @@ export default function PublicCourseLessonAdminPage() {
 							})),
 						})),
 					}),
-				}
+				},
 			)
 			const lessonsData = await lessonsResponse.json()
 
@@ -184,28 +240,33 @@ export default function PublicCourseLessonAdminPage() {
 				throw new Error(lessonsData.error || 'Failed to save lesson activities')
 			}
 
-			const nextLessons = (lessonsData.lessons ?? []).map(mapCuratedLessonToDraftLesson)
+			const nextLessons = (lessonsData.lessons ?? []).map(
+				mapCuratedLessonToDraftLesson,
+			)
 			setLessons(nextLessons)
 			const refreshedSelectedLesson = nextLessons.find(
 				(lesson) =>
 					lesson.platformCourseId === selectedLessonKey.platformCourseId &&
-					lesson.lessonId === selectedLessonKey.lessonId
+					lesson.lessonId === selectedLessonKey.lessonId,
 			)
 
 			if (
 				refreshedSelectedLesson?.publicCourseLessonId &&
-				refreshedSelectedLesson.publicCourseLessonId !== parsedPublicCourseLessonId
+				refreshedSelectedLesson.publicCourseLessonId !==
+					parsedPublicCourseLessonId
 			) {
 				navigate(
 					`/public-courses/${parsedCourseId}/lessons/${refreshedSelectedLesson.publicCourseLessonId}`,
-					{ replace: true }
+					{ replace: true },
 				)
 			}
 
 			toast.success('Lesson activities updated.')
 		} catch (error) {
 			toast.error(
-				error instanceof Error ? error.message : 'Failed to save lesson activities'
+				error instanceof Error
+					? error.message
+					: 'Failed to save lesson activities',
 			)
 		} finally {
 			setIsSaving(false)
@@ -232,7 +293,8 @@ export default function PublicCourseLessonAdminPage() {
 		)
 	}
 
-	const activityOptions = activityOptionsByCourseId[selectedLesson.platformCourseId] ?? null
+	const activityOptions =
+		activityOptionsByCourseId[selectedLesson.platformCourseId] ?? null
 
 	return (
 		<div className="space-y-6 px-6 py-5">
@@ -263,7 +325,11 @@ export default function PublicCourseLessonAdminPage() {
 				</div>
 
 				<div className="flex flex-wrap gap-2">
-					<Button type="button" variant="ghost" onClick={() => navigate('/public-courses')}>
+					<Button
+						type="button"
+						variant="ghost"
+						onClick={() => navigate('/public-courses')}
+					>
 						Back to Courses
 					</Button>
 					<Button type="button" onClick={handleSave} disabled={isSaving}>
@@ -282,7 +348,9 @@ export default function PublicCourseLessonAdminPage() {
 							key={lesson.publicCourseLessonId ?? `${lesson.lessonId}-${index}`}
 							type="button"
 							onClick={() =>
-								navigate(`/public-courses/${parsedCourseId}/lessons/${lesson.publicCourseLessonId}`)
+								navigate(
+									`/public-courses/${parsedCourseId}/lessons/${lesson.publicCourseLessonId}`,
+								)
 							}
 							className={`w-full rounded-2xl border p-4 text-left transition ${
 								lesson.publicCourseLessonId === parsedPublicCourseLessonId
@@ -297,7 +365,9 @@ export default function PublicCourseLessonAdminPage() {
 								{formatLessonLabel(lesson)}
 							</p>
 							{lesson.unitTitle ? (
-								<p className="mt-1 text-sm text-slate-500">{lesson.unitTitle}</p>
+								<p className="mt-1 text-sm text-slate-500">
+									{lesson.unitTitle}
+								</p>
 							) : null}
 						</button>
 					))}
@@ -317,6 +387,52 @@ export default function PublicCourseLessonAdminPage() {
 						<h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-700">
 							Activities
 						</h2>
+						{selectedLesson.lessonScriptPartBId &&
+						!selectedLesson.activities.some(
+							(activity) => activity.activityKey === 'lesson_script_part_b',
+						) ? (
+							<div className="rounded-xl border border-dashed border-sky-300 bg-sky-50 p-3 text-sm text-slate-700">
+								<div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+									<div>
+										<p className="font-medium text-slate-900">
+											Part B video available
+										</p>
+										<p className="text-xs text-slate-500">
+											Add the second lesson video as its own activity so you can
+											place it anywhere in the sequence.
+										</p>
+									</div>
+									<Button type="button" variant="ghost" onClick={addPartBVideo}>
+										Add Part B Video
+									</Button>
+								</div>
+							</div>
+						) : null}
+						{selectedLesson.lessonScriptReviewId &&
+						!selectedLesson.activities.some(
+							(activity) => activity.activityKey === 'lesson_script_review',
+						) ? (
+							<div className="rounded-xl border border-dashed border-sky-300 bg-sky-50 p-3 text-sm text-slate-700">
+								<div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+									<div>
+										<p className="font-medium text-slate-900">
+											Review video available
+										</p>
+										<p className="text-xs text-slate-500">
+											Add the third lesson video as its own activity so you can
+											place it anywhere in the sequence.
+										</p>
+									</div>
+									<Button
+										type="button"
+										variant="ghost"
+										onClick={addReviewVideo}
+									>
+										Add Review Video
+									</Button>
+								</div>
+							</div>
+						) : null}
 						{selectedLesson.activities.map((activity, activityIndex) => (
 							<ActivityToggleRow
 								key={activity.activityKey}
@@ -328,13 +444,13 @@ export default function PublicCourseLessonAdminPage() {
 										activities.map((item, itemIndex) =>
 											itemIndex === activityIndex
 												? { ...item, isEnabled: checked }
-												: item
-										)
+												: item,
+										),
 									)
 								}
 								onMove={(direction) =>
 									updateSelectedLessonActivities((activities) =>
-										moveActivity(activities, activityIndex, direction)
+										moveActivity(activities, activityIndex, direction),
 									)
 								}
 							>
@@ -342,7 +458,9 @@ export default function PublicCourseLessonAdminPage() {
 									<div className="rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700">
 										<div className="flex flex-wrap items-center justify-between gap-3">
 											<div>
-												<p className="font-medium text-slate-900">Display Video Text</p>
+												<p className="font-medium text-slate-900">
+													Display Video Text
+												</p>
 												<p className="text-xs text-slate-500">
 													Only affects scheduled public/group-course learners.
 													Regular video pages still always show the text.
@@ -363,9 +481,9 @@ export default function PublicCourseLessonAdminPage() {
 																				...item.filterConfig,
 																				displayScript: event.target.checked,
 																			},
-																	  }
-																	: item
-															)
+																		}
+																	: item,
+															),
 														)
 													}
 													className="h-4 w-4 rounded border-slate-300"
@@ -379,6 +497,34 @@ export default function PublicCourseLessonAdminPage() {
 											</div>
 										</div>
 									</div>
+								) : activity.activityKey === 'lesson_script_part_b' ? (
+									<div className="rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700">
+										<div className="flex flex-wrap items-center justify-between gap-3">
+											<div>
+												<p className="font-medium text-slate-900">
+													Part B Video
+												</p>
+												<p className="text-xs text-slate-500">
+													This is the second lesson video and can be ordered
+													like any other activity.
+												</p>
+											</div>
+										</div>
+									</div>
+								) : activity.activityKey === 'lesson_script_review' ? (
+									<div className="rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700">
+										<div className="flex flex-wrap items-center justify-between gap-3">
+											<div>
+												<p className="font-medium text-slate-900">
+													Review Video
+												</p>
+												<p className="text-xs text-slate-500">
+													This is the third lesson video and can be ordered like
+													any other activity.
+												</p>
+											</div>
+										</div>
+									</div>
 								) : null}
 								<ActivityFilterEditor
 									activity={activity}
@@ -388,8 +534,8 @@ export default function PublicCourseLessonAdminPage() {
 											activities.map((item, itemIndex) =>
 												itemIndex === activityIndex
 													? { ...item, filterConfig: nextFilters }
-													: item
-											)
+													: item,
+											),
 										)
 									}
 								/>
@@ -406,7 +552,7 @@ export default function PublicCourseLessonAdminPage() {
 								const previousLesson = lessons[selectedLessonIndex - 1]
 								if (!previousLesson?.publicCourseLessonId) return
 								navigate(
-									`/public-courses/${parsedCourseId}/lessons/${previousLesson.publicCourseLessonId}`
+									`/public-courses/${parsedCourseId}/lessons/${previousLesson.publicCourseLessonId}`,
 								)
 							}}
 						>
@@ -415,12 +561,15 @@ export default function PublicCourseLessonAdminPage() {
 						<Button
 							type="button"
 							variant="ghost"
-							disabled={selectedLessonIndex < 0 || selectedLessonIndex >= lessons.length - 1}
+							disabled={
+								selectedLessonIndex < 0 ||
+								selectedLessonIndex >= lessons.length - 1
+							}
 							onClick={() => {
 								const nextLesson = lessons[selectedLessonIndex + 1]
 								if (!nextLesson?.publicCourseLessonId) return
 								navigate(
-									`/public-courses/${parsedCourseId}/lessons/${nextLesson.publicCourseLessonId}`
+									`/public-courses/${parsedCourseId}/lessons/${nextLesson.publicCourseLessonId}`,
 								)
 							}}
 						>

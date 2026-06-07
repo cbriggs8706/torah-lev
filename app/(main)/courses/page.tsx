@@ -9,7 +9,7 @@ export const dynamic = 'force-dynamic'
 export default async function CoursesPage() {
 	const [publicCourses, studyGroupCourses] = await Promise.all([
 		db.query.publicCourse.findMany({
-			orderBy: [asc(publicCourse.name)],
+			orderBy: [asc(publicCourse.order), asc(publicCourse.name)],
 			with: {
 				lessons: true,
 			},
@@ -29,7 +29,7 @@ export default async function CoursesPage() {
 	])
 
 	const visibleStudyGroupCourses = studyGroupCourses.filter(
-		(course) => course.studyGroup?.groupType === 'Public'
+		(course) => course.studyGroup?.groupType === 'Public',
 	)
 
 	return (
@@ -60,7 +60,7 @@ export default async function CoursesPage() {
 								title={course.name}
 								imageUrl={course.imageUrl}
 								kindLabel="Self-paced"
-								subtitle={`${course.lessons.length} curated lesson${
+								subtitle={`${course.lessons.length} lesson${
 									course.lessons.length === 1 ? '' : 's'
 								}`}
 								proficiencyLevel={course.proficiencyLevel}

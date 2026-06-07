@@ -15,6 +15,7 @@ const bucketName =
 
 const updatePublicCourseSchema = z.object({
 	name: z.string().trim().min(1, 'Course name is required.').max(120),
+	order: z.number().int().positive().optional(),
 	proficiencyLevel: z
 		.string()
 		.trim()
@@ -82,11 +83,20 @@ export async function PUT(
 		const formData = await request.formData()
 		const image = formData.get('image')
 		const rawName = formData.get('name')
+		const rawOrder = formData.get('order')
 		const rawProficiencyLevel = formData.get('proficiencyLevel')
 		const rawEndingProficiencyLevel = formData.get('endingProficiencyLevel')
+		const parsedOrder =
+			typeof rawOrder === 'string' && rawOrder.trim()
+				? Number(rawOrder)
+				: undefined
 
 		const parsed = updatePublicCourseSchema.safeParse({
 			name: typeof rawName === 'string' ? rawName : '',
+			order:
+				Number.isFinite(parsedOrder) && parsedOrder !== undefined
+					? parsedOrder
+					: undefined,
 			proficiencyLevel:
 				typeof rawProficiencyLevel === 'string'
 					? rawProficiencyLevel
@@ -117,6 +127,7 @@ export async function PUT(
 		const [updated] = await db
 			.update(publicCourse)
 			.set({
+				order: parsed.data.order ?? existing.order,
 				name: parsed.data.name,
 				imageUrl,
 				proficiencyLevel: parsed.data.proficiencyLevel,
@@ -135,4 +146,3 @@ export async function PUT(
 		)
 	}
 }
-

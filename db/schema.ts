@@ -721,6 +721,7 @@ export const publicCourse = pgTable(
 	'public_course',
 	{
 		id: serial('id').primaryKey(),
+		order: integer('order').notNull(),
 		name: text('name').notNull(),
 		imageUrl: text('image_url').notNull(),
 		proficiencyLevel: text('proficiency_level'),
@@ -729,6 +730,7 @@ export const publicCourse = pgTable(
 		updatedAt: timestamp('updated_at').defaultNow().notNull(),
 	},
 	(table) => ({
+		orderIdx: index('idx_public_course_order').on(table.order),
 		nameIdx: index('idx_public_course_name').on(table.name),
 	})
 )

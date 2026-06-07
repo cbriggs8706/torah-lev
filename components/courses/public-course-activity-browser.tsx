@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button'
 import {
 	buildPublicCourseActivityHref,
 	getPublicCourseActivityDefinition,
+	isPublicCourseVideoActivityKey,
 	type PublicCourseActivityFilters,
 	type PublicCourseActivityKey,
 	type PublicCourseActivityStatus,
@@ -33,6 +34,8 @@ type PlannerLesson = {
 	platformCourseId: number
 	platformCourseTitle: string
 	lessonScriptId: number | null
+	lessonScriptPartBId: number | null
+	lessonScriptReviewId: number | null
 	activities: LessonActivity[]
 }
 
@@ -60,7 +63,7 @@ type PublicCourseActivityBrowserProps = {
 	isAuthenticated: boolean
 	lessons: PlannerLesson[]
 	initialEnrollment: EnrollmentState | null
-	completedLessonScriptIds?: number[]
+	completedLessonVideoIds?: number[]
 }
 
 function formatDateLabel(value: string) {
@@ -74,20 +77,44 @@ function formatDateLabel(value: string) {
 	})
 }
 
+function getLessonVideoId(
+	lesson: PlannerLesson,
+	activityKey: PublicCourseActivityKey
+) {
+	return activityKey === 'lesson_script'
+		? lesson.lessonScriptId
+		: activityKey === 'lesson_script_part_b'
+			? lesson.lessonScriptPartBId
+			: lesson.lessonScriptReviewId
+}
+
+function isVideoActivityComplete(
+	lesson: PlannerLesson,
+	activityKey: PublicCourseActivityKey,
+	completedVideoIdSet: Set<number>,
+	progressStatus: PublicCourseActivityStatus | null | undefined
+) {
+	const lessonVideoId = getLessonVideoId(lesson, activityKey)
+	return (
+		(lessonVideoId != null && completedVideoIdSet.has(lessonVideoId)) ||
+		progressStatus === 'completed'
+	)
+}
+
 export default function PublicCourseActivityBrowser({
 	courseId,
 	isAuthenticated,
 	lessons,
 	initialEnrollment,
-	completedLessonScriptIds = [],
+	completedLessonVideoIds = [],
 }: PublicCourseActivityBrowserProps) {
 	const [enrollment, setEnrollment] = useState<EnrollmentState | null>(
 		initialEnrollment,
 	)
 	const [isEditingPlan, setIsEditingPlan] = useState(!initialEnrollment)
-	const completedLessonScriptIdSet = useMemo(
-		() => new Set(completedLessonScriptIds),
-		[completedLessonScriptIds],
+	const completedLessonVideoIdSet = useMemo(
+		() => new Set(completedLessonVideoIds),
+		[completedLessonVideoIds],
 	)
 
 	const lessonsWithSchedule = useMemo(() => {
@@ -122,11 +149,13 @@ export default function PublicCourseActivityBrowser({
 		for (const lesson of lessonsWithSchedule) {
 			for (const activity of lesson.activities) {
 				const isCompleted =
-					activity.activityKey === 'lesson_script'
-						? Boolean(
-								lesson.lessonScriptId &&
-									completedLessonScriptIdSet.has(lesson.lessonScriptId),
-						  ) || activity.progress?.status === 'completed'
+					isPublicCourseVideoActivityKey(activity.activityKey)
+						? isVideoActivityComplete(
+								lesson,
+								activity.activityKey,
+								completedLessonVideoIdSet,
+								activity.progress?.status
+						  )
 						: activity.progress?.status === 'completed'
 
 				if (!isCompleted) {
@@ -136,7 +165,9 @@ export default function PublicCourseActivityBrowser({
 		}
 
 		return null
-	}, [completedLessonScriptIdSet, lessonsWithSchedule])
+	}, [completedLessonVideoIdSet, lessonsWithSchedule])
+
+	const fallbackTargetEndDate = enrollment?.targetEndDate ?? new Date().toISOString().slice(0, 10)
 
 	return (
 		<div className="space-y-6">
@@ -154,55 +185,67 @@ export default function PublicCourseActivityBrowser({
 						setIsEditingPlan(false)
 					}}
 					onCancelEdit={enrollment ? () => setIsEditingPlan(false) : null}
-				/>
-			) : (
-				<div className="rounded-2xl border bg-white p-5 shadow-sm">
-					<div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-						<div className="space-y-1">
-							<p className="text-sm font-semibold uppercase tracking-[0.2em] text-sky-700">
-								Your Plan
-							</p>
-							<h2 className="text-2xl font-semibold text-slate-900">
-								Lesson Activity Path
-							</h2>
-							<p className="text-sm text-slate-600">
-								{lessons.length} lessons scheduled over {enrollment.goalDays}{' '}
-								day
-								{enrollment.goalDays === 1 ? '' : 's'} through{' '}
-								<span className="font-semibold">
-									{formatDateLabel(enrollment.targetEndDate)}
-								</span>
-								.
-							</p>
+					/>
+				) : (
+					<div className="rounded-2xl border bg-white p-5 shadow-sm">
+						<div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+							<div className="space-y-1">
+								<p className="text-sm font-semibold uppercase tracking-[0.2em] text-sky-700">
+									Your Plan
+								</p>
+								<h2 className="text-2xl font-semibold text-slate-900">
+									Lesson Activity Path
+								</h2>
+								<p className="text-sm text-slate-600">
+									{lessons.length} lessons scheduled over{' '}
+									{enrollment?.goalDays ?? lessons.length} day
+									{(enrollment?.goalDays ?? lessons.length) === 1 ? '' : 's'}
+									{enrollment?.targetEndDate ? (
+										<>
+											{' '}
+											through{' '}
+											<span className="font-semibold">
+												{formatDateLabel(enrollment.targetEndDate)}
+											</span>
+											.
+										</>
+									) : (
+										'.'
+									)}
+								</p>
+							</div>
+							<Button
+								type="button"
+								variant="ghost"
+								onClick={() => setIsEditingPlan(true)}
+							>
+								Reset Goals / Edit Plan
+							</Button>
 						</div>
-						<Button
-							type="button"
-							variant="ghost"
-							onClick={() => setIsEditingPlan(true)}
-						>
-							Reset Goals / Edit Plan
-						</Button>
 					</div>
-				</div>
-			)}
+				)}
 
 			<div className="space-y-8">
 				{lessonsWithSchedule.map((lesson, index) => {
 					const firstActivity = lesson.activities[0] ?? null
 					const firstCompleted =
-						firstActivity?.activityKey === 'lesson_script'
-							? Boolean(
-									lesson.lessonScriptId &&
-										completedLessonScriptIdSet.has(lesson.lessonScriptId),
-							  ) || firstActivity?.progress?.status === 'completed'
+						firstActivity && isPublicCourseVideoActivityKey(firstActivity.activityKey)
+							? isVideoActivityComplete(
+									lesson,
+									firstActivity.activityKey,
+									completedLessonVideoIdSet,
+									firstActivity.progress?.status
+							  )
 							: firstActivity?.progress?.status === 'completed'
 					const lessonTotalActivities = lesson.activities.length
 					const lessonCompletedActivities = lesson.activities.filter((activity) =>
-						activity.activityKey === 'lesson_script'
-							? Boolean(
-									lesson.lessonScriptId &&
-										completedLessonScriptIdSet.has(lesson.lessonScriptId),
-							  ) || activity.progress?.status === 'completed'
+						isPublicCourseVideoActivityKey(activity.activityKey)
+							? isVideoActivityComplete(
+									lesson,
+									activity.activityKey,
+									completedLessonVideoIdSet,
+									activity.progress?.status
+							  )
 							: activity.progress?.status === 'completed',
 					).length
 					const lessonProgressPercent =
@@ -231,11 +274,11 @@ export default function PublicCourseActivityBrowser({
 											<p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-sky-100">
 												Due Date
 											</p>
-											<p className="mt-1 text-xl font-bold text-white">
-												{lesson.scheduledDate
-													? formatDateLabel(lesson.scheduledDate)
-													: formatDateLabel(enrollment.targetEndDate)}
-											</p>
+												<p className="mt-1 text-xl font-bold text-white">
+													{lesson.scheduledDate
+														? formatDateLabel(lesson.scheduledDate)
+														: formatDateLabel(fallbackTargetEndDate)}
+												</p>
 											<div className="mt-3 h-3 overflow-hidden rounded-full bg-white/20">
 												<div
 													className="h-full rounded-full bg-white transition-all duration-500"
@@ -260,11 +303,13 @@ export default function PublicCourseActivityBrowser({
 
 									const isFirst = activityIndex === 0
 									const isCompleted =
-										activity.activityKey === 'lesson_script'
-											? Boolean(
-													lesson.lessonScriptId &&
-														completedLessonScriptIdSet.has(lesson.lessonScriptId),
-											  ) || activity.progress?.status === 'completed'
+										isPublicCourseVideoActivityKey(activity.activityKey)
+											? isVideoActivityComplete(
+													lesson,
+													activity.activityKey,
+													completedLessonVideoIdSet,
+													activity.progress?.status
+											  )
 											: activity.progress?.status === 'completed'
 									const isCurrent = activity.id === nextActivityId
 									const isLocked = !isFirst && !firstCompleted
@@ -276,6 +321,8 @@ export default function PublicCourseActivityBrowser({
 										publicCourseLessonId: lesson.publicCourseLessonId,
 										enrollmentId: enrollment?.id ?? null,
 										lessonScriptId: lesson.lessonScriptId,
+										lessonScriptPartBId: lesson.lessonScriptPartBId,
+										lessonScriptReviewId: lesson.lessonScriptReviewId,
 										filterConfig: activity.filterConfig,
 									})
 

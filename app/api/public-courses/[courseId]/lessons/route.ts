@@ -11,10 +11,12 @@ import {
 } from '@/db/schema'
 import { isAdmin } from '@/lib/admin'
 import {
+	applyDefaultPublicCourseActivityFilters,
 	getDefaultPublicCourseLessonActivities,
 	normalizePublicCourseActivityFilters,
 	type PublicCourseActivityKey,
 } from '@/lib/public-course-activities'
+import { getHebrewLessonVideoIdsByLessonIds } from '@/lib/server/public-course-activity-options'
 
 const lessonAssignmentSchema = z.object({
 	platformCourseId: z.number().int().positive(),
@@ -25,6 +27,8 @@ const lessonAssignmentSchema = z.object({
 			z.object({
 				activityKey: z.enum([
 					'lesson_script',
+					'lesson_script_part_b',
+					'lesson_script_review',
 					'introduction',
 					'flashcards',
 					'quiz',
@@ -50,7 +54,7 @@ function parseId(value: string) {
 }
 
 async function getPublicCourseLessons(publicCourseId: number) {
-	return db.query.publicCourseLesson.findMany({
+	const lessons = await db.query.publicCourseLesson.findMany({
 		where: eq(publicCourseLesson.publicCourseId, publicCourseId),
 		orderBy: [asc(publicCourseLesson.order)],
 		with: {
@@ -88,6 +92,15 @@ async function getPublicCourseLessons(publicCourseId: number) {
 			},
 		},
 	})
+
+	const lessonVideoIds = await getHebrewLessonVideoIdsByLessonIds(
+		lessons.map((lesson) => lesson.lesson.id)
+	)
+
+	return lessons.map((lesson) => ({
+		...lesson,
+		...(lessonVideoIds.get(lesson.lesson.id) ?? {}),
+	}))
 }
 
 export async function GET(
@@ -159,6 +172,7 @@ export async function PUT(
 						.select({
 							id: lessons.id,
 							courseId: lessons.courseId,
+							lessonNumber: lessons.lessonNumber,
 						})
 						.from(lessons)
 						.where(inArray(lessons.id, uniqueLessonIds))
@@ -217,6 +231,7 @@ export async function PUT(
 					)
 						? lesson.activities
 						: getDefaultPublicCourseLessonActivities()
+				const lessonNumber = lessonMap.get(lesson.lessonId)?.lessonNumber ?? null
 
 				const orderedActivities = [
 					...activities.filter((activity) => activity.activityKey === 'lesson_script'),
@@ -230,7 +245,13 @@ export async function PUT(
 					isEnabled:
 						activity.activityKey === 'lesson_script' ? true : activity.isEnabled,
 					filterConfig: normalizePublicCourseActivityFilters(
-						activity.filterConfig ?? {}
+						applyDefaultPublicCourseActivityFilters({
+							filters: normalizePublicCourseActivityFilters(
+								activity.filterConfig ?? {}
+							),
+							activityKey: activity.activityKey as PublicCourseActivityKey,
+							lessonNumber,
+						})
 					),
 				}))
 			})

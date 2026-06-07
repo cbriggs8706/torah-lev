@@ -5,9 +5,10 @@ import { revalidatePath } from 'next/cache'
 
 import db from '@/db/drizzle'
 import { getSession } from '@/lib/auth'
-import { userProgress, userVideoProgress } from '@/db/schema'
+import { userCourseProgress, userVideoProgress } from '@/db/schema'
 
 type AwardVideoCompletionInput = {
+	courseId: number
 	videoId: number
 	points: number
 }
@@ -16,13 +17,14 @@ const isGuestId = (id?: string | null) =>
 	!id || id.startsWith('guest-') || id.length < 10
 
 export async function awardVideoCompletion({
+	courseId,
 	videoId,
 	points,
 }: AwardVideoCompletionInput) {
 	const session = await getSession()
 	const userId = session?.user?.id ?? null
 
-	if (!videoId || points <= 0) {
+	if (!courseId || !videoId || points <= 0) {
 		throw new Error('Invalid video reward payload')
 	}
 
@@ -34,6 +36,7 @@ export async function awardVideoCompletion({
 		}
 	}
 
+	const now = new Date()
 	const existing = await db.query.userVideoProgress.findFirst({
 		where: and(
 			eq(userVideoProgress.userId, userId!),
@@ -44,11 +47,9 @@ export async function awardVideoCompletion({
 		},
 	})
 
-	const now = new Date()
-	let awardedPoints = 0
-
-	if (!existing) {
-		await db.insert(userVideoProgress).values({
+	await db
+		.insert(userVideoProgress)
+		.values({
 			userId: userId!,
 			videoId,
 			pointsAwarded: points,
@@ -56,24 +57,30 @@ export async function awardVideoCompletion({
 			lastInteractedAt: now,
 			updatedAt: now,
 		})
-
-		await db
-			.update(userProgress)
-			.set({
-				points: sql`${userProgress.points} + ${points}`,
-				lastSeen: now,
-			})
-			.where(eq(userProgress.userId, userId!))
-
-		awardedPoints = points
-	} else {
-		await db
-			.update(userVideoProgress)
-			.set({
+		.onConflictDoUpdate({
+			target: [userVideoProgress.userId, userVideoProgress.videoId],
+			set: {
 				lastInteractedAt: now,
 				updatedAt: now,
+			},
+		})
+
+	if (!existing) {
+		await db
+			.insert(userCourseProgress)
+			.values({
+				userId: userId!,
+				courseId,
+				points,
+				lastSeen: now,
 			})
-			.where(and(eq(userVideoProgress.id, existing.id), eq(userVideoProgress.userId, userId!)))
+			.onConflictDoUpdate({
+				target: [userCourseProgress.userId, userCourseProgress.courseId],
+				set: {
+					points: sql`${userCourseProgress.points} + ${points}`,
+					lastSeen: now,
+				},
+			})
 	}
 
 	revalidatePath('/he/videos')
@@ -81,7 +88,7 @@ export async function awardVideoCompletion({
 
 	return {
 		guest: false,
-		awardedPoints,
+		awardedPoints: points,
 		completed: true,
 	}
 }

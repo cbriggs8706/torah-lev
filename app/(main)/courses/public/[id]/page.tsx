@@ -14,7 +14,7 @@ import {
 } from '@/db/schema'
 import { getSession } from '@/lib/auth'
 import PublicCourseActivityBrowser from '@/components/courses/public-course-activity-browser'
-import { getHebrewLessonScriptIdsByLessonIds } from '@/lib/server/public-course-activity-options'
+import { getHebrewLessonVideoIdsByLessonIds } from '@/lib/server/public-course-activity-options'
 import type {
 	PublicCourseActivityFilters,
 	PublicCourseActivityKey,
@@ -92,18 +92,26 @@ export default async function PublicCourseDetailPage({
 			})
 		: null
 
-	const lessonScriptIdsByLessonId = await getHebrewLessonScriptIdsByLessonIds(
+	const lessonVideoIdsByLessonId = await getHebrewLessonVideoIdsByLessonIds(
 		course.lessons.map((lesson) => lesson.lesson.id)
 	)
 
-	const lessonScriptIds = Array.from(lessonScriptIdsByLessonId.values())
+	const lessonVideoIds = Array.from(
+		new Set(
+			Array.from(lessonVideoIdsByLessonId.values()).flatMap((ids) => [
+				ids.lessonScriptId,
+				ids.lessonScriptPartBId,
+				ids.lessonScriptReviewId,
+			])
+		)
+	).filter((id): id is number => typeof id === 'number')
 
-	const completedLessonScriptIds = userId && lessonScriptIds.length > 0
+	const completedLessonVideoIds = userId && lessonVideoIds.length > 0
 		? await db.query.userVideoProgress
 				.findMany({
 					where: and(
 						eq(userVideoProgress.userId, userId),
-						inArray(userVideoProgress.videoId, lessonScriptIds)
+						inArray(userVideoProgress.videoId, lessonVideoIds)
 					),
 					columns: {
 						videoId: true,
@@ -121,7 +129,11 @@ export default async function PublicCourseDetailPage({
 		unitTitle: lesson.lesson.unit?.title ?? null,
 		platformCourseId: lesson.platformCourse.id,
 		platformCourseTitle: lesson.platformCourse.title,
-		lessonScriptId: lessonScriptIdsByLessonId.get(lesson.lesson.id) ?? null,
+		lessonScriptId: lessonVideoIdsByLessonId.get(lesson.lesson.id)?.lessonScriptId ?? null,
+		lessonScriptPartBId:
+			lessonVideoIdsByLessonId.get(lesson.lesson.id)?.lessonScriptPartBId ?? null,
+		lessonScriptReviewId:
+			lessonVideoIdsByLessonId.get(lesson.lesson.id)?.lessonScriptReviewId ?? null,
 		activities: ((lesson as typeof lesson & {
 			activities?: Array<{
 				id: number
@@ -173,9 +185,9 @@ export default async function PublicCourseDetailPage({
 				<PublicCourseActivityBrowser
 					courseId={course.id}
 					isAuthenticated={Boolean(userId)}
-					lessons={plannerLessons}
-					completedLessonScriptIds={completedLessonScriptIds}
-					initialEnrollment={
+				lessons={plannerLessons}
+				completedLessonVideoIds={completedLessonVideoIds}
+				initialEnrollment={
 						enrollment
 							? {
 									id: enrollment.id,

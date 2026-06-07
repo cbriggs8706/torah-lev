@@ -1,5 +1,7 @@
 export type PublicCourseActivityKey =
 	| 'lesson_script'
+	| 'lesson_script_part_b'
+	| 'lesson_script_review'
 	| 'introduction'
 	| 'flashcards'
 	| 'quiz'
@@ -73,6 +75,15 @@ export const PUBLIC_COURSE_ACTIVITY_DEFINITIONS: PublicCourseActivityDefinition[
 		passPercent: null,
 	},
 	{
+		key: 'lesson_script_part_b',
+		label: 'Part B',
+		iconSrc: '/icons/iconYoutube.png',
+		href: null,
+		filterKeys: [],
+		trackProgress: true,
+		passPercent: null,
+	},
+	{
 		key: 'flashcards',
 		label: 'Flashcards',
 		iconSrc: '/icons/iconFlashcards.png',
@@ -122,6 +133,15 @@ export const PUBLIC_COURSE_ACTIVITY_DEFINITIONS: PublicCourseActivityDefinition[
 		trackProgress: true,
 		passPercent: 100,
 	},
+	{
+		key: 'lesson_script_review',
+		label: 'Review',
+		iconSrc: '/icons/iconYoutube.png',
+		href: null,
+		filterKeys: [],
+		trackProgress: true,
+		passPercent: null,
+	},
 ]
 
 const definitionMap = new Map(
@@ -130,6 +150,16 @@ const definitionMap = new Map(
 
 export function getPublicCourseActivityDefinition(key: PublicCourseActivityKey) {
 	return definitionMap.get(key) ?? null
+}
+
+export function isPublicCourseVideoActivityKey(
+	activityKey: PublicCourseActivityKey
+) {
+	return (
+		activityKey === 'lesson_script' ||
+		activityKey === 'lesson_script_part_b' ||
+		activityKey === 'lesson_script_review'
+	)
 }
 
 export function getDefaultPublicCourseLessonActivities(): PublicCourseLessonActivityConfig[] {
@@ -188,6 +218,34 @@ export function normalizePublicCourseActivityFilters(
 	}
 
 	return filters
+}
+
+export function applyDefaultPublicCourseActivityFilters({
+	filters,
+	activityKey,
+	lessonNumber,
+}: {
+	filters: PublicCourseActivityFilters
+	activityKey: PublicCourseActivityKey
+	lessonNumber: string | number | null | undefined
+}) {
+	const definition = getPublicCourseActivityDefinition(activityKey)
+	if (!definition?.filterKeys.includes('selectedLessons')) {
+		return filters
+	}
+
+	if (filters.selectedLessons !== undefined) {
+		return filters
+	}
+
+	if (lessonNumber == null || lessonNumber === '') {
+		return filters
+	}
+
+	return {
+		...filters,
+		selectedLessons: [String(lessonNumber)],
+	}
 }
 
 export function encodePublicCourseFilters(filters: PublicCourseActivityFilters) {
@@ -265,6 +323,8 @@ export function buildPublicCourseActivityHref({
 	publicCourseLessonId,
 	enrollmentId,
 	lessonScriptId,
+	lessonScriptPartBId,
+	lessonScriptReviewId,
 	filterConfig,
 }: {
 	activityKey: PublicCourseActivityKey
@@ -274,6 +334,8 @@ export function buildPublicCourseActivityHref({
 	publicCourseLessonId: number
 	enrollmentId: number | null
 	lessonScriptId?: number | null
+	lessonScriptPartBId?: number | null
+	lessonScriptReviewId?: number | null
 	filterConfig: PublicCourseActivityFilters
 }) {
 	const definition = getPublicCourseActivityDefinition(activityKey)
@@ -284,6 +346,14 @@ export function buildPublicCourseActivityHref({
 			? lessonScriptId
 				? `/he/videos/${lessonScriptId}`
 				: null
+			: activityKey === 'lesson_script_part_b'
+				? lessonScriptPartBId
+					? `/he/videos/${lessonScriptPartBId}`
+					: null
+				: activityKey === 'lesson_script_review'
+					? lessonScriptReviewId
+						? `/he/videos/${lessonScriptReviewId}`
+						: null
 			: definition.href
 
 	if (!href) return null

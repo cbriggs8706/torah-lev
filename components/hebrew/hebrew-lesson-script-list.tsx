@@ -1,18 +1,22 @@
 'use client'
 
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { Check, LockKeyhole, NotebookText, Star } from 'lucide-react'
+import { Check, LockKeyhole, Star } from 'lucide-react'
+import { CircularProgressbarWithChildren } from 'react-circular-progressbar'
+
+import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
 import {
 	getSidebarLabel,
 	normalizeSidebarLocale,
 } from '@/lib/sidebar-translations'
 import type { SidebarLocale } from '@/types/sidebar'
 
+import 'react-circular-progressbar/dist/styles.css'
+
 type LessonScript = {
 	id: number | string
-	// lessonScriptId: number | null
 	content: string | null
 	contentPlain: string | null
 	category?: string | null
@@ -34,16 +38,25 @@ function getDisplayTitle(script: LessonScript): string {
 	return script.title
 }
 
+function getPartSuffix(script: LessonScript) {
+	if (script.part === 2) return ' - Part B'
+	if (script.part === 3) return ' - Review'
+	return ''
+}
+
 export default function LessonScriptList({
 	lessonScripts,
 	isFriend,
 	currentLesson,
+	lessonPercentage,
 }: {
 	lessonScripts: LessonScript[]
 	isFriend: boolean
 	currentLesson: number | null
+	lessonPercentage: number
 }) {
 	const pathname = usePathname()
+	const router = useRouter()
 	const [manualLocale, setManualLocale] = useState<SidebarLocale | null>(null)
 	const lessonNum = (n?: number | null) =>
 		typeof n === 'number' ? n : Number.POSITIVE_INFINITY
@@ -57,6 +70,7 @@ export default function LessonScriptList({
 				: 'en'
 
 	const resolvedLocale = manualLocale ?? inferredLocale
+
 	const actionLabelByLocale: Record<SidebarLocale, string> = {
 		en: 'View Video',
 		es: 'Ver video',
@@ -64,12 +78,12 @@ export default function LessonScriptList({
 		el: 'Προβολή βίντεο',
 	}
 
-	const getLessonRangeLabel = useCallback((lessonId: number) => {
-		const start = Math.floor((lessonId - 1) / 10) * 10 + 1
-		const end = start + 9
-		const lessonScriptsLabel = getSidebarLabel(resolvedLocale, 'nav.introduction')
-		return `${lessonScriptsLabel} ${start}-${end}`
-	}, [resolvedLocale])
+	const startLabelByLocale: Record<SidebarLocale, string> = {
+		en: 'Start',
+		es: 'Empezar',
+		he: 'החל',
+		el: 'Έναρξη',
+	}
 
 	const lessonLabelByLocale: Record<SidebarLocale, string> = {
 		en: 'Lesson',
@@ -92,6 +106,19 @@ export default function LessonScriptList({
 		el: 'Επομενο μαθημα',
 	}
 
+	const getLessonRangeLabel = useCallback(
+		(lessonId: number) => {
+			const start = Math.floor((lessonId - 1) / 10) * 10 + 1
+			const end = start + 9
+			const lessonScriptsLabel = getSidebarLabel(
+				resolvedLocale,
+				'nav.introduction'
+			)
+			return `${lessonScriptsLabel} ${start}-${end}`
+		},
+		[resolvedLocale]
+	)
+
 	useEffect(() => {
 		const syncLocale = (nextLocale?: string | null) => {
 			setManualLocale(nextLocale ? normalizeSidebarLocale(nextLocale) : null)
@@ -109,7 +136,7 @@ export default function LessonScriptList({
 			window.removeEventListener('sidebar-locale-changed', handleLocaleChange)
 	}, [])
 
-	// Sort by the visible AwB lesson number rather than the database lesson id.
+	// Sort by the visible lesson number rather than the database lesson id.
 	const sortedLessonScripts = useMemo(
 		() =>
 			[...lessonScripts].sort(
@@ -138,11 +165,8 @@ export default function LessonScriptList({
 
 			const label = getLessonRangeLabel(displayedLessonNumber)
 			const existing = groupedMap.get(label)
-			if (existing) {
-				existing.push(script)
-			} else {
-				groupedMap.set(label, [script])
-			}
+			if (existing) existing.push(script)
+			else groupedMap.set(label, [script])
 		}
 
 		for (const [label, scripts] of groupedMap) {
@@ -167,9 +191,20 @@ export default function LessonScriptList({
 	}, [getLessonRangeLabel, resolvedLocale, sortedLessonScripts])
 
 	const currentDisplayedLessonNumber = useMemo(() => {
-		const currentScript = lessonScripts.find((script) => script.lessonId === currentLesson)
+		const currentScript = lessonScripts.find(
+			(script) => script.lessonId === currentLesson
+		)
 		return currentScript ? getDisplayedLessonNumber(currentScript) : null
 	}, [currentLesson, lessonScripts])
+
+	const openLessonVideo = useCallback(
+		(scriptId: number | string) => {
+			router.push(
+				`/he/videos/${scriptId}?returnTo=${encodeURIComponent('/he/videos')}`
+			)
+		},
+		[router]
+	)
 
 	return (
 		<div className="space-y-6" dir="rtl">
@@ -178,7 +213,8 @@ export default function LessonScriptList({
 					<h2 className="my-6 rounded-md bg-sky-600 pr-4 text-right text-3xl font-bold text-white">
 						{group.label}
 					</h2>
-					<div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+
+					<div className="my-12 flex flex-wrap items-stretch justify-center gap-4">
 						{group.scripts.map((script) => {
 							const displayedLessonNumber = getDisplayedLessonNumber(script)
 							const isCurrent =
@@ -198,84 +234,108 @@ export default function LessonScriptList({
 							return (
 								<div
 									key={script.id}
-									className={`flex min-h-[236px] flex-col overflow-hidden rounded-xl border text-center transition hover:shadow-md ${
-										isCurrent
-											? 'border-sky-200 bg-sky-100'
-											: isCompleted
-												? 'border-sky-100 bg-white'
-												: 'border-gray-200 bg-white'
-									} ${
-										locked ? 'cursor-not-allowed opacity-50' : ''
-									}`}
+									onClick={() => {
+										if (!locked) openLessonVideo(script.id)
+									}}
+									className={cn(
+										'cursor-pointer relative flex flex-col items-center transition-transform active:scale-95',
+										locked && 'cursor-not-allowed opacity-50'
+									)}
 								>
-									<div className="flex flex-1 flex-col items-center p-4">
+									{isCurrent && (
 										<div
-											className={`flex h-[70px] w-[70px] items-center justify-center rounded-full border-b-8 ${
-												isCurrent
-													? 'bg-sky-600 text-white'
-													: isCompleted
-														? 'bg-emerald-500 text-white'
-														: 'bg-gray-200 text-gray-400'
-											}`}
+											className={cn(
+												'absolute -top-6 inset-x-0 mx-auto w-fit rounded-xl border-2 bg-white px-3 py-2.5 text-sky-600 animate-bounce z-20',
+												resolvedLocale === 'he'
+													? 'font-cardo text-3xl uppercase tracking-wide'
+													: 'font-nunito text-md font-bold uppercase tracking-wide'
+											)}
 										>
-											<Icon
-												className={`h-9 w-9 ${
-													isCompleted && !isCurrent
-														? 'fill-none stroke-[3.5]'
-														: isCurrent
-															? 'fill-white'
-															: 'stroke-[2.5]'
-												}`}
-											/>
+											{startLabelByLocale[resolvedLocale]}
+											<div className="absolute left-1/2 -bottom-2 h-0 w-0 -translate-x-1/2 transform border-x-8 border-x-transparent border-t-8" />
 										</div>
-
-										<div className="mt-3 flex items-baseline gap-1 text-gray-800">
-											<span
-												className={
-													resolvedLocale === 'he'
-														? 'text-xl font-cardo'
-														: 'text-lg font-semibold'
-												}
-											>
-												{lessonLabelByLocale[resolvedLocale]}
-											</span>
-											<span className="text-base font-semibold">
-												{displayedLessonNumber ?? '—'}
-											</span>
-										</div>
-
-										<h3
-											className="mt-2 flex-1 text-xs font-semibold leading-tight"
-											dir="ltr"
-										>
-											{getDisplayTitle(script)}
-											{script.part === 2 ? ' - Part B' : ''}
-										</h3>
-									</div>
+									)}
 
 									<div
-										className={`px-3 py-3 text-center text-xs font-semibold text-white ${
-											isCurrent
-												? 'bg-sky-600'
-												: isCompleted
-													? 'bg-emerald-600'
-													: 'bg-gray-400'
-										}`}
+										className={cn(
+											'flex flex-col rounded-xl border border-gray-00 w-[120px] min-h-[220px] transition hover:shadow-md text-center overflow-hidden',
+											isCurrent ? 'bg-sky-100' : 'bg-white'
+										)}
 									>
-										<Link
-											href={`/he/videos/${script.id}?returnTo=${encodeURIComponent('/he/videos')}`}
-											scroll
-											className={`${locked ? 'pointer-events-none' : ''} inline-flex items-center gap-2`}
-										>
-											<NotebookText className="h-4 w-4" />
-											<span>
-												{isCompleted
-													? reviewLabelByLocale[resolvedLocale]
-													: isCurrent
-														? actionLabelByLocale[resolvedLocale]
-														: upcomingLabelByLocale[resolvedLocale]}
+										<div className="flex flex-col items-center flex-grow p-4">
+											<div className="flex flex-col items-center">
+												{isCurrent ? (
+													<CircularProgressbarWithChildren
+														value={Number.isNaN(lessonPercentage) ? 0 : lessonPercentage}
+														styles={{
+															path: { stroke: '#16a34a' },
+															trail: { stroke: '#e5e7eb' },
+														}}
+													>
+														<Button
+															size="rounded"
+															variant="secondary"
+															className="h-[70px] w-[70px] border-b-8"
+														>
+															<Icon className="h-10 w-10 text-primary-foreground fill-white" />
+														</Button>
+													</CircularProgressbarWithChildren>
+												) : (
+													<Button
+														size="rounded"
+														variant={isCompleted ? 'secondary' : 'locked'}
+														className="h-[70px] w-[70px] border-b-8"
+													>
+														<Icon
+															className={cn(
+																'h-10 w-10',
+																!isCurrent && !isCompleted
+																	? 'stroke-neutral-400 stroke-[2.5]'
+																	: 'fill-primary-foreground text-primary-foreground',
+																isCompleted && 'fill-none stroke-[4]'
+															)}
+														/>
+													</Button>
+												)}
+											</div>
+
+											<div
+												dir="rtl"
+												className="mt-1 flex items-baseline gap-1 text-gray-800"
+											>
+												<span className="text-xl font-cardo">
+													שיעור
+												</span>
+												<span className="text-md font-nunito font-semibold">
+													{displayedLessonNumber ?? '—'}
+												</span>
+											</div>
+
+											<span
+												className="text-xs font-nunito font-semibold mt-1 leading-tight"
+												dir="ltr"
+											>
+												{getDisplayTitle(script)}
+												{getPartSuffix(script)}
 											</span>
-										</Link>
+										</div>
+
+										<div
+											className={cn(
+												'w-full text-white text-xs font-semibold text-center py-2 rounded-b-xl',
+												isCurrent
+													? 'bg-sky-600'
+													: isCompleted
+														? 'bg-emerald-600'
+														: 'bg-gray-400'
+											)}
+										>
+											{isCompleted
+												? reviewLabelByLocale[resolvedLocale]
+												: isCurrent
+													? actionLabelByLocale[resolvedLocale]
+													: upcomingLabelByLocale[resolvedLocale]}
+										</div>
 									</div>
 								</div>
 							)

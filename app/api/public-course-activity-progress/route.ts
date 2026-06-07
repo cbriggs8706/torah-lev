@@ -17,6 +17,8 @@ const completeActivitySchema = z.object({
 	publicCourseLessonId: z.number().int().positive(),
 	activityKey: z.enum([
 		'lesson_script',
+		'lesson_script_part_b',
+		'lesson_script_review',
 		'introduction',
 		'flashcards',
 		'quiz',

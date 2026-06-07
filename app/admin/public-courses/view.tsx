@@ -1,6 +1,12 @@
 'use client'
 
-import { useCallback, useEffect, useMemo, useState, type ChangeEvent } from 'react'
+import {
+	useCallback,
+	useEffect,
+	useMemo,
+	useState,
+	type ChangeEvent,
+} from 'react'
 import Image from 'next/image'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
@@ -33,8 +39,10 @@ import {
 	mapCuratedLessonToDraftLesson,
 	normalizeDraftActivities,
 } from './shared'
+import { getPublicCourseActivityDefinition } from '@/lib/public-course-activities'
 
 const blankForm = {
+	order: '',
 	name: '',
 	proficiencyLevel: '',
 	endingProficiencyLevel: '',
@@ -62,7 +70,7 @@ export default function PublicCoursesAdminPage() {
 
 	const selectedCourse = useMemo(
 		() => courses.find((course) => course.id === selectedCourseId) ?? null,
-		[courses, selectedCourseId]
+		[courses, selectedCourseId],
 	)
 
 	const loadActivityOptions = useCallback(
@@ -70,7 +78,7 @@ export default function PublicCoursesAdminPage() {
 			if (activityOptionsByCourseId[platformCourseId]) return
 
 			const response = await fetch(
-				`/api/public-course-activity-options?platformCourseId=${platformCourseId}`
+				`/api/public-course-activity-options?platformCourseId=${platformCourseId}`,
 			)
 			const data = await response.json()
 
@@ -83,7 +91,7 @@ export default function PublicCoursesAdminPage() {
 				[platformCourseId]: data,
 			}))
 		},
-		[activityOptionsByCourseId]
+		[activityOptionsByCourseId],
 	)
 
 	useEffect(() => {
@@ -99,7 +107,9 @@ export default function PublicCoursesAdminPage() {
 		}
 
 		void loadCourses().catch((error) => {
-			toast.error(error instanceof Error ? error.message : 'Failed to load courses')
+			toast.error(
+				error instanceof Error ? error.message : 'Failed to load courses',
+			)
 		})
 
 		void fetch('/api/public/curriculum?sort=["title","ASC"]&range=[0,199]')
@@ -132,7 +142,7 @@ export default function PublicCoursesAdminPage() {
 						throw new Error('Failed to load lessons')
 					}
 					return response.json()
-				}
+				},
 			),
 			loadActivityOptions(platformCourseId),
 		])
@@ -166,22 +176,27 @@ export default function PublicCoursesAdminPage() {
 
 		setSelectedCourseId(course.id)
 		setForm({
+			order: String(course.order ?? ''),
 			name: course.name,
 			proficiencyLevel: course.proficiencyLevel ?? '',
 			endingProficiencyLevel: course.endingProficiencyLevel ?? '',
 		})
 		setDraftLessons(
-			(course.lessons ?? []).slice().sort((a, b) => a.order - b.order).map(mapCuratedLessonToDraftLesson)
+			(course.lessons ?? [])
+				.slice()
+				.sort((a, b) => a.order - b.order)
+				.map(mapCuratedLessonToDraftLesson),
 		)
 		setSelectedFile(null)
 
 		void Promise.all(
-			Array.from(new Set(course.lessons.map((lesson) => lesson.platformCourseId))).map(
-				(courseId) =>
-					loadActivityOptions(courseId).catch(() => {
-						toast.error('Could not load activity filter options.')
-					})
-			)
+			Array.from(
+				new Set(course.lessons.map((lesson) => lesson.platformCourseId)),
+			).map((courseId) =>
+				loadActivityOptions(courseId).catch(() => {
+					toast.error('Could not load activity filter options.')
+				}),
+			),
 		)
 	}
 
@@ -204,7 +219,9 @@ export default function PublicCoursesAdminPage() {
 			return
 		}
 
-		const platformCourse = platformCourses.find((course) => course.id === courseId)
+		const platformCourse = platformCourses.find(
+			(course) => course.id === courseId,
+		)
 		const lesson = availableLessons.find((item) => item.id === lessonId)
 
 		if (!platformCourse || !lesson) {
@@ -221,7 +238,7 @@ export default function PublicCoursesAdminPage() {
 				lessonTitle: lesson.title,
 				lessonNumber: lesson.lessonNumber ?? null,
 				unitTitle: lesson.unitTitle ?? null,
-				activities: normalizeDraftActivities([]),
+				activities: normalizeDraftActivities([], lesson.lessonNumber ?? null),
 			},
 		])
 		setSelectedLessonId('')
@@ -239,7 +256,9 @@ export default function PublicCoursesAdminPage() {
 	}
 
 	const removeLesson = (index: number) => {
-		setDraftLessons((current) => current.filter((_, currentIndex) => currentIndex !== index))
+		setDraftLessons((current) =>
+			current.filter((_, currentIndex) => currentIndex !== index),
+		)
 	}
 
 	const handleSave = async () => {
@@ -256,10 +275,23 @@ export default function PublicCoursesAdminPage() {
 		setIsSaving(true)
 
 		try {
+			const fallbackOrder =
+				selectedCourse?.order ??
+				Math.max(0, ...courses.map((course) => course.order ?? 0)) + 1
+			const order = Number(form.order || fallbackOrder)
+
+			if (!Number.isInteger(order) || order < 1) {
+				throw new Error('Sort order must be a positive whole number.')
+			}
+
 			const formData = new FormData()
+			formData.append('order', String(order))
 			formData.append('name', form.name.trim())
 			formData.append('proficiencyLevel', form.proficiencyLevel.trim())
-			formData.append('endingProficiencyLevel', form.endingProficiencyLevel.trim())
+			formData.append(
+				'endingProficiencyLevel',
+				form.endingProficiencyLevel.trim(),
+			)
 			if (selectedFile) {
 				formData.append('image', selectedFile)
 			}
@@ -271,7 +303,7 @@ export default function PublicCoursesAdminPage() {
 				{
 					method: selectedCourseId ? 'PUT' : 'POST',
 					body: formData,
-				}
+				},
 			)
 			const courseData = await courseResponse.json()
 
@@ -280,39 +312,44 @@ export default function PublicCoursesAdminPage() {
 			}
 
 			const savedCourseId = courseData.course.id as number
-			const lessonsResponse = await fetch(`/api/public-courses/${savedCourseId}/lessons`, {
-				method: 'PUT',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({
-					lessons: draftLessons.map((lesson, index) => ({
-						platformCourseId: lesson.platformCourseId,
-						lessonId: lesson.lessonId,
-						order: index + 1,
-						activities: lesson.activities.map((activity, activityIndex) => ({
-							activityKey: activity.activityKey,
-							order: activityIndex + 1,
-							isEnabled:
-								activity.activityKey === 'lesson_script'
-									? true
-									: activity.isEnabled,
-							filterConfig: activity.filterConfig,
+			const lessonsResponse = await fetch(
+				`/api/public-courses/${savedCourseId}/lessons`,
+				{
+					method: 'PUT',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({
+						lessons: draftLessons.map((lesson, index) => ({
+							platformCourseId: lesson.platformCourseId,
+							lessonId: lesson.lessonId,
+							order: index + 1,
+							activities: lesson.activities.map((activity, activityIndex) => ({
+								activityKey: activity.activityKey,
+								order: activityIndex + 1,
+								isEnabled:
+									activity.activityKey === 'lesson_script'
+										? true
+										: activity.isEnabled,
+								filterConfig: activity.filterConfig,
+							})),
 						})),
-					})),
-				}),
-			})
+					}),
+				},
+			)
 			const lessonsData = await lessonsResponse.json()
 
 			if (!lessonsResponse.ok) {
-				throw new Error(lessonsData.error || 'Failed to save curated lessons')
+				throw new Error(lessonsData.error || 'Failed to save lessons')
 			}
 
 			setDraftLessons(
 				(lessonsData.lessons ?? [])
 					.slice()
-					.sort((a: { order: number }, b: { order: number }) => a.order - b.order)
-					.map(mapCuratedLessonToDraftLesson)
+					.sort(
+						(a: { order: number }, b: { order: number }) => a.order - b.order,
+					)
+					.map(mapCuratedLessonToDraftLesson),
 			)
 
 			const refreshResponse = await fetch('/api/public-courses')
@@ -324,11 +361,14 @@ export default function PublicCoursesAdminPage() {
 
 			setCourses(refreshData.courses ?? [])
 			setSelectedCourseId(savedCourseId)
+			setForm((current) => ({ ...current, order: String(order) }))
 			setSelectedFile(null)
-			toast.success(selectedCourseId ? 'Public course updated.' : 'Public course created.')
+			toast.success(
+				selectedCourseId ? 'Public course updated.' : 'Public course created.',
+			)
 		} catch (error) {
 			toast.error(
-				error instanceof Error ? error.message : 'Failed to save public course'
+				error instanceof Error ? error.message : 'Failed to save public course',
 			)
 		} finally {
 			setIsSaving(false)
@@ -338,9 +378,12 @@ export default function PublicCoursesAdminPage() {
 	return (
 		<div className="space-y-6 px-6 py-5">
 			<div className="space-y-1">
-				<h1 className="text-2xl font-semibold text-slate-900">Public Courses</h1>
+				<h1 className="text-2xl font-semibold text-slate-900">
+					Public Courses
+				</h1>
 				<p className="text-sm text-slate-600">
-					Create self-paced courses that reuse lessons from across the curriculum.
+					Create self-paced courses that reuse lessons from across the
+					curriculum.
 				</p>
 			</div>
 
@@ -365,11 +408,20 @@ export default function PublicCoursesAdminPage() {
 										: 'border-slate-200 bg-slate-50 hover:bg-slate-100'
 								}`}
 							>
-								<p className="font-semibold text-slate-900">{course.name}</p>
-								<p className="mt-1 text-sm text-slate-600">
-									{course.lessons.length} curated lesson
-									{course.lessons.length === 1 ? '' : 's'}
-								</p>
+								<div className="flex items-start justify-between gap-3">
+									<div className="min-w-0">
+										<p className="font-semibold text-slate-900">
+											{course.name}
+										</p>
+										<p className="mt-1 text-sm text-slate-600">
+											{course.lessons.length} curated lesson
+											{course.lessons.length === 1 ? '' : 's'}
+										</p>
+									</div>
+									<span className="rounded-full border border-slate-200 bg-white px-2 py-1 text-xs font-medium text-slate-600">
+										#{course.order ?? '—'}
+									</span>
+								</div>
 							</button>
 						))}
 					</div>
@@ -383,9 +435,32 @@ export default function PublicCoursesAdminPage() {
 								id="public-course-name"
 								value={form.name}
 								onChange={(event) =>
-									setForm((current) => ({ ...current, name: event.target.value }))
+									setForm((current) => ({
+										...current,
+										name: event.target.value,
+									}))
 								}
 								placeholder="Intro to Gospel Greek"
+							/>
+						</div>
+						<div className="space-y-2">
+							<Label htmlFor="public-course-order">Sort order</Label>
+							<Input
+								id="public-course-order"
+								type="number"
+								min={1}
+								step={1}
+								value={form.order}
+								onChange={(event) =>
+									setForm((current) => ({
+										...current,
+										order: event.target.value,
+									}))
+								}
+								placeholder={String(
+									Math.max(0, ...courses.map((course) => course.order ?? 0)) +
+										1,
+								)}
 							/>
 						</div>
 						<div className="space-y-2">
@@ -398,7 +473,9 @@ export default function PublicCoursesAdminPage() {
 							/>
 						</div>
 						<div className="space-y-2">
-							<Label htmlFor="public-course-start-level">Starting proficiency</Label>
+							<Label htmlFor="public-course-start-level">
+								Starting proficiency
+							</Label>
 							<Input
 								id="public-course-start-level"
 								value={form.proficiencyLevel}
@@ -412,7 +489,9 @@ export default function PublicCoursesAdminPage() {
 							/>
 						</div>
 						<div className="space-y-2">
-							<Label htmlFor="public-course-end-level">Ending proficiency</Label>
+							<Label htmlFor="public-course-end-level">
+								Ending proficiency
+							</Label>
 							<Input
 								id="public-course-end-level"
 								value={form.endingProficiencyLevel}
@@ -442,20 +521,29 @@ export default function PublicCoursesAdminPage() {
 
 					<div className="rounded-2xl border border-sky-100 bg-sky-50 p-4 space-y-4">
 						<div className="space-y-1">
-							<h2 className="text-lg font-semibold text-slate-900">Curated Lessons</h2>
+							<h2 className="text-lg font-semibold text-slate-900">Lessons</h2>
 							<p className="text-sm text-slate-600">
-								Add lessons here, then open a lesson route to curate its activities.
+								Add lessons here, then open a lesson route to curate its
+								activities.
 							</p>
 						</div>
 
 						<div className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto]">
-							<Popover open={platformPickerOpen} onOpenChange={setPlatformPickerOpen}>
+							<Popover
+								open={platformPickerOpen}
+								onOpenChange={setPlatformPickerOpen}
+							>
 								<PopoverTrigger asChild>
-									<Button type="button" variant="ghost" className="justify-between">
+									<Button
+										type="button"
+										variant="ghost"
+										className="justify-between"
+									>
 										{selectedPlatformCourseId
-											? platformCourses.find(
-													(course) => String(course.id) === selectedPlatformCourseId
-											  )?.title ?? 'Choose source course'
+											? (platformCourses.find(
+													(course) =>
+														String(course.id) === selectedPlatformCourseId,
+												)?.title ?? 'Choose source course')
 											: 'Choose source course'}
 									</Button>
 								</PopoverTrigger>
@@ -482,7 +570,10 @@ export default function PublicCoursesAdminPage() {
 								</PopoverContent>
 							</Popover>
 
-							<Popover open={lessonPickerOpen} onOpenChange={setLessonPickerOpen}>
+							<Popover
+								open={lessonPickerOpen}
+								onOpenChange={setLessonPickerOpen}
+							>
 								<PopoverTrigger asChild>
 									<Button
 										type="button"
@@ -491,9 +582,9 @@ export default function PublicCoursesAdminPage() {
 										disabled={!selectedPlatformCourseId || loadingLessons}
 									>
 										{selectedLessonId
-											? availableLessons.find(
-													(lesson) => String(lesson.id) === selectedLessonId
-											  )?.title ?? 'Choose lesson'
+											? (availableLessons.find(
+													(lesson) => String(lesson.id) === selectedLessonId,
+												)?.title ?? 'Choose lesson')
 											: loadingLessons
 												? 'Loading lessons...'
 												: 'Choose lesson'}
@@ -513,7 +604,9 @@ export default function PublicCoursesAdminPage() {
 															setLessonPickerOpen(false)
 														}}
 													>
-														{lesson.lessonNumber ? `Lesson ${lesson.lessonNumber}: ` : ''}
+														{lesson.lessonNumber
+															? `Lesson ${lesson.lessonNumber}: `
+															: ''}
 														{lesson.title}
 													</CommandItem>
 												))}
@@ -545,7 +638,9 @@ export default function PublicCoursesAdminPage() {
 							) : (
 								<div className="space-y-3">
 									{draftLessons.map((lesson, index) => {
-										const assignedActivities = getAssignedActivitySummary(lesson.activities)
+										const assignedActivities = getAssignedActivitySummary(
+											lesson.activities,
+										)
 
 										return (
 											<div
@@ -561,7 +656,9 @@ export default function PublicCoursesAdminPage() {
 															{formatLessonLabel(lesson)}
 														</p>
 														{lesson.unitTitle ? (
-															<p className="text-sm text-slate-500">{lesson.unitTitle}</p>
+															<p className="text-sm text-slate-500">
+																{lesson.unitTitle}
+															</p>
 														) : null}
 													</div>
 
@@ -591,14 +688,22 @@ export default function PublicCoursesAdminPage() {
 														</Button>
 														<Button
 															type="button"
-															disabled={!selectedCourseId || !lesson.publicCourseLessonId}
+															disabled={
+																!selectedCourseId ||
+																!lesson.publicCourseLessonId
+															}
 															onClick={() => {
-																if (!selectedCourseId || !lesson.publicCourseLessonId) {
-																	toast.error('Save the course before curating a lesson.')
+																if (
+																	!selectedCourseId ||
+																	!lesson.publicCourseLessonId
+																) {
+																	toast.error(
+																		'Save the course before curating a lesson.',
+																	)
 																	return
 																}
 																navigate(
-																	`/public-courses/${selectedCourseId}/lessons/${lesson.publicCourseLessonId}`
+																	`/public-courses/${selectedCourseId}/lessons/${lesson.publicCourseLessonId}`,
 																)
 															}}
 														>
@@ -615,7 +720,9 @@ export default function PublicCoursesAdminPage() {
 														>
 															{activity.activityKey === 'lesson_script'
 																? 'Video'
-																: activity.activityKey}
+																: (getPublicCourseActivityDefinition(
+																		activity.activityKey,
+																	)?.label ?? activity.activityKey)}
 														</span>
 													))}
 												</div>
@@ -629,7 +736,11 @@ export default function PublicCoursesAdminPage() {
 
 					<div className="flex justify-end">
 						<Button type="button" onClick={handleSave} disabled={isSaving}>
-							{isSaving ? 'Saving...' : selectedCourseId ? 'Update Course' : 'Create Course'}
+							{isSaving
+								? 'Saving...'
+								: selectedCourseId
+									? 'Update Course'
+									: 'Create Course'}
 						</Button>
 					</div>
 				</div>

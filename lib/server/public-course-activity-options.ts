@@ -57,13 +57,14 @@ export async function getPublicCourseActivityFilterOptions(courseId: number) {
 	}
 }
 
-export async function getHebrewLessonScriptIdsByLessonIds(lessonIds: number[]) {
+export async function getHebrewLessonVideoIdsByLessonIds(lessonIds: number[]) {
 	if (lessonIds.length === 0) return new Map<number, number>()
 
 	const directRows = await db
 		.select({
 			id: videos.id,
 			lessonId: videos.lessonId,
+			part: videos.part,
 		})
 		.from(videos)
 		.where(
@@ -74,10 +75,57 @@ export async function getHebrewLessonScriptIdsByLessonIds(lessonIds: number[]) {
 		)
 		.orderBy(asc(videos.lessonId), asc(videos.part), asc(videos.id))
 
-	const byLessonId = new Map<number, number>()
+	const byLessonId = new Map<
+		number,
+		{
+			lessonScriptId: number | null
+			lessonScriptPartBId: number | null
+			lessonScriptReviewId: number | null
+		}
+	>()
 	for (const row of directRows) {
-		if (row.lessonId != null && !byLessonId.has(row.lessonId)) {
-			byLessonId.set(row.lessonId, row.id)
+		if (row.lessonId == null) continue
+
+		const existing = byLessonId.get(row.lessonId) ?? {
+			lessonScriptId: null,
+			lessonScriptPartBId: null,
+			lessonScriptReviewId: null,
+		}
+
+		if (existing.lessonScriptId == null) {
+			existing.lessonScriptId = row.id
+		}
+
+		if (
+			row.part === 2 &&
+			existing.lessonScriptPartBId == null &&
+			existing.lessonScriptId !== row.id
+		) {
+			existing.lessonScriptPartBId = row.id
+		}
+
+		if (
+			row.part === 3 &&
+			existing.lessonScriptReviewId == null &&
+			existing.lessonScriptId !== row.id &&
+			existing.lessonScriptPartBId !== row.id
+		) {
+			existing.lessonScriptReviewId = row.id
+		}
+
+		byLessonId.set(row.lessonId, existing)
+	}
+
+	return byLessonId
+}
+
+export async function getHebrewLessonScriptIdsByLessonIds(lessonIds: number[]) {
+	const videoIds = await getHebrewLessonVideoIdsByLessonIds(lessonIds)
+	const byLessonId = new Map<number, number>()
+
+	for (const [lessonId, ids] of videoIds.entries()) {
+		if (ids.lessonScriptId != null) {
+			byLessonId.set(lessonId, ids.lessonScriptId)
 		}
 	}
 

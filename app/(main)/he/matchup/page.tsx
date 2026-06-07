@@ -27,22 +27,24 @@ export default async function HebrewMatchupPage({
 				getUserProgress(),
 				getUserSubscription(),
 				getCourseProgress(),
-		  ])
+			])
 		: [null, null, null]
 
 	// ✅ Guest-safe fallbacks
-	const publicCourseQuery = parseScheduledPublicCourseQuery(resolvedSearchParams)
+	const publicCourseQuery =
+		parseScheduledPublicCourseQuery(resolvedSearchParams)
 	const activeCourseId = publicCourseQuery.scheduled
-		? publicCourseQuery.courseId ?? 6
-		: userProgress?.activeCourseId ?? 6 // Default to AwB
+		? (publicCourseQuery.courseId ?? 6)
+		: (userProgress?.activeCourseId ?? 6) // Default to AwB
 	const isPro = !!userSubscription?.isActive
 
 	const currentLesson = publicCourseQuery.scheduled
-		? publicCourseQuery.lesson ?? ''
-		: userChallengeData?.activeLesson?.lessonNumber ?? undefined
+		? (publicCourseQuery.lesson ?? '')
+		: (userChallengeData?.activeLesson?.lessonNumber ?? undefined)
 
 	// ✅ Select vocab source based on course (guest or user)
-	const hebrewData: HebrewVocab[] = await getHebrewVocabByCourseId(activeCourseId)
+	const hebrewData: HebrewVocab[] =
+		await getHebrewVocabByCourseId(activeCourseId)
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
@@ -61,7 +63,7 @@ export default async function HebrewMatchupPage({
 
 					{!userId && (
 						<p className="text-gray-500 italic mb-3">
-							You’re using guest mode — progress will not be saved.
+							You&apos;re using guest mode — progress will not be saved.
 						</p>
 					)}
 
@@ -75,21 +77,27 @@ export default async function HebrewMatchupPage({
 					<HebrewMatchup
 						data={hebrewData}
 						currentLesson={
-							typeof currentLesson === 'string' ? Number(currentLesson) : currentLesson
+							typeof currentLesson === 'string'
+								? Number(currentLesson)
+								: currentLesson
 						}
 						courseId={activeCourseId}
 						userId={userId ?? 'guest'}
 						lockedLesson={
-							publicCourseQuery.scheduled ? publicCourseQuery.lesson ?? undefined : undefined
+							publicCourseQuery.scheduled
+								? (publicCourseQuery.lesson ?? undefined)
+								: undefined
 						}
 						hideFilters={publicCourseQuery.scheduled}
 						initialFilters={publicCourseQuery.filters}
 						completionContext={
-							publicCourseQuery.enrollmentId && publicCourseQuery.publicCourseLessonId
+							publicCourseQuery.enrollmentId &&
+							publicCourseQuery.publicCourseLessonId
 								? {
 										enrollmentId: publicCourseQuery.enrollmentId,
-										publicCourseLessonId: publicCourseQuery.publicCourseLessonId,
-								  }
+										publicCourseLessonId:
+											publicCourseQuery.publicCourseLessonId,
+									}
 								: undefined
 						}
 					/>

@@ -2,11 +2,12 @@ import Image from 'next/image'
 import { FeedWrapper } from '@/components/feed-wrapper'
 import { notFound } from 'next/navigation'
 import { getSession } from '@/lib/auth'
-import { getHebrewLessonScript } from '@/db/queries'
+import { getHebrewLessonScript, getUserProgress } from '@/db/queries'
 import db from '@/db/drizzle'
 import { publicCourseLessonActivity, userVideoProgress } from '@/db/schema'
 import LessonScriptViewer from '@/components/hebrew/hebrew-lesson-script-viewer'
 import { parseScheduledPublicCourseQuery } from '@/lib/public-course-activities'
+import { isPublicCourseVideoActivityKey } from '@/lib/public-course-activities'
 import { and, eq } from 'drizzle-orm'
 
 export default async function HebrewLessonScriptPage({
@@ -20,13 +21,18 @@ export default async function HebrewLessonScriptPage({
 		const resolvedSearchParams = (await searchParams) ?? {}
 		const publicCourseQuery = parseScheduledPublicCourseQuery(resolvedSearchParams)
 		const session = await getSession()
-	const userId = session?.user?.id ?? null
+		const userId = session?.user?.id ?? null
+		const userProgress = await getUserProgress(userId)
 		const rawReturnTo = resolvedSearchParams.returnTo
 		const returnTo =
 			typeof rawReturnTo === 'string' && rawReturnTo.startsWith('/')
 				? rawReturnTo
 				: '/he/videos'
 		const lessonScript = await getHebrewLessonScript(Number(id))
+		const courseId =
+			(publicCourseQuery.scheduled ? publicCourseQuery.courseId : null) ??
+			userProgress?.activeCourseId ??
+			6
 
 		if (!lessonScript) return notFound()
 		const initialCompleted =
@@ -44,7 +50,8 @@ export default async function HebrewLessonScriptPage({
 
 		const scriptVisibilityOverride =
 			publicCourseQuery.scheduled &&
-			publicCourseQuery.activityKey === 'lesson_script'
+			publicCourseQuery.activityKey != null &&
+			isPublicCourseVideoActivityKey(publicCourseQuery.activityKey)
 				? typeof publicCourseQuery.filters.displayScript === 'boolean'
 					? publicCourseQuery.filters.displayScript
 					: publicCourseQuery.publicCourseLessonId
@@ -54,7 +61,7 @@ export default async function HebrewLessonScriptPage({
 										publicCourseLessonActivity.publicCourseLessonId,
 										publicCourseQuery.publicCourseLessonId
 									),
-									eq(publicCourseLessonActivity.activityKey, 'lesson_script')
+									eq(publicCourseLessonActivity.activityKey, publicCourseQuery.activityKey)
 								),
 								columns: {
 									filterConfig: true,
@@ -88,6 +95,7 @@ export default async function HebrewLessonScriptPage({
 				</div>
 				<LessonScriptViewer
 					lessonScript={lessonScript}
+					courseId={courseId}
 					showScript={scriptVisibilityOverride}
 					returnTo={returnTo}
 					initialCompleted={initialCompleted}

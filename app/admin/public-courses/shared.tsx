@@ -2,6 +2,7 @@
 
 import { Checkbox } from '@/components/ui/checkbox'
 import {
+	applyDefaultPublicCourseActivityFilters,
 	getDefaultPublicCourseLessonActivities,
 	getPublicCourseActivityDefinition,
 	type PublicCourseActivityFilters,
@@ -44,13 +45,17 @@ export type CuratedLesson = {
 		unit: {
 			title: string | null
 			order: number | null
-		} | null
+	} | null
 	}
 	activities: ActivityRecord[]
+	lessonScriptId?: number | null
+	lessonScriptPartBId?: number | null
+	lessonScriptReviewId?: number | null
 }
 
 export type PublicCourseRecord = {
 	id: number
+	order: number
 	name: string
 	imageUrl: string
 	proficiencyLevel: string | null
@@ -72,6 +77,9 @@ export type DraftLesson = {
 	lessonTitle: string
 	lessonNumber: string | number | null
 	unitTitle: string | null
+	lessonScriptId?: number | null
+	lessonScriptPartBId?: number | null
+	lessonScriptReviewId?: number | null
 	activities: DraftActivity[]
 }
 
@@ -96,7 +104,10 @@ export function getAssignedActivitySummary(activities: DraftActivity[]) {
 	)
 }
 
-export function normalizeDraftActivities(activities: DraftActivity[]) {
+export function normalizeDraftActivities(
+	activities: DraftActivity[],
+	lessonNumber?: string | number | null
+) {
 	const byKey = new Map(activities.map((activity) => [activity.activityKey, activity]))
 	return getDefaultPublicCourseLessonActivities().map((defaultActivity) => {
 		const existing = byKey.get(defaultActivity.activityKey)
@@ -106,12 +117,49 @@ export function normalizeDraftActivities(activities: DraftActivity[]) {
 				defaultActivity.activityKey === 'lesson_script'
 					? true
 					: existing?.isEnabled ?? defaultActivity.isEnabled,
-			filterConfig: existing?.filterConfig ?? defaultActivity.filterConfig,
+			filterConfig: applyDefaultPublicCourseActivityFilters({
+				filters: existing?.filterConfig ?? defaultActivity.filterConfig,
+				activityKey: defaultActivity.activityKey,
+				lessonNumber,
+			}),
 		}
 	})
 }
 
+function mapActivitiesToDraftActivities(activities: ActivityRecord[]) {
+	const sorted = activities.slice().sort((a, b) => a.order - b.order)
+
+	if (sorted.length === 0) {
+		return getDefaultPublicCourseLessonActivities().map((activity) => ({
+			activityKey: activity.activityKey,
+			isEnabled: activity.isEnabled,
+			filterConfig: activity.filterConfig,
+		}))
+	}
+
+	return sorted.map((activity) => ({
+		activityKey: activity.activityKey,
+		isEnabled: activity.isEnabled,
+		filterConfig: activity.filterConfig,
+	}))
+}
+
+function applyLessonNumberDefaultsToActivity(
+	activity: DraftActivity,
+	lessonNumber: string | number | null | undefined
+) {
+	return {
+		...activity,
+		filterConfig: applyDefaultPublicCourseActivityFilters({
+			filters: activity.filterConfig,
+			activityKey: activity.activityKey,
+			lessonNumber,
+		}),
+	}
+}
+
 export function mapCuratedLessonToDraftLesson(lesson: CuratedLesson): DraftLesson {
+	const lessonNumber = lesson.lesson.lessonNumber
 	return {
 		publicCourseLessonId: lesson.id,
 		platformCourseId: lesson.platformCourseId,
@@ -120,15 +168,11 @@ export function mapCuratedLessonToDraftLesson(lesson: CuratedLesson): DraftLesso
 		lessonTitle: lesson.lesson.title,
 		lessonNumber: lesson.lesson.lessonNumber,
 		unitTitle: lesson.lesson.unit?.title ?? null,
-		activities: normalizeDraftActivities(
-			(lesson.activities ?? [])
-				.slice()
-				.sort((a, b) => a.order - b.order)
-				.map((activity) => ({
-					activityKey: activity.activityKey,
-					isEnabled: activity.isEnabled,
-					filterConfig: activity.filterConfig,
-				}))
+		lessonScriptId: lesson.lessonScriptId ?? null,
+		lessonScriptPartBId: lesson.lessonScriptPartBId ?? null,
+		lessonScriptReviewId: lesson.lessonScriptReviewId ?? null,
+		activities: mapActivitiesToDraftActivities(lesson.activities ?? []).map((activity) =>
+			applyLessonNumberDefaultsToActivity(activity, lessonNumber)
 		),
 	}
 }
@@ -296,17 +340,21 @@ export function ActivityToggleRow({
 }) {
 	const definition = getPublicCourseActivityDefinition(activity.activityKey)
 	if (!definition) return null
+	const description =
+		activity.activityKey === 'lesson_script'
+			? 'This stays first and unlocks the rest of the lesson.'
+			: activity.activityKey === 'lesson_script_part_b'
+				? 'This is the second lesson video and can be moved anywhere in the sequence.'
+				: activity.activityKey === 'lesson_script_review'
+					? 'This is the third lesson video and can be moved anywhere in the sequence.'
+				: 'Configure whether this activity appears and which filters it uses.'
 
 	return (
 		<div className="rounded-xl border border-slate-200 p-4 space-y-3">
 			<div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
 				<div>
 					<p className="font-semibold text-slate-900">{definition.label}</p>
-					<p className="text-xs text-slate-500">
-						{activity.activityKey === 'lesson_script'
-							? 'This stays first and unlocks the rest of the lesson.'
-							: 'Configure whether this activity appears and which filters it uses.'}
-					</p>
+					<p className="text-xs text-slate-500">{description}</p>
 				</div>
 
 				<div className="flex flex-wrap items-center gap-4">

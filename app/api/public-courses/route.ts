@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { asc, desc } from 'drizzle-orm'
+import { asc, max } from 'drizzle-orm'
 import { z } from 'zod'
 
 import db from '@/db/drizzle'
@@ -20,6 +20,7 @@ const bucketName =
 
 const publicCourseSchema = z.object({
 	name: z.string().trim().min(1, 'Course name is required.').max(120),
+	order: z.number().int().positive().optional(),
 	proficiencyLevel: z
 		.string()
 		.trim()
@@ -34,7 +35,7 @@ const publicCourseSchema = z.object({
 
 export async function GET() {
 	const courses = await db.query.publicCourse.findMany({
-		orderBy: [desc(publicCourse.createdAt)],
+		orderBy: [asc(publicCourse.order), asc(publicCourse.name)],
 		with: {
 			lessons: {
 				orderBy: [asc(publicCourseLesson.order)],
@@ -88,11 +89,20 @@ export async function POST(request: Request) {
 		const formData = await request.formData()
 		const image = formData.get('image')
 		const rawName = formData.get('name')
+		const rawOrder = formData.get('order')
 		const rawProficiencyLevel = formData.get('proficiencyLevel')
 		const rawEndingProficiencyLevel = formData.get('endingProficiencyLevel')
+		const parsedOrder =
+			typeof rawOrder === 'string' && rawOrder.trim()
+				? Number(rawOrder)
+				: undefined
 
 		const parsed = publicCourseSchema.safeParse({
 			name: typeof rawName === 'string' ? rawName : '',
+			order:
+				Number.isFinite(parsedOrder) && parsedOrder !== undefined
+					? parsedOrder
+					: undefined,
 			proficiencyLevel:
 				typeof rawProficiencyLevel === 'string'
 					? rawProficiencyLevel
@@ -110,7 +120,12 @@ export async function POST(request: Request) {
 			)
 		}
 
+		const [{ maxOrder }] = await db
+			.select({ maxOrder: max(publicCourse.order) })
+			.from(publicCourse)
+
 		let imageUrl = fallbackCourseImageUrl
+		const order = parsed.data.order ?? (maxOrder ?? 0) + 1
 
 		if (image instanceof File) {
 			imageUrl = await uploadCourseImage({
@@ -123,6 +138,7 @@ export async function POST(request: Request) {
 		const [created] = await db
 			.insert(publicCourse)
 			.values({
+				order,
 				name: parsed.data.name,
 				imageUrl,
 				proficiencyLevel: parsed.data.proficiencyLevel,

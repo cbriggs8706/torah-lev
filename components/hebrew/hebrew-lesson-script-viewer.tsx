@@ -33,12 +33,14 @@ type LessonScript = {
 
 export default function LessonScriptViewer({
 	lessonScript,
+	courseId,
 	showScript = true,
 	returnTo,
 	initialCompleted = false,
 	allowLocalCompletionCache = false,
 }: {
 	lessonScript: LessonScript
+	courseId: number
 	showScript?: boolean
 	returnTo?: string
 	initialCompleted?: boolean
@@ -194,6 +196,7 @@ export default function LessonScriptViewer({
 
 		try {
 			const result = await awardVideoCompletion({
+				courseId,
 				videoId: lessonScript.id,
 				points: 20,
 			})

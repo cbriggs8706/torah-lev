@@ -4,6 +4,7 @@ import { FeedWrapper } from '@/components/feed-wrapper'
 import {
 	getAllHebrewLessonScripts,
 	getCourseProgress,
+	getLessonPercentage,
 	getUserProgress,
 	getUserSubscription,
 } from '@/db/queries'
@@ -15,10 +16,12 @@ export default async function HebrewLessonScriptsPage() {
 	const userId = session?.user?.id ?? null
 
 	// ✅ Fetch user-related data only if signed in
-	const [userProgress, userSubscription, courseProgress] = await Promise.all([
+	const [userProgress, userSubscription, courseProgress, lessonPercentage] =
+		await Promise.all([
 		getUserProgress(),
 		getUserSubscription(),
 		getCourseProgress(),
+		getLessonPercentage(),
 	])
 
 	// ✅ Handle guest fallbacks
@@ -32,7 +35,7 @@ export default async function HebrewLessonScriptsPage() {
 	const currentLesson = courseProgress?.activeLesson?.id ?? null
 
 	return (
-		<div className="flex flex-row-reverse gap-[48px] px-6">
+		<div className="flex flex-row-reverse gap-6 px-2 sm:px-4 lg:gap-[48px] lg:px-6">
 			<FeedWrapper>
 				<div className="w-full flex flex-col items-center">
 					<Image
@@ -62,6 +65,7 @@ export default async function HebrewLessonScriptsPage() {
 						lessonScripts={lessonScripts}
 						isFriend={isHebrewFriend}
 						currentLesson={currentLesson}
+						lessonPercentage={lessonPercentage}
 					/>
 				</div>
 			</FeedWrapper>
