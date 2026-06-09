@@ -25,7 +25,7 @@ const translations: Record<
 		'actions.currentlyViewing': 'Currently viewing:',
 		'actions.swapCourse': 'Swap Course',
 		'actions.swapCourses': 'Swap Courses',
-		'nav.learn': 'Learn - OLD',
+		'nav.learn': 'Learn',
 		'nav.vocabulary': 'Vocabulary',
 		'nav.flashcards': 'Flashcards',
 		'nav.dictionary': 'Dictionary',

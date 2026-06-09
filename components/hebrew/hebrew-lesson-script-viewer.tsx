@@ -1,13 +1,13 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
-import { ActivityFinalScreen } from '@/components/activity-final-screen'
-import { ResultCard } from '@/app/lesson/result-card'
-import { Button } from '../ui/button'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import AudioPlayer from '@/components/media/audio-player'
 import { isSpotifyUrl } from '@/components/media/audio-utils'
 import { awardVideoCompletion } from '@/actions/video-progress'
+import { ActivityCompletionScreen } from '@/components/activity-completion-screen'
+import { Button } from '@/components/ui/button'
+import { dispatchUserProgressUpdated } from '@/lib/user-progress-events'
 
 const hebrewFonts = [
 	{ label: 'Arial', value: 'font-arial' },
@@ -58,6 +58,12 @@ export default function LessonScriptViewer({
 	const [savingCompletion, setSavingCompletion] = useState(false)
 	const [completionScreen, setCompletionScreen] = useState(false)
 	const [awardedPoints, setAwardedPoints] = useState(20)
+	const [completionRewards, setCompletionRewards] = useState<{
+		awardedPoints: number
+		hearts: number
+		tribePointAwarded: boolean
+	} | null>(null)
+	const lastLessonIdRef = useRef<number | null>(null)
 	const completionStorageKey = useMemo(
 		() => `he-video-complete:${lessonScript.id}`,
 		[lessonScript.id]
@@ -168,12 +174,18 @@ export default function LessonScriptViewer({
 	}, [])
 
 	useEffect(() => {
+		if (lastLessonIdRef.current === lessonScript.id) {
+			return
+		}
+
+		lastLessonIdRef.current = lessonScript.id
 		setMediaType(lessonScript.videoUrl ? 'video' : 'audio')
 		setVideoCompleted(false)
 		setCompletionSaved(initialCompleted)
 		setCompletionScreen(false)
 		setSavingCompletion(false)
 		setAwardedPoints(20)
+		setCompletionRewards(null)
 	}, [initialCompleted, lessonScript.videoUrl, lessonScript.id])
 
 	useEffect(() => {
@@ -188,7 +200,7 @@ export default function LessonScriptViewer({
 	}, [allowLocalCompletionCache, completionSaved, completionStorageKey])
 
 	const handleMarkComplete = async () => {
-		if (!videoCompleted || completionSaved || savingCompletion) {
+		if (!videoCompleted || savingCompletion) {
 			return
 		}
 
@@ -206,7 +218,18 @@ export default function LessonScriptViewer({
 			}
 
 			const points = typeof result.awardedPoints === 'number' ? result.awardedPoints : 20
+			const hearts = typeof result.hearts === 'number' ? result.hearts : 5
+			const tribePointAwarded = Boolean(result.tribePointAwarded)
 			setAwardedPoints(points)
+			setCompletionRewards({
+				awardedPoints: points,
+				hearts,
+				tribePointAwarded,
+			})
+			dispatchUserProgressUpdated({
+				hearts,
+				points,
+			})
 			setCompletionSaved(true)
 			setCompletionScreen(true)
 		} catch (error) {
@@ -218,36 +241,48 @@ export default function LessonScriptViewer({
 
 	const handleReturn = () => {
 		router.push(backHref)
-		router.refresh()
+	}
+
+	const handleReturnToVideo = () => {
+		setCompletionScreen(false)
+		setMediaType('video')
+		window.scrollTo({ top: 0, behavior: 'smooth' })
 	}
 
 	if (completionScreen) {
+		const currentAwardedPoints = completionRewards?.awardedPoints ?? awardedPoints
+		const currentHearts = completionRewards?.hearts ?? 5
+		const isRewatch = currentAwardedPoints === 0
+
 		return (
-			<ActivityFinalScreen
+			<ActivityCompletionScreen
 				title="Video Complete"
 				description={
-					<>
-						You earned <span className="font-semibold">{awardedPoints}</span>{' '}
-						point{awardedPoints === 1 ? '' : 's'} for finishing this video.
-					</>
+					isRewatch
+						? 'You rewatched this video and replenished your hearts.'
+						: 'You earned points, refilled your hearts, and helped your tribe.'
 				}
-				stats={[
-					{
-						label: 'Points',
-						value: awardedPoints,
-						valueClassName: 'text-emerald-600',
-					},
-				]}
-				rewards={
-					<div className="mx-auto flex w-full max-w-md items-center gap-x-4">
-						<ResultCard variant="points" value={awardedPoints} />
-					</div>
+				rewardMessage={
+					isRewatch ? (
+						<>
+							This rewatch restored your hearts to full. No extra points or
+							tribe points were added.
+						</>
+					) : (
+						<>
+							You earned {currentAwardedPoints} point
+							{currentAwardedPoints === 1 ? '' : 's'}
+							, fully refilled your hearts, and earned +1 Tribe Point.
+						</>
+					)
 				}
-				actions={
-					<div className="flex justify-center">
-						<Button onClick={handleReturn}>{backLabel}</Button>
-					</div>
-				}
+				points={currentAwardedPoints}
+				hearts={currentHearts}
+				tribePointAwarded={completionRewards?.tribePointAwarded ?? false}
+				leftActionLabel="Return to Video"
+				leftActionOnClick={handleReturnToVideo}
+				rightActionLabel={backLabel}
+				rightActionOnClick={handleReturn}
 			/>
 		)
 	}
@@ -291,16 +326,12 @@ export default function LessonScriptViewer({
 					onClick={() => {
 						void handleMarkComplete()
 					}}
-					disabled={
-						!videoCompleted ||
-						completionSaved ||
-						savingCompletion
-					}
+					disabled={!videoCompleted || savingCompletion}
 				>
-					{completionSaved
-						? 'Completed'
-						: savingCompletion
-							? 'Saving...'
+					{savingCompletion
+						? 'Saving...'
+						: completionSaved
+							? 'Replenish Hearts'
 							: 'Mark Complete'}
 				</Button>
 			</div>

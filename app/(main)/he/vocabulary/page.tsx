@@ -22,6 +22,11 @@ export default async function HebrewVocabularyPage({
 		: [null, null]
 
 	const publicCourseQuery = parseScheduledPublicCourseQuery(resolvedSearchParams)
+	const rawReturnTo = resolvedSearchParams.returnTo
+	const returnTo =
+		typeof rawReturnTo === 'string' && rawReturnTo.startsWith('/')
+			? rawReturnTo
+			: '/he/learn'
 	const activeCourseId = publicCourseQuery.scheduled
 		? publicCourseQuery.courseId ?? 6
 		: userProgress?.activeCourseId ?? 6
@@ -40,6 +45,7 @@ export default async function HebrewVocabularyPage({
 						alt="Vocabulary"
 						height={90}
 						width={90}
+						style={{ width: 'auto', height: 'auto' }}
 					/>
 					<h1 className="my-6 text-center text-2xl font-bold text-neutral-800">
 						Vocabulary
@@ -61,6 +67,7 @@ export default async function HebrewVocabularyPage({
 						initialHearts={userProgress?.hearts ?? 5}
 						filtersLocked={publicCourseQuery.scheduled}
 						initialFilters={publicCourseQuery.filters}
+						returnTo={returnTo}
 						completionContext={
 							publicCourseQuery.enrollmentId && publicCourseQuery.publicCourseLessonId
 								? {

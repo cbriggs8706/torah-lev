@@ -57,7 +57,7 @@ export const Header = () => {
 								size="lg"
 								variant="ghost"
 								onClick={() =>
-									signIn(undefined, { callbackUrl: '/curriculum' })
+										signIn(undefined, { callbackUrl: '/courses' })
 								}
 							>
 								Login

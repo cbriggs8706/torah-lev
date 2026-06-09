@@ -171,8 +171,8 @@ export default async function PublicCourseDetailPage({
 						</p>
 						<h1 className="text-3xl font-bold text-slate-900">{course.name}</h1>
 						<p className="text-base text-slate-600">
-							This self-paced course is curated by an admin and lets you choose
-							how many days you want to take to finish it.
+							{course.description ||
+								'This self-paced course is curated by an admin and lets you choose how many days you want to take to finish it.'}
 						</p>
 						<p className="text-sm text-slate-600">
 							Starting level: {course.proficiencyLevel || 'Not set'} · Ending

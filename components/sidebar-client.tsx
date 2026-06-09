@@ -3,12 +3,14 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { Loader } from 'lucide-react'
+import { useEffect, useState } from 'react'
 import { cn } from '@/lib/utils'
 import { SidebarItem } from './sidebar-item'
 import { UserProgress } from './user-progress'
 import { HebrewClock } from './hebrew/hebrew-clock'
 import { Button } from '@/components/ui/button'
 import { signOut, useSession } from '@/components/providers/session-provider'
+import { USER_PROGRESS_UPDATED_EVENT } from '@/lib/user-progress-events'
 
 type Props = {
 	className?: string
@@ -43,6 +45,45 @@ export default function SidebarClient({
 	const isLoading = status === 'loading'
 	const isSignedIn = !!session?.user
 	const activeCourseId = userProgress?.activeCourseId ?? null
+	const [displayProgress, setDisplayProgress] = useState(userProgress)
+
+	useEffect(() => {
+		setDisplayProgress(userProgress)
+	}, [userProgress])
+
+	useEffect(() => {
+		function handleUserProgressUpdated(event: Event) {
+			const customEvent = event as CustomEvent<{
+				hearts?: number
+				points?: number
+			}>
+
+			setDisplayProgress((current) => {
+				if (!current) return current
+
+				return {
+					...current,
+					hearts:
+						typeof customEvent.detail?.hearts === 'number'
+							? customEvent.detail.hearts
+							: current.hearts,
+					points:
+						typeof customEvent.detail?.points === 'number'
+							? customEvent.detail.points
+							: current.points,
+				}
+			})
+		}
+
+		window.addEventListener(USER_PROGRESS_UPDATED_EVENT, handleUserProgressUpdated)
+
+		return () => {
+			window.removeEventListener(
+				USER_PROGRESS_UPDATED_EVENT,
+				handleUserProgressUpdated,
+			)
+		}
+	}, [])
 	if (!activeCourseId) {
 		return (
 			<div
@@ -99,13 +140,13 @@ export default function SidebarClient({
 					</div>
 				</Link>
 
-				{userProgress && (
+				{displayProgress && (
 					<UserProgress
-						activeCourse={userProgress.activeCourse}
-						hearts={userProgress.hearts}
-						points={userProgress.points}
+						activeCourse={displayProgress.activeCourse}
+						hearts={displayProgress.hearts}
+						points={displayProgress.points}
 						hasActiveSubscription={isPro}
-						isGuest={userProgress.userId === 'guest'}
+						isGuest={displayProgress.userId === 'guest'}
 						onClick={onItemClick}
 					/>
 				)}

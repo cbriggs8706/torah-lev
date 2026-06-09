@@ -9,6 +9,7 @@ import { useAudio, useWindowSize, useMount } from 'react-use'
 import ReactPlayer from 'react-player/youtube'
 
 import { reduceHearts } from '@/actions/user-progress'
+import { dispatchUserProgressUpdated } from '@/lib/user-progress-events'
 import { useHeartsModal } from '@/store/use-hearts-modal'
 import { challengeOptions, challenges, userSubscription } from '@/db/schema'
 import { usePracticeModal } from '@/store/use-practice-modal'
@@ -200,16 +201,18 @@ export const Quiz = ({
 		// }
 
 		//Redid this to be faster
-		if (correctOption.id === selectedOption) {
-			// ✅ Immediate visual feedback
-			setStatus('correct')
-			setPercentage((prev) => prev + 100 / challenges.length)
-			correctControls.play()
+			if (correctOption.id === selectedOption) {
+				// ✅ Immediate visual feedback
+				setStatus('correct')
+				setPercentage((prev) => prev + 100 / challenges.length)
+				correctControls.play()
 
-			// Optional: practice heart bonus immediately
+				// Optional: practice heart bonus immediately
 			if (initialPercentage === 100) {
-				setHearts((prev) => Math.min(prev + 1, 5))
-			}
+					const nextHearts = Math.min(hearts + 1, 5)
+					setHearts(nextHearts)
+					dispatchUserProgressUpdated({ hearts: nextHearts })
+				}
 
 			// 🕗 Run async call in the background (no delay for UI)
 			upsertChallengeProgress(challenge.id).catch(() =>
@@ -226,7 +229,9 @@ export const Quiz = ({
 						return
 					}
 					if (!response?.error) {
-						setHearts((prev) => Math.max(prev - 1, 0))
+						const nextHearts = Math.max(hearts - 1, 0)
+						setHearts(nextHearts)
+						dispatchUserProgressUpdated({ hearts: nextHearts })
 					}
 				})
 				.catch(() => toast.error('Something went wrong. Please try again.'))
@@ -410,7 +415,11 @@ export const Quiz = ({
 
 												// This is a practice
 												if (initialPercentage === 100) {
-													setHearts((prev) => Math.min(prev + 1, 5))
+													const nextHearts = Math.min(hearts + 1, 5)
+													setHearts(nextHearts)
+													dispatchUserProgressUpdated({
+														hearts: nextHearts,
+													})
 												}
 
 												upsertChallengeProgress(challenge.id).catch(() =>

@@ -1,16 +1,15 @@
 'use client'
 
 import Image from 'next/image'
-import Confetti from 'react-confetti'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Volume2 } from 'lucide-react'
-import { useAudio, useWindowSize } from 'react-use'
-import { ActivityFinalScreen } from '@/components/activity-final-screen'
+import { useRouter } from 'next/navigation'
+import { ActivityCompletionScreen } from '@/components/activity-completion-screen'
 import LessonFilter from '@/components/filters/filter-lesson'
 import { useLessonCards } from '@/hooks/useLessonCards'
+import { dispatchUserProgressUpdated } from '@/lib/user-progress-events'
 import { resolveVocabMediaUrl } from '@/lib/vocab-media'
 import type { HebrewVocab } from '@/lib/vocab'
-import { ResultCard } from '@/app/lesson/result-card'
 import { awardIntroductionCompletion } from '@/actions/introduction-progress'
 import { markPublicCourseActivityComplete } from '@/lib/public-course-progress'
 import type { PublicCourseActivityFilters } from '@/lib/public-course-activities'
@@ -20,6 +19,7 @@ type HebrewIntroductionProps = {
 	data: HebrewVocab[]
 	currentLesson: string
 	initialHearts: number
+	returnTo?: string
 	filtersLocked?: boolean
 	initialFilters?: PublicCourseActivityFilters
 	completionContext?: {
@@ -42,6 +42,7 @@ export default function HebrewIntroduction({
 	data,
 	currentLesson,
 	initialHearts,
+	returnTo,
 	filtersLocked = false,
 	initialFilters,
 	completionContext,
@@ -73,6 +74,9 @@ export default function HebrewIntroduction({
 	const [activeRepeatNumber, setActiveRepeatNumber] = useState<number | null>(
 		null,
 	)
+	const [completionRewards, setCompletionRewards] = useState<{
+		tribePointAwarded: boolean
+	} | null>(null)
 	const [completionAwarded, setCompletionAwarded] = useState(false)
 	const [statusText, setStatusText] = useState(
 		filtersLocked
@@ -83,8 +87,9 @@ export default function HebrewIntroduction({
 	const runIdRef = useRef(0)
 	const removedClassroomDefaultRef = useRef(false)
 	const publicCourseCompletionRef = useRef(false)
-	const { width, height } = useWindowSize()
-	const [finishAudio] = useAudio({ src: '/shofar.mp3', autoPlay: true })
+	const completionSoundPlayedRef = useRef(false)
+	const initialHeartsRef = useRef(initialHearts)
+	const router = useRouter()
 
 	useEffect(() => {
 		if (!initialFilters?.selectedLessons?.length) return
@@ -105,6 +110,10 @@ export default function HebrewIntroduction({
 	useEffect(() => {
 		removedClassroomDefaultRef.current = false
 	}, [currentLesson, data])
+
+	useEffect(() => {
+		initialHeartsRef.current = initialHearts
+	}, [initialHearts])
 
 	const lessonFilteredCards = useMemo(() => {
 		return data.filter((card) => {
@@ -165,7 +174,7 @@ export default function HebrewIntroduction({
 			),
 		)
 		setPhase('idle')
-		setHearts(initialHearts)
+		setHearts(initialHeartsRef.current)
 		setTeachingIndices([])
 		setTeachingCardIndex(null)
 		setLearnedCount(0)
@@ -175,9 +184,11 @@ export default function HebrewIntroduction({
 		setEliminatedOptions([])
 		setPulseTick(0)
 		setActiveRepeatNumber(null)
+		setCompletionRewards(null)
 		setCompletionAwarded(false)
+		completionSoundPlayedRef.current = false
 		setStatusText('Choose your filters, then start the vocabulary.')
-	}, [filteredCards, initialHearts, sessionVersion])
+	}, [filteredCards, sessionVersion])
 
 	const queueQuizPrompt = useCallback(
 		(nextPending: number[], nextLearnedCount: number) => {
@@ -294,6 +305,13 @@ export default function HebrewIntroduction({
 				if (cancelled) return
 
 				setHearts(result.hearts)
+				dispatchUserProgressUpdated({
+					hearts: result.hearts,
+					points: filteredCards.length,
+				})
+				setCompletionRewards({
+					tribePointAwarded: result.tribePointAwarded,
+				})
 				setCompletionAwarded(true)
 			} catch (error) {
 				console.error('Failed to award introduction completion rewards', error)
@@ -309,6 +327,14 @@ export default function HebrewIntroduction({
 			cancelled = true
 		}
 	}, [activeCourseId, completionAwarded, filteredCards.length, phase])
+
+	useEffect(() => {
+		if (phase !== 'complete' || !completionAwarded) return
+		if (completionSoundPlayedRef.current) return
+
+		completionSoundPlayedRef.current = true
+		void playAudio('/shofar.mp3')
+	}, [completionAwarded, phase])
 
 	useEffect(() => {
 		if (
@@ -393,6 +419,7 @@ export default function HebrewIntroduction({
 			: (chunkOptions[selectedChunkIndex] ?? null)
 	const lessonEstimateMinutes = estimateMinutes(lessonFilteredCards.length)
 	const chunkEstimateMinutes = estimateMinutes(filteredCards.length)
+	const tribeAwarded = completionRewards?.tribePointAwarded ?? false
 
 	return (
 		<div className="mx-auto w-full max-w-5xl p-4 text-center">
@@ -618,50 +645,28 @@ export default function HebrewIntroduction({
 				</div>
 			) : (
 				<>
-					{finishAudio}
-					<Confetti
-						width={width}
-						height={height}
-						recycle={false}
-						numberOfPieces={500}
-						tweenDuration={10000}
-					/>
-					<ActivityFinalScreen
+					<ActivityCompletionScreen
 						title="Lesson Complete"
 						description="You finished this vocabulary lesson and unlocked the full reward bundle."
-						stats={[
-							{ label: 'Cards', value: filteredCards.length },
-							{ label: 'Points', value: filteredCards.length, valueClassName: 'text-emerald-600' },
-							{ label: 'Hearts', value: hearts, valueClassName: 'text-rose-600' },
-						]}
-						rewards={
-							<>
-								<p className="mb-4 text-lg font-semibold text-slate-800">
-									You earned {filteredCards.length} point
-									{filteredCards.length === 1 ? '' : 's'}, +1 heart, and +1 Tribe Point.
-								</p>
-								<div className="mx-auto flex w-full max-w-md items-center gap-x-4">
-									<ResultCard variant="points" value={filteredCards.length} tribePointAdded={true} />
-									<ResultCard variant="hearts" value={hearts} tribePointAdded={true} />
-								</div>
-							</>
+						playCelebrationSound={false}
+						rewardMessage={
+							tribeAwarded
+								? `You earned ${filteredCards.length} point${filteredCards.length === 1 ? '' : 's'}, replenished your hearts to 5, and earned +1 Tribe Point.`
+								: `You earned ${filteredCards.length} point${filteredCards.length === 1 ? '' : 's'} and replenished your hearts to 5.`
 						}
-						actions={
-							<div className="flex flex-wrap justify-center gap-3">
-								<button
-									onClick={startSession}
-									className="rounded-full bg-emerald-600 px-6 py-3 font-semibold text-white shadow hover:bg-emerald-500"
-								>
-									Run It Again
-								</button>
-								<button
-									onClick={() => setSessionVersion((prev) => prev + 1)}
-									className="rounded-full border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 shadow hover:bg-slate-50"
-								>
-									Change Lesson
-								</button>
-							</div>
+						points={filteredCards.length}
+						hearts={hearts}
+						tribePointAwarded={tribeAwarded}
+						leftActionLabel="Return to Vocabulary"
+						leftActionOnClick={startSession}
+						rightActionLabel={
+							typeof returnTo === 'string' && returnTo.startsWith('/courses/public/')
+								? 'Return to Course'
+								: 'Return to Learn'
 						}
+						rightActionOnClick={() => {
+							router.push(returnTo?.startsWith('/') ? returnTo : '/he/learn')
+						}}
 					/>
 				</>
 			)}

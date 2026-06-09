@@ -752,6 +752,7 @@ export default function HebrewSpelling({
 							alt="Prompt Image"
 							width={300}
 							height={200}
+							style={{ width: 'auto', height: 'auto' }}
 							className="mx-auto rounded"
 						/>
 					)}

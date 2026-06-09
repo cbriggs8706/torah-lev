@@ -10,6 +10,7 @@ import { ResultCard } from '@/app/lesson/result-card'
 import { ActivityFinalScreen } from '@/components/activity-final-screen'
 import LessonFilter from '@/components/filters/filter-lesson'
 import { useLessonCards } from '@/hooks/useLessonCards'
+import { dispatchUserProgressUpdated } from '@/lib/user-progress-events'
 import { cn } from '@/lib/utils'
 import type { HebrewVocab } from '@/lib/vocab'
 
@@ -338,8 +339,11 @@ export default function HebrewMistaken({
 					hearts: result.hearts,
 					tribePointAwarded: result.tribePointAwarded,
 				})
+				dispatchUserProgressUpdated({
+					hearts: result.hearts,
+					points: result.awardedPoints,
+				})
 				setCompletionAwarded(true)
-				router.refresh()
 			} catch (error) {
 				console.error('Failed to award mistaken completion rewards', error)
 				if (!cancelled) {

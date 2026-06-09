@@ -39,6 +39,7 @@ export const SidebarItem = ({
 					className="mr-5"
 					height={32}
 					width={32}
+					style={{ width: 'auto', height: 'auto' }}
 				/>
 				{label}
 			</Link>

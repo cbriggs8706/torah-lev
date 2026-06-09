@@ -1,5 +1,6 @@
 import db from '@/db/drizzle'
-import { userCourseProgress } from '@/db/schema'
+import { getUserProgress } from '@/db/queries'
+import { tribes, userCourseProgress } from '@/db/schema'
 import { eq, sql } from 'drizzle-orm'
 
 type ProgressPayload = {
@@ -29,13 +30,14 @@ export async function POST(req: Request) {
 			return new Response(JSON.stringify({ guest: true, success: false }), {
 				status: 200,
 			})
-		}
+			}
 
-		// ✅ Authenticated user path
-		await db
-			.insert(userCourseProgress)
-			.values({
-				userId: userId!,
+			// ✅ Authenticated user path
+			const currentUserProgress = await getUserProgress(userId!)
+			await db
+				.insert(userCourseProgress)
+				.values({
+					userId: userId!,
 				courseId,
 				points,
 				lastSeen: new Date(),
@@ -45,11 +47,23 @@ export async function POST(req: Request) {
 				set: {
 					points: sql`${userCourseProgress.points} + ${points}`,
 					lastSeen: new Date(),
-				},
-			})
+					},
+				})
 
-		return new Response(JSON.stringify({ success: true }), { status: 200 })
-	} catch (error) {
+			let tribePointAwarded = false
+			if (currentUserProgress?.tribeId) {
+				await db
+					.update(tribes)
+					.set({ points: sql`${tribes.points} + 1` })
+					.where(eq(tribes.id, currentUserProgress.tribeId))
+				tribePointAwarded = true
+			}
+
+			return new Response(
+				JSON.stringify({ success: true, tribePointAwarded }),
+				{ status: 200 },
+			)
+		} catch (error) {
 		console.error('❌ Error updating progress:', error)
 		return new Response(JSON.stringify({ error: 'Server error' }), {
 			status: 500,

@@ -11,14 +11,18 @@ import {
 	useState,
 } from 'react'
 import { toast } from 'sonner'
-import { useCelebration } from '@/hooks/useCelebration'
+import { useRouter } from 'next/navigation'
+import { ActivityCompletionScreen } from '@/components/activity-completion-screen'
 import { useLessonCards } from '@/hooks/useLessonCards'
 import { useUserId } from '@/hooks/useUserId'
+import { dispatchUserProgressUpdated } from '@/lib/user-progress-events'
 import { resolveVocabMediaUrl } from '@/lib/vocab-media'
 import { HebrewVocab } from '@/lib/vocab'
 import LessonFilter from '../filters/filter-lesson'
 import ProgressBar from '../progress-bar'
 import type { PublicCourseActivityFilters } from '@/lib/public-course-activities'
+import { awardFlashcardsCompletion } from '@/actions/flashcards-progress'
+import { markPublicCourseActivityComplete } from '@/lib/public-course-progress'
 
 type HebrewCardFilterType = 'all' | 'word' | 'phrase' | 'stack'
 type FlashcardSide = 'images' | 'hebAudio' | 'eng' | 'heb' | 'hebNiqqud'
@@ -33,9 +37,14 @@ interface HebrewVocabProps {
 	currentLesson: string
 	layout: string
 	courseId: number
+	returnTo?: string
 	lockedLesson?: string
 	hideFilters?: boolean
 	initialFilters?: PublicCourseActivityFilters
+	completionContext?: {
+		enrollmentId: number
+		publicCourseLessonId: number
+	}
 }
 
 const CARD_FLIP_DURATION_MS = 700
@@ -52,9 +61,11 @@ export default function HebrewFlashcards({
 	data,
 	currentLesson,
 	courseId,
+	returnTo,
 	lockedLesson,
 	hideFilters = false,
 	initialFilters,
+	completionContext,
 }: HebrewVocabProps) {
 	const {
 		selectedLessons,
@@ -71,16 +82,23 @@ export default function HebrewFlashcards({
 	const [showFilter, setShowFilter] = useState(false)
 	const [audioVolume, setAudioVolume] = useState(1)
 	const [audioSpeed, setAudioSpeed] = useState(1)
-	const [cardsCompleted, setCardsCompleted] = useState(0)
 	const [isRandomized, setIsRandomized] = useState(false)
 	const [hideMasteredCards, setHideMasteredCards] = useState(true)
 	const [cardStatuses, setCardStatuses] = useState<Record<number, CardStatus>>({})
 	const [isUpdatingStatus, setIsUpdatingStatus] = useState(false)
+	const [completionScreen, setCompletionScreen] = useState(false)
+	const [completionRewards, setCompletionRewards] = useState<{
+		awardedPoints: number
+		hearts: number
+		tribePointAwarded: boolean
+	} | null>(null)
 	const lastBackAutoplayKeyRef = useRef<string | null>(null)
+	const navigationTimeoutRef = useRef<number | null>(null)
+	const publicCourseCompletionRef = useRef(false)
+	const router = useRouter()
 
-	const { userId, isGuest, ready } = useUserId()
+	const { isGuest, ready } = useUserId()
 	const canUseSavedWordFeatures = ready && !isGuest
-	const { Confetti, celebrate } = useCelebration()
 
 	useEffect(() => {
 		if (!lockedLesson) return
@@ -95,6 +113,10 @@ export default function HebrewFlashcards({
 			setSelectedType(initialFilters.selectedType)
 		}
 	}, [initialFilters, setSelectedLessons])
+
+	useEffect(() => {
+		publicCourseCompletionRef.current = false
+	}, [completionContext?.enrollmentId, completionContext?.publicCourseLessonId, currentLesson])
 
 	const cardsForPrefix = useMemo(() => data, [data])
 	const stackCardIds = useMemo(
@@ -280,6 +302,7 @@ export default function HebrewFlashcards({
 							alt="HebrewVocab image"
 							width={isMiddle ? 320 : 160}
 							height={isMiddle ? 320 : 160}
+							style={{ width: 'auto', height: 'auto' }}
 							className="h-auto w-auto max-w-full rounded object-contain"
 							sizes={isMiddle ? '(max-width: 768px) 90vw, 320px' : '160px'}
 						/>
@@ -385,6 +408,9 @@ export default function HebrewFlashcards({
 			: newFiltered
 
 		setFilteredCards(finalCards)
+		if (!completionScreen) {
+			setCompletionRewards(null)
+		}
 
 		if (finalCards.length === 0) {
 			setCurrentIndex(0)
@@ -416,6 +442,7 @@ export default function HebrewFlashcards({
 		hideMasteredCards,
 		isRandomized,
 		currentCard?.id,
+		completionScreen,
 		setCurrentIndex,
 	])
 
@@ -428,6 +455,14 @@ export default function HebrewFlashcards({
 			lastBackAutoplayKeyRef.current = null
 		}
 	}, [showBack, currentCard?.id])
+
+	useEffect(() => {
+		return () => {
+			if (navigationTimeoutRef.current != null) {
+				window.clearTimeout(navigationTimeoutRef.current)
+			}
+		}
+	}, [])
 
 	const backIpaSummary = currentCard?.ipa?.trim() || null
 	const frontRootSummary = currentCard
@@ -490,27 +525,6 @@ export default function HebrewFlashcards({
 		audio.playbackRate = audioSpeed
 		audio.play().catch(console.error)
 	}, [showBack, backField, currentCard?.id, currentCard?.hebAudio, audioSpeed])
-
-	const awardPoints = useCallback(
-		async (points: number) => {
-			try {
-				await fetch('/api/award-points', {
-					method: 'POST',
-					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify({ userId, courseId, points }),
-				})
-			} catch (error) {
-				console.error('Failed to award points', error)
-			}
-		},
-		[userId, courseId],
-	)
-
-	useEffect(() => {
-		if (cardsCompleted > 0 && cardsCompleted % 25 === 0) {
-			awardPoints(cardsCompleted / 25)
-		}
-	}, [cardsCompleted, awardPoints])
 
 	useEffect(() => {
 		if (!canUseSavedWordFeatures) {
@@ -606,30 +620,130 @@ export default function HebrewFlashcards({
 	}
 
 	function handleNextCard() {
+		if (completionScreen) return
+		if (navigationTimeoutRef.current != null) {
+			window.clearTimeout(navigationTimeoutRef.current)
+		}
 		setShowBack(false)
-		setTimeout(() => {
+		navigationTimeoutRef.current = window.setTimeout(() => {
 			const nextIndex = currentIndex + 1
 			if (nextIndex >= filteredCards.length) {
-				celebrate()
+				void handleDeckComplete()
+				return
 			}
-			setCardsCompleted((prev) => prev + 1)
 			setCurrentIndex(nextIndex % filteredCards.length)
 		}, CARD_FLIP_DURATION_MS)
 	}
 
 	function handlePreviousCard() {
+		if (completionScreen) return
+		if (navigationTimeoutRef.current != null) {
+			window.clearTimeout(navigationTimeoutRef.current)
+		}
 		setShowBack(false)
-		setTimeout(() => {
+		navigationTimeoutRef.current = window.setTimeout(() => {
 			setCurrentIndex(
 				(prev) => (prev - 1 + filteredCards.length) % filteredCards.length,
 			)
 		}, CARD_FLIP_DURATION_MS)
 	}
 
+	const handleDeckComplete = useCallback(async () => {
+		if (completionScreen || filteredCards.length === 0) return
+		if (navigationTimeoutRef.current != null) {
+			window.clearTimeout(navigationTimeoutRef.current)
+			navigationTimeoutRef.current = null
+		}
+
+		try {
+			const result = await awardFlashcardsCompletion({
+				courseId,
+				points: filteredCards.length,
+			})
+
+			setCompletionRewards({
+				awardedPoints: result.awardedPoints ?? filteredCards.length,
+				hearts: result.hearts ?? 5,
+				tribePointAwarded: Boolean(result.tribePointAwarded),
+			})
+			dispatchUserProgressUpdated({
+				hearts: result.hearts ?? 5,
+				points: result.awardedPoints ?? filteredCards.length,
+			})
+			setCompletionScreen(true)
+		} catch (error) {
+			console.error('Failed to award flashcards completion rewards', error)
+			setCompletionRewards({
+				awardedPoints: filteredCards.length,
+				hearts: 5,
+				tribePointAwarded: false,
+			})
+			dispatchUserProgressUpdated({
+				hearts: 5,
+				points: filteredCards.length,
+			})
+			setCompletionScreen(true)
+		}
+	}, [completionScreen, courseId, filteredCards.length])
+
+	useEffect(() => {
+		if (!completionScreen || !completionContext || publicCourseCompletionRef.current) {
+			return
+		}
+
+		publicCourseCompletionRef.current = true
+		void markPublicCourseActivityComplete({
+			enrollmentId: completionContext.enrollmentId,
+			publicCourseLessonId: completionContext.publicCourseLessonId,
+			activityKey: 'flashcards',
+			scorePercent: 100,
+		}).catch((error) => {
+			console.error('Failed to save public course flashcards progress', error)
+			publicCourseCompletionRef.current = false
+		})
+	}, [completionContext, completionScreen])
+
+	if (completionScreen) {
+		const awardedPoints = completionRewards?.awardedPoints ?? filteredCards.length
+		const tribePointAwarded = completionRewards?.tribePointAwarded ?? false
+		const returnHref =
+			typeof returnTo === 'string' && returnTo.startsWith('/')
+				? returnTo
+				: '/he/learn'
+
+		return (
+			<ActivityCompletionScreen
+				title="Flashcards Complete"
+				description="You finished the full flashcards set."
+				rewardMessage={
+					tribePointAwarded
+						? `You earned ${awardedPoints} point${awardedPoints === 1 ? '' : 's'} and +1 Tribe Point.`
+						: `You earned ${awardedPoints} point${awardedPoints === 1 ? '' : 's'}.`
+				}
+				points={awardedPoints}
+				hearts={completionRewards?.hearts ?? 5}
+				tribePointAwarded={tribePointAwarded}
+				leftActionLabel="Return to Flashcards"
+				leftActionOnClick={() => {
+					setCompletionScreen(false)
+					setCompletionRewards(null)
+					setCurrentIndex(0)
+					setShowBack(false)
+				}}
+				rightActionLabel={
+					returnHref.startsWith('/courses/public/')
+						? 'Return to Course'
+						: 'Return to Learn'
+				}
+				rightActionOnClick={() => {
+					router.push(returnHref)
+				}}
+			/>
+		)
+	}
+
 	return (
 		<div className="mx-auto w-full max-w-3xl p-4 text-center">
-			{Confetti}
-
 			<div className="mb-6 flex justify-center gap-4">
 				{!hideFilters ? (
 					<button

@@ -2,12 +2,13 @@
 
 import { eq, sql } from 'drizzle-orm'
 import { revalidatePath } from 'next/cache'
-import { getSession } from '@/lib/auth'
-import { getUserProgress } from '@/db/queries'
+
 import db from '@/db/drizzle'
+import { getUserProgress } from '@/db/queries'
+import { getSession } from '@/lib/auth'
 import { tribes, userCourseProgress, userProgress } from '@/db/schema'
 
-type AwardIntroductionCompletionInput = {
+type AwardFlashcardsCompletionInput = {
 	courseId: number
 	points: number
 }
@@ -15,47 +16,53 @@ type AwardIntroductionCompletionInput = {
 const isGuestId = (id?: string | null) =>
 	!id || id.startsWith('guest-') || id.length < 10
 
-export async function awardIntroductionCompletion({
+export async function awardFlashcardsCompletion({
 	courseId,
 	points,
-}: AwardIntroductionCompletionInput) {
+}: AwardFlashcardsCompletionInput) {
 	const session = await getSession()
 	const userId = session?.user?.id ?? null
 
 	if (!courseId || points <= 0) {
-		throw new Error('Invalid introduction reward payload')
+		throw new Error('Invalid flashcards reward payload')
 	}
 
 	if (isGuestId(userId)) {
 		return {
 			guest: true,
 			awardedPoints: points,
-			heartsAwarded: 5,
-			tribePointAwarded: false,
 			hearts: 5,
+			tribePointAwarded: false,
 		}
 	}
 
 	const currentUserProgress = await getUserProgress(userId)
-	const nextHearts = 5
+	const now = new Date()
 
 	await db
 		.insert(userCourseProgress)
 		.values({
 			userId: userId!,
 			courseId,
-				points,
-				hearts: nextHearts,
-				lastSeen: new Date(),
-			})
-			.onConflictDoUpdate({
-				target: [userCourseProgress.userId, userCourseProgress.courseId],
-				set: {
-					points: sql`${userCourseProgress.points} + ${points}`,
-					hearts: 5,
-					lastSeen: new Date(),
-				},
-			})
+			points,
+			hearts: currentUserProgress?.hearts ?? 0,
+			lastSeen: now,
+		})
+		.onConflictDoUpdate({
+			target: [userCourseProgress.userId, userCourseProgress.courseId],
+			set: {
+				points: sql`${userCourseProgress.points} + ${points}`,
+				lastSeen: now,
+			},
+		})
+
+	await db
+		.update(userProgress)
+		.set({
+			activeCourseId: courseId,
+			lastSeen: now,
+		})
+		.where(eq(userProgress.userId, userId!))
 
 	let tribePointAwarded = false
 
@@ -67,23 +74,14 @@ export async function awardIntroductionCompletion({
 		tribePointAwarded = true
 	}
 
-	await db
-		.update(userProgress)
-		.set({
-			activeCourseId: courseId,
-			lastSeen: new Date(),
-		})
-		.where(eq(userProgress.userId, userId!))
-
-	revalidatePath('/he/introduction')
 	revalidatePath('/he/learn')
 	revalidatePath('/leaderboard')
+	revalidatePath('/progress')
 
 	return {
 		guest: false,
 		awardedPoints: points,
-		heartsAwarded: 5,
+		hearts: currentUserProgress?.hearts ?? 5,
 		tribePointAwarded,
-		hearts: nextHearts,
 	}
 }

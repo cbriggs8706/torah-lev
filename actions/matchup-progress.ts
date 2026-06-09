@@ -1,44 +1,39 @@
 'use server'
 
-import { eq, sql } from 'drizzle-orm'
+import { sql } from 'drizzle-orm'
 import { revalidatePath } from 'next/cache'
 import { getSession } from '@/lib/auth'
 import { getUserProgress } from '@/db/queries'
 import db from '@/db/drizzle'
-import { tribes, userCourseProgress, userProgress } from '@/db/schema'
+import { userCourseProgress } from '@/db/schema'
 
-type AwardVocabQuizCompletionInput = {
+type AwardMatchupCompletionInput = {
 	courseId: number
-	points: number
 	hearts: number
 }
 
 const isGuestId = (id?: string | null) =>
 	!id || id.startsWith('guest-') || id.length < 10
 
-export async function awardVocabQuizCompletion({
+export async function awardMatchupCompletion({
 	courseId,
-	points,
 	hearts,
-}: AwardVocabQuizCompletionInput) {
+}: AwardMatchupCompletionInput) {
 	const session = await getSession()
 	const userId = session?.user?.id ?? null
 
-	if (!courseId || points <= 0 || hearts < 0) {
-		throw new Error('Invalid vocab quiz reward payload')
+	if (!courseId || hearts < 0) {
+		throw new Error('Invalid matchup reward payload')
 	}
 
 	if (isGuestId(userId)) {
 		return {
 			guest: true,
-			awardedPoints: points,
 			hearts,
-			tribePointAwarded: false,
 		}
 	}
 
 	const currentUserProgress = await getUserProgress(userId)
-	let tribePointAwarded = false
 	const now = new Date()
 
 	await db
@@ -46,44 +41,26 @@ export async function awardVocabQuizCompletion({
 		.values({
 			userId: userId!,
 			courseId,
-			points,
 			hearts,
+			points: 0,
 			lastSeen: now,
 		})
 		.onConflictDoUpdate({
 			target: [userCourseProgress.userId, userCourseProgress.courseId],
 			set: {
-				points: sql`${userCourseProgress.points} + ${points}`,
 				hearts,
 				lastSeen: now,
 			},
 		})
 
-	await db
-		.update(userProgress)
-		.set({
-			activeCourseId: courseId,
-			lastSeen: now,
-		})
-		.where(eq(userProgress.userId, userId!))
-
-	if (currentUserProgress?.tribeId) {
-		await db
-			.update(tribes)
-			.set({ points: sql`${tribes.points} + 1` })
-			.where(eq(tribes.id, currentUserProgress.tribeId))
-		tribePointAwarded = true
-	}
-
+	revalidatePath('/he/matchup')
 	revalidatePath('/he/learn')
-	revalidatePath('/el/learn')
 	revalidatePath('/progress')
 	revalidatePath('/leaderboard')
 
 	return {
 		guest: false,
-		awardedPoints: points,
 		hearts,
-		tribePointAwarded,
+		activeCourseId: currentUserProgress?.activeCourseId ?? courseId,
 	}
 }

@@ -643,13 +643,52 @@ export default function AppSidebar({
 	)
 	const contentRef = useRef<HTMLDivElement | null>(null)
 	const [showScrollCue, setShowScrollCue] = useState(false)
+	const [displayProgress, setDisplayProgress] = useState(userProgress)
+
+	useEffect(() => {
+		setDisplayProgress(userProgress)
+	}, [userProgress])
+
+	useEffect(() => {
+		function handleUserProgressUpdated(event: Event) {
+			const customEvent = event as CustomEvent<{
+				hearts?: number
+				points?: number
+			}>
+
+			setDisplayProgress((current) => {
+				if (!current) return current
+
+				return {
+					...current,
+					hearts:
+						typeof customEvent.detail?.hearts === 'number'
+							? customEvent.detail.hearts
+							: current.hearts,
+					points:
+						typeof customEvent.detail?.points === 'number'
+							? customEvent.detail.points
+							: current.points,
+				}
+			})
+		}
+
+		window.addEventListener('user-progress-updated', handleUserProgressUpdated)
+
+		return () => {
+			window.removeEventListener(
+				'user-progress-updated',
+				handleUserProgressUpdated,
+			)
+		}
+	}, [])
 
 	const resolvedLocale =
-		manualLocale ?? inferLocaleFromPath(pathname, userProgress.activeCourseId)
+		manualLocale ?? inferLocaleFromPath(pathname, displayProgress.activeCourseId)
 	const sections = useMemo(
 		() =>
 			buildSidebarSections({
-				activeCourseId: userProgress.activeCourseId,
+				activeCourseId: displayProgress.activeCourseId,
 				isHebrewFriend,
 				isSpanishFriend,
 				isEnglishFriend,
@@ -657,7 +696,7 @@ export default function AppSidebar({
 				locale: resolvedLocale,
 			}),
 		[
-			userProgress.activeCourseId,
+			displayProgress.activeCourseId,
 			isHebrewFriend,
 			isSpanishFriend,
 			isEnglishFriend,
@@ -668,7 +707,7 @@ export default function AppSidebar({
 
 	const t = (key: Parameters<typeof getSidebarLabel>[1]) =>
 		getSidebarLabel(resolvedLocale, key)
-	const accountLinks = getFooterAccountLinks(userProgress.activeCourseId, {
+	const accountLinks = getFooterAccountLinks(displayProgress.activeCourseId, {
 		leaderboard: t('nav.leaderboard'),
 		dashboard: t('nav.dashboard'),
 	})
@@ -695,7 +734,7 @@ export default function AppSidebar({
 	const isHebrewUi = resolvedLocale === 'he'
 	const sidebarSide = isHebrewUi ? 'right' : 'left'
 	const showHebrewCalendar = [6, 11, 14].includes(
-		userProgress.activeCourseId ?? 0,
+		displayProgress.activeCourseId ?? 0,
 	)
 
 	useEffect(() => {
@@ -803,7 +842,7 @@ export default function AppSidebar({
 								isLoading={isLoading}
 								isSignedIn={isSignedIn}
 								session={session}
-								userProgress={userProgress}
+								userProgress={displayProgress}
 								loginLabel={t('actions.logIn')}
 								logoutLabel={t('actions.logOut')}
 								createAccountLabel={t('actions.createAccount')}
@@ -843,7 +882,7 @@ export default function AppSidebar({
 							isLoading={isLoading}
 							isSignedIn={isSignedIn}
 							session={session}
-							userProgress={userProgress}
+							userProgress={displayProgress}
 							loginLabel={t('actions.logIn')}
 							logoutLabel={t('actions.logOut')}
 							createAccountLabel={t('actions.createAccount')}

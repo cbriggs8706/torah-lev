@@ -33,6 +33,11 @@ export default async function HebrewMatchupPage({
 	// ✅ Guest-safe fallbacks
 	const publicCourseQuery =
 		parseScheduledPublicCourseQuery(resolvedSearchParams)
+	const rawReturnTo = resolvedSearchParams.returnTo
+	const returnTo =
+		typeof rawReturnTo === 'string' && rawReturnTo.startsWith('/')
+			? rawReturnTo
+			: '/he/learn'
 	const activeCourseId = publicCourseQuery.scheduled
 		? (publicCourseQuery.courseId ?? 6)
 		: (userProgress?.activeCourseId ?? 6) // Default to AwB
@@ -55,6 +60,7 @@ export default async function HebrewMatchupPage({
 						alt="Matchup"
 						height={90}
 						width={90}
+						style={{ width: 'auto', height: 'auto' }}
 					/>
 					<h1 className="text-center font-cardo text-neutral-800 text-6xl my-6">
 						הִתְאָמָה
@@ -76,6 +82,7 @@ export default async function HebrewMatchupPage({
 
 					<HebrewMatchup
 						data={hebrewData}
+						initialHearts={userProgress?.hearts ?? 5}
 						currentLesson={
 							typeof currentLesson === 'string'
 								? Number(currentLesson)
@@ -90,6 +97,7 @@ export default async function HebrewMatchupPage({
 						}
 						hideFilters={publicCourseQuery.scheduled}
 						initialFilters={publicCourseQuery.filters}
+						returnTo={returnTo}
 						completionContext={
 							publicCourseQuery.enrollmentId &&
 							publicCourseQuery.publicCourseLessonId

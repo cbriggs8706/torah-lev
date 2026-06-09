@@ -23,7 +23,13 @@ export default async function GreekQuizPage() {
 		<div className="flex flex-row-reverse gap-[48px] px-6">
 			<FeedWrapper>
 				<div className="flex w-full flex-col items-center">
-					<Image src="/gameIcons/quiz.png" alt="Quiz" height={90} width={90} />
+					<Image
+						src="/gameIcons/quiz.png"
+						alt="Quiz"
+						height={90}
+						width={90}
+						style={{ width: 'auto', height: 'auto' }}
+					/>
 					<h1 className="my-6 text-center text-2xl font-bold text-neutral-800">
 						Quiz
 					</h1>

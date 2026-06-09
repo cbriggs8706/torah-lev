@@ -723,7 +723,11 @@ export const publicCourse = pgTable(
 		id: serial('id').primaryKey(),
 		order: integer('order').notNull(),
 		name: text('name').notNull(),
+		description: text('description'),
 		imageUrl: text('image_url').notNull(),
+		curriculumId: integer('curriculum_id').references(() => curriculum.id, {
+			onDelete: 'set null',
+		}),
 		proficiencyLevel: text('proficiency_level'),
 		endingProficiencyLevel: text('ending_proficiency_level'),
 		createdAt: timestamp('created_at').defaultNow().notNull(),
@@ -920,7 +924,11 @@ export const studyGroupCourseRelations = relations(
 	})
 )
 
-export const publicCourseRelations = relations(publicCourse, ({ many }) => ({
+export const publicCourseRelations = relations(publicCourse, ({ one, many }) => ({
+	curriculum: one(curriculum, {
+		fields: [publicCourse.curriculumId],
+		references: [curriculum.id],
+	}),
 	lessons: many(publicCourseLesson),
 	enrollments: many(publicCourseEnrollment),
 }))

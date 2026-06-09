@@ -10,6 +10,7 @@ import {
 import { getHebrewVocabByCourseId } from '@/lib/server/vocab'
 import HebrewFlashcards from '@/components/hebrew/hebrew-flashcards'
 import { parseScheduledPublicCourseQuery } from '@/lib/public-course-activities'
+import type { HebrewVocab } from '@/lib/vocab'
 
 export default async function HebrewFlashcardPage({
 	searchParams,
@@ -31,6 +32,11 @@ export default async function HebrewFlashcardPage({
 
 	// ✅ Guest fallback values
 	const publicCourseQuery = parseScheduledPublicCourseQuery(resolvedSearchParams)
+	const rawReturnTo = resolvedSearchParams.returnTo
+	const returnTo =
+		typeof rawReturnTo === 'string' && rawReturnTo.startsWith('/')
+			? rawReturnTo
+			: '/he/learn'
 	const activeCourseId = publicCourseQuery.scheduled
 		? publicCourseQuery.courseId ?? 6
 		: userProgress?.activeCourseId ?? 6
@@ -53,6 +59,7 @@ export default async function HebrewFlashcardPage({
 						alt="Flashcards"
 						height={90}
 						width={90}
+						style={{ width: 'auto', height: 'auto' }}
 					/>
 					{displayTitle ? (
 						<>
@@ -86,11 +93,22 @@ export default async function HebrewFlashcardPage({
 						courseId={activeCourseId}
 						currentLesson={currentLesson}
 						layout="hebrew"
+						returnTo={returnTo}
 						lockedLesson={
 							publicCourseQuery.scheduled ? publicCourseQuery.lesson ?? undefined : undefined
 						}
 						hideFilters={publicCourseQuery.scheduled}
 						initialFilters={publicCourseQuery.filters}
+						completionContext={
+							publicCourseQuery.enrollmentId &&
+							publicCourseQuery.publicCourseLessonId
+								? {
+										enrollmentId: publicCourseQuery.enrollmentId,
+										publicCourseLessonId:
+											publicCourseQuery.publicCourseLessonId,
+								  }
+								: undefined
+						}
 					/>
 				</div>
 			</FeedWrapper>

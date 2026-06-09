@@ -1,27 +1,28 @@
 'use client'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { RefreshCw } from 'lucide-react'
 import Image from 'next/image'
-import { ResultCard } from '@/app/lesson/result-card'
-import { ActivityFinalScreen } from '@/components/activity-final-screen'
+import { useRouter } from 'next/navigation'
+import { ActivityCompletionScreen } from '@/components/activity-completion-screen'
 import { HebrewVocab } from '@/lib/vocab'
 import { formatRootMorphology, hasRootMorphology } from '@/lib/vocab-morphology'
 import { resolveVocabMediaUrl } from '@/lib/vocab-media'
-import { useAudio, useWindowSize } from 'react-use'
-import ReactConfetti from 'react-confetti'
 import TypeFilter from '../filters/filter-type'
 import LessonFilter from '../filters/filter-lesson'
 import { markPublicCourseActivityComplete } from '@/lib/public-course-progress'
 import type { PublicCourseActivityFilters } from '@/lib/public-course-activities'
+import { dispatchUserProgressUpdated } from '@/lib/user-progress-events'
+import { awardMatchupCompletion } from '@/actions/matchup-progress'
 
 interface WordMatchGameProps {
 	data: HebrewVocab[]
 	currentLesson?: number
 	userId: string
 	courseId: number | null
+	initialHearts: number
 	lockedLesson?: string
 	hideFilters?: boolean
 	initialFilters?: PublicCourseActivityFilters
+	returnTo?: string
 	completionContext?: {
 		enrollmentId: number
 		publicCourseLessonId: number
@@ -111,11 +112,14 @@ export default function WordMatchGame({
 	currentLesson,
 	courseId,
 	userId,
+	initialHearts,
 	lockedLesson,
 	hideFilters = false,
 	initialFilters,
+	returnTo,
 	completionContext,
 }: WordMatchGameProps) {
+	const router = useRouter()
 	const [showFilter, setShowFilter] = useState(false)
 	const [selectedPrompt, setSelectedPrompt] =
 		useState<MatchupKey>(DEFAULT_PROMPT_KEY)
@@ -125,11 +129,6 @@ export default function WordMatchGame({
 	const [selectedType, setSelectedType] = useState<'all' | 'word' | 'phrase'>(
 		'all',
 	)
-	const [showConfetti, setShowConfetti] = useState(false)
-	const [finishAudio] = useAudio({
-		src: '/shofar.mp3',
-		autoPlay: true,
-	})
 	const [promptDeck, setPromptDeck] = useState<HebrewVocab[]>([])
 	const [responseDeck, setResponseDeck] = useState<HebrewVocab[]>([])
 	const [visiblePromptCards, setVisiblePromptCards] = useState<
@@ -147,10 +146,17 @@ export default function WordMatchGame({
 		number | null
 	>(null)
 	const [matchedPairs, setMatchedPairs] = useState(0)
+	const [wrongMatches, setWrongMatches] = useState(0)
 	const [feedback, setFeedback] = useState<null | boolean>(null)
 	const [hasFinished, setHasFinished] = useState(false)
 	const [phase, setPhase] = useState<Phase>('playing')
 	const [awardedPoints, setAwardedPoints] = useState(0)
+	const [tribePointAwarded, setTribePointAwarded] = useState(false)
+	const [completionHearts, setCompletionHearts] = useState(initialHearts)
+	const [heartBonusStatus, setHeartBonusStatus] = useState<
+		'idle' | 'pending' | 'awarded' | 'failed'
+	>('idle')
+	const heartsRef = useRef(initialHearts)
 
 	const [targetSize, setTargetSize] = useState<number>(
 		parseInt(
@@ -167,7 +173,11 @@ export default function WordMatchGame({
 		}
 	}, [targetSize])
 
-	const { width, height } = useWindowSize()
+	useEffect(() => {
+		heartsRef.current = initialHearts
+		setCompletionHearts(initialHearts)
+	}, [initialHearts])
+
 	const publicCourseCompletionRef = useRef(false)
 
 	const getCardId = (card: HebrewVocab) => String(card.id)
@@ -321,10 +331,11 @@ export default function WordMatchGame({
 			setSelectedPromptSlot(null)
 			setSelectedResponseSlot(null)
 			setMatchedPairs(0)
+			setWrongMatches(0)
 			setFeedback(null)
 			setHasFinished(false)
-			setShowConfetti(false)
 			setPhase('playing')
+			setHeartBonusStatus('idle')
 			return
 		}
 
@@ -341,10 +352,11 @@ export default function WordMatchGame({
 		setSelectedPromptSlot(null)
 		setSelectedResponseSlot(null)
 		setMatchedPairs(0)
+		setWrongMatches(0)
 		setFeedback(null)
 		setHasFinished(false)
-		setShowConfetti(false)
 		setPhase('playing')
+		setHeartBonusStatus('idle')
 	}, [filteredCards])
 
 	useEffect(() => {
@@ -362,11 +374,16 @@ export default function WordMatchGame({
 				return
 			}
 			try {
-				await fetch('/api/award-points', {
+				const response = await fetch('/api/award-points', {
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
 					body: JSON.stringify({ userId, courseId, points }),
 				})
+				dispatchUserProgressUpdated({ points })
+				const payload = (await response.json()) as {
+					tribePointAwarded?: boolean
+				}
+				setTribePointAwarded(Boolean(payload.tribePointAwarded))
 			} catch (error) {
 				console.error('Failed to award points', error)
 			}
@@ -376,7 +393,6 @@ export default function WordMatchGame({
 
 	useEffect(() => {
 		if (matchedPairs > 0 && matchedPairs === filteredCards.length && !hasFinished) {
-			setShowConfetti(true)
 			setHasFinished(true)
 			setPhase('results')
 			setAwardedPoints(matchedPairs)
@@ -410,13 +426,75 @@ export default function WordMatchGame({
 
 	const totalCards = filteredCards.length
 	const matchedCount = matchedPairs
-	const sideCardMinWidth = Math.max(220, targetSize + 64)
+	const sideCardMinWidth = Math.max(160, targetSize + 48)
 	const cardBodyMinHeight = Math.max(180, targetSize + 40)
 
 	const playFeedbackSound = useCallback((src: string) => {
 		const audio = new Audio(src)
 		audio.play().catch(() => {})
 	}, [])
+
+	const reduceCourseHeart = useCallback(async () => {
+		if (!courseId || userId.startsWith('guest')) return
+
+		const previousHearts = heartsRef.current
+		const nextHearts = Math.max(previousHearts - 1, 0)
+		heartsRef.current = nextHearts
+		dispatchUserProgressUpdated({ hearts: nextHearts })
+
+		try {
+			const response = await fetch('/api/reduce-course-heart', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ courseId }),
+			})
+
+			if (!response.ok) {
+				throw new Error(`Failed to reduce course hearts: ${response.status}`)
+			}
+
+			const payload = (await response.json()) as { hearts?: number }
+			if (typeof payload.hearts === 'number') {
+				heartsRef.current = payload.hearts
+				dispatchUserProgressUpdated({ hearts: payload.hearts })
+			}
+		} catch (error) {
+			heartsRef.current = previousHearts
+			dispatchUserProgressUpdated({ hearts: previousHearts })
+			console.error('Failed to reduce course heart', error)
+		}
+	}, [courseId, userId])
+
+	const awardPerfectRunHeart = useCallback(
+		async (nextHearts: number) => {
+			if (!courseId || userId.startsWith('guest')) return
+
+			const previousHearts = heartsRef.current
+			heartsRef.current = nextHearts
+			setCompletionHearts(nextHearts)
+			dispatchUserProgressUpdated({ hearts: nextHearts })
+
+			try {
+				const result = await awardMatchupCompletion({
+					courseId,
+					hearts: nextHearts,
+				})
+
+				const persistedHearts = result.hearts
+				heartsRef.current = persistedHearts
+				setCompletionHearts(persistedHearts)
+				dispatchUserProgressUpdated({ hearts: persistedHearts })
+				setHeartBonusStatus('awarded')
+			} catch (error) {
+				heartsRef.current = previousHearts
+				setCompletionHearts(previousHearts)
+				dispatchUserProgressUpdated({ hearts: previousHearts })
+				setHeartBonusStatus('failed')
+				console.error('Failed to award matchup heart bonus', error)
+			}
+		},
+		[courseId, userId],
+	)
 
 	const refillVisibleCard = useCallback(
 		(
@@ -504,6 +582,8 @@ export default function WordMatchGame({
 		}
 
 		playFeedbackSound('/incorrect.wav')
+		setWrongMatches((prev) => prev + 1)
+		void reduceCourseHeart()
 		setFeedback(false)
 		setTimeout(() => {
 			setSelectedPromptSlot(null)
@@ -521,6 +601,26 @@ export default function WordMatchGame({
 		visiblePromptCards,
 		visibleResponseCards,
 		playFeedbackSound,
+		reduceCourseHeart,
+	])
+
+	useEffect(() => {
+		if (phase !== 'results' || hasFinished === false) return
+		if (heartBonusStatus !== 'idle') return
+		if (wrongMatches > 0) {
+			setHeartBonusStatus('failed')
+			return
+		}
+
+		const nextHearts = Math.min(heartsRef.current + 1, 5)
+		setHeartBonusStatus('pending')
+		void awardPerfectRunHeart(nextHearts)
+	}, [
+		awardPerfectRunHeart,
+		hasFinished,
+		heartBonusStatus,
+		phase,
+		wrongMatches,
 	])
 
 	function renderCardContent(
@@ -584,15 +684,13 @@ export default function WordMatchGame({
 			}
 
 			return (
-				<button
-					type="button"
+				<div
 					onClick={playAudio}
-					className="flex h-full items-center justify-center bg-white text-gray-800 transition hover:bg-gray-50"
+					className="flex h-full cursor-pointer items-center justify-center bg-white text-gray-800 transition hover:bg-gray-50"
 					style={{ minHeight: cardBodyMinHeight }}
-					aria-label={`Play ${option.label}`}
 				>
 					<div className={`rounded-full p-5 text-5xl ${iconTone}`}>🔊</div>
-				</button>
+				</div>
 			)
 		}
 
@@ -618,80 +716,48 @@ export default function WordMatchGame({
 	}
 
 	if (phase === 'results') {
+		const returnHref =
+			typeof returnTo === 'string' && returnTo.startsWith('/')
+				? returnTo
+				: '/he/learn'
+		const returnLabel = returnHref.startsWith('/courses/public/')
+			? 'Return to Course'
+			: 'Return to Learn'
+		const perfectRun = wrongMatches === 0
+		const displayHearts = completionHearts
+		const rewardMessage = perfectRun ? (
+			<>
+				You earned {awardedPoints} point{awardedPoints === 1 ? '' : 's'}, got +1
+				heart{tribePointAwarded ? ', and earned +1 Tribe Point.' : '.'}
+			</>
+		) : (
+			<>
+				You earned {awardedPoints} point{awardedPoints === 1 ? '' : 's'} and
+				finished with {displayHearts} heart{displayHearts === 1 ? '' : 's'}.
+			</>
+		)
+
 		return (
-			<ActivityFinalScreen
+			<ActivityCompletionScreen
 				title="Lesson Complete"
-				description="You matched every card correctly and earned your point."
-				stats={[
-					{
-						label: 'Matched',
-						value: matchedCount,
-						valueClassName: 'text-emerald-600',
-					},
-					{
-						label: 'Cards',
-						value: totalCards,
-					},
-					{
-						label: 'Points',
-						value: awardedPoints,
-						valueClassName: 'text-sky-700',
-					},
-				]}
-				rewards={
-					<div className="mx-auto flex w-full max-w-md gap-4">
-						<ResultCard variant="points" value={awardedPoints} tribePointAdded={false} />
-					</div>
-				}
-				actions={
-					<div className="flex flex-col justify-center gap-3 sm:flex-row">
-						<button
-							type="button"
-							onClick={resetBoard}
-							className="inline-flex items-center justify-center gap-2 rounded-full border border-sky-200 bg-sky-50 px-5 py-3 font-semibold text-sky-700 transition hover:border-sky-300 hover:bg-sky-100"
-						>
-							<RefreshCw className="h-4 w-4" />
-							Play Again
-						</button>
-						<button
-							type="button"
-							onClick={() => setShowFilter(true)}
-							className="rounded-full border border-slate-300 bg-white px-5 py-3 font-semibold text-slate-700 transition hover:border-slate-400 hover:bg-slate-50"
-						>
-							Change Filters
-						</button>
-					</div>
-				}
-				celebration={
-					<>
-						{finishAudio}
-						{showConfetti ? (
-							<ReactConfetti
-								width={width}
-								height={height}
-								recycle={false}
-								numberOfPieces={500}
-								tweenDuration={10000}
-							/>
-						) : null}
-					</>
-				}
+				description="You matched every card correctly and earned your points."
+				rewardMessage={rewardMessage}
+				points={awardedPoints}
+				hearts={displayHearts}
+				tribePointAwarded={tribePointAwarded}
+				showTribeBox={true}
+				leftActionLabel="Play Again"
+				leftActionOnClick={resetBoard}
+				rightActionLabel={returnLabel}
+				rightActionOnClick={() => {
+					router.push(returnHref)
+				}}
 			/>
 		)
 	}
 
 	return (
 		<div className="max-w-4xl mx-auto p-4">
-			{showConfetti && (
-				<ReactConfetti
-					width={width}
-					height={height}
-					recycle={false}
-					numberOfPieces={500}
-					tweenDuration={10000}
-				/>
-			)}
-
 			<div className="mb-4 space-y-4">
 				<div className="flex flex-wrap items-center justify-center gap-3">
 					{!hideFilters ? (
@@ -827,7 +893,7 @@ export default function WordMatchGame({
 						</div>
 					)}
 
-					<div className="grid gap-6 md:grid-cols-2">
+					<div className="grid grid-cols-2 gap-3 md:gap-6">
 						<div className="space-y-3">
 							<h2 className="text-center text-lg font-semibold text-slate-900">
 								Responses
@@ -835,16 +901,23 @@ export default function WordMatchGame({
 							<div
 								className="grid gap-3"
 								style={{
-									gridTemplateColumns: `repeat(auto-fit, minmax(${sideCardMinWidth}px, 1fr))`,
+									gridTemplateColumns: `repeat(auto-fit, minmax(min(100%, ${sideCardMinWidth}px), 1fr))`,
 								}}
 							>
 								{visibleResponseCards.map((card, index) =>
 									card ? (
-										<button
+										<div
 											key={`${card.id}-${index}-response`}
-											type="button"
+											role="button"
+											tabIndex={0}
 											onClick={() => handleCardSelection('response', index)}
-											className={`overflow-hidden rounded-2xl border-2 text-left transition ${
+											onKeyDown={(event) => {
+												if (event.key === 'Enter' || event.key === ' ') {
+													event.preventDefault()
+													handleCardSelection('response', index)
+												}
+											}}
+											className={`overflow-hidden rounded-2xl border-2 text-left transition focus:outline-none focus:ring-2 focus:ring-emerald-200 ${
 												selectedResponseSlot === index
 													? 'border-emerald-700 bg-emerald-700 text-white shadow-md ring-2 ring-emerald-200'
 													: 'border-gray-300 bg-white hover:border-gray-400'
@@ -854,7 +927,7 @@ export default function WordMatchGame({
 											<div className="flex h-full w-full flex-col">
 												{renderCardContent(card, selectedResponseConfig, 'response')}
 											</div>
-										</button>
+										</div>
 									) : null,
 								)}
 							</div>
@@ -867,16 +940,23 @@ export default function WordMatchGame({
 							<div
 								className="grid gap-3"
 								style={{
-									gridTemplateColumns: `repeat(auto-fit, minmax(${sideCardMinWidth}px, 1fr))`,
+									gridTemplateColumns: `repeat(auto-fit, minmax(min(100%, ${sideCardMinWidth}px), 1fr))`,
 								}}
 							>
 								{visiblePromptCards.map((card, index) =>
 									card ? (
-										<button
+										<div
 											key={`${card.id}-${index}-prompt`}
-											type="button"
+											role="button"
+											tabIndex={0}
 											onClick={() => handleCardSelection('prompt', index)}
-											className={`overflow-hidden rounded-2xl border-2 text-left transition ${
+											onKeyDown={(event) => {
+												if (event.key === 'Enter' || event.key === ' ') {
+													event.preventDefault()
+													handleCardSelection('prompt', index)
+												}
+											}}
+											className={`overflow-hidden rounded-2xl border-2 text-left transition focus:outline-none focus:ring-2 focus:ring-emerald-200 ${
 												selectedPromptSlot === index
 													? 'border-emerald-700 bg-emerald-700 text-white shadow-md ring-2 ring-emerald-200'
 													: 'border-gray-300 bg-white hover:border-gray-400'
@@ -886,7 +966,7 @@ export default function WordMatchGame({
 											<div className="flex h-full w-full flex-col">
 												{renderCardContent(card, selectedPromptConfig, 'prompt')}
 											</div>
-										</button>
+										</div>
 									) : null,
 								)}
 							</div>

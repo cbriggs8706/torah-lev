@@ -22,6 +22,11 @@ export default async function HebrewQuizPage({
 	])
 
 	const publicCourseQuery = parseScheduledPublicCourseQuery(resolvedSearchParams)
+	const rawReturnTo = resolvedSearchParams.returnTo
+	const returnTo =
+		typeof rawReturnTo === 'string' && rawReturnTo.startsWith('/')
+			? rawReturnTo
+			: '/he/learn'
 	const activeCourseId = publicCourseQuery.scheduled
 		? publicCourseQuery.courseId ?? 6
 		: userProgress?.activeCourseId ?? 6
@@ -34,7 +39,13 @@ export default async function HebrewQuizPage({
 		<div className="flex flex-row-reverse gap-[48px] px-6">
 			<FeedWrapper>
 				<div className="flex w-full flex-col items-center">
-					<Image src="/gameIcons/quiz.png" alt="Quiz" height={90} width={90} />
+					<Image
+						src="/gameIcons/quiz.png"
+						alt="Quiz"
+						height={90}
+						width={90}
+						style={{ width: 'auto', height: 'auto' }}
+					/>
 					<h1 className="my-6 text-center font-cardo text-6xl text-neutral-800">
 						חידון
 					</h1>
@@ -53,6 +64,7 @@ export default async function HebrewQuizPage({
 						userId={userId}
 						layout="hebrew"
 						initialHearts={userProgress?.hearts ?? 5}
+						returnTo={returnTo}
 						filtersLocked={publicCourseQuery.scheduled}
 						initialFilters={publicCourseQuery.filters}
 						completionContext={

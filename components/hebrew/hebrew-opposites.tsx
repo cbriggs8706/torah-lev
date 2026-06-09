@@ -9,6 +9,7 @@ import { ResultCard } from '@/app/lesson/result-card'
 import { ActivityFinalScreen } from '@/components/activity-final-screen'
 import LessonFilter from '@/components/filters/filter-lesson'
 import { useLessonCards } from '@/hooks/useLessonCards'
+import { dispatchUserProgressUpdated } from '@/lib/user-progress-events'
 import type { HebrewVocab } from '@/lib/vocab'
 
 type HebrewOppositesProps = {
@@ -337,6 +338,10 @@ export default function HebrewOpposites({
 					awardedPoints: result.awardedPoints,
 					hearts: result.hearts,
 					tribePointAwarded: result.tribePointAwarded,
+				})
+				dispatchUserProgressUpdated({
+					hearts: result.hearts,
+					points: result.awardedPoints,
 				})
 				setCompletionAwarded(true)
 			} catch (error) {

@@ -6,15 +6,15 @@ import { Button } from '@/components/ui/button'
 import Image from 'next/image'
 
 function safeRedirect(path: string | null) {
-	if (!path) return '/curriculum'
+	if (!path) return '/courses'
 
 	try {
 		const decoded = decodeURIComponent(path)
-		if (!decoded.startsWith('/')) return '/curriculum'
-		if (decoded.startsWith('//')) return '/curriculum'
+		if (!decoded.startsWith('/')) return '/courses'
+		if (decoded.startsWith('//')) return '/courses'
 		return decoded
 	} catch {
-		return '/curriculum'
+		return '/courses'
 	}
 }
 
@@ -76,7 +76,7 @@ export default function AuthPage() {
 						document.cookie = `guestId=${guestId}; path=/; max-age=31536000`
 						document.cookie = `guestActiveCourseId=${defaultCourseId}; path=/; max-age=31536000`
 
-						window.location.href = '/curriculum'
+						window.location.href = '/courses'
 					}}
 				>
 					Continue as Guest

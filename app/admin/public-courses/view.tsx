@@ -14,6 +14,7 @@ import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { Textarea } from '@/components/ui/textarea'
 import {
 	Command,
 	CommandEmpty,
@@ -44,6 +45,8 @@ import { getPublicCourseActivityDefinition } from '@/lib/public-course-activitie
 const blankForm = {
 	order: '',
 	name: '',
+	description: '',
+	curriculumId: '',
 	proficiencyLevel: '',
 	endingProficiencyLevel: '',
 }
@@ -178,6 +181,8 @@ export default function PublicCoursesAdminPage() {
 		setForm({
 			order: String(course.order ?? ''),
 			name: course.name,
+			description: course.description ?? '',
+			curriculumId: course.curriculumId ? String(course.curriculumId) : '',
 			proficiencyLevel: course.proficiencyLevel ?? '',
 			endingProficiencyLevel: course.endingProficiencyLevel ?? '',
 		})
@@ -267,6 +272,11 @@ export default function PublicCoursesAdminPage() {
 			return
 		}
 
+		if (!form.curriculumId.trim()) {
+			toast.error('Curriculum is required.')
+			return
+		}
+
 		if (!draftLessons.length) {
 			toast.error('Add at least one lesson to this public course.')
 			return
@@ -287,6 +297,8 @@ export default function PublicCoursesAdminPage() {
 			const formData = new FormData()
 			formData.append('order', String(order))
 			formData.append('name', form.name.trim())
+			formData.append('description', form.description.trim())
+			formData.append('curriculumId', form.curriculumId)
 			formData.append('proficiencyLevel', form.proficiencyLevel.trim())
 			formData.append(
 				'endingProficiencyLevel',
@@ -414,8 +426,10 @@ export default function PublicCoursesAdminPage() {
 											{course.name}
 										</p>
 										<p className="mt-1 text-sm text-slate-600">
-											{course.lessons.length} curated lesson
-											{course.lessons.length === 1 ? '' : 's'}
+											{course.description?.trim() || 'No description yet'}
+										</p>
+										<p className="mt-2 text-xs font-medium uppercase tracking-[0.18em] text-slate-500">
+											{course.curriculum?.title ?? 'No curriculum'}
 										</p>
 									</div>
 									<span className="rounded-full border border-slate-200 bg-white px-2 py-1 text-xs font-medium text-slate-600">
@@ -464,12 +478,51 @@ export default function PublicCoursesAdminPage() {
 							/>
 						</div>
 						<div className="space-y-2">
+							<Label htmlFor="public-course-curriculum">Curriculum</Label>
+							<select
+								id="public-course-curriculum"
+								value={form.curriculumId}
+								required
+								onChange={(event) =>
+									setForm((current) => ({
+										...current,
+										curriculumId: event.target.value,
+									}))
+								}
+								className="h-10 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm outline-none transition focus:border-sky-400 focus:ring-2 focus:ring-sky-100"
+							>
+								<option value="" disabled>
+									Select a curriculum
+								</option>
+								{platformCourses.map((course) => (
+									<option key={course.id} value={course.id}>
+										{course.title}
+									</option>
+								))}
+							</select>
+						</div>
+						<div className="space-y-2">
 							<Label htmlFor="public-course-image">Course image</Label>
 							<Input
 								id="public-course-image"
 								type="file"
 								accept="image/*"
 								onChange={handleFileChange}
+							/>
+						</div>
+						<div className="space-y-2 md:col-span-2">
+							<Label htmlFor="public-course-description">Description</Label>
+							<Textarea
+								id="public-course-description"
+								value={form.description}
+								onChange={(event) =>
+									setForm((current) => ({
+										...current,
+										description: event.target.value,
+									}))
+								}
+								placeholder="A quick summary that replaces the lesson count on the course card."
+								rows={3}
 							/>
 						</div>
 						<div className="space-y-2">

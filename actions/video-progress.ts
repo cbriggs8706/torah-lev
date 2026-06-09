@@ -4,8 +4,9 @@ import { and, eq, sql } from 'drizzle-orm'
 import { revalidatePath } from 'next/cache'
 
 import db from '@/db/drizzle'
+import { getUserProgress } from '@/db/queries'
 import { getSession } from '@/lib/auth'
-import { userCourseProgress, userVideoProgress } from '@/db/schema'
+import { tribes, userCourseProgress, userVideoProgress } from '@/db/schema'
 
 type AwardVideoCompletionInput = {
 	courseId: number
@@ -32,11 +33,14 @@ export async function awardVideoCompletion({
 		return {
 			guest: true,
 			awardedPoints: points,
+			hearts: 5,
+			tribePointAwarded: false,
 			completed: true,
 		}
 	}
 
 	const now = new Date()
+	const currentUserProgress = await getUserProgress(userId)
 	const existing = await db.query.userVideoProgress.findFirst({
 		where: and(
 			eq(userVideoProgress.userId, userId!),
@@ -46,6 +50,9 @@ export async function awardVideoCompletion({
 			id: true,
 		},
 	})
+
+	const isRewatch = Boolean(existing)
+	const awardedPoints = isRewatch ? 0 : points
 
 	await db
 		.insert(userVideoProgress)
@@ -71,24 +78,57 @@ export async function awardVideoCompletion({
 			.values({
 				userId: userId!,
 				courseId,
-				points,
+				points: awardedPoints,
+				hearts: 5,
 				lastSeen: now,
 			})
 			.onConflictDoUpdate({
 				target: [userCourseProgress.userId, userCourseProgress.courseId],
 				set: {
-					points: sql`${userCourseProgress.points} + ${points}`,
+					points: sql`${userCourseProgress.points} + ${awardedPoints}`,
+					hearts: 5,
+					lastSeen: now,
+				},
+			})
+	} else {
+		await db
+			.insert(userCourseProgress)
+			.values({
+				userId: userId!,
+				courseId,
+				points: 0,
+				hearts: 5,
+				lastSeen: now,
+			})
+			.onConflictDoUpdate({
+				target: [userCourseProgress.userId, userCourseProgress.courseId],
+				set: {
+					hearts: 5,
 					lastSeen: now,
 				},
 			})
 	}
 
+	let tribePointAwarded = false
+
+	if (!isRewatch && currentUserProgress?.tribeId) {
+		await db
+			.update(tribes)
+			.set({ points: sql`${tribes.points} + 1` })
+			.where(eq(tribes.id, currentUserProgress.tribeId))
+		tribePointAwarded = true
+	}
+
 	revalidatePath('/he/videos')
 	revalidatePath('/progress')
+	revalidatePath('/he/dashboard')
+	revalidatePath('/leaderboard')
 
 	return {
 		guest: false,
-		awardedPoints: points,
+		awardedPoints,
+		hearts: 5,
+		tribePointAwarded,
 		completed: true,
 	}
 }

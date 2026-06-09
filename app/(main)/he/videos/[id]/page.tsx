@@ -85,6 +85,7 @@ export default async function HebrewLessonScriptPage({
 						alt="Video"
 						height={90}
 						width={90}
+						style={{ width: 'auto', height: 'auto' }}
 					/>
 					<h1 className="text-center font-cardo text-neutral-800 text-6xl my-6">
 						סרטון שיעור

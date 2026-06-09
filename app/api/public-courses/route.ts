@@ -1,9 +1,10 @@
 import { NextResponse } from 'next/server'
-import { asc, max } from 'drizzle-orm'
+import { asc, eq, max } from 'drizzle-orm'
 import { z } from 'zod'
 
 import db from '@/db/drizzle'
 import {
+	curriculum,
 	publicCourse,
 	publicCourseLesson,
 	publicCourseLessonActivity,
@@ -20,6 +21,12 @@ const bucketName =
 
 const publicCourseSchema = z.object({
 	name: z.string().trim().min(1, 'Course name is required.').max(120),
+	description: z
+		.string()
+		.trim()
+		.max(240)
+		.optional()
+		.transform((value) => value || null),
 	order: z.number().int().positive().optional(),
 	proficiencyLevel: z
 		.string()
@@ -31,12 +38,19 @@ const publicCourseSchema = z.object({
 		.trim()
 		.optional()
 		.transform((value) => value || null),
+	curriculumId: z.number().int().positive(),
 })
 
 export async function GET() {
 	const courses = await db.query.publicCourse.findMany({
 		orderBy: [asc(publicCourse.order), asc(publicCourse.name)],
 		with: {
+			curriculum: {
+				columns: {
+					id: true,
+					title: true,
+				},
+			},
 			lessons: {
 				orderBy: [asc(publicCourseLesson.order)],
 				with: {
@@ -89,16 +103,24 @@ export async function POST(request: Request) {
 		const formData = await request.formData()
 		const image = formData.get('image')
 		const rawName = formData.get('name')
+		const rawDescription = formData.get('description')
 		const rawOrder = formData.get('order')
 		const rawProficiencyLevel = formData.get('proficiencyLevel')
 		const rawEndingProficiencyLevel = formData.get('endingProficiencyLevel')
+		const rawCurriculumId = formData.get('curriculumId')
 		const parsedOrder =
 			typeof rawOrder === 'string' && rawOrder.trim()
 				? Number(rawOrder)
 				: undefined
+		const parsedCurriculumId =
+			typeof rawCurriculumId === 'string' && rawCurriculumId.trim()
+				? Number(rawCurriculumId)
+				: null
 
 		const parsed = publicCourseSchema.safeParse({
 			name: typeof rawName === 'string' ? rawName : '',
+			description:
+				typeof rawDescription === 'string' ? rawDescription : undefined,
 			order:
 				Number.isFinite(parsedOrder) && parsedOrder !== undefined
 					? parsedOrder
@@ -111,6 +133,10 @@ export async function POST(request: Request) {
 				typeof rawEndingProficiencyLevel === 'string'
 					? rawEndingProficiencyLevel
 					: undefined,
+			curriculumId:
+				Number.isFinite(parsedCurriculumId) && parsedCurriculumId !== null
+					? parsedCurriculumId
+					: null,
 		})
 
 		if (!parsed.success) {
@@ -118,6 +144,20 @@ export async function POST(request: Request) {
 				{ error: parsed.error.issues[0]?.message || 'Invalid public course' },
 				{ status: 400 }
 			)
+		}
+
+		if (parsed.data.curriculumId !== null) {
+			const linkedCurriculum = await db.query.curriculum.findFirst({
+				where: eq(curriculum.id, parsed.data.curriculumId),
+				columns: { id: true },
+			})
+
+			if (!linkedCurriculum) {
+				return NextResponse.json(
+					{ error: 'Selected curriculum not found' },
+					{ status: 400 }
+				)
+			}
 		}
 
 		const [{ maxOrder }] = await db
@@ -140,7 +180,9 @@ export async function POST(request: Request) {
 			.values({
 				order,
 				name: parsed.data.name,
+				description: parsed.data.description,
 				imageUrl,
+				curriculumId: parsed.data.curriculumId,
 				proficiencyLevel: parsed.data.proficiencyLevel,
 				endingProficiencyLevel: parsed.data.endingProficiencyLevel,
 			})

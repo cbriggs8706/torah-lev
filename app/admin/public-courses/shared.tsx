@@ -57,7 +57,13 @@ export type PublicCourseRecord = {
 	id: number
 	order: number
 	name: string
+	description: string | null
 	imageUrl: string
+	curriculumId: number | null
+	curriculum: {
+		id: number
+		title: string
+	} | null
 	proficiencyLevel: string | null
 	endingProficiencyLevel: string | null
 	lessons: CuratedLesson[]

@@ -1,17 +1,71 @@
-import { asc } from 'drizzle-orm'
+import { asc, and, eq, inArray } from 'drizzle-orm'
 
 import db from '@/db/drizzle'
-import { publicCourse, studyGroupCourse } from '@/db/schema'
+import {
+	publicCourse,
+	publicCourseEnrollment,
+	studyGroupMembers,
+	studyGroups,
+	userVideoProgress,
+	studyGroupCourse,
+} from '@/db/schema'
 import CatalogCard from '@/components/courses/catalog-card'
+import PublicCoursesSection from '@/components/courses/public-courses-section'
+import { getSession } from '@/lib/auth'
+import { getHebrewLessonVideoIdsByLessonIds } from '@/lib/server/public-course-activity-options'
+import { isPublicCourseVideoActivityKey } from '@/lib/public-course-activities'
 
 export const dynamic = 'force-dynamic'
 
 export default async function CoursesPage() {
-	const [publicCourses, studyGroupCourses] = await Promise.all([
+	const session = await getSession()
+	const userId = session?.user?.id ?? null
+
+	const [publicCourses, studyGroupCourses, accessibleStudyGroups] = await Promise.all([
 		db.query.publicCourse.findMany({
 			orderBy: [asc(publicCourse.order), asc(publicCourse.name)],
 			with: {
-				lessons: true,
+				curriculum: {
+					columns: {
+						id: true,
+						title: true,
+					},
+				},
+				lessons: {
+					columns: {
+						id: true,
+					},
+					with: {
+						lesson: {
+							columns: {
+								id: true,
+							},
+						},
+						activities: {
+							columns: {
+								id: true,
+								isEnabled: true,
+								activityKey: true,
+							},
+						},
+					},
+				},
+				enrollments: userId
+					? {
+							where: eq(publicCourseEnrollment.userId, userId),
+							columns: {
+								id: true,
+								publicCourseId: true,
+							},
+							with: {
+								activityProgress: {
+									columns: {
+										publicCourseLessonActivityId: true,
+									},
+								},
+							},
+						}
+					: undefined,
 			},
 		}),
 		db.query.studyGroupCourse.findMany({
@@ -26,11 +80,162 @@ export default async function CoursesPage() {
 				},
 			},
 		}),
+		userId
+			? Promise.all([
+					db.query.studyGroups.findMany({
+						where: eq(studyGroups.groupType, 'Public'),
+						orderBy: [asc(studyGroups.name)],
+						columns: {
+							id: true,
+							name: true,
+							groupType: true,
+							organization: true,
+							level: true,
+							section: true,
+						},
+					}),
+					db.query.studyGroups.findMany({
+						where: eq(studyGroups.teacherId, userId),
+						orderBy: [asc(studyGroups.name)],
+						columns: {
+							id: true,
+							name: true,
+							groupType: true,
+							organization: true,
+							level: true,
+							section: true,
+						},
+					}),
+					db.query.studyGroupMembers.findMany({
+						where: eq(studyGroupMembers.userId, userId),
+						with: {
+							studyGroup: {
+								columns: {
+									id: true,
+									name: true,
+									groupType: true,
+									organization: true,
+									level: true,
+									section: true,
+								},
+							},
+						},
+					}),
+				]).then(([publicGroups, teachingGroups, memberGroups]) => {
+					const combined = [
+						...publicGroups,
+						...teachingGroups,
+						...memberGroups.map((membership) => membership.studyGroup),
+					].filter((group) => group.groupType !== 'Self-paced')
+
+					return Array.from(
+						new Map(combined.map((group) => [group.id, group])).values(),
+					)
+				})
+			: Promise.resolve([]),
 	])
 
 	const visibleStudyGroupCourses = studyGroupCourses.filter(
 		(course) => course.studyGroup?.groupType === 'Public',
 	)
+	const enrollmentByCourseId = new Map(
+		publicCourses
+			.map((course) => course.enrollments?.[0] ?? null)
+			.filter(
+				(enrollment): enrollment is NonNullable<
+					(typeof publicCourses)[number]['enrollments']
+				>[number] => enrollment != null,
+			)
+			.map((enrollment) => [
+				enrollment.publicCourseId,
+				{
+					activityProgress: new Set(
+						(enrollment.activityProgress ?? []).map(
+							(progress) => progress.publicCourseLessonActivityId,
+						),
+					),
+				},
+			]),
+	)
+
+	const publicCourseLessonIds = publicCourses.flatMap((course) =>
+		course.lessons.map((lesson) => lesson.lesson.id),
+	)
+	const lessonVideoIdsByLessonId =
+		publicCourseLessonIds.length > 0
+			? await getHebrewLessonVideoIdsByLessonIds(publicCourseLessonIds)
+			: new Map<number, { lessonScriptId: number | null; lessonScriptPartBId: number | null; lessonScriptReviewId: number | null }>()
+
+	const videoIdsToFetch = Array.from(
+		new Set(
+			Array.from(lessonVideoIdsByLessonId.values()).flatMap((ids) => [
+				ids.lessonScriptId,
+				ids.lessonScriptPartBId,
+				ids.lessonScriptReviewId,
+			]),
+		),
+	).filter((id): id is number => typeof id === 'number')
+
+	const completedVideoIds =
+		userId && videoIdsToFetch.length > 0
+			? await db.query.userVideoProgress
+					.findMany({
+						where: and(
+							eq(userVideoProgress.userId, userId),
+							inArray(userVideoProgress.videoId, videoIdsToFetch),
+						),
+						columns: {
+							videoId: true,
+						},
+					})
+					.then((rows) => rows.map((row) => row.videoId))
+			: []
+	const completedVideoIdSet = new Set(completedVideoIds)
+	const publicCourseCards = publicCourses.map((course) => {
+		const enrollment = enrollmentByCourseId.get(course.id)
+		const totalEnabledActivities = course.lessons.reduce((total, lesson) => {
+			return (
+				total + lesson.activities.filter((activity) => activity.isEnabled).length
+			)
+		}, 0)
+		const completedActivities = course.lessons.reduce((total, lesson) => {
+			const lessonVideoIds = lessonVideoIdsByLessonId.get(lesson.lesson.id) ?? null
+
+			const completedForLesson = lesson.activities.filter((activity) => {
+				if (!activity.isEnabled) return false
+
+				if (isPublicCourseVideoActivityKey(activity.activityKey)) {
+					const videoId =
+						activity.activityKey === 'lesson_script'
+							? lessonVideoIds?.lessonScriptId
+							: activity.activityKey === 'lesson_script_part_b'
+								? lessonVideoIds?.lessonScriptPartBId
+								: lessonVideoIds?.lessonScriptReviewId
+
+					return Boolean(videoId != null && completedVideoIdSet.has(videoId))
+				}
+
+				return enrollment?.activityProgress.has(activity.id) ?? false
+			}).length
+
+			return total + completedForLesson
+		}, 0)
+		const isEnrolled = Boolean(enrollment)
+
+		return {
+			id: course.id,
+			curriculumTitle: course.curriculum?.title ?? null,
+			name: course.name,
+			imageUrl: course.imageUrl,
+			description: course.description ?? null,
+			progress: isEnrolled
+				? {
+						completed: completedActivities,
+						total: totalEnabledActivities,
+					}
+				: null,
+		}
+	})
 
 	return (
 		<div className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
@@ -43,55 +248,69 @@ export default async function CoursesPage() {
 			</div>
 
 			<div className="mt-8 space-y-10">
-				<section className="space-y-4">
-					<div>
-						<h2 className="text-2xl font-semibold text-slate-900">
-							Public Courses
-						</h2>
-						<p className="text-sm text-slate-600">
-							Start on your own schedule and set your own target dates.
-						</p>
-					</div>
-					<div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
-						{publicCourses.map((course) => (
-							<CatalogCard
-								key={`public-${course.id}`}
-								href={`/courses/public/${course.id}`}
-								title={course.name}
-								imageUrl={course.imageUrl}
-								kindLabel="Self-paced"
-								subtitle={`${course.lessons.length} lesson${
-									course.lessons.length === 1 ? '' : 's'
-								}`}
-								proficiencyLevel={course.proficiencyLevel}
-								endingProficiencyLevel={course.endingProficiencyLevel}
-							/>
-						))}
-					</div>
-				</section>
+				{accessibleStudyGroups.length > 0 ? (
+					<section className="space-y-4">
+						<div>
+							<h2 className="text-2xl font-semibold text-slate-900">
+								My Study Groups
+							</h2>
+							<p className="text-sm text-slate-600">
+								Public groups plus any private groups you teach or belong to.
+							</p>
+						</div>
+						<div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+							{accessibleStudyGroups.map((group) => (
+								<CatalogCard
+									key={`my-study-group-${group.id}`}
+									href={`/study-group/${group.id}`}
+									title={group.name}
+									imageUrl="/mascot.svg"
+									kindLabel={
+										group.groupType === 'Public'
+											? 'Public study group'
+											: 'Private study group'
+									}
+									subtitle={[
+										group.organization,
+										group.level ? `Level ${group.level}` : null,
+										group.section,
+									]
+										.filter(Boolean)
+										.join(' · ')}
+									ctaLabel="Open study group"
+								/>
+							))}
+						</div>
+					</section>
+				) : null}
 
-				<section className="space-y-4">
-					<div>
-						<h2 className="text-2xl font-semibold text-slate-900">
-							Public Study Groups
-						</h2>
-						<p className="text-sm text-slate-600">
-							Join a public study group when you want a curated group-led path.
-						</p>
-					</div>
-					<div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
-						{visibleStudyGroupCourses.map((course) => (
-							<CatalogCard
-								key={`study-group-${course.id}`}
-								href={`/courses/study-group/${course.studyGroupId}/${course.id}`}
-								title={course.name}
-								imageUrl={course.imageUrl}
-								kindLabel="Study group"
-								subtitle={course.studyGroup?.name ?? 'Public study group'}
-							/>
-						))}
-					</div>
-				</section>
+				<PublicCoursesSection courses={publicCourseCards} />
+
+				{visibleStudyGroupCourses.length > 0 ? (
+					<section className="space-y-4">
+						<div>
+							<h2 className="text-2xl font-semibold text-slate-900">
+								Public Study Groups
+							</h2>
+							<p className="text-sm text-slate-600">
+								Join a public study group when you want a curated group-led
+								path.
+							</p>
+						</div>
+						<div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+							{visibleStudyGroupCourses.map((course) => (
+								<CatalogCard
+									key={`study-group-${course.id}`}
+									href={`/courses/study-group/${course.studyGroupId}/${course.id}`}
+									title={course.name}
+									imageUrl={course.imageUrl}
+									kindLabel="Study group"
+									subtitle={course.studyGroup?.name ?? 'Public study group'}
+								/>
+							))}
+						</div>
+					</section>
+				) : null}
 			</div>
 		</div>
 	)

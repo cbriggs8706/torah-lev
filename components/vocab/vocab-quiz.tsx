@@ -1,17 +1,16 @@
 'use client'
 
 import { awardVocabQuizCompletion } from '@/actions/vocab-quiz-progress'
+import { ActivityCompletionScreen } from '@/components/activity-completion-screen'
 import { ActivityFinalScreen } from '@/components/activity-final-screen'
 import TorahScrollLoader from '@/components/hebrew/hebrew-loader'
 import LessonFilter from '@/components/filters/filter-lesson'
 import { useLessonCards } from '@/hooks/useLessonCards'
+import { dispatchUserProgressUpdated } from '@/lib/user-progress-events'
 import type { EnglishVocab, GreekVocab, HebrewVocab } from '@/lib/vocab'
-import { ResultCard } from '@/app/lesson/result-card'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import ReactConfetti from 'react-confetti'
-import { useAudio, useWindowSize } from 'react-use'
 import { markPublicCourseActivityComplete } from '@/lib/public-course-progress'
 import type { PublicCourseActivityFilters } from '@/lib/public-course-activities'
 
@@ -68,7 +67,7 @@ interface VocabQuizProps {
 	userId: string
 	layout: QuizLayout
 	initialHearts?: number
-	pointsOnPass?: number
+	returnTo?: string
 	filtersLocked?: boolean
 	initialFilters?: PublicCourseActivityFilters
 	completionContext?: {
@@ -339,7 +338,7 @@ export default function VocabQuiz({
 	userId: _userId,
 	layout,
 	initialHearts = 5,
-	pointsOnPass = 5,
+	returnTo,
 	filtersLocked = false,
 	initialFilters,
 	completionContext,
@@ -367,19 +366,18 @@ export default function VocabQuiz({
 	const [remainingMs, setRemainingMs] = useState(timeLimit * 1000)
 	const [promptReady, setPromptReady] = useState(false)
 	const [feedback, setFeedback] = useState<null | boolean>(null)
-	const [showConfetti, setShowConfetti] = useState(false)
 	const [correctCount, setCorrectCount] = useState(0)
 	const [wrongCount, setWrongCount] = useState(0)
 	const [finished, setFinished] = useState(false)
 	const [wrongAnswers, setWrongAnswers] = useState<VocabCard[]>([])
 	const [disabledButtons, setDisabledButtons] = useState(false)
 	const [completionHearts, setCompletionHearts] = useState(initialHearts)
+	const [showCompletionScreen, setShowCompletionScreen] = useState(false)
 	const [completionRewards, setCompletionRewards] = useState<{
 		awardedPoints: number
 		hearts: number
 		tribePointAwarded: boolean
 	} | null>(null)
-	const [finishAudio] = useAudio({ src: '/shofar.mp3', autoPlay: true })
 	const promptAudioRef = useRef<HTMLAudioElement | null>(null)
 	const answerAudioRef = useRef<HTMLAudioElement | null>(null)
 	const hasAwardedRef = useRef(false)
@@ -387,13 +385,15 @@ export default function VocabQuiz({
 	const imageLoadCacheRef = useRef<Map<string, Promise<void>>>(new Map())
 	const audioLoadCacheRef = useRef<Map<string, Promise<void>>>(new Map())
 	const preloadRunRef = useRef(0)
-	const { width, height } = useWindowSize()
 	const [isPreloadingMedia, setIsPreloadingMedia] = useState(false)
 	const [preloadProgress, setPreloadProgress] = useState({
 		loaded: 0,
 		total: 0,
 	})
 	const [pendingStartMode, setPendingStartMode] = useState<null | 'quiz'>(null)
+	const [gameSessionId, setGameSessionId] = useState(0)
+	const initialHeartsRef = useRef(initialHearts)
+	const sessionCardsRef = useRef<VocabCard[]>([])
 
 	const availablePromptOptions = useMemo(
 		() =>
@@ -407,6 +407,10 @@ export default function VocabQuiz({
 		if (!initialFilters?.selectedLessons?.length) return
 		setSelectedLessons(initialFilters.selectedLessons)
 	}, [initialFilters?.selectedLessons, setSelectedLessons])
+
+	useEffect(() => {
+		initialHeartsRef.current = initialHearts
+	}, [initialHearts])
 
 	useEffect(() => {
 		if (
@@ -466,58 +470,38 @@ export default function VocabQuiz({
 
 	useEffect(() => {
 		if (!gameStarted) return
-		setCards(shuffleCards(filteredCards))
+		setCards(shuffleCards(sessionCardsRef.current))
 		setCurrentIndex(0)
 		setWaiting(true)
 		setIsPaused(false)
 		setRemainingMs(timeLimit * 1000)
 		setFeedback(null)
 		setDisabledButtons(false)
-		setShowConfetti(false)
 		setFinished(false)
 		setCorrectCount(0)
 		setWrongCount(0)
 		setWrongAnswers([])
 		setCompletionRewards(null)
+		setShowCompletionScreen(false)
 		hasAwardedRef.current = false
-	}, [filteredCards, gameStarted, timeLimit])
-
-	useEffect(() => {
-		setCompletionHearts(initialHearts)
-	}, [initialHearts])
+		setCompletionHearts(initialHeartsRef.current)
+	}, [gameSessionId, gameStarted, timeLimit])
 
 	const currentCard = cards[currentIndex]
 	const total = cards.length
 	const passed = wrongCount <= 2
-	const missedRatio = total > 0 ? wrongCount / total : 0
-	const rewardEligible = missedRatio <= 0.75
-	const celebratoryFinish = passed && rewardEligible
-	const mainScreenHref =
-		layout === 'hebrew'
-			? '/he/learn'
-			: layout === 'greek'
-				? '/el/learn'
-				: '/curriculum'
-
-	const nextLesson = useMemo(() => {
-		if (lessonOptions.length === 0 || selectedLessons.length === 0) return null
-
-		const sortedSelected = lessonOptions.filter((lesson) =>
-			selectedLessons.includes(lesson),
-		)
-		const lastSelectedLesson = sortedSelected[sortedSelected.length - 1]
-		if (!lastSelectedLesson) return null
-
-		const currentLessonIndex = lessonOptions.indexOf(lastSelectedLesson)
-		if (
-			currentLessonIndex === -1 ||
-			currentLessonIndex >= lessonOptions.length - 1
-		) {
-			return null
-		}
-
-		return lessonOptions[currentLessonIndex + 1]
-	}, [lessonOptions, selectedLessons])
+	const celebratoryFinish = passed
+	const returnHref =
+		typeof returnTo === 'string' && returnTo.startsWith('/')
+			? returnTo
+			: '/he/learn'
+	const returnLabel = returnHref.startsWith('/courses/public/')
+		? 'Return to Course'
+		: 'Return to Learn'
+	const completionPoints = completionRewards?.awardedPoints ?? total
+	const completionFinalHearts =
+		completionRewards?.hearts ?? Math.min(completionHearts + 1, 5)
+	const completionTribeAwarded = completionRewards?.tribePointAwarded ?? false
 
 	const answerAudio =
 		currentCard && selectedRespondWithConfig?.kind === 'audio'
@@ -690,13 +674,18 @@ export default function VocabQuiz({
 		selectedPromptConfig.kind !== 'image' ||
 		promptReady
 
-	const awardPoints = useCallback(async () => {
+	const awardPoints = useCallback(async (hearts: number, points: number) => {
 		try {
 			const result = await awardVocabQuizCompletion({
 				courseId,
-				points: pointsOnPass,
+				points,
+				hearts,
 			})
 			setCompletionHearts(result.hearts)
+			dispatchUserProgressUpdated({
+				hearts: result.hearts,
+				points: result.awardedPoints,
+			})
 			setCompletionRewards({
 				awardedPoints: result.awardedPoints,
 				hearts: result.hearts,
@@ -704,15 +693,26 @@ export default function VocabQuiz({
 			})
 		} catch (error) {
 			console.error('Failed to award vocab quiz rewards', error)
+			setCompletionHearts(hearts)
+			dispatchUserProgressUpdated({
+				hearts,
+				points,
+			})
+			setCompletionRewards({
+				awardedPoints: points,
+				hearts,
+				tribePointAwarded: false,
+			})
 		}
-	}, [courseId, pointsOnPass])
+	}, [courseId])
 
 	useEffect(() => {
-		if (finished && celebratoryFinish && !hasAwardedRef.current) {
+		if (showCompletionScreen && celebratoryFinish && !hasAwardedRef.current) {
 			hasAwardedRef.current = true
-			awardPoints()
+			const heartsAfterBonus = Math.min(completionHearts + 1, 5)
+			awardPoints(heartsAfterBonus, total)
 		}
-	}, [awardPoints, celebratoryFinish, finished])
+	}, [awardPoints, celebratoryFinish, completionHearts, showCompletionScreen, total])
 
 	useEffect(() => {
 		if (
@@ -746,15 +746,21 @@ export default function VocabQuiz({
 		} else {
 			setWrongCount((prev) => prev + 1)
 			setWrongAnswers((prev) => [...prev, currentCard])
+			const nextHearts = Math.max(completionHearts - 1, 0)
+			setCompletionHearts(nextHearts)
+			dispatchUserProgressUpdated({
+				hearts: nextHearts,
+			})
 		}
 
 		setTimeout(() => {
 			const isLast = currentIndex === cards.length - 1
 			if (isLast) {
 				if (wrongCount + (correct ? 0 : 1) <= 2) {
-					setShowConfetti(true)
+					setShowCompletionScreen(true)
+				} else {
+					setFinished(true)
 				}
-				setFinished(true)
 			} else {
 				setCurrentIndex((prev) => prev + 1)
 			}
@@ -776,13 +782,13 @@ export default function VocabQuiz({
 		setIsPaused(false)
 		setRemainingMs(timeLimit * 1000)
 		setFeedback(null)
-		setShowConfetti(false)
 		setCorrectCount(0)
 		setWrongCount(0)
 		setFinished(false)
 		setWrongAnswers([])
 		setDisabledButtons(false)
 		setCompletionRewards(null)
+		setCompletionHearts(initialHeartsRef.current)
 		hasAwardedRef.current = false
 	}
 
@@ -864,13 +870,9 @@ export default function VocabQuiz({
 		}
 
 		setStudyMode(nextStudyMode)
+		sessionCardsRef.current = filteredCards
+		setGameSessionId((prev) => prev + 1)
 		setGameStarted(true)
-	}
-
-	function startNextLesson() {
-		if (!nextLesson) return
-		resetToStart()
-		setSelectedLessons([nextLesson])
 	}
 
 	function renderTextValue(
@@ -986,9 +988,95 @@ export default function VocabQuiz({
 		return null
 	}
 
+	if (showCompletionScreen) {
+		return celebratoryFinish ? (
+			<ActivityCompletionScreen
+				title="Lesson Complete"
+				description="You cleared the passing threshold and earned rewards."
+				rewardMessage={
+					<>
+						You earned {completionPoints} point
+						{completionPoints === 1 ? '' : 's'}, gained 1 heart, and earned
+						+1 Tribe Point.
+					</>
+				}
+				points={completionPoints}
+				hearts={completionFinalHearts}
+				tribePointAwarded={completionTribeAwarded}
+				leftActionLabel="Return to Quiz"
+				leftActionOnClick={resetToStart}
+				rightActionLabel={returnLabel}
+				rightActionOnClick={() => {
+					router.push(returnHref)
+				}}
+			/>
+		) : (
+			<ActivityFinalScreen
+				title="Quiz Complete!"
+				description={
+					passed
+						? 'You passed, but this round did not qualify for rewards.'
+						: 'To pass, you must miss 2 or fewer.'
+				}
+				stats={[
+					{
+						label: 'Correct',
+						value: correctCount,
+						valueClassName: 'text-emerald-600',
+					},
+					{
+						label: 'Incorrect',
+						value: wrongCount,
+						valueClassName: 'text-rose-600',
+					},
+				]}
+				reviewSection={
+					wrongAnswers.length > 0 ? (
+						<div className="w-full text-left">
+							<h3 className="text-center text-xl font-bold text-slate-900">
+								Review Missed Answers
+							</h3>
+							<div className="mt-5 grid gap-4 sm:grid-cols-2">
+								{wrongAnswers.map((card, index) => (
+									<div
+										key={`${card.id ?? index}-wrong-${index}`}
+										className="rounded-2xl border border-slate-200 bg-slate-50 p-4"
+									>
+										<div className="text-center">{renderPrompt(card, 'text-2xl')}</div>
+										<div className="mt-4 border-t border-slate-200 pt-4 text-center">
+											{renderAnswer(card, 'text-3xl')}
+										</div>
+									</div>
+								))}
+							</div>
+						</div>
+					) : undefined
+				}
+				actions={
+					<div className="flex flex-col justify-center gap-3 sm:flex-row">
+						<button
+							onClick={resetToStart}
+							className="rounded-full border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 transition hover:border-slate-400 hover:bg-slate-50"
+						>
+							Retry Quiz
+						</button>
+						<button
+							onClick={() => {
+								router.push(returnHref)
+							}}
+							className="rounded-full bg-sky-600 px-6 py-3 font-semibold text-white hover:bg-sky-700"
+						>
+							{returnLabel}
+						</button>
+					</div>
+				}
+			/>
+		)
+	}
+
 	return (
-		<div className="w-full rounded-3xl border border-slate-200 bg-white p-6 text-center shadow-sm relative">
-			{gameStarted && (
+		<div className="relative w-full rounded-3xl border border-slate-200 bg-white p-6 text-center shadow-sm">
+			{gameStarted && !showCompletionScreen && (
 				<button
 					onClick={resetToStart}
 					className="absolute left-4 top-4 text-gray-600 hover:text-gray-900"
@@ -996,18 +1084,6 @@ export default function VocabQuiz({
 				>
 					⬅️
 				</button>
-			)}
-
-			{showConfetti && celebratoryFinish && (
-				<>
-					<ReactConfetti
-						width={width}
-						height={height}
-						recycle={false}
-						numberOfPieces={500}
-						tweenDuration={10000}
-					/>
-				</>
 			)}
 
 			{!gameStarted ? (
@@ -1222,152 +1298,6 @@ export default function VocabQuiz({
 						Back
 					</button>
 				</div>
-			) : finished ? (
-				<ActivityFinalScreen
-					title={celebratoryFinish ? 'Lesson Complete' : 'Quiz Complete!'}
-					description={
-						celebratoryFinish
-							? 'You cleared the passing threshold and earned rewards.'
-							: passed
-								? 'You passed, but no points were awarded because more than 75% were missed.'
-								: 'To pass, you must miss 2 or fewer.'
-					}
-					stats={[
-						{
-							label: 'Correct',
-							value: correctCount,
-							valueClassName: 'text-emerald-600',
-						},
-						{
-							label: 'Incorrect',
-							value: wrongCount,
-							valueClassName: 'text-rose-600',
-						},
-						{
-							label: 'Points',
-							value: completionRewards?.awardedPoints ?? pointsOnPass ?? 0,
-						},
-					]}
-					rewards={
-						celebratoryFinish ? (
-							<>
-								<p className="mb-4 text-lg font-semibold text-slate-800">
-									You earned {completionRewards?.awardedPoints ?? pointsOnPass}{' '}
-									point
-									{(completionRewards?.awardedPoints ?? pointsOnPass) === 1
-										? ''
-										: 's'}
-									.
-								</p>
-								<div className="mx-auto flex w-full max-w-md items-center gap-x-4">
-									<ResultCard
-										variant="points"
-										value={completionRewards?.awardedPoints ?? pointsOnPass}
-										tribePointAdded={
-											completionRewards?.tribePointAwarded ?? false
-										}
-									/>
-									<ResultCard
-										variant="hearts"
-										value={completionRewards?.hearts ?? completionHearts}
-										tribePointAdded={
-											completionRewards?.tribePointAwarded ?? false
-										}
-									/>
-								</div>
-							</>
-						) : undefined
-					}
-					message={
-						!celebratoryFinish ? (
-							<p
-								className={`text-lg font-semibold ${passed ? 'text-slate-700' : 'text-rose-600'}`}
-							>
-								{passed
-									? 'You passed, but this round did not qualify for rewards.'
-									: "Let's try again!"}
-							</p>
-						) : undefined
-					}
-					actions={
-						<div className="flex flex-wrap justify-center gap-4">
-							<button
-								onClick={resetToStart}
-								className="rounded-full border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 transition hover:border-slate-400 hover:bg-slate-50"
-							>
-								Start Over
-							</button>
-							<button
-								onClick={startNextLesson}
-								disabled={!nextLesson}
-								className={`rounded-full px-6 py-3 font-semibold text-white ${
-									nextLesson
-										? 'bg-emerald-600 hover:bg-emerald-700'
-										: 'bg-slate-300'
-								}`}
-							>
-								{nextLesson
-									? `Start Next Lesson (${nextLesson})`
-									: 'No Next Lesson'}
-							</button>
-							<button
-								onClick={() => router.push(mainScreenHref)}
-								className="rounded-full bg-sky-600 px-6 py-3 font-semibold text-white hover:bg-sky-700"
-							>
-								Return to Main Screen
-							</button>
-						</div>
-					}
-					reviewSection={
-						wrongAnswers.length > 0 ? (
-							<div className="w-full text-left">
-								<h3 className="text-center text-xl font-bold text-slate-900">
-									Review Missed Answers
-								</h3>
-								<div className="mt-5 grid gap-4 sm:grid-cols-2">
-									{wrongAnswers.map((card, index) => (
-										<div
-											key={`${card.id ?? index}-wrong-${index}`}
-											className="rounded-2xl border border-slate-200 bg-slate-50 p-4"
-										>
-											<div className="text-center">
-												{renderPrompt(card, 'text-2xl')}
-											</div>
-											<div className="mt-4 border-t border-slate-200 pt-4 text-center">
-												{renderAnswer(card, 'text-3xl')}
-											</div>
-										</div>
-									))}
-								</div>
-							</div>
-						) : undefined
-					}
-					celebration={
-						celebratoryFinish ? (
-							<>
-								{showConfetti && finishAudio}
-								{showConfetti && (
-									<div className="mb-4 flex justify-center">
-										<Image
-											src="/finish.svg"
-											alt="Finish"
-											className="hidden lg:block"
-											height={100}
-											width={100}
-										/>
-										<Image
-											src="/finish.svg"
-											alt="Finish"
-											className="block lg:hidden"
-											height={50}
-											width={50}
-										/>
-									</div>
-								)}
-							</>
-						) : undefined
-					}
-				/>
 			) : currentCard ? (
 				!activityReady ? (
 					<div className="flex min-h-[420px] items-center justify-center">
