@@ -55,12 +55,6 @@ export function buildSidebarSections({
 	if ([6, 11, 14].includes(activeCourseId ?? -1)) {
 		studyItems.push(
 			{
-				key: 'learn',
-				label: localize(resolvedLocale, 'nav.learn'),
-				href: '/he/learn',
-				iconSrc: '/icons/iconYoutube.png',
-			},
-			{
 				key: 'courses',
 				label: localize(resolvedLocale, 'nav.courses'),
 				href: '/courses',

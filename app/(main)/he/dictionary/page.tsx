@@ -47,8 +47,8 @@ export default async function HebrewDictionaryPage() {
 					<Image
 						src="/icons/iconDictionary.png"
 						alt="Dictionary"
-						height={90}
-						width={90}
+						height={48}
+						width={48}
 					/>
 					<h1 className="text-center font-cardo text-neutral-800 text-6xl my-4">
 						מִלוֹן

@@ -29,6 +29,8 @@ const lessonAssignmentSchema = z.object({
 					'lesson_script',
 					'lesson_script_part_b',
 					'lesson_script_review',
+					'lesson_video',
+					'lesson_song',
 					'introduction',
 					'flashcards',
 					'quiz',

@@ -36,8 +36,8 @@ export default async function HebrewConstructAbsoluteIdentifyFormPage() {
 					<Image
 						src="/construction-worker-medium-skin-tone-svgrepo-com.svg"
 						alt="Identify Form"
-						height={90}
-						width={90}
+						height={48}
+						width={48}
 					/>
 					<h1 className="text-center font-cardo text-neutral-800 text-6xl my-6">
 						זִהוּי נִסְמָךְ אוֹ מוּחְלָט

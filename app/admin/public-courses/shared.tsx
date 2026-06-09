@@ -351,8 +351,12 @@ export function ActivityToggleRow({
 			? 'This stays first and unlocks the rest of the lesson.'
 			: activity.activityKey === 'lesson_script_part_b'
 				? 'This is the second lesson video and can be moved anywhere in the sequence.'
-				: activity.activityKey === 'lesson_script_review'
-					? 'This is the third lesson video and can be moved anywhere in the sequence.'
+			: activity.activityKey === 'lesson_script_review'
+				? 'This is the third lesson video and can be moved anywhere in the sequence.'
+			: activity.activityKey === 'lesson_video'
+				? 'Add an extra video activity and move it anywhere in the sequence.'
+			: activity.activityKey === 'lesson_song'
+				? 'Add a Hebrew song and move it anywhere in the sequence.'
 				: 'Configure whether this activity appears and which filters it uses.'
 
 	return (

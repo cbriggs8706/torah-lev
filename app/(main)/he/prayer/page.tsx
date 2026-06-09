@@ -16,8 +16,8 @@ const HebrewPrayerPage = async () => {
 						src="/icons/iconPraying.png"
 						// src="/folded-hands-medium-dark-skin-tone-svgrepo-com.svg"
 						alt="Prayer"
-						height={90}
-						width={90}
+						height={48}
+						width={48}
 					/>
 					<h1 className="text-center font-cardo text-neutral-800 text-6xl my-6">
 						תְּפִלּוֹת

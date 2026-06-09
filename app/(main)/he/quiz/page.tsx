@@ -42,8 +42,8 @@ export default async function HebrewQuizPage({
 					<Image
 						src="/gameIcons/quiz.png"
 						alt="Quiz"
-						height={90}
-						width={90}
+						height={48}
+						width={48}
 						style={{ width: 'auto', height: 'auto' }}
 					/>
 					<h1 className="my-6 text-center font-cardo text-6xl text-neutral-800">

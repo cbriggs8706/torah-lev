@@ -12,8 +12,8 @@ import {
 import CatalogCard from '@/components/courses/catalog-card'
 import PublicCoursesSection from '@/components/courses/public-courses-section'
 import { getSession } from '@/lib/auth'
+import { getPublicCourseActivityVideoId } from '@/lib/public-course-activities'
 import { getHebrewLessonVideoIdsByLessonIds } from '@/lib/server/public-course-activity-options'
-import { isPublicCourseVideoActivityKey } from '@/lib/public-course-activities'
 
 export const dynamic = 'force-dynamic'
 
@@ -46,6 +46,7 @@ export default async function CoursesPage() {
 								id: true,
 								isEnabled: true,
 								activityKey: true,
+								filterConfig: true,
 							},
 						},
 					},
@@ -175,14 +176,32 @@ export default async function CoursesPage() {
 			]),
 		),
 	).filter((id): id is number => typeof id === 'number')
+	const customActivityVideoIds = publicCourses.flatMap((course) =>
+		course.lessons.flatMap((lesson) =>
+			lesson.activities
+				.map((activity) =>
+					getPublicCourseActivityVideoId({
+						activityKey: activity.activityKey,
+						filterConfig: activity.filterConfig ?? {},
+						lessonScriptId: null,
+						lessonScriptPartBId: null,
+						lessonScriptReviewId: null,
+					}),
+				)
+				.filter((id): id is number => typeof id === 'number'),
+		),
+	)
+	const allVideoIdsToFetch = Array.from(
+		new Set([...videoIdsToFetch, ...customActivityVideoIds]),
+	)
 
 	const completedVideoIds =
-		userId && videoIdsToFetch.length > 0
+		userId && allVideoIdsToFetch.length > 0
 			? await db.query.userVideoProgress
 					.findMany({
 						where: and(
 							eq(userVideoProgress.userId, userId),
-							inArray(userVideoProgress.videoId, videoIdsToFetch),
+							inArray(userVideoProgress.videoId, allVideoIdsToFetch),
 						),
 						columns: {
 							videoId: true,
@@ -204,15 +223,15 @@ export default async function CoursesPage() {
 			const completedForLesson = lesson.activities.filter((activity) => {
 				if (!activity.isEnabled) return false
 
-				if (isPublicCourseVideoActivityKey(activity.activityKey)) {
-					const videoId =
-						activity.activityKey === 'lesson_script'
-							? lessonVideoIds?.lessonScriptId
-							: activity.activityKey === 'lesson_script_part_b'
-								? lessonVideoIds?.lessonScriptPartBId
-								: lessonVideoIds?.lessonScriptReviewId
-
-					return Boolean(videoId != null && completedVideoIdSet.has(videoId))
+				const videoId = getPublicCourseActivityVideoId({
+					activityKey: activity.activityKey,
+					filterConfig: activity.filterConfig ?? {},
+					lessonScriptId: lessonVideoIds?.lessonScriptId ?? null,
+					lessonScriptPartBId: lessonVideoIds?.lessonScriptPartBId ?? null,
+					lessonScriptReviewId: lessonVideoIds?.lessonScriptReviewId ?? null,
+				})
+				if (videoId != null) {
+					return completedVideoIdSet.has(videoId)
 				}
 
 				return enrollment?.activityProgress.has(activity.id) ?? false

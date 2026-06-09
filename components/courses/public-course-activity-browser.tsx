@@ -11,7 +11,7 @@ import { cn } from '@/lib/utils'
 import {
 	buildPublicCourseActivityHref,
 	getPublicCourseActivityDefinition,
-	isPublicCourseVideoActivityKey,
+	getPublicCourseActivityVideoId,
 	type PublicCourseActivityFilters,
 	type PublicCourseActivityKey,
 	type PublicCourseActivityStatus,
@@ -65,6 +65,7 @@ type PublicCourseActivityBrowserProps = {
 	lessons: PlannerLesson[]
 	initialEnrollment: EnrollmentState | null
 	completedLessonVideoIds?: number[]
+	videoTypeById?: Record<number, 'lesson' | 'review' | 'story' | 'song'>
 }
 
 function formatDateLabel(value: string) {
@@ -78,24 +79,19 @@ function formatDateLabel(value: string) {
 	})
 }
 
-function getLessonVideoId(
-	lesson: PlannerLesson,
-	activityKey: PublicCourseActivityKey
-) {
-	return activityKey === 'lesson_script'
-		? lesson.lessonScriptId
-		: activityKey === 'lesson_script_part_b'
-			? lesson.lessonScriptPartBId
-			: lesson.lessonScriptReviewId
-}
-
 function isVideoActivityComplete(
 	lesson: PlannerLesson,
-	activityKey: PublicCourseActivityKey,
+	activity: LessonActivity,
 	completedVideoIdSet: Set<number>,
 	progressStatus: PublicCourseActivityStatus | null | undefined
 ) {
-	const lessonVideoId = getLessonVideoId(lesson, activityKey)
+	const lessonVideoId = getPublicCourseActivityVideoId({
+		activityKey: activity.activityKey,
+		filterConfig: activity.filterConfig,
+		lessonScriptId: lesson.lessonScriptId,
+		lessonScriptPartBId: lesson.lessonScriptPartBId,
+		lessonScriptReviewId: lesson.lessonScriptReviewId,
+	})
 	return (
 		(lessonVideoId != null && completedVideoIdSet.has(lessonVideoId)) ||
 		progressStatus === 'completed'
@@ -108,6 +104,7 @@ export default function PublicCourseActivityBrowser({
 	lessons,
 	initialEnrollment,
 	completedLessonVideoIds = [],
+	videoTypeById = {},
 }: PublicCourseActivityBrowserProps) {
 	const [enrollment, setEnrollment] = useState<EnrollmentState | null>(
 		initialEnrollment,
@@ -140,7 +137,6 @@ export default function PublicCourseActivityBrowser({
 				.sort((a, b) => a.order - b.order)
 				.map((activity) => ({
 					...activity,
-					definition: getPublicCourseActivityDefinition(activity.activityKey),
 					progress: progressByActivityId.get(activity.id) ?? null,
 				})),
 		}))
@@ -150,12 +146,18 @@ export default function PublicCourseActivityBrowser({
 		for (const lesson of lessonsWithSchedule) {
 			for (const activity of lesson.activities) {
 				const isCompleted =
-					isPublicCourseVideoActivityKey(activity.activityKey)
+					getPublicCourseActivityVideoId({
+						activityKey: activity.activityKey,
+						filterConfig: activity.filterConfig,
+						lessonScriptId: lesson.lessonScriptId,
+						lessonScriptPartBId: lesson.lessonScriptPartBId,
+						lessonScriptReviewId: lesson.lessonScriptReviewId,
+					}) != null
 						? isVideoActivityComplete(
 								lesson,
-								activity.activityKey,
+								activity,
 								completedLessonVideoIdSet,
-								activity.progress?.status
+								activity.progress?.status,
 						  )
 						: activity.progress?.status === 'completed'
 
@@ -169,6 +171,27 @@ export default function PublicCourseActivityBrowser({
 	}, [completedLessonVideoIdSet, lessonsWithSchedule])
 
 	const fallbackTargetEndDate = enrollment?.targetEndDate ?? new Date().toISOString().slice(0, 10)
+
+	const getActivityPresentation = (activity: LessonActivity) => {
+		const definition = getPublicCourseActivityDefinition(activity.activityKey)
+		if (!definition) return null
+
+		if (activity.activityKey === 'lesson_video') {
+			const videoId =
+				typeof activity.filterConfig.videoId === 'number'
+					? activity.filterConfig.videoId
+					: null
+			if (videoId != null && videoTypeById[videoId] === 'story') {
+				return {
+					...definition,
+					label: 'Story',
+					iconSrc: '/icons/iconStories.png',
+				}
+			}
+		}
+
+		return definition
+	}
 
 	return (
 		<div className="space-y-6">
@@ -230,22 +253,35 @@ export default function PublicCourseActivityBrowser({
 				{lessonsWithSchedule.map((lesson, index) => {
 					const firstActivity = lesson.activities[0] ?? null
 					const firstCompleted =
-						firstActivity && isPublicCourseVideoActivityKey(firstActivity.activityKey)
+						firstActivity &&
+						getPublicCourseActivityVideoId({
+							activityKey: firstActivity.activityKey,
+							filterConfig: firstActivity.filterConfig,
+							lessonScriptId: lesson.lessonScriptId,
+							lessonScriptPartBId: lesson.lessonScriptPartBId,
+							lessonScriptReviewId: lesson.lessonScriptReviewId,
+						}) != null
 							? isVideoActivityComplete(
 									lesson,
-									firstActivity.activityKey,
+									firstActivity,
 									completedLessonVideoIdSet,
-									firstActivity.progress?.status
+									firstActivity.progress?.status,
 							  )
 							: firstActivity?.progress?.status === 'completed'
 					const lessonTotalActivities = lesson.activities.length
 					const lessonCompletedActivities = lesson.activities.filter((activity) =>
-						isPublicCourseVideoActivityKey(activity.activityKey)
+						getPublicCourseActivityVideoId({
+							activityKey: activity.activityKey,
+							filterConfig: activity.filterConfig,
+							lessonScriptId: lesson.lessonScriptId,
+							lessonScriptPartBId: lesson.lessonScriptPartBId,
+							lessonScriptReviewId: lesson.lessonScriptReviewId,
+						}) != null
 							? isVideoActivityComplete(
 									lesson,
-									activity.activityKey,
+									activity,
 									completedLessonVideoIdSet,
-									activity.progress?.status
+									activity.progress?.status,
 							  )
 							: activity.progress?.status === 'completed',
 					).length
@@ -300,16 +336,23 @@ export default function PublicCourseActivityBrowser({
 								className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4"
 							>
 								{lesson.activities.map((activity, activityIndex) => {
-									if (!activity.definition) return null
+									const presentation = getActivityPresentation(activity)
+									if (!presentation) return null
 
 									const isFirst = activityIndex === 0
 									const isCompleted =
-										isPublicCourseVideoActivityKey(activity.activityKey)
+										getPublicCourseActivityVideoId({
+											activityKey: activity.activityKey,
+											filterConfig: activity.filterConfig,
+											lessonScriptId: lesson.lessonScriptId,
+											lessonScriptPartBId: lesson.lessonScriptPartBId,
+											lessonScriptReviewId: lesson.lessonScriptReviewId,
+										}) != null
 											? isVideoActivityComplete(
 													lesson,
-													activity.activityKey,
+													activity,
 													completedLessonVideoIdSet,
-													activity.progress?.status
+													activity.progress?.status,
 											  )
 											: activity.progress?.status === 'completed'
 									const isCurrent = activity.id === nextActivityId
@@ -360,8 +403,8 @@ export default function PublicCourseActivityBrowser({
 
 											<div className="relative flex h-[92px] w-[92px] items-center justify-center">
 												<Image
-													src={activity.definition.iconSrc}
-													alt={activity.definition.label}
+													src={presentation.iconSrc}
+													alt={presentation.label}
 													height={70}
 													width={93}
 													className={`h-[72px] w-[72px] object-contain drop-shadow-md ${
@@ -385,12 +428,12 @@ export default function PublicCourseActivityBrowser({
 													Activity
 												</p> */}
 												<p className="text-center font-bold text-neutral-700">
-													{activity.definition.label}
+													{presentation.label}
 												</p>
 												<p className="text-xs text-slate-500">
 													{isLocked
 														? 'Finish the introduction first to unlock this activity.'
-														: `Open this lesson's ${activity.definition.label.toLowerCase()}.`}
+														: `Open this lesson's ${presentation.label.toLowerCase()}.`}
 												</p>
 											</div>
 

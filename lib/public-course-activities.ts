@@ -2,6 +2,8 @@ export type PublicCourseActivityKey =
 	| 'lesson_script'
 	| 'lesson_script_part_b'
 	| 'lesson_script_review'
+	| 'lesson_video'
+	| 'lesson_song'
 	| 'introduction'
 	| 'flashcards'
 	| 'quiz'
@@ -20,6 +22,8 @@ export type PublicCourseActivityFilters = {
 	selectedType?: 'all' | 'word' | 'phrase' | 'stack'
 	formatType?: 'image' | 'audio' | 'translation' | 'letter-by-letter'
 	hebrewField?: 'heb' | 'hebNiqqud'
+	videoId?: number
+	musicId?: number
 	displayScript?: boolean
 }
 
@@ -34,6 +38,7 @@ export type PublicCourseActivityDefinition = {
 	trackProgress: boolean
 	passPercent: number | null
 	isFixedFirst?: boolean
+	isOptional?: boolean
 }
 
 export type PublicCourseLessonActivityConfig = {
@@ -142,6 +147,26 @@ export const PUBLIC_COURSE_ACTIVITY_DEFINITIONS: PublicCourseActivityDefinition[
 		trackProgress: true,
 		passPercent: null,
 	},
+	{
+		key: 'lesson_video',
+		label: 'Video',
+		iconSrc: '/icons/iconYoutube.png',
+		href: null,
+		filterKeys: [],
+		trackProgress: true,
+		passPercent: null,
+		isOptional: true,
+	},
+	{
+		key: 'lesson_song',
+		label: 'Song',
+		iconSrc: '/icons/iconMusic.png',
+		href: null,
+		filterKeys: [],
+		trackProgress: true,
+		passPercent: null,
+		isOptional: true,
+	},
 ]
 
 const definitionMap = new Map(
@@ -158,12 +183,16 @@ export function isPublicCourseVideoActivityKey(
 	return (
 		activityKey === 'lesson_script' ||
 		activityKey === 'lesson_script_part_b' ||
-		activityKey === 'lesson_script_review'
+		activityKey === 'lesson_script_review' ||
+		activityKey === 'lesson_video' ||
+		activityKey === 'lesson_song'
 	)
 }
 
 export function getDefaultPublicCourseLessonActivities(): PublicCourseLessonActivityConfig[] {
-	return PUBLIC_COURSE_ACTIVITY_DEFINITIONS.map((activity, index) => ({
+	return PUBLIC_COURSE_ACTIVITY_DEFINITIONS.filter(
+		(activity) => !activity.isOptional,
+	).map((activity, index) => ({
 		activityKey: activity.key,
 		order: index + 1,
 		isEnabled: true,
@@ -213,6 +242,36 @@ export function normalizePublicCourseActivityFilters(
 		filters.hebrewField = raw.hebrewField
 	}
 
+	if (
+		typeof raw.videoId === 'number' &&
+		Number.isInteger(raw.videoId) &&
+		raw.videoId > 0
+	) {
+		filters.videoId = raw.videoId
+	} else if (
+		typeof raw.videoId === 'string' &&
+		raw.videoId.trim() &&
+		Number.isInteger(Number(raw.videoId)) &&
+		Number(raw.videoId) > 0
+	) {
+		filters.videoId = Number(raw.videoId)
+	}
+
+	if (
+		typeof raw.musicId === 'number' &&
+		Number.isInteger(raw.musicId) &&
+		raw.musicId > 0
+	) {
+		filters.musicId = raw.musicId
+	} else if (
+		typeof raw.musicId === 'string' &&
+		raw.musicId.trim() &&
+		Number.isInteger(Number(raw.musicId)) &&
+		Number(raw.musicId) > 0
+	) {
+		filters.musicId = Number(raw.musicId)
+	}
+
 	if (typeof raw.displayScript === 'boolean') {
 		filters.displayScript = raw.displayScript
 	}
@@ -246,6 +305,44 @@ export function applyDefaultPublicCourseActivityFilters({
 		...filters,
 		selectedLessons: [String(lessonNumber)],
 	}
+}
+
+export function getPublicCourseActivityVideoId({
+	activityKey,
+	filterConfig,
+	lessonScriptId,
+	lessonScriptPartBId,
+	lessonScriptReviewId,
+}: {
+	activityKey: PublicCourseActivityKey
+	filterConfig: PublicCourseActivityFilters
+	lessonScriptId?: number | null
+	lessonScriptPartBId?: number | null
+	lessonScriptReviewId?: number | null
+}) {
+	if (
+		activityKey === 'lesson_video' &&
+		typeof filterConfig.videoId === 'number' &&
+		filterConfig.videoId > 0
+	) {
+		return filterConfig.videoId
+	}
+
+	if (
+		activityKey === 'lesson_song' &&
+		typeof filterConfig.musicId === 'number' &&
+		filterConfig.musicId > 0
+	) {
+		return filterConfig.musicId
+	}
+
+	return activityKey === 'lesson_script'
+		? lessonScriptId ?? null
+		: activityKey === 'lesson_script_part_b'
+			? lessonScriptPartBId ?? null
+			: activityKey === 'lesson_script_review'
+				? lessonScriptReviewId ?? null
+				: null
 }
 
 export function encodePublicCourseFilters(filters: PublicCourseActivityFilters) {
@@ -341,20 +438,21 @@ export function buildPublicCourseActivityHref({
 	const definition = getPublicCourseActivityDefinition(activityKey)
 	if (!definition) return null
 
+	const videoId = getPublicCourseActivityVideoId({
+		activityKey,
+		filterConfig,
+		lessonScriptId,
+		lessonScriptPartBId,
+		lessonScriptReviewId,
+	})
 	const href =
-		activityKey === 'lesson_script'
-			? lessonScriptId
-				? `/he/videos/${lessonScriptId}`
+		activityKey === 'lesson_song'
+			? videoId
+				? `/he/music/${videoId}`
 				: null
-			: activityKey === 'lesson_script_part_b'
-				? lessonScriptPartBId
-					? `/he/videos/${lessonScriptPartBId}`
-					: null
-				: activityKey === 'lesson_script_review'
-					? lessonScriptReviewId
-						? `/he/videos/${lessonScriptReviewId}`
-						: null
-			: definition.href
+			: videoId
+				? `/he/videos/${videoId}`
+				: definition.href
 
 	if (!href) return null
 

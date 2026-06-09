@@ -57,8 +57,8 @@ export default async function HebrewFlashcardPage({
 					<Image
 						src="/icons/iconFlashcards.png"
 						alt="Flashcards"
-						height={90}
-						width={90}
+						height={48}
+						width={48}
 						style={{ width: 'auto', height: 'auto' }}
 					/>
 					{displayTitle ? (

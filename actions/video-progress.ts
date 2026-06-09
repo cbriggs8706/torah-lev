@@ -120,6 +120,7 @@ export async function awardVideoCompletion({
 	}
 
 	revalidatePath('/he/videos')
+	revalidatePath('/he/music')
 	revalidatePath('/progress')
 	revalidatePath('/he/dashboard')
 	revalidatePath('/leaderboard')

@@ -10,8 +10,8 @@ const HebrewTanakhBooksPage = () => {
 					<Image
 						src="/books-svgrepo-com.svg"
 						alt="Books of the TaNaK"
-						height={90}
-						width={90}
+						height={48}
+						width={48}
 					/>
 					<h1 className="text-center font-cardo text-neutral-800 text-6xl my-6">
 						סִפְרֵי תָּנָ״ךְ

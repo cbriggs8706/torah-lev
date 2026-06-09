@@ -10,10 +10,12 @@ import {
 	publicCourseEnrollmentLesson,
 	publicCourseLesson,
 	publicCourseLessonActivity,
+	videos,
 	userVideoProgress,
 } from '@/db/schema'
 import { getSession } from '@/lib/auth'
 import PublicCourseActivityBrowser from '@/components/courses/public-course-activity-browser'
+import { getPublicCourseActivityVideoId } from '@/lib/public-course-activities'
 import { getHebrewLessonVideoIdsByLessonIds } from '@/lib/server/public-course-activity-options'
 import type {
 	PublicCourseActivityFilters,
@@ -22,6 +24,8 @@ import type {
 } from '@/lib/public-course-activities'
 
 export const dynamic = 'force-dynamic'
+
+type PublicVideoType = 'lesson' | 'review' | 'story' | 'song'
 
 export default async function PublicCourseDetailPage({
 	params,
@@ -105,13 +109,54 @@ export default async function PublicCourseDetailPage({
 			])
 		)
 	).filter((id): id is number => typeof id === 'number')
+	const customLessonVideoIds = course.lessons.flatMap((lesson) =>
+		((lesson as typeof lesson & {
+			activities?: Array<{
+				id: number
+				activityKey: PublicCourseActivityKey
+				order: number
+				isEnabled: boolean
+				filterConfig: PublicCourseActivityFilters
+			}>
+		}).activities ?? [])
+			.map((activity) =>
+				getPublicCourseActivityVideoId({
+					activityKey: activity.activityKey,
+					filterConfig: activity.filterConfig,
+					lessonScriptId: null,
+					lessonScriptPartBId: null,
+					lessonScriptReviewId: null,
+				}),
+			)
+			.filter((id): id is number => typeof id === 'number'),
+	)
+	const allLessonVideoIds = Array.from(
+		new Set([...lessonVideoIds, ...customLessonVideoIds]),
+	)
+	const videoTypeById = allLessonVideoIds.length
+		? await db
+				.select({
+					id: videos.id,
+					type: videos.type,
+				})
+				.from(videos)
+				.where(inArray(videos.id, allLessonVideoIds))
+				.then((rows) =>
+					rows.reduce<Record<number, PublicVideoType>>((acc, row) => {
+						if (row.type) {
+							acc[row.id] = row.type
+						}
+						return acc
+					}, {}),
+				)
+		: {}
 
-	const completedLessonVideoIds = userId && lessonVideoIds.length > 0
+	const completedLessonVideoIds = userId && allLessonVideoIds.length > 0
 		? await db.query.userVideoProgress
 				.findMany({
 					where: and(
 						eq(userVideoProgress.userId, userId),
-						inArray(userVideoProgress.videoId, lessonVideoIds)
+						inArray(userVideoProgress.videoId, allLessonVideoIds)
 					),
 					columns: {
 						videoId: true,
@@ -185,9 +230,10 @@ export default async function PublicCourseDetailPage({
 				<PublicCourseActivityBrowser
 					courseId={course.id}
 					isAuthenticated={Boolean(userId)}
-				lessons={plannerLessons}
-				completedLessonVideoIds={completedLessonVideoIds}
-				initialEnrollment={
+					lessons={plannerLessons}
+					completedLessonVideoIds={completedLessonVideoIds}
+					videoTypeById={videoTypeById}
+					initialEnrollment={
 						enrollment
 							? {
 									id: enrollment.id,

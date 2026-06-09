@@ -25,8 +25,8 @@ export default async function HebrewMistakenPage() {
 					<Image
 						src="/gameIcons/matchingPairs.png"
 						alt="Similar Words"
-						height={90}
-						width={90}
+						height={48}
+						width={48}
 					/>
 					<h1 className="my-6 text-center font-cardo text-6xl text-neutral-800">
 						מילים דומות

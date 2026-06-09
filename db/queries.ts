@@ -742,10 +742,7 @@ export const getHebrewLessonScripts = async (courseId: number) => {
 
 export async function getHebrewLessonScript(lessonScriptId: number) {
 	return db.query.videos.findFirst({
-		where: and(
-			eq(videos.id, lessonScriptId),
-			sql`${videos.type} IS DISTINCT FROM 'story'::video_type`
-		),
+		where: eq(videos.id, lessonScriptId),
 	})
 }
 

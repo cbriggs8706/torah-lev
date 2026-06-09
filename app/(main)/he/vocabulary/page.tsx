@@ -43,9 +43,9 @@ export default async function HebrewVocabularyPage({
 					<Image
 						src="/speech-balloon-svgrepo-com.svg"
 						alt="Vocabulary"
-						height={90}
-						width={90}
-						style={{ width: 'auto', height: 'auto' }}
+						height={48}
+						width={48}
+						className="h-12 w-12 shrink-0 object-contain"
 					/>
 					<h1 className="my-6 text-center text-2xl font-bold text-neutral-800">
 						Vocabulary

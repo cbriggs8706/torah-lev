@@ -716,8 +716,8 @@ export default function VocabQuiz({
 
 	useEffect(() => {
 		if (
-			!finished ||
-			!passed ||
+			!showCompletionScreen ||
+			!celebratoryFinish ||
 			!completionContext ||
 			publicCourseCompletionRef.current
 		) {
@@ -734,7 +734,7 @@ export default function VocabQuiz({
 			console.error('Failed to save public course quiz progress', error)
 			publicCourseCompletionRef.current = false
 		})
-	}, [completionContext, correctCount, finished, passed, total])
+	}, [celebratoryFinish, completionContext, correctCount, showCompletionScreen, total])
 
 	function handleResponse(correct: boolean) {
 		if (waiting || disabledButtons || !currentCard) return
@@ -1093,72 +1093,59 @@ export default function VocabQuiz({
 					</div>
 				) : (
 					<div className="space-y-6">
-						{/* <div>
-							<h1 className="text-2xl font-bold text-slate-900">
-								Customize Your Quiz
-							</h1>
-							<p className="mt-2 text-sm text-slate-600">
-								Choose your prompt, set the timer, and practice vocab from any
-								lesson in this course.
-							</p>
-						</div> */}
-
 						{!filtersLocked ? (
-							<div className="rounded-2xl bg-white p-4 text-left">
-								<LessonFilter
-									data={data}
-									selectedLessons={selectedLessons}
-									setSelectedLessons={setSelectedLessons}
-								/>
-							</div>
-						) : (
-							<div className="rounded-2xl border border-sky-100 bg-sky-50 p-4 text-sm text-sky-900">
-								This quiz is locked to the lesson assigned from your study group
-								schedule.
-							</div>
-						)}
+							<>
+								<div className="rounded-2xl bg-white p-4 text-left">
+									<LessonFilter
+										data={data}
+										selectedLessons={selectedLessons}
+										setSelectedLessons={setSelectedLessons}
+									/>
+								</div>
 
-						<div className="space-y-3">
-							<h2 className="mb-2 text-center text-xl font-semibold">
-								Select Prompt
-							</h2>
-							<div className="flex flex-row-reverse flex-wrap justify-center gap-2">
-								{availablePromptOptions.map((option) => (
-									<button
-										key={option.key}
-										onClick={() => setSelectedPrompt(option.key)}
-										className={`px-3 py-1 border rounded-full text-xs ${
-											selectedPrompt === option.key
-												? 'bg-sky-600 text-white'
-												: 'bg-gray-200'
-										}`}
-									>
-										{option.label}
-									</button>
-								))}
-							</div>
-						</div>
+								<div className="space-y-3">
+									<h2 className="mb-2 text-center text-xl font-semibold">
+										Select Prompt
+									</h2>
+									<div className="flex flex-row-reverse flex-wrap justify-center gap-2">
+										{availablePromptOptions.map((option) => (
+											<button
+												key={option.key}
+												onClick={() => setSelectedPrompt(option.key)}
+												className={`px-3 py-1 border rounded-full text-xs ${
+													selectedPrompt === option.key
+														? 'bg-sky-600 text-white'
+														: 'bg-gray-200'
+												}`}
+											>
+												{option.label}
+											</button>
+										))}
+									</div>
+								</div>
 
-						<div className="space-y-3">
-							<h2 className="mb-2 text-center text-xl font-semibold">
-								Respond With
-							</h2>
-							<div className="flex flex-row-reverse flex-wrap justify-center gap-2">
-								{availablePromptOptions.map((option) => (
-									<button
-										key={option.key}
-										onClick={() => setSelectedRespondWith(option.key)}
-										className={`px-3 py-1 border rounded-full text-xs ${
-											selectedRespondWith === option.key
-												? 'bg-sky-600 text-white'
-												: 'bg-gray-200'
-										}`}
-									>
-										{option.label}
-									</button>
-								))}
-							</div>
-						</div>
+								<div className="space-y-3">
+									<h2 className="mb-2 text-center text-xl font-semibold">
+										Respond With
+									</h2>
+									<div className="flex flex-row-reverse flex-wrap justify-center gap-2">
+										{availablePromptOptions.map((option) => (
+											<button
+												key={option.key}
+												onClick={() => setSelectedRespondWith(option.key)}
+												className={`px-3 py-1 border rounded-full text-xs ${
+													selectedRespondWith === option.key
+														? 'bg-sky-600 text-white'
+														: 'bg-gray-200'
+												}`}
+											>
+												{option.label}
+											</button>
+										))}
+									</div>
+								</div>
+							</>
+						) : null}
 
 						<div className="space-y-3">
 							<h2 className="text-xl font-semibold">Seconds to Answer</h2>
@@ -1191,29 +1178,7 @@ export default function VocabQuiz({
 							/>
 						</div>
 
-						{/* <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-							<p className="text-sm font-semibold uppercase tracking-wide text-slate-500">
-								Preview
-							</p>
-							<p className="mt-2 text-sm text-slate-600">
-								Prompt:{' '}
-								<span className="font-semibold">
-									{selectedPromptConfig?.label}
-								</span>
-							</p>
-							<p className="text-sm text-slate-600">
-								Answer:{' '}
-								<span className="font-semibold">
-									{selectedRespondWithConfig?.label}
-								</span>
-							</p>
-							<p className="text-sm text-slate-600">
-								Cards ready:{' '}
-								<span className="font-semibold">{filteredCards.length}</span>
-							</p>
-						</div> */}
-
-						{filteredCards.length === 0 && (
+						{!filtersLocked && filteredCards.length === 0 && (
 							<p className="font-medium text-red-600">{config.emptyState}</p>
 						)}
 

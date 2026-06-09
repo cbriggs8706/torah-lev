@@ -7,7 +7,6 @@ import db from '@/db/drizzle'
 import { publicCourseLessonActivity, userVideoProgress } from '@/db/schema'
 import LessonScriptViewer from '@/components/hebrew/hebrew-lesson-script-viewer'
 import { parseScheduledPublicCourseQuery } from '@/lib/public-course-activities'
-import { isPublicCourseVideoActivityKey } from '@/lib/public-course-activities'
 import { and, eq } from 'drizzle-orm'
 
 export default async function HebrewLessonScriptPage({
@@ -49,9 +48,7 @@ export default async function HebrewLessonScriptPage({
 				: false
 
 		const scriptVisibilityOverride =
-			publicCourseQuery.scheduled &&
-			publicCourseQuery.activityKey != null &&
-			isPublicCourseVideoActivityKey(publicCourseQuery.activityKey)
+			publicCourseQuery.scheduled && publicCourseQuery.activityKey != null
 				? typeof publicCourseQuery.filters.displayScript === 'boolean'
 					? publicCourseQuery.filters.displayScript
 					: publicCourseQuery.publicCourseLessonId
@@ -83,8 +80,8 @@ export default async function HebrewLessonScriptPage({
 					<Image
 						src="/icons/iconYoutube.png"
 						alt="Video"
-						height={90}
-						width={90}
+						height={48}
+						width={48}
 						style={{ width: 'auto', height: 'auto' }}
 					/>
 					<h1 className="text-center font-cardo text-neutral-800 text-6xl my-6">

@@ -37,8 +37,8 @@ export default async function HebrewGrammarLessonsPage() {
 					<Image
 						src="/bookmark-tabs-svgrepo-com (1).svg"
 						alt="Grammar Lessons"
-						height={90}
-						width={90}
+						height={48}
+						width={48}
 					/>
 					<h1 className="text-center text-neutral-800 text-6xl font-cardo my-4">
 						שִׁעוּרֵי דִּקְדּוּק
