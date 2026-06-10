@@ -29,6 +29,14 @@ export const dynamic = 'force-dynamic'
 
 type PublicVideoType = 'lesson' | 'review' | 'story' | 'song'
 
+function toIsoStringOrNull(
+	value: Date | string | null | undefined,
+) {
+	if (!value) return null
+	if (value instanceof Date) return value.toISOString()
+	return value
+}
+
 export default async function PublicCourseDetailPage({
 	params,
 }: {
@@ -266,9 +274,7 @@ export default async function PublicCourseDetailPage({
 				publicCourseLessonActivityId: activity.publicCourseLessonActivityId,
 				status: sharedProgress.status as PublicCourseActivityStatus,
 				scorePercent: sharedProgress.scorePercent,
-				completedAt: sharedProgress.completedAt
-					? sharedProgress.completedAt.toISOString()
-					: null,
+				completedAt: toIsoStringOrNull(sharedProgress.completedAt),
 			},
 		]
 	})
@@ -312,26 +318,25 @@ export default async function PublicCourseDetailPage({
 					videoTypeById={videoTypeById}
 					initialEnrollment={
 						enrollment
-							? {
-									id: enrollment.id,
-									goalDays: enrollment.goalDays,
-									startDate: enrollment.startDate.toISOString().slice(0, 10),
-									targetEndDate:
-										enrollment.targetEndDate.toISOString().slice(0, 10),
-									lessons: enrollment.lessons.map((lesson) => ({
-										publicCourseLessonId: lesson.publicCourseLessonId,
-										order: lesson.order,
-										scheduledDate: lesson.scheduledDate.toISOString().slice(0, 10),
-									})),
+						? {
+								id: enrollment.id,
+								goalDays: enrollment.goalDays,
+								startDate: toIsoStringOrNull(enrollment.startDate)?.slice(0, 10) ?? '',
+								targetEndDate:
+									toIsoStringOrNull(enrollment.targetEndDate)?.slice(0, 10) ?? '',
+								lessons: enrollment.lessons.map((lesson) => ({
+									publicCourseLessonId: lesson.publicCourseLessonId,
+									order: lesson.order,
+									scheduledDate:
+										toIsoStringOrNull(lesson.scheduledDate)?.slice(0, 10) ?? '',
+								})),
 								activityProgress: mergedActivityProgress.map((item) => ({
 									publicCourseLessonId: item.publicCourseLessonId,
 									publicCourseLessonActivityId: item.publicCourseLessonActivityId,
-									status: item.status as PublicCourseActivityStatus,
-									scorePercent: item.scorePercent,
-									completedAt: item.completedAt
-										? item.completedAt.toISOString()
-										: null,
-								})),
+										status: item.status as PublicCourseActivityStatus,
+										scorePercent: item.scorePercent,
+										completedAt: toIsoStringOrNull(item.completedAt),
+									})),
 						  }
 						: null
 				}
