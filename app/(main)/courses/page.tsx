@@ -2,6 +2,7 @@ import { asc, and, eq, inArray } from 'drizzle-orm'
 
 import db from '@/db/drizzle'
 import {
+	publicCourseActivityCompletion,
 	publicCourse,
 	publicCourseEnrollment,
 	studyGroupMembers,
@@ -12,8 +13,13 @@ import {
 import CatalogCard from '@/components/courses/catalog-card'
 import PublicCoursesSection from '@/components/courses/public-courses-section'
 import { getSession } from '@/lib/auth'
-import { getPublicCourseActivityVideoId } from '@/lib/public-course-activities'
+import {
+	getPublicCourseActivityVideoId,
+	type PublicCourseActivityFilters,
+	type PublicCourseActivityKey,
+} from '@/lib/public-course-activities'
 import { getHebrewLessonVideoIdsByLessonIds } from '@/lib/server/public-course-activity-options'
+import { buildPublicCourseActivitySignature } from '@/lib/server/public-course-activity-signature'
 
 export const dynamic = 'force-dynamic'
 
@@ -37,6 +43,12 @@ export default async function CoursesPage() {
 					},
 					with: {
 						lesson: {
+							columns: {
+								id: true,
+								lessonNumber: true,
+							},
+						},
+						platformCourse: {
 							columns: {
 								id: true,
 							},
@@ -159,6 +171,43 @@ export default async function CoursesPage() {
 			]),
 	)
 
+	const activitySignatureRows = publicCourses.flatMap((course) =>
+		course.lessons.flatMap((lesson) =>
+			lesson.activities.map((activity) => ({
+				signature: buildPublicCourseActivitySignature({
+					activityKey: activity.activityKey as PublicCourseActivityKey,
+					platformCourseId: lesson.platformCourse.id,
+					lessonId: lesson.lesson.id,
+					lessonNumber: lesson.lesson.lessonNumber,
+					filterConfig: (activity.filterConfig ?? {}) as PublicCourseActivityFilters,
+				}),
+				publicCourseLessonActivityId: activity.id,
+			})),
+		),
+	)
+
+	const sharedCompletionRows =
+		userId && activitySignatureRows.length > 0
+			? await db
+					.select({
+						activitySignature: publicCourseActivityCompletion.activitySignature,
+					})
+					.from(publicCourseActivityCompletion)
+					.where(
+						and(
+							eq(publicCourseActivityCompletion.userId, userId),
+							inArray(
+								publicCourseActivityCompletion.activitySignature,
+								activitySignatureRows.map((row) => row.signature),
+							),
+						),
+					)
+			: []
+
+	const sharedCompletionSet = new Set(
+		sharedCompletionRows.map((row) => row.activitySignature),
+	)
+
 	const publicCourseLessonIds = publicCourses.flatMap((course) =>
 		course.lessons.map((lesson) => lesson.lesson.id),
 	)
@@ -212,6 +261,7 @@ export default async function CoursesPage() {
 	const completedVideoIdSet = new Set(completedVideoIds)
 	const publicCourseCards = publicCourses.map((course) => {
 		const enrollment = enrollmentByCourseId.get(course.id)
+		const localActivityProgressSet = enrollment?.activityProgress ?? null
 		const totalEnabledActivities = course.lessons.reduce((total, lesson) => {
 			return (
 				total + lesson.activities.filter((activity) => activity.isEnabled).length
@@ -223,18 +273,32 @@ export default async function CoursesPage() {
 			const completedForLesson = lesson.activities.filter((activity) => {
 				if (!activity.isEnabled) return false
 
+				const signature = buildPublicCourseActivitySignature({
+					activityKey: activity.activityKey as PublicCourseActivityKey,
+					platformCourseId: lesson.platformCourse.id,
+					lessonId: lesson.lesson.id,
+					lessonNumber: lesson.lesson.lessonNumber,
+					filterConfig: (activity.filterConfig ?? {}) as PublicCourseActivityFilters,
+				})
 				const videoId = getPublicCourseActivityVideoId({
-					activityKey: activity.activityKey,
-					filterConfig: activity.filterConfig ?? {},
+					activityKey: activity.activityKey as PublicCourseActivityKey,
+					filterConfig: (activity.filterConfig ?? {}) as PublicCourseActivityFilters,
 					lessonScriptId: lessonVideoIds?.lessonScriptId ?? null,
 					lessonScriptPartBId: lessonVideoIds?.lessonScriptPartBId ?? null,
 					lessonScriptReviewId: lessonVideoIds?.lessonScriptReviewId ?? null,
 				})
 				if (videoId != null) {
-					return completedVideoIdSet.has(videoId)
+					return (
+						completedVideoIdSet.has(videoId) ||
+						(localActivityProgressSet?.has(activity.id) ?? false) ||
+						sharedCompletionSet.has(signature)
+					)
 				}
 
-				return enrollment?.activityProgress.has(activity.id) ?? false
+				return (
+					(localActivityProgressSet?.has(activity.id) ?? false) ||
+					sharedCompletionSet.has(signature)
+				)
 			}).length
 
 			return total + completedForLesson
