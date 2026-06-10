@@ -78,10 +78,16 @@ export function ActivityCompletionScreen({
 			}
 			actions={
 				<div className="flex flex-col justify-center gap-3 sm:flex-row">
-					<Button variant="secondaryOutline" onClick={leftActionOnClick}>
+					<Button
+						type="button"
+						variant="secondaryOutline"
+						onClick={leftActionOnClick}
+					>
 						{leftActionLabel}
 					</Button>
-					<Button onClick={rightActionOnClick}>{rightActionLabel}</Button>
+					<Button type="button" onClick={rightActionOnClick}>
+						{rightActionLabel}
+					</Button>
 				</div>
 			}
 		/>

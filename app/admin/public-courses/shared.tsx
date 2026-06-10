@@ -349,6 +349,10 @@ export function ActivityToggleRow({
 	const description =
 		activity.activityKey === 'lesson_script'
 			? 'This stays first and unlocks the rest of the lesson.'
+			: activity.activityKey === 'introduction'
+				? 'This is the words tile for the vocabulary activity.'
+				: activity.activityKey === 'introduction_phrases'
+					? 'This is the phrases tile for the vocabulary activity.'
 			: activity.activityKey === 'lesson_script_part_b'
 				? 'This is the second lesson video and can be moved anywhere in the sequence.'
 			: activity.activityKey === 'lesson_script_review'

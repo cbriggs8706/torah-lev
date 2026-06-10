@@ -5,6 +5,7 @@ export type PublicCourseActivityKey =
 	| 'lesson_video'
 	| 'lesson_song'
 	| 'introduction'
+	| 'introduction_phrases'
 	| 'flashcards'
 	| 'quiz'
 	| 'matchup'
@@ -72,10 +73,19 @@ export const PUBLIC_COURSE_ACTIVITY_DEFINITIONS: PublicCourseActivityDefinition[
 	},
 	{
 		key: 'introduction',
-		label: 'Vocabulary',
+		label: 'Words',
 		iconSrc: '/speech-balloon-svgrepo-com.svg',
 		href: '/he/vocabulary',
 		filterKeys: ['selectedLessons'],
+		trackProgress: true,
+		passPercent: null,
+	},
+	{
+		key: 'introduction_phrases',
+		label: 'Phrases',
+		iconSrc: '/speech-balloon-svgrepo-com.svg',
+		href: '/he/vocabulary',
+		filterKeys: ['selectedLessons', 'selectedType'],
 		trackProgress: true,
 		passPercent: null,
 	},
@@ -290,21 +300,39 @@ export function applyDefaultPublicCourseActivityFilters({
 }) {
 	const definition = getPublicCourseActivityDefinition(activityKey)
 	if (!definition?.filterKeys.includes('selectedLessons')) {
-		return filters
+		return {
+			...filters,
+			...getVocabularyTypeDefaultFilter(activityKey),
+		}
 	}
 
 	if (filters.selectedLessons !== undefined) {
-		return filters
+		return {
+			...filters,
+			...getVocabularyTypeDefaultFilter(activityKey),
+		}
 	}
 
 	if (lessonNumber == null || lessonNumber === '') {
-		return filters
+		return {
+			...filters,
+			...getVocabularyTypeDefaultFilter(activityKey),
+		}
 	}
 
 	return {
 		...filters,
 		selectedLessons: [String(lessonNumber)],
+		...getVocabularyTypeDefaultFilter(activityKey),
 	}
+}
+
+function getVocabularyTypeDefaultFilter(activityKey: PublicCourseActivityKey) {
+	if (activityKey === 'introduction_phrases') {
+		return { selectedType: 'phrase' as const }
+	}
+
+	return {}
 }
 
 export function getPublicCourseActivityVideoId({

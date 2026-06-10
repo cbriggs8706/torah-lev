@@ -20,10 +20,9 @@ import { HeartsModal } from '@/components/modals/hearts-modal'
 import { PracticeModal } from '@/components/modals/practice-modal'
 import './globals.css'
 import { Analytics } from '@vercel/analytics/next'
-import { updateLastSeen } from '@/actions/update-last-seen'
-import { getSession } from '@/lib/auth'
 import Script from 'next/script'
 import SessionProvider from '@/components/providers/session-provider'
+import { LastSeenTracker } from '@/components/last-seen-tracker'
 
 const frank = Frank_Ruhl_Libre({
 	subsets: ['hebrew'],
@@ -97,20 +96,6 @@ export default async function RootLayout({
 }: Readonly<{
 	children: React.ReactNode
 }>) {
-	const session = await getSession()
-
-	if (session?.user?.id) {
-		try {
-			await updateLastSeen({
-				id: session.user.id,
-				email: session.user.email,
-				name: session.user.name,
-				image: session.user.image,
-			})
-		} catch (error) {
-			console.error('Failed to update last seen in RootLayout:', error)
-		}
-	}
 	return (
 		<SessionProvider>
 			<html lang="en">
@@ -153,6 +138,7 @@ export default async function RootLayout({
 					<ExitModal />
 					<HeartsModal />
 					<PracticeModal />
+					<LastSeenTracker />
 					{children}
 				</body>
 			</html>

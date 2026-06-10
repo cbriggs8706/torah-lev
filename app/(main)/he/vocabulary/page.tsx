@@ -33,6 +33,12 @@ export default async function HebrewVocabularyPage({
 	const currentLesson = publicCourseQuery.scheduled
 		? publicCourseQuery.lesson ?? ''
 		: userChallengeData?.activeLesson?.lessonNumber ?? ''
+	const initialFilters = publicCourseQuery.activityKey === 'introduction_phrases'
+		? {
+				...publicCourseQuery.filters,
+				selectedType: publicCourseQuery.filters.selectedType ?? 'phrase',
+		  }
+		: publicCourseQuery.filters
 	const hebrewData: HebrewVocab[] =
 		await getHebrewVocabByCourseId(activeCourseId)
 
@@ -66,13 +72,14 @@ export default async function HebrewVocabularyPage({
 						currentLesson={currentLesson}
 						initialHearts={userProgress?.hearts ?? 5}
 						filtersLocked={publicCourseQuery.scheduled}
-						initialFilters={publicCourseQuery.filters}
+						initialFilters={initialFilters}
 						returnTo={returnTo}
 						completionContext={
 							publicCourseQuery.enrollmentId && publicCourseQuery.publicCourseLessonId
 								? {
 										enrollmentId: publicCourseQuery.enrollmentId,
 										publicCourseLessonId: publicCourseQuery.publicCourseLessonId,
+										activityKey: publicCourseQuery.activityKey ?? 'introduction',
 								  }
 								: undefined
 						}

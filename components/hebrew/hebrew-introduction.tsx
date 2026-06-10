@@ -12,7 +12,10 @@ import { resolveVocabMediaUrl } from '@/lib/vocab-media'
 import type { HebrewVocab } from '@/lib/vocab'
 import { awardIntroductionCompletion } from '@/actions/introduction-progress'
 import { markPublicCourseActivityComplete } from '@/lib/public-course-progress'
-import type { PublicCourseActivityFilters } from '@/lib/public-course-activities'
+import type {
+	PublicCourseActivityFilters,
+	PublicCourseActivityKey,
+} from '@/lib/public-course-activities'
 
 type HebrewIntroductionProps = {
 	activeCourseId: number
@@ -25,6 +28,7 @@ type HebrewIntroductionProps = {
 	completionContext?: {
 		enrollmentId: number
 		publicCourseLessonId: number
+		activityKey?: PublicCourseActivityKey
 	}
 }
 
@@ -35,7 +39,9 @@ const INCORRECT_SOUND = '/incorrect.wav'
 const REPEAT_COUNT = 3
 const REPEAT_PAUSE_MS = 1400
 const POST_WORD_PAUSE_MS = 450
-const CHUNK_SIZE = 10
+const INITIAL_TEACHING_BATCH_SIZE = 3
+const QUIZ_PROMPT_COUNT = 3
+type VocabTypeFilter = 'word' | 'phrase'
 
 export default function HebrewIntroduction({
 	activeCourseId,
@@ -54,17 +60,22 @@ export default function HebrewIntroduction({
 	)
 	const [phase, setPhase] = useState<SessionPhase>('idle')
 	const [sessionVersion, setSessionVersion] = useState(0)
-	const [selectedChunkIndex, setSelectedChunkIndex] = useState<number | 'all'>(
-		'all',
+	const [selectedType, setSelectedType] = useState<VocabTypeFilter>(() =>
+		initialFilters?.selectedType === 'phrase' ? 'phrase' : 'word',
 	)
+	const [sessionCards, setSessionCards] = useState<HebrewVocab[]>([])
 	const [sessionCardOrder, setSessionCardOrder] = useState<number[]>([])
+	const [skippedCardIndices, setSkippedCardIndices] = useState<number[]>([])
+	const [introducedCount, setIntroducedCount] = useState(0)
 	const [teachingIndices, setTeachingIndices] = useState<number[]>([])
 	const [teachingCardIndex, setTeachingCardIndex] = useState<number | null>(
 		null,
 	)
 	const [hearts, setHearts] = useState(initialHearts)
-	const [learnedCount, setLearnedCount] = useState(0)
 	const [pendingQuizIndices, setPendingQuizIndices] = useState<number[]>([])
+	const [currentQuizPoolIndices, setCurrentQuizPoolIndices] = useState<
+		number[]
+	>([])
 	const [currentPromptIndex, setCurrentPromptIndex] = useState<number | null>(
 		null,
 	)
@@ -81,20 +92,78 @@ export default function HebrewIntroduction({
 	const [statusText, setStatusText] = useState(
 		filtersLocked
 			? 'This class opens directly into the assigned lesson.'
-			: 'Choose your filters, then start the vocabulary.',
+			: 'Choose your filters and a type, then start the vocabulary.',
 	)
 
 	const runIdRef = useRef(0)
+	const phaseRef = useRef<SessionPhase>('idle')
 	const removedClassroomDefaultRef = useRef(false)
 	const publicCourseCompletionRef = useRef(false)
 	const completionSoundPlayedRef = useRef(false)
+	const completionLockedRef = useRef(false)
 	const initialHeartsRef = useRef(initialHearts)
+	const activeAudioRef = useRef<HTMLAudioElement | null>(null)
+	const skippedCardSetRef = useRef(new Set<number>())
 	const router = useRouter()
 
 	useEffect(() => {
 		if (!initialFilters?.selectedLessons?.length) return
 		setSelectedLessons(initialFilters.selectedLessons)
 	}, [initialFilters?.selectedLessons, setSelectedLessons])
+
+	useEffect(() => {
+		phaseRef.current = phase
+	}, [phase])
+
+	const stopActiveAudio = useCallback(() => {
+		const audio = activeAudioRef.current
+		if (!audio) return
+
+		audio.pause()
+		audio.currentTime = 0
+		activeAudioRef.current = null
+	}, [])
+
+	const playAudio = useCallback(
+		(src: string) =>
+			new Promise<boolean>((resolve) => {
+				stopActiveAudio()
+
+				if (!src) {
+					resolve(false)
+					return
+				}
+
+				const audio = new Audio(src)
+				activeAudioRef.current = audio
+				const finish = (ok: boolean) => {
+					if (activeAudioRef.current === audio) {
+						activeAudioRef.current = null
+					}
+					resolve(ok)
+				}
+
+				audio.addEventListener('ended', () => finish(true), { once: true })
+				audio.addEventListener('error', () => finish(false), { once: true })
+				void audio.play().catch(() => finish(false))
+			}),
+		[stopActiveAudio],
+	)
+
+	useEffect(() => {
+		return () => {
+			runIdRef.current += 1
+			stopActiveAudio()
+		}
+	}, [stopActiveAudio])
+
+	useEffect(() => {
+		if (initialFilters?.selectedType !== 'word' && initialFilters?.selectedType !== 'phrase') {
+			return
+		}
+
+		setSelectedType(initialFilters.selectedType)
+	}, [initialFilters?.selectedType])
 
 	useEffect(() => {
 		if (phase !== 'idle') return
@@ -132,53 +201,87 @@ export default function HebrewIntroduction({
 		})
 	}, [data, selectedLessons])
 
-	const chunkOptions = useMemo(() => {
-		return Array.from(
-			{ length: Math.ceil(lessonFilteredCards.length / CHUNK_SIZE) },
-			(_, index) => {
-				const start = index * CHUNK_SIZE
-				const cards = lessonFilteredCards.slice(start, start + CHUNK_SIZE)
+	const wordCards = useMemo(
+		() => lessonFilteredCards.filter((card) => card.type === 'word'),
+		[lessonFilteredCards],
+	)
+	const phraseCards = useMemo(
+		() => lessonFilteredCards.filter((card) => card.type === 'phrase'),
+		[lessonFilteredCards],
+	)
 
-				return {
-					index,
-					label: `${start + 1}-${start + cards.length}`,
-					cards,
-				}
-			},
-		)
-	}, [lessonFilteredCards])
+	const activeSessionCardOrder = useMemo(
+		() => sessionCardOrder.filter((index) => !skippedCardIndices.includes(index)),
+		[sessionCardOrder, skippedCardIndices],
+	)
 
 	const filteredCards = useMemo(() => {
-		if (selectedChunkIndex === 'all') {
-			return lessonFilteredCards
+		return selectedType === 'word' ? wordCards : phraseCards
+	}, [phraseCards, selectedType, wordCards])
+
+	useEffect(() => {
+		if (selectedType === 'word' && wordCards.length > 0) return
+		if (selectedType === 'phrase' && phraseCards.length > 0) return
+
+		if (wordCards.length > 0) {
+			setSelectedType('word')
+			return
 		}
 
-		return chunkOptions[selectedChunkIndex]?.cards ?? []
-	}, [chunkOptions, lessonFilteredCards, selectedChunkIndex])
+		if (phraseCards.length > 0) {
+			setSelectedType('phrase')
+		}
+	}, [phraseCards.length, selectedType, wordCards.length])
+
+	const beginSession = useCallback(
+		(cardOrder: number[]) => {
+			if (cardOrder.length < 2) return
+
+			setCompletionAwarded(false)
+			setIntroducedCount(0)
+			setPendingQuizIndices([])
+			setCurrentQuizPoolIndices([])
+			setCurrentPromptIndex(null)
+			setCurrentOptions([])
+			setEliminatedOptions([])
+			setTeachingIndices(
+				cardOrder.slice(0, Math.min(INITIAL_TEACHING_BATCH_SIZE, cardOrder.length)),
+			)
+			setTeachingCardIndex(cardOrder[0] ?? null)
+			setPhase('teaching')
+			setStatusText(
+				`Listen carefully to the first ${Math.min(
+					INITIAL_TEACHING_BATCH_SIZE,
+					cardOrder.length,
+				)} ${selectedType === 'word' ? 'words' : 'phrases'} in this set.`,
+			)
+		},
+		[selectedType],
+	)
 
 	useEffect(() => {
-		setSelectedChunkIndex('all')
-	}, [lessonFilteredCards])
+		if (completionLockedRef.current && phaseRef.current === 'complete') {
+			return
+		}
 
-	useEffect(() => {
-		if (selectedChunkIndex === 'all') return
-		if (selectedChunkIndex < chunkOptions.length) return
-		setSelectedChunkIndex('all')
-	}, [chunkOptions.length, selectedChunkIndex])
-
-	useEffect(() => {
-		runIdRef.current += 1
-		setSessionCardOrder(
-			shuffle(
-				Array.from({ length: filteredCards.length }, (_, index) => index),
-			),
+		const nextSessionCards = shuffle(filteredCards)
+		const nextSessionCardOrder = Array.from(
+			{ length: nextSessionCards.length },
+			(_, index) => index,
 		)
+
+		runIdRef.current += 1
+		setSessionCards(nextSessionCards)
+		setSessionCardOrder(nextSessionCardOrder)
+		setSkippedCardIndices([])
+		skippedCardSetRef.current = new Set()
 		setPhase('idle')
 		setHearts(initialHeartsRef.current)
+		setIntroducedCount(0)
 		setTeachingIndices([])
 		setTeachingCardIndex(null)
-		setLearnedCount(0)
 		setPendingQuizIndices([])
+		setCurrentQuizPoolIndices([])
 		setCurrentPromptIndex(null)
 		setCurrentOptions([])
 		setEliminatedOptions([])
@@ -187,55 +290,71 @@ export default function HebrewIntroduction({
 		setCompletionRewards(null)
 		setCompletionAwarded(false)
 		completionSoundPlayedRef.current = false
-		setStatusText('Choose your filters, then start the vocabulary.')
-	}, [filteredCards, sessionVersion])
+		setStatusText('Choose your filters and a type, then start the vocabulary.')
 
-	const queueQuizPrompt = useCallback(
-		(nextPending: number[], nextLearnedCount: number) => {
-			if (nextPending.length === 0) {
-				if (nextLearnedCount < sessionCardOrder.length) {
-					const nextCardIndex = sessionCardOrder[nextLearnedCount]
-					if (nextCardIndex == null) return
-					setTeachingIndices([nextCardIndex])
-					setPhase('teaching')
-					setStatusText(
-						`Nice work. Here comes vocab item ${nextLearnedCount + 1}.`,
-					)
-				} else {
-					setPhase('complete')
-					setCurrentPromptIndex(null)
-					setCurrentOptions([])
-					setEliminatedOptions([])
-					setStatusText('You finished this vocabulary chunk.')
-				}
-				return
-			}
+		if (filtersLocked && !completionLockedRef.current) {
+			beginSession(nextSessionCardOrder)
+		}
+	}, [beginSession, filteredCards, filtersLocked, sessionVersion])
 
-			const randomizedPending = shuffle(nextPending)
-			const correctIndex = randomizedPending[0]
-			const candidateIndices = sessionCardOrder.slice(0, nextLearnedCount)
-			const distractors = shuffle(
-				candidateIndices.filter((index) => index !== correctIndex),
-			).slice(0, Math.min(2, Math.max(0, candidateIndices.length - 1)))
-			const options = shuffle([correctIndex, ...distractors])
+	const skipCard = useCallback((cardIndex: number) => {
+		setSkippedCardIndices((prev) => {
+			if (prev.includes(cardIndex)) return prev
+			skippedCardSetRef.current.add(cardIndex)
+			return [...prev, cardIndex]
+		})
+	}, [])
 
-			setCurrentPromptIndex(correctIndex)
-			setCurrentOptions(options)
+	const startQuizRound = useCallback(
+		(quizPoolIndices: number[]) => {
+			const nextPending = buildQuizRoundQueue(quizPoolIndices, QUIZ_PROMPT_COUNT)
+			setCurrentQuizPoolIndices(quizPoolIndices)
+			setPendingQuizIndices(nextPending)
+			setPhase('quiz')
+			setCurrentPromptIndex(nextPending[0] ?? null)
+			setCurrentOptions(
+				buildQuizOptions(nextPending[0] ?? null, quizPoolIndices),
+			)
 			setEliminatedOptions([])
 			setStatusText('Tap the image that matches the audio.')
 		},
-		[sessionCardOrder],
+		[],
 	)
 
-	const startQuizRound = useCallback(
-		(nextLearnedCount: number) => {
-			const nextPending = shuffle(sessionCardOrder.slice(0, nextLearnedCount))
-			setPendingQuizIndices(nextPending)
-			setPhase('quiz')
-			queueQuizPrompt(nextPending, nextLearnedCount)
-		},
-		[queueQuizPrompt, sessionCardOrder],
-	)
+	const advanceAfterQuizPrompt = useCallback(() => {
+		setPendingQuizIndices((prevPending) => {
+			const nextPending = prevPending.slice(1)
+			if (nextPending.length > 0) {
+				const nextPromptIndex = nextPending[0]
+				setCurrentPromptIndex(nextPromptIndex)
+				setCurrentOptions(
+					buildQuizOptions(nextPromptIndex ?? null, currentQuizPoolIndices),
+				)
+				setEliminatedOptions([])
+				setStatusText('Tap the image that matches the audio.')
+				return nextPending
+			}
+
+			setCurrentPromptIndex(null)
+			setCurrentOptions([])
+			setEliminatedOptions([])
+
+			const nextTeachIndex = introducedCount
+			if (nextTeachIndex < activeSessionCardOrder.length) {
+				const nextCardIndex = activeSessionCardOrder[nextTeachIndex]
+				if (nextCardIndex != null) {
+					setTeachingIndices([nextCardIndex])
+					setPhase('teaching')
+					setStatusText(`Nice work. Here comes vocab item ${nextTeachIndex + 1}.`)
+					return []
+				}
+			}
+
+			setPhase('complete')
+			setStatusText('You finished this vocabulary set.')
+			return []
+		})
+	}, [activeSessionCardOrder, currentQuizPoolIndices, introducedCount])
 
 	useEffect(() => {
 		if (phase !== 'teaching' || teachingIndices.length === 0) return
@@ -245,15 +364,25 @@ export default function HebrewIntroduction({
 		const runTeachingSequence = async () => {
 			for (const index of teachingIndices) {
 				if (runIdRef.current !== runId) return
-				const card = filteredCards[index]
+				if (skippedCardSetRef.current.has(index)) continue
+				const card = sessionCards[index]
+				if (!card) {
+					skipCard(index)
+					continue
+				}
 				setTeachingCardIndex(index)
 				setStatusText(`Listen and look: ${card.eng}`)
 
 				for (let repeat = 0; repeat < REPEAT_COUNT; repeat += 1) {
 					if (runIdRef.current !== runId) return
+					if (skippedCardSetRef.current.has(index)) break
 					setActiveRepeatNumber(REPEAT_COUNT - repeat)
 					setPulseTick((prev) => prev + 1)
-					await playAudio(card.hebAudio)
+					const ok = await playAudio(card.hebAudio)
+					if (!ok) {
+						skipCard(index)
+						break
+					}
 					if (repeat < REPEAT_COUNT - 1) {
 						await wait(REPEAT_PAUSE_MS)
 					}
@@ -265,32 +394,61 @@ export default function HebrewIntroduction({
 
 			if (runIdRef.current !== runId) return
 
-			const nextLearnedCount = Math.min(
-				sessionCardOrder.length,
-				learnedCount + teachingIndices.length,
+			const nextIntroducedCount = Math.min(
+				activeSessionCardOrder.length,
+				introducedCount +
+					teachingIndices.filter((index) => !skippedCardSetRef.current.has(index))
+						.length,
 			)
-			setLearnedCount(nextLearnedCount)
+			setIntroducedCount(nextIntroducedCount)
 			setTeachingCardIndex(null)
-			startQuizRound(nextLearnedCount)
+			startQuizRound(activeSessionCardOrder.slice(0, nextIntroducedCount))
 		}
 
 		void runTeachingSequence()
 	}, [
-		filteredCards,
-		learnedCount,
+		sessionCards,
+		activeSessionCardOrder,
+		currentQuizPoolIndices.length,
+		introducedCount,
 		phase,
-		sessionCardOrder.length,
+		skipCard,
+		playAudio,
 		startQuizRound,
 		teachingIndices,
 	])
 
 	useEffect(() => {
 		if (phase !== 'quiz' || currentPromptIndex == null) return
-		void playAudio(filteredCards[currentPromptIndex]?.hebAudio ?? '')
-	}, [currentPromptIndex, filteredCards, phase])
+		void (async () => {
+			const currentCard = sessionCards[currentPromptIndex]
+			if (!currentCard) {
+				skipCard(currentPromptIndex)
+				advanceAfterQuizPrompt()
+				return
+			}
+
+			const ok = await playAudio(currentCard.hebAudio)
+			if (!ok) {
+				skipCard(currentPromptIndex)
+				advanceAfterQuizPrompt()
+			}
+		})()
+	}, [
+		advanceAfterQuizPrompt,
+		currentPromptIndex,
+		sessionCards,
+		phase,
+		skipCard,
+		playAudio,
+	])
 
 	useEffect(() => {
-		if (phase !== 'complete' || completionAwarded || filteredCards.length === 0)
+		if (
+			phase !== 'complete' ||
+			completionAwarded ||
+			activeSessionCardOrder.length === 0
+		)
 			return
 
 		let cancelled = false
@@ -299,7 +457,7 @@ export default function HebrewIntroduction({
 			try {
 				const result = await awardIntroductionCompletion({
 					courseId: activeCourseId,
-					points: filteredCards.length,
+					points: activeSessionCardOrder.length,
 				})
 
 				if (cancelled) return
@@ -307,16 +465,18 @@ export default function HebrewIntroduction({
 				setHearts(result.hearts)
 				dispatchUserProgressUpdated({
 					hearts: result.hearts,
-					points: filteredCards.length,
+					points: activeSessionCardOrder.length,
 				})
 				setCompletionRewards({
 					tribePointAwarded: result.tribePointAwarded,
 				})
 				setCompletionAwarded(true)
+				completionLockedRef.current = true
 			} catch (error) {
 				console.error('Failed to award introduction completion rewards', error)
 				if (!cancelled) {
 					setCompletionAwarded(true)
+					completionLockedRef.current = true
 				}
 			}
 		}
@@ -326,7 +486,7 @@ export default function HebrewIntroduction({
 		return () => {
 			cancelled = true
 		}
-	}, [activeCourseId, completionAwarded, filteredCards.length, phase])
+	}, [activeCourseId, activeSessionCardOrder.length, completionAwarded, phase, playAudio])
 
 	useEffect(() => {
 		if (phase !== 'complete' || !completionAwarded) return
@@ -334,7 +494,7 @@ export default function HebrewIntroduction({
 
 		completionSoundPlayedRef.current = true
 		void playAudio('/shofar.mp3')
-	}, [completionAwarded, phase])
+	}, [completionAwarded, phase, playAudio])
 
 	useEffect(() => {
 		if (
@@ -349,7 +509,7 @@ export default function HebrewIntroduction({
 		void markPublicCourseActivityComplete({
 			enrollmentId: completionContext.enrollmentId,
 			publicCourseLessonId: completionContext.publicCourseLessonId,
-			activityKey: 'introduction',
+			activityKey: completionContext.activityKey ?? 'introduction',
 			scorePercent: 100,
 		}).catch((error) => {
 			console.error('Failed to save public course introduction progress', error)
@@ -357,33 +517,17 @@ export default function HebrewIntroduction({
 		})
 	}, [completionContext, phase])
 
-	const startSession = () => {
-		if (sessionCardOrder.length < 2) return
-
-		setCompletionAwarded(false)
-		setLearnedCount(0)
-		setPendingQuizIndices([])
-		setCurrentPromptIndex(null)
-		setCurrentOptions([])
-		setEliminatedOptions([])
-		setTeachingIndices(sessionCardOrder.slice(0, 2))
-		setTeachingCardIndex(sessionCardOrder[0] ?? null)
-		setPhase('teaching')
-		setStatusText(
-			'Listen carefully to the first two vocab items in this chunk.',
-		)
-	}
+	const startSession = useCallback(() => {
+		completionLockedRef.current = false
+		beginSession(activeSessionCardOrder)
+	}, [activeSessionCardOrder, beginSession])
 
 	const handleGuess = async (optionIndex: number) => {
 		if (currentPromptIndex == null) return
 
 		if (optionIndex === currentPromptIndex) {
 			await playAudio(SUCCESS_SOUND)
-			const nextPending = pendingQuizIndices.filter(
-				(index) => index !== currentPromptIndex,
-			)
-			setPendingQuizIndices(nextPending)
-			queueQuizPrompt(nextPending, learnedCount)
+			advanceAfterQuizPrompt()
 			return
 		}
 
@@ -392,44 +536,43 @@ export default function HebrewIntroduction({
 			prev.includes(optionIndex) ? prev : [...prev, optionIndex],
 		)
 		setStatusText('Not quite. One wrong image has been removed.')
-		await playAudio(filteredCards[currentPromptIndex].hebAudio)
+		await playAudio(sessionCards[currentPromptIndex]?.hebAudio ?? '')
 	}
 
 	const currentTeachingCard =
-		teachingCardIndex != null ? filteredCards[teachingCardIndex] : null
+		teachingCardIndex != null ? sessionCards[teachingCardIndex] : null
 	const currentPromptCard =
-		currentPromptIndex != null ? filteredCards[currentPromptIndex] : null
-	const canStart = filteredCards.length >= 2
+		currentPromptIndex != null ? sessionCards[currentPromptIndex] : null
+	const canStart = activeSessionCardOrder.length >= 2
 	const lessonSelectionLocked = filtersLocked || phase !== 'idle'
 	const currentTeachingOrderPosition =
 		teachingCardIndex != null
-			? sessionCardOrder.indexOf(teachingCardIndex) + 1
+			? teachingIndices.indexOf(teachingCardIndex) + 1
 			: 0
 	const lessonCompletedCount =
 		phase === 'teaching'
-			? Math.max(learnedCount, currentTeachingOrderPosition)
-			: learnedCount
+			? introducedCount + currentTeachingOrderPosition
+			: introducedCount
 	const lessonProgressPercent =
-		filteredCards.length > 0
-			? (lessonCompletedCount / filteredCards.length) * 100
+		activeSessionCardOrder.length > 0
+			? (lessonCompletedCount / activeSessionCardOrder.length) * 100
 			: 0
-	const selectedChunk =
-		selectedChunkIndex === 'all'
-			? null
-			: (chunkOptions[selectedChunkIndex] ?? null)
-	const lessonEstimateMinutes = estimateMinutes(lessonFilteredCards.length)
-	const chunkEstimateMinutes = estimateMinutes(filteredCards.length)
+	const selectedTypeEstimateMinutes = estimateMinutes(activeSessionCardOrder.length)
 	const tribeAwarded = completionRewards?.tribePointAwarded ?? false
+	const selectedTypePlural = selectedType === 'word' ? 'words' : 'phrases'
 
 	return (
 		<div className="mx-auto w-full max-w-5xl p-4 text-center">
-			<div className="mb-6 flex justify-center">
-				<button
-					onClick={() => setSessionVersion((prev) => prev + 1)}
-					className="rounded bg-gray-200 px-4 py-2 shadow"
-				>
-					Change Lesson
-				</button>
+				<div className="mb-6 flex justify-center">
+					<button
+						onClick={() => {
+							completionLockedRef.current = false
+							setSessionVersion((prev) => prev + 1)
+						}}
+						className="rounded bg-gray-200 px-4 py-2 shadow"
+					>
+						Change Lesson
+					</button>
 			</div>
 
 			{!lessonSelectionLocked && (
@@ -462,65 +605,58 @@ export default function HebrewIntroduction({
 			{!canStart ? (
 				<div className="rounded-2xl border border-amber-200 bg-amber-50 p-6 text-amber-900">
 					{lessonFilteredCards.length >= 2
-						? 'This chunk needs at least 2 Hebrew vocab items with an image and audio. Choose a different chunk to continue.'
+						? `This ${selectedTypePlural} selection needs at least 2 Hebrew vocab items with an image and audio. Choose the other pill to continue.`
 						: 'At least 2 Hebrew vocab items from one lesson with an image and audio are needed for this vocabulary activity.'}
 				</div>
 			) : phase === 'idle' ? (
 				<div className="rounded-2xl border bg-white p-8 shadow-sm">
 					<p className="text-sm font-semibold uppercase tracking-wide text-sky-700">
-						Select a chunk
+						Select a type
 					</p>
 					<p className="mt-3 text-3xl font-bold text-slate-900">
-						{lessonFilteredCards.length} Total Words
+						{lessonFilteredCards.length} Total Items
 					</p>
 
-					{chunkOptions.length > 0 && (
-						<>
-							<div className="mt-4 flex flex-wrap justify-center gap-2">
-								<button
-									onClick={() => setSelectedChunkIndex('all')}
-									className={`rounded-full border px-3 py-2 text-xs font-semibold transition ${
-										selectedChunkIndex === 'all'
-											? 'border-sky-600 bg-sky-600 text-white'
-											: 'bg-gray-100 text-slate-700 hover:bg-gray-200'
-									}`}
-								>
-									All
-								</button>
-								{chunkOptions.map((chunk) => {
-									const isSelected = chunk.index === selectedChunkIndex
-
-									return (
-										<button
-											key={chunk.label}
-											onClick={() => setSelectedChunkIndex(chunk.index)}
-											className={`rounded-full border px-3 py-2 text-xs font-semibold transition ${
-												isSelected
-													? 'border-sky-600 bg-sky-600 text-white'
-													: 'bg-gray-100 text-slate-700 hover:bg-gray-200'
-											}`}
-										>
-											{chunk.label}
-										</button>
-									)
-								})}
-							</div>
-						</>
-					)}
-					{selectedChunkIndex === 'all' ? (
-						<p className="mt-3 text-base font-semibold text-slate-800">
-							Starting the full lesson with {filteredCards.length} words.{' '}
-							Estimated time: {chunkEstimateMinutes} minute
-							{chunkEstimateMinutes === 1 ? '' : 's'}.
-						</p>
-					) : selectedChunk ? (
-						<p className="mt-3 text-base font-semibold text-slate-800">
-							Starting chunk {selectedChunk.label} with {filteredCards.length}{' '}
-							word{filteredCards.length === 1 ? '' : 's'}. Estimated time:{' '}
-							{chunkEstimateMinutes} minute
-							{chunkEstimateMinutes === 1 ? '' : 's'}.
-						</p>
-					) : null}
+					<div className="mt-4 flex flex-wrap justify-center gap-2">
+						<button
+							onClick={() => setSelectedType('word')}
+							disabled={wordCards.length === 0}
+							className={`rounded-full border px-4 py-2 text-xs font-semibold transition ${
+								selectedType === 'word'
+									? 'border-sky-600 bg-sky-600 text-white'
+									: wordCards.length === 0
+										? 'cursor-not-allowed border-gray-200 bg-gray-100 text-slate-400'
+										: 'bg-gray-100 text-slate-700 hover:bg-gray-200'
+							}`}
+						>
+							Words
+							<span className="ml-2 rounded-full bg-white/20 px-2 py-0.5 text-[11px] font-bold">
+								{wordCards.length}
+							</span>
+						</button>
+						<button
+							onClick={() => setSelectedType('phrase')}
+							disabled={phraseCards.length === 0}
+							className={`rounded-full border px-4 py-2 text-xs font-semibold transition ${
+								selectedType === 'phrase'
+									? 'border-sky-600 bg-sky-600 text-white'
+									: phraseCards.length === 0
+										? 'cursor-not-allowed border-gray-200 bg-gray-100 text-slate-400'
+										: 'bg-gray-100 text-slate-700 hover:bg-gray-200'
+							}`}
+						>
+							Phrases
+							<span className="ml-2 rounded-full bg-white/20 px-2 py-0.5 text-[11px] font-bold">
+								{phraseCards.length}
+							</span>
+						</button>
+					</div>
+					<p className="mt-3 text-base font-semibold text-slate-800">
+						Starting with {filteredCards.length} {selectedTypePlural}. Estimated
+						time:{' '}
+						{selectedTypeEstimateMinutes} minute
+						{selectedTypeEstimateMinutes === 1 ? '' : 's'}.
+					</p>
 					<button
 						onClick={startSession}
 						className="mt-6 rounded-xl bg-sky-600 px-6 py-3 font-semibold text-white shadow hover:bg-sky-500"
@@ -536,7 +672,8 @@ export default function HebrewIntroduction({
 								Lesson Progress
 							</div>
 							<div className="text-sm font-semibold text-slate-700">
-								{lessonCompletedCount}/{filteredCards.length}
+								{Math.min(lessonCompletedCount, filteredCards.length)}/
+								{filteredCards.length}
 							</div>
 						</div>
 						<div className="w-full max-w-xl">
@@ -562,6 +699,11 @@ export default function HebrewIntroduction({
 								fill
 								className="object-cover"
 								sizes="(max-width: 768px) 100vw, 960px"
+								onError={() => {
+									if (teachingCardIndex != null) {
+										skipCard(teachingCardIndex)
+									}
+								}}
 							/>
 							<div className="absolute left-1/2 top-5 flex -translate-x-1/2 items-center gap-3 rounded-full bg-black/40 px-4 py-2 backdrop-blur-sm">
 								{[1, 2, 3].map((repeatNumber) => {
@@ -592,7 +734,8 @@ export default function HebrewIntroduction({
 									Lesson Progress
 								</div>
 								<div className="text-sm font-semibold text-slate-700">
-									{lessonCompletedCount}/{filteredCards.length}
+									{Math.min(lessonCompletedCount, filteredCards.length)}/
+									{filteredCards.length}
 								</div>
 							</div>
 							<div className="h-3 overflow-hidden rounded-full bg-slate-200">
@@ -613,7 +756,7 @@ export default function HebrewIntroduction({
 					<p className="mb-6 text-lg text-slate-700">{statusText}</p>
 					<div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
 						{currentOptions.map((optionIndex) => {
-							const optionCard = filteredCards[optionIndex]
+							const optionCard = sessionCards[optionIndex]
 							const isEliminated = eliminatedOptions.includes(optionIndex)
 
 							return (
@@ -635,6 +778,12 @@ export default function HebrewIntroduction({
 												fill
 												className="object-cover"
 												sizes="(max-width: 768px) 100vw, 33vw"
+												onError={() => {
+													skipCard(optionIndex)
+													setCurrentOptions((prev) =>
+														prev.filter((index) => index !== optionIndex),
+													)
+												}}
 											/>
 										</div>
 									</div>
@@ -651,10 +800,10 @@ export default function HebrewIntroduction({
 						playCelebrationSound={false}
 						rewardMessage={
 							tribeAwarded
-								? `You earned ${filteredCards.length} point${filteredCards.length === 1 ? '' : 's'}, replenished your hearts to 5, and earned +1 Tribe Point.`
-								: `You earned ${filteredCards.length} point${filteredCards.length === 1 ? '' : 's'} and replenished your hearts to 5.`
+								? `You earned ${activeSessionCardOrder.length} point${activeSessionCardOrder.length === 1 ? '' : 's'}, replenished your hearts to 5, and earned +1 Tribe Point.`
+								: `You earned ${activeSessionCardOrder.length} point${activeSessionCardOrder.length === 1 ? '' : 's'} and replenished your hearts to 5.`
 						}
-						points={filteredCards.length}
+						points={activeSessionCardOrder.length}
 						hearts={hearts}
 						tribePointAwarded={tribeAwarded}
 						leftActionLabel="Return to Vocabulary"
@@ -689,23 +838,27 @@ function wait(ms: number) {
 	})
 }
 
-function playAudio(src: string) {
-	return new Promise<void>((resolve) => {
-		if (!src) {
-			resolve()
-			return
-		}
-
-		const audio = new Audio(src)
-		const finish = () => resolve()
-
-		audio.addEventListener('ended', finish, { once: true })
-		audio.addEventListener('error', finish, { once: true })
-		void audio.play().catch(() => resolve())
-	})
-}
-
 function estimateMinutes(wordCount: number) {
 	if (wordCount <= 0) return 0
 	return Math.ceil((wordCount * 3) / 10)
+}
+
+function buildQuizRoundQueue(indices: number[], promptCount: number) {
+	if (indices.length === 0) return []
+
+	const uniquePrompts = shuffle([...new Set(indices)]).slice(0, promptCount)
+	return uniquePrompts
+}
+
+function buildQuizOptions(
+	correctIndex: number | null,
+	poolIndices: number[],
+) {
+	if (correctIndex == null) return []
+
+	const distractors = shuffle(
+		poolIndices.filter((index) => index !== correctIndex),
+	).slice(0, Math.min(2, Math.max(0, poolIndices.length - 1)))
+
+	return shuffle([correctIndex, ...distractors])
 }

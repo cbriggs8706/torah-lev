@@ -32,6 +32,7 @@ const lessonAssignmentSchema = z.object({
 					'lesson_video',
 					'lesson_song',
 					'introduction',
+					'introduction_phrases',
 					'flashcards',
 					'quiz',
 					'matchup',
@@ -226,6 +227,7 @@ export async function PUT(
 				const publicCourseLessonId = lessonIdsByOrder.get(lesson.order)
 				if (!publicCourseLessonId) return []
 
+				const lessonNumber = lessonMap.get(lesson.lessonId)?.lessonNumber ?? null
 				const activities =
 					lesson.activities?.length &&
 					lesson.activities.some(
@@ -233,11 +235,18 @@ export async function PUT(
 					)
 						? lesson.activities
 						: getDefaultPublicCourseLessonActivities()
-				const lessonNumber = lessonMap.get(lesson.lessonId)?.lessonNumber ?? null
+				const normalizedActivities = ensureVocabularySplitActivities(
+					activities,
+					lessonNumber,
+				)
 
 				const orderedActivities = [
-					...activities.filter((activity) => activity.activityKey === 'lesson_script'),
-					...activities.filter((activity) => activity.activityKey !== 'lesson_script'),
+					...normalizedActivities.filter(
+						(activity) => activity.activityKey === 'lesson_script',
+					),
+					...normalizedActivities.filter(
+						(activity) => activity.activityKey !== 'lesson_script',
+					),
 				]
 
 				return orderedActivities.map((activity, index) => ({
@@ -272,4 +281,42 @@ export async function PUT(
 			{ status: 500 }
 		)
 	}
+}
+
+function ensureVocabularySplitActivities(
+	activities: Array<{
+		activityKey: PublicCourseActivityKey
+		order?: number
+		isEnabled: boolean
+		filterConfig?: Record<string, unknown>
+	}>,
+	lessonNumber: string | null,
+) {
+	const byKey = new Map(activities.map((activity) => [activity.activityKey, activity]))
+	if (byKey.has('introduction_phrases') || !byKey.has('introduction')) {
+		return activities
+	}
+
+	const wordsActivity = byKey.get('introduction')
+	if (!wordsActivity) return activities
+
+	const phrasesActivity = {
+		activityKey: 'introduction_phrases' as const,
+		isEnabled: wordsActivity.isEnabled,
+		filterConfig: applyDefaultPublicCourseActivityFilters({
+			filters: wordsActivity.filterConfig ?? {},
+			activityKey: 'introduction_phrases',
+			lessonNumber,
+		}),
+	}
+
+	const next: typeof activities = []
+	for (const activity of activities) {
+		next.push(activity)
+		if (activity.activityKey === 'introduction') {
+			next.push(phrasesActivity)
+		}
+	}
+
+	return next
 }

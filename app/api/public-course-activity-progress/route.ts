@@ -24,6 +24,7 @@ const completeActivitySchema = z.object({
 		'lesson_video',
 		'lesson_song',
 		'introduction',
+		'introduction_phrases',
 		'flashcards',
 		'quiz',
 		'matchup',
