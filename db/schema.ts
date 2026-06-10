@@ -889,6 +889,37 @@ export const publicCourseEnrollmentActivityProgress = pgTable(
 	})
 )
 
+export const publicCourseActivityCompletion = pgTable(
+	'public_course_activity_completion',
+	{
+		id: serial('id').primaryKey(),
+		userId: text('user_id')
+			.references(() => userProgress.userId, { onDelete: 'cascade' })
+			.notNull(),
+		activityKey: text('activity_key').notNull(),
+		activitySignature: text('activity_signature').notNull(),
+		status: text('status').notNull().default('completed'),
+		scorePercent: integer('score_percent'),
+		points: integer('points').notNull().default(0),
+		completedAt: timestamp('completed_at'),
+		lastInteractedAt: timestamp('last_interacted_at')
+			.defaultNow()
+			.notNull(),
+		metadata: jsonb('metadata').notNull().default({}),
+		createdAt: timestamp('created_at').defaultNow().notNull(),
+		updatedAt: timestamp('updated_at').defaultNow().notNull(),
+	},
+	(table) => ({
+		userActivityIdx: index('idx_public_course_activity_completion_user').on(
+			table.userId,
+			table.activitySignature
+		),
+		uniqueActivityIdx: uniqueIndex(
+			'uniq_public_course_activity_completion'
+		).on(table.userId, table.activitySignature),
+	})
+)
+
 export const studyGroupsRelations = relations(studyGroups, ({ one, many }) => ({
 	teacher: one(userProgress, {
 		fields: [studyGroups.teacherId],

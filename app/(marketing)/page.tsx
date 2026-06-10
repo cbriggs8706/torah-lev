@@ -4,7 +4,11 @@ import Image from 'next/image'
 import { Loader } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
-import { signIn, signOut, useSession } from '@/components/providers/session-provider'
+import {
+	signIn,
+	signOut,
+	useSession,
+} from '@/components/providers/session-provider'
 
 export default function Home() {
 	const { data: session, status } = useSession()
@@ -26,10 +30,14 @@ export default function Home() {
 
 			<div className="flex flex-col items-center gap-y-8">
 				<h1 className="text-xl lg:text-3xl font-bold text-neutral-600 max-w-[480px] text-center">
-					&apos;Idiom&apos; is both a root of the word &apos;language&apos; and
+					{/* &apos;Idiom&apos; is both a root of the word &apos;language&apos; and
 					makes up over half of everyday speech. IdiomGo uses comprehensible
 					input and engaging activities to help you hear, speak, read, and write
-					naturally—so you can confidently &apos;go&apos; with the language.
+					naturally—so you can confidently &apos;go&apos; with the language. */}
+					Shalom! Welcome to Torah Lev, where we make learning Biblical Hebrew
+					fun and effective with comprehensible input. Click the button below to
+					create an account to keep track of your progress or continue as a
+					guest.
 				</h1>
 
 				<div className="flex flex-col items-center gap-y-3 max-w-[330px] w-full">

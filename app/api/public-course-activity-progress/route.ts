@@ -4,6 +4,7 @@ import { z } from 'zod'
 
 import db from '@/db/drizzle'
 import {
+	publicCourseActivityCompletion,
 	publicCourseEnrollment,
 	publicCourseEnrollmentActivityProgress,
 	publicCourseLesson,
@@ -11,6 +12,7 @@ import {
 	userCourseProgress,
 } from '@/db/schema'
 import { getSession } from '@/lib/auth'
+import { buildPublicCourseActivitySignature } from '@/lib/server/public-course-activity-signature'
 
 const completeActivitySchema = z.object({
 	enrollmentId: z.number().int().positive(),
@@ -82,14 +84,19 @@ export async function POST(request: Request) {
 			where: eq(publicCourseLesson.id, publicCourseLessonId),
 			columns: {
 				platformCourseId: true,
+				lessonId: true,
+			},
+			with: {
+				lesson: {
+					columns: {
+						lessonNumber: true,
+					},
+				},
 			},
 		})
 
 		if (!lesson) {
-			return NextResponse.json(
-				{ error: 'Lesson not found.' },
-				{ status: 404 }
-			)
+			return NextResponse.json({ error: 'Lesson not found.' }, { status: 404 })
 		}
 
 		const activity = await db.query.publicCourseLessonActivity.findFirst({
@@ -99,6 +106,7 @@ export async function POST(request: Request) {
 			),
 			columns: {
 				id: true,
+				filterConfig: true,
 			},
 		})
 
@@ -123,8 +131,31 @@ export async function POST(request: Request) {
 			},
 		})
 
+		const activitySignature = buildPublicCourseActivitySignature({
+			activityKey,
+			platformCourseId: lesson.platformCourseId,
+			lessonId: lesson.lessonId,
+			lessonNumber: lesson.lesson?.lessonNumber ?? null,
+			filterConfig: activity.filterConfig as Record<string, unknown>,
+		})
+
+		const sharedExisting = await db.query.publicCourseActivityCompletion.findFirst({
+			where: and(
+				eq(publicCourseActivityCompletion.userId, userId),
+				eq(publicCourseActivityCompletion.activitySignature, activitySignature)
+			),
+			columns: {
+				id: true,
+				status: true,
+				points: true,
+			},
+		})
+
 		const now = new Date()
-		const shouldAwardPoints = (points ?? 0) > 0 && existing?.status !== 'completed'
+		const shouldAwardPoints =
+			(points ?? 0) > 0 &&
+			existing?.status !== 'completed' &&
+			sharedExisting?.status !== 'completed'
 		let awardedPoints = 0
 
 		if (shouldAwardPoints) {
@@ -145,6 +176,34 @@ export async function POST(request: Request) {
 				})
 
 			awardedPoints = points ?? 0
+		}
+
+		if (sharedExisting) {
+			await db
+				.update(publicCourseActivityCompletion)
+				.set({
+					activityKey,
+					status: 'completed',
+					scorePercent: scorePercent ?? null,
+					points: points ?? sharedExisting.points,
+					lastInteractedAt: now,
+					metadata: metadata ?? {},
+					updatedAt: now,
+				})
+				.where(eq(publicCourseActivityCompletion.id, sharedExisting.id))
+		} else {
+			await db.insert(publicCourseActivityCompletion).values({
+				userId,
+				activityKey,
+				activitySignature,
+				status: 'completed',
+				scorePercent: scorePercent ?? null,
+				points: points ?? 0,
+				completedAt: now,
+				lastInteractedAt: now,
+				metadata: metadata ?? {},
+				updatedAt: now,
+			})
 		}
 
 		if (existing) {

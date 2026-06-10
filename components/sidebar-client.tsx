@@ -75,7 +75,10 @@ export default function SidebarClient({
 			})
 		}
 
-		window.addEventListener(USER_PROGRESS_UPDATED_EVENT, handleUserProgressUpdated)
+		window.addEventListener(
+			USER_PROGRESS_UPDATED_EVENT,
+			handleUserProgressUpdated,
+		)
 
 		return () => {
 			window.removeEventListener(
@@ -100,7 +103,7 @@ export default function SidebarClient({
 							width={60}
 							alt="Mascot"
 						/>
-						<h1 className="text-2xl font-extrabold text-sky-600 tracking-wide">
+						<h1 className="text-2xl font-extrabold text-sidebar-primary tracking-wide">
 							Torah Lev
 						</h1>
 					</div>
@@ -134,7 +137,7 @@ export default function SidebarClient({
 							alt="Mascot"
 						/>
 						{/* <Image src="/mascot.svg" height={40} width={40} alt="Mascot" /> */}
-						<h1 className="text-2xl font-extrabold text-sky-600 tracking-wide">
+						<h1 className="text-2xl font-extrabold text-sidebar-primary tracking-wide">
 							Torah Lev
 						</h1>
 					</div>
