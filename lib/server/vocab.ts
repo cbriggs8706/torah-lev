@@ -1,10 +1,11 @@
 import 'server-only'
 
-import { asc, eq } from 'drizzle-orm'
+import { and, arrayOverlaps, asc, eq, inArray } from 'drizzle-orm'
 import db from '@/db/drizzle'
 import { vocabEntries } from '@/db/schema'
 import type { EnglishVocab, GreekVocab, HebrewVocab } from '@/lib/vocab'
 import { resolveVocabMediaUrl, resolveVocabMediaUrls } from '@/lib/vocab-media'
+import type { PublicCourseActivityFilters } from '@/lib/public-course-activities'
 
 type VocabLanguage = 'he' | 'en' | 'el'
 export type VocabSourceKey =
@@ -177,6 +178,35 @@ async function getRowsForSource(sourceKey: VocabSourceKey) {
 		.orderBy(asc(vocabEntries.id))
 }
 
+async function getFilteredRowsForSource(
+	sourceKey: VocabSourceKey,
+	filters: PublicCourseActivityFilters,
+) {
+	const where = [eq(vocabEntries.sourceKey, sourceKey)]
+
+	if (filters.selectedLessons?.length) {
+		where.push(arrayOverlaps(vocabEntries.lessons, filters.selectedLessons))
+	}
+
+	if (filters.selectedCategory) {
+		where.push(eq(vocabEntries.category, filters.selectedCategory))
+	}
+
+	if (
+		filters.selectedType &&
+		filters.selectedType !== 'all' &&
+		filters.selectedType !== 'stack'
+	) {
+		where.push(eq(vocabEntries.type, filters.selectedType))
+	}
+
+	return db
+		.select()
+		.from(vocabEntries)
+		.where(and(...where))
+		.orderBy(asc(vocabEntries.id))
+}
+
 async function getSourceData<T extends EnglishVocab | HebrewVocab | GreekVocab>(
 	sourceKey: VocabSourceKey
 ) {
@@ -239,6 +269,75 @@ export async function getHebrewVocabByCourseId(courseId: number) {
 		'awb' | 'hs' | 'abc'
 	>
 	return getHebrewVocabBySource(sourceKey)
+}
+
+export async function getFilteredHebrewVocabByCourseId(
+	courseId: number,
+	filters: PublicCourseActivityFilters,
+) {
+	const sourceKey = getSourceKeyForCourseId('he', courseId, 'awb') as Extract<
+		VocabSourceKey,
+		'awb' | 'hs' | 'abc'
+	>
+
+	try {
+		const rows = await getFilteredRowsForSource(sourceKey, filters)
+		return rows.map((row) => mapRowToHebrewVocab(row))
+	} catch (error) {
+		console.warn(
+			`Failed to load filtered Hebrew vocab entries for "${sourceKey}".`,
+			error,
+		)
+		return []
+	}
+}
+
+export async function getFilteredHebrewVocabWithAntonymsByCourseId(
+	courseId: number,
+	filters: PublicCourseActivityFilters,
+) {
+	const sourceKey = getSourceKeyForCourseId('he', courseId, 'awb') as Extract<
+		VocabSourceKey,
+		'awb' | 'hs' | 'abc'
+	>
+
+	try {
+		const filteredRows = await getFilteredRowsForSource(sourceKey, filters)
+		const filteredIds = new Set(filteredRows.map((row) => row.id))
+		const antonymIds = Array.from(
+			new Set(
+				filteredRows.flatMap((row) =>
+					(row.antonyms ?? [])
+						.map((id) => Number(id))
+						.filter((id) => Number.isInteger(id) && id > 0 && !filteredIds.has(id)),
+				),
+			),
+		)
+
+		if (!antonymIds.length) {
+			return filteredRows.map((row) => mapRowToHebrewVocab(row))
+		}
+
+		const antonymRows = await db
+			.select()
+			.from(vocabEntries)
+			.where(
+				and(
+					eq(vocabEntries.sourceKey, sourceKey),
+					inArray(vocabEntries.id, antonymIds),
+				),
+			)
+
+		return [...filteredRows, ...antonymRows]
+			.sort((a, b) => a.id - b.id)
+			.map((row) => mapRowToHebrewVocab(row))
+	} catch (error) {
+		console.warn(
+			`Failed to load filtered Hebrew vocab antonym entries for "${sourceKey}".`,
+			error,
+		)
+		return []
+	}
 }
 
 export async function getEnglishVocabByCourseId(courseId: number) {

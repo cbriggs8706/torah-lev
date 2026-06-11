@@ -3,7 +3,6 @@ import { getSession } from '@/lib/auth'
 import { FeedWrapper } from '@/components/feed-wrapper'
 import {
 	getCourseLessons,
-	getCourseProgress,
 	getLessonPercentage,
 	getUserProgress,
 	getUserSubscription,
@@ -24,6 +23,7 @@ interface GuestUserProgress {
 	}
 	hearts: number
 	points: number
+	activeLessonId?: number | null
 }
 
 const GreekLearnPage = async () => {
@@ -47,8 +47,6 @@ const GreekLearnPage = async () => {
 		| GuestUserProgress
 		| null = null
 	let courseLessons: Awaited<ReturnType<typeof getCourseLessons>> = []
-	let courseProgress: Awaited<ReturnType<typeof getCourseProgress>> | null =
-		null
 	let lessonPercentage: Awaited<ReturnType<typeof getLessonPercentage>> | null =
 		null
 	let userSubscription: Awaited<ReturnType<typeof getUserSubscription>> | null =
@@ -59,30 +57,25 @@ const GreekLearnPage = async () => {
 		const [
 			userProgressData,
 			courseLessonsData,
-			courseProgressData,
 			lessonPercentageData,
 			userSubscriptionData,
 		] = await Promise.all([
 			getUserProgress(),
 			getCourseLessons(),
-			getCourseProgress(),
 			getLessonPercentage(),
 			getUserSubscription(),
 		])
 
 		userProgress = userProgressData
 		courseLessons = courseLessonsData
-		courseProgress = courseProgressData
 		lessonPercentage = lessonPercentageData
 		userSubscription = userSubscriptionData
 	} else {
 		// ✅ Guest path: still load real content, but no DB writes
-		const [courseLessonsData, courseProgressData, lessonPercentageData] =
-			await Promise.all([
-				getCourseLessons(),
-				getCourseProgress(), // shows lessons for the active course
-				getLessonPercentage(), // harmless read
-			])
+		const [courseLessonsData, lessonPercentageData] = await Promise.all([
+			getCourseLessons(),
+			getLessonPercentage(), // harmless read
+		])
 
 		userProgress = {
 			userId: guestId || 'guest',
@@ -95,13 +88,15 @@ const GreekLearnPage = async () => {
 			},
 			hearts: 0,
 			points: 0,
+			activeLessonId: courseLessonsData[0]?.id ?? null,
 		}
 
 		courseLessons = courseLessonsData
-		courseProgress = courseProgressData
 		lessonPercentage = lessonPercentageData
 		userSubscription = null
 	}
+
+	const activeLessonId = userProgress?.activeLessonId ?? courseLessons[0]?.id ?? null
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
@@ -117,7 +112,7 @@ const GreekLearnPage = async () => {
 
 				<LearnLessonList
 					lessons={courseLessons}
-					courseProgress={courseProgress ?? undefined}
+					activeLessonId={activeLessonId}
 					lessonPercentage={lessonPercentage ?? 0}
 					lang="el"
 				/>

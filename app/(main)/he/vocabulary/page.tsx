@@ -2,9 +2,12 @@ import Image from 'next/image'
 import { getSession } from '@/lib/auth'
 import { FeedWrapper } from '@/components/feed-wrapper'
 import { DismissibleAlert } from '@/components/dismissible-alert'
-import { getCourseProgress, getUserProgress } from '@/db/queries'
+import { getUserProgress } from '@/db/queries'
 import HebrewIntroduction from '@/components/hebrew/hebrew-introduction'
-import { getHebrewVocabByCourseId } from '@/lib/server/vocab'
+import {
+	getFilteredHebrewVocabByCourseId,
+	getHebrewVocabByCourseId,
+} from '@/lib/server/vocab'
 import type { HebrewVocab } from '@/lib/vocab'
 import { parseScheduledPublicCourseQuery } from '@/lib/public-course-activities'
 
@@ -17,9 +20,7 @@ export default async function HebrewVocabularyPage({
 	const userId = session?.user?.id ?? null
 	const resolvedSearchParams = (await searchParams) ?? {}
 
-	const [userProgress, userChallengeData] = userId
-		? await Promise.all([getUserProgress(), getCourseProgress()])
-		: [null, null]
+	const userProgress = userId ? await getUserProgress() : null
 
 	const publicCourseQuery = parseScheduledPublicCourseQuery(resolvedSearchParams)
 	const rawReturnTo = resolvedSearchParams.returnTo
@@ -32,15 +33,16 @@ export default async function HebrewVocabularyPage({
 		: userProgress?.activeCourseId ?? 6
 	const currentLesson = publicCourseQuery.scheduled
 		? publicCourseQuery.lesson ?? ''
-		: userChallengeData?.activeLesson?.lessonNumber ?? ''
+		: userProgress?.activeLessonNumber ?? ''
 	const initialFilters = publicCourseQuery.activityKey === 'introduction_phrases'
 		? {
 				...publicCourseQuery.filters,
 				selectedType: publicCourseQuery.filters.selectedType ?? 'phrase',
 		  }
 		: publicCourseQuery.filters
-	const hebrewData: HebrewVocab[] =
-		await getHebrewVocabByCourseId(activeCourseId)
+	const hebrewData: HebrewVocab[] = publicCourseQuery.scheduled
+		? await getFilteredHebrewVocabByCourseId(activeCourseId, initialFilters)
+		: await getHebrewVocabByCourseId(activeCourseId)
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">

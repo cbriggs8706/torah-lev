@@ -4,7 +4,7 @@ import { and, eq, sql } from 'drizzle-orm'
 import { revalidatePath } from 'next/cache'
 
 import db from '@/db/drizzle'
-import { getUserProgress } from '@/db/queries'
+import { getFreshUserProgress } from '@/db/queries'
 import { getSession } from '@/lib/auth'
 import { tribes, userCourseProgress, userVideoProgress } from '@/db/schema'
 
@@ -40,7 +40,7 @@ export async function awardVideoCompletion({
 	}
 
 	const now = new Date()
-	const currentUserProgress = await getUserProgress(userId)
+	const currentUserProgress = await getFreshUserProgress(userId)
 	const existing = await db.query.userVideoProgress.findFirst({
 		where: and(
 			eq(userVideoProgress.userId, userId!),

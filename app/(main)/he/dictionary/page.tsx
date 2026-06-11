@@ -1,11 +1,7 @@
 import Image from 'next/image'
 import { getSession } from '@/lib/auth'
 import { FeedWrapper } from '@/components/feed-wrapper'
-import {
-	getCourseProgress,
-	getUserProgress,
-	getUserSubscription,
-} from '@/db/queries'
+import { getUserProgress } from '@/db/queries'
 import HebrewDictionary from '@/components/hebrew/hebrew-dictionary'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 import { HebrewVocab } from '@/lib/vocab'
@@ -16,17 +12,10 @@ export default async function HebrewDictionaryPage() {
 	const userId = session?.user?.id ?? null
 
 	// Fetch user data only if signed in
-	const [userProgress, userSubscription, userChallengeData] = userId
-		? await Promise.all([
-				getUserProgress(),
-				getUserSubscription(),
-				getCourseProgress(),
-		  ])
-		: [null, null, null]
+	const userProgress = userId ? await getUserProgress() : null
 
 	// Fallbacks for guests
 	const activeCourseId = userProgress?.activeCourseId ?? 6 // Default to AwB
-	const isPro = !!userSubscription?.isActive
 
 	// Choose dataset based on course
 	const hebrewData: HebrewVocab[] = await getHebrewVocabByCourseId(activeCourseId)

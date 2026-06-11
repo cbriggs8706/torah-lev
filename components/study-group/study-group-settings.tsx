@@ -7,6 +7,7 @@ import { Check, ChevronsUpDown } from 'lucide-react'
 
 import { AvatarImageSafe } from '@/components/avatar-image-safe'
 import StudyGroupCoursesSection from '@/components/study-group/study-group-courses-section'
+import StudyGroupScheduleCuration from '@/components/study-group/study-group-schedule-curation'
 import { Button } from '@/components/ui/button'
 import {
 	Command,
@@ -23,6 +24,7 @@ import {
 	PopoverContent,
 	PopoverTrigger,
 } from '@/components/ui/popover'
+import { normalizeDraftActivities } from '@/app/admin/public-courses/shared'
 import { cn } from '@/lib/utils'
 
 type GroupCourse = {
@@ -277,6 +279,10 @@ export default function StudyGroupSettings({
 		setIsSubmitting(true)
 
 		try {
+			const selectedLessonDetails =
+				sessionType === 'lesson'
+					? lessons.find((lesson) => lesson.id === Number(lessonId))
+					: null
 			const response = await fetch(`/api/study-groups/${studyGroupId}/schedule`, {
 				method: 'POST',
 				headers: {
@@ -293,6 +299,18 @@ export default function StudyGroupSettings({
 							: null,
 					lessonId: sessionType === 'lesson' ? Number(lessonId) : null,
 					notes,
+					activities:
+						sessionType === 'lesson' && selectedLessonDetails
+							? normalizeDraftActivities(
+									[],
+									selectedLessonDetails.lessonNumber ?? null,
+								).map((activity, index) => ({
+									activityKey: activity.activityKey,
+									order: index + 1,
+									isEnabled: activity.isEnabled,
+									filterConfig: activity.filterConfig,
+								}))
+							: undefined,
 				}),
 			})
 			const result = await response.json()
@@ -632,6 +650,16 @@ export default function StudyGroupSettings({
 					)}
 				</div>
 			</div>
+
+			<StudyGroupScheduleCuration
+				studyGroupId={studyGroupId}
+				initialEvents={events as any}
+				onEventUpdated={(event) =>
+					setEvents((current) =>
+						current.map((item) => (item.id === event.id ? event : item)),
+					)
+				}
+			/>
 		</div>
 	)
 }

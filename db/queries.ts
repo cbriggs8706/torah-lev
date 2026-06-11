@@ -5,6 +5,7 @@ import {
 	desc,
 	eq,
 	gte,
+	gt,
 	ilike,
 	inArray,
 	like,
@@ -18,6 +19,7 @@ import { getActiveCourseId, getUserId } from '@/lib/auth'
 import db from '@/db/drizzle'
 import {
 	challengeProgress,
+	challenges,
 	curriculum,
 	hebrewPrayerLibrary,
 	hebrewPrayerLine,
@@ -51,8 +53,9 @@ import {
 } from '@/lib/data/hebrew/construct-absolute'
 import { toConstructAbsoluteActivityWord } from '@/lib/construct-absolute'
 import { parseStudyGroupScheduleMeta } from '@/lib/study-group-schedule-meta'
+import { getHebrewLessonVideoIdsByLessonIds } from '@/lib/server/public-course-activity-options'
 
-export async function getUserProgress(userIdOverride?: string | null) {
+async function loadUserProgress(userIdOverride?: string | null) {
 	const userId = userIdOverride ?? (await getUserId())
 
 	// ✅ Define a common base shape so TS infers one consistent object type
@@ -158,6 +161,9 @@ export async function getUserProgress(userIdOverride?: string | null) {
 	}
 }
 
+export const getUserProgress = cache(loadUserProgress)
+export const getFreshUserProgress = loadUserProgress
+
 export const getCurrentUserActiveCourseId = cache(async () => {
 	const userId = await getUserId()
 
@@ -188,45 +194,55 @@ async function getLiveCoursePosition(
 		}
 	}
 
-	const lessonsInCourse = await db.query.lessons.findMany({
-		where: eq(lessons.courseId, courseId),
-		orderBy: (tbl, { asc }) => [asc(tbl.order)],
-		with: {
-			challenges: {
-				orderBy: (tbl, { asc }) => [asc(tbl.order)],
-				with:
-					userId && !userId.startsWith('guest')
-						? {
-								challengeProgress: {
-									where: eq(challengeProgress.userId, userId),
-								},
-						  }
-						: undefined,
+	if (!userId || userId.startsWith('guest')) {
+		const firstLesson = await db.query.lessons.findFirst({
+			where: eq(lessons.courseId, courseId),
+			orderBy: (tbl, { asc }) => [asc(tbl.order)],
+			columns: {
+				id: true,
+				lessonNumber: true,
 			},
-		},
-	})
+		})
+
+		return {
+			activeLessonId: firstLesson?.id ?? null,
+			activeLessonNumber: firstLesson?.lessonNumber ?? null,
+		}
+	}
+
+	const lessonCompletionRows = await db
+		.select({
+			id: lessons.id,
+			lessonNumber: lessons.lessonNumber,
+			totalChallenges: sql<number>`count(${challenges.id})::int`,
+			completedChallenges: sql<number>`count(${challengeProgress.id})::int`,
+		})
+		.from(lessons)
+		.leftJoin(challenges, eq(challenges.lessonId, lessons.id))
+		.leftJoin(
+			challengeProgress,
+			and(
+				eq(challengeProgress.challengeId, challenges.id),
+				eq(challengeProgress.userId, userId),
+				eq(challengeProgress.completed, true),
+			),
+		)
+		.where(eq(lessons.courseId, courseId))
+		.groupBy(lessons.id, lessons.lessonNumber, lessons.order)
+		.orderBy(asc(lessons.order))
 
 	let fallbackLesson: {
-		id: number
-		lessonNumber: string
+		activeLessonId: number
+		activeLessonNumber: string
 	} | null = null
 
-	for (const lesson of lessonsInCourse) {
+	for (const lesson of lessonCompletionRows) {
 		fallbackLesson = {
 			activeLessonId: lesson.id,
 			activeLessonNumber: lesson.lessonNumber,
 		}
 
-		if (!userId || userId.startsWith('guest')) {
-			return fallbackLesson
-		}
-
-		const isUncompleted = lesson.challenges.some((ch) => {
-			const progressList = (ch as any).challengeProgress ?? []
-			return (
-				progressList.length === 0 || progressList.some((p: any) => !p.completed)
-			)
-		})
+		const isUncompleted = lesson.totalChallenges > lesson.completedChallenges
 
 		if (isUncompleted) {
 			return fallbackLesson
@@ -247,40 +263,54 @@ export const getCourseLessons = cache(async (userIdOverride?: string | null) => 
 
 	if (!activeCourseId) return []
 
-	const data = await db.query.lessons.findMany({
-		where: eq(lessons.courseId, activeCourseId),
-		orderBy: (tbl, { asc }) => [asc(tbl.order)],
-		with: {
-			challenges: {
-				orderBy: (tbl, { asc }) => [asc(tbl.order)],
-				with:
-					userId && !userId.startsWith('guest')
-						? {
-								challengeProgress: {
-									where: eq(challengeProgress.userId, userId),
-								},
-						  }
-						: undefined,
-			},
-		},
-	})
+	if (!userId || userId.startsWith('guest')) {
+		const lessonRows = await db.query.lessons.findMany({
+			where: eq(lessons.courseId, activeCourseId),
+			orderBy: (tbl, { asc }) => [asc(tbl.order)],
+		})
 
-	return data.map((lesson) => {
-		if (!userId || userId.startsWith('guest')) {
-			return { ...lesson, completed: false }
+		return lessonRows.map((lesson) => ({ ...lesson, completed: false }))
+	}
+
+	const lessonRows = await db
+		.select({
+			id: lessons.id,
+			title: lessons.title,
+			courseId: lessons.courseId,
+			unitId: lessons.unitId,
+			order: lessons.order,
+			lessonNumber: lessons.lessonNumber,
+			totalChallenges: sql<number>`count(${challenges.id})::int`,
+			completedChallenges: sql<number>`count(${challengeProgress.id})::int`,
+		})
+		.from(lessons)
+		.leftJoin(challenges, eq(challenges.lessonId, lessons.id))
+		.leftJoin(
+			challengeProgress,
+			and(
+				eq(challengeProgress.challengeId, challenges.id),
+				eq(challengeProgress.userId, userId),
+				eq(challengeProgress.completed, true),
+			),
+		)
+		.where(eq(lessons.courseId, activeCourseId))
+		.groupBy(
+			lessons.id,
+			lessons.title,
+			lessons.courseId,
+			lessons.unitId,
+			lessons.order,
+			lessons.lessonNumber,
+		)
+		.orderBy(asc(lessons.order))
+
+	return lessonRows.map((lesson) => {
+		const { totalChallenges, completedChallenges, ...lessonFields } = lesson
+		return {
+			...lessonFields,
+			completed:
+				totalChallenges > 0 && totalChallenges === completedChallenges,
 		}
-
-		const allCompletedChallenges =
-			lesson.challenges.length > 0 &&
-			lesson.challenges.every((ch) => {
-				const progressList = (ch as any).challengeProgress ?? []
-				return (
-					progressList.length > 0 &&
-					progressList.every((p: any) => p.completed)
-				)
-			})
-
-		return { ...lesson, completed: allCompletedChallenges }
 	})
 })
 // export const getUnits = cache(async () => {
@@ -646,8 +676,7 @@ function getFallbackConstructAbsoluteWords(
 export const getLesson = cache(
 	async (id?: number, userIdOverride?: string | null) => {
 		const userId = userIdOverride ?? (await getUserId())
-		const courseProgress = await getCourseProgress(userId)
-		const lessonId = id || courseProgress?.activeLessonId
+		const lessonId = id ?? (await getCourseProgress(userId))?.activeLessonId
 		if (!lessonId) return null
 
 		const data = await db.query.lessons.findFirst({
@@ -680,6 +709,31 @@ export const getLesson = cache(
 		return { ...data, challenges: normalizedChallenges }
 	}
 )
+
+export const getNextLessonId = cache(async (lessonId: number) => {
+	const currentLesson = await db.query.lessons.findFirst({
+		where: eq(lessons.id, lessonId),
+		columns: {
+			courseId: true,
+			order: true,
+		},
+	})
+
+	if (!currentLesson) return null
+
+	const nextLesson = await db.query.lessons.findFirst({
+		where: and(
+			eq(lessons.courseId, currentLesson.courseId),
+			gt(lessons.order, currentLesson.order),
+		),
+		orderBy: (tbl, { asc }) => [asc(tbl.order)],
+		columns: {
+			id: true,
+		},
+	})
+
+	return nextLesson?.id ?? null
+})
 
 export async function getAllHebrewLessonScripts(courseId?: number) {
 	const base = db
@@ -857,19 +911,35 @@ export const getGrammarLessons = async () => {
 	return results
 }
 
-export async function getLessonPercentage(userIdOverride?: string | null) {
+export const getLessonPercentage = cache(async (userIdOverride?: string | null) => {
 	const userId = userIdOverride ?? (await getUserId())
 	if (!userId || userId.startsWith('guest')) return 0
 
-	const courseProg = await getCourseProgress(userId)
-	if (!courseProg?.activeLessonId) return 0
+	const userProg = await getUserProgress(userId)
+	if (!userProg?.activeLessonId) return 0
 
-	const lesson = await getLesson(courseProg.activeLessonId, userId)
-	if (!lesson?.challenges?.length) return 0
+	const [progress] = await db
+		.select({
+			totalChallenges: sql<number>`count(${challenges.id})::int`,
+			completedChallenges: sql<number>`count(${challengeProgress.id})::int`,
+		})
+		.from(challenges)
+		.leftJoin(
+			challengeProgress,
+			and(
+				eq(challengeProgress.challengeId, challenges.id),
+				eq(challengeProgress.userId, userId),
+				eq(challengeProgress.completed, true),
+			),
+		)
+		.where(eq(challenges.lessonId, userProg.activeLessonId))
 
-	const completedCount = lesson.challenges.filter((c) => c.completed).length
-	return Math.round((completedCount / lesson.challenges.length) * 100)
-}
+	if (!progress?.totalChallenges) return 0
+
+	return Math.round(
+		(progress.completedChallenges / progress.totalChallenges) * 100,
+	)
+})
 
 const DAY_IN_MS = 86_400_000
 export const getUserSubscription = cache(async () => {
@@ -1433,11 +1503,25 @@ export async function getStudyGroupWithMessages(studyGroupId: number) {
 			.where(eq(studyGroupSchedule.studyGroupId, studyGroupId))
 			.orderBy(asc(studyGroupSchedule.classDate))
 
+		const lessonVideoIdsByLessonId = await getHebrewLessonVideoIdsByLessonIds(
+			Array.from(
+				new Set(
+					scheduleRows
+						.map((row) => row.lessonId)
+						.filter((lessonId): lessonId is number => typeof lessonId === 'number'),
+				),
+			),
+		)
+
 		scheduleEvents = scheduleRows.map((row) => {
 			const { meta, userNotes } = parseStudyGroupScheduleMeta(row.notes)
+			const lessonVideoIds = row.lessonId
+				? lessonVideoIdsByLessonId.get(row.lessonId) ?? null
+				: null
 
 			return {
 				id: row.id,
+				studyGroupId,
 				classDate: row.classDate,
 				title: meta?.title ?? null,
 				notes: userNotes,
@@ -1448,6 +1532,10 @@ export async function getStudyGroupWithMessages(studyGroupId: number) {
 				lessonId: row.lessonId,
 				lessonTitle: row.lessonTitle,
 				lessonNumber: row.lessonNumber,
+				lessonScriptId: lessonVideoIds?.lessonScriptId ?? null,
+				lessonScriptPartBId: lessonVideoIds?.lessonScriptPartBId ?? null,
+				lessonScriptReviewId: lessonVideoIds?.lessonScriptReviewId ?? null,
+				activities: meta?.activities ?? null,
 			}
 		})
 	} catch (error) {

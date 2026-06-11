@@ -2,12 +2,11 @@ import Image from 'next/image'
 import { getSession } from '@/lib/auth'
 import { FeedWrapper } from '@/components/feed-wrapper'
 import { DismissibleAlert } from '@/components/dismissible-alert'
+import { getUserProgress } from '@/db/queries'
 import {
-	getCourseProgress,
-	getUserProgress,
-	getUserSubscription,
-} from '@/db/queries'
-import { getHebrewVocabByCourseId } from '@/lib/server/vocab'
+	getFilteredHebrewVocabByCourseId,
+	getHebrewVocabByCourseId,
+} from '@/lib/server/vocab'
 import HebrewFlashcards from '@/components/hebrew/hebrew-flashcards'
 import { parseScheduledPublicCourseQuery } from '@/lib/public-course-activities'
 import type { HebrewVocab } from '@/lib/vocab'
@@ -22,13 +21,7 @@ export default async function HebrewFlashcardPage({
 	const resolvedSearchParams = (await searchParams) ?? {}
 
 	// Fetch data only for logged-in users
-	const [userProgress, userSubscription, userChallengeData] = userId
-		? await Promise.all([
-				getUserProgress(),
-				getUserSubscription(),
-				getCourseProgress(),
-		  ])
-		: [null, null, null]
+	const userProgress = userId ? await getUserProgress() : null
 
 	// ✅ Guest fallback values
 	const publicCourseQuery = parseScheduledPublicCourseQuery(resolvedSearchParams)
@@ -42,11 +35,14 @@ export default async function HebrewFlashcardPage({
 		: userProgress?.activeCourseId ?? 6
 	const currentLesson = publicCourseQuery.scheduled
 		? publicCourseQuery.lesson ?? ''
-		: userChallengeData?.activeLesson?.lessonNumber ?? ''
-	const isPro = !!userSubscription?.isActive
-
+		: userProgress?.activeLessonNumber ?? ''
 	// ✅ Select vocab set
-	const hebrewData: HebrewVocab[] = await getHebrewVocabByCourseId(activeCourseId)
+	const hebrewData: HebrewVocab[] = publicCourseQuery.scheduled
+		? await getFilteredHebrewVocabByCourseId(
+				activeCourseId,
+				publicCourseQuery.filters,
+		  )
+		: await getHebrewVocabByCourseId(activeCourseId)
 
 	const displayTitle = activeCourseId === 6 || activeCourseId === 11 || activeCourseId === 14
 

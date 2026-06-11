@@ -28,11 +28,13 @@ const completeActivitySchema = z.object({
 		'flashcards',
 		'quiz',
 		'matchup',
+		'opposites',
 		'spelling',
 		'scramble',
 	]),
 	scorePercent: z.number().int().min(0).max(100).optional(),
 	points: z.number().int().positive().optional(),
+	hearts: z.number().int().min(0).max(5).optional(),
 	metadata: z.record(z.string(), z.unknown()).optional(),
 })
 
@@ -61,6 +63,7 @@ export async function POST(request: Request) {
 			activityKey,
 			scorePercent,
 			points,
+			hearts,
 			metadata,
 		} = parsed.data
 
@@ -153,30 +156,37 @@ export async function POST(request: Request) {
 		})
 
 		const now = new Date()
+		const shouldUpdateCourseProgress =
+			(points ?? 0) > 0 || typeof hearts === 'number'
 		const shouldAwardPoints =
 			(points ?? 0) > 0 &&
 			existing?.status !== 'completed' &&
 			sharedExisting?.status !== 'completed'
 		let awardedPoints = 0
 
-		if (shouldAwardPoints) {
+		if (shouldUpdateCourseProgress) {
 			await db
 				.insert(userCourseProgress)
 				.values({
 					userId,
 					courseId: lesson.platformCourseId,
 					points: points ?? 0,
+					hearts: hearts ?? 5,
 					lastSeen: now,
 				})
 				.onConflictDoUpdate({
 					target: [userCourseProgress.userId, userCourseProgress.courseId],
 					set: {
-						points: sql`${userCourseProgress.points} + ${points ?? 0}`,
+						...(shouldAwardPoints
+							? { points: sql`${userCourseProgress.points} + ${points ?? 0}` }
+							: {}),
+						...(typeof hearts === 'number' ? { hearts } : {}),
 						lastSeen: now,
 					},
 				})
-
-			awardedPoints = points ?? 0
+			if (shouldAwardPoints) {
+				awardedPoints = points ?? 0
+			}
 		}
 
 		if (sharedExisting) {
@@ -221,8 +231,12 @@ export async function POST(request: Request) {
 				.where(eq(publicCourseEnrollmentActivityProgress.id, existing.id))
 				.returning()
 
-			return NextResponse.json({ progress: updated, awardedPoints })
-		}
+		return NextResponse.json({
+			progress: updated,
+			awardedPoints,
+			hearts: typeof hearts === 'number' ? hearts : undefined,
+		})
+	}
 
 		const [created] = await db
 			.insert(publicCourseEnrollmentActivityProgress)
@@ -239,7 +253,14 @@ export async function POST(request: Request) {
 			})
 			.returning()
 
-		return NextResponse.json({ progress: created, awardedPoints }, { status: 201 })
+		return NextResponse.json(
+			{
+				progress: created,
+				awardedPoints,
+				hearts: typeof hearts === 'number' ? hearts : undefined,
+			},
+			{ status: 201 }
+		)
 	} catch (error) {
 		console.error('Error saving public course activity progress:', error)
 		return NextResponse.json(

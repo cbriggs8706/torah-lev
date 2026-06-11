@@ -53,6 +53,7 @@ export default function CatalogCard({
 	return (
 		<Link
 			href={href}
+			prefetch={false}
 			className={cn(
 				'group relative flex h-full flex-col overflow-hidden rounded-2xl border bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md',
 				isCompleted

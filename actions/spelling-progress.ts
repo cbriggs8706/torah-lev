@@ -1,37 +1,38 @@
 'use server'
 
 import { eq, sql } from 'drizzle-orm'
-import { revalidatePath } from 'next/cache'
 
 import db from '@/db/drizzle'
 import { getFreshUserProgress } from '@/db/queries'
 import { getSession } from '@/lib/auth'
 import { tribes, userCourseProgress, userProgress } from '@/db/schema'
 
-type AwardFlashcardsCompletionInput = {
+type AwardSpellingCompletionInput = {
 	courseId: number
 	points: number
+	hearts: number
 }
 
 const isGuestId = (id?: string | null) =>
 	!id || id.startsWith('guest-') || id.length < 10
 
-export async function awardFlashcardsCompletion({
+export async function awardSpellingCompletion({
 	courseId,
 	points,
-}: AwardFlashcardsCompletionInput) {
+	hearts,
+}: AwardSpellingCompletionInput) {
 	const session = await getSession()
 	const userId = session?.user?.id ?? null
 
-	if (!courseId || points <= 0) {
-		throw new Error('Invalid flashcards reward payload')
+	if (!courseId || points <= 0 || hearts < 0) {
+		throw new Error('Invalid spelling reward payload')
 	}
 
 	if (isGuestId(userId)) {
 		return {
 			guest: true,
 			awardedPoints: points,
-			hearts: 5,
+			hearts,
 			tribePointAwarded: false,
 		}
 	}
@@ -45,13 +46,14 @@ export async function awardFlashcardsCompletion({
 			userId: userId!,
 			courseId,
 			points,
-			hearts: currentUserProgress?.hearts ?? 0,
+			hearts,
 			lastSeen: now,
 		})
 		.onConflictDoUpdate({
 			target: [userCourseProgress.userId, userCourseProgress.courseId],
 			set: {
 				points: sql`${userCourseProgress.points} + ${points}`,
+				hearts,
 				lastSeen: now,
 			},
 		})
@@ -74,14 +76,10 @@ export async function awardFlashcardsCompletion({
 		tribePointAwarded = true
 	}
 
-	revalidatePath('/he/learn')
-	revalidatePath('/leaderboard')
-	revalidatePath('/progress')
-
 	return {
 		guest: false,
 		awardedPoints: points,
-		hearts: currentUserProgress?.hearts ?? 5,
+		hearts,
 		tribePointAwarded,
 	}
 }

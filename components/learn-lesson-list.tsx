@@ -9,16 +9,14 @@ type LessonRecord = typeof lessons.$inferSelect & { completed?: boolean }
 
 export function LearnLessonList({
 	lessons: lessonList,
-	courseProgress,
+	activeLessonId,
 	lessonPercentage,
 	lang = 'en',
 	startLabel,
 	startLocale,
 }: {
 	lessons: LessonRecord[]
-	courseProgress: {
-		activeLesson?: { id: number } | null
-	} | null | undefined
+	activeLessonId?: number | null
 	lessonPercentage: number
 	lang?: 'en' | 'he' | 'es' | 'el'
 	startLabel?: string
@@ -39,7 +37,7 @@ export function LearnLessonList({
 					title: lesson.title,
 					index,
 					totalCount: lessonList.length - 1,
-					current: lesson.id === courseProgress?.activeLesson?.id,
+					current: lesson.id === activeLessonId,
 					locked: false,
 					completed: !!lesson.completed,
 					percentage: lessonPercentage,

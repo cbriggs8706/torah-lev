@@ -361,12 +361,12 @@ export default function HebrewKeyboard({
 
 	return (
 		<div
-			className={`flex flex-col gap-3 text-4xl p-4 bg-gray-100 rounded-lg shadow rtl ${className}`}
+			className={`flex w-full flex-col gap-3 rounded-lg bg-gray-100 p-3 text-4xl shadow rtl sm:p-4 ${className}`}
 			dir="rtl"
 			style={{ fontFamily: 'Times New Roman, serif' }}
 		>
 			{/* Key Grid */}
-			<div className="grid grid-cols-11 gap-2">
+			<div className="grid w-full grid-cols-11 gap-1 sm:gap-2">
 				{keySet.map((char, index) => (
 					<button
 						key={`${char}-${index}`}
@@ -379,9 +379,9 @@ export default function HebrewKeyboard({
 				? 'bg-white hover:bg-sky-100 active:bg-sky-200'
 				: 'bg-transparent cursor-default shadow-none opacity-0 select-none'
 		}
-    w-6 h-10 text-3xl p-0
-    sm:w-10 sm:h-14 sm:text-3xl sm:p-2
-    md:w-12 md:h-16 md:text-4xl md:p-3
+    w-full h-10 min-w-0 p-0 text-2xl
+    sm:h-14 sm:text-3xl sm:p-1.5
+    md:h-16 md:text-4xl md:p-2
   `}
 						dir="rtl"
 						onClick={(e) => {

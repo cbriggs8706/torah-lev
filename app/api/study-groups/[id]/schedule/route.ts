@@ -17,6 +17,7 @@ import {
 	parseStudyGroupScheduleMeta,
 	serializeStudyGroupScheduleMeta,
 } from '@/lib/study-group-schedule-meta'
+import { getHebrewLessonVideoIdsByLessonIds } from '@/lib/server/public-course-activity-options'
 
 const createScheduleSchema = z
 	.object({
@@ -27,6 +28,16 @@ const createScheduleSchema = z
 		title: z.string().trim().max(160).optional(),
 		lessonId: z.number().int().positive().nullable(),
 		notes: z.string().trim().max(1000).optional(),
+		activities: z
+			.array(
+				z.object({
+					activityKey: z.string().trim().min(1),
+					order: z.number().int().positive(),
+					isEnabled: z.boolean(),
+					filterConfig: z.record(z.string(), z.unknown()).optional(),
+				}),
+			)
+			.optional(),
 	})
 	.superRefine((value, ctx) => {
 		if (!value.studyGroupCourseId) {
@@ -106,11 +117,25 @@ async function getScheduleEvents(studyGroupId: number) {
 		.where(eq(studyGroupSchedule.studyGroupId, studyGroupId))
 		.orderBy(desc(studyGroupSchedule.classDate), asc(studyGroupSchedule.id))
 
+	const lessonVideoIdsByLessonId = await getHebrewLessonVideoIdsByLessonIds(
+		Array.from(
+			new Set(
+				rows
+					.map((row) => row.lessonId)
+					.filter((lessonId): lessonId is number => typeof lessonId === 'number'),
+			),
+		),
+	)
+
 	return rows.map((row) => {
 		const { meta, userNotes } = parseStudyGroupScheduleMeta(row.notes)
+		const lessonVideoIds = row.lessonId
+			? lessonVideoIdsByLessonId.get(row.lessonId) ?? null
+			: null
 
 		return {
 			id: row.id,
+			studyGroupId,
 			classDate: row.classDate,
 			title: meta?.title ?? null,
 			notes: userNotes,
@@ -121,6 +146,10 @@ async function getScheduleEvents(studyGroupId: number) {
 			lessonId: row.lessonId,
 			lessonTitle: row.lessonTitle,
 			lessonNumber: row.lessonNumber,
+			lessonScriptId: lessonVideoIds?.lessonScriptId ?? null,
+			lessonScriptPartBId: lessonVideoIds?.lessonScriptPartBId ?? null,
+			lessonScriptReviewId: lessonVideoIds?.lessonScriptReviewId ?? null,
+			activities: meta?.activities ?? null,
 		}
 	})
 }
@@ -199,6 +228,7 @@ export async function POST(
 			title: typeof body.title === 'string' ? body.title : undefined,
 			lessonId: typeof body.lessonId === 'number' ? body.lessonId : null,
 			notes: typeof body.notes === 'string' ? body.notes : undefined,
+			activities: Array.isArray(body.activities) ? body.activities : undefined,
 		})
 
 		if (!parsed.success) {
@@ -277,6 +307,7 @@ export async function POST(
 						parsed.data.sessionType === 'lesson'
 							? parsed.data.platformCourseId
 							: null,
+					activities: parsed.data.activities ?? [],
 				}),
 			})
 			.returning({ id: studyGroupSchedule.id })

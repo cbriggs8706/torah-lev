@@ -2,7 +2,7 @@ import Image from 'next/image'
 import { FeedWrapper } from '@/components/feed-wrapper'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 import HebrewMistaken from '@/components/hebrew/hebrew-mistaken'
-import { getCourseProgress, getUserProgress } from '@/db/queries'
+import { getUserProgress } from '@/db/queries'
 import { getSession } from '@/lib/auth'
 import { getHebrewVocabByCourseId } from '@/lib/server/vocab'
 
@@ -10,12 +10,10 @@ export default async function HebrewMistakenPage() {
 	const session = await getSession()
 	const userId = session?.user?.id ?? null
 
-	const [userProgress, courseProgress] = userId
-		? await Promise.all([getUserProgress(), getCourseProgress()])
-		: [null, null]
+	const userProgress = userId ? await getUserProgress() : null
 
 	const activeCourseId = userProgress?.activeCourseId ?? 6
-	const currentLesson = courseProgress?.activeLesson?.lessonNumber ?? ''
+	const currentLesson = userProgress?.activeLessonNumber ?? ''
 	const hebrewData = await getHebrewVocabByCourseId(activeCourseId)
 
 	return (

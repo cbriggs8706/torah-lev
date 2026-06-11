@@ -1,15 +1,14 @@
 import Image from 'next/image'
 import { getSession } from '@/lib/auth'
 import { FeedWrapper } from '@/components/feed-wrapper'
-import {
-	getCourseProgress,
-	getUserProgress,
-	getUserSubscription,
-} from '@/db/queries'
+import { getUserProgress } from '@/db/queries'
 import HebrewMatchup from '@/components/hebrew/hebrew-matchup'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 import { HebrewVocab } from '@/lib/vocab'
-import { getHebrewVocabByCourseId } from '@/lib/server/vocab'
+import {
+	getFilteredHebrewVocabByCourseId,
+	getHebrewVocabByCourseId,
+} from '@/lib/server/vocab'
 import { parseScheduledPublicCourseQuery } from '@/lib/public-course-activities'
 
 export default async function HebrewMatchupPage({
@@ -22,13 +21,7 @@ export default async function HebrewMatchupPage({
 	const resolvedSearchParams = (await searchParams) ?? {}
 
 	// ✅ Fetch user-related data only for authenticated users
-	const [userProgress, userSubscription, userChallengeData] = userId
-		? await Promise.all([
-				getUserProgress(),
-				getUserSubscription(),
-				getCourseProgress(),
-			])
-		: [null, null, null]
+	const userProgress = userId ? await getUserProgress() : null
 
 	// ✅ Guest-safe fallbacks
 	const publicCourseQuery =
@@ -41,15 +34,18 @@ export default async function HebrewMatchupPage({
 	const activeCourseId = publicCourseQuery.scheduled
 		? (publicCourseQuery.courseId ?? 6)
 		: (userProgress?.activeCourseId ?? 6) // Default to AwB
-	const isPro = !!userSubscription?.isActive
 
 	const currentLesson = publicCourseQuery.scheduled
 		? (publicCourseQuery.lesson ?? '')
-		: (userChallengeData?.activeLesson?.lessonNumber ?? undefined)
+		: (userProgress?.activeLessonNumber ?? undefined)
 
 	// ✅ Select vocab source based on course (guest or user)
-	const hebrewData: HebrewVocab[] =
-		await getHebrewVocabByCourseId(activeCourseId)
+	const hebrewData: HebrewVocab[] = publicCourseQuery.scheduled
+		? await getFilteredHebrewVocabByCourseId(
+				activeCourseId,
+				publicCourseQuery.filters,
+		  )
+		: await getHebrewVocabByCourseId(activeCourseId)
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">

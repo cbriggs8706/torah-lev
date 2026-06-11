@@ -9,6 +9,7 @@ export type PublicCourseActivityKey =
 	| 'flashcards'
 	| 'quiz'
 	| 'matchup'
+	| 'opposites'
 	| 'spelling'
 	| 'scramble'
 
@@ -129,6 +130,15 @@ export const PUBLIC_COURSE_ACTIVITY_DEFINITIONS: PublicCourseActivityDefinition[
 		],
 		trackProgress: true,
 		passPercent: 75,
+	},
+	{
+		key: 'opposites',
+		label: 'Opposites',
+		iconSrc: '/icons/iconSocks.png',
+		href: '/he/opposites',
+		filterKeys: ['selectedLessons'],
+		trackProgress: true,
+		passPercent: null,
 	},
 	{
 		key: 'spelling',

@@ -472,6 +472,7 @@ export default function PublicCourseActivityBrowser({
 											key={`${lesson.publicCourseLessonId}-${activity.activityKey}`}
 											href={href}
 											className="group"
+											prefetch={false}
 										>
 											{cardContent}
 										</Link>

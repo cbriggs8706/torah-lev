@@ -9,7 +9,7 @@ import db from '@/db/drizzle'
 import { POINTS_TO_REFILL } from '@/constants'
 import {
 	getCourseById,
-	getUserProgress,
+	getFreshUserProgress,
 	getUserSubscription,
 } from '@/db/queries'
 import {
@@ -57,7 +57,7 @@ export const upsertUserProgress = async (courseId: number) => {
 		if (!course.lessons?.length)
 			throw new Error('Course has no lessons yet')
 
-		const existingUserProgress = await getUserProgress()
+		const existingUserProgress = await getFreshUserProgress()
 
 		const usernameToUse =
 			existingUserProgress?.userName && existingUserProgress.userName !== 'User'
@@ -116,7 +116,7 @@ export const reduceHearts = async (challengeId: number) => {
 		return { guest: true }
 	}
 
-	const currentUserProgress = await getUserProgress()
+	const currentUserProgress = await getFreshUserProgress()
 	const userSubscription = await getUserSubscription()
 
 	const challenge = await db.query.challenges.findFirst({
@@ -154,7 +154,7 @@ export const reduceHearts = async (challengeId: number) => {
 // -----------------------------
 
 export const refillHearts = async () => {
-	const currentUserProgress = await getUserProgress()
+	const currentUserProgress = await getFreshUserProgress()
 	const userId = currentUserProgress?.userId
 
 	if (isGuestId(userId)) {
@@ -237,7 +237,7 @@ export const updateUserProfile = async (data: {
 	if (!parsed.success)
 		throw new Error(JSON.stringify(parsed.error.flatten().fieldErrors))
 
-	const currentUserProgress = await getUserProgress()
+	const currentUserProgress = await getFreshUserProgress()
 	if (!currentUserProgress) throw new Error('User progress not found')
 
 	await db
@@ -290,7 +290,7 @@ export const exchangePointsForTribe = async () => {
 		return { guest: true }
 	}
 
-	const currentUserProgress = await getUserProgress()
+	const currentUserProgress = await getFreshUserProgress()
 	if (!currentUserProgress) throw new Error('User not found')
 	if (!currentUserProgress.tribeId) throw new Error('No tribe assigned')
 	if (currentUserProgress.points < 100) throw new Error('Not enough points')

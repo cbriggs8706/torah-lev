@@ -643,7 +643,7 @@ export default function HebrewNumberQuiz({
 								setStudyMode(true)
 								setGameStarted(true)
 							}}
-							className="px-6 py-2 bg-violet-600 text-white rounded-lg"
+							className="px-6 py-2 rounded-lg bg-[#4b2a5a] text-white hover:bg-[#5b346b]"
 						>
 							Study Mode
 						</button>
@@ -652,7 +652,7 @@ export default function HebrewNumberQuiz({
 								setStudyMode(false)
 								setGameStarted(true)
 							}}
-							className="px-6 py-2 bg-green-600 text-white rounded-lg"
+							className="px-6 py-2 rounded-lg bg-emerald-700 text-white hover:bg-emerald-800"
 						>
 							Start Quiz
 						</button>
@@ -871,15 +871,15 @@ export default function HebrewNumberQuiz({
 							onClick={() => handleResponse(true)}
 							className={`px-4 py-2 rounded-lg ${
 								waiting
-									? 'bg-gray-300 text-gray-500'
-									: 'bg-green-500 text-white'
+									? 'bg-emerald-200 text-emerald-400'
+									: 'bg-emerald-700 text-white hover:bg-emerald-800'
 							}`}
 						>
 							I got it 👍
 						</button>
 						<button
 							onClick={() => setPaused((p) => !p)}
-							className="px-4 py-2 bg-yellow-500 text-white rounded-lg"
+							className="px-4 py-2 rounded-lg bg-yellow-500 text-white"
 						>
 							{paused ? 'Resume ⏵' : 'Pause ⏸'}
 						</button>
@@ -887,7 +887,9 @@ export default function HebrewNumberQuiz({
 							disabled={waiting}
 							onClick={() => handleResponse(false)}
 							className={`px-4 py-2 rounded-lg ${
-								waiting ? 'bg-gray-300 text-gray-500' : 'bg-red-500 text-white'
+								waiting
+									? 'bg-[#4b2a5a]/15 text-[#4b2a5a]/45'
+									: 'bg-[#4b2a5a] text-white hover:bg-[#5b346b]'
 							}`}
 						>
 							I missed 👎

@@ -6,7 +6,7 @@ export const FeedWrapper = ({
   children
 }: Props) => {
   return (
-    <div className="flex-1 relative top-0 pb-10">
+    <div className="relative top-0 flex-1 w-full pb-10">
       {children}
     </div>
   );

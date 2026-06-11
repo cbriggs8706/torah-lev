@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { getSession } from '@/lib/auth'
 import { FeedWrapper } from '@/components/feed-wrapper'
-import { getUserProgress, getUserSubscription } from '@/db/queries'
+import { getUserProgress } from '@/db/queries'
 import { hebrewNumbers } from '@/lib/data/hebrew/hebrew-numbers'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 import HebrewNumberQuiz from '@/components/hebrew/hebrew-number-quiz'
@@ -11,13 +11,10 @@ export default async function HebrewNumberQuizPage() {
 	const userId = session?.user?.id ?? null
 
 	// ✅ Fetch user data only when logged in
-	const [userProgress, userSubscription] = userId
-		? await Promise.all([getUserProgress(), getUserSubscription()])
-		: [null, null]
+	const userProgress = userId ? await getUserProgress() : null
 
 	// ✅ Fallbacks for guest mode
 	const courseId = userProgress?.activeCourseId ?? 6 // Default to AwB
-	const isPro = !!userSubscription?.isActive
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">

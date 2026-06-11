@@ -421,6 +421,24 @@ export default function WordMatchGame({
 		[availablePromptOptions, selectedResponse],
 	)
 
+	const requiredFirstSelectionSide = useMemo(() => {
+		if (
+			selectedPromptConfig.kind === 'audio' &&
+			selectedResponseConfig.kind !== 'audio'
+		) {
+			return 'prompt' as const
+		}
+
+		if (
+			selectedResponseConfig.kind === 'audio' &&
+			selectedPromptConfig.kind !== 'audio'
+		) {
+			return 'response' as const
+		}
+
+		return null
+	}, [selectedPromptConfig.kind, selectedResponseConfig.kind])
+
 	const bumpSize = (delta: number) =>
 		setTargetSize((s) => Math.max(80, Math.min(240, s + delta)))
 
@@ -522,6 +540,17 @@ export default function WordMatchGame({
 		(side: 'prompt' | 'response', slotIndex: number) => {
 			if (hasFinished || feedback !== null) return
 
+			if (
+				requiredFirstSelectionSide &&
+				side !== requiredFirstSelectionSide
+			) {
+				const requiredSlot =
+					requiredFirstSelectionSide === 'prompt'
+						? selectedPromptSlot
+						: selectedResponseSlot
+				if (requiredSlot === null) return
+			}
+
 			const currentCard =
 				side === 'prompt'
 					? visiblePromptCards[slotIndex]
@@ -540,7 +569,15 @@ export default function WordMatchGame({
 				)
 			}
 		},
-		[feedback, hasFinished, visiblePromptCards, visibleResponseCards],
+		[
+			feedback,
+			hasFinished,
+			requiredFirstSelectionSide,
+			selectedPromptSlot,
+			selectedResponseSlot,
+			visiblePromptCards,
+			visibleResponseCards,
+		],
 	)
 
 	useEffect(() => {
@@ -627,6 +664,7 @@ export default function WordMatchGame({
 		card: HebrewVocab,
 		option: MatchupOption | undefined,
 		mode: 'prompt' | 'response',
+		selected = false,
 	) {
 		if (!option) return null
 
@@ -668,8 +706,8 @@ export default function WordMatchGame({
 				const audio = new Audio(toAbsoluteUrl(audioSrc))
 				audio.play().catch(() => {})
 			}
-			const iconTone = isPrompt
-				? 'bg-gray-100 text-gray-700'
+			const iconTone = selected
+				? 'bg-white/20 text-white'
 				: 'bg-gray-100 text-gray-700'
 
 			if (isPrompt) {
@@ -678,7 +716,11 @@ export default function WordMatchGame({
 						className="flex h-full items-center justify-center text-gray-800"
 						style={{ minHeight: cardBodyMinHeight }}
 					>
-						<div className={`rounded-full p-5 text-5xl ${iconTone}`}>🔊</div>
+						<div
+							className={`rounded-full p-5 text-5xl transition ${iconTone}`}
+						>
+							🔊
+						</div>
 					</div>
 				)
 			}
@@ -686,10 +728,16 @@ export default function WordMatchGame({
 			return (
 				<div
 					onClick={playAudio}
-					className="flex h-full cursor-pointer items-center justify-center bg-white text-gray-800 transition hover:bg-gray-50"
+					className={`flex h-full cursor-pointer items-center justify-center text-gray-800 transition ${
+						selected ? 'bg-transparent hover:bg-transparent' : 'bg-white hover:bg-gray-50'
+					}`}
 					style={{ minHeight: cardBodyMinHeight }}
 				>
-					<div className={`rounded-full p-5 text-5xl ${iconTone}`}>🔊</div>
+					<div
+						className={`rounded-full p-5 text-5xl transition ${iconTone}`}
+					>
+						🔊
+					</div>
 				</div>
 			)
 		}
@@ -925,7 +973,12 @@ export default function WordMatchGame({
 											style={{ minHeight: cardBodyMinHeight }}
 										>
 											<div className="flex h-full w-full flex-col">
-												{renderCardContent(card, selectedResponseConfig, 'response')}
+												{renderCardContent(
+													card,
+													selectedResponseConfig,
+													'response',
+													selectedResponseSlot === index,
+												)}
 											</div>
 										</div>
 									) : null,
@@ -964,7 +1017,12 @@ export default function WordMatchGame({
 											style={{ minHeight: cardBodyMinHeight }}
 										>
 											<div className="flex h-full w-full flex-col">
-												{renderCardContent(card, selectedPromptConfig, 'prompt')}
+												{renderCardContent(
+													card,
+													selectedPromptConfig,
+													'prompt',
+													selectedPromptSlot === index,
+												)}
 											</div>
 										</div>
 									) : null,

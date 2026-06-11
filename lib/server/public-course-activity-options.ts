@@ -58,7 +58,16 @@ export async function getPublicCourseActivityFilterOptions(courseId: number) {
 }
 
 export async function getHebrewLessonVideoIdsByLessonIds(lessonIds: number[]) {
-	if (lessonIds.length === 0) return new Map<number, number>()
+	const byLessonId = new Map<
+		number,
+		{
+			lessonScriptId: number | null
+			lessonScriptPartBId: number | null
+			lessonScriptReviewId: number | null
+		}
+	>()
+
+	if (lessonIds.length === 0) return byLessonId
 
 	const directRows = await db
 		.select({
@@ -75,14 +84,6 @@ export async function getHebrewLessonVideoIdsByLessonIds(lessonIds: number[]) {
 		)
 		.orderBy(asc(videos.lessonId), asc(videos.part), asc(videos.id))
 
-	const byLessonId = new Map<
-		number,
-		{
-			lessonScriptId: number | null
-			lessonScriptPartBId: number | null
-			lessonScriptReviewId: number | null
-		}
-	>()
 	for (const row of directRows) {
 		if (row.lessonId == null) continue
 

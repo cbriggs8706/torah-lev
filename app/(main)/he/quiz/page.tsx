@@ -2,9 +2,12 @@ import Image from 'next/image'
 import { FeedWrapper } from '@/components/feed-wrapper'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 import { getSession } from '@/lib/auth'
-import { getCourseProgress, getUserProgress } from '@/db/queries'
+import { getUserProgress } from '@/db/queries'
 import VocabQuiz from '@/components/vocab/vocab-quiz'
-import { getHebrewVocabByCourseId } from '@/lib/server/vocab'
+import {
+	getFilteredHebrewVocabByCourseId,
+	getHebrewVocabByCourseId,
+} from '@/lib/server/vocab'
 import { parseScheduledPublicCourseQuery } from '@/lib/public-course-activities'
 
 export default async function HebrewQuizPage({
@@ -16,10 +19,7 @@ export default async function HebrewQuizPage({
 	const userId = session?.user?.id ?? 'guest'
 	const resolvedSearchParams = (await searchParams) ?? {}
 
-	const [userProgress, courseProgress] = await Promise.all([
-		getUserProgress(),
-		getCourseProgress(),
-	])
+	const userProgress = userId !== 'guest' ? await getUserProgress() : null
 
 	const publicCourseQuery = parseScheduledPublicCourseQuery(resolvedSearchParams)
 	const rawReturnTo = resolvedSearchParams.returnTo
@@ -32,8 +32,13 @@ export default async function HebrewQuizPage({
 		: userProgress?.activeCourseId ?? 6
 	const currentLesson = publicCourseQuery.scheduled
 		? publicCourseQuery.lesson ?? ''
-		: courseProgress?.activeLesson?.lessonNumber ?? '1'
-	const hebrewData = await getHebrewVocabByCourseId(activeCourseId)
+		: userProgress?.activeLessonNumber ?? '1'
+	const hebrewData = publicCourseQuery.scheduled
+		? await getFilteredHebrewVocabByCourseId(
+				activeCourseId,
+				publicCourseQuery.filters,
+		  )
+		: await getHebrewVocabByCourseId(activeCourseId)
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">

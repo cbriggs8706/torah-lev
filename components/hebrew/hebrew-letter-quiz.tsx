@@ -575,7 +575,7 @@ export default function HebrewLetterQuiz({
 						className={`px-6 py-2 rounded-lg text-white transition-colors ${
 							isStartDisabled
 								? 'bg-gray-400 cursor-not-allowed'
-								: 'bg-violet-600 hover:bg-purple-700'
+								: 'bg-[#4b2a5a] hover:bg-[#5b346b]'
 						} mr-4`}
 					>
 						Study Alphabet
@@ -595,7 +595,7 @@ export default function HebrewLetterQuiz({
 						className={`px-6 py-2 rounded-lg text-white transition-colors ${
 							isStartDisabled
 								? 'bg-gray-400 cursor-not-allowed'
-								: 'bg-green-600 hover:bg-green-700'
+								: 'bg-emerald-700 hover:bg-emerald-800'
 						}`}
 					>
 						Start Quiz
@@ -794,8 +794,8 @@ export default function HebrewLetterQuiz({
 									disabled={waiting || disabledButtons}
 									className={`px-4 py-2 rounded-lg ${
 										waiting || disabledButtons
-											? 'bg-green-300 cursor-not-allowed'
-											: 'bg-green-500 hover:bg-green-600'
+										? 'bg-emerald-200 cursor-not-allowed text-emerald-400'
+										: 'bg-emerald-700 hover:bg-emerald-800 text-white'
 									}`}
 								>
 									I got it right 👍
@@ -811,7 +811,7 @@ export default function HebrewLetterQuiz({
 											}
 										}
 									}}
-									className="px-4 py-2 bg-yellow-400 text-black rounded-lg hover:bg-yellow-500"
+								className="px-4 py-2 rounded-lg bg-yellow-400 text-black hover:bg-yellow-500"
 								>
 									⏸ Pause
 								</button>
@@ -820,8 +820,8 @@ export default function HebrewLetterQuiz({
 									disabled={waiting || disabledButtons}
 									className={`px-4 py-2 rounded-lg ${
 										waiting || disabledButtons
-											? 'bg-red-300 cursor-not-allowed'
-											: 'bg-red-500 hover:bg-red-600'
+										? 'bg-[#4b2a5a]/15 cursor-not-allowed text-[#4b2a5a]/45'
+										: 'bg-[#4b2a5a] text-white hover:bg-[#5b346b]'
 									}`}
 								>
 									I missed it 👎

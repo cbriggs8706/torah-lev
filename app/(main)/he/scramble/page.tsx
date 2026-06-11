@@ -1,10 +1,13 @@
 import Image from 'next/image'
 import { getSession } from '@/lib/auth'
 import { FeedWrapper } from '@/components/feed-wrapper'
-import { getCourseProgress, getUserProgress } from '@/db/queries'
+import { getUserProgress } from '@/db/queries'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 import HebrewScramble from '@/components/hebrew/hebrew-scramble'
-import { getHebrewVocabByCourseId } from '@/lib/server/vocab'
+import {
+	getFilteredHebrewVocabByCourseId,
+	getHebrewVocabByCourseId,
+} from '@/lib/server/vocab'
 import { parseScheduledPublicCourseQuery } from '@/lib/public-course-activities'
 
 export default async function HebrewScramblePage({
@@ -17,12 +20,7 @@ export default async function HebrewScramblePage({
 	const resolvedSearchParams = (await searchParams) ?? {}
 
 	// ✅ Only fetch data if user is logged in
-	const [userProgress, userChallengeData] = userId
-		? await Promise.all([
-				getUserProgress(),
-				getCourseProgress(),
-		  ])
-		: [null, null]
+	const userProgress = userId ? await getUserProgress() : null
 
 	// ✅ Guest-safe fallbacks
 	const publicCourseQuery = parseScheduledPublicCourseQuery(resolvedSearchParams)
@@ -31,8 +29,13 @@ export default async function HebrewScramblePage({
 		: userProgress?.activeCourseId ?? 6
 	const currentLesson = publicCourseQuery.scheduled
 		? publicCourseQuery.lesson ?? ''
-		: userChallengeData?.activeLesson?.lessonNumber ?? '1'
-	const hebrewData = await getHebrewVocabByCourseId(courseId)
+		: userProgress?.activeLessonNumber ?? '1'
+	const hebrewData = publicCourseQuery.scheduled
+		? await getFilteredHebrewVocabByCourseId(courseId, {
+				...publicCourseQuery.filters,
+				selectedType: 'phrase',
+		  })
+		: await getHebrewVocabByCourseId(courseId)
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">

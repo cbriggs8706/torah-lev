@@ -4,6 +4,7 @@ type StudyGroupActivityLink = {
 		| 'flashcards'
 		| 'quiz'
 		| 'matchup'
+		| 'opposites'
 		| 'spelling'
 		| 'scramble'
 	label: string
@@ -72,6 +73,12 @@ export function getHebrewScheduledActivityLinks(
 				key: 'matchup',
 				label: 'Matchup',
 				href: `/he/matchup?${query}`,
+				iconSrc: '/icons/iconSocks.png',
+			},
+			{
+				key: 'opposites',
+				label: 'Opposites',
+				href: `/he/opposites?${query}`,
 				iconSrc: '/icons/iconSocks.png',
 			},
 			{

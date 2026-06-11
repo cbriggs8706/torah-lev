@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { getSession } from '@/lib/auth'
 import { FeedWrapper } from '@/components/feed-wrapper'
-import { getUserProgress, getUserSubscription } from '@/db/queries'
+import { getUserProgress } from '@/db/queries'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 import HebrewSentenceBuilder from '@/components/hebrew/hebrew-sentence-builder'
 
@@ -10,13 +10,10 @@ export default async function HebrewSentenceBuilderPage() {
 	const userId = session?.user?.id ?? null
 
 	// ✅ Only query for logged-in users
-	const [userProgress, userSubscription] = userId
-		? await Promise.all([getUserProgress(), getUserSubscription()])
-		: [null, null]
+	const userProgress = userId ? await getUserProgress() : null
 
 	// ✅ Guest-safe fallbacks
 	const courseId = userProgress?.activeCourseId ?? 6 // Default AwB
-	const isPro = !!userSubscription?.isActive
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">

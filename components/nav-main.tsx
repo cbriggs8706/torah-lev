@@ -57,7 +57,7 @@ export function NavMain({
 						return (
 							<SidebarMenuItem key={item.key}>
 								<SidebarMenuButton asChild isActive={isActive}>
-									<Link href={item.href} onClick={onNavigate}>
+									<Link href={item.href} onClick={onNavigate} prefetch={false}>
 										{item.iconSrc ? (
 											<Image
 												src={item.iconSrc}
@@ -93,7 +93,11 @@ export function NavMain({
 													asChild
 													isActive={pathname === child.href}
 												>
-													<Link href={child.href} onClick={onNavigate}>
+													<Link
+														href={child.href}
+														onClick={onNavigate}
+														prefetch={false}
+													>
 														<span
 															className={cn(
 																isHebrewUi && 'text-lg leading-tight',

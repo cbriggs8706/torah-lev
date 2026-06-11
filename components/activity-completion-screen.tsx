@@ -15,6 +15,7 @@ type ActivityCompletionScreenProps = {
 	hearts: number
 	tribePointAwarded?: boolean
 	showTribeBox?: boolean
+	reviewSection?: ReactNode
 	playCelebrationSound?: boolean
 	leftActionLabel: string
 	leftActionOnClick: () => void
@@ -32,6 +33,7 @@ export function ActivityCompletionScreen({
 	hearts,
 	tribePointAwarded = false,
 	showTribeBox = true,
+	reviewSection,
 	playCelebrationSound = true,
 	leftActionLabel,
 	leftActionOnClick,
@@ -90,6 +92,7 @@ export function ActivityCompletionScreen({
 					</Button>
 				</div>
 			}
+			reviewSection={reviewSection}
 		/>
 	)
 }

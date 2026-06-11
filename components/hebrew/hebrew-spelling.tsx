@@ -1,7 +1,8 @@
 'use client'
 
-import { useState, useEffect, useMemo, useCallback } from 'react'
+import { useState, useEffect, useMemo, useCallback, useRef } from 'react'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import { useAudio } from 'react-use'
 
 import HebrewKeyboard from './hebrew-keyboard'
@@ -10,11 +11,13 @@ import { formatRootMorphology, hasRootMorphology } from '@/lib/vocab-morphology'
 import { resolveVocabMediaUrl } from '@/lib/vocab-media'
 import { hebrewLetters } from '@/lib/data/hebrew/hebrew-letters'
 import { hebrewNiqqud } from '@/lib/data/hebrew/hebrew-niqqud'
-import { useCelebration } from '@/hooks/useCelebration'
 import { parseLessonKey, useLessonCards } from '@/hooks/useLessonCards'
 import FormatFilter, { FormatType } from '../filters/filter-format'
 import LessonFilter from '../filters/filter-lesson'
 import ProgressBar from '../progress-bar'
+import { ActivityCompletionScreen } from '@/components/activity-completion-screen'
+import { markPublicCourseActivityComplete } from '@/lib/public-course-progress'
+import { dispatchUserProgressUpdated } from '@/lib/user-progress-events'
 import type { PublicCourseActivityFilters } from '@/lib/public-course-activities'
 
 interface HebrewSpellingProps {
@@ -22,8 +25,15 @@ interface HebrewSpellingProps {
 	currentLesson: string
 	userId: string
 	courseId: number | null
+	initialHearts?: number
+	returnTo?: string
 	hideFilters?: boolean
 	initialFilters?: PublicCourseActivityFilters
+	lockedLesson?: string
+	completionContext?: {
+		enrollmentId: number
+		publicCourseLessonId: number
+	}
 }
 
 const formatOptions: FormatType[] = [
@@ -40,9 +50,14 @@ export default function HebrewSpelling({
 	currentLesson,
 	courseId,
 	userId,
+	initialHearts = 5,
+	returnTo,
 	hideFilters = false,
 	initialFilters,
+	lockedLesson,
+	completionContext,
 }: HebrewSpellingProps) {
+	const router = useRouter()
 	const {
 		selectedLessons,
 		setSelectedLessons,
@@ -61,12 +76,19 @@ export default function HebrewSpelling({
 	const [gradingMode, setGradingMode] =
 		useState<GradingMode>('consonants-only')
 	const [showFeedback, setShowFeedback] = useState<null | boolean>(null)
-	const [value, setValue] = useState('')
 	const [audioVolume, setAudioVolume] = useState(1) // default: 100%
 	const [audioSpeed, setAudioSpeed] = useState(1) // default: normal speed
-	const { Confetti, celebrate } = useCelebration()
-	const [cardsCompleted, setCardsCompleted] = useState(0)
-	const [lastAwardedCheckpoint, setLastAwardedCheckpoint] = useState(0)
+	const [showCompletionScreen, setShowCompletionScreen] = useState(false)
+	const [completionHearts, setCompletionHearts] = useState(initialHearts)
+	const [completionRewards, setCompletionRewards] = useState<{
+		awardedPoints: number
+		hearts: number
+		tribePointAwarded: boolean
+	} | null>(null)
+	const completedCardIdsRef = useRef<Set<string>>(new Set())
+	const publicCourseCompletionRef = useRef(false)
+	const pendingAdvanceTimeoutRef = useRef<number | null>(null)
+	const completionActiveRef = useRef(false)
 
 	function playConfiguredAudio(
 		src: string,
@@ -86,7 +108,7 @@ export default function HebrewSpelling({
 	}
 
 	useEffect(() => {
-		if (initialFilters?.selectedLessons?.length) {
+		if (!lockedLesson && initialFilters?.selectedLessons?.length) {
 			setSelectedLessons(initialFilters.selectedLessons)
 		}
 		if (initialFilters?.selectedType && initialFilters.selectedType !== 'stack') {
@@ -95,7 +117,11 @@ export default function HebrewSpelling({
 		if (initialFilters?.formatType) {
 			setFormatType(initialFilters.formatType)
 		}
-	}, [initialFilters, setSelectedLessons])
+	}, [initialFilters, lockedLesson, setSelectedLessons])
+
+	useEffect(() => {
+		setCompletionHearts(initialHearts)
+	}, [initialHearts])
 
 	useEffect(() => {
 		const checkMobile = () => {
@@ -110,6 +136,11 @@ export default function HebrewSpelling({
 	const cardsForPrefix = useMemo(() => data, [data])
 
 	useEffect(() => {
+		if (lockedLesson) {
+			setSelectedLessons([lockedLesson])
+			return
+		}
+
 		if (currentLesson !== undefined) {
 			const allLessonsUpToCurrent = lessonOptions.filter((lesson) => {
 				const parsed = parseLessonKey(lesson)
@@ -117,7 +148,7 @@ export default function HebrewSpelling({
 			})
 			setSelectedLessons(allLessonsUpToCurrent)
 		}
-	}, [currentLesson, lessonOptions, setSelectedLessons])
+	}, [currentLesson, lessonOptions, lockedLesson, setSelectedLessons])
 
 	const filteredCards = useMemo(() => {
 		const filtered = cardsForPrefix
@@ -146,7 +177,34 @@ export default function HebrewSpelling({
 
 	useEffect(() => {
 		setCurrentIndex(0)
+		setShowCompletionScreen(false)
+		setCompletionRewards(null)
+		completedCardIdsRef.current = new Set()
+		publicCourseCompletionRef.current = false
+		completionActiveRef.current = false
+		if (pendingAdvanceTimeoutRef.current !== null) {
+			window.clearTimeout(pendingAdvanceTimeoutRef.current)
+			pendingAdvanceTimeoutRef.current = null
+		}
 	}, [filteredCards, setCurrentIndex])
+
+	useEffect(() => {
+		if (!showCompletionScreen) return
+
+		completionActiveRef.current = true
+		if (pendingAdvanceTimeoutRef.current !== null) {
+			window.clearTimeout(pendingAdvanceTimeoutRef.current)
+			pendingAdvanceTimeoutRef.current = null
+		}
+	}, [showCompletionScreen])
+
+	useEffect(() => {
+		return () => {
+			if (pendingAdvanceTimeoutRef.current !== null) {
+				window.clearTimeout(pendingAdvanceTimeoutRef.current)
+			}
+		}
+	}, [])
 
 	const currentCard = filteredCards[currentIndex]
 
@@ -170,6 +228,8 @@ export default function HebrewSpelling({
 	)
 
 	useEffect(() => {
+		if (!filteredCards.length) return
+
 		if (shouldSkipCard(currentCard)) {
 			const nextIndex = (currentIndex + 1) % filteredCards.length
 			setCurrentIndex(nextIndex)
@@ -183,7 +243,7 @@ export default function HebrewSpelling({
 		setCurrentIndex,
 	])
 
-	const [audioElement, __, controls] = useAudio({
+	const [audioElement] = useAudio({
 		src: resolveVocabMediaUrl(currentCard?.hebAudio),
 	})
 
@@ -230,7 +290,9 @@ export default function HebrewSpelling({
 		setShowFeedback(isCorrect)
 
 		if (isCorrect) {
-			setCardsCompleted((prev) => prev + 1)
+			const nextCompletedIds = new Set(completedCardIdsRef.current)
+			nextCompletedIds.add(String(currentCard.id))
+			completedCardIdsRef.current = nextCompletedIds
 
 			if (
 				isCorrect &&
@@ -244,22 +306,111 @@ export default function HebrewSpelling({
 				)
 			}
 
-			const isLastCard = currentIndex === filteredCards.length - 1
+			const isActivityComplete =
+				filteredCards.length > 0 &&
+				nextCompletedIds.size >= filteredCards.length
 
-			setTimeout(() => {
+			if (pendingAdvanceTimeoutRef.current !== null) {
+				window.clearTimeout(pendingAdvanceTimeoutRef.current)
+			}
+
+			pendingAdvanceTimeoutRef.current = window.setTimeout(() => {
+				pendingAdvanceTimeoutRef.current = null
+
+				if (completionActiveRef.current) {
+					return
+				}
+
 				setShowFeedback(null)
 				inputEl.value = ''
 
-				if (isLastCard) {
-					celebrate()
+				if (isActivityComplete) {
+					completionActiveRef.current = true
+					setShowCompletionScreen(true)
+					const pointsToAward = filteredCards.length
+					void awardSpellingCompletion({
+						points: pointsToAward,
+						hearts: 5,
+					})
+						.then((result) => {
+							const hearts = result.hearts ?? 5
+							setCompletionHearts(hearts)
+							setCompletionRewards({
+								awardedPoints: result.awardedPoints ?? pointsToAward,
+								hearts,
+								tribePointAwarded: Boolean(result.tribePointAwarded),
+							})
+							dispatchUserProgressUpdated({
+								hearts,
+								points: result.awardedPoints ?? pointsToAward,
+							})
+						})
+						.catch((error) => {
+							console.error('Failed to award spelling completion rewards', error)
+							setCompletionHearts(5)
+							setCompletionRewards({
+								awardedPoints: pointsToAward,
+								hearts: 5,
+								tribePointAwarded: false,
+							})
+							dispatchUserProgressUpdated({
+								hearts: 5,
+								points: pointsToAward,
+							})
+						})
+					if (
+						completionContext &&
+						!publicCourseCompletionRef.current
+					) {
+						publicCourseCompletionRef.current = true
+						void markPublicCourseActivityComplete({
+							enrollmentId: completionContext.enrollmentId,
+							publicCourseLessonId: completionContext.publicCourseLessonId,
+							activityKey: 'spelling',
+							scorePercent: 100,
+						}).catch((error) => {
+							console.error('Failed to save public course spelling progress', error)
+							publicCourseCompletionRef.current = false
+						})
+					}
 				} else {
 					setCurrentIndex((i) => (i + 1) % filteredCards.length)
 				}
 			}, 1000)
+		} else {
+			void reduceCourseHeart()
 		}
 	}
 
+	const reduceCourseHeart = useCallback(async () => {
+		if (!courseId || userId.startsWith('guest')) return
+
+		const previousHearts = completionHearts
+		try {
+			const response = await fetch('/api/reduce-course-heart', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ courseId }),
+			})
+
+			if (!response.ok) {
+				throw new Error(`Failed to reduce course hearts: ${response.status}`)
+			}
+
+			const payload = (await response.json()) as { hearts?: number }
+			const nextHearts =
+				typeof payload.hearts === 'number'
+					? payload.hearts
+					: Math.max(previousHearts - 1, 0)
+			setCompletionHearts(nextHearts)
+			dispatchUserProgressUpdated({ hearts: nextHearts })
+		} catch (error) {
+			console.error('Failed to reduce spelling heart', error)
+		}
+	}, [completionHearts, courseId, userId])
+
 	function goToNext() {
+		if (!filteredCards.length || showCompletionScreen) return
 		setCurrentIndex((i) => {
 			const nextIndex = (i + 1) % filteredCards.length
 			setShowFeedback(null)
@@ -289,6 +440,7 @@ export default function HebrewSpelling({
 	}
 
 	function goToPrevious() {
+		if (!filteredCards.length || showCompletionScreen) return
 		setCurrentIndex((i) => {
 			const prevIndex = (i - 1 + filteredCards.length) % filteredCards.length
 			setShowFeedback(null)
@@ -604,40 +756,99 @@ export default function HebrewSpelling({
 		}
 	}
 
-	const awardPoints = useCallback(
-		async (points: number) => {
-			if (!courseId) {
-				console.warn('Skipping award: no active courseId')
-				return
+	const awardSpellingCompletion = useCallback(
+		async ({ points, hearts }: { points: number; hearts: number }) => {
+			if (!courseId || userId.startsWith('guest')) {
+				return {
+					awardedPoints: points,
+					hearts,
+					tribePointAwarded: false,
+				}
 			}
-			try {
-				await fetch('/api/award-points', {
-					method: 'POST',
-					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify({ userId, courseId, points }),
-				})
-			} catch (error) {
-				console.error('Failed to award points', error)
+
+			const response = await fetch('/api/spelling-completion', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ courseId, points, hearts }),
+			})
+
+			const payload = (await response.json().catch(() => ({}))) as {
+				error?: string
+				awardedPoints?: number
+				hearts?: number
+				tribePointAwarded?: boolean
+			}
+
+			if (!response.ok) {
+				throw new Error(payload.error ?? 'Failed to award spelling completion.')
+			}
+
+			return {
+				awardedPoints: payload.awardedPoints ?? points,
+				hearts: payload.hearts ?? hearts,
+				tribePointAwarded: Boolean(payload.tribePointAwarded),
 			}
 		},
-		[userId, courseId]
+		[courseId, userId],
 	)
 
-	useEffect(() => {
-		if (
-			cardsCompleted > 0 &&
-			cardsCompleted % 10 === 0 &&
-			cardsCompleted !== lastAwardedCheckpoint
-		) {
-			const pointsToAward = cardsCompleted / 10
-			awardPoints(pointsToAward)
-			setLastAwardedCheckpoint(cardsCompleted)
-		}
-	}, [cardsCompleted, lastAwardedCheckpoint, awardPoints])
+	const returnHref =
+		typeof returnTo === 'string' && returnTo.startsWith('/')
+			? returnTo
+			: '/he/learn'
+	const returnLabel = returnHref.startsWith('/courses/public/')
+		? 'Return to Course'
+		: 'Return to Learn'
+
+	if (showCompletionScreen) {
+		const awardedPoints =
+			completionRewards?.awardedPoints ?? filteredCards.length
+		const displayHearts = completionRewards?.hearts ?? 5
+		const tribePointAwarded =
+			completionRewards?.tribePointAwarded ?? false
+
+		return (
+			<ActivityCompletionScreen
+				title="Lesson Complete"
+				description="You finished the spelling activity and earned your points."
+				rewardMessage={
+					awardedPoints > 0 ? (
+						<>
+							You earned {awardedPoints} point{awardedPoints === 1 ? '' : 's'}
+							, replenished your hearts to 5{tribePointAwarded ? ', and earned +1 Tribe Point.' : '.'}
+						</>
+					) : (
+						<>You completed every word in this set and replenished your hearts to 5.</>
+					)
+				}
+				points={awardedPoints}
+				hearts={displayHearts}
+				tribePointAwarded={tribePointAwarded}
+				showTribeBox={true}
+				leftActionLabel="Play Again"
+				leftActionOnClick={() => {
+					if (pendingAdvanceTimeoutRef.current !== null) {
+						window.clearTimeout(pendingAdvanceTimeoutRef.current)
+						pendingAdvanceTimeoutRef.current = null
+					}
+					completionActiveRef.current = false
+					setShowCompletionScreen(false)
+					setCompletionRewards(null)
+					setShowFeedback(null)
+					completedCardIdsRef.current = new Set()
+					publicCourseCompletionRef.current = false
+					setCurrentIndex(0)
+				}}
+				rightActionLabel={returnLabel}
+				rightActionOnClick={() => {
+					router.push(returnHref)
+				}}
+			/>
+		)
+	}
 
 	return (
-		<div className="p-4 max-w-3xl mx-auto text-center">
-			{Confetti}
+		<div className="w-full px-2 text-center sm:px-4 lg:px-6">
 			{!hideFilters ? (
 				<div className="mb-6 flex justify-center gap-4">
 					<button
@@ -800,7 +1011,7 @@ export default function HebrewSpelling({
 					id="spelling-input"
 					type="text"
 					placeholder="type here"
-					className="border p-2 w-full max-w-xs text-center text-4xl rounded"
+					className="w-full max-w-2xl flex-1 min-w-0 rounded border p-2 text-center text-4xl"
 					dir="rtl"
 					style={{ fontFamily: 'Times New Roman, serif' }}
 					autoFocus
@@ -849,6 +1060,7 @@ export default function HebrewSpelling({
 
 			<HebrewKeyboard
 				onEnter={() => handleCheck()}
+				className="w-full"
 				onKeyPress={(key) => {
 					const inputEl = document.getElementById(
 						'spelling-input'
@@ -881,8 +1093,6 @@ export default function HebrewSpelling({
 						}
 
 						inputEl.focus()
-						// Update state if needed
-						setValue(newValue)
 					}
 				}}
 			/>

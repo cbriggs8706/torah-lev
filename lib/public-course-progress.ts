@@ -6,6 +6,7 @@ export type PublicCourseActivityProgressPayload = {
 	activityKey: PublicCourseActivityKey
 	scorePercent?: number
 	points?: number
+	hearts?: number
 	metadata?: Record<string, unknown>
 }
 
@@ -33,5 +34,6 @@ export async function markPublicCourseActivityComplete(
 	return data as {
 		progress: unknown
 		awardedPoints?: number
+		hearts?: number
 	}
 }

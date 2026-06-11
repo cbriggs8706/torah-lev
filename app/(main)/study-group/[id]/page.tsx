@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { FeedWrapper } from '@/components/feed-wrapper'
 import { getUserProgress, getStudyGroupWithMessages } from '@/db/queries'
 import StudyGroupDashboard from '@/components/study-group/dashboard'
+import { buildStudyGroupLessonFlows } from '@/lib/study-group-lesson-flow'
 
 export default async function StudyGroupDashboardPage({ params }: any) {
 	const { id } = await params
@@ -27,6 +28,11 @@ export default async function StudyGroupDashboardPage({ params }: any) {
 		)
 	}
 
+	const lessonFlows = await buildStudyGroupLessonFlows({
+		events: studyGroup.scheduleEvents ?? [],
+		userId: userProgress.userId,
+	})
+
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
 			<FeedWrapper>
@@ -44,6 +50,7 @@ export default async function StudyGroupDashboardPage({ params }: any) {
 					<StudyGroupDashboard
 						studyGroup={studyGroup}
 						currentUserId={userProgress.userId}
+						lessonFlows={lessonFlows}
 					/>
 				</div>
 			</FeedWrapper>

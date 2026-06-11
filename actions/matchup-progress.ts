@@ -3,7 +3,7 @@
 import { sql } from 'drizzle-orm'
 import { revalidatePath } from 'next/cache'
 import { getSession } from '@/lib/auth'
-import { getUserProgress } from '@/db/queries'
+import { getFreshUserProgress } from '@/db/queries'
 import db from '@/db/drizzle'
 import { userCourseProgress } from '@/db/schema'
 
@@ -33,7 +33,7 @@ export async function awardMatchupCompletion({
 		}
 	}
 
-	const currentUserProgress = await getUserProgress(userId)
+	const currentUserProgress = await getFreshUserProgress(userId)
 	const now = new Date()
 
 	await db

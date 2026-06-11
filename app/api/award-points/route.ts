@@ -1,5 +1,5 @@
 import db from '@/db/drizzle'
-import { getUserProgress } from '@/db/queries'
+import { getFreshUserProgress } from '@/db/queries'
 import { tribes, userCourseProgress } from '@/db/schema'
 import { eq, sql } from 'drizzle-orm'
 
@@ -33,7 +33,7 @@ export async function POST(req: Request) {
 			}
 
 			// ✅ Authenticated user path
-			const currentUserProgress = await getUserProgress(userId!)
+			const currentUserProgress = await getFreshUserProgress(userId!)
 			await db
 				.insert(userCourseProgress)
 				.values({

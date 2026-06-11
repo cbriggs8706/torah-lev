@@ -2,21 +2,43 @@ import Image from 'next/image'
 import { FeedWrapper } from '@/components/feed-wrapper'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 import { getSession } from '@/lib/auth'
-import { getCourseProgress, getUserProgress } from '@/db/queries'
-import { getHebrewVocabByCourseId } from '@/lib/server/vocab'
+import { getUserProgress } from '@/db/queries'
+import {
+	getFilteredHebrewVocabWithAntonymsByCourseId,
+	getHebrewVocabByCourseId,
+} from '@/lib/server/vocab'
 import HebrewOpposites from '@/components/hebrew/hebrew-opposites'
+import { parseScheduledPublicCourseQuery } from '@/lib/public-course-activities'
 
-export default async function HebrewOppositesPage() {
+export default async function HebrewOppositesPage({
+	searchParams,
+}: {
+	searchParams?: Promise<Record<string, string | string[] | undefined>>
+}) {
 	const session = await getSession()
 	const userId = session?.user?.id ?? null
+	const resolvedSearchParams = (await searchParams) ?? {}
+	const publicCourseQuery = parseScheduledPublicCourseQuery(resolvedSearchParams)
+	const rawReturnTo = resolvedSearchParams.returnTo
+	const returnTo =
+		typeof rawReturnTo === 'string' && rawReturnTo.startsWith('/')
+			? rawReturnTo
+			: undefined
 
-	const [userProgress, courseProgress] = userId
-		? await Promise.all([getUserProgress(), getCourseProgress()])
-		: [null, null]
+	const userProgress = userId ? await getUserProgress() : null
 
-	const activeCourseId = userProgress?.activeCourseId ?? 6
-	const currentLesson = courseProgress?.activeLesson?.lessonNumber ?? ''
-	const hebrewData = await getHebrewVocabByCourseId(activeCourseId)
+	const activeCourseId = publicCourseQuery.scheduled
+		? (publicCourseQuery.courseId ?? 6)
+		: (userProgress?.activeCourseId ?? 6)
+	const currentLesson = publicCourseQuery.scheduled
+		? (publicCourseQuery.lesson ?? '')
+		: (userProgress?.activeLessonNumber ?? '')
+	const hebrewData = publicCourseQuery.scheduled
+		? await getFilteredHebrewVocabWithAntonymsByCourseId(
+				activeCourseId,
+				publicCourseQuery.filters,
+			)
+		: await getHebrewVocabByCourseId(activeCourseId)
 
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
@@ -45,6 +67,26 @@ export default async function HebrewOppositesPage() {
 						courseId={activeCourseId}
 						data={hebrewData}
 						currentLesson={currentLesson}
+						userId={userId ?? 'guest'}
+						initialHearts={userProgress?.hearts ?? 5}
+						returnTo={returnTo}
+						hideFilters={publicCourseQuery.scheduled}
+						initialFilters={publicCourseQuery.filters}
+						lockedLesson={
+							publicCourseQuery.scheduled
+								? (publicCourseQuery.lesson ?? undefined)
+								: undefined
+						}
+						completionContext={
+							publicCourseQuery.enrollmentId &&
+							publicCourseQuery.publicCourseLessonId
+								? {
+										enrollmentId: publicCourseQuery.enrollmentId,
+										publicCourseLessonId:
+											publicCourseQuery.publicCourseLessonId,
+									}
+								: undefined
+						}
 					/>
 				</div>
 			</FeedWrapper>

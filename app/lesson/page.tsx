@@ -2,8 +2,8 @@ import { redirect } from 'next/navigation'
 import { cookies } from 'next/headers'
 import { getSession } from '@/lib/auth'
 import {
-	getCourseProgress,
 	getLesson,
+	getNextLessonId,
 	getUserProgress,
 	getUserSubscription,
 } from '@/db/queries'
@@ -40,10 +40,7 @@ const LessonPage = async () => {
 			lesson.challenges.length) *
 		100
 
-	const courseProgress = await getCourseProgress()
-	const allLessons = courseProgress?.lessonsInActiveCourse || []
-	const currentIndex = allLessons.findIndex((l) => l.id === lesson.id)
-	const nextLesson = allLessons[currentIndex + 1] ?? null
+	const nextLessonId = await getNextLessonId(lesson.id)
 
 	return (
 		<Quiz
@@ -52,7 +49,7 @@ const LessonPage = async () => {
 			initialHearts={userProgress.hearts}
 			initialPercentage={initialPercentage}
 			userSubscription={effectiveUserSub}
-			nextLessonId={nextLesson?.id ?? null}
+			nextLessonId={nextLessonId}
 			activeCourseId={userProgress?.activeCourseId ?? Number(guestCourseId)}
 		/>
 	)

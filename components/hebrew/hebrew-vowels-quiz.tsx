@@ -359,7 +359,7 @@ export default function HebrewVowelsQuiz({
 						className={`mr-4 rounded-lg px-6 py-2 text-white transition-colors ${
 							isStartDisabled
 								? 'cursor-not-allowed bg-gray-400'
-								: 'bg-violet-600 hover:bg-purple-700'
+								: 'bg-[#4b2a5a] hover:bg-[#5b346b]'
 						}`}
 					>
 						Study Vowels
@@ -373,7 +373,7 @@ export default function HebrewVowelsQuiz({
 						className={`rounded-lg px-6 py-2 text-white transition-colors ${
 							isStartDisabled
 								? 'cursor-not-allowed bg-gray-400'
-								: 'bg-green-600 hover:bg-green-700'
+								: 'bg-emerald-700 hover:bg-emerald-800'
 						}`}
 					>
 						Start Quiz
@@ -521,8 +521,8 @@ export default function HebrewVowelsQuiz({
 							disabled={waiting || disabledButtons}
 							className={`rounded-lg px-4 py-2 ${
 								waiting || disabledButtons
-									? 'cursor-not-allowed bg-green-300'
-									: 'bg-green-500 hover:bg-green-600'
+									? 'cursor-not-allowed bg-emerald-200 text-emerald-400'
+									: 'bg-emerald-700 text-white hover:bg-emerald-800'
 							}`}
 						>
 							I got it right 👍
@@ -545,8 +545,8 @@ export default function HebrewVowelsQuiz({
 							disabled={waiting || disabledButtons}
 							className={`rounded-lg px-4 py-2 ${
 								waiting || disabledButtons
-									? 'cursor-not-allowed bg-red-300'
-									: 'bg-red-500 hover:bg-red-600'
+									? 'cursor-not-allowed bg-[#4b2a5a]/15 text-[#4b2a5a]/45'
+									: 'bg-[#4b2a5a] text-white hover:bg-[#5b346b]'
 							}`}
 						>
 							I missed it 👎

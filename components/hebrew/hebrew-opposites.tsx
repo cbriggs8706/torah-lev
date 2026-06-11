@@ -1,21 +1,31 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { RefreshCw, Volume2 } from 'lucide-react'
-import ReactConfetti from 'react-confetti'
-import { useAudio, useWindowSize } from 'react-use'
+import { useRouter } from 'next/navigation'
 import { awardVocabQuizCompletion } from '@/actions/vocab-quiz-progress'
-import { ResultCard } from '@/app/lesson/result-card'
-import { ActivityFinalScreen } from '@/components/activity-final-screen'
+import { ActivityCompletionScreen } from '@/components/activity-completion-screen'
 import LessonFilter from '@/components/filters/filter-lesson'
 import { useLessonCards } from '@/hooks/useLessonCards'
+import { markPublicCourseActivityComplete } from '@/lib/public-course-progress'
 import { dispatchUserProgressUpdated } from '@/lib/user-progress-events'
+import type { PublicCourseActivityFilters } from '@/lib/public-course-activities'
 import type { HebrewVocab } from '@/lib/vocab'
 
 type HebrewOppositesProps = {
 	courseId: number
 	currentLesson: string
 	data: HebrewVocab[]
+	userId: string
+	initialHearts: number
+	returnTo?: string
+	hideFilters?: boolean
+	initialFilters?: PublicCourseActivityFilters
+	lockedLesson?: string
+	completionContext?: {
+		enrollmentId: number
+		publicCourseLessonId: number
+	}
 }
 
 type OppositePair = {
@@ -80,12 +90,19 @@ export default function HebrewOpposites({
 	courseId,
 	currentLesson,
 	data,
+	userId,
+	initialHearts,
+	returnTo,
+	hideFilters = false,
+	initialFilters,
+	lockedLesson,
+	completionContext,
 }: HebrewOppositesProps) {
+	const router = useRouter()
 	const { selectedLessons, setSelectedLessons } = useLessonCards(
 		data,
 		currentLesson,
 	)
-	const { width, height } = useWindowSize()
 	const [phase, setPhase] = useState<Phase>('setup')
 	const [roundVersion, setRoundVersion] = useState(0)
 	const [selectedPairCount, setSelectedPairCount] = useState(8)
@@ -108,7 +125,8 @@ export default function HebrewOpposites({
 		tribePointAwarded: boolean
 	} | null>(null)
 	const [completionAwarded, setCompletionAwarded] = useState(false)
-	const [finishAudio] = useAudio({ src: '/shofar.mp3', autoPlay: true })
+	const [hearts, setHearts] = useState(initialHearts)
+	const heartsRef = useRef(initialHearts)
 
 	const lessonFilteredCards = useMemo(() => {
 		return data.filter((card) => {
@@ -122,7 +140,7 @@ export default function HebrewOpposites({
 
 	const oppositePairs = useMemo(() => {
 		const byId = new Map(
-			lessonFilteredCards
+			data
 				.map((card) => {
 					const lookupId = getRelationLookupId(card)
 					return lookupId ? ([lookupId, card] as const) : null
@@ -160,7 +178,7 @@ export default function HebrewOpposites({
 		}
 
 		return pairs
-	}, [lessonFilteredCards])
+	}, [data, lessonFilteredCards])
 
 	const pairCountOptions = useMemo(() => {
 		if (oppositePairs.length === 0) return []
@@ -171,6 +189,22 @@ export default function HebrewOpposites({
 		)
 		return [...validOptions, oppositePairs.length]
 	}, [oppositePairs.length])
+
+	useEffect(() => {
+		if (lockedLesson) {
+			setSelectedLessons([lockedLesson])
+			return
+		}
+
+		if (initialFilters?.selectedLessons?.length) {
+			setSelectedLessons(initialFilters.selectedLessons)
+		}
+	}, [initialFilters, lockedLesson, setSelectedLessons])
+
+	useEffect(() => {
+		heartsRef.current = initialHearts
+		setHearts(initialHearts)
+	}, [initialHearts])
 
 	useEffect(() => {
 		if (oppositePairs.length === 0) {
@@ -297,8 +331,8 @@ export default function HebrewOpposites({
 	const allMatched = totalCount > 0 && completedCount === totalCount
 	const totalAttempts = correctMatches + incorrectAttempts
 	const accuracy = totalAttempts > 0 ? correctMatches / totalAttempts : 0
-	const passed = allMatched && accuracy > 0.75
-	const awardedPoints = passed ? totalCount : 0
+	const awardedPoints = correctMatches
+	const displayHearts = completionRewards?.hearts ?? hearts
 	const pairByKey = useMemo(
 		() => new Map(roundPairs.map((pair) => [pair.key, pair] as const)),
 		[roundPairs],
@@ -315,38 +349,57 @@ export default function HebrewOpposites({
 	}, [phase])
 
 	useEffect(() => {
-		if (
-			phase !== 'results' ||
-			!passed ||
-			awardedPoints <= 0 ||
-			completionAwarded
-		)
-			return
+		if (phase !== 'results' || completionAwarded || awardedPoints <= 0) return
 
 		let cancelled = false
 
 		const awardCompletion = async () => {
 			try {
-				const result = await awardVocabQuizCompletion({
-					courseId,
-					points: awardedPoints,
-				})
+				const result = completionContext
+					? await markPublicCourseActivityComplete({
+							enrollmentId: completionContext.enrollmentId,
+							publicCourseLessonId: completionContext.publicCourseLessonId,
+							activityKey: 'opposites',
+							points: awardedPoints,
+							hearts: displayHearts,
+							scorePercent: 100,
+						})
+					: await awardVocabQuizCompletion({
+							courseId,
+							points: awardedPoints,
+							hearts: displayHearts,
+						})
 
 				if (cancelled) return
 
+				const nextHearts =
+					typeof result.hearts === 'number' ? result.hearts : displayHearts
+				const nextPoints =
+					typeof result.awardedPoints === 'number'
+						? result.awardedPoints
+						: awardedPoints
+				const tribePointAwarded =
+					'tribePointAwarded' in result
+						? Boolean(result.tribePointAwarded)
+						: false
 				setCompletionRewards({
-					awardedPoints: result.awardedPoints,
-					hearts: result.hearts,
-					tribePointAwarded: result.tribePointAwarded,
+					awardedPoints: nextPoints,
+					hearts: nextHearts,
+					tribePointAwarded,
 				})
 				dispatchUserProgressUpdated({
-					hearts: result.hearts,
-					points: result.awardedPoints,
+					hearts: nextHearts,
+					points: nextPoints,
 				})
 				setCompletionAwarded(true)
 			} catch (error) {
 				console.error('Failed to award opposites completion rewards', error)
 				if (!cancelled) {
+					setCompletionRewards({
+						awardedPoints,
+						hearts: displayHearts,
+						tribePointAwarded: false,
+					})
 					setCompletionAwarded(true)
 				}
 			}
@@ -357,7 +410,7 @@ export default function HebrewOpposites({
 		return () => {
 			cancelled = true
 		}
-	}, [awardedPoints, completionAwarded, courseId, passed, phase])
+	}, [awardedPoints, completionAwarded, completionContext, courseId, displayHearts, phase])
 
 	function startRound() {
 		if (totalCount === 0) return
@@ -369,6 +422,40 @@ export default function HebrewOpposites({
 		setPhase('setup')
 		setActiveSelection(null)
 		setStatusText('Tap a word on either side, then tap its opposite.')
+	}
+
+	async function reduceCourseHeart() {
+		if (!courseId || userId.startsWith('guest')) return
+
+		const previousHearts = heartsRef.current
+		const nextHearts = Math.max(previousHearts - 1, 0)
+		heartsRef.current = nextHearts
+		setHearts(nextHearts)
+		dispatchUserProgressUpdated({ hearts: nextHearts })
+
+		try {
+			const response = await fetch('/api/reduce-course-heart', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ courseId }),
+			})
+
+			if (!response.ok) {
+				throw new Error(`Failed to reduce course hearts: ${response.status}`)
+			}
+
+			const payload = (await response.json()) as { hearts?: number }
+			if (typeof payload.hearts === 'number') {
+				heartsRef.current = payload.hearts
+				setHearts(payload.hearts)
+				dispatchUserProgressUpdated({ hearts: payload.hearts })
+			}
+		} catch (error) {
+			heartsRef.current = previousHearts
+			setHearts(previousHearts)
+			dispatchUserProgressUpdated({ hearts: previousHearts })
+			console.error('Failed to reduce course heart', error)
+		}
 	}
 
 	function handleSelect(side: CardSide, itemKey: string) {
@@ -432,9 +519,10 @@ export default function HebrewOpposites({
 									guessed: item.card,
 									correct: correctCard,
 								},
-							],
+						],
 				)
 			}
+			void reduceCourseHeart()
 			setStatusText(
 				anchorCard
 					? `"${card.eng}" is not the opposite of "${anchorCard.eng}". Try again.`
@@ -483,7 +571,6 @@ export default function HebrewOpposites({
 							? 'border-sky-500 bg-sky-50 ring-2 ring-sky-200'
 							: 'border-slate-200 bg-white hover:-translate-y-0.5 hover:border-sky-300 hover:shadow-md'
 				}`}
-				style={{ WebkitUserDrag: 'none' }}
 			>
 				<div
 					draggable={false}
@@ -521,18 +608,31 @@ export default function HebrewOpposites({
 								Customize Opposites
 							</h2>
 							<p className="mt-2 text-sm text-slate-600">
-								Choose one or more lessons, then match each vocab item to its
-								opposite on the next screen.
+								{hideFilters
+									? 'This round is locked to the assigned lesson and will open with that lesson filtered.'
+									: 'Choose one or more lessons, then match each vocab item to its opposite on the next screen.'}
 							</p>
 						</div>
 
-						<div className="rounded-3xl bg-slate-50 p-4">
-							<LessonFilter
-								data={data}
-								selectedLessons={selectedLessons}
-								setSelectedLessons={setSelectedLessons}
-							/>
-						</div>
+						{hideFilters ? (
+							<div className="rounded-3xl border border-slate-200 bg-slate-50 p-4 text-center text-sm text-slate-700">
+								{lockedLesson ? (
+									<>
+										Assigned lesson: <span className="font-semibold">{lockedLesson}</span>
+									</>
+								) : (
+									'This round is tied to a scheduled lesson.'
+								)}
+							</div>
+						) : (
+							<div className="rounded-3xl bg-slate-50 p-4">
+								<LessonFilter
+									data={data}
+									selectedLessons={selectedLessons}
+									setSelectedLessons={setSelectedLessons}
+								/>
+							</div>
+						)}
 
 						<div className="grid gap-3 rounded-3xl border border-slate-200 bg-slate-50 p-4 text-center sm:grid-cols-2">
 							<div>
@@ -545,10 +645,10 @@ export default function HebrewOpposites({
 							</div>
 							<div>
 								<p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-									Reward Threshold
+									Points
 								</p>
 								<p className="mt-2 text-lg font-semibold text-slate-900">
-									More than 75% correct
+									1 point per correct match
 								</p>
 							</div>
 						</div>
@@ -605,80 +705,36 @@ export default function HebrewOpposites({
 	}
 
 	if (phase === 'results') {
+		const pointsAwarded = completionRewards?.awardedPoints ?? awardedPoints
+		const heartsAwarded = completionRewards?.hearts ?? displayHearts
+		const rightActionLabel = returnTo ? 'Return to Course' : 'Change Lessons'
+		const rightActionOnClick = returnTo
+			? () => router.push(returnTo)
+			: returnToSetup
+
 		return (
-			<ActivityFinalScreen
-				title={passed ? 'Lesson Complete' : 'Round Complete'}
-				description={
-					passed
-						? 'You cleared the 75% accuracy mark and earned rewards.'
-						: 'You matched every pair, but you need more than 75% accuracy to earn points.'
+			<ActivityCompletionScreen
+				title="Lesson Complete"
+				description="You matched every pair and earned rewards."
+				rewardMessage={
+					<>
+						You earned {pointsAwarded} point{pointsAwarded === 1 ? '' : 's'} and
+						finished with {heartsAwarded} heart
+						{heartsAwarded === 1 ? '' : 's'}.
+						{completionRewards?.tribePointAwarded
+							? ' You also earned +1 Tribe Point.'
+							: ''}
+					</>
 				}
-				stats={[
-					{
-						label: 'Correct',
-						value: correctMatches,
-						valueClassName: 'text-emerald-600',
-					},
-					{
-						label: 'Incorrect',
-						value: incorrectAttempts,
-						valueClassName: 'text-rose-600',
-					},
-					{
-						label: 'Accuracy',
-						value: `${Math.round(accuracy * 100)}%`,
-					},
-				]}
-				rewards={
-					passed ? (
-						<>
-							<p className="mb-4 text-lg font-semibold text-slate-800">
-								You earned {completionRewards?.awardedPoints ?? awardedPoints}{' '}
-								point
-								{(completionRewards?.awardedPoints ?? awardedPoints) === 1
-									? ''
-									: 's'}
-								.
-							</p>
-							<div className="mx-auto flex w-full max-w-md gap-4">
-								<ResultCard
-									variant="points"
-									value={completionRewards?.awardedPoints ?? awardedPoints}
-									tribePointAdded={
-										completionRewards?.tribePointAwarded ?? false
-									}
-								/>
-							</div>
-						</>
-					) : undefined
-				}
-				message={
-					!passed ? (
-						<p className="text-sm text-slate-600">
-							Try again with fewer misses to earn {totalCount} point
-							{totalCount === 1 ? '' : 's'}.
-						</p>
-					) : undefined
-				}
-				actions={
-					<div className="flex flex-col justify-center gap-3 sm:flex-row">
-						<button
-							type="button"
-							onClick={startRound}
-							className="inline-flex items-center justify-center gap-2 rounded-full border border-sky-200 bg-sky-50 px-5 py-3 font-semibold text-sky-700 transition hover:border-sky-300 hover:bg-sky-100"
-						>
-							<RefreshCw className="h-4 w-4" />
-							Play Again
-						</button>
-						<button
-							type="button"
-							onClick={returnToSetup}
-							className="rounded-full border border-slate-300 bg-white px-5 py-3 font-semibold text-slate-700 transition hover:border-slate-400 hover:bg-slate-50"
-						>
-							Change Lessons
-						</button>
-					</div>
-				}
+				points={pointsAwarded}
+				hearts={heartsAwarded}
+				tribePointAwarded={completionRewards?.tribePointAwarded ?? false}
+				showTribeBox={true}
+				leftActionLabel="Play Again"
+				leftActionOnClick={startRound}
+				rightActionLabel={rightActionLabel}
+				rightActionOnClick={rightActionOnClick}
+				cardClassName="relative"
 				reviewSection={
 					mistakeReviews.length > 0 ? (
 						<div className="text-left">
@@ -774,20 +830,6 @@ export default function HebrewOpposites({
 							</div>
 						</div>
 					) : undefined
-				}
-				celebration={
-					<>
-						{passed ? finishAudio : null}
-						{passed ? (
-							<ReactConfetti
-								width={width}
-								height={height}
-								recycle={false}
-								numberOfPieces={450}
-								tweenDuration={10000}
-							/>
-						) : null}
-					</>
 				}
 			/>
 		)

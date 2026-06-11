@@ -3,7 +3,6 @@ import Image from 'next/image'
 import { getSession } from '@/lib/auth'
 import {
 	getConstructAbsoluteWords,
-	getCourseProgress,
 	getUserProgress,
 } from '@/db/queries'
 import { DismissibleAlert } from '@/components/dismissible-alert'
@@ -14,18 +13,13 @@ export default async function HebrewConstructAbsoluteIdentifyFormPage() {
 	const session = await getSession()
 	const userId = session?.user?.id ?? null
 
-	const [userProgress, courseProgress] = userId
-		? await Promise.all([getUserProgress(), getCourseProgress()])
-		: [null, null]
+	const userProgress = userId ? await getUserProgress() : null
 
 	const activeCourseId = userProgress?.activeCourseId ?? 6
-	const currentLesson =
-		userProgress?.activeLessonNumber ??
-		courseProgress?.activeLesson?.lessonNumber ??
-		''
+	const currentLesson = userProgress?.activeLessonNumber ?? ''
 	const words = await getConstructAbsoluteWords({
 		courseId: activeCourseId,
-		activeLessonId: courseProgress?.activeLessonId ?? null,
+		activeLessonId: userProgress?.activeLessonId ?? null,
 		activity: 'identifyForm',
 	})
 

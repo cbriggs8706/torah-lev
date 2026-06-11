@@ -16,7 +16,10 @@ import {
 } from '@/db/schema'
 import { getSession } from '@/lib/auth'
 import PublicCourseActivityBrowser from '@/components/courses/public-course-activity-browser'
-import { getPublicCourseActivityVideoId } from '@/lib/public-course-activities'
+import {
+	getPublicCourseActivityVideoId,
+	normalizePublicCourseActivityFilters,
+} from '@/lib/public-course-activities'
 import { getHebrewLessonVideoIdsByLessonIds } from '@/lib/server/public-course-activity-options'
 import { buildPublicCourseActivitySignature } from '@/lib/server/public-course-activity-signature'
 import type {
@@ -29,12 +32,44 @@ export const dynamic = 'force-dynamic'
 
 type PublicVideoType = 'lesson' | 'review' | 'story' | 'song'
 
+type CourseLessonActivityRow = {
+	id: number
+	activityKey: PublicCourseActivityKey
+	order: number
+	isEnabled: boolean
+	filterConfig: PublicCourseActivityFilters
+}
+
+type MergedActivityProgress = {
+	publicCourseLessonId: number
+	publicCourseLessonActivityId: number
+	status: PublicCourseActivityStatus
+	scorePercent: number | null
+	completedAt: Date | string | null
+}
+
 function toIsoStringOrNull(
 	value: Date | string | null | undefined,
 ) {
 	if (!value) return null
 	if (value instanceof Date) return value.toISOString()
 	return value
+}
+
+function normalizeActivityRow(activity: {
+	id: number
+	activityKey: string
+	order: number
+	isEnabled: boolean
+	filterConfig: unknown
+}): CourseLessonActivityRow {
+	return {
+		id: activity.id,
+		activityKey: activity.activityKey as PublicCourseActivityKey,
+		order: activity.order,
+		isEnabled: activity.isEnabled,
+		filterConfig: normalizePublicCourseActivityFilters(activity.filterConfig),
+	}
 }
 
 export default async function PublicCourseDetailPage({
@@ -51,60 +86,68 @@ export default async function PublicCourseDetailPage({
 	const session = await getSession()
 	const userId = session?.user?.id ?? null
 
-	const course = await db.query.publicCourse.findFirst({
-		where: eq(publicCourse.id, courseId),
-		with: {
-			lessons: {
-				orderBy: [asc(publicCourseLesson.order)],
-				with: {
-					platformCourse: {
-						columns: {
-							id: true,
-							title: true,
+	const [course, enrollment] = await Promise.all([
+		db.query.publicCourse.findFirst({
+			where: eq(publicCourse.id, courseId),
+			with: {
+				lessons: {
+					orderBy: [asc(publicCourseLesson.order)],
+					with: {
+						platformCourse: {
+							columns: {
+								id: true,
+								title: true,
+							},
 						},
-					},
-					lesson: {
-						columns: {
-							id: true,
-							title: true,
-							lessonNumber: true,
-						},
-						with: {
-							unit: {
-								columns: {
-									title: true,
+						lesson: {
+							columns: {
+								id: true,
+								title: true,
+								lessonNumber: true,
+							},
+							with: {
+								unit: {
+									columns: {
+										title: true,
+									},
 								},
 							},
 						},
-					},
-					activities: {
-						orderBy: [asc(publicCourseLessonActivity.order)],
+						activities: {
+							columns: {
+								id: true,
+								activityKey: true,
+								order: true,
+								isEnabled: true,
+								filterConfig: true,
+							},
+							orderBy: [asc(publicCourseLessonActivity.order)],
+						},
 					},
 				},
 			},
-		},
-	})
+		}),
+		userId
+			? db.query.publicCourseEnrollment.findFirst({
+					where: and(
+						eq(publicCourseEnrollment.publicCourseId, courseId),
+						eq(publicCourseEnrollment.userId, userId)
+					),
+					with: {
+						lessons: {
+							orderBy: [asc(publicCourseEnrollmentLesson.order)],
+						},
+						activityProgress: {
+							orderBy: [asc(publicCourseEnrollmentActivityProgress.createdAt)],
+						},
+					},
+				})
+			: Promise.resolve(null),
+	])
 
 	if (!course) {
 		notFound()
 	}
-
-	const enrollment = userId
-		? await db.query.publicCourseEnrollment.findFirst({
-				where: and(
-					eq(publicCourseEnrollment.publicCourseId, courseId),
-					eq(publicCourseEnrollment.userId, userId)
-				),
-				with: {
-					lessons: {
-						orderBy: [asc(publicCourseEnrollmentLesson.order)],
-					},
-					activityProgress: {
-						orderBy: [asc(publicCourseEnrollmentActivityProgress.createdAt)],
-					},
-				},
-			})
-		: null
 
 	const lessonVideoIdsByLessonId = await getHebrewLessonVideoIdsByLessonIds(
 		course.lessons.map((lesson) => lesson.lesson.id)
@@ -123,12 +166,13 @@ export default async function PublicCourseDetailPage({
 		((lesson as typeof lesson & {
 			activities?: Array<{
 				id: number
-				activityKey: PublicCourseActivityKey
+				activityKey: string
 				order: number
 				isEnabled: boolean
-				filterConfig: PublicCourseActivityFilters
+				filterConfig: unknown
 			}>
 		}).activities ?? [])
+			.map(normalizeActivityRow)
 			.map((activity) =>
 				getPublicCourseActivityVideoId({
 					activityKey: activity.activityKey,
@@ -143,38 +187,6 @@ export default async function PublicCourseDetailPage({
 	const allLessonVideoIds = Array.from(
 		new Set([...lessonVideoIds, ...customLessonVideoIds]),
 	)
-	const videoTypeById = allLessonVideoIds.length
-		? await db
-				.select({
-					id: videos.id,
-					type: videos.type,
-				})
-				.from(videos)
-				.where(inArray(videos.id, allLessonVideoIds))
-				.then((rows) =>
-					rows.reduce<Record<number, PublicVideoType>>((acc, row) => {
-						if (row.type) {
-							acc[row.id] = row.type
-						}
-						return acc
-					}, {}),
-				)
-		: {}
-
-	const completedLessonVideoIds = userId && allLessonVideoIds.length > 0
-		? await db.query.userVideoProgress
-				.findMany({
-					where: and(
-						eq(userVideoProgress.userId, userId),
-						inArray(userVideoProgress.videoId, allLessonVideoIds)
-					),
-					columns: {
-						videoId: true,
-					},
-				})
-				.then((rows) => rows.map((row) => row.videoId))
-		: []
-
 	const plannerLessons = course.lessons.map((lesson) => ({
 		publicCourseLessonId: lesson.id,
 		order: lesson.order,
@@ -192,12 +204,12 @@ export default async function PublicCourseDetailPage({
 		activities: ((lesson as typeof lesson & {
 			activities?: Array<{
 				id: number
-				activityKey: PublicCourseActivityKey
+				activityKey: string
 				order: number
 				isEnabled: boolean
-				filterConfig: PublicCourseActivityFilters
+				filterConfig: unknown
 			}>
-		}).activities ?? []).map((activity) => ({
+		}).activities ?? []).map(normalizeActivityRow).map((activity) => ({
 			id: activity.id,
 			activityKey: activity.activityKey,
 			order: activity.order,
@@ -227,26 +239,58 @@ export default async function PublicCourseDetailPage({
 		}))
 	)
 
-	const sharedCompletionRows =
-		userId && activitySignatureRows.length > 0
-			? await db
-					.select({
-						activitySignature: publicCourseActivityCompletion.activitySignature,
-						status: publicCourseActivityCompletion.status,
-						scorePercent: publicCourseActivityCompletion.scorePercent,
-						completedAt: publicCourseActivityCompletion.completedAt,
-					})
-					.from(publicCourseActivityCompletion)
-					.where(
-						and(
-							eq(publicCourseActivityCompletion.userId, userId),
-							inArray(
-								publicCourseActivityCompletion.activitySignature,
-								activitySignatureRows.map((row) => row.signature),
+	const [videoTypeById, completedLessonVideoIds, sharedCompletionRows] =
+		await Promise.all([
+			allLessonVideoIds.length
+				? db
+						.select({
+							id: videos.id,
+							type: videos.type,
+						})
+						.from(videos)
+						.where(inArray(videos.id, allLessonVideoIds))
+						.then((rows) =>
+							rows.reduce<Record<number, PublicVideoType>>((acc, row) => {
+								if (row.type) {
+									acc[row.id] = row.type
+								}
+								return acc
+							}, {}),
+						)
+				: Promise.resolve({}),
+			userId && allLessonVideoIds.length > 0
+				? db.query.userVideoProgress
+						.findMany({
+							where: and(
+								eq(userVideoProgress.userId, userId),
+								inArray(userVideoProgress.videoId, allLessonVideoIds)
 							),
-						),
-					)
-			: []
+							columns: {
+								videoId: true,
+							},
+						})
+						.then((rows) => rows.map((row) => row.videoId))
+				: Promise.resolve([]),
+			userId && activitySignatureRows.length > 0
+				? db
+						.select({
+							activitySignature: publicCourseActivityCompletion.activitySignature,
+							status: publicCourseActivityCompletion.status,
+							scorePercent: publicCourseActivityCompletion.scorePercent,
+							completedAt: publicCourseActivityCompletion.completedAt,
+						})
+						.from(publicCourseActivityCompletion)
+						.where(
+							and(
+								eq(publicCourseActivityCompletion.userId, userId),
+								inArray(
+									publicCourseActivityCompletion.activitySignature,
+									activitySignatureRows.map((row) => row.signature),
+								),
+							),
+						)
+				: Promise.resolve([]),
+		])
 
 	const sharedCompletionBySignature = new Map(
 		sharedCompletionRows.map((row) => [row.activitySignature, row]),
@@ -259,25 +303,37 @@ export default async function PublicCourseDetailPage({
 		]),
 	)
 
-	const mergedActivityProgress = activitySignatureRows.flatMap((activity) => {
-		const localProgress = localActivityProgressByActivityId.get(
-			activity.publicCourseLessonActivityId,
-		)
-		if (localProgress) return [localProgress]
+	const mergedActivityProgress: MergedActivityProgress[] =
+		activitySignatureRows.flatMap<MergedActivityProgress>((activity) => {
+			const localProgress = localActivityProgressByActivityId.get(
+				activity.publicCourseLessonActivityId,
+			)
+			if (localProgress) {
+				return [
+					{
+						publicCourseLessonId: localProgress.publicCourseLessonId,
+						publicCourseLessonActivityId:
+							localProgress.publicCourseLessonActivityId,
+						status: localProgress.status as PublicCourseActivityStatus,
+						scorePercent: localProgress.scorePercent,
+						completedAt: localProgress.completedAt,
+					},
+				]
+			}
 
-		const sharedProgress = sharedCompletionBySignature.get(activity.signature)
-		if (!sharedProgress) return []
+			const sharedProgress = sharedCompletionBySignature.get(activity.signature)
+			if (!sharedProgress) return []
 
-		return [
-			{
-				publicCourseLessonId: activity.publicCourseLessonId,
-				publicCourseLessonActivityId: activity.publicCourseLessonActivityId,
-				status: sharedProgress.status as PublicCourseActivityStatus,
-				scorePercent: sharedProgress.scorePercent,
-				completedAt: toIsoStringOrNull(sharedProgress.completedAt),
-			},
-		]
-	})
+			return [
+				{
+					publicCourseLessonId: activity.publicCourseLessonId,
+					publicCourseLessonActivityId: activity.publicCourseLessonActivityId,
+					status: sharedProgress.status as PublicCourseActivityStatus,
+					scorePercent: sharedProgress.scorePercent,
+					completedAt: toIsoStringOrNull(sharedProgress.completedAt),
+				},
+			]
+		})
 
 	return (
 		<div className="mx-auto max-w-5xl px-4 py-8 sm:px-6">

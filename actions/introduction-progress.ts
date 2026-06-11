@@ -3,7 +3,7 @@
 import { eq, sql } from 'drizzle-orm'
 import { revalidatePath } from 'next/cache'
 import { getSession } from '@/lib/auth'
-import { getUserProgress } from '@/db/queries'
+import { getFreshUserProgress } from '@/db/queries'
 import db from '@/db/drizzle'
 import { tribes, userCourseProgress, userProgress } from '@/db/schema'
 
@@ -36,7 +36,7 @@ export async function awardIntroductionCompletion({
 		}
 	}
 
-	const currentUserProgress = await getUserProgress(userId)
+	const currentUserProgress = await getFreshUserProgress(userId)
 	const nextHearts = 5
 
 	await db

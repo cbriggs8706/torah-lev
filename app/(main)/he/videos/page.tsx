@@ -3,10 +3,8 @@ import { getSession } from '@/lib/auth'
 import { FeedWrapper } from '@/components/feed-wrapper'
 import {
 	getAllHebrewLessonScripts,
-	getCourseProgress,
 	getLessonPercentage,
 	getUserProgress,
-	getUserSubscription,
 } from '@/db/queries'
 import { DismissibleAlert } from '@/components/dismissible-alert'
 import LessonScriptList from '@/components/hebrew/hebrew-lesson-script-list'
@@ -16,11 +14,8 @@ export default async function HebrewLessonScriptsPage() {
 	const userId = session?.user?.id ?? null
 
 	// ✅ Fetch user-related data only if signed in
-	const [userProgress, userSubscription, courseProgress, lessonPercentage] =
-		await Promise.all([
+	const [userProgress, lessonPercentage] = await Promise.all([
 		getUserProgress(),
-		getUserSubscription(),
-		getCourseProgress(),
 		getLessonPercentage(),
 	])
 
@@ -30,9 +25,8 @@ export default async function HebrewLessonScriptsPage() {
 	const lessonScripts = await getAllHebrewLessonScripts(activeCourseId) // default course for guest (AwB)
 
 	const isHebrewFriend = !!userProgress?.isHebrewFriend
-	const isPro = !!userSubscription?.isActive
 	// const currentLesson = userChallengeData?.activeLesson?.lessonNumber ?? null
-	const currentLesson = courseProgress?.activeLesson?.id ?? null
+	const currentLesson = userProgress?.activeLessonId ?? null
 
 	return (
 		<div className="flex flex-row-reverse gap-6 px-2 sm:px-4 lg:gap-[48px] lg:px-6">

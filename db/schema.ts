@@ -184,19 +184,28 @@ export const challengesEnum = pgEnum('type', [
 	'TEXT-VISUAL',
 ])
 
-export const challenges = pgTable('challenges', {
-	id: serial('id').primaryKey(),
-	lessonId: integer('lesson_id')
-		.references(() => lessons.id, { onDelete: 'cascade' })
-		.notNull(),
-	type: challengesEnum('type').notNull(),
-	question: text('question').notNull(),
-	order: integer('order').notNull(),
-	video: text('video'),
-	image: text('image'),
-	audio: text('audio'),
-	hebNiqqud: text('hebNiqqud'),
-})
+export const challenges = pgTable(
+	'challenges',
+	{
+		id: serial('id').primaryKey(),
+		lessonId: integer('lesson_id')
+			.references(() => lessons.id, { onDelete: 'cascade' })
+			.notNull(),
+		type: challengesEnum('type').notNull(),
+		question: text('question').notNull(),
+		order: integer('order').notNull(),
+		video: text('video'),
+		image: text('image'),
+		audio: text('audio'),
+		hebNiqqud: text('hebNiqqud'),
+	},
+	(table) => ({
+		lessonOrderIdx: index('idx_challenges_lesson_order').on(
+			table.lessonId,
+			table.order,
+		),
+	}),
+)
 
 export const challengesRelations = relations(challenges, ({ one, many }) => ({
 	lesson: one(lessons, {
@@ -229,14 +238,22 @@ export const challengeOptionsRelations = relations(
 	})
 )
 
-export const challengeProgress = pgTable('challenge_progress', {
-	id: serial('id').primaryKey(),
-	userId: text('user_id').notNull(),
-	challengeId: integer('challenge_id')
-		.references(() => challenges.id, { onDelete: 'cascade' })
-		.notNull(),
-	completed: boolean('completed').notNull().default(false),
-})
+export const challengeProgress = pgTable(
+	'challenge_progress',
+	{
+		id: serial('id').primaryKey(),
+		userId: text('user_id').notNull(),
+		challengeId: integer('challenge_id')
+			.references(() => challenges.id, { onDelete: 'cascade' })
+			.notNull(),
+		completed: boolean('completed').notNull().default(false),
+	},
+	(table) => ({
+		userChallengeCompletedIdx: index(
+			'idx_challenge_progress_user_challenge_completed',
+		).on(table.userId, table.challengeId, table.completed),
+	}),
+)
 
 export const challengeProgressRelations = relations(
 	challengeProgress,
@@ -1293,6 +1310,12 @@ export const vocabEntries = pgTable(
 		courseIdx: index('idx_vocab_course_id').on(table.courseId),
 		languageIdx: index('idx_vocab_language').on(table.language),
 		rootIdx: index('idx_vocab_root_id').on(table.rootId),
+		lessonsGinIdx: index('idx_vocab_lessons_gin').using('gin', table.lessons),
+		sourceTypeIdx: index('idx_vocab_source_type').on(table.sourceKey, table.type),
+		sourceCategoryIdx: index('idx_vocab_source_category').on(
+			table.sourceKey,
+			table.category
+		),
 	})
 )
 
