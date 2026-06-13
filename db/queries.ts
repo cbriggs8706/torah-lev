@@ -55,6 +55,8 @@ import { toConstructAbsoluteActivityWord } from '@/lib/construct-absolute'
 import { parseStudyGroupScheduleMeta } from '@/lib/study-group-schedule-meta'
 import { getHebrewLessonVideoIdsByLessonIds } from '@/lib/server/public-course-activity-options'
 
+const nonStoryScriptureVideoFilter = sql`${videos.type} IS NULL OR ${videos.type} NOT IN ('story'::video_type, 'scripture'::video_type)`
+
 async function loadUserProgress(userIdOverride?: string | null) {
 	const userId = userIdOverride ?? (await getUserId())
 
@@ -757,11 +759,11 @@ export async function getAllHebrewLessonScripts(courseId?: number) {
 		courseId != null
 			? base.where(
 					and(
-						sql`${videos.type} IS DISTINCT FROM 'story'::video_type`,
+						nonStoryScriptureVideoFilter,
 						sql`${courseId} = ANY(${videos.curriculumId})`
 					)
 				)
-			: base.where(sql`${videos.type} IS DISTINCT FROM 'story'::video_type`)
+			: base.where(nonStoryScriptureVideoFilter)
 
 	return q.orderBy(asc(videos.lessonId), asc(videos.part))
 }
@@ -785,7 +787,7 @@ export const getHebrewLessonScripts = async (courseId: number) => {
 		.innerJoin(lessons, eq(videos.lessonId, lessons.id))
 		.where(
 			and(
-				sql`${videos.type} IS DISTINCT FROM 'story'::video_type`,
+				nonStoryScriptureVideoFilter,
 				sql`${courseId} = ANY(${videos.curriculumId})`
 			)
 		)
@@ -1387,6 +1389,70 @@ export async function getHebrewStory(storyId: number) {
 		.limit(1)
 
 	return story
+}
+
+export async function getAllHebrewScriptures(courseId?: number) {
+	const rows = await db
+		.select({
+			id: videos.id,
+			lessonId: videos.lessonId,
+			lessonNumber: lessons.lessonNumber,
+			curriculumId: videos.curriculumId,
+			title: videos.title,
+			hebTitle: videos.hebTitle,
+			titleTransliteration: videos.titleTransliteration,
+			order: videos.order,
+			video: videos.videoUrl,
+			image: videos.image,
+			public: videos.public,
+			category: videos.category,
+			content: videos.content,
+			contentPlain: videos.contentPlain,
+			audio: videos.audio,
+			scriptureBook: videos.scriptureBook,
+			scriptureChapter: videos.scriptureChapter,
+			scriptureVerses: videos.scriptureVerses,
+		})
+		.from(videos)
+		.leftJoin(lessons, eq(videos.lessonId, lessons.id))
+		.where(
+			and(
+				eq(videos.type, 'scripture'),
+				courseId != null
+					? sql`${courseId} = ANY(${videos.curriculumId})`
+					: undefined
+			)
+		)
+		.orderBy(asc(videos.order))
+
+	return rows
+}
+
+export async function getHebrewScripture(scriptureId: number) {
+	const [scripture] = await db
+		.select({
+			id: videos.id,
+			title: videos.title,
+			hebTitle: videos.hebTitle,
+			titleTransliteration: videos.titleTransliteration,
+			video: videos.videoUrl,
+			image: videos.image,
+			content: videos.content,
+			contentPlain: videos.contentPlain,
+			audio: videos.audio,
+			lessonId: videos.lessonId,
+			curriculumId: videos.curriculumId,
+			category: videos.category,
+			public: videos.public,
+			scriptureBook: videos.scriptureBook,
+			scriptureChapter: videos.scriptureChapter,
+			scriptureVerses: videos.scriptureVerses,
+		})
+		.from(videos)
+		.where(and(eq(videos.id, scriptureId), eq(videos.type, 'scripture')))
+		.limit(1)
+
+	return scripture
 }
 
 export async function getAllEnglishStories() {

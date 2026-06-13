@@ -5,6 +5,8 @@ import db from '@/db/drizzle'
 import { videos } from '@/db/schema'
 import { isAdmin } from '@/lib/admin'
 
+const nonStoryScriptureVideoFilter = sql`${videos.type} IS NULL OR ${videos.type} NOT IN ('story'::video_type, 'scripture'::video_type)`
+
 function parseCurriculumIdArray(value: unknown) {
 	if (Array.isArray(value)) {
 		return value
@@ -83,7 +85,7 @@ export const GET = async (
 	const data = await db.query.videos.findFirst({
 		where: and(
 			eq(videos.id, id),
-			sql`${videos.type} IS DISTINCT FROM 'story'::video_type`
+			nonStoryScriptureVideoFilter
 		),
 	})
 
@@ -109,7 +111,7 @@ export const PUT = async (
 		.where(
 			and(
 				eq(videos.id, id),
-				sql`${videos.type} IS DISTINCT FROM 'story'::video_type`
+				nonStoryScriptureVideoFilter
 			)
 		)
 		.returning()
@@ -134,7 +136,7 @@ export const DELETE = async (
 		.where(
 			and(
 				eq(videos.id, id),
-				sql`${videos.type} IS DISTINCT FROM 'story'::video_type`
+				nonStoryScriptureVideoFilter
 			)
 		)
 		.returning()

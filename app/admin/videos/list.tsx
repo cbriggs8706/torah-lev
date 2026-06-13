@@ -18,6 +18,7 @@ const VIDEO_TYPE_CHOICES = [
 	{ id: 'review', name: 'Review' },
 	{ id: 'story', name: 'Story' },
 	{ id: 'song', name: 'Song' },
+	{ id: 'scripture', name: 'Scripture' },
 ]
 
 const TruncatedTextField = ({ source }: { source: string }) => (
@@ -71,6 +72,9 @@ export const VideoList = () => (
 			<TextField source="title" />
 			<TextField source="hebTitle" />
 			<TextField source="category" />
+			<TextField source="scriptureBook" label="Book" />
+			<TextField source="scriptureChapter" label="Chapter" />
+			<TextField source="scriptureVerses" label="Verses" />
 			<TextField source="part" />
 			<TextField source="order" />
 			<BooleanField source="public" />

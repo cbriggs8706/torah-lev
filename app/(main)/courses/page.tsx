@@ -342,12 +342,13 @@ export default async function CoursesPage() {
 							</p>
 						</div>
 						<div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
-							{accessibleStudyGroups.map((group) => (
+							{accessibleStudyGroups.map((group, index) => (
 								<CatalogCard
 									key={`my-study-group-${group.id}`}
 									href={`/study-group/${group.id}`}
 									title={group.name}
 									imageUrl="/mascot.svg"
+									priority={index === 0}
 									kindLabel={
 										group.groupType === 'Public'
 											? 'Public study group'

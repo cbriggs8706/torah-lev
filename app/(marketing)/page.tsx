@@ -37,7 +37,7 @@ export default function Home() {
 					Shalom! Welcome to Torah Lev, where we make learning Biblical Hebrew
 					fun and effective with comprehensible input. Click the button below to
 					create an account to keep track of your progress or continue as a
-					guest.
+					guest. Make sure to bookmark this page!
 				</h1>
 
 				<div className="flex flex-col items-center gap-y-3 max-w-[330px] w-full">

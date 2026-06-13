@@ -200,6 +200,13 @@ export function buildSidebarSections({
 				iconSrc: '/icons/iconStories.png',
 				icon: HeartHandshake,
 			})
+			communityItems.push({
+				key: 'scripture',
+				label: localize(resolvedLocale, 'nav.scripture'),
+				href: '/he/scripture',
+				iconSrc: '/icons/iconScroll.png',
+				icon: ScrollText,
+			})
 		}
 
 		if (activeCourseId === 6 && isHebrewFriend) {

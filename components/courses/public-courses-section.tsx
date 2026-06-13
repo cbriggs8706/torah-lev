@@ -78,7 +78,7 @@ export default function PublicCoursesSection({
 
 			{visibleCourses.length > 0 ? (
 				<div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
-					{visibleCourses.map((course) => {
+					{visibleCourses.map((course, index) => {
 						const progressPercent = course.progress
 							? course.progress.total === 0
 								? 100
@@ -100,6 +100,7 @@ export default function PublicCoursesSection({
 									kindLabel="Self-paced"
 									subtitle={course.description?.trim() || 'Self-paced public course'}
 									progress={course.progress}
+									priority={index === 0}
 								/>
 								{course.progress ? (
 									<div className="rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm">

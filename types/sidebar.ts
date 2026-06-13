@@ -43,6 +43,7 @@ export type SidebarTranslationKey =
 	| 'nav.memorize'
 	| 'nav.tanakhBooks'
 	| 'nav.stories'
+	| 'nav.scripture'
 	| 'nav.verbs'
 	| 'nav.speedQuiz'
 	| 'nav.scramble'

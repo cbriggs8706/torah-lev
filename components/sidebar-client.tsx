@@ -297,6 +297,13 @@ export default function SidebarClient({
 								onClick={onItemClick}
 								className="font-cardo text-xl"
 							/>
+							<SidebarItem
+								label="כתבי הקודש"
+								href="/he/scripture"
+								iconSrc="/icons/iconScroll.png"
+								onClick={onItemClick}
+								className="font-cardo text-xl"
+							/>
 						</>
 					)}
 

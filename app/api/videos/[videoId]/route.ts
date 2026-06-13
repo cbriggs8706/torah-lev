@@ -66,6 +66,11 @@ function toVideoPayload(body: Record<string, unknown>) {
 		content: typeof body.content === 'string' ? body.content : null,
 		contentPlain:
 			typeof body.contentPlain === 'string' ? body.contentPlain : null,
+		scriptureBook:
+			typeof body.scriptureBook === 'string' ? body.scriptureBook : null,
+		scriptureChapter: parseOptionalNumber(body.scriptureChapter),
+		scriptureVerses:
+			typeof body.scriptureVerses === 'string' ? body.scriptureVerses : null,
 		type: requestedType,
 	}
 }

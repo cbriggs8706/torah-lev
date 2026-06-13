@@ -140,7 +140,6 @@ const HebrewLearnPage = async () => {
 					lessons={courseLessons ?? []}
 					activeLessonId={activeLessonId}
 					lessonPercentage={lessonPercentage ?? 0}
-					lang="he"
 					startLabel={startLabelByLocale[sidebarLocale]}
 					startLocale={sidebarLocale}
 				/>

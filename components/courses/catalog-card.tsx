@@ -13,6 +13,7 @@ type CatalogCardProps = {
 	proficiencyLevel?: string | null
 	endingProficiencyLevel?: string | null
 	ctaLabel?: string
+	priority?: boolean
 	progress?: {
 		completed: number
 		total: number
@@ -39,6 +40,7 @@ export default function CatalogCard({
 	proficiencyLevel,
 	endingProficiencyLevel,
 	ctaLabel = 'Begin this course',
+	priority = false,
 	progress = null,
 }: CatalogCardProps) {
 	const hasProgress = Boolean(progress)
@@ -68,6 +70,8 @@ export default function CatalogCard({
 					fill
 					sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
 					className="object-cover transition duration-300 group-hover:scale-[1.03]"
+					loading={priority ? 'eager' : undefined}
+					fetchPriority={priority ? 'high' : undefined}
 				/>
 				<div className="absolute left-3 top-3 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-slate-700">
 					{kindLabel}

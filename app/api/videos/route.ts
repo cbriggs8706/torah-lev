@@ -66,6 +66,11 @@ function toVideoPayload(body: Record<string, unknown>) {
 		content: typeof body.content === 'string' ? body.content : null,
 		contentPlain:
 			typeof body.contentPlain === 'string' ? body.contentPlain : null,
+		scriptureBook:
+			typeof body.scriptureBook === 'string' ? body.scriptureBook : null,
+		scriptureChapter: parseOptionalNumber(body.scriptureChapter),
+		scriptureVerses:
+			typeof body.scriptureVerses === 'string' ? body.scriptureVerses : null,
 		type: requestedType,
 	}
 }
@@ -167,6 +172,9 @@ export const GET = async (req: Request) => {
 		public: videos.public,
 		part: videos.part,
 		curriculumId: videos.curriculumId,
+		scriptureBook: videos.scriptureBook,
+		scriptureChapter: videos.scriptureChapter,
+		scriptureVerses: videos.scriptureVerses,
 	} as const
 
 	const sortColumn = columnMap[sortField as keyof typeof columnMap] || videos.id
@@ -187,6 +195,9 @@ export const GET = async (req: Request) => {
 	}
 	if (typeof filter.category === 'string' && filter.category.trim()) {
 		filters.push(ilike(videos.category, `%${filter.category.trim()}%`))
+	}
+	if (typeof filter.scriptureBook === 'string' && filter.scriptureBook.trim()) {
+		filters.push(eq(videos.scriptureBook, filter.scriptureBook.trim()))
 	}
 	if (typeof filter.q === 'string' && filter.q.trim()) {
 		const q = `%${filter.q.trim()}%`

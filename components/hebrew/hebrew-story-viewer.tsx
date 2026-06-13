@@ -33,13 +33,48 @@ type HebrewStory = {
 	courseId: number[] | null
 	category: string
 	public: boolean
+	scriptureBook?: string | null
+	scriptureChapter?: number | null
+	scriptureVerses?: string | null
 }
 
 type Story = {
 	story: HebrewStory
+	backHref?: string
+	backLabel?: string
 }
 
-export default function HebrewStoryViewer(story: Story) {
+function toYouTubeEmbedUrl(videoUrl: string) {
+	try {
+		const url = new URL(videoUrl)
+		const videoId =
+			url.hostname === 'youtu.be'
+				? url.pathname.slice(1)
+				: url.pathname.startsWith('/embed/')
+					? url.pathname.split('/')[2]
+					: url.searchParams.get('v')
+
+		if (!videoId) return videoUrl
+
+		const start =
+			url.searchParams.get('start') ??
+			url.searchParams.get('t')?.replace(/s$/, '')
+		const embedUrl = new URL(`https://www.youtube.com/embed/${videoId}`)
+		if (start) embedUrl.searchParams.set('start', start)
+		return embedUrl.toString()
+	} catch {
+		return videoUrl
+			.replace('youtu.be/', 'www.youtube.com/embed/')
+			.replace('watch?v=', 'embed/')
+			.split('?')[0]
+	}
+}
+
+export default function HebrewStoryViewer({
+	story,
+	backHref = '/he/stories',
+	backLabel = 'Back to Story List',
+}: Story) {
 	// export default function HebrewStoryViewer({ story }: { story: Story }) {
 	const [fontClass, setFontClass] = useState('font-serif')
 	const [fontSize, setFontSize] = useState(36)
@@ -48,11 +83,11 @@ export default function HebrewStoryViewer(story: Story) {
 	const router = useRouter()
 
 	const audioIsSpotify = useMemo(
-		() => isSpotifyUrl(story.story.audio),
-		[story.story.audio]
+		() => isSpotifyUrl(story.audio),
+		[story.audio]
 	)
 	const audioSrcClean = useMemo(() => {
-		const a = story.story.audio
+		const a = story.audio
 		if (!a) return null
 		try {
 			const u = new URL(a)
@@ -61,7 +96,7 @@ export default function HebrewStoryViewer(story: Story) {
 		} catch {
 			return a
 		}
-	}, [story.story.audio])
+	}, [story.audio])
 
 	// Handle font change from dropdown
 	const handleFontChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -80,12 +115,12 @@ export default function HebrewStoryViewer(story: Story) {
 
 	return (
 		<div className="w-full space-y-4">
-			<h2 className="text-4xl font-bold text-center">{story.story.title}</h2>
-			{story.story.image && (
+			<h2 className="text-4xl font-bold text-center">{story.title}</h2>
+			{story.image && (
 				<div className="flex justify-center">
 					<Image
-						src={story.story.image}
-						alt={`${story.story.title} thumbnail`}
+						src={story.image}
+						alt={`${story.title} thumbnail`}
 						width={300} // scale down: adjust as needed
 						height={0} // height auto (ignored when fill not used)
 						className="h-auto w-auto max-w-full rounded-md border shadow"
@@ -97,38 +132,33 @@ export default function HebrewStoryViewer(story: Story) {
 			<div className="flex flex-wrap gap-4 mb-4 justify-center">
 				<Button
 					onClick={() => setMediaType('video')}
-					disabled={!story.story.video}
+					disabled={!story.video}
 				>
 					Video
 				</Button>
 				<Button
 					onClick={() => setMediaType('audio')}
-					disabled={!story.story.audio}
+					disabled={!story.audio}
 				>
 					Audio
 				</Button>
 				<Button
 					variant={'default'}
 					onClick={() => {
-						router.push('/he/stories')
+						router.push(backHref)
 						router.refresh() // revalidate the next route after the push
 					}}
 				>
-					Back to Story List
+					{backLabel}
 				</Button>
 			</div>
 			{/* Media block */}
 			<div className="flex flex-col gap-4 mb-8">
-				{mediaType === 'video' && story.story.video && (
+				{mediaType === 'video' && story.video && (
 					<div className="relative w-full" style={{ paddingTop: '56.25%' }}>
 						<iframe
 							className="absolute inset-0 w-full h-full rounded-md"
-							src={
-								story.story.video
-									.replace('youtu.be/', 'www.youtube.com/embed/')
-									.replace('watch?v=', 'embed/')
-									.split('?')[0]
-							}
+							src={toYouTubeEmbedUrl(story.video)}
 							title="YouTube video player"
 							frameBorder={0}
 							allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -138,7 +168,7 @@ export default function HebrewStoryViewer(story: Story) {
 				)}
 
 				{mediaType === 'audio' &&
-					story.story.audio &&
+					story.audio &&
 					(audioIsSpotify ? (
 						<iframe
 							className="w-full rounded-md"
@@ -155,7 +185,7 @@ export default function HebrewStoryViewer(story: Story) {
 							defaultRate={1}
 							defaultVolume={1}
 							startTime={0}
-							label={`Audio for ${story.story.title}`}
+							label={`Audio for ${story.title}`}
 							onEnded={() => {
 								/* optional: mark complete */
 							}}
@@ -199,7 +229,7 @@ export default function HebrewStoryViewer(story: Story) {
 			>
 				<div
 					dangerouslySetInnerHTML={{
-						__html: story.story.content ?? 'No content for this lesson.',
+						__html: story.content ?? 'No content for this lesson.',
 					}}
 				/>
 			</div>

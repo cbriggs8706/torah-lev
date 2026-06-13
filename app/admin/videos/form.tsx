@@ -1,6 +1,8 @@
 'use client'
 
 import TinyMCEInput from '@/components/tinymceinput'
+import { VideoMediaUploadInput } from '@/components/admin/video-media-upload-input'
+import { TANAKH_BOOK_CHOICES } from '@/lib/tanakh-books'
 import {
 	AutocompleteArrayInput,
 	AutocompleteInput,
@@ -18,6 +20,7 @@ const VIDEO_TYPE_CHOICES = [
 	{ id: 'review', name: 'Review' },
 	{ id: 'story', name: 'Story' },
 	{ id: 'song', name: 'Song' },
+	{ id: 'scripture', name: 'Scripture' },
 ]
 
 export function VideoForm() {
@@ -62,9 +65,34 @@ export function VideoForm() {
 			<NumberInput source="part" label="Part" />
 			<NumberInput source="order" label="Order" />
 			<TextInput source="category" label="Category" fullWidth />
+			<SelectInput
+				source="scriptureBook"
+				label="Book"
+				choices={TANAKH_BOOK_CHOICES}
+				fullWidth
+			/>
+			<NumberInput source="scriptureChapter" label="Chapter" />
+			<TextInput
+				source="scriptureVerses"
+				label="Verses"
+				helperText="Use a single verse or a range, like 1 or 1-3."
+				fullWidth
+			/>
 			<TextInput source="videoUrl" label="Video URL" fullWidth />
 			<TextInput source="image" label="Image" fullWidth />
+			<VideoMediaUploadInput
+				source="image"
+				label="Image"
+				accept="image/*"
+				kind="image"
+			/>
 			<TextInput source="audio" label="Audio" fullWidth />
+			<VideoMediaUploadInput
+				source="audio"
+				label="Audio"
+				accept="audio/*"
+				kind="audio"
+			/>
 			<TextInput source="audioSrc" label="Audio Embed URL" fullWidth />
 			<BooleanInput source="public" label="Public" />
 			<TinyMCEInput source="content" label="Content" dir="rtl" />

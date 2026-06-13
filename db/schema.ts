@@ -84,6 +84,7 @@ export const videoTypeEnum = pgEnum('video_type', [
 	'review',
 	'story',
 	'song',
+	'scripture',
 ])
 
 export const lessonsRelations = relations(lessons, ({ one, many }) => ({
@@ -117,6 +118,9 @@ export const videos = pgTable('videos', {
 	category: text('category'),
 	content: text('content'),
 	contentPlain: text('content_plain'),
+	scriptureBook: text('scripture_book'),
+	scriptureChapter: integer('scripture_chapter'),
+	scriptureVerses: text('scripture_verses'),
 	type: videoTypeEnum('type'),
 })
 

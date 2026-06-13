@@ -7,6 +7,8 @@ import { lessons, videos } from '@/db/schema'
 import { splitCategoryValues } from '@/lib/category'
 import { getHebrewVocabByCourseId } from '@/lib/server/vocab'
 
+const nonStoryScriptureVideoFilter = sql`${videos.type} IS NULL OR ${videos.type} NOT IN ('story'::video_type, 'scripture'::video_type)`
+
 function parseLessonKey(key: string) {
 	if (typeof key !== 'string') return { num: Number.NaN, text: '' }
 
@@ -75,12 +77,12 @@ export async function getHebrewLessonVideoIdsByLessonIds(lessonIds: number[]) {
 			lessonId: videos.lessonId,
 			part: videos.part,
 		})
-		.from(videos)
-		.where(
-			and(
-				sql`${videos.type} IS DISTINCT FROM 'story'::video_type`,
-				inArray(videos.lessonId, lessonIds)
-			)
+			.from(videos)
+			.where(
+				and(
+					nonStoryScriptureVideoFilter,
+					inArray(videos.lessonId, lessonIds)
+				)
 		)
 		.orderBy(asc(videos.lessonId), asc(videos.part), asc(videos.id))
 
@@ -143,12 +145,12 @@ export async function getHebrewLessonScriptsByLessonIds(lessonIds: number[]) {
 			id: videos.id,
 			lessonId: videos.lessonId,
 		})
-		.from(videos)
-		.where(
-			and(
-				sql`${videos.type} IS DISTINCT FROM 'story'::video_type`,
-				inArray(videos.lessonId, lessonIds)
-			)
+			.from(videos)
+			.where(
+				and(
+					nonStoryScriptureVideoFilter,
+					inArray(videos.lessonId, lessonIds)
+				)
 		)
 		.orderBy(asc(videos.lessonId), asc(videos.part), asc(videos.id))
 

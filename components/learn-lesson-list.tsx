@@ -1,6 +1,5 @@
 'use client'
 
-import { GreekLessonButton } from '@/app/(main)/el/learn/lesson-button'
 import { HebrewLessonButton } from '@/app/(main)/he/learn/lesson-button'
 import { lessons } from '@/db/schema'
 import type { SidebarLocale } from '@/types/sidebar'
@@ -11,25 +10,19 @@ export function LearnLessonList({
 	lessons: lessonList,
 	activeLessonId,
 	lessonPercentage,
-	lang = 'en',
 	startLabel,
 	startLocale,
 }: {
 	lessons: LessonRecord[]
 	activeLessonId?: number | null
 	lessonPercentage: number
-	lang?: 'en' | 'he' | 'es' | 'el'
 	startLabel?: string
 	startLocale?: SidebarLocale
 }) {
 	return (
 		<div
-			className={
-				lang === 'he'
-					? 'my-12 flex flex-wrap items-stretch justify-center gap-4'
-					: 'my-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
-			}
-			dir={lang === 'he' ? 'rtl' : undefined}
+			className="my-12 flex flex-wrap items-stretch justify-center gap-4"
+			dir="rtl"
 		>
 			{lessonList.map((lesson, index) => {
 				const commonProps = {
@@ -44,15 +37,13 @@ export function LearnLessonList({
 					lessonNumber: String(lesson.lessonNumber),
 				}
 
-				return lang === 'he' ? (
+				return (
 					<HebrewLessonButton
 						key={lesson.id}
 						{...commonProps}
 						startLabel={startLabel}
 						startLocale={startLocale}
 					/>
-				) : (
-					<GreekLessonButton key={lesson.id} {...commonProps} />
 				)
 			})}
 		</div>
