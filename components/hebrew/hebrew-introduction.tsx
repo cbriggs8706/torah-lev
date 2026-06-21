@@ -9,6 +9,7 @@ import LessonFilter from '@/components/filters/filter-lesson'
 import { useLessonCards } from '@/hooks/useLessonCards'
 import { dispatchUserProgressUpdated } from '@/lib/user-progress-events'
 import { resolveVocabMediaUrl } from '@/lib/vocab-media'
+import { isIntroductionReadyHebrewVocab } from '@/lib/hebrew-introduction-vocab'
 import type { HebrewVocab } from '@/lib/vocab'
 import { awardIntroductionCompletion } from '@/actions/introduction-progress'
 import { markPublicCourseActivityComplete } from '@/lib/public-course-progress'
@@ -36,11 +37,14 @@ type SessionPhase = 'idle' | 'teaching' | 'quiz' | 'complete'
 
 const SUCCESS_SOUND = '/correct.wav'
 const INCORRECT_SOUND = '/incorrect.wav'
+const MIN_SESSION_CARDS = 2
 const REPEAT_COUNT = 3
 const REPEAT_PAUSE_MS = 1400
 const POST_WORD_PAUSE_MS = 450
-const INITIAL_TEACHING_BATCH_SIZE = 3
+const INITIAL_TEACHING_BATCH_SIZE = 2
 const QUIZ_PROMPT_COUNT = 3
+const INSUFFICIENT_MEDIA_MESSAGE =
+	'At least 2 Hebrew vocab items from one lesson with an image and audio are needed for this vocabulary activity.'
 type VocabTypeFilter = 'word' | 'phrase'
 
 export default function HebrewIntroduction({
@@ -158,7 +162,10 @@ export default function HebrewIntroduction({
 	}, [stopActiveAudio])
 
 	useEffect(() => {
-		if (initialFilters?.selectedType !== 'word' && initialFilters?.selectedType !== 'phrase') {
+		if (
+			initialFilters?.selectedType !== 'word' &&
+			initialFilters?.selectedType !== 'phrase'
+		) {
 			return
 		}
 
@@ -189,15 +196,8 @@ export default function HebrewIntroduction({
 			const matchesSelectedLesson =
 				selectedLessons.length === 0 ||
 				card.lessons.some((lesson) => selectedLessons.includes(lesson))
-			const matchesType = card.type === 'word' || card.type === 'phrase'
 
-			return (
-				matchesSelectedLesson &&
-				matchesType &&
-				card.images.length > 0 &&
-				!!card.images[0] &&
-				!!card.hebAudio
-			)
+			return matchesSelectedLesson && isIntroductionReadyHebrewVocab(card)
 		})
 	}, [data, selectedLessons])
 
@@ -235,7 +235,10 @@ export default function HebrewIntroduction({
 
 	const beginSession = useCallback(
 		(cardOrder: number[]) => {
-			if (cardOrder.length < 2) return
+			if (cardOrder.length < MIN_SESSION_CARDS) {
+				setStatusText(INSUFFICIENT_MEDIA_MESSAGE)
+				return
+			}
 
 			setCompletionAwarded(false)
 			setIntroducedCount(0)
@@ -244,6 +247,7 @@ export default function HebrewIntroduction({
 			setCurrentPromptIndex(null)
 			setCurrentOptions([])
 			setEliminatedOptions([])
+			setActiveRepeatNumber(null)
 			setTeachingIndices(
 				cardOrder.slice(0, Math.min(INITIAL_TEACHING_BATCH_SIZE, cardOrder.length)),
 			)
@@ -290,9 +294,17 @@ export default function HebrewIntroduction({
 		setCompletionRewards(null)
 		setCompletionAwarded(false)
 		completionSoundPlayedRef.current = false
-		setStatusText('Choose your filters and a type, then start the vocabulary.')
+		setStatusText(
+			filtersLocked
+				? 'This class opens directly into the assigned lesson.'
+				: 'Choose your filters and a type, then start the vocabulary.',
+		)
 
-		if (filtersLocked && !completionLockedRef.current) {
+		if (
+			filtersLocked &&
+			!completionLockedRef.current &&
+			nextSessionCardOrder.length >= MIN_SESSION_CARDS
+		) {
 			beginSession(nextSessionCardOrder)
 		}
 	}, [beginSession, filteredCards, filtersLocked, sessionVersion])
@@ -307,6 +319,12 @@ export default function HebrewIntroduction({
 
 	const startQuizRound = useCallback(
 		(quizPoolIndices: number[]) => {
+			if (quizPoolIndices.length < MIN_SESSION_CARDS) {
+				setPhase('idle')
+				setStatusText(INSUFFICIENT_MEDIA_MESSAGE)
+				return
+			}
+
 			const nextPending = buildQuizRoundQueue(quizPoolIndices, QUIZ_PROMPT_COUNT)
 			setCurrentQuizPoolIndices(quizPoolIndices)
 			setPendingQuizIndices(nextPending)
@@ -323,12 +341,18 @@ export default function HebrewIntroduction({
 
 	const advanceAfterQuizPrompt = useCallback(() => {
 		setPendingQuizIndices((prevPending) => {
-			const nextPending = prevPending.slice(1)
+			const latestQuizPoolIndices = currentQuizPoolIndices.filter(
+				(index) => !skippedCardSetRef.current.has(index),
+			)
+			const nextPending = prevPending
+				.slice(1)
+				.filter((index) => !skippedCardSetRef.current.has(index))
+
 			if (nextPending.length > 0) {
 				const nextPromptIndex = nextPending[0]
 				setCurrentPromptIndex(nextPromptIndex)
 				setCurrentOptions(
-					buildQuizOptions(nextPromptIndex ?? null, currentQuizPoolIndices),
+					buildQuizOptions(nextPromptIndex ?? null, latestQuizPoolIndices),
 				)
 				setEliminatedOptions([])
 				setStatusText('Tap the image that matches the audio.')
@@ -339,9 +363,13 @@ export default function HebrewIntroduction({
 			setCurrentOptions([])
 			setEliminatedOptions([])
 
+			const latestActiveSessionCardOrder = sessionCardOrder.filter(
+				(index) => !skippedCardSetRef.current.has(index),
+			)
+
 			const nextTeachIndex = introducedCount
-			if (nextTeachIndex < activeSessionCardOrder.length) {
-				const nextCardIndex = activeSessionCardOrder[nextTeachIndex]
+			if (nextTeachIndex < latestActiveSessionCardOrder.length) {
+				const nextCardIndex = latestActiveSessionCardOrder[nextTeachIndex]
 				if (nextCardIndex != null) {
 					setTeachingIndices([nextCardIndex])
 					setPhase('teaching')
@@ -354,7 +382,11 @@ export default function HebrewIntroduction({
 			setStatusText('You finished this vocabulary set.')
 			return []
 		})
-	}, [activeSessionCardOrder, currentQuizPoolIndices, introducedCount])
+	}, [
+		currentQuizPoolIndices,
+		introducedCount,
+		sessionCardOrder,
+	])
 
 	useEffect(() => {
 		if (phase !== 'teaching' || teachingIndices.length === 0) return
@@ -378,11 +410,14 @@ export default function HebrewIntroduction({
 					if (skippedCardSetRef.current.has(index)) break
 					setActiveRepeatNumber(REPEAT_COUNT - repeat)
 					setPulseTick((prev) => prev + 1)
-					const ok = await playAudio(card.hebAudio)
-					if (!ok) {
-						skipCard(index)
-						break
-					}
+						const ok = await playAudio(card.hebAudio)
+						if (!ok) {
+							console.warn('Vocabulary teaching audio did not play.', {
+								id: card.id,
+								eng: card.eng,
+								src: card.hebAudio,
+							})
+						}
 					if (repeat < REPEAT_COUNT - 1) {
 						await wait(REPEAT_PAUSE_MS)
 					}
@@ -394,27 +429,31 @@ export default function HebrewIntroduction({
 
 			if (runIdRef.current !== runId) return
 
-			const nextIntroducedCount = Math.min(
-				activeSessionCardOrder.length,
-				introducedCount +
-					teachingIndices.filter((index) => !skippedCardSetRef.current.has(index))
-						.length,
+			const latestActiveSessionCardOrder = sessionCardOrder.filter(
+				(index) => !skippedCardSetRef.current.has(index),
 			)
+			const newlyIntroducedCount = teachingIndices.filter(
+				(index) => !skippedCardSetRef.current.has(index),
+			).length
+			const nextIntroducedCount = Math.min(
+				latestActiveSessionCardOrder.length,
+				introducedCount + newlyIntroducedCount,
+			)
+
 			setIntroducedCount(nextIntroducedCount)
 			setTeachingCardIndex(null)
-			startQuizRound(activeSessionCardOrder.slice(0, nextIntroducedCount))
+			startQuizRound(latestActiveSessionCardOrder.slice(0, nextIntroducedCount))
 		}
 
 		void runTeachingSequence()
 	}, [
 		sessionCards,
-		activeSessionCardOrder,
-		currentQuizPoolIndices.length,
 		introducedCount,
 		phase,
 		skipCard,
 		playAudio,
 		startQuizRound,
+		sessionCardOrder,
 		teachingIndices,
 	])
 
@@ -430,8 +469,12 @@ export default function HebrewIntroduction({
 
 			const ok = await playAudio(currentCard.hebAudio)
 			if (!ok) {
-				skipCard(currentPromptIndex)
-				advanceAfterQuizPrompt()
+				console.warn('Vocabulary quiz audio did not play.', {
+					id: currentCard.id,
+					eng: currentCard.eng,
+					src: currentCard.hebAudio,
+				})
+				setStatusText('Tap the audio button to hear the prompt again.')
 			}
 		})()
 	}, [
@@ -543,7 +586,7 @@ export default function HebrewIntroduction({
 		teachingCardIndex != null ? sessionCards[teachingCardIndex] : null
 	const currentPromptCard =
 		currentPromptIndex != null ? sessionCards[currentPromptIndex] : null
-	const canStart = activeSessionCardOrder.length >= 2
+	const canStart = activeSessionCardOrder.length >= MIN_SESSION_CARDS
 	const lessonSelectionLocked = filtersLocked || phase !== 'idle'
 	const currentTeachingOrderPosition =
 		teachingCardIndex != null
@@ -563,6 +606,7 @@ export default function HebrewIntroduction({
 
 	return (
 		<div className="mx-auto w-full max-w-5xl p-4 text-center">
+			{!filtersLocked && (
 				<div className="mb-6 flex justify-center">
 					<button
 						onClick={() => {
@@ -573,7 +617,8 @@ export default function HebrewIntroduction({
 					>
 						Change Lesson
 					</button>
-			</div>
+				</div>
+			)}
 
 			{!lessonSelectionLocked && (
 				<>
@@ -606,7 +651,7 @@ export default function HebrewIntroduction({
 				<div className="rounded-2xl border border-amber-200 bg-amber-50 p-6 text-amber-900">
 					{lessonFilteredCards.length >= 2
 						? `This ${selectedTypePlural} selection needs at least 2 Hebrew vocab items with an image and audio. Choose the other pill to continue.`
-						: 'At least 2 Hebrew vocab items from one lesson with an image and audio are needed for this vocabulary activity.'}
+						: INSUFFICIENT_MEDIA_MESSAGE}
 				</div>
 			) : phase === 'idle' ? (
 				<div className="rounded-2xl border bg-white p-8 shadow-sm">
@@ -688,24 +733,9 @@ export default function HebrewIntroduction({
 					<p className="mb-4 text-sm font-semibold uppercase tracking-wide text-sky-700">
 						New Vocab Item
 					</p>
-					<div
-						key={`teaching-${teachingCardIndex}-${pulseTick}`}
-						className="animate-[pulse_700ms_ease-in-out] rounded-3xl"
-					>
-						<div className="relative mx-auto aspect-[4/3] w-full max-w-3xl overflow-hidden rounded-3xl bg-slate-100 shadow-inner">
-							<Image
-								src={resolveVocabMediaUrl(currentTeachingCard.images[0])}
-								alt={currentTeachingCard.eng}
-								fill
-								className="object-cover"
-								sizes="(max-width: 768px) 100vw, 960px"
-								onError={() => {
-									if (teachingCardIndex != null) {
-										skipCard(teachingCardIndex)
-									}
-								}}
-							/>
-							<div className="absolute left-1/2 top-5 flex -translate-x-1/2 items-center gap-3 rounded-full bg-black/40 px-4 py-2 backdrop-blur-sm">
+					<div className="animate-[pulse_700ms_ease-in-out] rounded-3xl">
+						<div className="mb-4 flex justify-center">
+							<div className="flex items-center gap-3 rounded-full bg-slate-800/90 px-4 py-2 shadow-sm">
 								{[1, 2, 3].map((repeatNumber) => {
 									const isActive = activeRepeatNumber === repeatNumber
 									return (
@@ -714,7 +744,7 @@ export default function HebrewIntroduction({
 											className={`flex h-10 w-10 items-center justify-center rounded-full text-lg font-bold transition ${
 												isActive
 													? 'scale-110 bg-rose-700 text-white shadow-md'
-													: 'bg-white/25 text-white'
+													: 'bg-white/20 text-white'
 											}`}
 										>
 											{repeatNumber}
@@ -722,6 +752,15 @@ export default function HebrewIntroduction({
 									)
 								})}
 							</div>
+						</div>
+						<div className="relative mx-auto aspect-[4/3] w-full max-w-3xl overflow-hidden rounded-3xl bg-slate-100 shadow-inner">
+							<Image
+								src={resolveVocabMediaUrl(currentTeachingCard.images[0])}
+								alt={currentTeachingCard.eng}
+								fill
+								className="object-contain"
+								sizes="(max-width: 768px) 100vw, 960px"
+							/>
 						</div>
 					</div>
 				</div>
@@ -772,19 +811,13 @@ export default function HebrewIntroduction({
 								>
 									<div className="p-3">
 										<div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-rose-50">
-											<Image
-												src={resolveVocabMediaUrl(optionCard.images[0])}
-												alt={optionCard.eng}
-												fill
-												className="object-cover"
-												sizes="(max-width: 768px) 100vw, 33vw"
-												onError={() => {
-													skipCard(optionIndex)
-													setCurrentOptions((prev) =>
-														prev.filter((index) => index !== optionIndex),
-													)
-												}}
-											/>
+												<Image
+													src={resolveVocabMediaUrl(optionCard.images[0])}
+													alt={optionCard.eng}
+													fill
+													className="object-contain"
+													sizes="(max-width: 768px) 100vw, 33vw"
+												/>
 										</div>
 									</div>
 								</button>
